@@ -1,0 +1,17 @@
+BLUE OCEAN MARKET V4 - MAC INSTALL
+
+DOCKER:
+1. Install Docker Desktop.
+2. Open Terminal.
+3. cd into this folder.
+4. Run: docker compose up --build
+5. Browse to: http://localhost:3000
+6. Login: admin@blueocean.local / Admin@123
+
+NODE:
+1. Use Node.js 22 LTS or newer supported version.
+2. Run npm install
+3. Run npm start
+4. Browse to http://localhost:3000
+
+If a previous Blue Ocean database is present, V4 uses ./data/blue-ocean.sqlite. Delete the data folder only if you intentionally want a clean database.

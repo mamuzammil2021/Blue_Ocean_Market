@@ -1,0 +1,19 @@
+{
+  "name": "blue-ocean-market-os",
+  "version": "26.4.0",
+  "private": true,
+  "description": "Blue Ocean Market full-stack management operating system",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "qa:static": "node qa/static-check.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.10.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2"
+  }
+}
