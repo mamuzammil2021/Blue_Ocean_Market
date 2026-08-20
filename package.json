@@ -1,13 +1,15 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "26.4.0",
+  "version": "27.9.0",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
     "dev": "node --watch server/server.js",
-    "qa:static": "node qa/static-check.js"
+    "qa:static": "node qa/static-check.js",
+    "qa:v27": "node qa/qa_v279_korean_runtime_complete.js",
+    "qa:current": "npm run qa:static && npm run qa:v27 && node qa/qa_v278_korean_first_complete.js && node qa/qa_v277_localization_complete.js && node qa/qa_v276_complete.js && node qa/qa_v275_complete.js && node qa/qa_v275_meetings_regression.js && node qa/qa_v275_legacy_regression.js && node qa/qa_v268_supplier_machines.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

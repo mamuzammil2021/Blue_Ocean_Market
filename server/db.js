@@ -172,6 +172,14 @@ CREATE TABLE IF NOT EXISTS excavator_part_stock(
 );
 `)}catch(e){console.error('V14 schema',e.message)}
 
+// V26.5 traceability schema
+for(const [t,c,d] of [['finance_entries','void_reason',"TEXT DEFAULT ''"],['finance_entries','voided_by','INTEGER'],['finance_entries','voided_at','TEXT'],['notifications','business_unit_id','INTEGER'],['notifications','entity_type',"TEXT DEFAULT ''"],['notifications','entity_id','INTEGER'],['notifications','action_view',"TEXT DEFAULT ''"],['notifications','action_id','INTEGER'],['excavator_buyer_payments','status',"TEXT DEFAULT 'Active'"]]){try{db.exec(`ALTER TABLE ${t} ADD COLUMN ${c} ${d}`)}catch(_) {}}
+try{db.exec('CREATE INDEX IF NOT EXISTS idx_notifications_bu ON notifications(business_unit_id,created_at)')}catch(e){}
+try{db.exec('CREATE INDEX IF NOT EXISTS idx_finance_source ON finance_entries(source_type,source_id)')}catch(e){}
+
+// V27.4 — finance verification/source integrity indexes. Keep source uniqueness scoped by business unit.
+try{db.exec('CREATE INDEX IF NOT EXISTS idx_finance_unit_source_v274 ON finance_entries(business_unit_id,source_type,source_id)')}catch(e){}
+try{db.exec('CREATE INDEX IF NOT EXISTS idx_finance_verification_v274 ON finance_entries(business_unit_id,verification_status,status)')}catch(e){}
 module.exports=db;
 
 // V24.4 schema
@@ -207,7 +215,7 @@ CREATE TABLE IF NOT EXISTS excavator_buyers(
  id INTEGER PRIMARY KEY AUTOINCREMENT,
  business_unit_id INTEGER NOT NULL,
  name TEXT NOT NULL,
- country TEXT DEFAULT 'Pakistan',
+ country TEXT DEFAULT '',
  location TEXT DEFAULT '',
  contact_person TEXT DEFAULT '',
  phone TEXT DEFAULT '',
@@ -309,7 +317,14 @@ CREATE TABLE IF NOT EXISTS excavator_buyer_documents(
  FOREIGN KEY(buyer_id) REFERENCES excavator_buyers(id) ON DELETE CASCADE
 );
 `)}catch(e){console.error('V26 buyer schema',e.message)}
+// V26.7: Buyer-payment status migration must run AFTER the buyer-payment table exists.
+// The older V26.5 migration ran before this table was created on a fresh database,
+// leaving the status column missing and causing the Buyers API queries to fail.
+try{db.exec("ALTER TABLE excavator_buyer_payments ADD COLUMN status TEXT DEFAULT 'Active'")}catch(e){}
+try{db.exec("UPDATE excavator_buyer_payments SET status='Active' WHERE status IS NULL OR status=''")}catch(e){}
+try{db.exec("CREATE INDEX IF NOT EXISTS idx_buyer_payments_buyer_status ON excavator_buyer_payments(buyer_id,status,payment_date)")}catch(e){}
 try{db.exec("ALTER TABLE excavator_buyers ADD COLUMN buyer_type TEXT DEFAULT 'International'")}catch(e){}
+try{db.exec("ALTER TABLE excavator_assets ADD COLUMN supplier_machine_id INTEGER")}catch(e){}
 try{db.exec("UPDATE excavator_buyers SET buyer_type=CASE WHEN lower(country)='south korea' OR lower(country)='korea' OR lower(country)='republic of korea' THEN 'Local' ELSE 'International' END WHERE buyer_type IS NULL OR buyer_type=''")}catch(e){}
 try{db.exec("CREATE INDEX IF NOT EXISTS idx_buyer_payment_alloc_payment ON excavator_buyer_payment_allocations(payment_id)")}catch(e){}
 try{db.exec("CREATE INDEX IF NOT EXISTS idx_buyer_payment_alloc_asset ON excavator_buyer_payment_allocations(asset_id)")}catch(e){}
@@ -354,3 +369,323 @@ try{
 }catch(e){try{db.pragma('foreign_keys=ON')}catch(_){} console.error('V26.1 buyer payment schema migration',e.message)}
 
 for(const [t,c,d] of [['finance_entries','verification_status',"TEXT DEFAULT 'Pending Verification'"],['finance_entries','verified_by','INTEGER'],['finance_entries','verified_at','TEXT'],['finance_entries','verification_note',"TEXT DEFAULT ''"],['finance_entries','source_type',"TEXT DEFAULT 'Manual'"],['finance_entries','source_id','INTEGER'],['excavator_assets','supplier_id','INTEGER'],['excavator_assets','purchase_token','REAL DEFAULT 0'],['excavator_assets','purchase_balance','REAL DEFAULT 0'],['excavator_assets','purchase_payment_status',"TEXT DEFAULT 'Pending'"]]){try{db.exec(`ALTER TABLE ${t} ADD COLUMN ${c} ${d}`)}catch(e){}}
+
+// V27.0 — configurable approvals, people/performance, structured reporting,
+// sale-update traceability and final compatibility migrations.
+function v27EnsureColumn(table,column,definition){
+  try{
+    const cols=db.prepare(`PRAGMA table_info(${table})`).all().map(x=>x.name);
+    if(cols.length && !cols.includes(column)) db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+  }catch(e){console.error(`V27 migration ${table}.${column}:`,e.message)}
+}
+
+// The V26.1 legacy table rebuild can remove this column after the earlier V26.7 migration.
+// Re-assert it at the end of all buyer-payment migrations.
+v27EnsureColumn('excavator_buyer_payments','status',"TEXT DEFAULT 'Active'");
+try{db.exec("UPDATE excavator_buyer_payments SET status='Active' WHERE status IS NULL OR status=''")}catch(e){}
+
+for(const [t,c,d] of [
+  ['finance_entries','updated_at','TEXT'],
+  ['finance_entries','transaction_date','TEXT'],
+  ['finance_entries','original_amount','REAL'],
+  ['finance_entries','original_currency',"TEXT DEFAULT 'KRW'"],
+  ['finance_entries','fx_rate','REAL DEFAULT 1'],
+  ['finance_entries','krw_amount','REAL'],
+  ['finance_entries','source_record_id','INTEGER'],
+  ['finance_entries','source_payment_id','INTEGER'],
+  ['finance_entries','source_label',"TEXT DEFAULT ''"],
+  ['finance_entries','correction_reason',"TEXT DEFAULT ''"],
+  ['finance_entries','submitted_at','TEXT'],
+  ['finance_entries','resubmitted_at','TEXT'],
+  ['audit_log','business_unit_id','INTEGER'],
+  ['sales','void_reason',"TEXT DEFAULT ''"],
+  ['sales','voided_by','INTEGER'],
+  ['sales','voided_at','TEXT'],
+  ['approvals','action_key',"TEXT DEFAULT 'general.request'"],
+  ['approvals','source_entity',"TEXT DEFAULT ''"],
+  ['approvals','source_id','INTEGER'],
+  ['approvals','priority',"TEXT DEFAULT 'Normal'"],
+  ['approvals','required_level','INTEGER DEFAULT 2'],
+  ['approvals','current_level','INTEGER DEFAULT 0'],
+  ['approvals','decision_note',"TEXT DEFAULT ''"],
+  ['approvals','updated_at','TEXT'],
+  ['approvals','executed_at','TEXT'],
+  ['tasks','description',"TEXT DEFAULT ''"],
+  ['tasks','complexity',"TEXT DEFAULT 'Medium'"],
+  ['tasks','work_points','REAL DEFAULT 2'],
+  ['tasks','progress_percent','REAL DEFAULT 0'],
+  ['tasks','start_date','TEXT'],
+  ['tasks','completed_at','TEXT'],
+  ['tasks','related_module',"TEXT DEFAULT ''"],
+  ['tasks','related_entity_type',"TEXT DEFAULT ''"],
+  ['tasks','related_entity_id','INTEGER'],
+  ['tasks','attachments_json',"TEXT DEFAULT '[]'"],
+  ['tasks','review_required','INTEGER DEFAULT 0'],
+  ['tasks','review_status',"TEXT DEFAULT 'Not Required'"],
+  ['tasks','reviewed_by','INTEGER'],
+  ['tasks','reviewed_at','TEXT'],
+  ['tasks','assigned_by','INTEGER'],
+  ['tasks','updated_at','TEXT'],
+  ['tasks','returned_count','INTEGER DEFAULT 0'],
+  ['excavator_transactions','updated_by','INTEGER'],
+  ['excavator_transactions','updated_at','TEXT'],
+  ['excavator_buyer_payment_allocations','status',"TEXT DEFAULT 'Active'"],
+  ['excavator_buyer_payment_allocations','void_reason',"TEXT DEFAULT ''"],
+  ['excavator_buyer_payment_allocations','voided_by','INTEGER'],
+  ['excavator_buyer_payment_allocations','voided_at','TEXT'],
+  ['documents','workflow_status',"TEXT DEFAULT 'Draft'"],
+  ['documents','reviewed_by','INTEGER'],
+  ['documents','reviewed_at','TEXT'],
+  ['documents','workflow_note',"TEXT DEFAULT ''"]
+]) v27EnsureColumn(t,c,d);
+
+try{db.exec(`
+CREATE TABLE IF NOT EXISTS approval_rules(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  business_unit_id INTEGER NOT NULL,
+  action_key TEXT NOT NULL,
+  action_name TEXT NOT NULL,
+  condition_type TEXT DEFAULT 'Amount Above',
+  threshold_amount REAL DEFAULT 0,
+  approver_level INTEGER DEFAULT 2,
+  require_dual INTEGER DEFAULT 0,
+  active INTEGER DEFAULT 1,
+  notes TEXT DEFAULT '',
+  created_by INTEGER,
+  updated_by INTEGER,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(business_unit_id,action_key),
+  FOREIGN KEY(business_unit_id) REFERENCES business_units(id)
+);
+CREATE TABLE IF NOT EXISTS approval_history(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  approval_id INTEGER NOT NULL,
+  business_unit_id INTEGER NOT NULL,
+  user_id INTEGER,
+  action TEXT NOT NULL,
+  level INTEGER DEFAULT 0,
+  note TEXT DEFAULT '',
+  old_status TEXT DEFAULT '',
+  new_status TEXT DEFAULT '',
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(approval_id) REFERENCES approvals(id) ON DELETE CASCADE,
+  FOREIGN KEY(business_unit_id) REFERENCES business_units(id)
+);
+CREATE INDEX IF NOT EXISTS idx_approval_rules_unit ON approval_rules(business_unit_id,active,action_key);
+CREATE INDEX IF NOT EXISTS idx_approval_history_request ON approval_history(approval_id,created_at);
+
+CREATE TABLE IF NOT EXISTS task_comments(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  task_id INTEGER NOT NULL,
+  user_id INTEGER,
+  comment TEXT NOT NULL,
+  attachment_file TEXT DEFAULT '',
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(task_id) REFERENCES tasks(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_tasks_unit_owner ON tasks(business_unit_id,owner_id,status,due_date);
+CREATE INDEX IF NOT EXISTS idx_task_comments_task ON task_comments(task_id,created_at);
+
+CREATE TABLE IF NOT EXISTS work_report_rules(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  business_unit_id INTEGER NOT NULL,
+  role TEXT NOT NULL DEFAULT '*',
+  cadence TEXT NOT NULL DEFAULT 'Daily',
+  recipient_mode TEXT NOT NULL DEFAULT 'Manager',
+  active INTEGER DEFAULT 1,
+  instructions TEXT DEFAULT '',
+  created_by INTEGER,
+  updated_by INTEGER,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(business_unit_id,role,cadence),
+  FOREIGN KEY(business_unit_id) REFERENCES business_units(id)
+);
+CREATE TABLE IF NOT EXISTS work_reports(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  business_unit_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  report_type TEXT NOT NULL DEFAULT 'Daily',
+  period_start TEXT NOT NULL,
+  period_end TEXT NOT NULL,
+  work_completed TEXT DEFAULT '',
+  tasks_summary TEXT DEFAULT '',
+  achievements TEXT DEFAULT '',
+  issues_blockers TEXT DEFAULT '',
+  pending_decisions TEXT DEFAULT '',
+  next_plan TEXT DEFAULT '',
+  kpi_updates TEXT DEFAULT '',
+  linked_records TEXT DEFAULT '',
+  attachments_json TEXT DEFAULT '[]',
+  status TEXT DEFAULT 'Submitted',
+  recipient_mode TEXT DEFAULT 'Manager',
+  submitted_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  reviewed_by INTEGER,
+  reviewed_at TEXT,
+  review_note TEXT DEFAULT '',
+  version INTEGER DEFAULT 1,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(user_id,report_type,period_start,period_end),
+  FOREIGN KEY(business_unit_id) REFERENCES business_units(id),
+  FOREIGN KEY(user_id) REFERENCES users(id)
+);
+CREATE TABLE IF NOT EXISTS work_report_versions(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  report_id INTEGER NOT NULL,
+  version INTEGER NOT NULL,
+  snapshot_json TEXT NOT NULL DEFAULT '{}',
+  attachments_json TEXT NOT NULL DEFAULT '[]',
+  saved_by INTEGER,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(report_id) REFERENCES work_reports(id) ON DELETE CASCADE,
+  UNIQUE(report_id,version)
+);
+CREATE INDEX IF NOT EXISTS idx_work_report_versions_report ON work_report_versions(report_id,version);
+CREATE TABLE IF NOT EXISTS work_report_actions(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  report_id INTEGER NOT NULL,
+  business_unit_id INTEGER NOT NULL,
+  user_id INTEGER,
+  action TEXT NOT NULL,
+  note TEXT DEFAULT '',
+  task_id INTEGER,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(report_id) REFERENCES work_reports(id) ON DELETE CASCADE,
+  FOREIGN KEY(business_unit_id) REFERENCES business_units(id)
+);
+CREATE TABLE IF NOT EXISTS work_report_reminders(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  rule_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  period_key TEXT NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(rule_id,user_id,period_key)
+);
+CREATE INDEX IF NOT EXISTS idx_work_reports_unit ON work_reports(business_unit_id,report_type,period_start,status);
+CREATE INDEX IF NOT EXISTS idx_work_reports_user ON work_reports(user_id,period_start,period_end);
+
+CREATE TABLE IF NOT EXISTS performance_alert_log(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  business_unit_id INTEGER NOT NULL,
+  alert_key TEXT NOT NULL,
+  period_key TEXT NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(user_id,business_unit_id,alert_key,period_key),
+  FOREIGN KEY(user_id) REFERENCES users(id),
+  FOREIGN KEY(business_unit_id) REFERENCES business_units(id)
+);
+CREATE INDEX IF NOT EXISTS idx_performance_alert_log_unit ON performance_alert_log(business_unit_id,period_key);
+
+CREATE TABLE IF NOT EXISTS performance_kpi_rules(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  business_unit_id INTEGER NOT NULL,
+  role TEXT NOT NULL DEFAULT '*',
+  name TEXT NOT NULL,
+  metric_key TEXT NOT NULL,
+  weight REAL DEFAULT 0,
+  target REAL DEFAULT 100,
+  direction TEXT DEFAULT 'Higher Is Better',
+  active INTEGER DEFAULT 1,
+  created_by INTEGER,
+  updated_by INTEGER,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(business_unit_id,role,metric_key),
+  FOREIGN KEY(business_unit_id) REFERENCES business_units(id)
+);
+CREATE TABLE IF NOT EXISTS performance_reviews(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  business_unit_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  period_type TEXT DEFAULT 'Monthly',
+  period_start TEXT NOT NULL,
+  period_end TEXT NOT NULL,
+  system_score REAL DEFAULT 0,
+  manager_score REAL DEFAULT 0,
+  self_score REAL DEFAULT 0,
+  final_score REAL DEFAULT 0,
+  status TEXT DEFAULT 'Draft',
+  self_note TEXT DEFAULT '',
+  manager_note TEXT DEFAULT '',
+  reviewed_by INTEGER,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(user_id,period_type,period_start,period_end),
+  FOREIGN KEY(business_unit_id) REFERENCES business_units(id),
+  FOREIGN KEY(user_id) REFERENCES users(id)
+);
+CREATE INDEX IF NOT EXISTS idx_performance_reviews_unit ON performance_reviews(business_unit_id,period_start,period_end);
+`)}catch(e){console.error('V27 schema:',e.message)}
+
+try{v27EnsureColumn('work_reports','attachments_json',"TEXT DEFAULT '[]'")}catch(e){}
+
+// Seed editable unit-specific defaults. They are intentionally independent per unit.
+try{
+  const units27=db.prepare("SELECT id FROM business_units WHERE status!='Archived'").all();
+  const addRule=db.prepare(`INSERT OR IGNORE INTO approval_rules
+    (business_unit_id,action_key,action_name,condition_type,threshold_amount,approver_level,require_dual,notes)
+    VALUES(?,?,?,?,?,?,?,?)`);
+  const defaults=[
+    ['finance.large_payment','Large Payment / Expense','Amount Above',5000000,3,0,'Finance review for high-value payments.'],
+    ['excavator.machine_purchase','Large Machine Purchase','Amount Above',20000000,4,0,'CEO approval above configured purchase threshold.'],
+    ['sale.loss_or_low_margin','Loss / Below-Margin Sale','Exception',0,4,0,'CEO approval for loss-making or exceptional sales.'],
+    ['payment.void','Payment Void / Reversal','Always',0,5,1,'Dual Finance + CEO approval before financial reversal.'],
+    ['completed_sale.update','Completed Sale Update','Always',0,4,0,'Controlled update of a completed sale.'],
+    ['document.delete','Important Document Delete','Always',0,4,0,'High-risk document deletion.'],
+    ['inventory.writeoff','Inventory Write-off','Amount Above',1000000,2,0,'Manager approval above unit threshold.'],
+    ['buyer.advance_refund','Buyer Advance Refund','Amount Above',5000000,5,1,'Dual approval for material buyer refunds.']
+  ];
+  for(const u of units27) for(const r of defaults) addRule.run(u.id,...r);
+
+  const addKpi=db.prepare(`INSERT OR IGNORE INTO performance_kpi_rules
+    (business_unit_id,role,name,metric_key,weight,target,direction) VALUES(?,?,?,?,?,?,?)`);
+  const roleWeights={
+    '*':[['Productivity','productivity',30],['Quality / First-pass Accuracy','quality',25],['Timeliness','timeliness',20],['Reliability','reliability',15],['Business Results','business_results',10]],
+    'Finance / Admin':[['Productivity','productivity',20],['Quality / Accuracy','quality',35],['Timeliness','timeliness',25],['Reliability','reliability',20],['Business Results','business_results',0]],
+    'Sales / Business Development':[['Productivity','productivity',25],['Quality','quality',15],['Timeliness','timeliness',15],['Reliability','reliability',10],['Business Results','business_results',35]]
+  };
+  for(const u of units27) for(const [role,rows] of Object.entries(roleWeights)) for(const [name,key,weight] of rows) addKpi.run(u.id,role,name,key,weight,100,'Higher Is Better');
+}catch(e){console.error('V27 seed:',e.message)}
+
+
+// V27.3 — full meeting management on the existing Meetings module.
+for(const [t,c,d] of [
+  ['meetings','organizer_id','INTEGER'],['meetings','meeting_type',"TEXT DEFAULT 'Unit Meeting'"],
+  ['meetings','start_time','TEXT'],['meetings','duration_minutes','INTEGER DEFAULT 60'],
+  ['meetings','location',"TEXT DEFAULT ''"],['meetings','online_link',"TEXT DEFAULT ''"],
+  ['meetings','agenda',"TEXT DEFAULT ''"],['meetings','minutes',"TEXT DEFAULT ''"],
+  ['meetings','decisions',"TEXT DEFAULT ''"],['meetings','status',"TEXT DEFAULT 'Draft'"],
+  ['meetings','scope_mode',"TEXT DEFAULT 'Unit'"],['meetings','priority',"TEXT DEFAULT 'Normal'"],
+  ['meetings','recurrence',"TEXT DEFAULT 'None'"],['meetings','attachments_json',"TEXT DEFAULT '[]'"],
+  ['meetings','updated_at','TEXT'],['meeting_actions','task_id','INTEGER'],
+  ['meeting_actions','notes',"TEXT DEFAULT ''"],['meeting_actions','created_by','INTEGER'],
+  ['meeting_actions','created_at','TEXT DEFAULT CURRENT_TIMESTAMP']
+]) v27EnsureColumn(t,c,d);
+try{db.exec(`
+CREATE TABLE IF NOT EXISTS meeting_attendees(
+ id INTEGER PRIMARY KEY AUTOINCREMENT,
+ meeting_id INTEGER NOT NULL,
+ user_id INTEGER NOT NULL,
+ response_status TEXT DEFAULT 'Invited',
+ attendance_status TEXT DEFAULT 'Pending',
+ created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+ UNIQUE(meeting_id,user_id),
+ FOREIGN KEY(meeting_id) REFERENCES meetings(id) ON DELETE CASCADE,
+ FOREIGN KEY(user_id) REFERENCES users(id)
+);
+CREATE INDEX IF NOT EXISTS idx_meeting_attendees_user ON meeting_attendees(user_id,meeting_id);
+CREATE INDEX IF NOT EXISTS idx_meetings_unit_date ON meetings(business_unit_id,meeting_date,status);
+`)}catch(e){console.error('V27.3 meeting schema:',e.message)}
+
+// V27.5 — bilingual UI preference and Finance review workflow compatibility.
+v27EnsureColumn('users','preferred_language',"TEXT DEFAULT 'ko'");
+try{db.exec("UPDATE users SET preferred_language='ko' WHERE preferred_language IS NULL OR preferred_language NOT IN ('en','ko')")}catch(e){console.error('V27.5 language migration:',e.message)}
+try{db.exec('CREATE INDEX IF NOT EXISTS idx_finance_review_queue_v275 ON finance_entries(business_unit_id,verification_status,status,created_at)')}catch(e){}
+
+// V27.8 — Korean is the company default. Existing inherited defaults migrate once;
+// a language explicitly chosen by a user is preserved thereafter.
+v27EnsureColumn('users','language_explicit',"INTEGER DEFAULT 0");
+try{db.exec("UPDATE users SET preferred_language='ko' WHERE COALESCE(language_explicit,0)=0; UPDATE users SET preferred_language='ko' WHERE preferred_language IS NULL OR preferred_language NOT IN ('en','ko')")}catch(e){console.error('V27.8 Korean-first language migration:',e.message)}

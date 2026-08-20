@@ -1,0 +1,23 @@
+const fs=require('fs');
+const db=fs.readFileSync('server/db.js','utf8');
+const server=fs.readFileSync('server/server.js','utf8');
+const client=fs.readFileSync('public/client.js','utf8');
+const html=fs.readFileSync('public/index.html','utf8');
+const pkg=require('../package.json');
+let fail=0; function check(n,v){console.log((v?'PASS':'FAIL')+' '+n);if(!v)fail++}
+check('version 27.4.0',pkg.version==='27.4.0'&&server.includes("version:'27.4.0'")&&html.includes('/client.js?v=27.4.0'));
+check('existing Meetings tab reused',client.includes("['meetings','Meetings','🗓️']")&&(client.match(/\['meetings','Meetings','🗓️'\]/g)||[]).length===1);
+check('meetings available by role',server.includes("'Staff Member':['dashboard','tasks','reports','performance','meetings'")&&client.includes('meetings:1'));
+check('meeting schema expanded',db.includes('meeting_attendees')&&db.includes("['meetings','organizer_id'")&&db.includes("['meetings','minutes'")&&db.includes("['meetings','decisions'"));
+check('unit/role access control',server.includes('function meetingAccessible')&&server.includes('function meetingManager'));
+check('CEO cross-unit attendee support',server.includes("req.user.role==='CEO / Owner'")&&client.includes('All / Cross-unit'));
+check('attendees and responses',server.includes("/api/meetings/:id/respond")&&client.includes('meetingRespond')&&server.includes('attendance/:userId')&&client.includes('setMeetingAttendance'));
+check('minutes and decisions UI',client.includes('Minutes / Notes')&&client.includes('Decisions'));
+check('meeting action to task',server.includes("related_module,related_entity_type,related_entity_id")&&server.includes("'Meetings','meeting',meeting.id")&&client.includes('Create linked Task'));
+check('meeting notifications',server.includes("'Meeting invitation'")&&server.includes("'Meeting action assigned'"));
+check('meeting status workflow',client.includes('Follow-up/Open Actions')&&client.includes('Closed/Archived')&&client.includes('meetingCalendarView'));
+check('CEO attendee presets',client.includes('Select Unit Heads')&&client.includes('Select Finance')&&client.includes('selectMeetingAttendees'));
+check('meeting audit keeps unit context',server.includes('function meetingAudit')&&server.includes('business_unit_id) VALUES(?,?,?,?,?,?)'));
+check('meeting attachments',server.includes("upload.array('attachments',10)")&&client.includes('Pre-read / Attachments'));
+check('no duplicate meeting nav tab', (client.match(/\['meetings','Meetings','🗓️'\]/g)||[]).length===1);
+if(fail){console.error(`${fail} V27.3 meeting QA checks failed`);process.exit(1)} console.log('V27.3 meeting QA PASS');
