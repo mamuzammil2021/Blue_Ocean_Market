@@ -6,12 +6,13 @@ DOCKER:
 3. cd into this folder.
 4. Run: docker compose up --build
 5. Browse to: http://localhost:3000
-6. Login: admin@blueocean.local / Admin@123
+6. Login with the administrator credentials configured in your environment.
 
 NODE:
 1. Use Node.js 22 LTS or newer supported version.
 2. Run npm install
-3. Run npm start
-4. Browse to http://localhost:3000
+3. Set JWT_SECRET, ADMIN_EMAIL and a strong ADMIN_PASSWORD in the process environment.
+4. Run npm start
+5. Browse to http://localhost:3000
 
 If a previous Blue Ocean database is present, V4 uses ./data/blue-ocean.sqlite. Delete the data folder only if you intentionally want a clean database.

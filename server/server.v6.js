@@ -1,6 +1,7 @@
 const express=require('express'),jwt=require('jsonwebtoken'),bcrypt=require('bcryptjs'),multer=require('multer'),fs=require('fs'),path=require('path'),crypto=require('crypto');
 const db=require('./db');
-const app=express(),PORT=process.env.PORT||3000,SECRET=process.env.JWT_SECRET||'dev-secret-change-me';
+const SECRET=String(process.env.JWT_SECRET||'');if(SECRET.length<32)throw new Error('JWT_SECRET must be configured with at least 32 characters.');
+const app=express(),PORT=process.env.PORT||3000;
 const root=path.join(__dirname,'..'),uploads=path.join(root,'uploads');fs.mkdirSync(uploads,{recursive:true});
 const upload=multer({dest:uploads,limits:{fileSize:20*1024*1024}});
 app.use(express.json({limit:'5mb'}));app.use(express.urlencoded({extended:true}));app.use(express.static(path.join(root,'public')));app.use('/uploads',express.static(uploads));

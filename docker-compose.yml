@@ -5,9 +5,9 @@ services:
       - "3000:3000"
     environment:
       PORT: 3000
-      JWT_SECRET: change-this-secret-in-production
-      ADMIN_EMAIL: admin@blueocean.local
-      ADMIN_PASSWORD: Admin@123
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in your local .env file}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:?Set ADMIN_EMAIL in your local .env file}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in your local .env file}
     volumes:
       - ./data:/app/data
       - ./uploads:/app/uploads

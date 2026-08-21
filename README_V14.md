@@ -10,8 +10,6 @@ Run:
 3. `npm start`
 4. Open `http://localhost:3000`
 
-CEO login for local testing:
-`admin@blueocean.local`
-`Admin@123`
+Configure `JWT_SECRET`, `ADMIN_EMAIL` and a strong `ADMIN_PASSWORD` in the process environment before first startup.
 
 Select a business from the top Workspace toggle, then click Dashboard. Only that business unit's dashboard is displayed. Select All Business Units for the consolidated CEO dashboard.

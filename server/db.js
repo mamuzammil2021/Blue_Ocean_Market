@@ -1,8 +1,10 @@
 const Database=require('better-sqlite3');
 const bcrypt=require('bcryptjs');
 const fs=require('fs'),path=require('path');
-const root=path.join(__dirname,'..'); fs.mkdirSync(path.join(root,'data'),{recursive:true});
-const db=new Database(path.join(root,'data','blue-ocean.sqlite'));
+const root=path.join(__dirname,'..');
+const dataDir=process.env.DATA_DIR?path.resolve(process.env.DATA_DIR):path.join(root,'data');
+fs.mkdirSync(dataDir,{recursive:true});
+const db=new Database(path.join(dataDir,'blue-ocean.sqlite'));
 db.pragma('journal_mode=WAL'); db.pragma('foreign_keys=ON');
 db.exec(`
 CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,email TEXT UNIQUE NOT NULL,password_hash TEXT NOT NULL,role TEXT NOT NULL,business_unit_id INTEGER,active INTEGER NOT NULL DEFAULT 1,created_at TEXT DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(business_unit_id) REFERENCES business_units(id));
@@ -51,45 +53,20 @@ const units=['MIMI Resturant','Excavator','Mango / Seasonal','Pink Salt'];
 try{db.exec("ALTER TABLE excavator_assets ADD COLUMN lifecycle_stage TEXT DEFAULT 'Purchased'");}catch(e){}
 try{db.exec("ALTER TABLE excavator_assets ADD COLUMN machine_name TEXT DEFAULT ''");}catch(e){}
 const addUnit=db.prepare('INSERT OR IGNORE INTO business_units(name,notes) VALUES(?,?)'); units.forEach(x=>addUnit.run(x,`${x} management workspace`));
-// Production scope: only the four approved business units are available. Remove legacy/demo units and their unit-scoped data on startup.
-const keepSet=new Set(units);
-const legacyUnits=db.prepare('SELECT id,name FROM business_units').all().filter(x=>!keepSet.has(x.name));
-for(const u of legacyUnits){
-  const uid=u.id;
-  db.prepare('DELETE FROM restaurant_waste WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM restaurant_closings WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM restaurant_buffet_items WHERE buffet_id IN (SELECT id FROM restaurant_buffets WHERE business_unit_id=?)').run(uid);
-  db.prepare('DELETE FROM restaurant_buffets WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM restaurant_weekly_menus WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM restaurant_recipes WHERE menu_item_id IN (SELECT id FROM restaurant_menu_items WHERE business_unit_id=?)').run(uid);
-  db.prepare('DELETE FROM restaurant_menu_items WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM restaurant_order_items WHERE order_id IN (SELECT id FROM restaurant_orders WHERE business_unit_id=?)').run(uid);
-  db.prepare('DELETE FROM restaurant_orders WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM restaurant_tables WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM finance_entries WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM purchase_items WHERE purchase_id IN (SELECT id FROM purchases WHERE business_unit_id=?)').run(uid);
-  db.prepare('DELETE FROM purchases WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM sale_items WHERE sale_id IN (SELECT id FROM sales WHERE business_unit_id=?)').run(uid);
-  db.prepare('DELETE FROM sales WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM approvals WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM kpis WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM documents WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM meetings WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM customers WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM tasks WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM products WHERE business_unit_id=?').run(uid);
-  db.prepare('UPDATE users SET business_unit_id=NULL, active=0 WHERE business_unit_id=?').run(uid);
-  db.prepare('DELETE FROM business_units WHERE id=?').run(uid);
-}
+// Add required workspaces without deleting or mutating historical/custom business units.
 
-const adminEmail=process.env.ADMIN_EMAIL||'admin@blueocean.local', adminPassword=process.env.ADMIN_PASSWORD||'Admin@123';
-let admin=db.prepare('SELECT id FROM users WHERE email=?').get(adminEmail);
-if(!admin){const r=db.prepare('INSERT INTO users(name,email,password_hash,role) VALUES(?,?,?,?)').run('Abdullah Muzammil',adminEmail,bcrypt.hashSync(adminPassword,12),'CEO / Owner'); admin={id:r.lastInsertRowid};}
+let admin=db.prepare("SELECT id FROM users WHERE role='CEO / Owner' ORDER BY id LIMIT 1").get();
+if(!admin){
+  const adminEmail=String(process.env.ADMIN_EMAIL||'').trim(),adminPassword=String(process.env.ADMIN_PASSWORD||'');
+  if(!adminEmail||adminPassword.length<12)throw new Error('ADMIN_EMAIL and ADMIN_PASSWORD (minimum 12 characters) are required for first startup.');
+  const r=db.prepare('INSERT INTO users(name,email,password_hash,role) VALUES(?,?,?,?)').run('Abdullah Muzammil',adminEmail,bcrypt.hashSync(adminPassword,12),'CEO / Owner');admin={id:r.lastInsertRowid};
+}
 const unitId=n=>db.prepare('SELECT id FROM business_units WHERE name=?').get(n)?.id;
 const mimi=unitId('MIMI Resturant');
 const seedProduct=db.prepare('INSERT OR IGNORE INTO products(business_unit_id,sku,name,category,supplier,item_type,unit,opening_stock,current_stock,reorder_level,cost_price,selling_price,tax_rate) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)');
 if(mimi){seedProduct.run(mimi,'MIMI-001','Chicken Biryani','Main Course','MIMI Kitchen','PRODUCT','plate',0,0,5,280,450,0);seedProduct.run(mimi,'MIMI-002','Chicken Burger','Fast Food','MIMI Kitchen','PRODUCT','pcs',0,0,5,220,380,0);seedProduct.run(mimi,'MIMI-003','Tea','Beverage','MIMI Kitchen','PRODUCT','cup',0,0,10,45,100,0);seedProduct.run(mimi,'MIMI-004','Delivery Service','Service','MIMI','SERVICE','service',0,0,0,0,250,0);for(let i=1;i<=12;i++)db.prepare('INSERT OR IGNORE INTO restaurant_tables(business_unit_id,name,capacity) VALUES(?,?,?)').run(mimi,`Table ${i}`,i<=4?2:i<=10?4:6);}
-if(db.prepare('SELECT COUNT(*) c FROM users').get().c===1){const defs=[['Ahmed Khan','Business Unit Manager','MIMI Resturant'],['Bilal Ahmed','Finance / Admin','Excavator'],['Hassan Raza','Sales / Business Development','Mango / Seasonal'],['Usman Ali','Business Unit Manager','Pink Salt'],['Sara Ali','Staff Member','MIMI Resturant']];const st=db.prepare('INSERT INTO users(name,email,password_hash,role,business_unit_id) VALUES(?,?,?,?,?)');defs.forEach(([n,r,b])=>st.run(n,n.toLowerCase().replace(/\s+/g,'.')+'@blueocean.local',bcrypt.hashSync('ChangeMe@123',12),r,unitId(b)));}
+const demoPassword=String(process.env.DEMO_USER_PASSWORD||'');
+if(process.env.SEED_DEMO_USERS==='true'&&demoPassword.length>=12&&db.prepare('SELECT COUNT(*) c FROM users').get().c===1){const defs=[['Ahmed Khan','Business Unit Manager','MIMI Resturant'],['Bilal Ahmed','Finance / Admin','Excavator'],['Hassan Raza','Sales / Business Development','Mango / Seasonal'],['Usman Ali','Business Unit Manager','Pink Salt'],['Sara Ali','Staff Member','MIMI Resturant']];const st=db.prepare('INSERT INTO users(name,email,password_hash,role,business_unit_id) VALUES(?,?,?,?,?)');defs.forEach(([n,r,b])=>st.run(n,n.toLowerCase().replace(/\s+/g,'.')+'@blueocean.local',bcrypt.hashSync(demoPassword,12),r,unitId(b)));}
 
 if(mimi){
   const mp=db.prepare('INSERT OR IGNORE INTO restaurant_menu_items(business_unit_id,product_id,name,category,price,active,available,description) VALUES(?,?,?,?,?,?,?,?)');
@@ -330,43 +307,8 @@ try{db.exec("CREATE INDEX IF NOT EXISTS idx_buyer_payment_alloc_payment ON excav
 try{db.exec("CREATE INDEX IF NOT EXISTS idx_buyer_payment_alloc_asset ON excavator_buyer_payment_allocations(asset_id)")}catch(e){}
 try{const legacy=db.prepare("SELECT id,buyer_id,asset_id,krw_amount,created_by FROM excavator_buyer_payments WHERE asset_id IS NOT NULL").all();const ins=db.prepare("INSERT INTO excavator_buyer_payment_allocations(payment_id,buyer_id,asset_id,amount_krw,allocation_date,created_by,notes) VALUES(?,?,?, ?,CURRENT_TIMESTAMP,?,?)");for(const p of legacy){const exists=db.prepare('SELECT 1 FROM excavator_buyer_payment_allocations WHERE payment_id=? AND asset_id=?').get(p.id,p.asset_id);if(!exists)ins.run(p.id,p.buyer_id,p.asset_id,p.krw_amount,p.created_by,'Migrated from legacy payment allocation');}}catch(e){console.error('Buyer allocation migration',e.message)}
 try{db.exec("ALTER TABLE excavator_assets ADD COLUMN buyer_id INTEGER")}catch(e){}
-try{
-  // UI owns form required-field validation. Keep the API defensive, but do not let
-  // SQLite reject incomplete form submissions with low-level NOT NULL errors.
-  const paymentCols=db.prepare('PRAGMA table_info(excavator_buyer_payments)').all();
-  const dateCol=paymentCols.find(x=>x.name==='payment_date');
-  const refCol=paymentCols.find(x=>x.name==='reference');
-  if(dateCol?.notnull || refCol?.notnull){
-    db.pragma('foreign_keys=OFF');
-    db.exec(`CREATE TABLE excavator_buyer_payments_v26_tmp(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      buyer_id INTEGER NOT NULL,
-      asset_id INTEGER,
-      payment_type TEXT DEFAULT 'Advance',
-      original_amount REAL DEFAULT 0,
-      currency TEXT DEFAULT 'KRW',
-      fx_rate REAL DEFAULT 1,
-      krw_amount REAL DEFAULT 0,
-      payment_date TEXT,
-      method TEXT DEFAULT 'Bank',
-      reference TEXT,
-      receipt_file TEXT DEFAULT '',
-      receipt_document_id INTEGER,
-      notes TEXT DEFAULT '',
-      created_by INTEGER,
-      created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY(buyer_id) REFERENCES excavator_buyers(id) ON DELETE CASCADE,
-      FOREIGN KEY(asset_id) REFERENCES excavator_assets(id) ON DELETE SET NULL
-    );
-    INSERT INTO excavator_buyer_payments_v26_tmp
-      (id,buyer_id,asset_id,payment_type,original_amount,currency,fx_rate,krw_amount,payment_date,method,reference,receipt_file,receipt_document_id,notes,created_by,created_at)
-      SELECT id,buyer_id,asset_id,payment_type,original_amount,currency,fx_rate,krw_amount,payment_date,method,reference,receipt_file,receipt_document_id,notes,created_by,created_at
-      FROM excavator_buyer_payments;
-    DROP TABLE excavator_buyer_payments;
-    ALTER TABLE excavator_buyer_payments_v26_tmp RENAME TO excavator_buyer_payments;`);
-    db.pragma('foreign_keys=ON');
-  }
-}catch(e){try{db.pragma('foreign_keys=ON')}catch(_){} console.error('V26.1 buyer payment schema migration',e.message)}
+// V28 keeps historical buyer-payment constraints in place. Required payment date,
+// reference and evidence are enforced by the API without rebuilding or dropping tables.
 
 for(const [t,c,d] of [['finance_entries','verification_status',"TEXT DEFAULT 'Pending Verification'"],['finance_entries','verified_by','INTEGER'],['finance_entries','verified_at','TEXT'],['finance_entries','verification_note',"TEXT DEFAULT ''"],['finance_entries','source_type',"TEXT DEFAULT 'Manual'"],['finance_entries','source_id','INTEGER'],['excavator_assets','supplier_id','INTEGER'],['excavator_assets','purchase_token','REAL DEFAULT 0'],['excavator_assets','purchase_balance','REAL DEFAULT 0'],['excavator_assets','purchase_payment_status',"TEXT DEFAULT 'Pending'"]]){try{db.exec(`ALTER TABLE ${t} ADD COLUMN ${c} ${d}`)}catch(e){}}
 
@@ -379,7 +321,7 @@ function v27EnsureColumn(table,column,definition){
   }catch(e){console.error(`V27 migration ${table}.${column}:`,e.message)}
 }
 
-// The V26.1 legacy table rebuild can remove this column after the earlier V26.7 migration.
+// Retain compatibility columns through additive migrations only.
 // Re-assert it at the end of all buyer-payment migrations.
 v27EnsureColumn('excavator_buyer_payments','status',"TEXT DEFAULT 'Active'");
 try{db.exec("UPDATE excavator_buyer_payments SET status='Active' WHERE status IS NULL OR status=''")}catch(e){}
@@ -689,3 +631,132 @@ try{db.exec('CREATE INDEX IF NOT EXISTS idx_finance_review_queue_v275 ON finance
 // a language explicitly chosen by a user is preserved thereafter.
 v27EnsureColumn('users','language_explicit',"INTEGER DEFAULT 0");
 try{db.exec("UPDATE users SET preferred_language='ko' WHERE COALESCE(language_explicit,0)=0; UPDATE users SET preferred_language='ko' WHERE preferred_language IS NULL OR preferred_language NOT IN ('en','ko')")}catch(e){console.error('V27.8 Korean-first language migration:',e.message)}
+
+// V28.0 — mobile-first operations, structured buyer requirements, mandatory
+// Excavator payment evidence, and a complete Finance correction work queue.
+for(const [table,column,definition] of [
+  ['excavator_buyer_requirements','machine_name',"TEXT DEFAULT ''"],
+  ['excavator_buyer_requirements','serial_no',"TEXT DEFAULT ''"],
+  ['excavator_buyer_requirements','condition_status',"TEXT DEFAULT ''"],
+  ['excavator_buyer_requirements','location',"TEXT DEFAULT ''"],
+  ['excavator_payments','receipt_file',"TEXT DEFAULT ''"],
+  ['excavator_payments','receipt_document_id','INTEGER'],
+  ['excavator_parts','attachment_file',"TEXT DEFAULT ''"]
+]) v27EnsureColumn(table,column,definition);
+try{db.exec(`
+CREATE TABLE IF NOT EXISTS finance_correction_requests(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  finance_entry_id INTEGER NOT NULL,
+  business_unit_id INTEGER NOT NULL,
+  assigned_to INTEGER NOT NULL,
+  requested_by INTEGER NOT NULL,
+  reason TEXT NOT NULL,
+  requested_changes TEXT DEFAULT '',
+  severity TEXT DEFAULT 'Normal',
+  status TEXT DEFAULT 'Open',
+  response_note TEXT DEFAULT '',
+  response_attachment TEXT DEFAULT '',
+  requested_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  due_at TEXT,
+  first_viewed_at TEXT,
+  responded_at TEXT,
+  resolved_at TEXT,
+  outcome TEXT DEFAULT '',
+  resubmission_count INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(finance_entry_id) REFERENCES finance_entries(id) ON DELETE CASCADE,
+  FOREIGN KEY(business_unit_id) REFERENCES business_units(id),
+  FOREIGN KEY(assigned_to) REFERENCES users(id),
+  FOREIGN KEY(requested_by) REFERENCES users(id)
+);
+CREATE INDEX IF NOT EXISTS idx_finance_correction_unit_status ON finance_correction_requests(business_unit_id,status,due_at);
+CREATE INDEX IF NOT EXISTS idx_finance_correction_assignee ON finance_correction_requests(assigned_to,status,due_at);
+CREATE INDEX IF NOT EXISTS idx_finance_correction_entry ON finance_correction_requests(finance_entry_id,id);
+`)}catch(e){console.error('V28 Finance correction schema:',e.message)}
+
+// V28.1 — live action queues, aligned machine requirements, smart matching,
+// exchange proposals, and complete creator-owned Finance correction history.
+for(const [table,column,definition] of [
+  ['excavator_supplier_requirements','machine_name',"TEXT DEFAULT ''"],
+  ['excavator_supplier_requirements','budget_min','REAL DEFAULT 0'],
+  ['excavator_supplier_requirements','quantity','REAL DEFAULT 1'],
+  ['excavator_supplier_requirements','updated_at','TEXT'],
+  ['excavator_buyer_requirements','budget_min','REAL DEFAULT 0'],
+  ['excavator_buyer_requirements','action_type',"TEXT DEFAULT 'Buy'"],
+  ['excavator_buyer_requirements','exchange_machine',"TEXT DEFAULT ''"],
+  ['excavator_buyer_requirements','updated_at','TEXT'],
+  ['finance_correction_requests','task_id','INTEGER'],
+  ['finance_correction_requests','reminder_count','INTEGER DEFAULT 0'],
+  ['finance_correction_requests','last_reminder_at','TEXT'],
+  ['finance_correction_requests','source_snapshot_json',"TEXT DEFAULT '{}'"],
+  ['finance_correction_requests','changed_fields_json',"TEXT DEFAULT '[]'"]
+]) v27EnsureColumn(table,column,definition);
+try{db.exec(`
+CREATE TABLE IF NOT EXISTS finance_correction_history(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  correction_request_id INTEGER NOT NULL,
+  finance_entry_id INTEGER NOT NULL,
+  business_unit_id INTEGER NOT NULL,
+  user_id INTEGER,
+  action TEXT NOT NULL,
+  note TEXT DEFAULT '',
+  data_json TEXT DEFAULT '{}',
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(correction_request_id) REFERENCES finance_correction_requests(id) ON DELETE CASCADE,
+  FOREIGN KEY(finance_entry_id) REFERENCES finance_entries(id) ON DELETE CASCADE,
+  FOREIGN KEY(business_unit_id) REFERENCES business_units(id),
+  FOREIGN KEY(user_id) REFERENCES users(id)
+);
+CREATE INDEX IF NOT EXISTS idx_finance_correction_history_request ON finance_correction_history(correction_request_id,id);
+
+CREATE TABLE IF NOT EXISTS excavator_requirement_matches(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  business_unit_id INTEGER NOT NULL,
+  requirement_type TEXT NOT NULL,
+  requirement_id INTEGER NOT NULL,
+  machine_source TEXT NOT NULL,
+  machine_id INTEGER NOT NULL,
+  buyer_id INTEGER,
+  supplier_id INTEGER,
+  score REAL DEFAULT 0,
+  match_level TEXT DEFAULT 'Close Match',
+  matched_fields_json TEXT DEFAULT '[]',
+  status TEXT DEFAULT 'New',
+  notified_at TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(requirement_type,requirement_id,machine_source,machine_id),
+  FOREIGN KEY(business_unit_id) REFERENCES business_units(id)
+);
+CREATE INDEX IF NOT EXISTS idx_requirement_matches_unit_status ON excavator_requirement_matches(business_unit_id,status,created_at);
+CREATE INDEX IF NOT EXISTS idx_requirement_matches_requirement ON excavator_requirement_matches(requirement_type,requirement_id,status);
+
+CREATE TABLE IF NOT EXISTS excavator_exchange_proposals(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  business_unit_id INTEGER NOT NULL,
+  match_id INTEGER,
+  requirement_type TEXT NOT NULL,
+  requirement_id INTEGER NOT NULL,
+  requested_machine_source TEXT NOT NULL,
+  requested_machine_id INTEGER NOT NULL,
+  offered_machine_source TEXT DEFAULT '',
+  offered_machine_id INTEGER,
+  buyer_id INTEGER,
+  supplier_id INTEGER,
+  requested_machine_value REAL DEFAULT 0,
+  offered_machine_value REAL DEFAULT 0,
+  balance_amount REAL DEFAULT 0,
+  balance_direction TEXT DEFAULT 'To Be Agreed',
+  inspection_condition TEXT DEFAULT '',
+  notes TEXT DEFAULT '',
+  status TEXT DEFAULT 'Draft',
+  created_by INTEGER,
+  reviewed_by INTEGER,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(business_unit_id) REFERENCES business_units(id),
+  FOREIGN KEY(match_id) REFERENCES excavator_requirement_matches(id) ON DELETE SET NULL
+);
+CREATE INDEX IF NOT EXISTS idx_exchange_proposals_unit_status ON excavator_exchange_proposals(business_unit_id,status,updated_at);
+`)}catch(e){console.error('V28.1 workflow schema:',e.message)}
