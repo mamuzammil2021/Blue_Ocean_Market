@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "28.1.0",
+  "version": "28.3.0",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -16,7 +16,11 @@
     "qa:v28:runtime": "node qa/qa_v280_runtime_api.js",
     "qa:v281": "node qa/qa_v281_action_matching_finance.js",
     "qa:v281:runtime": "node qa/run_v281_runtime.js",
-    "qa:current": "node qa/static-check.js && node qa/qa_v281_action_matching_finance.js && node qa/qa_v280_mobile_finance_complete.js && node qa/qa_v279_korean_runtime_complete.js && node qa/qa_v278_korean_first_complete.js && node qa/qa_v277_localization_complete.js && node qa/qa_v268_supplier_machines.js"
+    "qa:v282": "node qa/qa_v282_approval_finance_integrity.js",
+    "qa:v282:runtime": "node qa/run_v282_runtime.js",
+    "qa:v283": "node qa/qa_v283_approval_execution.js",
+    "qa:v283:runtime": "node qa/run_v283_runtime.js",
+    "qa:current": "node qa/static-check.js && node qa/qa_v283_approval_execution.js && node qa/qa_v281_action_matching_finance.js && node qa/qa_v280_mobile_finance_complete.js && node qa/qa_v279_korean_runtime_complete.js && node qa/qa_v278_korean_first_complete.js && node qa/qa_v277_localization_complete.js && node qa/qa_v268_supplier_machines.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
