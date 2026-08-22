@@ -12,8 +12,8 @@ const assignedStart=client.indexOf('Object.assign(KO,{',inlineEnd),assignedEnd=c
 const assigned=assignedStart>=0&&assignedEnd>assignedStart?vm.runInNewContext('('+client.slice(assignedStart+'Object.assign(KO,'.length,assignedEnd+1)+')'):{};
 const ko={...inline,...assigned,...external};
 
-check('current release version',pkg.version==='27.9.0'&&server.includes("version:'27.9.0'")&&html.includes('/client.js?v=27.9.0'));
-check('Korean catalog loads before application',html.indexOf('/i18n-ko.js?v=27.9.0')>=0&&html.indexOf('/i18n-ko.js?v=27.9.0')<html.indexOf('/client.js?v=27.9.0'));
+check('current release version',pkg.version==='28.1.0'&&server.includes("version:'28.1.0'")&&html.includes('/client.js?v=28.1.0'));
+check('Korean catalog loads before application',html.indexOf('/i18n-ko.js?v=28.1.0')>=0&&html.indexOf('/i18n-ko.js?v=28.1.0')<html.indexOf('/client.js?v=28.1.0'));
 check('large combined bilingual catalog',Object.keys(ko).length>=1300,`only ${Object.keys(ko).length} keys`);
 check('dynamic message translation patterns',patterns.length>=25,`only ${patterns.length} patterns`);
 check('catalog has Korean output',Object.values(ko).filter(v=>/[가-힣]/.test(String(v))).length>=1350);

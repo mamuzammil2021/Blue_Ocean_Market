@@ -30,11 +30,10 @@ npm start
 
 Open `http://localhost:3000`.
 
-Demo administrator: `admin@blueocean.local` / `Admin@123`
+Administrator credentials must be supplied securely through environment variables before first startup.
 
 ## Data and generated files
 
 - Application data remains under `data/`.
 - Uploaded documents and generated sale PDFs remain under `uploads/`.
 - V27.7 does not silently repair business records. The existing read-only data-integrity checks remain available from the CEO dashboard.
-

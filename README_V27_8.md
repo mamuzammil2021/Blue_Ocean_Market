@@ -28,7 +28,7 @@ npm start
 
 Open `http://localhost:3000`.
 
-Demo administrator / 데모 관리자: `admin@blueocean.local` / `Admin@123`
+Administrator credentials must be supplied securely through environment variables before first startup. / 최초 시작 전에 관리자 자격 증명을 환경 변수로 안전하게 설정해야 합니다.
 
 ## Verification / 검증
 

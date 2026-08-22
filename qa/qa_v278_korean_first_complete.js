@@ -10,7 +10,7 @@ const second=client.indexOf('Object.assign(KO,{',firstEnd),secondEnd=client.inde
 const ko={...base,...added,...external};context.window.BO_I18N_LOOKUP=ko;
 function translate(value){let out=ko[value];if(!out)for(const [re,render] of patterns){re.lastIndex=0;const match=String(value).match(re);if(match){out=render(...match);break}}return out||String(value)}
 
-check('current release version and cache identity',pkg.version==='27.9.0'&&server.includes("version:'27.9.0'")&&html.includes('/client.js?v=27.9.0')&&html.includes('/i18n-ko.js?v=27.9.0'));
+check('current release version and cache identity',pkg.version==='28.1.0'&&server.includes("version:'28.1.0'")&&html.includes('/client.js?v=28.1.0')&&html.includes('/i18n-ko.js?v=28.1.0'));
 check('document starts in Korean',html.includes('<html lang="ko">'));
 check('browser language default is Korean',client.includes("let currentLanguage=localStorage.getItem('bo_language')||'ko'")&&!client.includes("||'en'"));
 check('server, token, and database defaults are Korean',server.includes("preferred_language:u.preferred_language||'ko'")&&server.includes("COALESCE(preferred_language,'ko')")&&db.includes("v27EnsureColumn('users','preferred_language',\"TEXT DEFAULT 'ko'\")"));
