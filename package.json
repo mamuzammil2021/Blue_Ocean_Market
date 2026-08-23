@@ -1,15 +1,15 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "28.3.0",
+  "version": "28.4.0",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
-  "main": "server/server.js",
+  "main": "server/server-v284-run.js",
   "engines": {
     "node": "22.x"
   },
   "scripts": {
-    "start": "node server/server.js",
-    "dev": "node --watch server/server.js",
+    "start": "node server/server-v284-run.js",
+    "dev": "node --watch server/server-v284-run.js",
     "qa:static": "node qa/static-check.js",
     "qa:v27": "node qa/qa_v279_korean_runtime_complete.js",
     "qa:v28": "node qa/qa_v280_mobile_finance_complete.js",
@@ -20,7 +20,8 @@
     "qa:v282:runtime": "node qa/run_v282_runtime.js",
     "qa:v283": "node qa/qa_v283_approval_execution.js",
     "qa:v283:runtime": "node qa/run_v283_runtime.js",
-    "qa:current": "node qa/static-check.js && node qa/qa_v283_approval_execution.js && node qa/qa_v281_action_matching_finance.js && node qa/qa_v280_mobile_finance_complete.js && node qa/qa_v279_korean_runtime_complete.js && node qa/qa_v278_korean_first_complete.js && node qa/qa_v277_localization_complete.js && node qa/qa_v268_supplier_machines.js"
+    "qa:v284": "node qa/qa_v284_statements_idempotency.js",
+    "qa:current": "node qa/static-check.js && node qa/qa_v284_statements_idempotency.js && node qa/qa_v281_action_matching_finance.js && node qa/qa_v280_mobile_finance_complete.js && node qa/qa_v279_korean_runtime_complete.js && node qa/qa_v278_korean_first_complete.js && node qa/qa_v277_localization_complete.js && node qa/qa_v268_supplier_machines.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
