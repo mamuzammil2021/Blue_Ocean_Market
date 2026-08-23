@@ -12,7 +12,7 @@ const pkg=require('../package.json');
 let failed=0;
 function check(name,value){if(value)console.log('PASS',name);else{failed++;console.error('FAIL',name)}}
 
-check('V28.1 version and cache identity',pkg.version==='28.1.0'&&server.includes("version:'28.1.0'")&&html.includes('/client.js?v=28.1.0')&&html.includes('/i18n-ko.js?v=28.1.0'));
+check('V28.1+ regression runs on current V28.3 release identity',pkg.version==='28.3.0'&&server.includes("version:'28.3.0'")&&html.includes('/client.js?v=28.3.0')&&html.includes('/i18n-ko.js?v=28.3.0'));
 check('Node 22 compatible current SQLite driver',pkg.engines.node==='22.x'&&/^\^13\./.test(pkg.dependencies['better-sqlite3']||''));
 check('Render persistent data and upload paths',db.includes('process.env.DATA_DIR')&&server.includes('process.env.UPLOAD_DIR')&&env.includes('DATA_DIR=/var/data/data')&&env.includes('UPLOAD_DIR=/var/data/uploads'));
 check('startup migrations preserve historical business-unit data',!db.includes('Remove legacy/demo units')&&!db.includes('DROP TABLE excavator_buyer_payments')&&!db.includes("DELETE FROM finance_entries WHERE business_unit_id=?"));

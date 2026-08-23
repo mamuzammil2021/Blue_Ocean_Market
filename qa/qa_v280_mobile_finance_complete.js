@@ -4,7 +4,7 @@ const read=p=>fs.readFileSync(path.join(root,p),'utf8');
 const client=read('public/client.js'),server=read('server/server.js'),db=read('server/db.js'),html=read('public/index.html'),pkg=require('../package.json');
 let failed=0;const check=(name,ok)=>{if(ok)console.log('PASS',name);else{failed++;console.error('FAIL',name)}};
 
-check('V28+ version and browser cache identity',pkg.version==='28.1.0'&&server.includes("version:'28.1.0'")&&html.includes('/client.js?v=28.1.0')&&html.includes('/i18n-ko.js?v=28.1.0'));
+check('V28+ version and browser cache identity',pkg.version==='28.3.0'&&server.includes("version:'28.3.0'")&&html.includes('/client.js?v=28.3.0')&&html.includes('/i18n-ko.js?v=28.3.0'));
 check('mobile off-canvas sidebar and overlay',html.includes('v280-mobile-ui')&&html.includes('.mobile-nav-open .side')&&client.includes('toggleMobileSidebar')&&client.includes('sidebar-overlay'));
 check('mobile cards forms tables and dialogs',html.includes('@media(max-width:900px)')&&html.includes('.modal .grid')&&html.includes('.table-wrap')&&html.includes('100dvh'));
 check('trusted-input dirty tracking',client.includes("e.isTrusted&&e.target.closest('form')")&&client.includes('closeModalAfterSave')&&client.includes('multipartApi'));

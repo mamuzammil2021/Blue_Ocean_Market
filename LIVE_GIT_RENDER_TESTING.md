@@ -1,57 +1,61 @@
-# V28.1 Live Git / Render Testing
+# V28.3 Live Git / Render Testing
 
-## Before push
+## Before pushing
+
 1. Use Node.js 22.x and run `npm ci`.
 2. Run `npm run qa:current`.
-3. Run the self-contained live workflow with `npm run qa:v281:runtime`.
-4. Start locally with `npm start` and confirm `/api/health` returns version `28.1.0`.
-5. Test with CEO, Finance/Admin, Manager and Staff roles.
+3. Run `npm run qa:v283:runtime` and `npm run qa:v281:runtime`.
+4. Configure `JWT_SECRET`, `ADMIN_EMAIL` and `ADMIN_PASSWORD`.
+5. Start with `npm start`; `/api/health` must report `"version":"28.3.0"`.
+6. Test with CEO/Owner, Finance/Admin, Manager and Staff accounts.
 
 ## Git
-Do not commit:
-- `.env`
-- `node_modules/`
-- local SQLite databases under `data/`
-- runtime uploads under `uploads/`
+
+Do not commit `.env`, `node_modules/`, local SQLite files under `data/`, or runtime files under `uploads/`.
 
 Recommended flow:
-- create a test branch for the build;
-- push and let Render deploy that branch or merge after local QA;
-- keep `main` as the stable branch.
 
-## Render
-The existing Dockerfile is production-host compatible and the server listens on `0.0.0.0` using `PORT` supplied by the host.
+1. Back up the current Render database and uploads.
+2. Create a release branch such as `release/v28.3.0`.
+3. Copy this release into the repository root without copying the excluded runtime files.
+4. Run the QA commands above.
+5. Review `git status` and `git diff --check`.
+6. Commit and push the release branch, then deploy that branch to Render for live testing.
+7. Merge to the stable branch only after the live checklist passes.
 
-Node.js 22.x is pinned in `package.json` and the Docker image to keep the native SQLite dependency consistent on local machines and Render.
+See `GIT_RELEASE_CHECKLIST_V28_3.md` for exact commands.
 
-Set a strong `JWT_SECRET` environment variable in Render. Do not use the development fallback for a production deployment.
+## Render settings
 
-Mount a persistent disk at `/var/data`, then set `DATA_DIR=/var/data/data` and `UPLOAD_DIR=/var/data/uploads`.
+- Runtime: Docker using the included `Dockerfile`.
+- Health check: `/api/health`
+- Persistent disk mount: `/var/data`
+- `DATA_DIR=/var/data/data`
+- `UPLOAD_DIR=/var/data/uploads`
+- `JWT_SECRET`: unique random value with at least 32 characters
+- `ADMIN_EMAIL`: CEO/Owner login email
+- `ADMIN_PASSWORD`: strong password with at least 12 characters
 
-Health check path: `/api/health`
+For development testing, set `SEED_DEMO_USERS=true`, `SEED_DEMO_DATA=true`, and a shared `DEMO_USER_PASSWORD` of at least 12 characters. Disable both seed flags before the final production release. Seeding is additive and does not wipe existing records.
 
-## Important persistence warning
-The application currently uses SQLite and local filesystem uploads. On ephemeral hosting, database/upload files can be lost on redeploy/restart unless persistent storage is configured. For meaningful live business testing, use a persistent disk or migrate the database/uploads to persistent managed storage before entering important data.
+## Persistence warning
+
+The application uses SQLite and filesystem uploads. Without the persistent disk and both path variables, database and evidence files can be lost on a redeploy or restart. Back up both `/var/data/data` and `/var/data/uploads` before every release.
 
 ## High-priority live regression
-- CEO All Units vs unit-specific sidebar visibility.
-- Notification panel close behavior.
-- Browser/app Back/Forward across linked records.
-- Finance source opening, evidence, verify/reject/correct/void workflow.
-- Finance correction assignment, notification, evidence upload, resubmission, resolution and performance metrics.
-- No duplicate Finance entries when source records are updated.
-- Mandatory receipt/evidence rejection for every payment-related Excavator entry.
-- Excavator sale update and Finance sync.
-- Supplier available-machine counts and Buy Machine supplier-machine selection.
-- Structured Buyer Requirements, view/edit/delete and supplier-machine matches.
-- Buyer Local → South Korea and International country selection.
-- Off-canvas mobile sidebar, stacked cards/forms, scrollable tables and bottom-sheet dialogs.
-- Meetings, Tasks, Approvals, People & Performance and reports by role/unit.
-- Unit switch refresh and no cross-unit data leakage.
-- Fixed desktop sidebar, independent navigation scrolling, active-item visibility and mobile drawer behavior.
-- Same-tab and post-mutation refresh, including updated action counters.
-- Non-zero-only Finance, Tasks and matching badges scoped to the signed-in user.
-- Aligned Buyer/Supplier requirement fields and smart matching by machine name/type, make, model, year/range, condition and budget (never location).
-- Deduplicated match notifications, match explanations and exchange proposals.
-- Creator-scoped Finance data for regular users and full permitted-unit visibility for CEO/Finance reviewers.
-- Original-creator-only, source-specific corrections with reminders, history, linked tasks and performance tracking.
+
+- CEO/Owner receives a confirmation dialog, executes the controlled action immediately, and never enters an approval queue.
+- Delegated buyer-payment void follows independent Finance then CEO approval, reverses allocations, voids linked Finance and retains history.
+- Buyer-advance refund requires evidence, follows the configured threshold workflow, posts Finance automatically, supports creator correction, and reverses safely after void approval.
+- Approval and Finance badges appear only for actionable non-zero work and disappear after completion.
+- Final approval automatically applies supported actions; failed execution remains visible and can be retried only by Finance/CEO.
+- Verified Finance change opens a source-specific correction for the original creator, with notifications, task, reminder history and performance tracking.
+- Regular users see only Finance entries they created; authorized Finance/CEO users see the permitted company/unit scope.
+- Receipt/evidence is rejected when missing from every Excavator payment-related entry.
+- Unread notifications display first, newest first inside each group.
+- Korean is the default and no English static UI text remains when Korean is selected; English switching still works.
+- Desktop sidebar stays fixed with the selected item visible; mobile uses the off-canvas menu and responsive content.
+- Clicking the selected tab and every create/update/delete action refreshes the current data and counters.
+- Buyer/Supplier matching uses machine type/name, make, model, year/range, condition and budget, never location.
+- Requirement matches create deduplicated notifications for relevant users and support exchange proposals.
+- CEO All Units and unit-specific views do not leak unauthorized data.

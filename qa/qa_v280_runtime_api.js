@@ -3,6 +3,7 @@ const adminEmail=process.env.V280_ADMIN_EMAIL;
 const adminPassword=process.env.V280_ADMIN_PASSWORD;
 const financeEmail=process.env.V280_FINANCE_EMAIL;
 const financePassword=process.env.V280_FINANCE_PASSWORD;
+const expectedVersion=process.env.V280_EXPECTED_VERSION||'28.1.0';
 if(!adminEmail||!adminPassword||!financeEmail||!financePassword)throw new Error('V280 administrator and Finance QA credentials are required through environment variables.');
 let failed=0;
 function check(name,value,detail=''){if(value)console.log('PASS',name);else{failed++;console.error('FAIL',name,detail)}}
@@ -18,8 +19,8 @@ function evidenceForm(values,fileField){const form=new FormData();for(const [key
 async function login(email,password){return (await request('/api/auth/login',{method:'POST',body:{email,password}})).data.token}
 
 (async()=>{
-  const health=(await request('/api/health')).data;check('runtime health reports V28.1.0',health.version==='28.1.0',JSON.stringify(health));
-  const index=await (await fetch(base+'/')).text();check('runtime page is Korean-first and mobile-ready',index.includes('<html lang="ko"')&&index.includes('v280-mobile-ui')&&index.includes('/client.js?v=28.1.0'));
+  const health=(await request('/api/health')).data;check(`runtime health reports V${expectedVersion}`,health.version===expectedVersion,JSON.stringify(health));
+  const index=await (await fetch(base+'/')).text();check('runtime page is Korean-first and mobile-ready',index.includes('<html lang="ko"')&&index.includes('v280-mobile-ui')&&index.includes(`/client.js?v=${expectedVersion}`));
   const ceo=await login(adminEmail,adminPassword),finance=await login(financeEmail,financePassword);
   const units=(await request('/api/business-units',{token:ceo})).data,excavator=units.find(x=>x.name==='Excavator');check('Excavator business unit available',!!excavator);const unit=excavator.id;
 
