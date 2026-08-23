@@ -1,6 +1,6 @@
 const fs=require('fs'),path=require('path'),cp=require('child_process');
 const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(root,f),'utf8');
-const pkg=require('../package.json'),boot=read('server/server-v284-bootstrap.js'),run=read('server/server-v284-run.js'),ui=read('public/v284-client.js'),core=read('server/server.js'),client=read('public/client.js');
+const pkg=require('../package.json'),boot=read('server/server-v284-bootstrap.js'),run=read('server/server-v284-run.js'),ui=read('public/v284-client.js'),core=read('server/server.js'),client=read('public/client.js'),db=read('server/db.js');
 let failed=0;function check(name,v){if(v)console.log('PASS',name);else{failed++;console.error('FAIL',name)}}
 function syntax(file){const r=cp.spawnSync(process.execPath,['--check',path.join(root,file)],{encoding:'utf8'});check('syntax '+file,r.status===0);if(r.status!==0)console.error(r.stderr)}
 syntax('server/server-v284-bootstrap.js');syntax('server/server-v284-run.js');syntax('public/v284-client.js');
@@ -19,6 +19,6 @@ check('Pakistan resale statement and PDF',boot.includes("/api/excavator/buyers/:
 check('bank-style running balances and date filters',boot.includes('statementRows')&&boot.includes('Opening Balance')&&boot.includes('Closing Balance')&&ui.includes('v284StatementFrom')&&ui.includes('v284StatementTo'));
 check('resale screen shows machine financial position',ui.includes("Machines with Resale Records")&&ui.includes("Original Sale")&&ui.includes("Pakistan Resale")&&ui.includes("Manual Profit")&&ui.includes("Resale Recorded")&&ui.includes("Resale Not Recorded"));
 check('PDF statement generator supports Korean and English',boot.includes("HYSMyeongJo-Medium")&&boot.includes("lang==='ko'")&&boot.includes("'Buyer Statement':'구매자 명세서'")&&ui.includes("'Download PDF':'PDF 다운로드'"));
-check('development database remains additive',!boot.includes('DROP TABLE')&&!boot.includes('DELETE FROM users')&&!boot.includes('DELETE FROM excavator_')&&core.includes('Development/test accounts are opt-in and additive'));
+check('development database remains additive',!boot.includes('DROP TABLE')&&!boot.includes('DELETE FROM users')&&!boot.includes('DELETE FROM excavator_')&&db.includes('Development/test accounts are opt-in and additive')&&!db.includes('DELETE FROM users'));
 if(failed){console.error(`V28.4 statement/idempotency QA failed: ${failed}`);process.exit(1)}
 console.log('V28.4 global duplicate protection, financial statements and Pakistan resale integrity QA PASS');
