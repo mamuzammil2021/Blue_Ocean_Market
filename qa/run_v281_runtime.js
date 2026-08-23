@@ -61,7 +61,7 @@ function runQa(){
   return new Promise((resolve,reject)=>{
     const qa=spawn(process.execPath,['qa/qa_v281_runtime_api.js'],{
       cwd:projectRoot,
-      env:{...process.env,V281_BASE_URL:baseUrl,V281_ADMIN_EMAIL:adminEmail,V281_ADMIN_PASSWORD:adminPassword,V281_USER_PASSWORD:qaUserPassword},
+      env:{...process.env,V281_BASE_URL:baseUrl,V281_ADMIN_EMAIL:adminEmail,V281_ADMIN_PASSWORD:adminPassword,V281_USER_PASSWORD:qaUserPassword,V281_EXPECTED_VERSION:'28.3.0'},
       stdio:'inherit'
     });
     qa.on('error',reject);

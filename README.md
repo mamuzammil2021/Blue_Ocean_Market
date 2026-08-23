@@ -1,16 +1,16 @@
-# Blue Ocean Market V28.1.0 — Action Matching & Finance Controls
+# Blue Ocean Market V28.3.0 — Approval Execution & CEO Direct Control
 
-V28.1.0 is a Git/Render-ready release with fixed responsive navigation, automatic data refresh, action-only sidebar counters, aligned Buyer/Supplier Requirements, smart location-independent machine matching, exchange proposals, mandatory Excavator evidence, and creator-secure Finance correction workflows. Korean remains the primary default language and English remains a complete selectable language. User-entered names, notes, references, model numbers and uploaded documents remain unchanged.
+V28.3.0 is a Git/Render-ready development release focused on automatic approval execution and practical CEO control. A CEO/Owner never waits in an approval queue: controlled actions require a strong confirmation with a note, then execute immediately and remain in approval/audit history. Delegated actions enforce independent reviewers, creator-only Finance correction, automatic source/Finance updates, and visible non-zero action badges. Buyer-payment deletion and buyer-advance refunds now have complete evidence, approval, correction, reversal, and history workflows.
 
 한국어가 시스템의 기본 및 주요 언어입니다. 영어도 전체 기능에서 선택할 수 있습니다. 사용자가 입력한 이름, 메모, 참조, 모델번호, 문서는 변경하지 않습니다.
 
-Current release notes: `README_V28_1.md` and `CHANGELOG_V28_1.md`.
+Current release notes: `README_V28_3.md` and `CHANGELOG_V28_3.md`.
 
 Run the complete release gate before deployment:
 
 ```bash
 npm run qa:current
-npm run qa:v281:runtime
+npm run qa:v283:runtime
 ```
 
 # Historical V10 baseline

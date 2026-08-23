@@ -1,18 +1,36 @@
-BLUE OCEAN MARKET V4 - MAC INSTALL
+BLUE OCEAN MARKET V28.3.0 - MAC INSTALL
+
+RECOMMENDED NODE VERSION:
+1. Install Node.js 22.x LTS.
+2. Verify: node -v
+3. Verify: npm -v
+
+NODE:
+1. Open Terminal and cd into this folder.
+2. Run: npm ci
+3. Configure this Terminal session:
+   export JWT_SECRET="$(openssl rand -hex 32)"
+   export ADMIN_EMAIL="your-real-email@example.com"
+   export ADMIN_PASSWORD='Choose-a-strong-password-at-least-12-characters'
+4. Optional development accounts and sample data:
+   export SEED_DEMO_USERS="true"
+   export SEED_DEMO_DATA="true"
+   export DEMO_USER_PASSWORD='Choose-one-test-password-at-least-12-characters'
+5. Run: npm run qa:current
+6. Run: npm run qa:v283:runtime
+7. Run: npm start
+8. Browse to: http://localhost:3000
+
+Use single quotes around passwords that contain ! so Bash does not treat it as history expansion. Environment variables set with export apply only to the current Terminal session.
 
 DOCKER:
 1. Install Docker Desktop.
-2. Open Terminal.
-3. cd into this folder.
-4. Run: docker compose up --build
-5. Browse to: http://localhost:3000
-6. Login with the administrator credentials configured in your environment.
+2. Configure the required environment values in your shell or compose environment.
+3. Run: docker compose up --build
+4. Browse to: http://localhost:3000
 
-NODE:
-1. Use Node.js 22 LTS or newer supported version.
-2. Run npm install
-3. Set JWT_SECRET, ADMIN_EMAIL and a strong ADMIN_PASSWORD in the process environment.
-4. Run npm start
-5. Browse to http://localhost:3000
-
-If a previous Blue Ocean database is present, V4 uses ./data/blue-ocean.sqlite. Delete the data folder only if you intentionally want a clean database.
+DATA SAFETY:
+- Existing databases are upgraded additively from ./data/blue-ocean.sqlite.
+- Demo seeding never wipes existing records.
+- Do not delete data/ or uploads/ unless you intentionally want to erase the development database and evidence.
+- Disable SEED_DEMO_USERS and SEED_DEMO_DATA before the final production release.

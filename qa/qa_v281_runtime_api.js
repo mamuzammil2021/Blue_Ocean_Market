@@ -2,6 +2,7 @@ const base=process.env.V281_BASE_URL||'http://127.0.0.1:3281';
 const adminEmail=process.env.V281_ADMIN_EMAIL;
 const adminPassword=process.env.V281_ADMIN_PASSWORD;
 const qaUserPassword=process.env.V281_USER_PASSWORD;
+const expectedVersion=process.env.V281_EXPECTED_VERSION||'28.1.0';
 if(!adminEmail||!adminPassword||!qaUserPassword)throw new Error('V281_ADMIN_EMAIL, V281_ADMIN_PASSWORD and V281_USER_PASSWORD are required.');
 let failed=0;
 function check(name,value,detail=''){if(value)console.log('PASS',name);else{failed++;console.error('FAIL',name,detail)}}
@@ -21,9 +22,9 @@ function form(values,fileField){const result=new FormData();for(const [key,value
 
 (async()=>{
   const health=(await request('/api/health')).data;
-  check('health reports V28.1.0',health.version==='28.1.0',JSON.stringify(health));
+  check(`health reports V${expectedVersion}`,health.version===expectedVersion,JSON.stringify(health));
   const index=await (await fetch(base+'/')).text();
-  check('served browser bundle is Korean-first V28.1',index.includes('<html lang="ko"')&&index.includes('/client.js?v=28.1.0')&&index.includes('v281-action-navigation'));
+  check('served browser bundle is Korean-first with action navigation',index.includes('<html lang="ko"')&&index.includes(`/client.js?v=${expectedVersion}`)&&index.includes('v281-action-navigation'));
 
   const admin=await login(adminEmail,adminPassword),ceo=admin.token;
   const units=(await request('/api/business-units',{token:ceo})).data;

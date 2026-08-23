@@ -572,6 +572,7 @@ try{
     VALUES(?,?,?,?,?,?,?,?)`);
   const defaults=[
     ['finance.large_payment','Large Payment / Expense','Amount Above',5000000,3,0,'Finance review for high-value payments.'],
+    ['finance.verified_change','Verified Finance Change','Always',0,3,0,'Finance approval before a verified transaction is reopened for correction.'],
     ['excavator.machine_purchase','Large Machine Purchase','Amount Above',20000000,4,0,'CEO approval above configured purchase threshold.'],
     ['sale.loss_or_low_margin','Loss / Below-Margin Sale','Exception',0,4,0,'CEO approval for loss-making or exceptional sales.'],
     ['payment.void','Payment Void / Reversal','Always',0,5,1,'Dual Finance + CEO approval before financial reversal.'],
@@ -760,3 +761,107 @@ CREATE TABLE IF NOT EXISTS excavator_exchange_proposals(
 );
 CREATE INDEX IF NOT EXISTS idx_exchange_proposals_unit_status ON excavator_exchange_proposals(business_unit_id,status,updated_at);
 `)}catch(e){console.error('V28.1 workflow schema:',e.message)}
+
+// V28.2 — simplified approval decisions, immutable request snapshots,
+// creator-owned change cycles, reminders and controlled execution/void history.
+for(const [table,column,definition] of [
+  ['approvals','request_snapshot_json',"TEXT DEFAULT '{}'"],
+  ['approvals','original_snapshot_json',"TEXT DEFAULT '{}'"],
+  ['approvals','payload_hash',"TEXT DEFAULT ''"],
+  ['approvals','changed_fields_json',"TEXT DEFAULT '[]'"],
+  ['approvals','revision_count','INTEGER DEFAULT 0'],
+  ['approvals','parent_approval_id','INTEGER'],
+  ['approvals','change_task_id','INTEGER'],
+  ['approvals','reminder_count','INTEGER DEFAULT 0'],
+  ['approvals','last_reminder_at','TEXT'],
+  ['approvals','cancelled_by','INTEGER'],
+  ['approvals','cancelled_at','TEXT'],
+  ['approvals','voided_by','INTEGER'],
+  ['approvals','voided_at','TEXT'],
+  ['approvals','execution_result_json',"TEXT DEFAULT '{}'"],
+  ['approvals','execution_error',"TEXT DEFAULT ''"]
+]) v27EnsureColumn(table,column,definition);
+try{db.exec(`
+CREATE INDEX IF NOT EXISTS idx_approvals_requester_status ON approvals(requester_id,status,updated_at);
+CREATE INDEX IF NOT EXISTS idx_approvals_parent ON approvals(parent_approval_id,status);
+CREATE INDEX IF NOT EXISTS idx_approvals_payload ON approvals(business_unit_id,action_key,payload_hash,status);
+`)}catch(e){console.error('V28.2 approval workflow schema:',e.message)}
+
+// V28.3 — revision-aware approval execution, CEO direct authorization and
+// evidence-backed buyer advance refunds. All migrations are additive: no
+// development or operational data is removed automatically.
+for(const [table,column,definition] of [
+  ['approvals','finance_approved_revision','INTEGER DEFAULT -1'],
+  ['approvals','ceo_approved_revision','INTEGER DEFAULT -1'],
+  ['approvals','direct_authorization','INTEGER DEFAULT 0'],
+  ['approvals','direct_authorization_note',"TEXT DEFAULT ''"]
+]) v27EnsureColumn(table,column,definition);
+try{db.exec(`
+CREATE TABLE IF NOT EXISTS excavator_buyer_refunds(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  buyer_id INTEGER NOT NULL,
+  original_amount REAL NOT NULL,
+  currency TEXT NOT NULL DEFAULT 'KRW',
+  fx_rate REAL NOT NULL DEFAULT 1,
+  krw_amount REAL NOT NULL,
+  refund_date TEXT NOT NULL,
+  method TEXT NOT NULL DEFAULT 'Bank',
+  reference TEXT NOT NULL,
+  receipt_file TEXT NOT NULL,
+  receipt_document_id INTEGER,
+  reason TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'Completed',
+  created_by INTEGER,
+  approved_by INTEGER,
+  approval_id INTEGER,
+  void_reason TEXT DEFAULT '',
+  voided_by INTEGER,
+  voided_at TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(buyer_id) REFERENCES excavator_buyers(id),
+  FOREIGN KEY(created_by) REFERENCES users(id),
+  FOREIGN KEY(approved_by) REFERENCES users(id),
+  FOREIGN KEY(approval_id) REFERENCES approvals(id)
+);
+CREATE INDEX IF NOT EXISTS idx_buyer_refunds_buyer_status ON excavator_buyer_refunds(buyer_id,status,refund_date,id);
+CREATE INDEX IF NOT EXISTS idx_buyer_refunds_approval ON excavator_buyer_refunds(approval_id,status);
+CREATE INDEX IF NOT EXISTS idx_approvals_execution_status ON approvals(status,action_key,executed_at);
+`)}catch(e){console.error('V28.3 approval/refund schema:',e.message)}
+try{
+  db.exec(`UPDATE approvals SET finance_approved_revision=COALESCE(revision_count,0)
+    WHERE COALESCE(finance_approved_revision,-1)<0
+      AND EXISTS(SELECT 1 FROM approval_history h WHERE h.approval_id=approvals.id AND h.action='Finance Approved')`);
+}catch(e){console.error('V28.3 approval revision backfill:',e.message)}
+
+// Development/test accounts are opt-in and additive. Re-running a build never
+// deletes or resets them. The password must be supplied through the environment.
+try{
+  const developmentPassword=String(process.env.DEMO_USER_PASSWORD||'');
+  if(process.env.SEED_DEMO_USERS==='true'&&developmentPassword.length>=12){
+    const demoUsers=[
+      ['Ahmed Khan','Business Unit Manager','MIMI Resturant','ahmed.khan@blueocean.local'],
+      ['Bilal Ahmed','Finance / Admin','Excavator','bilal.ahmed@blueocean.local'],
+      ['Farhan Malik','Finance / Admin','Excavator','farhan.malik@blueocean.local'],
+      ['Hassan Raza · Excavator','Sales / Business Development','Excavator','hassan.excavator@blueocean.local'],
+      ['Usman Ali','Business Unit Manager','Pink Salt','usman.ali@blueocean.local'],
+      ['Sara Ali','Staff Member','MIMI Resturant','sara.ali@blueocean.local']
+    ];
+    const insertDemo=db.prepare('INSERT OR IGNORE INTO users(name,email,password_hash,role,business_unit_id) VALUES(?,?,?,?,?)');
+    for(const [name,role,unit,email] of demoUsers)insertDemo.run(name,email,bcrypt.hashSync(developmentPassword,12),role,unitId(unit));
+  }
+}catch(e){console.error('V28.3 development user seed:',e.message)}
+
+// Optional, clearly-labelled sample records for the development/testing phase.
+// They are inserted only when missing and are never used to reset real data.
+try{
+  if(process.env.SEED_DEMO_DATA==='true'){
+    const businessUnitId=unitId('Excavator'),creator=db.prepare("SELECT id FROM users WHERE business_unit_id=? AND active=1 ORDER BY CASE role WHEN 'Sales / Business Development' THEN 0 WHEN 'Business Unit Manager' THEN 1 ELSE 2 END,id LIMIT 1").get(businessUnitId)?.id||db.prepare("SELECT id FROM users WHERE role='CEO / Owner' AND active=1 ORDER BY id LIMIT 1").get()?.id||null;
+    if(businessUnitId){
+      let supplier=db.prepare("SELECT id FROM excavator_suppliers WHERE business_unit_id=? AND name='DEMO · Seoul Heavy Equipment'").get(businessUnitId);if(!supplier){const r=db.prepare("INSERT INTO excavator_suppliers(business_unit_id,name,location,contact_person,phone,email,notes,created_by) VALUES(?,?,?,?,?,?,?,?)").run(businessUnitId,'DEMO · Seoul Heavy Equipment','Incheon','Demo Contact','010-0000-1001','demo.supplier@blueocean.local','DEVELOPMENT TEST DATA — safe to archive after testing.',creator);supplier={id:Number(r.lastInsertRowid)}}
+      if(!db.prepare("SELECT id FROM excavator_supplier_machines WHERE supplier_id=? AND serial_no='DEMO-DX225-001'").get(supplier.id))db.prepare("INSERT INTO excavator_supplier_machines(supplier_id,machine_name,machine_type,make,model,year,serial_no,condition_status,asking_price,location,status,notes,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)").run(supplier.id,'Crawler Excavator','Excavator','Doosan','DX225LC',2021,'DEMO-DX225-001','Used',95000000,'Incheon','Available','DEVELOPMENT TEST DATA',creator);
+      let buyer=db.prepare("SELECT id FROM excavator_buyers WHERE business_unit_id=? AND name='DEMO · Overseas Buyer'").get(businessUnitId);if(!buyer){const r=db.prepare("INSERT INTO excavator_buyers(business_unit_id,name,country,location,contact_person,phone,email,payment_terms,notes,buyer_type,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?)").run(businessUnitId,'DEMO · Overseas Buyer','Pakistan','Lahore','Demo Buyer','0300-0000000','demo.buyer@blueocean.local','Advance before allocation','DEVELOPMENT TEST DATA — safe to archive after testing.','International',creator);buyer={id:Number(r.lastInsertRowid)}}
+      if(!db.prepare("SELECT id FROM excavator_buyer_requirements WHERE buyer_id=? AND requirement='DEMO · Doosan DX225 requirement'").get(buyer.id))db.prepare("INSERT INTO excavator_buyer_requirements(buyer_id,requirement,machine_name,machine_type,make,model,min_year,max_year,condition_status,budget_min,budget_max,quantity,action_type,status,notes,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)").run(buyer.id,'DEMO · Doosan DX225 requirement','Crawler Excavator','Excavator','Doosan','DX225LC',2020,2023,'Used',85000000,105000000,1,'Buy','Active','DEVELOPMENT TEST DATA',creator);
+    }
+  }
+}catch(e){console.error('V28.3 development sample data seed:',e.message)}
