@@ -1,56 +1,30 @@
-# Blue Ocean Market V28.3.0 — Approval Execution & CEO Direct Control
+# Blue Ocean Market V30.16.0 — Users & Access Control Local Test
 
-V28.3.0 is a Git/Render-ready development release focused on automatic approval execution and practical CEO control. A CEO/Owner never waits in an approval queue: controlled actions require a strong confirmation with a note, then execute immediately and remain in approval/audit history. Delegated actions enforce independent reviewers, creator-only Finance correction, automatic source/Finance updates, and visible non-zero action badges. Buyer-payment deletion and buyer-advance refunds now have complete evidence, approval, correction, reversal, and history workflows.
+V30.16.0 continues from V30.15.0 without an intentional database reset. This release adds a system-wide hybrid access-control architecture: role templates provide sensible defaults, while effective permissions, business-unit scope, action rights, sensitive rights, delegated administration and limits control what each user can actually see and do.
 
-한국어가 시스템의 기본 및 주요 언어입니다. 영어도 전체 기능에서 선택할 수 있습니다. 사용자가 입력한 이름, 메모, 참조, 모델번호, 문서는 변경하지 않습니다.
+## Main changes
 
-Current release notes: `README_V28_3.md` and `CHANGELOG_V28_3.md`.
+- Added a global **Users & Access** control surface with Effective Access visibility.
+- CEO / Owner has global user-access administration across all business units.
+- Business Unit Managers can create/manage users only inside assigned business units and cannot grant access above their own effective authority.
+- Finance Head can create/manage Finance users and Finance-related access within authorized business-unit scope.
+- Added **Finance Head** and **Finance User** role templates while retaining the existing Finance / Admin role for compatibility.
+- Added multi-business-unit user assignment with a primary business unit and assigned-unit switching for non-CEO users who have more than one unit.
+- Added granular module/tab and action permissions: View, Create, Edit, Delete, Void, Approve, Export, Print, Verify, Correct and Allocate.
+- Added sensitive permissions for user management, approval rules, accounting adjustments, payroll, audit logs and system administration.
+- Added delegated-administration permissions and configurable financial/sales limits.
+- Added **Apply Role Template** and CEO-only **Copy Access From Another User** workflows.
+- Added access-change audit history and immediate access revocation through live user/access resolution on every authenticated request.
+- Frontend sidebar/tab visibility and backend route authorization now use the same effective-access model. Pink Salt navigation no longer bypasses permission visibility.
+- Added UI action disabling for obvious restricted create/edit/delete/void/approve/verify/allocate/export/print controls; server authorization remains authoritative.
+- Retained V30.15 Pink Salt supplier accounts, V30.14 Review & Confirm/processing safeguards, V30.13 receivables/pricing, V30.12 quantity integrity and V30.11 context integrity.
 
-Run the complete release gate before deployment:
+## Local test
 
-```bash
-npm run qa:current
-npm run qa:v283:runtime
-```
+1. Keep the existing `data/` and `uploads/` folders from your current working build if you want to continue with the same records.
+2. Copy them into this V30.16 project folder before starting, if they are not already present.
+3. Run `npm install` or `npm ci` when dependencies are not installed.
+4. Run `npm run qa:current`.
+5. Start with `npm start` or `START_LOCAL_MAC.command` on macOS.
 
-# Historical V10 baseline
-
-V10 is a rebuilt production-candidate baseline based on the original Blue Ocean Management Software Blueprint plus the compulsory requirements added during development.
-
-## Core architecture
-- Node.js / Express API
-- SQLite + better-sqlite3 for local testing
-- JWT authentication + role permissions
-- Server-side business-unit isolation
-- CEO consolidated view + business-unit workspace switcher
-- Responsive browser UI with vertically scrolling desktop sidebar
-- Uploads for receipts/documents
-- REST API structured for future mobile clients
-
-## MIMI Resturant
-- Dedicated business dashboard
-- Menu management
-- Menu pricing: fixed or variable
-- Menu availability
-- Menu item stock update
-- Ingredient/recipe management
-- Weekly menu
-- Buffet management
-- Dine-in table status
-- Only available tables selectable for new dine-in orders
-- Open orders: save, reopen, add/remove items, quantity/price editing, cancel, close/pay
-- Receipt printing/reprinting
-- Inventory/waste/daily closing
-- Optional advanced POS feature switches
-
-## Local run
-1. Install Node.js 22.x (the same major version pinned for Render).
-2. `cd` into the folder containing `package.json`.
-3. `npm install`
-4. `npm start`
-5. Open `http://localhost:3000`
-
-Before the first startup, set `JWT_SECRET`, `ADMIN_EMAIL` and a strong `ADMIN_PASSWORD` in the process environment. The application does not publish or prefill administrator credentials.
-
-## Important
-SQLite is used here to make local testing simple. For internet production deployment, migrate the database to PostgreSQL and configure HTTPS, secure secrets, email delivery, file/object storage, backups and monitoring.
+The application performs additive schema migrations on startup. Keep your prior working ZIP until V30.16 has been validated against your real local test data.

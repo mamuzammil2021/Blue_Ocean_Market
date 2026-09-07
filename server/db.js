@@ -64,11 +64,11 @@ if(!admin){
 const unitId=n=>db.prepare('SELECT id FROM business_units WHERE name=?').get(n)?.id;
 const mimi=unitId('MIMI Resturant');
 const seedProduct=db.prepare('INSERT OR IGNORE INTO products(business_unit_id,sku,name,category,supplier,item_type,unit,opening_stock,current_stock,reorder_level,cost_price,selling_price,tax_rate) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)');
-if(mimi){seedProduct.run(mimi,'MIMI-001','Chicken Biryani','Main Course','MIMI Kitchen','PRODUCT','plate',0,0,5,280,450,0);seedProduct.run(mimi,'MIMI-002','Chicken Burger','Fast Food','MIMI Kitchen','PRODUCT','pcs',0,0,5,220,380,0);seedProduct.run(mimi,'MIMI-003','Tea','Beverage','MIMI Kitchen','PRODUCT','cup',0,0,10,45,100,0);seedProduct.run(mimi,'MIMI-004','Delivery Service','Service','MIMI','SERVICE','service',0,0,0,0,250,0);for(let i=1;i<=12;i++)db.prepare('INSERT OR IGNORE INTO restaurant_tables(business_unit_id,name,capacity) VALUES(?,?,?)').run(mimi,`Table ${i}`,i<=4?2:i<=10?4:6);}
+if(mimi&&process.env.SEED_DEMO_DATA==='true'){seedProduct.run(mimi,'MIMI-001','Chicken Biryani','Main Course','MIMI Kitchen','PRODUCT','plate',0,0,5,280,450,0);seedProduct.run(mimi,'MIMI-002','Chicken Burger','Fast Food','MIMI Kitchen','PRODUCT','pcs',0,0,5,220,380,0);seedProduct.run(mimi,'MIMI-003','Tea','Beverage','MIMI Kitchen','PRODUCT','cup',0,0,10,45,100,0);seedProduct.run(mimi,'MIMI-004','Delivery Service','Service','MIMI','SERVICE','service',0,0,0,0,250,0);for(let i=1;i<=12;i++)db.prepare('INSERT OR IGNORE INTO restaurant_tables(business_unit_id,name,capacity) VALUES(?,?,?)').run(mimi,`Table ${i}`,i<=4?2:i<=10?4:6);}
 const demoPassword=String(process.env.DEMO_USER_PASSWORD||'');
 if(process.env.SEED_DEMO_USERS==='true'&&demoPassword.length>=12&&db.prepare('SELECT COUNT(*) c FROM users').get().c===1){const defs=[['Ahmed Khan','Business Unit Manager','MIMI Resturant'],['Bilal Ahmed','Finance / Admin','Excavator'],['Hassan Raza','Sales / Business Development','Mango / Seasonal'],['Usman Ali','Business Unit Manager','Pink Salt'],['Sara Ali','Staff Member','MIMI Resturant']];const st=db.prepare('INSERT INTO users(name,email,password_hash,role,business_unit_id) VALUES(?,?,?,?,?)');defs.forEach(([n,r,b])=>st.run(n,n.toLowerCase().replace(/\s+/g,'.')+'@blueocean.local',bcrypt.hashSync(demoPassword,12),r,unitId(b)));}
 
-if(mimi){
+if(mimi&&process.env.SEED_DEMO_DATA==='true'){
   const mp=db.prepare('INSERT OR IGNORE INTO restaurant_menu_items(business_unit_id,product_id,name,category,price,active,available,description) VALUES(?,?,?,?,?,?,?,?)');
   db.prepare('SELECT id,name,selling_price,category FROM products WHERE business_unit_id=? AND active=1').all(mimi).forEach(x=>mp.run(mimi,x.id,x.name,x.category,x.selling_price,1,1,''));
 }
@@ -865,3 +865,108 @@ try{
     }
   }
 }catch(e){console.error('V28.3 development sample data seed:',e.message)}
+
+
+// V28.6 — machine-sale payment-source linkage and payment-status synchronization.
+// Additive only: these columns/indexes never reset or delete existing development data.
+for(const [table,column,definition] of [
+  ['excavator_payments','source_type',"TEXT DEFAULT ''"],
+  ['excavator_payments','source_id','INTEGER'],
+  ['excavator_payments','buyer_id','INTEGER'],
+  ['excavator_payments','payment_source',"TEXT DEFAULT ''"],
+  ['excavator_buyer_payments','source_type',"TEXT DEFAULT ''"],
+  ['excavator_buyer_payments','source_id','INTEGER']
+]) v27EnsureColumn(table,column,definition);
+try{db.exec(`
+CREATE INDEX IF NOT EXISTS idx_excavator_payments_source ON excavator_payments(asset_id,payment_type,source_type,source_id);
+CREATE INDEX IF NOT EXISTS idx_buyer_payments_source ON excavator_buyer_payments(buyer_id,source_type,source_id);
+CREATE UNIQUE INDEX IF NOT EXISTS uq_excavator_sale_payment_source
+  ON excavator_payments(asset_id,source_type,source_id)
+  WHERE source_type='Excavator Sale' AND source_id IS NOT NULL AND status!='Voided';
+CREATE UNIQUE INDEX IF NOT EXISTS uq_buyer_sale_payment_source
+  ON excavator_buyer_payments(source_type,source_id)
+  WHERE source_type='Excavator Sale' AND source_id IS NOT NULL AND COALESCE(status,'Active')!='Voided';
+`)}catch(e){console.error('V28.6 sale payment linkage schema:',e.message)}
+
+// Backfill only the missing machine-side Sale payment representation for already-completed
+// deals whose buyer advance allocations already prove that the sale is fully paid.
+// No Finance entry and no new buyer cash receipt are created by this backfill.
+try{
+  const completedSales=db.prepare(`
+    SELECT a.id asset_id,a.buyer_id,t.id sale_id,t.amount,t.transaction_date,t.created_by
+    FROM excavator_assets a
+    JOIN excavator_transactions t ON t.id=(
+      SELECT t2.id FROM excavator_transactions t2
+      WHERE t2.asset_id=a.id AND t2.type IN ('Local Sale','Export Sale') AND t2.status!='Cancelled'
+      ORDER BY t2.id DESC LIMIT 1
+    )
+    WHERE a.lifecycle_stage='Sold / Completed'
+  `).all();
+  const allocationTotal=db.prepare(`
+    SELECT COALESCE(SUM(al.amount_krw),0) v
+    FROM excavator_buyer_payment_allocations al
+    JOIN excavator_buyer_payments p ON p.id=al.payment_id
+    WHERE al.asset_id=? AND COALESCE(al.status,'Active')='Active'
+      AND COALESCE(p.status,'Active')!='Voided'
+  `);
+  const otherSalePaid=db.prepare(`
+    SELECT COALESCE(SUM(amount),0) v FROM excavator_payments
+    WHERE asset_id=? AND payment_type='Sale' AND status='Paid'
+      AND NOT (source_type='Excavator Sale' AND source_id=?)
+  `);
+  const linkedSalePayment=db.prepare(`
+    SELECT * FROM excavator_payments
+    WHERE asset_id=? AND source_type='Excavator Sale' AND source_id=?
+    ORDER BY id DESC LIMIT 1
+  `);
+  const updateSalePayment=db.prepare(`
+    UPDATE excavator_payments
+    SET payment_type='Sale',amount=?,paid_date=?,status='Paid',method='Buyer Advance',
+        reference=CASE WHEN COALESCE(reference,'')='' THEN 'Buyer advance allocation' ELSE reference END,
+        notes=CASE WHEN COALESCE(notes,'')='' THEN 'V28.6 synchronized from buyer advance allocation; original evidence remains on buyer advance payment(s).' ELSE notes END,
+        buyer_id=?,payment_source='buyer_advance'
+    WHERE id=?
+  `);
+  const insertSalePayment=db.prepare(`
+    INSERT INTO excavator_payments(
+      asset_id,payment_type,amount,due_date,paid_date,status,method,reference,notes,created_by,
+      source_type,source_id,buyer_id,payment_source
+    ) VALUES(?,'Sale',?,NULL,?,'Paid','Buyer Advance','Buyer advance allocation',
+      'V28.6 synchronized from buyer advance allocation; original evidence remains on buyer advance payment(s).',
+      ?,'Excavator Sale',?,?, 'buyer_advance')
+  `);
+  for(const row of completedSales){
+    const saleAmount=Number(row.amount||0); if(!(saleAmount>0))continue;
+    const allocated=Number(allocationTotal.get(row.asset_id)?.v||0); if(allocated+0.005<saleAmount)continue;
+    const linked=linkedSalePayment.get(row.asset_id,row.sale_id);
+    const otherPaid=Number(otherSalePaid.get(row.asset_id,row.sale_id)?.v||0);
+    const mirrorAmount=Math.max(0,saleAmount-otherPaid);
+    if(mirrorAmount<=0)continue;
+    if(linked)updateSalePayment.run(mirrorAmount,row.transaction_date||null,row.buyer_id||null,linked.id);
+    else insertSalePayment.run(row.asset_id,mirrorAmount,row.transaction_date||null,row.created_by||null,row.sale_id,row.buyer_id||null);
+  }
+}catch(e){console.error('V28.6 completed-sale payment backfill:',e.message)}
+
+// V28.5 LOCAL TEST LOGIN BOOTSTRAP
+// Enabled only when LOCAL_TEST_MODE=true. It never deletes or resets operational/test data.
+// It keeps one predictable CEO login for localhost builds so testers are not locked out
+// when carrying an existing development SQLite database forward from an earlier build.
+try{
+  if(process.env.LOCAL_TEST_MODE==='true'){
+    const localEmail=String(process.env.LOCAL_TEST_ADMIN_EMAIL||process.env.ADMIN_EMAIL||'admin@blueocean.local').trim().toLowerCase();
+    const localPassword=String(process.env.LOCAL_TEST_ADMIN_PASSWORD||process.env.ADMIN_PASSWORD||'');
+    if(localEmail&&localPassword.length>=12){
+      const ceo=db.prepare("SELECT id,email FROM users WHERE role='CEO / Owner' ORDER BY id LIMIT 1").get();
+      if(ceo){
+        const emailOwner=db.prepare('SELECT id FROM users WHERE lower(email)=lower(?) AND id<>? LIMIT 1').get(localEmail,ceo.id);
+        if(!emailOwner){
+          db.prepare("UPDATE users SET email=?,password_hash=?,active=1 WHERE id=?").run(localEmail,bcrypt.hashSync(localPassword,12),ceo.id);
+        }else{
+          db.prepare("UPDATE users SET password_hash=?,active=1 WHERE id=?").run(bcrypt.hashSync(localPassword,12),ceo.id);
+          console.warn(`V28.5 local test: ${localEmail} belongs to another user; CEO password was refreshed but email was kept as ${ceo.email}.`);
+        }
+      }
+      console.log(`V28.5 local test CEO login: ${localEmail} / ${localPassword}`);
+    }
+  }
+}catch(e){console.error('V28.5 local test CEO bootstrap:',e.message)}
