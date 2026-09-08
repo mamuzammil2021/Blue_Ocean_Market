@@ -9,16 +9,16 @@
     'Accounts & Finance':'회계 및 재무','Simple View':'간단 보기','Advanced Accounting':'고급 회계','Open Advanced Accounting':'고급 회계 열기','Back to Simple View':'간단 보기로 돌아가기',
     'Financial Summary':'재무 요약','Business Reports':'사업 보고서','Cash & Banks':'현금 및 은행','Financial Health':'재무 상태','Everything looks balanced':'회계 상태가 정상입니다','Needs Attention':'확인 필요',
     'Sales / Revenue':'매출 / 수익','Business Expenses':'사업 비용','Net Profit':'순이익','Buyer Money Held in Advance':'보유 구매자 선급금','Amount Owed to Suppliers':'공급업체 미지급금',
-    'What We Own':'보유 자산','What We Owe':'부채','Company Value / Equity':'회사 자본','Accounting is working in the background':'회계는 백그라운드에서 자동 처리됩니다',
-    'Staff enter business transactions once. Blue Ocean posts the accounting automatically.':'직원은 업무 거래를 한 번만 입력하면 Blue Ocean이 회계를 자동으로 반영합니다.',
+    'What We Own':'보유 자산','What We Owe':'부채','Company Value / Equity':'회사 자본','Accounting proposals are prepared automatically':'회계 제안은 자동으로 준비됩니다',
+    'They become part of the official ledger only after Posting Control review.':'전기 통제 검토 후에만 공식 원장에 반영됩니다.',
     'Use Finance for daily payments, expenses, evidence and corrections. Use Accounts for company reports and financial control.':'일상 결제, 비용, 증빙 및 수정은 재무에서 처리하고 회사 보고서와 재무 통제는 회계에서 확인합니다.',
     'Profit & Loss Report':'손익 보고서','Balance Sheet Report':'재무상태 보고서','Accounting Check':'회계 점검','Choose Report':'보고서 선택','This Month':'이번 달','This Year':'올해','All Time':'전체 기간',
     'No accounting problems found.':'회계 문제가 발견되지 않았습니다.','Accounting needs review before period closing.':'기간 마감 전에 회계 검토가 필요합니다.',
     'Daily Finance':'일상 재무','Accounts & Reports':'회계 및 보고서','More Filters':'추가 필터','Hide Extra Filters':'추가 필터 숨기기','Quick Guide':'빠른 안내',
     'Transactions & Evidence':'거래 및 증빙','Corrections':'수정 요청','Verified Records':'검증 완료 기록','Money Owed to Us':'받을 금액','Money We Owe':'지급할 금액',
-    'Advanced tools are intended for CEO / Owner and Finance / Admin.':'고급 도구는 CEO / Owner 및 Finance / Admin용입니다.',
+    'Advanced tools are intended for CEO / Owner and authorized Accounting users.':'고급 도구는 CEO / Owner 및 Finance / Admin용입니다.',
     'General Ledger, Chart of Accounts, reconciliation, periods, budgets and transfers.':'총계정원장, 계정과목표, 은행 조정, 회계 기간, 예산 및 사업부 간 이체입니다.',
-    'Open Finance':'재무 열기','Refresh Summary':'요약 새로고침','Accounting Problems':'회계 문제','Waiting to Sync':'동기화 대기','Bank Items to Match':'은행 대조 대기',
+    'Open Finance':'재무 열기','Refresh Summary':'요약 새로고침','Accounting Problems':'회계 문제','Waiting to Sync':'동기화 대기','Pending Posting':'전기 검토 대기','Bank Items to Match':'은행 대조 대기',
     'Daily work':'일상 업무','Management':'경영 관리','Advanced':'고급','Use this page mainly for company results and financial health.':'이 페이지는 주로 회사 실적과 재무 상태 확인에 사용합니다.'
   })}catch(_){ }
 
@@ -47,7 +47,7 @@
     @media(max-width:620px){.v291-guide{align-items:flex-start;flex-direction:column}.v291-kpis,.v291-health-list,.v291-cash-grid{grid-template-columns:1fr}.v291-simple-tabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:3px}.v291-simple-tabs .btn{flex:0 0 auto}.finance-v291 .finance-filterbar{grid-template-columns:1fr}.finance-v291 .titlebar{gap:10px}.finance-v291 .titlebar>div:last-child,.finance-v291 .v285-page-actions{width:100%;justify-content:flex-start}.finance-v291 .finance-head{flex-direction:column}.finance-v291 .finance-head>button{align-self:flex-start}}
   `;document.head.appendChild(style);
 
-  const canAdvanced=()=>!!me&&['CEO / Owner','Finance / Admin'].includes(me.role);
+  const canAdvanced=()=>!!me&&(me.role==='CEO / Owner'||hasPermission?.('sensitive.accounting_adjustments')===true);
   let simpleAccountingTab='summary';
   let simpleReport='pnl';
   const _loadViewV290=loadView;
@@ -60,7 +60,7 @@
   async function accountingSimpleV291(c){
     const action=`<div class="v291-title-actions"><button class="btn" onclick="go('finance')">${esc(t('Open Finance'))}</button>${canAdvanced()?`<button class="btn primary" onclick="accountingAdvancedV291()">${esc(t('Open Advanced Accounting'))}</button>`:''}</div>`;
     c.innerHTML=title('Accounts & Finance','Use this page mainly for company results and financial health.',action)+
-      `<div class="v291-guide"><div><b>${esc(t('Accounting is working in the background'))}</b><div class="muted">${esc(t('Staff enter business transactions once. Blue Ocean posts the accounting automatically.'))}</div></div><div>${badge291('Simple View','good')}</div></div>`+
+      `<div class="v291-guide"><div><b>${esc(t('Accounting proposals are prepared automatically'))}</b><div class="muted">${esc(t('They become part of the official ledger only after Posting Control review.'))}</div></div><div>${badge291('Simple View','good')}</div></div>`+
       simpleTabs291()+`<div id="accountingSimpleBodyV291"><div class="card">Loading…</div></div>`;
     await loadAccountingSimpleTabV291();
   }
@@ -70,7 +70,7 @@
 
   async function summarySimpleV291(b){
     const [d,i,e]=await Promise.all([api('/api/accounting/overview'),api('/api/accounting/integrity'),api('/api/accounting/exceptions')]);
-    const issueCount=Number(i.open_exceptions||0)+Number(i.sync_queue||0)+Number(i.unbalanced_journals||0)+Number(i.finance_not_posted||0);
+    const issueCount=Number(i.open_exceptions||0)+Number(i.sync_queue||0)+Number(i.unbalanced_journals||0)+Number(i.pending_posting_review||0);
     b.innerHTML=`<div class="v291-kpis">
       <div class="v291-kpi"><div class="label">${esc(t('Sales / Revenue'))}</div><div class="value">${krw291(d.revenue)}</div></div>
       <div class="v291-kpi"><div class="label">${esc(t('Business Expenses'))}</div><div class="value">${krw291(d.expense)}</div></div>
@@ -85,9 +85,9 @@
     </div>
     <div class="v291-health">
       <div class="card ${issueCount?'v290-integrity-bad':'v290-integrity-good'}"><div class="section-title"><div><h3>${esc(t('Financial Health'))}</h3><div class="muted">${esc(t(issueCount?'Accounting needs review before period closing.':'No accounting problems found.'))}</div></div>${canAdvanced()?`<button class="btn small" onclick="accountingAdvancedV291()">${esc(t('Advanced'))}</button>`:''}</div>
-        <div class="v291-health-list"><div class="v291-health-item"><small>${esc(t('Accounting Problems'))}</small><b>${Number(i.open_exceptions||0)+Number(i.unbalanced_journals||0)}</b></div><div class="v291-health-item"><small>${esc(t('Waiting to Sync'))}</small><b>${Number(i.sync_queue||0)+Number(i.finance_not_posted||0)}</b></div><div class="v291-health-item"><small>${esc(t('Bank Items to Match'))}</small><b>${Number(d.unreconciled||0)}</b></div></div>
+        <div class="v291-health-list"><div class="v291-health-item"><small>${esc(t('Accounting Problems'))}</small><b>${Number(i.open_exceptions||0)+Number(i.unbalanced_journals||0)}</b></div><div class="v291-health-item"><small>${esc(t('Pending Posting'))}</small><b>${Number(i.pending_posting_review||0)}</b></div><div class="v291-health-item"><small>${esc(t('Bank Items to Match'))}</small><b>${Number(d.unreconciled||0)}</b></div></div>
       </div>
-      <div class="card"><h3>${esc(t('Quick Guide'))}</h3><div class="order-row"><span><b>${esc(t('Daily work'))}</b><small>${esc(t('Transactions & Evidence'))}</small></span><button class="btn small" onclick="go('finance')">${esc(t('Open Finance'))}</button></div><div class="order-row"><span><b>${esc(t('Management'))}</b><small>${esc(t('Business Reports'))}</small></span><button class="btn small" onclick="accountingSimpleTabV291('reports')">${esc(t('Open'))}</button></div>${canAdvanced()?`<div class="order-row"><span><b>${esc(t('Advanced'))}</b><small>${esc(t('Advanced tools are intended for CEO / Owner and Finance / Admin.'))}</small></span><button class="btn small" onclick="accountingAdvancedV291()">${esc(t('Open'))}</button></div>`:''}</div>
+      <div class="card"><h3>${esc(t('Quick Guide'))}</h3><div class="order-row"><span><b>${esc(t('Daily work'))}</b><small>${esc(t('Transactions & Evidence'))}</small></span><button class="btn small" onclick="go('finance')">${esc(t('Open Finance'))}</button></div><div class="order-row"><span><b>${esc(t('Management'))}</b><small>${esc(t('Business Reports'))}</small></span><button class="btn small" onclick="accountingSimpleTabV291('reports')">${esc(t('Open'))}</button></div>${canAdvanced()?`<div class="order-row"><span><b>${esc(t('Advanced'))}</b><small>${esc(t('Advanced tools are intended for CEO / Owner and authorized Accounting users.'))}</small></span><button class="btn small" onclick="accountingAdvancedV291()">${esc(t('Open'))}</button></div>`:''}</div>
     </div>
     ${e.length?`<div class="card" style="margin-top:14px"><div class="section-title"><h3>${esc(t('Needs Attention'))}</h3>${badge291(String(e.length),'warn')}</div>${e.slice(0,6).map(x=>`<div class="order-row"><span><b>${esc(x.code||'Accounting')}</b><small class="v290-source">${esc(x.message||'')}</small></span>${badge291(x.severity||'Warning',x.severity==='Critical'?'bad':'warn')}</div>`).join('')}</div>`:''}`;
     try{translateElement(b)}catch(_){ }

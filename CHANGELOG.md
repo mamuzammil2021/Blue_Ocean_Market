@@ -1,5 +1,45 @@
 # Changelog
 
+
+## V30.18.0 — Finance & Accounting Posting Control
+
+- Kept **Finance** and **Accounting** as separate permission-controlled sidebar/workspace modules with distinct responsibilities.
+- Implemented the controlled flow **Operational Transaction → Finance Review → Posting Control → Official Accounting Ledger**.
+- Changed normal operational/accounting synchronization so prepared journals default to **Pending Review** and do not affect official GL/Trial Balance/P&L/Balance Sheet until final-posted.
+- Added permission- and BU-scoped Posting Control queue, summary, detail, evidence, history, Pending Review/Correction Required handling and final posting.
+- Final posting requires Accounting Approve authority for every affected BU, balanced journal validation, open period, Finance readiness and a mandatory review note.
+- Added source/Finance evidence aggregation for Posting Control and safe internal evidence-link validation.
+- Added controlled correction workflow and audit history instead of silent edits/deletes of posted records.
+- Changed reversal behavior so an official Posted journal creates a Pending Review reversal proposal; the original remains Posted until the reversal is final-posted.
+- Reversal final-post marks the original Reversed and releases stale bank-reconciliation matches where applicable.
+- Blocked corrected Finance proposals while an earlier official Accounting reversal is unresolved.
+- Strengthened period close so unresolved Posting Control proposals block close.
+- Added V2 **Period Close Readiness** with automated blockers for Finance verification/corrections, sync queue, accounting exceptions, bank reconciliation, balanced official journals, suspense/clearing and Inter-BU balance integrity.
+- Added a persistent period reconciliation checklist with reviewer/date/notes/evidence and BU-specific Excavator/Pink Salt subledger sign-offs before close.
+- Consolidated/company close now requires active BU periods to be closed first; reopen requires a reason and resets reconciliation sign-offs for fresh review.
+- Fixed ledger-effective reporting so both the original Reversed journal and its Posted reversal are included and net correctly, including the simple Accounting summary.
+- Fixed source-reversal cleanup so unposted operational accounting proposals are cancelled instead of being left orphaned in Posting Control.
+- Restricted official financial reports to ledger-effective Posted/Reversed journals; pending/correction proposals remain outside official statements.
+- Hardened manual journals: sensitive Accounting-adjustment permission, active manual-postable accounts, positive one-sided lines, balanced totals, required reason and supporting evidence.
+- Fixed manual-journal frontend/backend multipart evidence handling; added controlled edit/resubmit and cancel-with-reason for unposted manual proposals.
+- Added active-proposal safeguards in Pink Salt operational, import-commitment and customer-allocation accounting paths to reduce duplicate pending proposals.
+- Updated action counters so authorized Posting Control viewers receive pending badges even when they are not final-post approvers.
+- Preserved V30.17 Users & Access behavior, including the Access button confirmed working on localhost, plus V30.11–V30.16 business, finance, stock, Review & Confirm and access safeguards.
+
+## V30.17.0 — Users & Access Hardening + Render Build Fix
+
+- Fixed the People & Access **Access** button and exported all V30.17 inline access handlers safely.
+- Completed a system-wide Users & Access action review covering effective access, assignments, primary BU, permission matrix, sensitive/delegated rights, limits, templates, copy-access, user profile actions and audit history.
+- Added explicit access-scope selection for multi-BU users and blocked edits outside the target user’s assigned units.
+- Enforced self-access as read-only and strengthened delegated-admin authority ceilings, Finance-only boundaries and limit ceilings.
+- Added payroll to granular modules and wired payroll, accounting-adjustment, approval-rule and audit-log sensitive permissions to backend authorization.
+- Added legacy route/module aliases and missing centralized API mappings so effective permissions apply consistently across CRM, KPI, Payroll, statements/P&L and reporting routes.
+- Added before/after access history snapshots for sensitive access changes.
+- Reasserted effective-permission frontend visibility after legacy role-based code and added restricted-action UI enforcement.
+- Added Review & Confirm to Users & Access mutations.
+- Fixed Render `better-sqlite3` Docker builds by installing Python, make and g++; production startup can use Render environment variables without a physical `.env`.
+- Retained all V30.16 and earlier business/finance/stock/approval safeguards.
+
 ## V30.16.0 — Hybrid Users & Access Control
 
 - Added a system-wide Users & Access architecture using role templates plus granular effective permissions.
@@ -58,7 +98,6 @@
 - Integrated new Pink Salt receipts/settlement fees with Finance and double-entry Accounting.
 - Retained V30.12 quantity integrity, V30.11 context integrity, import controls, production workflows and existing audit safeguards.
 
-# Changelog
 
 ## V30.12.0 — Quantity Integrity
 

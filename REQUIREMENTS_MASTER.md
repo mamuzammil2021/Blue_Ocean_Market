@@ -208,3 +208,83 @@ Before packaging a new release:
 - All user/access changes must preserve who changed what, when, target user, business-unit scope and meaningful details in access/audit history.
 - The access-control UI must clearly separate profile/role, business-unit assignments, effective access, granular action permissions, sensitive permissions, delegated administration, limits and history without overwhelming ordinary users.
 - All V30.16 access-control UI labels, messages, confirmations, errors and guidance must support English and Korean through i18n.
+
+## V30.17 mandatory Users & Access hardening requirements
+
+- **Every People & Access button/action must be functional and regression-tested.** This includes Access, Add User, Edit, Activate/Deactivate, Delete Profile where authorized, Effective Access tabs, business-unit assignment, primary business unit, Apply Role Template, CEO Copy Access, granular permission save, sensitive/delegated permission save, limit save, access-scope switching and history viewing.
+- The **Access** button must always open the selected user’s access profile. Client extensions loaded under strict mode must explicitly export handlers used by inline UI actions; a silent script-evaluation failure is a release blocker.
+- A user may review their own Effective Access, but **no user may change their own role, assignments, granular permissions, sensitive/delegated rights or limits** through Users & Access. CEO/Owner is not exempt from the self-elevation protection; CEO self-profile is read-only in this workspace.
+- Multi-business-unit users require an explicit **Access Scope** when reviewing or changing unit-scoped permissions/limits. Delegated administrators may not create global overrides; their changes must be tied to a target user’s assigned BU and also be inside the administrator’s own BU scope.
+- Primary business unit must be one of the assigned active business units. Invalid/archived unit IDs and inconsistent primary assignments must be rejected server-side instead of silently changing scope.
+- Delegated access modification requires explicit `delegate.access`. A delegated administrator cannot grant a role template, Allow override, delegated/sensitive permission or numerical limit above their own effective authority.
+- Finance-only delegated administration may manage only Finance Head / Finance User accounts, Finance-related permission keys and Finance amount limits. Possessing `delegate.finance_users` must not accidentally restrict a manager who also has broader `delegate.users`/`delegate.bu_users` authority.
+- Complete **Copy Access From Another User** remains CEO/Owner-only. Copying BU assignments must remain an explicit option.
+- Access changes must create meaningful audit/history records with before → after state for role/template, assignments, overrides and limits where applicable.
+- The module catalog and route authorization map must cover active shared modules including Payroll and legacy route aliases such as Staff→Users, CRM/Customers→Sales, KPI→Performance and POS→Sales. Frontend legacy role-based `allowed()` logic must never override effective-permission navigation.
+- Sensitive permissions must be operational controls, not display-only metadata: Payroll requires `sensitive.payroll`; manual Accounting changes require `sensitive.accounting_adjustments`; approval-rule mutations require `sensitive.approval_rules`; Audit access requires `sensitive.audit_logs`, in addition to applicable module/action rights.
+- V30.14 Review & Confirm and processing protection applies to Users & Access mutations. Successful changes refresh effective access immediately; failures must preserve the form/state and show actionable errors.
+- English/Korean localization remains mandatory for new access-control labels, read-only/scope guidance, confirmation text and errors.
+- Render/Docker deployment must support native `better-sqlite3` installation on Node 22 slim images by providing the required node-gyp build toolchain. Production startup must work from platform environment variables without requiring a committed `.env` file.
+
+## V30.18 mandatory Finance & Accounting Posting Control requirements
+
+### Finance and Accounting must remain separate
+- The left sidebar/workspace architecture must keep **Finance** and **Accounting** as separate permission-controlled modules. They must not become duplicate data-entry screens.
+- **Finance** is the operational financial-control workspace: payments, receipts, advances, expenses, evidence, verification, correction requests, pending financial work and Posting Control.
+- **Accounting** is the official books workspace: Chart of Accounts, official journals, General Ledger, Trial Balance, Profit & Loss, Balance Sheet, reconciliation, period close and specially authorized accounting adjustments.
+- Ordinary operational users must not be required to know or enter Debit/Credit for normal business transactions. Accounting entries are prepared by the system from persisted operational source data and mappings.
+
+### Mandatory posting flow
+- The required architecture is **Operational Transaction → Finance Review → Posting Control → Official Ledger**.
+- A generated journal is an accounting **proposal** until final posting. Its normal initial status is **Pending Review**; a proposal returned for correction uses **Correction Required**.
+- Pending Review / Correction Required proposals must not affect official General Ledger, Trial Balance, P&L, Balance Sheet or other official financial-statement totals.
+- Posting Control must show enough context to review the source: business unit, date, source/reference, description, debit/credit lines, linked Finance record, verification/dependency state, relevant evidence and posting history.
+- Queue/detail visibility must be enforced by effective Accounting/Finance permissions and business-unit scope on the backend as well as in the UI.
+- Final posting must require effective **Accounting · Approve** authority for every business unit affected by the proposal. CEO/Owner retains authorized bypass semantics but still uses Review & Confirm and audit.
+- Immediately before final posting the backend must revalidate: proposal status, balanced debit/credit, open period, Finance/source readiness, unresolved correction/reversal dependencies, reviewer authority and a mandatory final-post review note.
+- Successful final posting moves the proposal to **Posted** and only then makes it an official ledger event. Posting history/audit must record reviewer, time, note and status transition.
+
+### Finance verification, evidence and source integrity
+- A proposal linked to a Finance transaction must not final-post while the Finance record is unverified, void/inconsistent, under an open correction workflow or blocked by an unresolved prior Accounting reversal/dependency.
+- Posting Control must surface available source/Finance evidence to the reviewer. Evidence URLs exposed by Accounting must resolve only to valid internal upload paths; arbitrary external/path-traversal values must not be emitted as trusted evidence links.
+- Finance verification and Posting Control are separate controls: Finance verification confirms the operational financial record; Accounting final posting confirms the resulting accounting proposal.
+- Authorized users must receive actionable Posting Control pending counts/badges even if they can review/correct but do not possess final-post approval authority. Zero badges remain hidden under the system-wide badge rule.
+
+### Corrections, reversals and no destructive accounting history
+- Official Posted journals must never be silently overwritten or destructively deleted as a normal correction mechanism.
+- If a Posted source requires reversal, the system creates a **Pending Review Accounting Reversal proposal**. The original journal remains Posted until the reversal proposal itself is final-posted.
+- When the reversal is final-posted, the original journal becomes Reversed and the posted reversal provides the offsetting ledger effect. Related bank-reconciliation matches must be released when the original matched journal is no longer a valid live posting.
+- A corrected source transaction must not create/finalize a replacement official accounting effect while the prior official posting still has an unresolved reversal dependency.
+- An unposted proposal may be cancelled rather than financially reversed where cancellation is safe. Cancellation/correction reason and audit history are mandatory.
+- Source workflows must prevent duplicate active accounting proposals for the same logical source when an equivalent Pending Review, Correction Required or Posted proposal already exists, except where the business event is explicitly designed to create multiple separate journals (for example distinct partial payroll payments).
+
+### Manual journals / accounting adjustments
+- True manual journals are exceptional accounting adjustments and require applicable Accounting access plus `sensitive.accounting_adjustments` (CEO/Owner retains full authority).
+- Manual journal proposal must require: authorized business unit, open period, transaction date, reason/description, supporting evidence, at least two active manual-postable accounts, exactly one positive Debit or Credit per line, and equal total Debit/Credit.
+- A manual journal enters Posting Control as Pending Review and must not be official merely because the creator has permission to prepare it.
+- Before posting, an unposted manual proposal may be corrected/resubmitted only by an appropriately authorized responsible user (or CEO/Owner according to policy). Existing evidence/history must remain available and additional corrected evidence may be attached.
+- Cancellation of an unposted manual proposal requires authority and a mandatory reason and leaves an auditable Cancelled record.
+
+### Period close, reconciliation and reporting
+- Period close must be blocked while the period contains unresolved Pending Review/Correction Required accounting proposals, pending accounting synchronization, unverified Finance transactions, open Finance correction requests, open accounting exceptions, unreconciled imported bank-statement lines, unbalanced official journals, uncleared suspense balances or an Inter-BU Due From/Due To mismatch.
+- Accounting Periods must provide a **Period Close Readiness** view that displays automated control results and a persistent V2 reconciliation checklist before a close is attempted.
+- Required reconciliation areas retain status, notes, reviewer, completion date and optional supporting evidence. Valid controlled states are Open, Reconciled, Exception Approved and Not Applicable; Exception Approved / Not Applicable require a reason.
+- The checklist must include the core V2 areas (Bank, Cash, Payroll, Tax/WHT/Duties, Inter-BU Clearing, Suspense/Clearing, Corrections/Voids and Trial Balance) plus applicable Excavator and Pink Salt supplier/customer/inventory/WIP/GIT subledger areas.
+- Company/consolidated close is permitted only after active business-unit periods for the month have been closed; Inter-BU clearing must reconcile for consolidation.
+- Closing a period requires an Accounting-authorized review note. Closed periods block normal back-dated source/accounting changes.
+- Reopening is CEO/authorized controlled activity with a mandatory reason and audit; reopening resets the reconciliation checklist so the period requires fresh sign-off before it can be closed again.
+- Official accounting reports must reconcile from the same ledger-effective journal population. Pending/correction/cancelled proposals must not inflate balances or profit; a controlled reversal is represented by the original Reversed journal plus the Posted reversal so the net official effect is zero.
+- Bank, supplier, buyer/customer and inventory subledger reconciliation remains mandatory before close under Accounting Requirements V2.
+
+### Shared engine, subledgers and currency
+- Continue the Accounting Requirements V2 architecture: one shared double-entry engine with `business_unit_id` and operational dimensions; BU-level and consolidated reports come from the same accounting source.
+- Maintain control accounts plus operational subledgers rather than creating a separate COA account for every buyer/customer/supplier/machine/SKU/batch.
+- KRW remains the base ledger currency while Payment Currency, Payment Amount and FX Rate to KRW are preserved for applicable foreign-currency transactions and audit.
+- Perpetual inventory, Excavator machine/deal costing, Pink Salt raw/packaging/WIP/finished-goods costing, supplier/customer advances and payable/receivable treatment remain governed by Accounting Requirements V2 and the later Blue Ocean workflow decisions.
+
+### UX, access, audit and localization
+- Posting Control and Accounting controls must use the V30.14 Review & Confirm/processing/idempotency protections for consequential mutations.
+- Effective Users & Access permissions remain authoritative for Finance/Accounting visibility and actions. Frontend hiding is not a substitute for backend authorization.
+- Every posting/correction/reversal/manual-journal state change must preserve meaningful who/what/when/reason/status history.
+- All new Finance/Accounting labels, statuses, confirmations, errors, help text and generated output remain English/Korean ready with no hardcoded-English-only user experience in Korean mode.
+- V30.17 Users & Access behavior, including the locally verified Access button, is a regression requirement for every subsequent release.

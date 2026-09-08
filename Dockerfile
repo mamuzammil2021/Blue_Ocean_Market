@@ -7,15 +7,11 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY package*.json ./
-
 RUN npm ci --omit=dev
 
 COPY . .
-
 RUN mkdir -p data uploads
 
 ENV NODE_ENV=production
-
 EXPOSE 3000
-
-CMD ["node", "server/server.js"]
+CMD ["npm","start"]

@@ -529,10 +529,12 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads
   function flushAccounting(){try{accounting?.processQueue?.(1000)}catch(e){console.error('Pink Salt accounting queue:',e.message)}}
   function syncPinkFinance(data){if(typeof financeSync!=='function')return null;const id=financeSync(data);flushAccounting();return id}
   function voidPinkFinance(sourceType,sourceId,reason,userId,businessUnitId){if(typeof voidFinanceBySource!=='function')return 0;const n=voidFinanceBySource(sourceType,sourceId,reason,userId,businessUnitId);flushAccounting();return n}
-  function postedJournal(sourceType,sourceId){return db.prepare("SELECT * FROM accounting_journal_entries WHERE source_type=? AND source_id=? AND status='Posted' ORDER BY id DESC LIMIT 1").get(sourceType,Number(sourceId))}
+  function activeJournal(sourceType,sourceId){return db.prepare("SELECT * FROM accounting_journal_entries WHERE source_type=? AND source_id=? AND status IN ('Pending Review','Correction Required','Posted') ORDER BY id DESC LIMIT 1").get(sourceType,Number(sourceId))}
   function postOperationalJournal({businessUnitId,transactionDate,sourceType,sourceId,sourceLabel,description,createdBy,lines}){
     if(!accounting?.postJournal||!lines?.length)return null;
-    const existing=postedJournal(sourceType,sourceId);if(existing)return existing.id;
+    // V30.18: a pending proposal is already the active accounting representation.
+    // Do not create a second proposal while the first one is waiting in Posting Control.
+    const existing=activeJournal(sourceType,sourceId);if(existing)return existing.id;
     if(accounting.isPeriodClosed?.(businessUnitId,transactionDate))throw new Error('This accounting period is closed. Reopen the period before posting this Pink Salt transaction.');
     return accounting.postJournal({businessUnitId,transactionDate,sourceType,sourceId,sourceLabel,description,createdBy,lines});
   }
