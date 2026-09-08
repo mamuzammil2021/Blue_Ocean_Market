@@ -2,6 +2,8 @@
 (function(){
   'use strict';
   window.__BLUE_OCEAN_V316_ACTIVE=true;
+  // Hotfix: declare new access handlers before strict-mode assignments below.
+  var userAccessOpen,applyAccessTemplate,copyAccessDialog,copyAccessNow,saveAccessAssignments,saveAccessPermissions,saveAccessSpecial,saveAccessLimits;
   const MODULE_LABELS={dashboard:'Dashboard',businesses:'Business Units',sales:'Sales',purchases:'Purchases',inventory:'Inventory',finance:'Finance',accounting:'Accounting',approvals:'Approvals',tasks:'Tasks',performance:'People & Performance',reports:'Reports',documents:'Documents',meetings:'Meetings',restaurant:'Restaurant',excavator:'Excavator Operations',excavatorSuppliers:'Excavator Suppliers',excavatorBuyers:'Excavator Buyers',notifications:'Notifications',users:'Users & Access',audit:'Audit'};
   const ACTION_LABELS={view:'View',create:'Create',edit:'Edit',delete:'Delete',void:'Void',approve:'Approve',export:'Export',print:'Print',verify:'Verify',correct:'Correct',allocate:'Allocate'};
   const SENSITIVE_LABELS={'sensitive.user_management':'User management','sensitive.approval_rules':'Approval-rule configuration','sensitive.accounting_adjustments':'Accounting adjustments','sensitive.payroll':'Payroll access','sensitive.audit_logs':'Audit-log access','sensitive.system_admin':'System administration'};
