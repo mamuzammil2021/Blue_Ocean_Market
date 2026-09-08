@@ -23,7 +23,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cat .v3017-patch/chunk-* | base64 -d > /tmp/v3017.patch
+          cat .v3017-patch/new-* | base64 -d > /tmp/v3017.patch
           git apply --check /tmp/v3017.patch
           git apply /tmp/v3017.patch
           rm -rf .v3017-patch .v3017-ready .github/workflows/v3017-sync.yml
