@@ -10,13 +10,13 @@ const publicFiles=fs.readdirSync(path.join(root,'public')).filter(f=>f.endsWith(
 [...serverFiles,...publicFiles,'qa/qa_current.js','qa/runtime_smoke.js'].forEach(syntax);
 
 const pkg=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json'));
-const server=read('server/server.js'),index=read('public/index.html'),base=read('public/client.js'),v284=read('public/v284-client.js'),v285=read('public/v285-client.js'),v300=read('public/v300-client.js'),v305=read('public/v305-client.js'),v307=read('public/v307-client.js'),v308=read('public/v308-client.js'),v309=read('public/v309-client.js'),v310=read('public/v310-client.js'),v313=read('public/v313-client.js'),v314=read('public/v314-client.js'),v315=read('public/v315-client.js'),v316=read('public/v316-client.js'),b284=read('server/v284.js'),b290=read('server/v290.js'),b300=read('server/v300.js'),b305=read('server/v305.js'),b307=read('server/v307.js'),b310=read('server/v310.js'),b313=read('server/v313.js'),b315=read('server/v315.js'),b316=read('server/v316.js'),ko=read('public/i18n-ko.js'),reqs=read('REQUIREMENTS_MASTER.md');
+const server=read('server/server.js'),index=read('public/index.html'),base=read('public/client.js'),v284=read('public/v284-client.js'),v285=read('public/v285-client.js'),v300=read('public/v300-client.js'),v305=read('public/v305-client.js'),v307=read('public/v307-client.js'),v308=read('public/v308-client.js'),v309=read('public/v309-client.js'),v310=read('public/v310-client.js'),v313=read('public/v313-client.js'),v314=read('public/v314-client.js'),v315=read('public/v315-client.js'),v317=read('public/v317-client.js'),v318=read('public/v318-client.js'),b284=read('server/v284.js'),b290=read('server/v290.js'),b300=read('server/v300.js'),b305=read('server/v305.js'),b307=read('server/v307.js'),b310=read('server/v310.js'),b313=read('server/v313.js'),b315=read('server/v315.js'),b316=read('server/v316.js'),b318=read('server/v318.js'),ko=read('public/i18n-ko.js'),reqs=read('REQUIREMENTS_MASTER.md');
 
-check('V30.16 release identity',pkg.version==='30.16.0'&&lock.version==='30.16.0'&&server.includes("version:'30.16.0'")&&server.includes('Blue Ocean Market V30.16.0 running on port'));
-check('browser cache identity',index.includes('/client.js?v=30.16.0')&&index.includes('/v310-client.js?v=30.16.0')&&index.includes('/v314-client.js?v=30.16.0')&&index.includes('/v315-client.js?v=30.16.0')&&index.includes('/v316-client.js?v=30.16.0'));
-const scriptRefs=[...index.matchAll(/<script src="\/([^"?]+\.js)\?v=30\.16\.0"><\/script>/g)].map(m=>m[1]);
+check('V30.18 release identity',pkg.version==='30.18.0'&&lock.version==='30.18.0'&&server.includes("version:'30.18.0'")&&server.includes('Blue Ocean Market V30.18.0 running on port'));
+check('browser cache identity',index.includes('/client.js?v=30.18.0')&&index.includes('/v310-client.js?v=30.18.0')&&index.includes('/v314-client.js?v=30.18.0')&&index.includes('/v315-client.js?v=30.18.0')&&index.includes('/v317-client.js?v=30.18.0')&&index.includes('/v318-client.js?v=30.18.0'));
+const scriptRefs=[...index.matchAll(/<script src="\/([^"?]+\.js)\?v=30\.18\.0"><\/script>/g)].map(m=>m[1]);
 check('all browser scripts exist',scriptRefs.length>0&&scriptRefs.every(f=>fs.existsSync(path.join(root,'public',f))));
-check('runtime overlay order retained',index.indexOf('/v285-client.js?v=30.16.0')<index.indexOf('/v300-client.js?v=30.16.0')&&index.indexOf('/v300-client.js?v=30.16.0')<index.indexOf('/v310-client.js?v=30.16.0')&&index.indexOf('/v313-client.js?v=30.16.0')<index.indexOf('/v314-client.js?v=30.16.0'));
+check('runtime overlay order retained',index.indexOf('/v285-client.js?v=30.18.0')<index.indexOf('/v300-client.js?v=30.18.0')&&index.indexOf('/v300-client.js?v=30.18.0')<index.indexOf('/v310-client.js?v=30.18.0')&&index.indexOf('/v313-client.js?v=30.18.0')<index.indexOf('/v314-client.js?v=30.18.0'));
 
 check('context-aware hint engine installed',v285.includes('PINK_SALT_HINTS')&&v285.includes('RESTAURANT_HINTS')&&v285.includes('NEUTRAL_HINTS')&&v285.includes('selectedBusinessName'));
 check('explicit module placeholders preserved',v285.includes('v285ExplicitPlaceholder')&&v285.includes('Module-authored placeholders carry more precise workflow context'));
@@ -29,7 +29,7 @@ check('new context strings have Korean mappings',ko.includes("'Warehouse / Rack 
 check('master requirement defines mandatory context integrity',reqs.includes('Mandatory business-unit context integrity')&&reqs.includes('Context correctness is a release-blocking requirement')&&reqs.includes('Business Context Audit'));
 
 check('V30.13 backend installed',server.includes("require('./v313').install")&&b313.includes("VERSION='30.13.0'")&&b313.includes('/api/pink-salt/customers-v313')&&b313.includes('/api/pink-salt/orders-v313'));
-check('V30.13 browser overlay retained before V30.14',index.includes('/v313-client.js?v=30.16.0')&&index.indexOf('/v310-client.js?v=30.16.0')<index.indexOf('/v313-client.js?v=30.16.0')&&index.indexOf('/v313-client.js?v=30.16.0')<index.indexOf('/v314-client.js?v=30.16.0'));
+check('V30.13 browser overlay retained before V30.14',index.includes('/v313-client.js?v=30.18.0')&&index.indexOf('/v310-client.js?v=30.18.0')<index.indexOf('/v313-client.js?v=30.18.0')&&index.indexOf('/v313-client.js?v=30.18.0')<index.indexOf('/v314-client.js?v=30.18.0'));
 check('customer account and aging implemented',b313.includes('account-v313')&&b313.includes('unallocated_credit_krw')&&b313.includes('d31_60')&&v313.includes('psCustomerAccount313'));
 check('grouped receipts and multi-order allocation implemented',b313.includes('pink_salt_customer_receipt_allocations')&&b313.includes('gross_settlement_krw')&&v313.includes('data-alloc-order')&&v313.includes('psAllocateReceipt313'));
 check('marketplace settlement fee accounting implemented',b313.includes('Pink Salt Marketplace Settlement Fee')&&read('server/v290.js').includes("st==='Pink Salt Marketplace Settlement Fee'")&&server.includes("st==='Pink Salt Marketplace Settlement Fee'"));
@@ -41,7 +41,7 @@ check('Pink Salt list controls implemented',v313.includes('enhanceGenericList')&
 check('new account and pricing UI is bilingual-ready',v313.includes("'Customer Accounts':'고객 계정'")&&v313.includes("'Pricing Tier':'가격 등급'")&&v313.includes("'Unallocated Credit':'미배정 크레딧'"));
 check('master requirements include V30.13 receivables and pricing',reqs.includes('V30.13 mandatory Pink Salt customer accounts')&&reqs.includes('active customer/store-specific price → assigned price tier → product default price → authorized manual override')&&reqs.includes('Pink Salt list search, sorting and filtering'));
 
-check('V30.14 Review & Confirm retained before V30.15 supplier overlay',index.includes('/v314-client.js?v=30.16.0')&&index.indexOf('/v313-client.js?v=30.16.0')<index.indexOf('/v314-client.js?v=30.16.0')&&index.indexOf('/v314-client.js?v=30.16.0')<index.indexOf('/v315-client.js?v=30.16.0')&&v314.includes("const VERSION='30.14.0'"));
+check('V30.14 Review & Confirm retained before V30.15 supplier overlay',index.includes('/v314-client.js?v=30.18.0')&&index.indexOf('/v313-client.js?v=30.18.0')<index.indexOf('/v314-client.js?v=30.18.0')&&index.indexOf('/v314-client.js?v=30.18.0')<index.indexOf('/v315-client.js?v=30.18.0')&&v314.includes("const VERSION='30.14.0'"));
 check('system-wide form Review & Confirm capture implemented',v314.includes("document.addEventListener('submit'")&&v314.includes('formReview(form,submitter)')&&v314.includes('collectForm(form)')&&v314.includes('Review & Confirm'));
 check('edit review supports old to new presentation',v314.includes('bom314-review-change')&&v314.includes('initialValue(el)')&&v314.includes('<span class="arrow">→</span>'));
 check('explicit confirmation workflows grant review allowance',v314.includes("wrapDecision('confirmAction'")&&v314.includes("wrapDecision('reasonAction'")&&v314.includes('grantReview()'));
@@ -85,15 +85,77 @@ check('effective permission middleware replaces role-only allow path',server.inc
 check('multi-business-unit assignments and switching implemented',b316.includes('user_business_units')&&b316.includes('replaceAssignments')&&base.includes('unitOptions.length>1')&&base.includes('await hydrateAccess()'));
 check('CEO global and delegated user access administration implemented',b316.includes('canManageTarget')&&b316.includes('delegate.bu_users')&&b316.includes('delegate.finance_users')&&b316.includes('You cannot change your own role or access.'));
 check('Finance Head and Finance User templates implemented',b316.includes("role:'Finance Head'")&&b316.includes("role:'Finance User'")&&base.includes("'Finance Head','Finance User'"));
-check('granular module actions supported',b316.includes("const ACTIONS=['view','create','edit','delete','void','approve','export','print','verify','correct','allocate']")&&v316.includes('access-matrix'));
-check('sensitive and delegated rights supported',b316.includes('sensitive.user_management')&&b316.includes('sensitive.accounting_adjustments')&&b316.includes('delegate.access')&&v316.includes('Sensitive Permissions'));
-check('limits and threshold controls supported',b316.includes('finance_payment_max')&&b316.includes('finance_approval_max')&&b316.includes('max_discount_pct')&&v316.includes('Limits / Thresholds'));
-check('role template apply and access copy implemented',b316.includes('/apply-template')&&b316.includes('/copy')&&v316.includes('applyAccessTemplate')&&v316.includes('copyAccessDialog'));
-check('access change history implemented',b316.includes('access_change_history')&&b316.includes('history(target')&&v316.includes('Access History'));
-check('Pink Salt navigation honors effective permissions',v316.includes("psSuppliers:'purchases'")&&v316.includes("if(module&&!allowed(key))btn.remove()"));
-check('V30.16 bilingual access UI included',v316.includes("'Users & Access':'사용자 및 접근 권한'")&&v316.includes("'Effective Access':'유효 접근 권한'")&&v316.includes("'Finance Head':'재무 책임자'"));
+check('granular module actions supported',b316.includes("const ACTIONS=['view','create','edit','delete','void','approve','export','print','verify','correct','allocate']")&&v317.includes('access-matrix'));
+check('sensitive and delegated rights supported',b316.includes('sensitive.user_management')&&b316.includes('sensitive.accounting_adjustments')&&b316.includes('delegate.access')&&v317.includes('Sensitive Permissions'));
+check('limits and threshold controls supported',b316.includes('finance_payment_max')&&b316.includes('finance_approval_max')&&b316.includes('max_discount_pct')&&v317.includes('Limits / Thresholds'));
+check('role template apply and access copy implemented',b316.includes('/apply-template')&&b316.includes('/copy')&&v317.includes('applyAccessTemplate')&&v317.includes('copyAccessDialog'));
+check('access change history implemented',b316.includes('access_change_history')&&b316.includes('history(target')&&v317.includes('Access History'));
+check('Pink Salt navigation honors effective permissions',v317.includes("psSuppliers:'purchases'")&&v317.includes("if(module&&!allowed(key))btn.remove()"));
+check('V30.17 bilingual access UI included',v317.includes("'Users & Access':'사용자 및 접근 권한'")&&v317.includes("'Effective Access':'유효 접근 권한'")&&v317.includes("'Finance Head':'재무 책임자'"));
 check('V30.16 requirements documented',reqs.includes('V30.16 mandatory system-wide Users & Access requirements')&&reqs.includes('effective permissions are authoritative')&&reqs.includes('Finance Head delegated administration'));
-check('V30.16 overlay loads last',index.indexOf('/v315-client.js?v=30.16.0')<index.indexOf('/v316-client.js?v=30.16.0'));
+check('V30.18 overlay loads last',index.indexOf('/v315-client.js?v=30.18.0')<index.indexOf('/v317-client.js?v=30.18.0')&&index.indexOf('/v317-client.js?v=30.18.0')<index.indexOf('/v318-client.js?v=30.18.0')&&index.trim().endsWith('</body></html>'));
+
+
+check('V30.17 Access button handler is explicitly exported',v317.includes('window.userAccessOpen=async function')&&v317.includes('onclick="userAccessOpen(${x.id})"'));
+const accessHandlers=['userAccessOpen','syncAccessPrimaryOptions','applyAccessTemplate','copyAccessDialog','copyAccessNow','saveAccessAssignments','saveAccessPermissions','saveAccessSpecial','saveAccessLimits','userForm','saveUser','userEdit','saveUserEdit'];
+check('all V30.17 inline access handlers are window exported',accessHandlers.every(n=>v317.includes(`window.${n}=`)));
+check('self access editor is read-only',v317.includes('function selectedUserCanManage(data){return !!data?.can_manage}')&&b316.includes('You cannot change your own role or access.'));
+check('multi-BU access scope selector implemented',v317.includes("'Access Scope':'접근 범위'")&&v317.includes('accessScopeSelector')&&v317.includes('/effective${bu?'));
+check('primary BU must be assigned and valid',b316.includes('Primary business unit must also be assigned.')&&b316.includes('One or more selected business units are invalid or archived.')&&server.includes('Primary business unit must also be assigned.'));
+check('delegated access save requires delegate.access',b316.includes("function requireAccessDelegation")&&b316.includes("'delegate.access'"));
+check('Finance-only delegated scope is bounded',b316.includes('financeOnlyAdmin')&&b316.includes('Finance delegated administration is restricted to Finance-related permissions.')&&b316.includes('Finance delegated administration may change only Finance amount limits.'));
+check('role-template ceiling includes limits',b316.includes('for(const [k,v] of Object.entries(desired.limits||{}))'));
+check('copy access is CEO-only',b316.includes("Only CEO / Owner can copy another user’s complete access profile."));
+check('access history records before and after state',b316.includes("'permissions_update',{before,after")&&b316.includes("'limits_update',{before,after")&&b316.includes("'template_apply',{before,after")&&b316.includes("'access_copy',{before,after"));
+check('module aliases resolve legacy route permissions',b316.includes("MODULE_ALIASES={staff:'users',crm:'sales',customers:'sales',kpi:'performance',pos:'sales'}")&&b316.includes('normalizeModule'));
+check('Payroll is in granular module catalog',b316.includes("'audit','payroll']")&&v317.includes("payroll:'Employees & Payroll'"));
+check('sensitive payroll is enforced server-side',server.includes("module==='payroll'&&!accessV316.can(live.id,'sensitive.payroll'")&&b290.includes("hasAccess?.(req.user.id,'sensitive.payroll'"));
+check('sensitive accounting adjustment is enforced server-side',b290.includes("hasAccess?.(req.user.id,'sensitive.accounting_adjustments'"));
+check('sensitive approval-rule configuration is enforced',server.includes("startsWith('/approval-rules')&&action!=='view'")&&server.includes('canManageApprovalRules(req)'));
+check('sensitive audit-log access is enforced',server.includes("module==='audit'&&!accessV316.can(live.id,'sensitive.audit_logs'"));
+check('missing centralized route mappings are covered',server.includes("p.startsWith('/payroll')")&&server.includes("p.startsWith('/performance')||p.startsWith('/kpis')")&&server.includes("p.startsWith('/sales')||p.startsWith('/customers')||p.startsWith('/crm')")&&server.includes("p.startsWith('/statements')||p.startsWith('/pnl')"));
+check('legacy role-based allowed is superseded late',v317.includes('allowed=function(key)')&&v317.includes("return canDo(accessKeyForView(key),'view')"));
+check('Users & Access mutations use Review & Confirm',v317.includes("title:'Confirm Access Changes'")&&v317.includes("title:'Confirm User Creation'")&&v317.includes("title:'Apply Role Template'"));
+check('Render Dockerfile installs native build prerequisites',read('Dockerfile').includes('python3 make g++')&&read('Dockerfile').includes('npm ci --omit=dev'));
+check('V30.17 requirements documented',reqs.includes('V30.17 mandatory Users & Access hardening requirements')&&reqs.includes('Every People & Access button/action must be functional and regression-tested.'));
+
+
+// V30.18 — Finance review -> Posting Control -> official ledger.
+check('V30.18 backend and UI overlays installed',server.includes("require('./v318').install")&&server.includes('upload,accounting:accountingV29,access:accessV316')&&b318.includes("VERSION='30.18.0'")&&v318.includes("const VERSION='30.18.0'"));
+check('Finance and Accounting remain separate modules',base.includes("['finance','Finance','💰']")&&read('public/v290-client.js').includes("['accounting','Accounting','📚']")&&b316.includes("'finance','accounting'")&&v318.includes('Finance controls daily transactions; Accounting contains only finalized postings'));
+check('operational journal proposals default to Pending Review',b290.includes("postingStatus='Pending Review'")&&b290.includes("const status=postingStatus==='Posted'?'Posted':'Pending Review'")&&b290.includes("accounting_status='Pending Review'"));
+check('official accounting reports exclude unposted proposals',b290.includes("j.status IN ('Posted','Reversed')")&&b290.includes("LEFT JOIN accounting_journal_entries j ON j.id=l.journal_entry_id AND j.status IN ('Posted','Reversed')"));
+check('V30.18 simple accounting summary uses ledger-effective reversal population',b305.includes("j.status IN ('Posted','Reversed')"));
+check('Posting Control queue, summary and detail APIs exist',b318.includes("app.get('/api/accounting/posting-control'")&&b318.includes("app.get('/api/accounting/posting-control/summary'")&&b318.includes("app.get('/api/accounting/posting-control/:id'"));
+check('Posting Control view is permission scoped',b318.includes('function canViewPosting(req,j)')&&b318.includes("'accounting','view'")&&b318.includes("'finance','verify'")&&b318.includes("'finance','correct'")&&b318.includes('.filter(j=>canViewPosting(req,j))'));
+check('Final Accounting post requires granular approval in every affected BU',b318.includes('function canPost(req,j)')&&b318.includes("permissionOnAllUnits(req,'accounting',['approve'],j)")&&b318.includes('return units.every(bu=>')&&b318.includes('Final Accounting posting permission is required for every business unit affected'));
+check('Final post validates balance, period, Finance readiness and review note',b318.includes('if(!j.balanced)')&&b318.includes('periodClosedUnits(j)')&&b318.includes('financeReadiness(j)')&&b318.includes("A final-post review note is required."));
+check('linked Finance records require verification and resolved corrections',b318.includes("['Verified','Verified / Correct'].includes(verification)")&&b318.includes('A Finance correction request is still open.')&&b318.includes('pendingReversalForFinance'));
+check('Posting Control exposes source evidence safely',b318.includes('function safeEvidencePath(value)')&&b318.includes("v.startsWith('/uploads/')")&&b318.includes("v.includes('..')")&&b318.includes('function postingEvidence(j,financeInfo=null)')&&v318.includes('(d.evidence||[])'));
+check('manual journal creation requires sensitive accounting permission and evidence',b290.includes('function requireAccountingWrite')&&b290.includes("'sensitive.accounting_adjustments'")&&b290.includes("upload.single('evidence')")&&b290.includes('Evidence / supporting document is required for a manual journal proposal.'));
+check('manual journal lines require active manual-postable balanced accounts',b290.includes('a.allow_manual')&&b290.includes('either a debit or a credit greater than zero')&&b290.includes('Manual journal must have equal debit and credit totals.'));
+check('manual journal UI submits multipart evidence',v318.includes('window.manualJournalV29=async')&&v318.includes('new FormData(f)')&&v318.includes("name=\"evidence\"")&&v318.includes("fd.set('lines_json'"));
+check('manual proposal correction and cancellation workflows exist',b318.includes("app.put('/api/accounting/posting-control/:id/manual'")&&b318.includes("app.post('/api/accounting/posting-control/:id/cancel-proposal'")&&v318.includes('saveManualJournalEditV318')&&v318.includes('postingCancelV318'));
+check('controlled reversal does not silently change official GL',b290.includes("'Accounting Reversal',entry.id")&&b290.includes("'Pending Review'")&&b290.includes('keep the original Posted until')&&b318.includes("SET status='Reversed',reversed_by_id=?"));
+check('unposted operational proposals cancel cleanly when source is reversed',b290.includes("['Pending Review','Correction Required'].includes(entry.status)")&&b290.includes("status='Cancelled'")&&b310.includes("!['Reversed','Cancelled'].includes(j.status)"));
+check('reversal final-post clears stale bank reconciliation',b318.includes("SET status='Unreconciled',matched_journal_entry_id=NULL")||b318.includes("matched_journal_entry_id=NULL"));
+check('corrected Finance source waits for prior official reversal',b318.includes('function pendingReversalForFinance')&&b318.includes('Previous official posting must be reversed first')&&b318.includes('!reversal'));
+check('period close blocks pending Posting Control proposals',b290.includes("status IN ('Pending Review','Correction Required')")&&b290.includes('Posting Control proposals waiting'));
+check('V2 period close readiness enforces finance bank trial-balance and clearing controls',b290.includes('function periodCloseReadiness(businessUnitId,key)')&&b290.includes('Unverified Finance transactions')&&b290.includes('Unreconciled bank statement lines')&&b290.includes('Unbalanced official journals')&&b290.includes('Suspense / temporary clearing balances')&&b290.includes('Inter-BU Clearing mismatch'));
+check('V2 reconciliation checklist is persisted with user date and evidence',b290.includes('accounting_period_reconciliations')&&b290.includes("app.post('/api/accounting/periods/reconciliation-status'")&&b290.includes('completed_by')&&b290.includes('completed_at')&&b290.includes('evidence_file'));
+check('period close requires reconciliation signoff and a review note',b290.includes('Required reconciliation checklist items still Open')&&b290.includes('Period-close review note is required.')&&b290.includes('Period close is blocked until reconciliation and accounting controls are complete.'));
+check('period reopen requires reason and resets reconciliation signoff',b290.includes('A reason is required to reopen a closed accounting period.')&&b290.includes("UPDATE accounting_period_reconciliations SET status='Open'"));
+check('Accounting Periods UI exposes close readiness and reconciliation review',read('public/v290-client.js').includes('Period Close Readiness')&&read('public/v290-client.js').includes('loadCloseReadinessV29')&&read('public/v290-client.js').includes('periodReconReviewV29')&&read('public/v290-client.js').includes('savePeriodReconV29'));
+check('period close and reconciliation status use granular accounting actions',server.includes('accounting\\/periods\\/(close|reopen)')&&server.includes('accounting\\/periods\\/reconciliation-status'));
+check('duplicate active proposal guards cover core operational paths',b300.includes("status IN ('Pending Review','Correction Required','Posted')")&&b310.includes("status IN ('Pending Review','Correction Required','Posted')")&&b313.includes("status IN ('Pending Review','Correction Required','Posted')"));
+check('Posting Control UI shows explicit finance-to-ledger flow',v318.includes("t('Operational Transaction')")&&v318.includes("t('Finance Review')")&&v318.includes("t('Posting Control')")&&v318.includes("t('Official Ledger')"));
+check('Posting Control final post uses required Review & Confirm reason',v318.includes('window.postingFinalV318')&&v318.includes("title:'Review & Final Post'")&&v318.includes('required:true')&&v318.includes("body:JSON.stringify({note})"));
+check('Posting Control correction uses controlled reason workflow',v318.includes('window.postingCorrectionV318')&&v318.includes("title:'Request Accounting Correction'")&&v318.includes('required:true'));
+check('Posting Control visibility uses effective permissions',v318.includes('function canViewPosting318')&&v318.includes("hasPermission('module.accounting.view')")&&v318.includes("hasPermission('module.finance.verify')"));
+check('action counters include posting viewers beyond approvers',server.includes('const accountingViewer=')&&server.includes('const postingViewer=')&&server.includes('counts.accounting=postingReview'));
+check('V30.18 bilingual Posting Control strings included',v318.includes("'Posting Control':'전기 통제'")||v318.includes("'Posting Control':")&&v318.includes('검토')&&v318.includes('원장'));
+check('V30.18 requirements documented',reqs.includes('V30.18 mandatory Finance & Accounting Posting Control requirements')&&reqs.includes('Operational Transaction')&&reqs.includes('Posting Control')&&reqs.includes('Official Ledger'));
+check('V30.17 Access button regression retained',v317.includes('window.userAccessOpen=async function')&&v317.includes('onclick="userAccessOpen(${x.id})"'));
 
 
 check('V30.10 import management retained',server.includes("require('./v310').install")&&b310.includes('/manage-v310')&&b310.includes('/history-v310')&&b310.includes('/cancel-v310')&&b310.includes('/void-v310')&&b310.includes('/delete-v310'));
@@ -115,8 +177,9 @@ check('import received PDF retained',v307.includes('Download Import PDF')&&read(
 check('Finance / Accounting layers retained',server.includes("require('./v290').install")&&server.includes("require('./v302').install")&&server.includes("require('./v305').install"));
 check('CEO business-unit scope retained',server.includes("req.user.role==='CEO / Owner'")&&server.includes("x-business-unit-id"));
 check('responsive sidebar retained',index.includes('overflow-y:auto')||index.includes('sidebar'));
-check('local test data preservation',read('.env').includes('SEED_DEMO_USERS=false')&&read('.env').includes('SEED_DEMO_DATA=false'));
-check('local launcher identifies current release',read('START_LOCAL_MAC.command').includes('V30.16.0')&&!read('START_LOCAL_MAC.command').includes('V29.1.0'));
+check('local test data preservation',read('.env.example').includes('SEED_DEMO_USERS=false')&&read('.env.example').includes('SEED_DEMO_DATA=false'));
+check('local launcher identifies current release',read('START_LOCAL_MAC.command').includes('V30.18.0')&&read('START_LOCAL_MAC.command').includes('Creating local-only .env'));
+check('release does not require a committed .env',pkg.scripts.start.includes('--env-file-if-exists=.env')&&read('.dockerignore').includes('.env'));
 check('Pink Salt reference blueprint retained under docs',fs.existsSync(path.join(root,'docs/reference/PINK_SALT_WORKING_BLUEPRINT.pdf')));
 check('package scripts consolidated to current release',Object.keys(pkg.scripts||{}).sort().join('|')===['dev','dev:local','qa:current','qa:runtime','start','start:local'].sort().join('|'));
 const pinkContextFiles=['public/v300-client.js','public/v305-client.js','public/v307-client.js','public/v308-client.js','public/v309-client.js'];
@@ -128,5 +191,5 @@ check('historical release clutter removed from root',bannedRoot.length===0);
 check('obsolete duplicate root clients removed',!fs.existsSync(path.join(root,'client.js'))&&!fs.existsSync(path.join(root,'v300-client.js'))&&!fs.existsSync(path.join(root,'v305-client.js')));
 check('obsolete V6 snapshots removed',!fs.existsSync(path.join(root,'server/server.v6.js'))&&!fs.existsSync(path.join(root,'public/index.v6.html')));
 
-if(failed){console.error(`\nV30.16 CURRENT QA FAILED: ${failed} check(s)`);process.exit(1)}
-console.log('\nV30.16 CURRENT QA PASS');
+if(failed){console.error(`\nV30.18 CURRENT QA FAILED: ${failed} check(s)`);process.exit(1)}
+console.log('\nV30.18 CURRENT QA PASS');

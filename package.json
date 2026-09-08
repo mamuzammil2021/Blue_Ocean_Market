@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.16.0",
+  "version": "30.18.0",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -8,10 +8,10 @@
     "node": "22.x"
   },
   "scripts": {
-    "start": "node --env-file=.env server/server.js",
-    "dev": "node --env-file=.env --watch server/server.js",
-    "start:local": "node --env-file=.env server/server.js",
-    "dev:local": "node --env-file=.env --watch server/server.js",
+    "start": "node --env-file-if-exists=.env server/server.js",
+    "dev": "node --env-file-if-exists=.env --watch server/server.js",
+    "start:local": "node --env-file-if-exists=.env server/server.js",
+    "dev:local": "node --env-file-if-exists=.env --watch server/server.js",
     "qa:current": "node qa/qa_current.js",
     "qa:runtime": "node qa/runtime_smoke.js"
   },
