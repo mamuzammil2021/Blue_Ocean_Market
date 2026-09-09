@@ -1,0 +1,236 @@
+Blue Ocean Market V30.19.0 Static/Source QA
+Generated: 2026-09-09
+
+
+> blue-ocean-market-os@30.19.0 qa:current
+> node qa/qa_current.js
+
+PASS syntax server/db.js
+PASS syntax server/server.js
+PASS syntax server/v284.js
+PASS syntax server/v290.js
+PASS syntax server/v300.js
+PASS syntax server/v302.js
+PASS syntax server/v305.js
+PASS syntax server/v307.js
+PASS syntax server/v308.js
+PASS syntax server/v309-calculations.js
+PASS syntax server/v310.js
+PASS syntax server/v313.js
+PASS syntax server/v315.js
+PASS syntax server/v316.js
+PASS syntax server/v318.js
+PASS syntax server/v319.js
+PASS syntax public/client.js
+PASS syntax public/i18n-ko.js
+PASS syntax public/v284-client.js
+PASS syntax public/v285-client.js
+PASS syntax public/v286-client.js
+PASS syntax public/v290-client.js
+PASS syntax public/v291-client.js
+PASS syntax public/v300-client.js
+PASS syntax public/v302-client.js
+PASS syntax public/v305-client.js
+PASS syntax public/v307-client.js
+PASS syntax public/v308-client.js
+PASS syntax public/v309-client.js
+PASS syntax public/v310-client.js
+PASS syntax public/v313-client.js
+PASS syntax public/v314-client.js
+PASS syntax public/v315-client.js
+PASS syntax public/v317-client.js
+PASS syntax public/v318-client.js
+PASS syntax public/v319-client.js
+PASS syntax qa/qa_current.js
+PASS syntax qa/runtime_smoke.js
+PASS V30.19 release identity
+PASS browser cache identity
+PASS all browser scripts exist
+PASS runtime overlay order retained
+PASS context-aware hint engine installed
+PASS explicit module placeholders preserved
+PASS shared placeholders adapt by business unit
+PASS Pink Salt source placeholders are field-specific
+PASS Pink Salt storage context uses warehouse not yard
+PASS Pink Salt source has no Excavator example leakage
+PASS V30.10 safety placeholder fixer retained
+PASS new context strings have Korean mappings
+PASS master requirement defines mandatory context integrity
+PASS V30.13 backend installed
+PASS V30.13 browser overlay retained before V30.14
+PASS customer account and aging implemented
+PASS grouped receipts and multi-order allocation implemented
+PASS marketplace settlement fee accounting implemented
+PASS flexible pricing hierarchy implemented
+PASS historical pricing snapshot retained
+PASS below-cost protection implemented
+PASS customer statements and exports implemented
+PASS Pink Salt list controls implemented
+PASS new account and pricing UI is bilingual-ready
+PASS master requirements include V30.13 receivables and pricing
+PASS V30.14 Review & Confirm retained before V30.15 supplier overlay
+PASS system-wide form Review & Confirm capture implemented
+PASS edit review supports old to new presentation
+PASS explicit confirmation workflows grant review allowance
+PASS mutating API calls require review and show processing state
+PASS non-business auth/notification/download actions bypass V30.14 blocker
+PASS contextual processing messages implemented
+PASS persistent mutation idempotency protection retained
+PASS long-running mutations receive extended client timeout
+PASS Review and processing UI has Korean localization
+PASS semantic Pink Salt account position replaces raw negative presentation
+PASS available customer credit can be selected on new completed order
+PASS customer credit application preserves allocation accounting
+PASS V30.14 account/review strings are bilingual-ready
+PASS master requirements include V30.14 review processing and account position
+PASS V30.15 supplier backend installed
+PASS dedicated Pink Salt Suppliers sidebar is installed before Imports
+PASS Imports header no longer owns Supplier Management
+PASS unified supplier categories support multi-category profiles
+PASS legacy suppliers are categorized from operational history
+PASS category-specific supplier selection is enforced client and server
+PASS supplier account exposes payables credit aging and obligations
+PASS supplier profile has context-specific operational/document/history sections
+PASS central supplier payments reuse audited advance payment pool
+PASS supplier payment balance is shared across import and packaging allocations
+PASS packaging receipt creates payable not cash payment
+PASS packaging receipt requires supplier invoice and evidence
+PASS packaging supplier credit can auto-apply on receipt
+PASS manual and automatic packaging allocation endpoints implemented
+PASS supplier packaging allocation posts non-cash AP settlement
+PASS simple accounting balances include packaging payables and allocations
+PASS supplier statements support JSON CSV and PDF
+PASS V30.15 supplier UI is bilingual-ready
+PASS V30.15 requirements documented
+PASS V30.16 backend installed
+PASS live auth resolves current user instead of stale token role
+PASS effective permission middleware replaces role-only allow path
+PASS multi-business-unit assignments and switching implemented
+PASS CEO global and delegated user access administration implemented
+PASS Finance Head and Finance User templates implemented
+PASS granular module actions supported
+PASS sensitive and delegated rights supported
+PASS limits and threshold controls supported
+PASS role template apply and access copy implemented
+PASS access change history implemented
+PASS Pink Salt navigation honors effective permissions
+PASS V30.17 bilingual access UI included
+PASS V30.16 requirements documented
+PASS V30.19 overlay loads last
+PASS V30.17 Access button handler is explicitly exported
+PASS all V30.17 inline access handlers are window exported
+PASS self access editor is read-only
+PASS multi-BU access scope selector implemented
+PASS primary BU must be assigned and valid
+PASS delegated access save requires delegate.access
+PASS Finance-only delegated scope is bounded
+PASS role-template ceiling includes limits
+PASS copy access is CEO-only
+PASS access history records before and after state
+PASS module aliases resolve legacy route permissions
+PASS Payroll is in granular module catalog
+PASS sensitive payroll is enforced server-side
+PASS sensitive accounting adjustment is enforced server-side
+PASS sensitive approval-rule configuration is enforced
+PASS sensitive audit-log access is enforced
+PASS missing centralized route mappings are covered
+PASS legacy role-based allowed is superseded late
+PASS Users & Access mutations use Review & Confirm
+PASS Render Dockerfile installs native build prerequisites
+PASS V30.17 requirements documented
+PASS V30.18 backend and UI overlays installed
+PASS Finance and Accounting remain separate modules
+PASS operational journal proposals default to Pending Review
+PASS official accounting reports exclude unposted proposals
+PASS V30.18 simple accounting summary uses ledger-effective reversal population
+PASS Posting Control queue, summary and detail APIs exist
+PASS Posting Control view is permission scoped
+PASS Final Accounting post requires granular approval in every affected BU
+PASS Final post validates balance, period, Finance readiness and review note
+PASS linked Finance records require verification and resolved corrections
+PASS Posting Control exposes source evidence safely
+PASS manual journal creation requires sensitive accounting permission and evidence
+PASS manual journal lines require active manual-postable balanced accounts
+PASS manual journal UI submits multipart evidence
+PASS manual proposal correction and cancellation workflows exist
+PASS controlled reversal does not silently change official GL
+PASS unposted operational proposals cancel cleanly when source is reversed
+PASS reversal final-post clears stale bank reconciliation
+PASS corrected Finance source waits for prior official reversal
+PASS period close blocks pending Posting Control proposals
+PASS V2 period close readiness enforces finance bank trial-balance and clearing controls
+PASS V2 reconciliation checklist is persisted with user date and evidence
+PASS period close requires reconciliation signoff and a review note
+PASS period reopen requires reason and resets reconciliation signoff
+PASS Accounting Periods UI exposes close readiness and reconciliation review
+PASS period close and reconciliation status use granular accounting actions
+PASS duplicate active proposal guards cover core operational paths
+PASS Posting Control UI shows explicit finance-to-ledger flow
+PASS Posting Control final post uses required Review & Confirm reason
+PASS Posting Control correction uses controlled reason workflow
+PASS Posting Control visibility uses effective permissions
+PASS action counters include posting viewers beyond approvers
+PASS V30.18 bilingual Posting Control strings included
+PASS V30.18 requirements documented
+PASS V30.19 backend and browser overlays installed
+PASS System Settings central configuration service implemented
+PASS System Settings sections cover consolidated requirements
+PASS System Administrator sensitive permissions implemented
+PASS SMTP credentials encrypted and never returned plaintext
+PASS secure SMTP-backed password reset implemented
+PASS Company Bank Accounts are centrally configured and history-preserving
+PASS operational payment accounts are BU scoped and safe
+PASS Posting/verification blocks invalid bank GL mapping
+PASS shared attachment policy consumes System Settings
+PASS attachment preview optimization workflow implemented
+PASS data migration uses staged validate preview import workflow
+PASS AI Assistant obeys existing authorization chain
+PASS supplier phone email and duplicate validation implemented
+PASS supplier modal lifecycle and machine notes regressions addressed
+PASS chassis duplication is checked across supplier and machine history
+PASS routine documents bypass business Review Confirm and use preview/archive
+PASS payment method reference account and FX are standardized in QA paths
+PASS machine costs use controlled edit reversal and token visibility
+PASS finance verification actions are state-driven
+PASS verified and voided finance records use View
+PASS finance correction preserves previous evidence
+PASS successful finance void closes modal
+PASS language selection persists using server preference
+PASS Accounting Simple View responsive hardening included
+PASS Business Unit administration is non-destructive
+PASS backup diagnostics audit and maintenance tools implemented
+PASS V30.19 requirements documented
+PASS V30.17 Access button regression retained
+PASS V30.10 import management retained
+PASS import approval and downstream safeguards retained
+PASS terminal import states block new activity
+PASS whole-number count integrity retained
+PASS measurement values preserve decimals
+PASS integer step-base regression fixed
+PASS generic Quantity no longer forces restaurant measurements to integers
+PASS Pink Salt packaging receive is unit-aware
+PASS Pink Salt packaging reorder is unit-aware
+PASS Pink Salt waste quantity follows source unit
+PASS Finance corrections preserve quantity precision
+PASS master requirement defines quantity step-base integrity
+PASS Pink Salt duplicate generic nav tabs remain hidden only there
+PASS gift-box and production integrity retained
+PASS production PDF retained
+PASS import received PDF retained
+PASS Finance / Accounting layers retained
+PASS CEO business-unit scope retained
+PASS responsive sidebar retained
+PASS local test data preservation
+PASS local launcher identifies current release
+PASS release does not require a committed .env
+PASS Pink Salt reference blueprint retained under docs
+PASS package scripts consolidated to current release
+PASS Pink Salt active UI files contain no copied Excavator examples
+PASS historical release clutter removed from root
+PASS obsolete duplicate root clients removed
+PASS obsolete V6 snapshots removed
+
+V30.19 CURRENT QA PASS
+
+Runtime smoke test status: NOT EXECUTED in the build environment because npm dependencies could not be installed here.
+Local tester should run: npm ci && npm run qa:runtime

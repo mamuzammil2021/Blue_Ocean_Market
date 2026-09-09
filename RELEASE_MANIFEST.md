@@ -1,47 +1,35 @@
-# Blue Ocean Market V30.18.0 — Release Manifest
+# Blue Ocean Market V30.20.0 — Release Manifest
 
-**Release:** V30.18.0 Finance & Accounting Posting Control Local Test  
-**Baseline:** V30.17.0 Access Control Hardening (Access button locally confirmed working)  
-**Accounting baseline:** Blue Ocean Accounting Requirements Draft V2 + later Finance Review / Posting Control decision  
-**Database policy:** additive migrations; no intentional reset  
-**Node:** 22.x
+**Release:** V30.20.0 Smart Payments, Settings UX & Direct Attachments — Local Test  
+**Baseline:** V30.19.0 System Settings & QA Hardening  
+**Database reset:** No. Additive migrations only.  
+**Git:** This local-test package contains no Git operation or repository mutation.
 
-## Release focus
+## Primary V30.20 files
 
-V30.18.0 separates operational Finance control from the official Accounting ledger while keeping both connected to one shared double-entry engine. Operational activity prepares accounting proposals; authorized Finance/Accounting reviewers inspect source evidence and dependencies in Posting Control; only final-posted proposals become official ledger activity.
+- `server/v320.js` — financial-account administration, smart account option API, contact duplicate/format API, direct-attachment policy API.
+- `public/v320-client.js` — friendly System Settings shell, Company Financial Accounts UI, immediate Supplier/Buyer contact validation, smart payment account selector, direct attachment validation.
+- `server/server.js` — V30.20 overlay installation, strict method/account compatibility, exact selected-account persistence for generic Sales/Purchases, MIMI POS and Excavator payment paths, Finance fallback for legacy sources, and buyer validation hardening.
+- `server/v300.js`, `server/v305.js`, `server/v307.js`, `server/v313.js` — exact selected Company Financial Account persistence for Pink Salt import/customer/supplier cash-movement paths.
+- `server/v319.js` / `public/v319-client.js` — V30.19 upload-time attachment-review path disabled for V30.20 and direct upload behavior retained; stored-file preview/download remains.
+- `REQUIREMENTS_MASTER.md` — V30.20 consolidated mandatory requirements.
+- `qa/qa_current.js` — release regression/source checks.
+- `qa/V30_20_QA_CHECKLIST.md` — manual acceptance checklist.
 
-## Key files
+## Safety / integrity
 
-- `server/v318.js` — Posting Control schema, queue/detail/summary, permission-scoped review, source evidence, final posting, correction, manual proposal edit/cancel, reversal finalization and posting history.
-- `server/v290.js` — shared accounting engine; proposals default to Pending Review; official-report status filtering; Finance accounting sync; controlled reversal proposals; manual journal evidence/validation; V2 Period Close Readiness, persistent reconciliation sign-off and close/reopen protections.
-- `server/v300.js` — prevents duplicate active Pink Salt operational accounting proposals while an existing Pending/Correction/Posted proposal exists.
-- `server/v310.js` — import commitment/reversal integration with active-proposal safeguards.
-- `server/v313.js` — Pink Salt customer receipt allocation proposal deduplication.
-- `server/server.js` — installs V30.18 with upload support and permission-aware Posting Control action counters.
-- `public/v318-client.js` — Finance Posting Control UI, Accounting status banner, evidence display, final-post/correction actions, manual journal evidence and correction/cancel workflow.
-- `public/v317-client.js` — preserved Users & Access UI/action wiring from the locally verified V30.17 baseline.
-- `qa/qa_current.js` — consolidated current-release source/regression checks.
-- `Dockerfile` — Render-compatible Node 22 build with native dependency prerequisites.
+- Historical finance/accounting records are not reset.
+- Closed/archived financial accounts preserve references and history.
+- GL changes on used financial accounts remain high-risk and audited.
+- Server-side contact and payment-account validation remains in addition to UI validation.
+- Upload-time attachment compression/optimization/readability review is disabled; only allowed type/size/count are exposed for upload and enforced by policy/UI plus existing server middleware.
+- Exact selected financial accounts are retained on source records where supported and synchronized to Finance/Accounting; incompatible account/method combinations are rejected server-side.
 
-## Security and accounting integrity
+## Release verification
 
-- `.env`, `node_modules`, runtime databases and runtime uploads are intentionally excluded from the release ZIP.
-- Normal operational users do not need debit/credit knowledge.
-- Pending accounting proposals are not official GL activity.
-- Final posting is business-unit scoped and requires effective Accounting approval authority.
-- Manual accounting changes require sensitive Accounting-adjustment permission, reason, evidence and a balanced proposal.
-- Posted records use controlled reversal/correction rather than destructive deletion.
-- Period-close and Finance-verification dependencies are checked before final posting.
-- Period close additionally enforces V2 reconciliation readiness: Posting Control, Finance verification/corrections, bank statement reconciliation, accounting exceptions, Trial Balance integrity, suspense/clearing, Inter-BU balance integrity and persistent BU-specific reconciliation sign-offs.
-- English/Korean and Review & Confirm protections remain part of the regression baseline.
+- `npm run qa:current`: **240 / 240 checks passed** on the completed source tree.
+- The final ZIP is integrity-tested and the same QA suite is rerun after clean extraction before delivery.
+- `npm ci` could not complete within this build environment, so the dependency-backed `npm run qa:runtime` smoke test could not be executed here. It remains included for local testing after dependencies are installed.
 
-## Final validation status
-
-- **Consolidated current-release QA:** PASS — 194 checks total.
-- **JavaScript syntax:** PASS — all 36 shipped JavaScript files validated with `node --check`.
-- **V30.18 accounting/posting-control regressions:** PASS — Finance/Accounting separation, Pending Review isolation, final-post authorization, evidence/manual-journal controls, reversal/correction handling, period close readiness, reconciliation sign-off and V30.17 Access-button regression are covered by the consolidated suite.
-- **Package cleanup:** PASS — 50 release files; `.env`, `node_modules`, runtime databases, runtime uploads and historical release clutter are excluded.
-- **ZIP integrity:** PASS — archive validates with no compressed-data errors.
-- **Runtime smoke:** NOT CLAIMED in the build environment because dependencies could not be installed there (`npm ci` timed out). Run `npm ci`, `npm run qa:current`, then `npm run qa:runtime` locally before production deployment.
-
-This release is therefore **finalized for local testing/source validation**. Production deployment should still include a successful runtime smoke test against the intended database/environment.
+## Git-ready packaging note
+This Git-ready package preserves the V30.20.0 application release and adds source-control hardening (`.gitignore`, `.dockerignore`, `.gitattributes`), secure generated local/runtime-test credentials, and Git deployment documentation. Post-V30.20 requirements are documented as pending and are not claimed as implemented in this release.

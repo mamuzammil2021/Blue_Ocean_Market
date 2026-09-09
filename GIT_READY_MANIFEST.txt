@@ -1,0 +1,29 @@
+Blue Ocean Market V30.20.0 GIT READY
+===================================
+
+Source release:
+Blue_Ocean_Market_V30_20_0_SMART_PAYMENTS_SETTINGS_UX_LOCAL_TEST
+
+Included:
+- Complete V30.20.0 application source
+- V30.19 System Settings foundation carried forward
+- V30.20 Smart Payments / Company Financial Accounts / Settings UX implementation
+- QA scripts and release documentation
+- Hardened .gitignore and .dockerignore
+- .gitattributes
+- Secure local launcher with generated local credentials
+- Secure runtime smoke test credentials generated per run
+- GIT_DEPLOYMENT_GUIDE.md
+- Pending post-V30.20 requirements captured in REQUIREMENTS_MASTER.md
+
+Intentionally excluded:
+- .git metadata
+- .env and real secrets
+- node_modules
+- runtime data/
+- runtime uploads/
+- SQLite/runtime database files
+- ZIP/build archives
+
+Important release boundary:
+The post-V30.20 attachment-preview, universal exact-account token-payment routing, and UI duplicate payment-reference checks are recorded as PENDING requirements and are not claimed as implemented in V30.20.0.

@@ -1,5 +1,32 @@
+# Dependencies
 node_modules/
-data/*.sqlite*
-uploads/*
+
+# Runtime configuration / secrets
 .env
+.env.*
+!.env.example
+
+# Runtime data (never commit live company data)
+data/
+uploads/
+
+# Logs / reports generated locally
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+coverage/
+.nyc_output/
+
+# Temporary / editor / OS files
 .DS_Store
+Thumbs.db
+*.tmp
+*.temp
+*.bak
+*.swp
+.vscode/
+.idea/
+
+# Local archives / build packages
+*.zip

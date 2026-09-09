@@ -6,7 +6,7 @@
   if(typeof oldApi!=='function')return;
 
   const reviewedHandlers=new Set(['saveFinance','saveFinanceEdit','saveFinanceCorrection','savePurchaseEdit','saveExcavatorBuyerRefund']);
-  const noReviewUrls=[/^\/api\/auth\//,/^\/api\/notifications(?:\/|$)/,/\/statement-v313\.(?:csv|pdf)(?:\?|$)/,/\/received-pdf-v307(?:\?|$)/,/\/pdf-v308(?:\?|$)/,/\/payslip\.pdf(?:\?|$)/];
+  const noReviewUrls=[/^\/api\/auth\//,/^\/api\/notifications(?:\/|$)/,/^\/api\/me\/language$/,/^\/api\/excavator\/assets\/\d+\/documents(?:\?|$)/,/\/statement-v313\.(?:csv|pdf)(?:\?|$)/,/\/received-pdf-v307(?:\?|$)/,/\/pdf-v308(?:\?|$)/,/\/payslip\.pdf(?:\?|$)/];
   let reviewAllowanceUntil=0,reviewAllowanceCount=0,processingCount=0,lastActionButton=null,lastActionAt=0;
 
   function tr(v){try{return typeof t==='function'?t(v):String(v)}catch(_){return String(v)}}
