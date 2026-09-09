@@ -1,5 +1,30 @@
 # Changelog
 
+## V30.20.0 — Settings UX, Smart Payments & Direct Attachments
+
+- Redesigned the System Settings shell for clearer grouped administration, separate Policy/Technical badges and responsive form spacing.
+- Expanded Company Bank Accounts into Company Financial Accounts with multiple Bank, Cash, Card, Wallet/Other account types, BU/company scope, GL mapping, cheque/card metadata, close/archive and history.
+- Added smart payment-method account filtering: Cash→Cash, Bank→Bank, Card→Card, Cheque→cheque-enabled Bank, with incompatible combinations blocked.
+- Added exact-account selection when multiple compatible company accounts/cards/cash accounts exist, and preserved the chosen account through core Sales/Purchases, MIMI POS, Excavator payment/sale-receipt paths and Pink Salt import/customer/supplier cash movements into Finance → Posting Control → Accounting.
+- Added method-compatible Finance fallback account resolution for older cash-movement sources that do not yet carry an explicit account ID.
+- Cash references are optional; non-cash references remain required where applicable.
+- Added immediate UI phone/email validation and duplicate checks for Excavator Suppliers and Buyers while retaining server-side integrity validation.
+- Removed upload-time attachment compression/optimization/readability review. File inputs now show allowed formats, maximum file size and maximum attachments per upload and validate directly.
+- Kept stored-document Preview/Open and Download Original behavior.
+
+
+## V30.19.0 — System Settings & QA Hardening
+
+- Added centralized System Settings with Company → BU → User override resolution and audited high-risk policy changes.
+- Added System Administrator technical role/permissions, System Overview, BU administration, SMTP, storage, migration, bank, security, approval, notification, numbering, localization, maintenance, audit and AI settings.
+- Added encrypted SMTP/AI credentials, SMTP test/logs and secure non-enumerating password reset flow.
+- Added configured Company Bank Accounts with BU scope, GL mapping, history-preserving close, statement import and operational payment-account selection.
+- Added System Settings-driven attachment policy, preview/optimization/readability workflow and preservation rules for financial/legal evidence.
+- Added staged migration templates/validation/preview/import history without silent overwrite.
+- Added AI Assistant configuration with the existing User → BU → Module → Record → Sensitive Permission boundary.
+- Applied supplied QA document fixes: supplier validation/duplicate checks/modal lifecycle, chassis duplicate protection, supplier-machine Notes, document/receipt preview, machine-cost currency/FX/payment metadata, controlled cost reversal, Finance state-driven actions, correction evidence history, language persistence and Accounting Simple View responsive hardening.
+- Retained V30.18 Finance → Posting Control → official Accounting workflow and all prior additive safeguards.
+
 
 ## V30.18.0 — Finance & Accounting Posting Control
 

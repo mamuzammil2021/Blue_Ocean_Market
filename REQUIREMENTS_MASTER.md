@@ -288,3 +288,76 @@ Before packaging a new release:
 - Every posting/correction/reversal/manual-journal state change must preserve meaningful who/what/when/reason/status history.
 - All new Finance/Accounting labels, statuses, confirmations, errors, help text and generated output remain English/Korean ready with no hardcoded-English-only user experience in Korean mode.
 - V30.17 Users & Access behavior, including the locally verified Access button, is a regression requirement for every subsequent release.
+
+
+## V30.19 mandatory System Settings & QA hardening requirements
+
+### Central configuration / authority
+- System Settings is the permanent source of company-wide and technical configuration. Effective settings resolve **Company Default → Business Unit Override → User Override**.
+- Access is restricted to CEO/Owner and authorized System Administrators. Technical administration does not automatically grant business-policy, Finance or Accounting authority.
+- High-risk changes (base currency, fiscal year, accounting mappings, storage provider, migration/reset, evidence requirements, bank GL mapping and numbering sequences) require special permission, Review & Confirm/reason and immutable old→new audit history.
+- Sections must cover System Overview, Company Profile & Branding, Business Units, Email/SMTP, Files & Attachments, Migration, Finance & Accounting, Company Bank Accounts, Security & Access, Approval Settings, Notifications, Numbering, Localization, Backup/Storage/Maintenance, System Audit and AI Assistant.
+
+### System administration connected behavior
+- Add System Administrator role/template and granular permissions for System Settings, SMTP, storage, migration, bank accounts, AI and accounting configuration.
+- Forgot Password uses configured SMTP, secure expiring one-time tokens, rate limiting, generic/non-enumerating responses, password policy and audit.
+- Company Bank Accounts are the operational payment-account source for Finance/Accounting. They are BU/permission scoped, GL-mapped and history-preserving; used accounts are closed/inactivated instead of deleted, and post-history GL remapping is highly restricted.
+- Posting/verification must block a non-cash transaction when its configured payment account does not have a valid active Asset GL mapping.
+- Shared Attachment Service consumes centralized limits/types/compression/original-retention/storage rules. Routine upload uses attachment preview/readability confirmation instead of the full business-data Review & Confirm dialog. Financial/legal originals/history are preserved where required.
+- Migration flow is **Upload → Validate → Preview/Map → Resolve → Review/Approve → Import** with Migration ID, duplicate detection, errors/warnings, audit and reconciliation; no silent overwrite.
+- AI Assistant settings must preserve **User → Business Unit → Module → Record → Sensitive Permission** and must never provide unrestricted DB access. Consequential AI-assisted actions use the same Review & Confirm → user confirmation → commit → audit controls as normal actions.
+
+### QA hardening from supplied QA document
+- Validate supplier phone/email and prevent duplicate normalized supplier contact details.
+- Fix Excavator Supplier modal reopening after submit/update/delete/back navigation.
+- Prevent duplicate Serial/Chassis across supplier-listed machines and machine history; show a clear error and do not save.
+- Load and persist supplier-machine Notes during Edit/Update.
+- Documents/receipts provide Preview first and explicit Download Original; authorized removal archives/preserves history where evidence integrity requires it.
+- Payment Method is mandatory for payment-related entries; Payment Reference is required for non-cash. Applicable entries retain Payment Currency, Payment Amount, FX Rate to KRW, Accounting Amount KRW, Company Bank/Payment Account and evidence.
+- Machine Cost supports controlled edit/delete/reversal by lifecycle state and clearly shows purchase token/partial paid. Verified/posted financial costs are corrected/reversed rather than destructively altered.
+- Finance actions are state-driven: Verified/Voided records use View; Correction Required hides inappropriate verification/void actions; successful void closes its modal; View includes complete record/evidence/history/posting context.
+- Finance correction form shows previous/current data and evidence, allows revised evidence and preserves superseded/removed evidence in history.
+- User language selection persists across refresh/login using a reliable stored preference.
+- Accounting Simple View responsive defect is fixed without disturbing the working Advanced View.
+- Fix reported instances and audit equivalent patterns system-wide rather than treating each screenshot as an isolated one-off.
+
+## V30.20 mandatory requirements — Settings UX, Smart Payments & Direct Attachments
+
+V30.20 builds on V30.19 without resetting or replacing historical operational, Finance or Accounting data.
+
+### User-friendly System Settings
+- System Settings must use a clear administration layout across every section: readable headings/descriptions, grouped navigation, separate Policy / Technical badges, consistent form spacing, responsive cards and obvious Save / Test / History actions.
+- Technical classification text must never run into the section name.
+- Company Default → Business Unit Override → User Override remains the configuration precedence.
+- Company Financial Accounts replaces the narrow bank-only presentation while preserving the same permission and audit controls.
+
+### Supplier and Buyer UI validation
+- Add/Edit Supplier and Add/Edit Buyer must validate phone and email immediately in the UI while typing / on blur.
+- Invalid values must show an inline field error and block save.
+- Phone/email duplicate checks must surface in the form before save where possible and identify the conflicting field/record.
+- Server-side validation remains mandatory as a second integrity layer.
+
+### Smart payment method → financial account routing
+- Every payment/receipt/expense/cost form that records a real cash movement must use the shared smart financial-account selector.
+- Cash → active authorized Cash accounts only; Bank/Bank Transfer → active authorized Bank accounts only; Card → active Company Cards only; Cheque → active cheque-enabled Bank accounts only. Internal credit/advance allocations do not require a cash/bank account.
+- Incompatible combinations such as Card + Cash on Hand are forbidden in UI and server validation.
+- Choices are filtered by current BU, account status and access scope. If more than one compatible account exists, the user must be able to select the exact account/card/cash account used. Non-cash payment reference remains required where applicable; cash reference may remain optional.
+- The exact selected/resolved payment account must be persisted on the operational source where applicable and flow into Finance → Posting Control → Accounting to determine the mapped GL account. A display-only account selector is not acceptable.
+
+### Company Financial Accounts
+- System Settings must support multiple Company Bank Accounts, Cash Accounts and Company Cards (including several accounts/cards at the same bank), with currency, Company/BU scope, GL mapping, defaults, and audit history.
+- Bank accounts may be marked cheque-enabled. Cards may store issuer/network, last four digits, expiry and optional linked bank account.
+- Accounts with history are never destructively deleted. Authorized users Close / Archive them and add new/replacement accounts; historical Finance/Accounting references remain intact.
+- Closed/archived accounts are unavailable for new transactions. GL remapping after transactions exist is high-risk and requires controlled authorization/audit.
+
+### Direct attachment upload
+- Remove upload-time attachment preview, compression/resize, optimized-vs-original selection and readability confirmation throughout the system.
+- Attachment fields show only: allowed file formats, maximum file size, and maximum number of attachments per upload.
+- Validate these rules immediately in the UI. Valid files upload directly; invalid files show a clear inline error.
+- Normal post-upload Open/Preview and Download Original actions may remain for stored documents.
+
+## Post-V30.20 requirements captured for the next build (Pending / not implemented in V30.20)
+
+- **Stored attachment viewing:** Existing uploaded receipts, evidence, attachments, invoices, statements and documents should open in a preview modal or new browser tab instead of downloading immediately. The preview should provide a separate Download action. This applies only after upload; the upload flow remains direct with no compression/optimization/preview gate.
+- **Exact financial account on every money movement:** All paying and receiving workflows, including Excavator purchase token payments, must clearly identify the exact Company Financial Account used. Cash shows configured cash accounts, Bank shows active company bank accounts, Card shows active company cards, Cheque shows eligible bank accounts, and the selected account must flow into Finance and Accounting.
+- **UI-first payment reference duplicate validation:** Payment/receipt references should be normalized and checked before submission, scoped intelligently to the relevant financial account/reference type. Show inline available/duplicate feedback and retain a final server-side duplicate check for concurrency and accounting integrity.
