@@ -356,8 +356,141 @@ V30.20 builds on V30.19 without resetting or replacing historical operational, F
 - Validate these rules immediately in the UI. Valid files upload directly; invalid files show a clear inline error.
 - Normal post-upload Open/Preview and Download Original actions may remain for stored documents.
 
-## Post-V30.20 requirements captured for the next build (Pending / not implemented in V30.20)
+## V30.21 mandatory requirements — Financial Integrity, Stored Attachment View & International Contacts
 
-- **Stored attachment viewing:** Existing uploaded receipts, evidence, attachments, invoices, statements and documents should open in a preview modal or new browser tab instead of downloading immediately. The preview should provide a separate Download action. This applies only after upload; the upload flow remains direct with no compression/optimization/preview gate.
-- **Exact financial account on every money movement:** All paying and receiving workflows, including Excavator purchase token payments, must clearly identify the exact Company Financial Account used. Cash shows configured cash accounts, Bank shows active company bank accounts, Card shows active company cards, Cheque shows eligible bank accounts, and the selected account must flow into Finance and Accounting.
-- **UI-first payment reference duplicate validation:** Payment/receipt references should be normalized and checked before submission, scoped intelligently to the relevant financial account/reference type. Show inline available/duplicate feedback and retain a final server-side duplicate check for concurrency and accounting integrity.
+V30.21 extends V30.20 without changing the direct/simple upload rule. The new preview behavior applies only after a file has already been stored.
+
+### Stored Attachment View
+- Clicking an already uploaded receipt, evidence, attachment or document must open a View/Preview experience instead of immediately downloading the file.
+- Use contextual actions such as View Receipt, View Evidence, View Attachment or View Document.
+- PDF/images may preview in a modal; other formats may open in a new browser tab when browser-native preview is unavailable.
+- The viewer must provide a separate explicit Download Original action. Upload-time compression, optimization and preview-before-store remain disabled.
+
+### Exact payment source / destination account
+- Every real payment or receipt must clearly identify the exact Company Financial Account used.
+- Outgoing transactions show a Pay From Account selector; incoming transactions show a Receive Into Account selector.
+- Cash, Bank, Card and Cheque methods continue to show only compatible active accounts/cards and preserve the exact selected account through Operational Transaction → Finance → Posting Control → Accounting.
+- Purchase-token payments and other prefixed/embedded payment sections follow the same rule rather than being exceptions.
+- Default Payment Account is used for outgoing transactions; Default Receipt Account is used for incoming transactions when multiple compatible accounts exist.
+
+### Payment Reference Integrity
+- Payment/reference fields must be validated in the UI before submission and rechecked against server data.
+- Comparison is normalized so case, spaces, hyphens and common punctuation cannot bypass duplicate detection.
+- The same normalized reference on the same Company Financial Account is a blocking duplicate.
+- The same reference on a different financial account is allowed but should show a verification warning.
+- Cash references may remain optional; non-cash references remain required.
+
+### International Phone & Email Validation
+- Phone entry throughout the system uses an international phone component with Flag + Country Name + Dial Code and a separate local-number field.
+- When a country is already selected/known, the phone country code is selected automatically. The user may change the code manually.
+- The stored phone value is normalized to E.164-style international form (for example +923002920550 or +821012345678) to improve duplicate checking and reporting.
+- Email validation is immediate and UI-based across all forms, not limited to standalone Supplier/Buyer screens. Invalid email/phone values block submission and show inline errors.
+- Supplier/Buyer and other supported contact masters perform duplicate checks using normalized contact values before save, while server-side validation remains the final protection layer.
+
+## V30.22 mandatory requirements — Stability, Security & Workflow Hardening
+
+### One mutation/review pipeline
+- There must be only one shared form submission pipeline for consequential business forms: **validate → Review & Confirm once where required → protected processing/idempotency → save → refresh**.
+- Contact/payment validation overlays must not register competing submit interceptors that can reopen Review & Confirm.
+- Duplicate clicks and duplicate submissions remain blocked.
+
+### Contact and public-auth isolation
+- Login, Forgot Password and Reset Password use public-auth validation only and must never call authenticated Supplier/Buyer/Customer/User duplicate-check endpoints before authentication.
+- Every Phone and Email field owns its own validation/error/helper element; validation state must never leak to another field.
+- International phone input remains **flag + country + dial code + local number**, with smart country synchronization and normalized international storage.
+- UI validation is an early usability control; server validation remains authoritative.
+
+### Financial integrity
+- Every interactive real-money payment/receipt identifies the exact Company Financial Account. Defaults may preselect but may not silently substitute for the user's selected Pay From / Receive Into account.
+- Normalize payment references before comparison and persistence. Same normalized reference on the same active financial account is a blocking duplicate; the same reference on another account may be an informational warning.
+- Duplicate-reference integrity must be enforced on the backend/database as well as checked in the UI.
+- Finance → Posting Control → Accounting must retain the exact source/destination financial account.
+
+### Private stored attachments
+- Runtime `uploads/` is private application storage, not a public static web directory.
+- Stored receipts/evidence/documents open through authenticated View/Download endpoints with BU/module/record/sensitive access enforcement.
+- User interaction remains **View first → Preview/Open → Download Original if requested**. Upload-time compression/optimization remains removed.
+
+### Authentication and secrets
+- Sign-in is rate-limited/audited without revealing whether an email exists.
+- Session lifetime follows effective Security settings. Password change/reset and account deactivation/archive revoke previous sessions.
+- Password policy is centralized across user creation, password change and reset.
+- Password reset lookup uses a cryptographic hash of the raw token and production reset URLs use trusted `APP_BASE_URL`.
+- Encryption of stored application secrets uses a dedicated `APP_ENCRYPTION_KEY`; JWT signing and application-secret encryption should not share a key for new deployments.
+
+### History and record lifecycle
+- Audit history must never be deleted as part of normal user/account removal.
+- A user with historical activity is archived/deactivated rather than physically deleted.
+- Referenced business/financial records use archive/void/correction/reversal patterns rather than destructive removal; unused drafts may use controlled delete where safe.
+
+### UI architecture rule
+- Avoid excessive modals throughout current and future development. Short focused decisions/actions may use dialogs; heavy multi-section workflows, attachments, history and complex actions should use dedicated screens/pages.
+- When a modal Close (X) is present it is positioned at the top-right. Dialog actions, Escape behavior, focus, scrolling and responsive behavior are standardized.
+- Buyer Details/core account information appears before Pakistan Resale Profit Share; Pakistan-specific UI is shown only for eligible buyers.
+
+### Backend/production hardening
+- Generated transaction/document numbers use persistent transactional sequences rather than `COUNT(*) + 1`.
+- New schema changes use a migration registry; historical migrations are progressively consolidated without breaking old databases.
+- Production PDF runtime must include a supported Chromium/browser renderer and Korean/CJK fonts while browser-based PDF functions remain in use.
+- Existing SQLite remains supported for the current single-instance launch; any later horizontal scaling requires a controlled database/storage architecture review.
+- Money precision migration from historical SQLite REAL fields to fixed-decimal/minor-unit representation is a future accounting migration and must not be performed casually.
+
+### QA
+- Keep source/regression QA and add browser-level acceptance coverage progressively for Login, Forgot Password, Phone/Email validation, single Review & Confirm, exact financial account selection, duplicate references, stored attachment View/Download and Finance → Posting Control → Accounting.
+
+
+## V30.22.1 Standing Regression Rules
+- Contact validation messages are field-owned. A Phone/WhatsApp field must never render an Email validation message, and legacy validators must not compete with the active shared contact component.
+- Public Login, Forgot Password and Reset Password use public format/token/password validation only; authenticated business-contact duplicate checks never run on those screens.
+- User-facing action errors/warnings/success messages must render above modal/dialog/processing overlays; field-specific errors remain beside their fields.
+- Non-count value fields accept whole numbers and manually entered decimals. Do not force decimal-point entry through HTML step-base configuration. True discrete count fields remain integer-compatible.
+- Uploaded files are preserved byte-for-byte. Preserve original filename, extension, MIME type, byte size and SHA-256 metadata; stored-file preview uses authoritative MIME and Download Original restores the original filename.
+- Attachment helper text must reflect the actual input capability. A single-file field says one file; a multi-file field shows its real contextual/system limit.
+
+
+## V30.24 UI architecture safety rule
+- V30.22.1 is the code baseline for V30.24; V30.23 automatic modal-promotion code is not inherited.
+- Heavy workflows are converted explicitly in their own render functions to dedicated full-screen workflow pages.
+- Never intercept or monkey-patch global `modal()`, `closeModal()`, `go()`, `modalRoot`, or form submission to simulate full-screen pages.
+- Never use a MutationObserver to auto-promote dialogs.
+- Short actions remain dialogs; full-screen workflows may intentionally open a short focused child dialog.
+- Number-input normalization must be idempotent and must not create MutationObserver feedback loops.
+- UI release acceptance requires browser-driven button/navigation tests in addition to static QA.
+
+
+## V30.24.1 mandatory refinement requirements
+
+V30.24.0 is the code baseline. V30.24.1 is a refinement/hotfix release and must not replace the safe explicit V30.24 full-screen architecture with automatic dialog promotion.
+
+- Preserve parent record context after child workflows; nested workflows must unwind to the exact parent and affected records must refresh without returning to module lists. Buyer Payment/Advance must return to the same Buyer Detail/Profile.
+- Use a shared dialog/preview header with non-overlapping title/subtitle, status, actions and Close control. Long filenames must be safe. Attachment previews must support View and Download Original using authenticated attachment routes.
+- Finance correction duplicate checking must exclude the current Finance transaction and only block another active transaction with the same normalized reference on the same exact Company Financial Account.
+- Existing correction evidence remains linked/visible and may satisfy evidence requirements; new/replacement evidence is optional unless no valid evidence remains or the correction specifically requires new evidence.
+- Finance Full History must remain open until user close, return to the same Finance Verification context, and show human-readable Date/Time, User, Action, Status, Field Changed, Old Value, New Value and Reason/Note. Raw technical metadata is collapsed and restricted to authorized audit users.
+- Final Documents do not expose Reopen. Normal users see View/Download only. Delete is archive/soft-delete, preserving file, metadata, linked record, prior status, reason, actor/time and audit. Archived Documents are separated and permission-controlled. Authorized Restore returns the item to its previous valid active/final state and is audited.
+- Every date-filtered statement/report must apply From/To consistently to transaction rows and period activity summaries. Opening balance must carry pre-period activity where accounting logic requires it; closing/outstanding must reconcile from opening plus period movements.
+- Statement PDFs must use professional branding/layout, statement period/generated information, readable tables/totals, stable page breaks and complete EN/KR presentation.
+- Regression QA is release-blocking for parent/child context, Buyer return behavior, unchanged Finance reference correction, evidence reuse, history persistence, preview/header layout, document permissions/archive/restore, date-filter integrity and bilingual statement output.
+
+
+## V30.24.2 standing nested-dialog and Finance-correction integrity
+
+- Nested dialogs are system-wide LIFO workflows: a child Close (X), backdrop close or Escape may close only the topmost child, never its parent.
+- A parent dialog/form must preserve unsaved values, file selections, selected record, scroll/focus context and return path while any child preview/history/dialog is open.
+- Shared dialog/preview headers must reserve non-overlapping responsive space for title/details, status/actions, Download Original where applicable and Close (X), including long filenames.
+- These rules apply equally to Finance, Accounting Posting Control, Buyers, Suppliers, Machines, Documents/SOPs, Attachments, Approvals, Reports and future modules using nested dialogs.
+- During Finance correction/resubmission, retaining the current payment reference is valid. Duplicate checking must exclude every Finance/source mirror belonging to the same logical payment and block only a genuinely different active transaction using the same normalized reference on the same actual Company Financial Account.
+- The legacy `Unassigned KRW Bank` clearing account may remain for historical integrity but must not be offered or accepted for new/corrected money movement when an actual configured Company Financial Account is required.
+
+
+## V30.24.3 standing Numbering & References requirements
+
+- **Central registry:** System Settings → Numbering & References is the authoritative registry for every system-issued numbered/reference identifier. It must not rely on a separately maintained partial list.
+- **BU-separated presentation:** show Company / Shared and each authorized Business Unit separately. Users must not be presented with one mixed cross-BU prefix list.
+- **Authorization:** CEO / Owner can view/manage all scopes. A System Administrator can view/manage only BUs for which effective `sensitive.system_admin` authority exists. Company / Shared changes remain CEO-controlled.
+- **Automatic feature registration:** any new module/workflow that issues a numbered identifier must use/register with the central numbering service as part of that feature so its definition appears automatically in Numbering & References.
+- **Historical immutability:** changing prefix, year/reset or padding rules applies only to future numbers. Previously issued references must never be rewritten.
+- **Sequence integrity:** use persistent sequence counters and safe Company/BU override precedence; do not regress to COUNT-only numbering.
+- **Conflict control:** normalize prefixes, visibly warn about inherited legacy conflicts, and prevent users from introducing a new conflicting prefix in the same scope.
+- **Audit:** numbering changes require Review & Confirm, a change reason and before/after audit history.
+- **Business/external references:** bank references, supplier invoice numbers, chassis/serial numbers and other externally supplied references remain source data and are not automatically replaced by internal numbering rules unless that workflow explicitly defines an internal system reference.

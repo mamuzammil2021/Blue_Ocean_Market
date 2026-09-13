@@ -1,9 +1,9 @@
-const multer=require('multer');
+const {createIntegrityUpload}=require('./upload-integrity');
 
 const VERSION='30.7.0';
 
-function install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads,financeSync,voidFinanceBySource,accounting,configuredPaymentAccount}){
-  const upload=multer({dest:uploads,limits:{fileSize:20*1024*1024}});
+function install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads,financeSync,voidFinanceBySource,accounting,configuredPaymentAccount,upload:sharedUpload}){
+  const upload=sharedUpload||createIntegrityUpload(uploads,{fileSize:20*1024*1024});
   const num=v=>Number(v||0),text=v=>String(v??'').trim(),today=()=>new Date().toISOString().slice(0,10);
   const pinkUnit=()=>db.prepare("SELECT id FROM business_units WHERE name='Pink Salt' AND status!='Archived'").get()?.id||null;
   function guard(req,res){const bu=Number(pinkUnit()||0),selected=Number(currentUnit(req)||0);if(!bu)return res.status(409).json({error:'Pink Salt business unit is not available.'});if(!selected||selected!==bu||!enforceUnit(req,bu)){res.status(403).json({error:'Select the Pink Salt business unit to use this workspace.'});return null}return bu}

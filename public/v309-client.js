@@ -1,6 +1,7 @@
 // Blue Ocean Market V30.9.0 — packaging composition integrity and carton raw-salt calculations.
 (()=>{
   const n=v=>Number(v||0);
+  const qty=(v,d=2)=>Number(v||0).toLocaleString('en-US',{maximumFractionDigits:d});
   Object.assign(KO,{
     'A gift box requires at least one salt category.':'선물 상자에는 최소 한 개의 소금 카테고리가 필요합니다.',
     'A gift box must contain more than one pouch.':'선물 상자에는 두 개 이상의 파우치가 들어가야 합니다.',
@@ -44,7 +45,7 @@
   const oldProductionForm=window.psProductionForm;
   if(oldProductionForm)window.psProductionForm=async function(){
     await oldProductionForm();
-    const note=document.querySelector('#modalRoot .ps-info-note');
+    const note=(window.workflowSurfaceV324?.()||document).querySelector?.('.ps-info-note')||document.querySelector('#modalRoot .ps-info-note');
     if(note){note.textContent=t('Raw salt requirements are calculated from the complete finished-product composition, including carton pouch count and gift-box categories.');translateElement(note)}
   };
 

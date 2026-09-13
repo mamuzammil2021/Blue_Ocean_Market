@@ -1,0 +1,38 @@
+# Optional Blueprint example for a NEW Render service.
+# If you already have a paid Render service, do NOT create a second service from this file.
+# Apply the equivalent disk/environment settings in your existing service instead.
+services:
+  - type: web
+    name: blue-ocean-market
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    autoDeployTrigger: commit
+    healthCheckPath: /api/health
+    disk:
+      name: blue-ocean-persistent-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: RENDER_PERSISTENT_ROOT
+        value: /var/data
+      - key: DATA_DIR
+        value: /var/data/data
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+      - key: RENDER_REQUIRE_PERSISTENT_DISK
+        value: "true"
+      - key: JWT_SECRET
+        sync: false
+      - key: APP_ENCRYPTION_KEY
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: LOCAL_TEST_MODE
+        value: "false"
+      - key: SEED_DEMO_USERS
+        value: "false"
+      - key: SEED_DEMO_DATA
+        value: "false"

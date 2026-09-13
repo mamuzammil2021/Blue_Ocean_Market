@@ -194,10 +194,11 @@
     box.querySelectorAll('[data-v284-resale-summary]').forEach(x=>x.remove());
     const resaleCards=[...box.querySelectorAll('.card')].filter(c=>String(c.querySelector('h3')?.textContent||'').trim()==='Pakistan Resale Profit Share'||String(c.querySelector('h3')?.textContent||'').trim()===(typeof t==='function'?t('Pakistan Resale Profit Share'):'Pakistan Resale Profit Share'));
     if(!pakistanBuyer(b)){resaleCards.forEach(x=>x.remove());box.querySelectorAll('.v285-divider[data-resale-divider]').forEach(x=>x.remove());return}
-    const resale=resaleCards[0];if(!resale||!kpis)return;
+    const resale=resaleCards[0];if(!resale)return;
     resaleCards.slice(1).forEach(x=>x.remove());resale.classList.add('v285-resale-card');
-    let divider=box.querySelector('.v285-divider[data-resale-divider]');if(!divider){divider=document.createElement('div');divider.className='v285-divider';divider.dataset.resaleDivider='1'}
-    kpis.insertAdjacentElement('afterend',divider);divider.insertAdjacentElement('afterend',resale);
+    // V30.22: preserve the natural Buyer page order. Core Buyer Details and account/payment
+    // information must be read before the Pakistan-specific resale-profit section.
+    let divider=box.querySelector('.v285-divider[data-resale-divider]');if(!divider){divider=document.createElement('div');divider.className='v285-divider';divider.dataset.resaleDivider='1';resale.insertAdjacentElement('beforebegin',divider)}
     const shares=d.resale_shares||[],company=shares.reduce((n,x)=>n+Number(x.our_share_pkr||0),0),received=shares.reduce((n,x)=>n+Number(x.amount_received_pkr||0),0),outstanding=shares.reduce((n,x)=>n+Number(x.outstanding_pkr??Math.max(0,Number(x.our_share_pkr||0)-Number(x.amount_received_pkr||0))),0);
     let summary=resale.querySelector('.v285-resale-summary-grid');if(summary)summary.remove();summary=document.createElement('div');summary.className='v285-resale-summary-grid';summary.innerHTML=`<div><small>${esc(typeof t==='function'?t('Machines with Resale Records'):'Machines with Resale Records')}</small><b>${shares.length}</b></div><div><small>${esc(typeof t==='function'?t('Total Company Share'):'Total Company Share')}</small><b>PKR ${moneySafe(company)}</b></div><div><small>${esc(typeof t==='function'?t('Total Received'):'Total Received')}</small><b>PKR ${moneySafe(received)}</b></div><div><small>${esc(typeof t==='function'?t('Total Outstanding'):'Total Outstanding')}</small><b>PKR ${moneySafe(outstanding)}</b></div>`;
     const muted=resale.querySelector('.muted');if(muted)muted.insertAdjacentElement('afterend',summary);else resale.querySelector('.section-title')?.insertAdjacentElement('afterend',summary);

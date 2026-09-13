@@ -134,11 +134,12 @@
   document.addEventListener('click',ev=>{const b=ev.target.closest('button,.btn');if(b){lastActionButton=b;lastActionAt=Date.now()}},true);
   document.addEventListener('submit',ev=>{
     const form=ev.target;if(!(form instanceof HTMLFormElement))return;lastActionButton=ev.submitter||form.querySelector('[type="submit"],button:not([type])')||lastActionButton;lastActionAt=Date.now();
-    if(form.dataset.bomReviewBypass==='1'){delete form.dataset.bomReviewBypass;delete form.dataset.bomReviewOpen;return}
-    if(!shouldAutoReviewForm(form))return;
+    if(form.dataset.bomPipelineBypass==='1'||form.dataset.bomReviewBypass==='1'){delete form.dataset.bomPipelineBypass;delete form.dataset.bomReviewBypass;delete form.dataset.bomReviewOpen;return}
+    const publicAuth=typeof window.isPublicAuthFormV321==='function'&&window.isPublicAuthFormV321(form);if(publicAuth)return;
+    const needsValidation=typeof window.formNeedsBusinessValidationV321==='function'&&window.formNeedsBusinessValidationV321(form),needsReview=shouldAutoReviewForm(form);if(!needsValidation&&!needsReview)return;
     if(form.dataset.bomReviewOpen==='1'){ev.preventDefault();ev.stopImmediatePropagation();return}
     ev.preventDefault();ev.stopImmediatePropagation();form.dataset.bomReviewOpen='1';const submitter=ev.submitter||form.querySelector('[type="submit"],button:not([type])');
-    formReview(form,submitter).then(ok=>{if(!ok){delete form.dataset.bomReviewOpen;return}grantReview();form.dataset.bomReviewBypass='1';try{form.requestSubmit(submitter||undefined)}catch(_){delete form.dataset.bomReviewBypass;delete form.dataset.bomReviewOpen;form.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))}});
+    (async()=>{try{if(needsValidation&&typeof window.validateBusinessFormV321==='function'){const valid=await window.validateBusinessFormV321(form);if(!valid)return}if(needsReview){const ok=await formReview(form,submitter);if(!ok)return;grantReview()}form.dataset.bomPipelineBypass='1';try{form.requestSubmit(submitter||undefined)}catch(_){delete form.dataset.bomPipelineBypass;form.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}))}}catch(e){if(typeof toast==='function')toast(e.message||tr('Validation failed.'))}finally{delete form.dataset.bomReviewOpen}})();
   },true);
 
   function wrapDecision(name,positive){const fn=window[name];if(typeof fn!=='function')return;window[name]=async function(...args){const r=await fn.apply(this,args);if(positive(r))grantReview();return r}}
