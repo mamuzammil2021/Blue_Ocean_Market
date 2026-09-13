@@ -40,7 +40,7 @@
 
   const oldProductionDetail=window.psProductionDetail;
   if(oldProductionDetail)window.psProductionDetail=async function(id){
-    try{await oldProductionDetail(id);const root=document.querySelector('#modalRoot .modal');if(root){const actions=root.querySelector('.actions');if(actions&&!actions.querySelector('.v308-production-pdf')){const b=document.createElement('button');b.className='btn primary v308-production-pdf';b.textContent='📄 '+t('Generate / Download PDF');b.onclick=()=>psDownloadProductionPdf(id);actions.insertBefore(b,actions.firstChild)}translateElement(root)}}catch(err){toast(err.message)}
+    try{await oldProductionDetail(id);const root=workflowSurfaceV324();if(root){const actions=root.querySelector('.actions');if(actions&&!actions.querySelector('.v308-production-pdf')){const b=document.createElement('button');b.className='btn primary v308-production-pdf';b.textContent='📄 '+t('Generate / Download PDF');b.onclick=()=>psDownloadProductionPdf(id);actions.insertBefore(b,actions.firstChild)}translateElement(root)}}catch(err){toast(err.message)}
   };
 
   window.psDownloadProductionPdf=async function(id){

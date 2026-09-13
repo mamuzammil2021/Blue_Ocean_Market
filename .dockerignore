@@ -1,13 +1,7 @@
-node_modules/
-.git/
+node_modules
+.git
 .env
-.env.*
-!.env.example
-data/
-uploads/
-*.log
-coverage/
+data/*.sqlite*
+uploads/*
 *.zip
 .DS_Store
-.vscode/
-.idea/

@@ -1,8 +1,8 @@
 const Database=require('better-sqlite3');
 const bcrypt=require('bcryptjs');
 const fs=require('fs'),path=require('path');
-const root=path.join(__dirname,'..');
-const dataDir=process.env.DATA_DIR?path.resolve(process.env.DATA_DIR):path.join(root,'data');
+const storage=require('./runtime-storage');
+const dataDir=storage.dataDir;
 fs.mkdirSync(dataDir,{recursive:true});
 const db=new Database(path.join(dataDir,'blue-ocean.sqlite'));
 db.pragma('journal_mode=WAL'); db.pragma('foreign_keys=ON');

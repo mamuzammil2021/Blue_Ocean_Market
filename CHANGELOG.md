@@ -1,5 +1,98 @@
 # Changelog
 
+## V30.24.3 — BU-Scoped Numbering & Reference Registry
+
+- Replaced the incomplete mixed Numbering & References settings view with a central registry separated into Company / Shared and Business Unit tabs.
+- Registered the reference prefixes currently issued/configured by the live system and moved the corresponding generators onto the central numbering service.
+- Added Company default / BU override precedence, format preview, current sequence, change reason, audit history and prefix-conflict warnings/protection.
+- Preserved all previously issued references; changes affect future references only.
+- Added automatic registration support so future numbered features using the central service appear in System Settings without a separate manual settings update.
+- Scoped visibility/management to CEO / Owner and authorized System Administrators.
+- Retained all V30.24.2 nested-dialog and Finance-reference safeguards.
+
+## V30.24.2 — System-wide Nested Dialog & Finance Reference Hotfix
+
+- Added one-level-at-a-time nested dialog isolation across the shared modal layer; child Close/backdrop/ESC no longer destroys the parent dialog.
+- Parent dialog DOM/form state, unsaved values, file input state, scroll position and focus context are preserved while child dialogs/previews are open.
+- Added protected responsive header space so standardized Close (X), Download Original, status and action controls do not overlap.
+- Accounting Posting evidence previews now inherit the same nested-dialog behavior as Finance and other stored-attachment previews.
+- Finance correction UI sends the current Finance identity to duplicate-reference validation.
+- Backend reference validation excludes all Finance rows belonging to the same logical payment, including linked/mirrored aliases, while continuing to block a genuinely different transaction using the same reference on the same account.
+- Removed legacy `Unassigned KRW Bank` from interactive account options and blocked its use for new/corrected money movement while preserving historical records.
+- Added V30.24.2 regression checks and retained all V30.24.1/V30.24 safeguards.
+
+
+## V30.24.1 — Workflow Context, Finance, Documents & Statement Refinement
+
+- Preserved parent full-screen record context across nested child workflows and protected active workflows from global refresh collapse.
+- Fixed Buyer Payment/Advance post-save navigation to remain in the same Buyer profile.
+- Standardized attachment and dialog headers with safe long filenames, reserved Close control and Download Original.
+- Finance corrections now exclude the current transaction from duplicate-reference checks and enforce conflicts only against another active transaction on the same Company Financial Account.
+- Existing Finance correction evidence remains linked and visible; replacement evidence is optional when valid evidence already exists.
+- Fixed Finance Full History persistence/return behavior and redesigned correction history into human-readable field changes with permission-controlled technical metadata.
+- Final documents cannot be reopened. Document delete is now an audited archive/soft-delete; authorized users can view Archived Documents and restore them to their previous valid state.
+- Documents UI is separated into Active/In Progress, Final Documents and authorized-only Archived Documents.
+- Date-filtered Buyer, Supplier, resale-share and Pink Salt statements now use the selected period consistently for activity rows and summaries, with prior activity carried into opening balance.
+- Statement PDFs received professional branding, period metadata, clearer summaries/tables, page handling and EN/KR-ready rendering.
+- Added V30.24.1 regression QA checks while retaining all V30.24 safe full-screen workflow protections.
+
+## V30.24.0 — Safe Full-Screen Workflow & Button QA
+
+- Rebuilt from the stable V30.22.1 baseline; V30.23 automatic modal-promotion/interception code is not inherited.
+- Fixed the numeric-input MutationObserver feedback loop that could progressively freeze number-heavy screens such as System Settings. The normalizer is now idempotent and only mutates attributes when a change is actually required.
+- Added an explicit full-screen workflow surface with Back navigation for selected heavy workflows only. There is no global `modal()`/`closeModal()` interception, no `modalRoot` relocation, and no MutationObserver-driven automatic promotion.
+- Converted selected heavy workflows explicitly while preserving their existing APIs/business logic: Buyer detail/account, Supplier detail/account, Buy Machine, Open Machine, Finance verification/manual entry, User Access, and key Pink Salt import/production workflows.
+- Kept short focused actions as dialogs and retained the standardized top-right Close control.
+- Added/verified missing action handlers discovered by button audit: Business Unit Edit, generic Inventory Product/Service Add/Edit, and Approval Rule Add/Edit.
+- Added the missing MIMI Restaurant Tables screen with Add, Edit, Delete and Back-to-POS controls.
+- Added browser QA that executes the packaged JavaScript in headless Chromium with mocked API responses, covering all 33 registered top-level views, System Settings section switching, repeated cross-screen stress cycles, selected heavy full-screen workflows, whole-number monetary input, and critical action buttons.
+- Added repeated responsiveness checks and rejected the V30.23 architecture rather than layering another compatibility shortcut over it.
+- Retained V30.22.1 attachment integrity, contact validation, public-auth isolation, notification layering, flexible numeric input, Finance/Accounting posting control, access control, audit and security safeguards.
+
+## V30.22.1 — Regression & Attachment Integrity Hotfix
+
+- Fixed the V30.20/V30.21 validation collision that could display an email error under a valid international phone field.
+- Kept Login, Forgot Password and Reset Password isolated from authenticated business-contact duplicate validation.
+- Raised action feedback/toasts above modal, confirmation and processing overlays and added first-invalid-field focus/scroll guidance.
+- Removed forced decimal step bases from non-count numeric fields: whole values and manually entered decimals are both accepted; true discrete counts remain whole-number fields.
+- Made attachment helper text contextual: single-file controls explicitly show and enforce one file; multiple controls respect contextual/system limits.
+- Changed upload storage to preserve the original file extension while keeping original bytes untouched.
+- Added a centralized attachment integrity registry with original filename, MIME type, byte size and SHA-256 checksum.
+- Added authenticated V30.22.1 attachment metadata/view/download endpoints and original filename restoration on Download Original.
+- Preview now uses authoritative MIME metadata rather than the random stored filename and cleanly falls back to Download Original for unsupported formats.
+- Retained V30.22 single Review & Confirm pipeline, modal-control hardening, exact financial-account integrity and backend payment-reference checks.
+
+## V30.22.0 — Stability, Security & Workflow Hardening
+- Unified business form validation and Review & Confirm into one pipeline, eliminating the double-confirm regression.
+- Isolated public Login/Forgot/Reset validation from authenticated business contact duplicate checks and bound Phone/Email messages to their own fields.
+- Disabled public static `/uploads` serving and added authenticated BU/access-aware stored-attachment View/Download endpoints.
+- Strengthened exact Pay From / Receive Into account enforcement and persisted normalized account-scoped payment references with backend duplicate protection.
+- Added persistent login throttling, configurable session duration, auth-version session revocation, centralized password policy, hashed reset tokens and APP_BASE_URL.
+- Added APP_ENCRYPTION_KEY for new secret encryption while retaining legacy secret decryption compatibility.
+- Changed user delete semantics to archive/deactivate while preserving audit/history.
+- Replaced COUNT+1 generated numbering with persistent SQLite sequences.
+- Kept Buyer Details before Pakistan-specific resale profit and added a shared top-right modal Close/accessibility foundation.
+- Added Chromium and Noto CJK fonts to the production Docker image for browser-based PDF generation.
+- Added V30.22 migration registry groundwork and browser acceptance QA plan.
+
+# V30.21.1 — Login Validation Hotfix
+
+- Fixed a V30.21 regression where system-wide email/contact validation was also applied to the public Sign In email field.
+- Public login and other unauthenticated forms no longer call authenticated contact duplicate-check APIs.
+- Login email keeps normal browser email-format validation, while authenticated business contact forms retain live UI validation and duplicate checks.
+- Added a regression QA assertion to prevent this authentication deadlock from returning.
+
+# Changelog
+
+## V30.21.1 — Financial Integrity, Stored Attachment View & International Contacts
+- Added post-upload View/Preview behavior for stored receipts, evidence, attachments and documents with explicit Download Original.
+- Added direction-aware Pay From / Receive Into Company Financial Account selection and default payment/receipt handling.
+- Extended exact-account routing to embedded/prefixed payment sections including Excavator purchase-token payment.
+- Added UI-first normalized duplicate payment-reference checks scoped to the selected financial account.
+- Added international phone input with flag, country name, dial code and E.164-style submitted value.
+- Generalized email/phone UI validation beyond standalone Supplier/Buyer forms.
+- Preserved V30.20 simple direct-upload behavior and historical Finance/Accounting data.
+
 ## V30.20.0 — Settings UX, Smart Payments & Direct Attachments
 
 - Redesigned the System Settings shell for clearer grouped administration, separate Policy/Technical badges and responsive form spacing.
@@ -168,3 +261,11 @@
 - Finished Goods archive/delete zero-stock safeguards.
 - Mixed Gift Box composition and packaging/BOM integrity.
 - Carton/Bulk Pack production calculations and stock traceability.
+
+## V30.24.3 — Git-ready Render persistent-storage packaging
+- Added Render-aware persistent storage defaults under `/var/data` for SQLite, backups, attachments and generated PDFs.
+- Added startup storage preflight, mount/writability checks and `/api/health` persistence indicators.
+- Added graceful HTTP shutdown with SQLite WAL checkpoint/close for Render redeploys/restarts.
+- Added `render:storage-check` and `render:migrate-storage` helpers plus Render deployment documentation and Blueprint example.
+- Strengthened `.gitignore` so runtime databases, WAL/SHM files, backups, uploads, secrets and node_modules are never committed.
+- Functional application version remains V30.24.3.
