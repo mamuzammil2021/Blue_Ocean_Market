@@ -1,5 +1,14 @@
 # Changelog
 
+## V30.26.3 — Protected Reset Submission Hotfix
+
+- Fixed the Render Development/Test Full Clean Reset dialog falling back to native browser GET navigation instead of the protected reset API.
+- Reset reason/password/typed confirmation are now sent only in the authenticated JSON POST body and never intentionally placed in the URL.
+- Reset forms now use explicit non-submit action buttons, native-submit prevention, `javascript:void(0)` fallback, exact typed-confirmation validation and a single-flight request guard.
+- `formDirty` is cleared only after the protected reset API accepts the request, preventing the browser “Leave site?” prompt from interrupting the actual reset.
+- Added current-URL scrubbing for legacy leaked reset query parameters and QA gates for the protected POST-only reset flow.
+
+
 ## V30.26.2 — Accounting-only Posting Control + Excavator Follow-up Integrity
 
 - Removed Posting Control buttons/tabs from Finance and kept Finance focused on transaction review, evidence, corrections and verification.
