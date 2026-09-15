@@ -51,9 +51,42 @@ This ZIP is intentionally repo-ready and contains no `.git` directory, database,
 ```bash
 git status
 git add -A
-git commit -m "V30.24.3 Render persistent storage ready"
+git commit -m "V30.26.2 posting control and Excavator UI integrity hotfix"
 git push
 ```
 
 ## Operational note
 SQLite + a Render persistent disk is appropriate for the current single-instance testing/early-live setup. A Render service with a disk is single-instance storage and deploys have brief downtime. If Blue Ocean later needs horizontal scaling or multiple app instances, migrate the main database to managed Postgres and attachments to shared object storage.
+
+
+## V30.26.1 — development/testing reset controls
+
+For the **dedicated development/testing/staging Render service only**, add:
+
+- `APP_ENV=development` (or `testing`)
+- `ALLOW_TEST_DATA_RESET=true`
+- `TEST_RESET_BACKUP_RETENTION=3`
+
+The reset controls work in `APP_ENV=development` or `APP_ENV=testing` only when the explicit allow flag is true. The retention value is hard-clamped by the application to 2–3 automatic pre-reset snapshots. Snapshots live under `/var/data/data/backups/pre-reset` and contain both the SQLite database and an uploads snapshot. Full Reset clears the active database/uploads but does **not** detach or format `/var/data` and does not remove the protected pre-reset backup directory.
+
+Keep Production explicitly disabled:
+
+- `APP_ENV=production`
+- `ALLOW_TEST_DATA_RESET=false`
+
+Full Reset requires `ADMIN_EMAIL` and `ADMIN_PASSWORD` to remain configured because a fresh database must recreate the CEO account. **Full Reset + Demo** additionally requires `DEMO_USER_PASSWORD` (12+ characters).
+
+
+## V30.26.2 — Accounting-only Posting Control
+
+This release does not change Render storage paths or reset environment variables. It removes the Posting Control workspace from Finance and keeps it in Accounting only. The development/testing reset settings from V30.26.1 remain unchanged.
+
+Before pushing to Render, run:
+
+```bash
+npm ci
+npm run qa:current
+npm run qa:render
+```
+
+After deployment, hard refresh once so the `v=30.26.2` browser cache identity is loaded.

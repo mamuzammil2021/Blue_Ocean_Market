@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.24.3",
+  "version": "30.26.2",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",

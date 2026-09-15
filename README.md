@@ -1,15 +1,29 @@
-# Blue Ocean Market V30.24.3
+# Blue Ocean Market V30.26.2
 
-## V30.24.3 refinement scope
+**Accounting-only Posting Control + Excavator Follow-up Integrity — Git-ready / Render Persistent Disk**
 
-This local-test release is built on V30.24.2 and adds a central **System Settings → Numbering & References** registry. References are presented separately under **Company / Shared** and each authorized Business Unit. Existing historical references remain immutable; configured changes apply only to future issued references. Current number-generating workflows are connected to the registry, and future numbered features can self-register through the shared numbering service.
+V30.26.2 is built directly on V30.26.1. It keeps the complete V30.26 sale/payment lifecycle and V30.26.1 development-reset safeguards, while fixing the final QA issues reported before pushing the project to Git and Render.
 
-Static release QA: **`npm run qa:current` PASS**. Runtime smoke must still be run after `npm ci` in the normal Node 22 test environment.
+### V30.26.2 scope
 
+- Removed Posting Control from the Finance workspace; Finance now remains focused on operational transactions, evidence, corrections and verification.
+- Posting Control now opens and remains inside Accounting, with a Back to Accounting action instead of Back to Finance.
+- Posting-review items expose a contextual **View Finance Record** action when a Finance source exists.
+- Fixed Buy Machine supplier autocomplete so the legacy V30.25 search enhancer cannot create a second overlapping result list.
+- Update Sale → Current Sale Settlement now shows only payment/advance records actively allocated to that sale; historical or unallocated buyer receipts remain in the Buyer ledger/audit history.
+- All V30.26.1 development/testing DB + uploads reset protections and Render persistent-disk guidance remain unchanged.
+- Browser/health/package identity is V30.26.2 to prevent stale V30.26.1 browser cache.
 
-**BU-Scoped Numbering & Reference Registry — Local Test**
+### QA
+
+- `npm run qa:current` — V30.26.2 source/regression release gate.
+- `npm run qa:render` — Render persistent-storage + development-reset guard gate.
+- `npm run qa:runtime` — run after `npm ci` in the target Node 22 environment.
+
+See `V30_26_2_IMPLEMENTATION_SUMMARY.md` for this hotfix and the V30.26/V30.26.1 summaries for inherited behavior.
 
 ## V30.24.2 hotfix scope
+
 
 - Fix nested child dialogs throughout the system so Close (X), backdrop and ESC close only the topmost child and restore the exact parent dialog/form state.
 - Preserve unsaved edits, file inputs, focus and scroll context while previews/history/child dialogs are open.

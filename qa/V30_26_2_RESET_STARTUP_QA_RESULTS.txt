@@ -1,0 +1,3 @@
+[test-reset] applied full
+PASS development pending full reset applies when APP_ENV=development and ALLOW_TEST_DATA_RESET=true
+PASS production pending reset is blocked even if ALLOW_TEST_DATA_RESET=true

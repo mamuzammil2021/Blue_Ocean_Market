@@ -163,7 +163,8 @@ window.BO_I18N_KO=Object.freeze({...window.BO_I18N_KO,
   'Available Customer Credit':'사용 가능한 고객 크레딧',
   'Apply available credit to this order after completion':'완료 후 사용 가능한 크레딧을 이 주문에 적용',
   'Credit is allocated from the customer’s oldest unallocated receipts and cannot exceed the order outstanding.':'크레딧은 고객의 가장 오래된 미배정 수령액부터 배정되며 주문 미수 잔액을 초과할 수 없습니다.',
-  'Account Position':'계정 상태','Due':'미수','Credit':'크레딧','Settled':'정산 완료'
+  'Account Position':'계정 상태','Due':'미수','Credit':'크레딧','Settled':'정산 완료',
+  'Test Environment Reset':'테스트 환경 초기화','Development / Test Environment Reset':'개발 / 테스트 환경 초기화','TEST RESET ENABLED':'테스트 초기화 활성화','DEV / TEST RESET ENABLED':'개발 / 테스트 초기화 활성화','Development / testing service only':'개발 / 테스트 서비스 전용','Development / testing only':'개발 / 테스트 전용','Disabled':'비활성화','Testing service only':'테스트 서비스 전용','Database':'데이터베이스','Uploads':'업로드','Operational Records':'운영 기록','Pre-reset Retention':'초기화 전 백업 보관 수','automatic snapshots':'자동 스냅샷','Quick Reset':'빠른 초기화','Full Clean Reset':'전체 초기화','Full Reset + Demo':'전체 초기화 + 데모','Clear Uploads Only':'업로드만 삭제','Restore Last Pre-Reset Backup':'최근 초기화 전 백업 복원','Automatic Pre-reset Backups':'자동 초기화 전 백업','No automatic pre-reset backup yet.':'아직 자동 초기화 전 백업이 없습니다.','Quick Test Reset':'빠른 테스트 초기화','Full Clean Test Reset':'전체 테스트 초기화','Full Reset + Demo Users/Data':'전체 초기화 + 데모 사용자/데이터','Clear Test Uploads':'테스트 업로드 삭제','Protected destructive action':'보호된 파괴적 작업','Current Password *':'현재 비밀번호 *','Reason *':'사유 *','Reset Test Transactions':'테스트 거래 초기화','Reset + Seed Demo':'초기화 + 데모 생성','Clear Uploads':'업로드 삭제','Restore Last Backup':'최근 백업 복원','Test environment restarting…':'테스트 환경을 다시 시작하는 중…','Environment':'환경','Testing only':'테스트 전용',
 });
 
 window.BO_KO=v=>((window.BO_I18N_LOOKUP||window.BO_I18N_KO||{})[String(v)]||String(v));

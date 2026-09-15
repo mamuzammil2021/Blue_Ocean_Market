@@ -30,6 +30,12 @@ services:
         sync: false
       - key: ADMIN_PASSWORD
         sync: false
+      - key: APP_ENV
+        value: development
+      - key: ALLOW_TEST_DATA_RESET
+        value: "false"
+      - key: TEST_RESET_BACKUP_RETENTION
+        value: "3"
       - key: LOCAL_TEST_MODE
         value: "false"
       - key: SEED_DEMO_USERS

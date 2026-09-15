@@ -3,7 +3,7 @@ set -e
 cd "$(dirname "$0")" || exit 1
 
 if [ ! -f .env ]; then
-  echo "Creating local-only .env for Blue Ocean Market V30.24.3..."
+  echo "Creating local-only .env for Blue Ocean Market V30.26.2..."
   LOCAL_SECRET="$(node -e "console.log(require('crypto').randomBytes(48).toString('hex'))" 2>/dev/null || true)"
   LOCAL_PASSWORD="$(node -e "console.log('BO-'+require('crypto').randomBytes(12).toString('base64url')+'!9a')" 2>/dev/null || true)"
   LOCAL_ENCRYPTION_KEY="$(node -e "console.log(require('crypto').randomBytes(48).toString('hex'))" 2>/dev/null || true)"
@@ -21,6 +21,9 @@ LOCAL_TEST_MODE=true
 LOCAL_TEST_ADMIN_EMAIL=admin@blueocean.local
 LOCAL_TEST_ADMIN_PASSWORD=$LOCAL_PASSWORD
 NODE_ENV=development
+APP_ENV=development
+ALLOW_TEST_DATA_RESET=true
+TEST_RESET_BACKUP_RETENTION=3
 DATA_DIR=./data
 UPLOAD_DIR=./uploads
 SEED_DEMO_USERS=false
@@ -38,8 +41,8 @@ if [ ! -d node_modules ]; then
   npm ci || exit 1
 fi
 
-echo "Running Blue Ocean Market V30.24.3 release QA..."
+echo "Running Blue Ocean Market V30.26.2 release QA..."
 npm run qa:current || exit 1
 
-echo "Starting Blue Ocean Market V30.24.3 Local Test"
+echo "Starting Blue Ocean Market V30.26.2 Local Test"
 npm start

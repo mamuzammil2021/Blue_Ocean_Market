@@ -1,0 +1,3 @@
+V30.26.0 Runtime Smoke QA
+Runtime smoke was not executed to completion in the artifact build sandbox because Node dependencies are intentionally not bundled and external npm package retrieval was unavailable in this environment.
+Static syntax/current-release QA and Render-persistence QA passed. Run npm ci followed by npm run qa:runtime in the normal local/Render dependency environment.

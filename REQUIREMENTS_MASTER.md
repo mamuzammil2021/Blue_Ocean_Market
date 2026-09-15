@@ -494,3 +494,73 @@ V30.24.0 is the code baseline. V30.24.1 is a refinement/hotfix release and must 
 - **Conflict control:** normalize prefixes, visibly warn about inherited legacy conflicts, and prevent users from introducing a new conflicting prefix in the same scope.
 - **Audit:** numbering changes require Review & Confirm, a change reason and before/after audit history.
 - **Business/external references:** bank references, supplier invoice numbers, chassis/serial numbers and other externally supplied references remain source data and are not automatically replaced by internal numbering rules unless that workflow explicitly defines an internal system reference.
+
+
+## V30.25 system-wide Finance Integrity and Accounting Eligibility
+
+- **Separation of concerns:** Operations records the business event; Finance records only genuine money movement; Accounting records recognition/settlement.
+- **One real payment = one Finance entry:** a receipt/payment/advance/refund/transfer may create one primary Finance cash transaction. A sale, purchase, import, production event, invoice or allocation must not create a second cash row merely because it has a value.
+- **Advances and allocations:** Buyer/Supplier advances remain genuine Finance movements. Allocating an already received/verified amount changes allocation/available-credit state only and does not create another Finance receipt/payment.
+- **Accounting eligibility:** Finance-sourced postings require the linked Finance entry to be Verified. Non-cash operational postings require the source operation to be Completed/Approved and must not create a fake Finance Verification record.
+- **Excavator Sale:** because sale completion requires 100% payment/advance, the sale-recognition posting is eligible only when the sale is completed and required buyer allocations are covered by Finance-verified buyer payments.
+- **Manual accounting:** manual journals/adjustments follow Accounting approval controls directly.
+- **Source visibility:** Posting Control must show source type/status, whether Finance verification is required, linked-payment status, payment-requirement status and a clear eligible/not-eligible result.
+- **Logical payment identity/idempotency:** linked source, Finance, allocation, evidence and Accounting records must resolve to the same logical payment family so retries/double-clicks do not create duplicate cash movements.
+- **Cash reference:** Payment Reference is optional for Cash. Blank Cash references never create Missing Reference warnings/errors and never run duplicate checking.
+- **Finance correction/update:** preload the existing values/evidence. The current reference may remain unchanged; duplicate checking excludes the current logical payment family and blocks only a different active transaction on the same actual Company Financial Account.
+- **BU-scoped selectors:** Buyer/Supplier/Seller/Customer master search controls may share UI technology but must only return records belonging to the active BU and effective user permissions.
+- **Statements:** Buyer/Supplier profile/detail screens expose a Statement action where supported. Statement data is BU-scoped, date-filtered and context-preserving, with opening/period/closing balances and EN/KR-ready exports/PDF.
+
+
+## V30.25.2 controlled development/test-environment reset
+
+- Dedicated development/test/staging environments may expose **System Settings → Backup / Storage / Maintenance → Development / Test Environment Reset**. Production must keep this capability disabled.
+- Backend enablement requires `APP_ENV=development` or `APP_ENV=testing` together with `ALLOW_TEST_DATA_RESET=true`; UI hiding alone is never sufficient. `APP_ENV=production` must never satisfy the reset guard.
+- Destructive reset/restore requires CEO/Owner or authorized System Administrator + Storage permission, current-password verification, reason, typed confirmation, Review & Confirm and audit.
+- Every reset creates a pre-reset snapshot containing the SQLite database **and uploads** before destructive work begins.
+- Automatic pre-reset snapshot retention is restricted to **2 or 3** copies; default **3**. The reset process must prune older automatic snapshots.
+- Quick Reset preserves core users/access/configuration while clearing operational test data, sequences and uploads.
+- Full Reset recreates the active SQLite database and clears active uploads without detaching/formatting the persistent disk or deleting the protected pre-reset backup directory.
+- Full Reset + Demo may invoke existing test seeders only when demo credentials are explicitly configured.
+- Restore validates that the snapshot is inside the protected pre-reset backup directory and restores database + uploads together.
+- Uploads-only clearing must be refused when active operational records would be left with broken attachment references.
+- Full reset/restore is applied before SQLite opens on startup; never replace the active database file while it is open.
+
+
+## V30.26.0 Excavator sale/payment lifecycle integrity
+
+- Buy Machine supplier selection must load supplier-listed machines immediately on result selection. Supplier search must be full width and show useful supplier identity/context (location, contact/phone and available-machine count).
+- Cash token-payment reference is optional; non-cash reference remains mandatory; evidence remains mandatory for any recorded payment.
+- Machine-payment mutations must refresh the payment list, machine detail, balances, Finance/Accounting indicators and related history without manual reload. Nested payment dialogs must never reopen stale Add Payment state.
+- Sell Machine must visibly highlight every missing/invalid required field and focus/scroll to the first unresolved field.
+- Sale PDF must show supplier payment status, total valid paid and supplier outstanding; voided payments stay auditable but never count as paid.
+- Sold/Completed machines have no normal Delete action. Authorized lifecycle actions are controlled Void Sale, Archive and Restore. Void preserves audit history and reverses sale-linked buyer allocation/Finance/Accounting effects while supplier purchase payments remain intact unless the purchase itself is separately voided. Archive is non-financial.
+- Generated sale PDFs must open through authenticated attachment access and remain available from the machine/sale/Documents records.
+- Update Sale must show the original settlement method(s), references, receipts, payment details and allocation status. Financial changes use reversal/replacement rather than overwrite; evidence/reference-only corrections preserve the cash event and audit history.
+- Update Sale price changes recalculate settlement. Increase requires only additional coverage; decrease releases excess to buyer unallocated credit or an explicit refund/reversal.
+- Add Another Payment is distinct from editing an old payment. Record New Payment always has Payment Amount. Allocate only up to sale outstanding; excess becomes buyer unallocated advance/credit; fully paid sales route new receipts entirely to buyer credit.
+- Incoming buyer payment account wording is Receive Into Company Bank / Financial Account.
+- Mixed buyer-advance/direct-payment settlements and excess receipts must be classified correctly in Accounting and Posting Control.
+- Excavator Operations header does not duplicate Suppliers/Buyers sidebar navigation.
+
+
+## V30.26.1 Excavator sell-launch and development reset hotfix
+
+- **Buy Machine supplier autocomplete:** supplier matches render only as a floating dropdown attached to Search Supplier. The result menu must not remain as a persistent block under the field. Selecting a supplier closes/clears the menu immediately, keeps the selected supplier summary visible, and loads Supplier Available Machine. The menu may reopen only when the user focuses/types to change the supplier; Escape/click-away closes it.
+- **Sell Machine regression:** Sell Machine and Update Sale launch from Machines / Deals and Open Machine must use the same stable workflow without page freeze. Any DOM observer used by the sale/payment UI must be idempotent and must not mutate the same observed node indefinitely. Duplicate/double-click sale launches must be single-flight guarded.
+- **Development reset support:** the protected reset architecture may run in `APP_ENV=development` as well as `testing`, but only when `ALLOW_TEST_DATA_RESET=true`. All existing authorization, password, reason, typed confirmation, Review & Confirm, backup, audit and retention safeguards remain mandatory.
+- **Development full reset:** Full Clean Reset removes/rebuilds only the active development SQLite database and active uploads on restart. It must not detach/format the Render persistent disk and must preserve the protected pre-reset backup directory.
+- **Local development launcher:** locally generated `.env` enables the guarded development reset controls for the dedicated local test instance. Real credentials remain local and excluded from Git.
+- **Render:** the Git-ready package must document the exact persistent-disk paths and development reset variables. Blueprint defaults keep the reset flag disabled; the user explicitly enables it only on the dedicated non-production Render development/testing service. Production remains `APP_ENV=production` + `ALLOW_TEST_DATA_RESET=false`.
+- **Regression QA:** release checks must verify supplier dropdown close behavior, sell-launch observer safety/single-flight behavior, development/testing reset guards, local reset enablement and Render production-disable documentation.
+
+
+## V30.26.2 Accounting-only Posting Control and Excavator follow-up integrity
+
+- **Finance navigation:** Finance must not expose a Posting Control button/tab/workspace. Finance is for operational Finance entries, evidence, correction, verification/resubmission and read-only posting status.
+- **Accounting navigation:** Posting Control belongs only to Accounting. Open Posting Control from Accounting, and use Back to Accounting rather than Back to Finance.
+- **Source inspection:** An individual Accounting Posting Control item linked to Finance may expose a contextual **View Finance Record** action. This does not make Posting Control part of Finance navigation.
+- **Workflow remains:** Operational Transaction → Finance Review/Verification → Accounting Posting Control → Official Ledger.
+- **Buy Machine supplier autocomplete:** exactly one supplier result renderer is allowed. The canonical Search Supplier dropdown must set the actual supplier record/ID, close after selection, show supplier summary and load Supplier Available Machine. Legacy/general search enhancers must not wrap or duplicate this field.
+- **Update Sale current settlement:** Current Sale Settlement displays only currently active payment/advance allocations to that sale. Historical, reversed or unallocated buyer receipts remain preserved in Buyer ledger/audit history and must not appear as duplicate active settlement rows.
+- **Development reset:** all V30.26.1 development/testing DB/uploads reset and persistent-disk protections remain unchanged.

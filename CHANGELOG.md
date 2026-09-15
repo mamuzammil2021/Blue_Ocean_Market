@@ -1,5 +1,73 @@
 # Changelog
 
+## V30.26.2 — Accounting-only Posting Control + Excavator Follow-up Integrity
+
+- Removed Posting Control buttons/tabs from Finance and kept Finance focused on transaction review, evidence, corrections and verification.
+- Moved Posting Control navigation fully into Accounting, replaced Back to Finance with Back to Accounting, and added contextual View Finance Record from individual posting items.
+- Prevented the legacy V30.25 supplier search enhancer from rendering a second overlapping Buy Machine supplier dropdown.
+- Current Sale Settlement now displays only active allocations for the sale; historical/unallocated buyer receipts stay in buyer ledger/audit history instead of appearing as duplicate active settlement rows.
+- Retained V30.26.1 development/testing reset and Render persistent-disk safeguards unchanged.
+- Updated package, browser cache, health/version identity, requirements and QA to V30.26.2.
+
+## V30.26.1 — Sell Workflow + Development Reset Hotfix
+
+- Fixed Chrome Page Unresponsive regression when launching Sell Machine / Update Sale by making the payment-account label mutation idempotent and queued instead of self-triggering.
+- Added single-flight protection to the shared Sell Machine launcher used from Machines / Deals and Open Machine.
+- Converted Buy Machine supplier search results into a floating dropdown/autocomplete that closes/clears after selection and supports Escape/click-away.
+- Extended protected environment reset from testing-only to development-or-testing when `ALLOW_TEST_DATA_RESET=true`; all existing authorization/backup/audit safeguards remain.
+- Local development launcher now enables guarded reset controls; Render Blueprint keeps reset disabled by default and Production remains blocked.
+- Updated package, browser cache, health/version identity, requirements and QA to V30.26.1.
+
+## V30.26.0 — Excavator Sale & Payment Lifecycle Integrity
+
+- Fixed Buy Machine supplier selection/search and full-width supplier result UX.
+- Cash token payment references are optional while evidence remains mandatory.
+- Fixed nested payment modal stale state and immediate payment/machine refresh.
+- Added required-field highlighting on Sell Machine.
+- Added supplier payment status / valid totals to the machine Sale PDF.
+- Removed Delete from Sold / Completed machines and added controlled Void / Archive / Restore actions.
+- Fixed authenticated post-sale PDF viewing.
+- Added settlement-aware Update Sale, controlled payment correction/reversal, Add Another Payment, Payment Amount and buyer-credit excess handling.
+- Added mixed-settlement / excess-receipt Accounting integrity fixes.
+- Removed redundant Suppliers / Buyers shortcuts from Excavator Operations.
+
+## V30.25.2 — Controlled Test Environment Reset
+
+- Added guarded Test Environment Reset center under System Settings → Backup / Storage / Maintenance.
+- Added Quick Reset, Full Clean Reset, Full Reset + Demo, safe uploads-only clear and Restore Last Pre-Reset Backup.
+- Every reset snapshots SQLite + uploads before destructive work.
+- Automatic pre-reset retention defaults to 3 and is hard-limited to 2–3 snapshots.
+- Full reset/restore runs before SQLite opens after restart; Render persistent disk and reset backups remain attached.
+- Reset is backend-disabled unless `APP_ENV=testing` and `ALLOW_TEST_DATA_RESET=true`.
+- Added current-password, typed-confirmation, permission and audit controls.
+
+
+## V30.25.1 — Critical Integrity Hotfix
+
+- Made System Settings a deterministic base navigation item for CEO/Owner and authorized System Administrators; removed the broken late navigation refresh dependency.
+- Restricted Finance Statement to real cash-effect movement so operational recognition bridge rows cannot enter cash totals.
+- Explicitly records cash direction on new Manual Finance entries so genuine manual Money In/Out remains in Finance statements.
+- Replaced the legacy P&L calculation with the official posted Accounting ledger while retaining the existing API response shape for compatibility.
+- Completed remaining Pink Salt Cash-reference validation so Cash does not require a reference while non-cash methods do.
+- Cash selection now removes the visible Reference required marker and restores it for non-cash methods.
+- Moved Excavator Buyer/Supplier Statement actions into native profile/detail headers and removed delayed DOM injection.
+- No wider module redesign or feature expansion is included in this hotfix.
+
+
+## V30.25.0 — Finance Integrity, Source-Aware Accounting & Statement Recovery
+
+- Enforced the system-wide rule that one real payment/receipt produces one primary Finance cash transaction; operational Sales/Purchases/Imports no longer inflate Finance cash totals merely because they have monetary value.
+- Separated Operations, Finance and Accounting responsibilities while retaining controlled Accounting proposal/posting workflows.
+- Added source-aware Accounting eligibility: Finance-sourced postings require Finance Verification; non-cash operational postings require the operation to be Completed/Approved; Excavator Sale additionally requires verified allocated buyer-payment coverage.
+- Added transition protection for legacy combined operational Finance rows and existing Accounting proposals/postings without silently rewriting posted ledgers.
+- Fixed Finance Correct & Resubmit so existing amount/currency/FX/date/method/reference/notes/account/evidence preload correctly.
+- Cash payment references are optional system-wide and do not generate Missing Reference exceptions; duplicate-reference validation runs only when a reference is present/required.
+- Existing references may remain unchanged during update/correction because the current logical payment family is excluded from duplicate matching.
+- Standardized real-time searchable Buyer/Supplier/Seller selectors while keeping all results strictly Business-Unit scoped.
+- Restored Buyer and Supplier Statement actions on Excavator profile/detail screens while retaining Pink Salt customer/supplier statements.
+- Hardened System Settings navigation visibility after authentication/module hydration for CEO/Owner and authorized System Administrators.
+- Retained V30.24.3 Numbering & References and Render persistent-disk architecture.
+
 ## V30.24.3 — BU-Scoped Numbering & Reference Registry
 
 - Replaced the incomplete mixed Numbering & References settings view with a central registry separated into Company / Shared and Business Unit tabs.
