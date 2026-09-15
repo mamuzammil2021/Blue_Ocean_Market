@@ -1,0 +1,5 @@
+V30.26.3 runtime QA note
+
+Static current-release QA and Render persistence QA passed in the build workspace and after clean ZIP extraction.
+The artifact intentionally excludes node_modules and runtime database/uploads. Run `npm ci && npm run qa:runtime` on the deployment host after dependencies are installed.
+The protected reset-form regression is statically gated: reset controls are non-submit buttons, native submit is explicitly prevented, exact typed confirmation is validated, reset payload is JSON POST-only, and legacy sensitive query parameters are scrubbed from the current URL entry.

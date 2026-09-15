@@ -1,15 +1,15 @@
-# Blue Ocean Market V30.26.2 Release Manifest
+# Blue Ocean Market V30.26.3 Release Manifest
 
-**Release:** V30.26.2  
+**Release:** V30.26.3  
 **Package:** `Blue_Ocean_Market_V30_26_2_ACCOUNTING_POSTING_CONTROL_EXCAVATOR_INTEGRITY_GIT_READY_RENDER_PERSISTENT_DISK.zip`  
 **Baseline:** V30.26.1 Sell Workflow + Development Reset Hotfix
 
-## V30.26.2 changed files
+## V30.26.3 changed files
 
 - `public/v318-client.js` — Posting Control is Accounting-only; Finance injection removed; Back to Accounting and contextual View Finance Record added.
 - `public/v325-client.js` — legacy supplier search enhancer no longer wraps the canonical Buy Machine supplier autocomplete.
 - `public/v326-client.js` — Current Sale Settlement shows only active sale allocations; historical/unallocated buyer receipts remain outside the current settlement list.
-- `server/server.js`, `public/index.html`, `package.json`, `package-lock.json`, `qa/runtime_smoke.js` — V30.26.2 release/cache/runtime identity.
+- `server/server.js`, `public/index.html`, `package.json`, `package-lock.json`, `qa/runtime_smoke.js` — V30.26.3 release/cache/runtime identity.
 - `qa/qa_current.js` — regression gates for Accounting-only Posting Control, single supplier dropdown and current-settlement filtering.
 - `README.md`, `CHANGELOG.md`, `GIT_READY_README.md`, `RENDER_DEPLOYMENT.md`, `REQUIREMENTS_MASTER.md`, `V30_26_2_IMPLEMENTATION_SUMMARY.md` — release documentation.
 

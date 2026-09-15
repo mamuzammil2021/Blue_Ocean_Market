@@ -564,3 +564,13 @@ V30.24.0 is the code baseline. V30.24.1 is a refinement/hotfix release and must 
 - **Buy Machine supplier autocomplete:** exactly one supplier result renderer is allowed. The canonical Search Supplier dropdown must set the actual supplier record/ID, close after selection, show supplier summary and load Supplier Available Machine. Legacy/general search enhancers must not wrap or duplicate this field.
 - **Update Sale current settlement:** Current Sale Settlement displays only currently active payment/advance allocations to that sale. Historical, reversed or unallocated buyer receipts remain preserved in Buyer ledger/audit history and must not appear as duplicate active settlement rows.
 - **Development reset:** all V30.26.1 development/testing DB/uploads reset and persistent-disk protections remain unchanged.
+
+
+## V30.26.3 protected reset submission hotfix
+
+- Development/Test Environment Reset dialogs must never submit as a native browser GET/navigation. Destructive reset credentials and confirmation values must never appear in URL query parameters, address-bar history, referrers, or normal navigation.
+- Reset actions use a protected same-origin JSON POST request only after current-password, reason, exact typed confirmation and Review & Confirm validation. Full Clean Reset uses `POST /api/system-settings-v3252/test-reset/full`; equivalent POST-only behavior applies to Quick Reset, Full Reset + Demo, Clear Uploads and Restore.
+- Reset submit controls are non-submit buttons and the form has a navigation-safe fallback. Enter-key submission must be explicitly prevented from native navigation. A single-flight guard blocks duplicate reset requests.
+- The exact confirmation phrase is validated client-side before Review & Confirm: `RESET TEST DATA` for reset/clear actions and `RESTORE TEST BACKUP` for restore. Server-side validation remains authoritative.
+- The global unsaved-form/beforeunload guard must not intercept an accepted protected reset. `formDirty` is cleared only after the reset API accepts the request; a restarting response may then reload the page.
+- If an older build leaked `reason`, `password`, or `confirmation` into the current reset page URL, the current page entry is scrubbed with `history.replaceState`; users must still rotate any password that was previously exposed.

@@ -51,7 +51,7 @@ This ZIP is intentionally repo-ready and contains no `.git` directory, database,
 ```bash
 git status
 git add -A
-git commit -m "V30.26.2 posting control and Excavator UI integrity hotfix"
+git commit -m "V30.26.3 posting control and Excavator UI integrity hotfix"
 git push
 ```
 
@@ -77,7 +77,7 @@ Keep Production explicitly disabled:
 Full Reset requires `ADMIN_EMAIL` and `ADMIN_PASSWORD` to remain configured because a fresh database must recreate the CEO account. **Full Reset + Demo** additionally requires `DEMO_USER_PASSWORD` (12+ characters).
 
 
-## V30.26.2 — Accounting-only Posting Control
+## V30.26.3 — Accounting-only Posting Control
 
 This release does not change Render storage paths or reset environment variables. It removes the Posting Control workspace from Finance and keeps it in Accounting only. The development/testing reset settings from V30.26.1 remain unchanged.
 
@@ -89,4 +89,8 @@ npm run qa:current
 npm run qa:render
 ```
 
-After deployment, hard refresh once so the `v=30.26.2` browser cache identity is loaded.
+After deployment, hard refresh once so the `v=30.26.3` browser cache identity is loaded.
+
+## V30.26.3 reset-form hotfix
+
+After deploying V30.26.3, hard-refresh the browser once. Full Clean Reset must remain on the same page until Review & Confirm completes, then call the protected reset POST API. Reset reason/password/confirmation must never appear in the address bar. If an older build exposed the admin password in a URL, rotate that password before continuing testing.

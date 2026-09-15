@@ -13,7 +13,7 @@ const fail=(msg,obj)=>{throw new Error(msg+(obj?': '+JSON.stringify(obj):''))};
 (async()=>{try{
   for(let i=0;i<120;i++){if(output.includes('running on port'))break;if(child.exitCode!==null)fail('Server exited before startup');await sleep(100)}
   const base=`http://127.0.0.1:${port}`;
-  const health=await fetch(base+'/api/health').then(r=>r.json());if(!health.ok||health.version!=='30.26.2')fail('Health/version check failed',health);console.log('PASS runtime health V30.26.2');
+  const health=await fetch(base+'/api/health').then(r=>r.json());if(!health.ok||health.version!=='30.26.3')fail('Health/version check failed',health);console.log('PASS runtime health V30.26.3');
   const login=await fetch(base+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:'admin@blueocean.local',password:smokePassword})});const body=await login.json();if(!login.ok||!body.token||body.user?.role!=='CEO / Owner')fail('Local CEO login smoke failed',body);console.log('PASS runtime local CEO login');
   const auth={'Authorization':'Bearer '+body.token};
   const unitsRes=await fetch(base+'/api/business-units',{headers:auth}),units=await unitsRes.json(),pink=units.find(x=>String(x.name).toLowerCase().includes('pink')&&String(x.name).toLowerCase().includes('salt'));if(!unitsRes.ok||!pink)fail('Pink Salt business unit unavailable',units);const h={...auth,'x-business-unit-id':String(pink.id)};
