@@ -1,8 +1,8 @@
-# Blue Ocean Market V30.26.3
+# Blue Ocean Market V30.26.4
 
 **Accounting-only Posting Control + Excavator Follow-up Integrity — Git-ready / Render Persistent Disk**
 
-V30.26.3 is built directly on V30.26.1. It keeps the complete V30.26 sale/payment lifecycle and V30.26.1 development-reset safeguards, while fixing the final QA issues reported before pushing the project to Git and Render.
+V30.26.4 is a narrow hotfix built on V30.26.3. It keeps the complete V30.26 sale/payment lifecycle and V30.26.1 development-reset safeguards, while fixing the final QA issues reported before pushing the project to Git and Render.
 
 ### V30.26.3 scope
 
@@ -91,6 +91,13 @@ Use a test database or backup while testing destructive actions.
 ## Git-ready Render persistent-storage variant
 
 For the paid Render web service, this package is prepared to keep the SQLite database, backups, attachments, receipts/evidence and generated PDFs on a persistent disk mounted at `/var/data`. See `RENDER_DEPLOYMENT.md` before the first disk-aware redeploy, especially if the current Render instance still contains ephemeral test data that must be preserved.
+
+
+### V30.26.4 direct reset-button hotfix
+- Fixes the Render reset dialog case where **Full Clean Reset** was visibly clickable but no Review & Confirm dialog appeared.
+- The reset form now binds both the button click and form submit with direct `addEventListener` handlers immediately after the modal is rendered.
+- The handler calls `window.v3252RunReset(...)` directly, validates required fields and the exact typed phrase, then performs the protected JSON POST.
+- Native form navigation remains blocked and reset credentials never belong in the URL.
 
 ### V30.26.3 reset hotfix
 

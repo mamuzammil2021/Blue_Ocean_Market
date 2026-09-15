@@ -1,8 +1,14 @@
-# Blue Ocean Market V30.26.3 Release Manifest
+# Blue Ocean Market V30.26.4 Release Manifest
 
-**Release:** V30.26.3  
-**Package:** `Blue_Ocean_Market_V30_26_2_ACCOUNTING_POSTING_CONTROL_EXCAVATOR_INTEGRITY_GIT_READY_RENDER_PERSISTENT_DISK.zip`  
-**Baseline:** V30.26.1 Sell Workflow + Development Reset Hotfix
+**Release:** V30.26.4  
+## V30.26.4 changed files
+- `public/v319-client.js` — direct runtime reset-button + form-submit binding; explicit initialization failure message.
+- `public/index.html`, `server/server.js`, `package.json`, `package-lock.json`, `qa/runtime_smoke.js`, `START_LOCAL_MAC.command` — V30.26.4 release/cache/runtime identity.
+- `qa/qa_current.js` — direct reset event-binding regression gate.
+- `README.md`, `CHANGELOG.md`, `REQUIREMENTS_MASTER.md`, `RENDER_DEPLOYMENT.md`, `GIT_READY_README.md`, `V30_26_4_IMPLEMENTATION_SUMMARY.md` — release documentation.
+
+**Package:** `Blue_Ocean_Market_V30_26_4_DIRECT_RESET_BUTTON_HOTFIX_GIT_READY_RENDER_PERSISTENT_DISK.zip`  
+**Baseline:** V30.26.3 Protected Reset Submission Hotfix
 
 ## V30.26.3 changed files
 

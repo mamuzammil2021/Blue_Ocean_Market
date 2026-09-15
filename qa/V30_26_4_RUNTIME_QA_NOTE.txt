@@ -1,0 +1,3 @@
+V30.26.4 runtime QA note
+
+Static release QA and Render persistence QA passed in the source tree. A live HTTP/runtime smoke test requires npm dependencies/native better-sqlite3 and should be run after `npm ci` on the target Mac/Render environment with `npm run qa:runtime`.
