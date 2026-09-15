@@ -574,3 +574,10 @@ V30.24.0 is the code baseline. V30.24.1 is a refinement/hotfix release and must 
 - The exact confirmation phrase is validated client-side before Review & Confirm: `RESET TEST DATA` for reset/clear actions and `RESTORE TEST BACKUP` for restore. Server-side validation remains authoritative.
 - The global unsaved-form/beforeunload guard must not intercept an accepted protected reset. `formDirty` is cleared only after the reset API accepts the request; a restarting response may then reload the page.
 - If an older build leaked `reason`, `password`, or `confirmation` into the current reset page URL, the current page entry is scrubbed with `history.replaceState`; users must still rotate any password that was previously exposed.
+## V30.26.4 direct reset-button binding hotfix
+- Development/Test reset dialogs must bind their destructive action button directly with a runtime `click` listener after the modal is rendered; do not rely solely on inline event attributes.
+- The reset form submit event must also be directly intercepted with `preventDefault` / `stopPropagation` and must call the same protected reset runner.
+- Browser validation and exact typed confirmation must occur before Review & Confirm.
+- All reset actions remain authenticated JSON POST requests. Reason, password and confirmation must never be placed in a URL, query string or browser history.
+- The action must show an explicit user-visible error if the reset form cannot be initialized.
+

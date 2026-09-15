@@ -51,7 +51,7 @@ This ZIP is intentionally repo-ready and contains no `.git` directory, database,
 ```bash
 git status
 git add -A
-git commit -m "V30.26.3 posting control and Excavator UI integrity hotfix"
+git commit -m "V30.26.4 direct reset-button binding hotfix"
 git push
 ```
 
@@ -94,3 +94,6 @@ After deployment, hard refresh once so the `v=30.26.3` browser cache identity is
 ## V30.26.3 reset-form hotfix
 
 After deploying V30.26.3, hard-refresh the browser once. Full Clean Reset must remain on the same page until Review & Confirm completes, then call the protected reset POST API. Reset reason/password/confirmation must never appear in the address bar. If an older build exposed the admin password in a URL, rotate that password before continuing testing.
+
+## V30.26.4 direct reset-button hotfix
+After deploying V30.26.4, hard-refresh once so `v=30.26.4` assets load. Full Clean Reset should open Review & Confirm immediately after the valid form is submitted. The reset button and Enter/form-submit paths are both bound directly at runtime and call the same protected POST runner.

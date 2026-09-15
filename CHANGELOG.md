@@ -1,3 +1,10 @@
+## V30.26.4 — Direct Reset Button Binding Hotfix
+
+- Fixed the Render Full Clean Reset button appearing active but doing nothing after the V30.26.3 native-submit hardening.
+- Reset dialogs now attach direct click and submit event listeners after modal render instead of depending on an inline submit callback.
+- Both paths validate the browser form, call the same protected reset runner, and keep all reset credentials out of URL/query history.
+- Preserves V30.26.3 POST-only reset transport, typed confirmation, Review & Confirm, single-flight protection, development/testing guard, backups and persistent-disk safeguards.
+
 # Changelog
 
 ## V30.26.3 — Protected Reset Submission Hotfix
