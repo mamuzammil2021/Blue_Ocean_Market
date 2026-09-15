@@ -1,25 +1,28 @@
-# Blue Ocean Market V30.24.3 Release Manifest
+# Blue Ocean Market V30.26.2 Release Manifest
 
-**Release:** V30.24.3  
-**Package:** `Blue_Ocean_Market_V30_24_3_BU_SCOPED_NUMBERING_REFERENCE_REGISTRY_LOCAL_TEST.zip`  
-**Baseline:** V30.24.2
+**Release:** V30.26.2  
+**Package:** `Blue_Ocean_Market_V30_26_2_ACCOUNTING_POSTING_CONTROL_EXCAVATOR_INTEGRITY_GIT_READY_RENDER_PERSISTENT_DISK.zip`  
+**Baseline:** V30.26.1 Sell Workflow + Development Reset Hotfix
 
-## Primary V30.24.3 files
+## V30.26.2 changed files
 
-- `server/numbering-service.js` — central definition, override, sequence and audit service.
-- `server/v3243.js` — BU-scoped Numbering & References APIs, access enforcement and conflict checking.
-- `public/v3243-client.js` — Company / Shared + BU-separated Numbering & References UI.
-- `server/server.js`, `server/v290.js`, `server/v300.js`, `server/v313.js`, `server/v319.js` — actual reference issuers routed through the central service.
-- `public/v319-client.js` — dedicated Numbering & References renderer hook.
-- `public/index.html` — V30.24.3 cache identity and final overlay order.
-- `qa/qa_current.js` — inherited + V30.24.3 source/regression QA.
-- `qa/runtime_smoke.js` — V30.24.3 health identity.
-- `V30_24_3_IMPLEMENTATION_SUMMARY.md` and `docs/qa/V30_24_3_QA_REPORT.md` — implementation and QA documentation.
+- `public/v318-client.js` — Posting Control is Accounting-only; Finance injection removed; Back to Accounting and contextual View Finance Record added.
+- `public/v325-client.js` — legacy supplier search enhancer no longer wraps the canonical Buy Machine supplier autocomplete.
+- `public/v326-client.js` — Current Sale Settlement shows only active sale allocations; historical/unallocated buyer receipts remain outside the current settlement list.
+- `server/server.js`, `public/index.html`, `package.json`, `package-lock.json`, `qa/runtime_smoke.js` — V30.26.2 release/cache/runtime identity.
+- `qa/qa_current.js` — regression gates for Accounting-only Posting Control, single supplier dropdown and current-settlement filtering.
+- `README.md`, `CHANGELOG.md`, `GIT_READY_README.md`, `RENDER_DEPLOYMENT.md`, `REQUIREMENTS_MASTER.md`, `V30_26_2_IMPLEMENTATION_SUMMARY.md` — release documentation.
+
+## Inherited behavior
+
+All V30.26.0 sale/payment lifecycle controls and V30.26.1 development/testing reset safeguards remain in place, including Sell Machine freeze protection, guarded DB/uploads reset, Render persistent-disk paths, buyer payment correction/reversal, excess buyer credit, sold-machine lifecycle controls and authenticated PDFs.
 
 ## Package exclusions
 
-The local-test ZIP excludes runtime databases, `.env`, secrets, `node_modules`, uploaded business files, caches and temporary files.
+The Git-ready ZIP excludes runtime databases, SQLite WAL/SHM files, runtime backups, uploaded business files, `.env`, secrets, `node_modules`, Git metadata, OS caches and temporary files. Runtime directories retain `.gitkeep` placeholders where required.
 
-## Git-ready Render persistent-storage packaging
+## QA release gate
 
-This V30.24.3 Git-ready variant adds deployment/runtime storage hardening without changing the functional application version: Render defaults to `/var/data/data` for SQLite/backups and `/var/data/uploads` for attachments/PDFs, includes persistent-disk preflight/health checks, graceful SQLite shutdown, migration/check helpers, and Render deployment documentation. Runtime data, uploads, secrets, `.env`, `node_modules` and databases are excluded from Git.
+- `npm run qa:current`
+- `npm run qa:render`
+- `npm run qa:runtime` on the target Node 22 environment after `npm ci`

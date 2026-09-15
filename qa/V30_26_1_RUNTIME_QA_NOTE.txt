@@ -1,0 +1,11 @@
+V30.26.1 Runtime Smoke QA Note
+
+Static/current QA and Render persistence QA pass in the artifact build environment. A full live HTTP/browser runtime smoke is not claimed here because the Git-ready package intentionally excludes node_modules and the artifact environment may not provide the native better-sqlite3 runtime dependency without npm installation.
+
+On the target Mac/Render Node 22 environment run:
+  npm ci
+  npm run qa:current
+  npm run qa:render
+  npm run qa:runtime
+
+Targeted startup-reset logic was executed independently and confirmed that APP_ENV=development + ALLOW_TEST_DATA_RESET=true applies a pending full reset, while APP_ENV=production remains blocked.

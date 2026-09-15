@@ -71,6 +71,40 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
         AND o.source_type='Finance Entry' AND o.source_id=? AND r.id<>COALESCE(?,0)
       ORDER BY r.id DESC LIMIT 1`).get(Number(financeId),excludeJournalId);
   }
+  function operationControl(finance){
+    const st=text(finance?.source_type),id=Number(finance?.source_id||0),base={ready:true,source_status:'Completed / Approved',payment_requirement_status:'Not Required',linked_payment_status:'Not Required',warnings:[]};
+    try{
+      if(st==='Excavator Sale'){
+        const sale=db.prepare("SELECT id,asset_id,amount,status,type FROM excavator_transactions WHERE id=? AND type IN ('Local Sale','Export Sale')").get(id);
+        if(!sale)return {...base,ready:false,source_status:'Missing',warnings:['Linked Excavator sale is missing.']};
+        const rows=db.prepare(`SELECT al.amount_krw,p.id payment_id,p.reference,COALESCE(p.status,'Active') payment_status,
+          f.id finance_id,f.verification_status,f.status finance_status
+          FROM excavator_buyer_payment_allocations al
+          JOIN excavator_buyer_payments p ON p.id=al.payment_id
+          LEFT JOIN finance_entries f ON f.source_type='Excavator Buyer Payment' AND f.source_id=p.id AND f.status!='Voided'
+          WHERE al.asset_id=? AND COALESCE(al.status,'Active')='Active' AND COALESCE(p.status,'Active')!='Voided'`).all(sale.asset_id);
+        const allocated=rows.reduce((n,r)=>n+num(r.amount_krw),0),verified=rows.filter(r=>['Verified','Verified / Correct'].includes(text(r.verification_status))).reduce((n,r)=>n+num(r.amount_krw),0),required=num(sale.amount),opReady=text(sale.status)==='Completed',payReady=verified+0.005>=required;
+        const warnings=[];if(!opReady)warnings.push(`Excavator sale status is ${sale.status||'not completed'}.`);if(allocated+0.005<required)warnings.push(`Buyer payment allocation is incomplete: KRW ${Math.round(allocated).toLocaleString()} allocated of KRW ${Math.round(required).toLocaleString()}.`);if(!payReady)warnings.push(`Verified buyer payments cover KRW ${Math.round(verified).toLocaleString()} of required KRW ${Math.round(required).toLocaleString()}.`);
+        return {ready:opReady&&payReady,source_status:sale.status||'Open',payment_requirement_status:payReady?'Satisfied / Finance Verified':'Not Satisfied',linked_payment_status:payReady?'Verified':'Pending Finance Verification',allocated_krw:allocated,verified_allocated_krw:verified,required_krw:required,warnings};
+      }
+      if(st==='Sale'){
+        const r=db.prepare('SELECT id,status FROM sales WHERE id=?').get(id);if(!r)return {...base,ready:false,source_status:'Missing',warnings:['Linked sale is missing.']};const ok=text(r.status)==='Completed';return {...base,ready:ok,source_status:r.status||'Open',warnings:ok?[]:[`Sale status is ${r.status||'not completed'}.`]};
+      }
+      if(st==='Purchase'){
+        const r=db.prepare('SELECT id,status FROM purchases WHERE id=?').get(id);if(!r)return {...base,ready:false,source_status:'Missing',warnings:['Linked purchase is missing.']};const ok=!['Voided','Cancelled'].includes(text(r.status));return {...base,ready:ok,source_status:r.status||'Received',warnings:ok?[]:[`Purchase status is ${r.status}.`]};
+      }
+      if(st==='Pink Salt Sale'){
+        const r=db.prepare('SELECT id,status FROM pink_salt_orders WHERE id=?').get(id);if(!r)return {...base,ready:false,source_status:'Missing',warnings:['Linked Pink Salt order is missing.']};const ok=text(r.status)==='Completed';return {...base,ready:ok,source_status:r.status||'Open',warnings:ok?[]:[`Pink Salt order status is ${r.status||'not completed'}.`]};
+      }
+      if(st==='Pink Salt Import Purchase'){
+        const r=db.prepare('SELECT id,status FROM pink_salt_imports WHERE id=?').get(id);if(!r)return {...base,ready:false,source_status:'Missing',warnings:['Linked Pink Salt import is missing.']};const ok=!['Cancelled','Voided'].includes(text(r.status));return {...base,ready:ok,source_status:r.status||'Ordered',warnings:ok?[]:[`Pink Salt import status is ${r.status}.`]};
+      }
+      if(st==='Pink Salt Packaging Purchase'){
+        const r=db.prepare('SELECT id,status FROM pink_salt_packaging_movements WHERE id=?').get(id);if(!r)return {...base,ready:false,source_status:'Missing',warnings:['Linked packaging receipt is missing.']};const ok=text(r.status||'Active')!=='Voided';return {...base,ready:ok,source_status:r.status||'Active',warnings:ok?[]:['Packaging purchase is voided.']};
+      }
+      return base;
+    }catch(e){return {...base,ready:false,source_status:'Validation Error',warnings:[`Operational source validation failed: ${e.message}`]};}
+  }
   function financeReadiness(j){
     if(!j.finance_entry_id)return {linked:false,ready:true,warnings:[]};
     const f=db.prepare(`SELECT f.*,b.name business_unit,u.name created_by_name,v.name verified_by_name,
@@ -79,12 +113,16 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
       FROM finance_entries f LEFT JOIN business_units b ON b.id=f.business_unit_id LEFT JOIN users u ON u.id=f.created_by LEFT JOIN users v ON v.id=f.verified_by WHERE f.id=?`).get(j.finance_entry_id);
     if(!f)return {linked:true,ready:false,warnings:['Linked Finance record is missing.'],finance:null};
     const verification=text(f.verification_status),verified=['Verified','Verified / Correct'].includes(verification),warnings=[];
-    if(f.status==='Voided')warnings.push('Linked Finance record is voided.');
-    if(!verified)warnings.push(`Finance verification is ${verification||'not complete'}.`);
-    if(Number(f.open_corrections||0)>0)warnings.push('A Finance correction request is still open.');
-    const evidence=financeEvidence(f);if(!evidence.length)warnings.push('No Finance or linked source evidence is available for review.');
+    const operational=Number(f.cash_effect||0)===0 && !/payment|receipt|refund|transfer/i.test(String(f.source_type||''));
+    const op=operational?operationControl(f):null;
+    if(f.status==='Voided')warnings.push('Linked source record is voided.');
+    if(operational&&op?.warnings?.length)warnings.push(...op.warnings);
+    if(!operational&&!verified)warnings.push(`Finance verification is ${verification||'not complete'}.`);
+    if(!operational&&Number(f.open_corrections||0)>0)warnings.push('A Finance correction request is still open.');
+    const evidence=financeEvidence(f);if(!evidence.length)warnings.push(operational?'No linked operational evidence is available for review.':'No Finance or linked source evidence is available for review.');
     const reversal=pendingReversalForFinance(f.id,j.id);if(reversal)warnings.push(`Previous official posting must be reversed first (${reversal.journal_no}).`);
-    return {linked:true,ready:f.status!=='Voided'&&verified&&!Number(f.open_corrections||0)&&!reversal,warnings,finance:f,pending_reversal:reversal||null,evidence_count:evidence.length};
+    const operationStatus=operational?(op?.source_status||'Completed / Approved'):'Finance Verified';
+    return {linked:true,operational,source_control:operationStatus,source_status:op?.source_status||null,linked_payment_status:op?.linked_payment_status||null,payment_requirement_status:op?.payment_requirement_status||null,finance_verification_required:!operational,ready:f.status!=='Voided'&&(operational?!!op?.ready:verified)&&(operational||!Number(f.open_corrections||0))&&!reversal,warnings,finance:f,pending_reversal:reversal||null,evidence_count:evidence.length};
   }
   function totals(journalId){const x=db.prepare('SELECT ROUND(COALESCE(SUM(debit_krw),0),2) debit,ROUND(COALESCE(SUM(credit_krw),0),2) credit,COUNT(*) line_count FROM accounting_journal_lines WHERE journal_entry_id=?').get(journalId);return {debit:num(x?.debit),credit:num(x?.credit),line_count:Number(x?.line_count||0),balanced:Math.abs(num(x?.debit)-num(x?.credit))<=0.01&&Number(x?.line_count||0)>=2}}
   function detailRow(id){
@@ -173,7 +211,7 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
     if(!['Pending Review','Correction Required'].includes(j.status))return res.status(409).json({error:`Only a pending/correction accounting proposal can be posted. Current status: ${j.status}.`});
     if(!j.balanced)return res.status(409).json({error:'The accounting proposal is not balanced and cannot be posted.'});
     const closed=periodClosedUnits(j);if(closed.length)return res.status(409).json({error:'The accounting period is closed for one or more affected business units. Reopen it before final posting.',business_unit_ids:closed});
-    const readiness=financeReadiness(j);if(!readiness.ready)return res.status(409).json({error:'Finance review/dependency checks are not complete for this accounting proposal.',warnings:readiness.warnings});
+    const readiness=financeReadiness(j);if(!readiness.ready)return res.status(409).json({error:'Source control / verification checks are not complete for this accounting proposal.',warnings:readiness.warnings});
     if(j.source_type==='Manual Journal'&&!proposalDocuments(j.id).length)return res.status(409).json({error:'Manual journal evidence is missing. Add supporting evidence before final posting.'});
     if(j.source_type==='Accounting Reversal'&&j.reversal_of_id){const original=db.prepare('SELECT * FROM accounting_journal_entries WHERE id=?').get(j.reversal_of_id);if(!original||original.status!=='Posted')return res.status(409).json({error:'The original journal is no longer Posted. Refresh Posting Control before finalizing this reversal.'})}
     const note=text(req.body.note);if(!note)return res.status(400).json({error:'A final-post review note is required.'});
@@ -205,7 +243,7 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
     const reason=text(req.body.reason);if(!reason)return res.status(400).json({error:'Correction reason is required.'});let correctionId=null;
     const tx=db.transaction(()=>{
       db.prepare("UPDATE accounting_journal_entries SET status='Correction Required',correction_requested_by=?,correction_requested_at=CURRENT_TIMESTAMP,correction_reason=?,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(req.user.id,reason,reason,j.id);
-      if(j.finance_entry_id){const f=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(j.finance_entry_id);if(f&&f.status!=='Voided'){db.prepare("UPDATE finance_entries SET verification_status='Correction Required',correction_reason=?,verified_by=NULL,verified_at=NULL,verification_note=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(reason,'Accounting Posting Control requested correction: '+reason,f.id);if(typeof openFinanceCorrection==='function'&&f.created_by)correctionId=openFinanceCorrection({finance:{...f,verification_status:'Correction Required',correction_reason:reason},requestedBy:req.user.id,reason,requestedChanges:reason,severity:'High'});}}
+      if(j.finance_entry_id){const f=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(j.finance_entry_id);if(f&&f.status!=='Voided'){if(Number(f.cash_effect||0)!==0){db.prepare("UPDATE finance_entries SET verification_status='Correction Required',correction_reason=?,verified_by=NULL,verified_at=NULL,verification_note=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(reason,'Accounting Posting Control requested correction: '+reason,f.id);if(typeof openFinanceCorrection==='function'&&f.created_by)correctionId=openFinanceCorrection({finance:{...f,verification_status:'Correction Required',correction_reason:reason},requestedBy:req.user.id,reason,requestedChanges:reason,severity:'High'});}else if(f.created_by&&Number(f.created_by)!==Number(req.user.id)){try{notify(f.created_by,'Warning','Operational source correction required',`${j.journal_no}: ${reason}`,j.business_unit_id||journalUnits(j)[0]||null,f.source_type,f.source_id,'accounting',j.id)}catch(_){}}}}
       else if(j.created_by&&Number(j.created_by)!==Number(req.user.id)){try{notify(j.created_by,'Warning','Accounting correction required',`${j.journal_no}: ${reason}`,j.business_unit_id||journalUnits(j)[0]||null,'accounting_journal',j.id,'accounting',j.id)}catch(_){}}
       history(j,req.user,'Correction Requested',reason,j.status,'Correction Required');
     });

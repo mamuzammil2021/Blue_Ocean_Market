@@ -1,14 +1,32 @@
 # Git-ready package
 
-Release baseline: **V30.24.3**.
+Release baseline: **V30.26.2 Accounting-only Posting Control + Excavator Follow-up Integrity**.
 
-This package is safe to place at the root of the existing Blue Ocean Market Git repository. It excludes runtime databases, uploaded company files, `node_modules`, `.env`, secrets and local caches.
+This package is ready to extract into the root of the existing Blue Ocean Market Git repository and push to Render. It excludes runtime databases, uploaded company files, runtime reset backups, `node_modules`, `.env`, secrets and local caches.
 
-Render persistence additions in this Git-ready variant:
-- automatic Render storage defaults under `/var/data`
-- persistent-disk startup preflight
-- public health indicators for disk/storage status
-- graceful SQLite WAL checkpoint/close on SIGTERM/SIGINT
-- optional storage migration/check scripts
-- Render deployment guide and Blueprint example
-- stronger Git ignore rules for database backups/WAL/uploads
+Render persistence remains under `/var/data`:
+
+- SQLite/database backups: `/var/data/data`
+- Attachments/evidence/PDFs: `/var/data/uploads`
+- Automatic development/test pre-reset snapshots: `/var/data/data/backups/pre-reset`
+
+For the dedicated non-production development/testing Render service:
+
+```env
+APP_ENV=development
+ALLOW_TEST_DATA_RESET=true
+TEST_RESET_BACKUP_RETENTION=3
+```
+
+`APP_ENV=testing` is also accepted. Production must remain `APP_ENV=production` and `ALLOW_TEST_DATA_RESET=false`.
+
+Git update example:
+
+```bash
+git status
+git add -A
+git commit -m "V30.26.2 posting control and Excavator UI integrity hotfix"
+git push
+```
+
+See `RENDER_DEPLOYMENT.md`, `V30_26_2_IMPLEMENTATION_SUMMARY.md`, `V30_26_1_IMPLEMENTATION_SUMMARY.md` and `V30_26_IMPLEMENTATION_SUMMARY.md`.

@@ -1,0 +1,17 @@
+V30.26.2 runtime QA note
+========================
+
+Static/current QA and Render persistence QA passed in the artifact build environment.
+The live HTTP/runtime smoke suite was not executed here because this Git/Render-ready
+artifact intentionally does not bundle node_modules and the native better-sqlite3
+dependency is not installed in the artifact sandbox.
+
+Run on the target Mac/Render build environment after dependencies are installed:
+  npm ci
+  npm run qa:current
+  npm run qa:render
+  npm run qa:runtime
+
+The package contains no runtime database, business uploads, .env file, node_modules,
+or Git metadata. The guarded reset-startup behavior was tested separately for both
+development (allowed when explicitly enabled) and production (blocked).

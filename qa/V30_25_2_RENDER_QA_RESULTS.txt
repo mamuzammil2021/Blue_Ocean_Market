@@ -1,0 +1,25 @@
+
+> blue-ocean-market-os@30.25.2 qa:render
+> node qa/qa_render_persistence.js
+
+PASS syntax server/runtime-storage.js
+PASS syntax scripts/start-server.js
+PASS syntax scripts/render-storage-check.js
+PASS syntax scripts/migrate-render-storage.js
+PASS Render defaults persistent root to /var/data
+PASS DB and uploads use central runtime storage
+PASS Render base URL fallback present
+PASS persistent disk preflight and mount check present
+PASS health reports persistence state
+PASS graceful SQLite shutdown present
+PASS Render helper scripts registered
+PASS env template contains persistent disk settings
+PASS test reset is explicitly environment guarded
+PASS env template documents safe test reset controls
+PASS pre-reset retention is hard limited to 2 or 3
+PASS deployment guide keeps reset disabled in production
+PASS gitignore excludes persistent runtime data and secrets
+PASS Blueprint example uses /var/data disk
+PASS deployment guide documents persistence verification
+
+Render persistence QA PASS

@@ -1,0 +1,7 @@
+V30.26.1 Development Reset Startup QA
+Generated: 2026-09-15
+
+PASS development pending full reset applies when APP_ENV=development and ALLOW_TEST_DATA_RESET=true
+PASS production pending reset is blocked even if ALLOW_TEST_DATA_RESET=true
+
+This targeted check used temporary data/upload directories and scripts/test-reset-startup.js; no project runtime data was modified.

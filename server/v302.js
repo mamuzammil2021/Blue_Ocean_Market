@@ -31,7 +31,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting}){
     if(st==='Pink Salt Import Purchase')return {finance_role:'Purchase / Payable',cash_effect:0};
     if(st==='Pink Salt Import Payment')return {finance_role:'Supplier Payment / Settlement',cash_effect:-1};
     if(st==='Pink Salt Import Cost')return {finance_role:'Import Cost Payment',cash_effect:-1};
-    if(st==='Pink Salt Packaging Purchase')return {finance_role:'Packaging Purchase Payment',cash_effect:-1};
+    if(st==='Pink Salt Packaging Purchase')return {finance_role:'Packaging Purchase / Payable',cash_effect:0};
     if(st==='Pink Salt Sale')return {finance_role:'Sale / Revenue',cash_effect:0};
     if(st==='Pink Salt Customer Payment')return {finance_role:'Customer Receipt',cash_effect:1};
     if(st==='Pink Salt Customer Refund')return {finance_role:'Customer Refund',cash_effect:-1};
@@ -42,8 +42,10 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting}){
     if(st==='Excavator Buyer Refund')return {finance_role:'Buyer Refund',cash_effect:-1};
     if(st==='Excavator Payment')return {finance_role:'Machine Payment / Settlement',cash_effect:-1};
     if(st.startsWith('Excavator '))return {finance_role:type==='Revenue'?'Revenue':'Machine Cost',cash_effect:type==='Revenue'?0:-1};
-    if(st==='Purchase')return {finance_role:'Purchase',cash_effect:String(row.payment_method||'').toLowerCase()==='credit'?0:-1};
+    if(st==='Purchase')return {finance_role:'Purchase / Payable',cash_effect:0};
+    if(st==='Purchase Payment')return {finance_role:'Supplier Payment / Settlement',cash_effect:-1};
     if(st==='Sale')return {finance_role:'Sale / Revenue',cash_effect:0};
+    if(st==='Sale Payment'||st==='MIMI Sale Payment')return {finance_role:'Customer Receipt',cash_effect:1};
     if(st==='Manual')return {finance_role:type==='Revenue'?'Manual Income':'Manual Expense',cash_effect:type==='Revenue'?1:-1};
     if(/payment|receipt|refund/i.test(st+' '+cat))return {finance_role:/refund/i.test(st+' '+cat)?'Refund / Payment':'Payment / Settlement',cash_effect:/refund/i.test(st+' '+cat)?-1:type==='Revenue'||type==='Receipt'?1:-1};
     if(type==='Revenue')return {finance_role:'Revenue',cash_effect:0};

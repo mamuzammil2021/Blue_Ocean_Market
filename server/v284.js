@@ -142,7 +142,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer}){
 
   function financeStatement(req){
     const {from,to}=normalizePeriod(req),unit=currentUnit(req),args=[];
-    let q=`SELECT f.*,b.name business_unit FROM finance_entries f JOIN business_units b ON b.id=f.business_unit_id WHERE f.status!='Voided'`;
+    let q=`SELECT f.*,b.name business_unit FROM finance_entries f JOIN business_units b ON b.id=f.business_unit_id WHERE f.status!='Voided' AND (COALESCE(f.cash_effect,0)<>0 OR f.source_type='Manual')`;
     if(unit){q+=' AND f.business_unit_id=?';args.push(unit)}
     if(!isFinanceReviewer(req.user)){q+=' AND f.created_by=?';args.push(req.user.id)}
     const records=db.prepare(q+' ORDER BY COALESCE(f.transaction_date,f.created_at),f.id').all(...args);
@@ -150,8 +150,8 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer}){
       date:dateOnly(f.transaction_date||f.created_at),order:f.id,
       description:`${f.business_unit||''}${f.business_unit?' · ':''}${f.category||f.type||'Finance'}${f.description?' · '+f.description:''}`,
       reference:f.reference||`FIN-${f.id}`,
-      debit:String(f.type||'').toLowerCase()==='expense'?Number(f.krw_amount||f.amount||0):0,
-      credit:String(f.type||'').toLowerCase()==='revenue'?Number(f.krw_amount||f.amount||0):0,
+      debit:(Number(f.cash_effect||0)<0||(Number(f.cash_effect||0)===0&&f.source_type==='Manual'&&String(f.type||'').toLowerCase()==='expense'))?Number(f.krw_amount||f.amount||0):0,
+      credit:(Number(f.cash_effect||0)>0||(Number(f.cash_effect||0)===0&&f.source_type==='Manual'&&String(f.type||'').toLowerCase()==='revenue'))?Number(f.krw_amount||f.amount||0):0,
       source:f.source_type||'Manual'
     }));
     const opening=all.filter(r=>beforePeriod(r.date,from)).reduce((n,r)=>n+Number(r.credit||0)-Number(r.debit||0),0),rows=buildRunningRows(all,{from,to,opening});
