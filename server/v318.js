@@ -187,6 +187,7 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
     if(status==='All')statuses=['Pending Review','Correction Required','Posted','Cancelled','Reversed'];else if(status==='Posted')statuses=['Posted'];else if(status==='Correction Required')statuses=['Correction Required'];else statuses=['Pending Review','Correction Required'];
     const marks=statuses.map(()=>'?').join(','),rows=db.prepare(`SELECT j.*,b.name business_unit,creator.name created_by_name,reviewer.name reviewed_by_name,
       f.verification_status finance_verification_status,f.reference finance_reference,f.status finance_status,
+      ROUND(COALESCE(NULLIF(f.krw_amount,0),NULLIF(f.amount,0),(SELECT COALESCE(SUM(debit_krw),0) FROM accounting_journal_lines l WHERE l.journal_entry_id=j.id)),2) source_amount,
       ROUND((SELECT COALESCE(SUM(debit_krw),0) FROM accounting_journal_lines l WHERE l.journal_entry_id=j.id),2) total_debit,
       ROUND((SELECT COALESCE(SUM(credit_krw),0) FROM accounting_journal_lines l WHERE l.journal_entry_id=j.id),2) total_credit
       FROM accounting_journal_entries j LEFT JOIN business_units b ON b.id=j.business_unit_id LEFT JOIN users creator ON creator.id=j.created_by LEFT JOIN users reviewer ON reviewer.id=j.reviewed_by LEFT JOIN finance_entries f ON f.id=j.finance_entry_id

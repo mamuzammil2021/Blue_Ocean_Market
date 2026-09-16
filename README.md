@@ -1,26 +1,31 @@
-# Blue Ocean Market V30.26.4
+# Blue Ocean Market V30.29.0
 
-**Accounting-only Posting Control + Excavator Follow-up Integrity — Git-ready / Render Persistent Disk**
+**Workflow UX + Finance Verification Traceability + Combined Sale Settlement + Pakistan Resale Allocation — Git-ready / Render Persistent Disk**
 
-V30.26.4 is a narrow hotfix built on V30.26.3. It keeps the complete V30.26 sale/payment lifecycle and V30.26.1 development-reset safeguards, while fixing the final QA issues reported before pushing the project to Git and Render.
+V30.29.0 is built on V30.28.0. It focuses on the latest live Excavator QA findings while preserving the Finance Integrity Rule, Accounting Posting Control architecture, Pakistan Resales separation, country-scoped financial accounts and Render persistent-storage safeguards.
 
-### V30.26.3 scope
+### V30.29.0 scope
 
-- Removed Posting Control from the Finance workspace; Finance now remains focused on operational transactions, evidence, corrections and verification.
-- Posting Control now opens and remains inside Accounting, with a Back to Accounting action instead of Back to Finance.
-- Posting-review items expose a contextual **View Finance Record** action when a Finance source exists.
-- Fixed Buy Machine supplier autocomplete so the legacy V30.25 search enhancer cannot create a second overlapping result list.
-- Update Sale → Current Sale Settlement now shows only payment/advance records actively allocated to that sale; historical or unallocated buyer receipts remain in the Buyer ledger/audit history.
-- All V30.26.1 development/testing DB + uploads reset protections and Render persistent-disk guidance remain unchanged.
-- Browser/health/package identity is V30.26.3 to prevent stale V30.26.1 browser cache.
+- Responsive Buyers/Suppliers lists that fit the available width, wrap long content and keep actions visible; Search + Add controls stay aligned on the right on normal desktop/laptop widths.
+- Supplier list simplified to **Open | Edit | Delete**. Open launches a full Supplier workspace with Overview, Machines, Requirements and Payments / Account.
+- Supplier workspace adds purchase/payment KPIs and recent payment visibility, while Supplier Statement remains the full ledger/history view.
+- Phone entry uses one compact searchable country-code selector beside the phone number; no duplicate search field.
+- Sell Machine supports **Buyer Advance + New Payment** in the same settlement. Existing advance is allocated without creating a duplicate Finance receipt; only newly received money creates a Finance cash record, with excess retained as Buyer Advance/Credit.
+- Accounting Posting Queue shows the source/transaction amount instead of a misleading combined debit total; Posting Review exposes sale, COGS, gross profit and balanced journal totals.
+- Finance Verification shows the exact Company Financial Account used as **Received Into** or **Paid From** for reviewer traceability.
+- Finance sidebar pending badge uses Finance-only actionable records and disappears when no Finance work is pending.
+- Buyer/Supplier Statement date Apply refreshes the same open statement dialog instead of stacking another modal.
+- Buyer Detail hard-deduplicates Pakistan Resales so exactly one action is shown.
+- Pakistan Resale Profit Payment uses machine selection/checkbox allocation with automatic allocation and unallocated resale credit handling. Review & Confirm is restored as a working protected financial review step.
 
-### QA
+See `V30_29_IMPLEMENTATION_SUMMARY.md` for implementation details.
 
-- `npm run qa:current` — V30.26.3 source/regression release gate.
-- `npm run qa:render` — Render persistent-storage + development-reset guard gate.
-- `npm run qa:runtime` — run after `npm ci` in the target Node 22 environment.
+### V30.29.0 QA status
 
-See `V30_26_2_IMPLEMENTATION_SUMMARY.md` for this hotfix and the V30.26/V30.26.1 summaries for inherited behavior.
+- `npm run qa:current` — **PASS**
+- `npm run qa:render` — **PASS**
+- JavaScript/server syntax checks are included in the current regression gate.
+- Runtime smoke requires `npm ci` in the target Node 22 environment because `node_modules` is intentionally excluded from the Git-ready release artifact.
 
 ## V30.24.2 hotfix scope
 

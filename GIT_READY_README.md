@@ -1,34 +1,7 @@
-# Git-ready package
+# Blue Ocean Market V30.29.0 — Git / Render Ready
 
-Release baseline: **V30.26.4 Accounting-only Posting Control + Excavator Follow-up Integrity**.
+V30.29.0 is a workflow-UX, Finance-verification and settlement-integrity release built directly on V30.28.0. It preserves Pakistan Resales, country-scoped financial accounts, Pakistan→Korea transfers, Accounting-only Posting Control, protected development reset and Render persistent storage.
 
-This package is ready to extract into the root of the existing Blue Ocean Market Git repository and push to Render. It excludes runtime databases, uploaded company files, runtime reset backups, `node_modules`, `.env`, secrets and local caches.
+Release baseline: **V30.29.0 Workflow UX + Finance Verification Traceability + Combined Sale Settlement + Pakistan Resale Allocation**.
 
-Render persistence remains under `/var/data`:
-
-- SQLite/database backups: `/var/data/data`
-- Attachments/evidence/PDFs: `/var/data/uploads`
-- Automatic development/test pre-reset snapshots: `/var/data/data/backups/pre-reset`
-
-For the dedicated non-production development/testing Render service:
-
-```env
-APP_ENV=development
-ALLOW_TEST_DATA_RESET=true
-TEST_RESET_BACKUP_RETENTION=3
-```
-
-`APP_ENV=testing` is also accepted. Production must remain `APP_ENV=production` and `ALLOW_TEST_DATA_RESET=false`.
-
-Git update example:
-
-```bash
-git status
-git add -A
-git commit -m "V30.26.4 direct reset-button binding hotfix"
-git push
-```
-
-See `RENDER_DEPLOYMENT.md`, `V30_26_4_IMPLEMENTATION_SUMMARY.md`, `V30_26_3_IMPLEMENTATION_SUMMARY.md`, `V30_26_2_IMPLEMENTATION_SUMMARY.md`, `V30_26_1_IMPLEMENTATION_SUMMARY.md` and `V30_26_IMPLEMENTATION_SUMMARY.md`.
-
-V30.26.4 adds the direct reset-button binding hotfix for Render development/testing while preserving the V30.26.2 business baseline.
+The release ZIP intentionally excludes `.git`, databases/WAL/SHM, runtime backups, uploads, `.env`, secrets and `node_modules`.

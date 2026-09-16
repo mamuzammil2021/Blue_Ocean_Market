@@ -1,0 +1,14 @@
+Blue Ocean Market V30.28.0 runtime QA note
+
+Static/source QA: PASS (`npm run qa:current`).
+Render persistence QA: PASS (`npm run qa:render`).
+
+Runtime smoke was not executed in this build container because a clean `npm ci`
+could not resolve registry.npmjs.org (EAI_AGAIN / network-DNS restriction). The
+release intentionally excludes node_modules.
+
+Required target-environment check before production deployment:
+  npm ci
+  npm run qa:runtime
+
+Use the supported Node 22 environment and persistent storage configuration.
