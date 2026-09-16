@@ -581,3 +581,55 @@ V30.24.0 is the code baseline. V30.24.1 is a refinement/hotfix release and must 
 - All reset actions remain authenticated JSON POST requests. Reason, password and confirmation must never be placed in a URL, query string or browser history.
 - The action must show an explicit user-visible error if the reset form cannot be initialized.
 
+
+
+## V30.27.0 Pakistan Resales, settlements and cross-border bank transfer
+
+- Pakistani Excavator buyers must have a dedicated **Pakistan Resales** page from Buyer Details; normal Buyer Details must not embed payment/settlement controls for resale profit.
+- A Pakistan resale record contains the machine/deal, resale date, resale price PKR, resale profit PKR, Our Share %, derived Our Share Amount PKR, notes and optional resale evidence. Payment receipt/date/reference/received controls belong to a separate settlement workflow.
+- **Our Share Amount = Resale Profit × Our Share % ÷ 100**. The UI shows the value read-only and recalculates live; the backend independently recalculates and stores the authoritative value.
+- Resale settlement status is derived from active allocations (Share Due / Partially Received / Settled) and is not manually marked received.
+- One Pakistan resale-profit payment is one receipt/Finance event and may allocate to multiple resale records. Support partial allocations, multiple payments per resale, unallocated resale credit, controlled reallocation, refund and void/reversal while preserving history.
+- Pakistan resale unallocated credit is separate from normal Buyer Advance/Credit. It must not be silently used for Korea machine purchases or reclassified without an explicit controlled action.
+- Pakistan resale-profit receipts and resale-credit refunds may use only active configured Company Bank Accounts with **Bank Country / Account Country = Pakistan** and PKR currency. Korea/other-country accounts must be excluded in UI and rejected by backend validation.
+- Company Financial Accounts require Bank Country / Account Country for Bank accounts. Country is independent from currency and must be available in Add/Edit/Review/history/audit and effective account selectors. Existing accounts without country require controlled maintenance before country-restricted use.
+- Optional movement of resale funds Pakistan → Korea is a separate inter-account transfer, never a buyer payment or income event. Record Pakistan source account, Korea destination account, source PKR, FX rate, actual destination KRW, bank/remittance fees, date, reference, evidence and status.
+- Pakistan→Korea transfers use active Pakistan PKR source Bank accounts and South Korea KRW destination Bank accounts. They remain Finance-reviewable and flow to Accounting Posting Control.
+- Accounting must keep **Pakistan Resale Profit Share Income / Credit** separate from **Korea Excavator Sales Revenue / margin**. Bank transfer entries move bank balances only and may recognize bank fees and FX gain/loss; they never reclassify Pakistan resale profit as Korea profit.
+- CEO consolidated reporting may optionally total company profit, but Pakistan resale and Korea machine-trading components must remain separately identifiable and drillable.
+- Preserve the Finance Integrity Rule: one real receipt/refund/transfer = one Finance source record; allocations are child subledger records, not duplicate Finance payments.
+
+
+## V30.28.0 QA and Finance/Accounting data-integrity requirements
+
+- Buyer Detail must show only one Pakistan Resales action for eligible Pakistani buyers.
+- Editing an existing buyer from Buyer Detail must return to and refresh that same Buyer Detail context after save.
+- Finance and Accounting sidebar counters are independent. Finance must never include Accounting Posting Control counts.
+- Remove the redundant Daily Finance guide card while retaining the page title, KPIs, filters/tabs and Finance records.
+- Accounting overview must clearly distinguish official Posted GL values from current operational subledger balances and pending/unposted work.
+- Buyer Advances operational balance must reflect active receipts less active allocations/refunds.
+- Supplier Payable operational balance must reflect purchase price less valid paid supplier Purchase payments and must reach zero when fully settled.
+- Pre-sale Excavator machine purchase and eligible cost items remain capitalized in Excavator Inventory. On completed sale the eligible accumulated machine cost moves to COGS/Expense under the existing Accounting Posting Eligibility rules.
+- The Accounting overview must expose Machine Inventory / Capitalized Costs, Pending Accounting, and Finance Awaiting Verification so costs do not appear to disappear while awaiting posting.
+- Sold / Completed Machines / Deals cards must not show + Cost, Update Sale or Payments actions.
+- Sell Machine must visibly highlight every currently missing/invalid required field and clear the highlight as valid data is entered.
+- International phone country-code selectors must support type-to-search by country name, ISO code and dialing code.
+- Statement PDFs must wrap and align transaction descriptions professionally without scattered/truncated layout.
+- All affected Finance, Accounting, Dashboard/KPI and sidebar data must refresh from the correct source after successful mutations without cross-module double-counting.
+
+## V30.29.0 workflow UX, verification and settlement requirements
+
+- **Buyer/Supplier list responsiveness:** use the available content width; long names, addresses, contact values and labels wrap/multiline rather than forcing ordinary desktop/laptop/tablet horizontal scrolling. The Actions area remains visible at the right; narrow screens may use stacked/card presentation.
+- **List toolbar placement:** Buyer and Supplier Search controls are right-aligned on normal desktop/laptop widths, with `+ Add Buyer` / `+ Add Supplier` immediately to the right of Search.
+- **Phone country code:** phone forms use one searchable country-code selector beside the phone number. Search happens inside that selector by country name or dialing code; do not show a second standalone country-search field.
+- **Supplier list actions:** the supplier list uses `Open | Edit | Delete`. Machines and Requirements move inside the Supplier Open workspace rather than remaining separate row actions.
+- **Supplier workspace:** Open launches one full-screen Supplier Detail workspace with Back navigation and no redundant Close (X). It includes Overview, Machines, Requirements and Payments / Account plus Supplier Statement access. Payment/account visibility includes Total Purchases, Total Paid, Outstanding Payable, Last Payment, Payment Status and recent payments supported by existing records.
+- **Combined sale settlement:** Sell Machine supports Buyer Advance only, New Payment only, and Buyer Advance + New Payment. The user may choose the advance amount to allocate and record only the remaining real receipt as new money. Existing advance allocation is not a second Finance receipt. New receipt excess becomes Buyer Advance/Credit. The server remains authoritative and Review & Confirm shows the complete settlement split.
+- **Posting Queue amount clarity:** the queue's primary amount is the source/transaction business amount, not the sum of unrelated debit lines. For a machine sale, Posting Review separately shows Sale Amount, Machine Cost / COGS, Gross Profit, Journal Debit Total and Journal Credit Total.
+- **Finance Verification traceability:** every cash-movement verification view identifies the exact configured Company Financial Account used. Incoming cash shows `Received Into`; outgoing cash shows `Paid From`, with account name/type, institution, country, currency and safe/masked identifying details where available.
+- **Finance sidebar badge:** the Finance badge is sourced only from Finance-actionable records using the same operational scope as Finance review. It excludes Accounting-only work, completed/hidden/stale records and disappears when the count is zero.
+- **Statement filtering:** changing From/To and pressing Apply refreshes the currently open Buyer/Supplier Statement dialog in place. Repeated Apply actions must never stack duplicate statement modals.
+- **Pakistan Resales action:** eligible Buyer Detail screens contain exactly one Pakistan Resales action regardless of repeated navigation/render enhancers.
+- **Pakistan Resale Profit Payment allocation:** record the receipt once, select eligible machine/resale obligations with checkboxes, and automatically allocate the receipt up to each selected outstanding share. Excess remains Pakistan resale unallocated credit. Manual partial allocation may exist only as an explicit advanced workflow, not the default entry method.
+- **Pakistan resale protected commit:** Review & Confirm must work. The review shows payment amount, Pakistan financial account, method/reference/evidence, selected machine allocations, unallocated credit and balance impact before the transaction commits. Validation failures must be visible; the button must never fail silently.
+

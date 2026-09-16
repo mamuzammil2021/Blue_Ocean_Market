@@ -1,3 +1,47 @@
+# Changelog
+
+## V30.29.0 — Workflow UX, Finance Verification & Settlement Integrity
+
+- Reworked Supplier/Buyer list layouts to fit available width, wrap long values and keep right-side actions visible without normal desktop/laptop horizontal scrolling.
+- Aligned Search + Add controls to the right and simplified Supplier rows to Open, Edit and Delete.
+- Added a full Supplier workspace with Overview, Machines, Requirements and Payments / Account, including purchase/payment KPIs and recent payments.
+- Replaced duplicate phone-country search fields with one compact searchable country-code selector beside the phone number.
+- Added combined Sell Machine settlement using Buyer Advance + New Payment, preserving one-real-receipt = one-Finance-record integrity and sending excess new receipt value to buyer credit.
+- Changed Accounting Posting Queue to show Transaction/Source Amount and added sale, COGS, gross profit and balanced journal totals in Posting Review.
+- Added exact Received Into / Paid From Company Financial Account information to Finance Verification.
+- Aligned the Finance sidebar badge to Finance-only actionable records and zero-state hiding.
+- Changed Statement date Apply to refresh the current Buyer/Supplier Statement modal in place.
+- Hardened Buyer Detail so Pakistan Resales renders once only.
+- Changed Pakistan Resale Profit Payment allocation to checkbox/machine selection with automatic allocation and unallocated resale credit.
+- Restored a protected, working Review & Confirm step for resale-profit payments.
+- Preserved all V30.28 Finance/Accounting data-integrity and V30.27 Pakistan Resales/country-account safeguards.
+
+## V30.28.0 — QA + Finance/Accounting Data Integrity
+
+- Deduplicated the Pakistan Resales Buyer Detail action and preserved Buyer Detail context after editing.
+- Separated Finance and Accounting sidebar counters so Finance never includes Posting Control counts.
+- Removed the redundant Daily Finance guide card.
+- Added posted-vs-operational Accounting visibility for Buyer Advances, Supplier Payable and Excavator Machine Inventory / Capitalized Costs.
+- Supplier Payable operational balance now follows actual paid Purchase payments and reaches zero when fully settled.
+- Added Pending Accounting and Finance Awaiting Verification indicators.
+- Hid + Cost, Update Sale and Payments on Sold / Completed Machines / Deals cards.
+- Added searchable phone country-code selectors by country name, ISO code or dialing code.
+- Improved statement PDF description wrapping, spacing and row height.
+- Reinforced Sell Machine required-field visual validation and live error clearing.
+- Preserved V30.27 Pakistan Resales, Accounting-only Posting Control, protected reset and Render persistence safeguards.
+
+
+## V30.27.0 — Pakistan Resales, Settlements & Cross-border Bank Transfer
+
+- Added a dedicated Pakistan Resales page for Pakistani Excavator buyers and removed payment fields from the resale-event form.
+- Auto-calculates Our Share Amount from Resale Profit × Our Share % ÷ 100, with authoritative server recalculation.
+- Added one-receipt/multi-machine resale-profit allocations, partial settlements, unallocated resale credit, controlled reallocation, refund and void history.
+- Added Bank Country / Account Country to Company Financial Accounts and country-scoped account selectors/backend validation.
+- Restricted Pakistan resale-profit receipts/refunds to active Pakistan PKR Company Bank Accounts.
+- Added separate Pakistan→Korea bank transfers with source/destination accounts, FX, bank fees, evidence, Finance verification and Accounting Posting Control.
+- Added dedicated Pakistan resale income/credit and FX GL mappings so Pakistan resale profit never mixes with Korea machine-trading revenue.
+- Preserved V30.26.4 protected development reset and Render persistent-disk behavior.
+
 ## V30.26.4 — Direct Reset Button Binding Hotfix
 
 - Fixed the Render Full Clean Reset button appearing active but doing nothing after the V30.26.3 native-submit hardening.
@@ -5,7 +49,6 @@
 - Both paths validate the browser form, call the same protected reset runner, and keep all reset credentials out of URL/query history.
 - Preserves V30.26.3 POST-only reset transport, typed confirmation, Review & Confirm, single-flight protection, development/testing guard, backups and persistent-disk safeguards.
 
-# Changelog
 
 ## V30.26.3 — Protected Reset Submission Hotfix
 
@@ -166,7 +209,6 @@
 - Login email keeps normal browser email-format validation, while authenticated business contact forms retain live UI validation and duplicate checks.
 - Added a regression QA assertion to prevent this authentication deadlock from returning.
 
-# Changelog
 
 ## V30.21.1 — Financial Integrity, Stored Attachment View & International Contacts
 - Added post-upload View/Preview behavior for stored receipts, evidence, attachments and documents with explicit Download Original.

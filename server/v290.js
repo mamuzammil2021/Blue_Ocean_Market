@@ -452,6 +452,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
     ['1010','Cash on Hand','Asset','Cash & Bank','Debit','CASH_ON_HAND',1],
     ['1020','Card / Payment Gateway Clearing','Asset','Cash & Bank','Debit','PAYMENT_GATEWAY_CLEARING',1],
     ['1100','Accounts Receivable','Asset','Receivable','Debit','ACCOUNTS_RECEIVABLE',0],
+    ['1110','Pakistan Resale Profit Share Receivable','Asset','Pakistan Resale Receivable','Debit','PAKISTAN_RESALE_RECEIVABLE',0],
     ['1200','Excavator Inventory','Asset','Inventory','Debit','EXCAVATOR_INVENTORY',0],
     ['1250','General Inventory','Asset','Inventory','Debit','GENERAL_INVENTORY',0],
     ['1260','Pink Salt Inventory in Transit','Asset','Inventory','Debit','PINK_SALT_IN_TRANSIT',0],
@@ -464,14 +465,17 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
     ['1990','Suspense / Unclassified Asset','Asset','Suspense','Debit','SUSPENSE_ASSET',1],
     ['2000','Accounts Payable - Suppliers','Liability','Payable','Credit','ACCOUNTS_PAYABLE',0],
     ['2100','Buyer / Customer Advances','Liability','Customer Advance','Credit','CUSTOMER_ADVANCES',0],
+    ['2110','Pakistan Resale Unallocated Credit','Liability','Pakistan Resale Credit','Credit','PAKISTAN_RESALE_CREDIT',0],
     ['2200','Salary Payable','Liability','Payroll','Credit','SALARY_PAYABLE',0],
     ['2210','Payroll Deductions Payable','Liability','Payroll','Credit','PAYROLL_DEDUCTIONS_PAYABLE',0],
     ['2300','Inter-Business-Unit Payable','Liability','Inter-BU','Credit','INTER_BU_PAYABLE',0],
     ['2990','Suspense / Unclassified Liability','Liability','Suspense','Credit','SUSPENSE_LIABILITY',1],
     ['3000','Owner Equity / Retained Earnings','Equity','Equity','Credit','OWNER_EQUITY',0],
     ['4000','Excavator Sales Revenue','Revenue','Sales','Credit','EXCAVATOR_SALES_REVENUE',0],
+    ['4050','Pakistan Resale Profit Share Income','Revenue','Pakistan Resale Profit Share','Credit','PAKISTAN_RESALE_REVENUE',0],
     ['4100','General Sales Revenue','Revenue','Sales','Credit','GENERAL_SALES_REVENUE',0],
     ['4200','Pink Salt Sales Revenue','Revenue','Sales','Credit','PINK_SALT_SALES_REVENUE',0],
+    ['4300','Foreign Exchange Gain','Revenue','FX Gain / Loss','Credit','FX_GAIN',0],
     ['4190','Other Revenue','Revenue','Other Revenue','Credit','OTHER_REVENUE',1],
     ['5000','Excavator Cost of Goods Sold','Expense','Cost of Goods Sold','Debit','EXCAVATOR_COGS',0],
     ['5100','General Cost of Goods Sold','Expense','Cost of Goods Sold','Debit','GENERAL_COGS',0],
@@ -483,6 +487,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
     ['6400','General Operating Expense','Expense','Operating Expense','Debit','GENERAL_EXPENSE',1],
     ['6500','Bank / Payment Fees','Expense','Operating Expense','Debit','BANK_FEES',1],
     ['6510','Marketplace / Platform Fees','Expense','Selling Expense','Debit','PINK_SALT_PLATFORM_FEES',1],
+    ['6600','Foreign Exchange Loss','Expense','FX Gain / Loss','Debit','FX_LOSS',1],
     ['6610','Pink Salt Waste / Stock Loss','Expense','Inventory Loss','Debit','PINK_SALT_WASTE_EXPENSE',1],
     ['6900','Other Expense','Expense','Other Expense','Debit','OTHER_EXPENSE',1]
   ];
@@ -641,6 +646,40 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
         ctx.sale_allocation_krw=directAllocated;ctx.advance_credit_krw=advanceCredit;
       }else credit(accountId('CUSTOMER_ADVANCES'),amount,{...entityBase,entity_type:'Buyer',entity_id:p.buyer_id,memo:'Buyer advance liability'});
       ctx.payment_type=p.payment_type;ctx.buyer_id=p.buyer_id;
+    }else if(st==='Pakistan Resale Profit Payment'){
+      // V30.27: Pakistan resale profit-share is a dedicated subledger and revenue stream.
+      // One bank receipt may settle multiple machine resale obligations. Only the active
+      // allocation portion is Pakistan resale income; any excess remains a distinct resale
+      // credit liability and is never mixed with normal Buyer Advance / Korea machine profit.
+      const p=db.prepare(`SELECT p.*,b.name buyer_name FROM excavator_resale_profit_payments p LEFT JOIN excavator_buyers b ON b.id=p.buyer_id WHERE p.id=?`).get(finance.source_id);
+      if(!p)return {error:'Linked Pakistan resale-profit payment was not found.'};
+      const allocated=Math.max(0,Number(db.prepare("SELECT COALESCE(SUM(amount_krw),0) v FROM excavator_resale_profit_allocations WHERE payment_id=? AND status='Active'").get(p.id)?.v||0));
+      const applied=Math.min(amount,allocated),unallocated=Math.max(0,amount-applied);
+      debit(cash,amount,{...entityBase,entity_type:'Pakistan Resale Buyer',entity_id:p.buyer_id,memo:`Pakistan resale-profit receipt · ${p.buyer_name||''}`});
+      if(applied>0.005)credit(accountId('PAKISTAN_RESALE_REVENUE'),applied,{...entityBase,entity_type:'Pakistan Resale Buyer',entity_id:p.buyer_id,memo:'Pakistan resale profit-share income'});
+      if(unallocated>0.005)credit(accountId('PAKISTAN_RESALE_CREDIT'),unallocated,{...entityBase,entity_type:'Pakistan Resale Buyer',entity_id:p.buyer_id,memo:'Pakistan resale unallocated credit'});
+      ctx.buyer_id=p.buyer_id;ctx.pakistan_resale_income_krw=applied;ctx.pakistan_resale_credit_krw=unallocated;
+    }else if(st==='Pakistan Resale Profit Refund'){
+      const r=db.prepare(`SELECT r.*,p.fx_rate_to_krw original_receipt_fx FROM excavator_resale_profit_refunds r JOIN excavator_resale_profit_payments p ON p.id=r.payment_id WHERE r.id=?`).get(finance.source_id);if(!r)return {error:'Linked Pakistan resale-credit refund was not found.'};
+      const carrying=Math.max(0,Number(r.amount_pkr||0)*Number(r.original_receipt_fx||1)),cashOut=amount,diff=cashOut-carrying;
+      debit(accountId('PAKISTAN_RESALE_CREDIT'),carrying,{...entityBase,entity_type:'Pakistan Resale Buyer',entity_id:r.buyer_id,memo:'Release Pakistan resale unallocated credit'});
+      credit(cash,cashOut,{...entityBase,entity_type:'Pakistan Resale Buyer',entity_id:r.buyer_id,memo:'Pakistan resale-credit bank refund'});
+      if(diff>0.005)debit(accountId('FX_LOSS'),diff,{...entityBase,entity_type:'Pakistan Resale Buyer',entity_id:r.buyer_id,memo:'FX loss on resale-credit refund'});
+      else if(diff<-.005)credit(accountId('FX_GAIN'),Math.abs(diff),{...entityBase,entity_type:'Pakistan Resale Buyer',entity_id:r.buyer_id,memo:'FX gain on resale-credit refund'});
+      ctx.buyer_id=r.buyer_id;ctx.resale_refund_id=r.id;ctx.credit_carrying_krw=carrying;ctx.cash_refund_krw=cashOut;ctx.fx_difference_krw=diff;
+    }else if(st==='Pakistan Resale Bank Transfer'){
+      // V30.27: this is a balance-sheet bank-to-bank movement. It must never create or
+      // reclassify Pakistan resale income as Korea machine-trading income.
+      const t=db.prepare(`SELECT t.*,fp.ledger_account_id from_ledger,tp.ledger_account_id to_ledger,fp.name from_name,tp.name to_name FROM excavator_resale_bank_transfers t JOIN accounting_payment_accounts fp ON fp.id=t.from_payment_account_id JOIN accounting_payment_accounts tp ON tp.id=t.to_payment_account_id WHERE t.id=?`).get(finance.source_id);
+      if(!t)return {error:'Linked Pakistan-to-Korea bank transfer was not found.'};
+      const fromLedger=Number(t.from_ledger||0),toLedger=Number(t.to_ledger||0);if(!fromLedger||!toLedger)return {error:'Pakistan-to-Korea transfer accounts require valid GL mappings.'};
+      const sourceKrw=Math.max(0,Number(t.source_krw_equivalent||amount)),destination=Math.max(0,Number(t.destination_amount_krw||0)),fee=Math.max(0,Number(t.bank_fee_krw||0)),diff=sourceKrw-destination-fee;
+      credit(fromLedger,sourceKrw,{...entityBase,entity_type:'Company Bank Transfer',entity_id:t.id,memo:`Transfer out · ${t.from_name||'Pakistan bank'}`});
+      debit(toLedger,destination,{...entityBase,entity_type:'Company Bank Transfer',entity_id:t.id,memo:`Transfer in · ${t.to_name||'Korea bank'}`});
+      if(fee>0.005)debit(accountId('BANK_FEES'),fee,{...entityBase,entity_type:'Company Bank Transfer',entity_id:t.id,memo:'Pakistan-to-Korea bank / remittance fee'});
+      if(diff>0.005)debit(accountId('FX_LOSS'),diff,{...entityBase,entity_type:'Company Bank Transfer',entity_id:t.id,memo:'FX loss on Pakistan-to-Korea transfer'});
+      else if(diff<-.005)credit(accountId('FX_GAIN'),Math.abs(diff),{...entityBase,entity_type:'Company Bank Transfer',entity_id:t.id,memo:'FX gain on Pakistan-to-Korea transfer'});
+      ctx.transfer_id=t.id;ctx.source_krw=sourceKrw;ctx.destination_krw=destination;ctx.bank_fee_krw=fee;ctx.fx_difference_krw=diff;
     }else if(st==='Excavator Buyer Refund'){
       const r=db.prepare('SELECT * FROM excavator_buyer_refunds WHERE id=?').get(finance.source_id);if(!r)return {error:'Linked buyer advance refund was not found.'};
       debit(accountId('CUSTOMER_ADVANCES'),amount,{...entityBase,entity_type:'Buyer',entity_id:r.buyer_id,memo:'Buyer advance refunded'});credit(cash,amount,{...entityBase,entity_type:'Buyer',entity_id:r.buyer_id,memo:'Cash / bank refund'});ctx.buyer_id=r.buyer_id;
@@ -859,7 +898,24 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
     const queue=req.selected_business_unit_id?db.prepare('SELECT COUNT(*) c FROM accounting_sync_queue q JOIN finance_entries f ON f.id=q.finance_entry_id WHERE f.business_unit_id=?').get(req.selected_business_unit_id).c:req.user.role==='CEO / Owner'?db.prepare('SELECT COUNT(*) c FROM accounting_sync_queue').get().c:db.prepare('SELECT COUNT(*) c FROM accounting_sync_queue q JOIN finance_entries f ON f.id=q.finance_entry_id WHERE f.business_unit_id=?').get(req.user.business_unit_id).c;
     const buyerAdvanceLedger=Math.abs(Number(db.prepare(`SELECT COALESCE(SUM(l.credit_krw-l.debit_krw),0) v FROM accounting_journal_lines l JOIN accounting_journal_entries j ON j.id=l.journal_entry_id JOIN accounting_accounts a ON a.id=l.account_id WHERE j.status IN ('Posted','Reversed') AND a.system_key='CUSTOMER_ADVANCES'${f.sql}`).get(...args).v||0));
     const payable=Math.abs(Number(db.prepare(`SELECT COALESCE(SUM(l.credit_krw-l.debit_krw),0) v FROM accounting_journal_lines l JOIN accounting_journal_entries j ON j.id=l.journal_entry_id JOIN accounting_accounts a ON a.id=l.account_id WHERE j.status IN ('Posted','Reversed') AND a.system_key='ACCOUNTS_PAYABLE'${f.sql}`).get(...args).v||0));
-    res.json({version:VERSION,debit:Number(totals.debit||0),credit:Number(totals.credit||0),revenue,expense,profit:revenue-expense,assets,liabilities,equity,buyer_advances:buyerAdvanceLedger,supplier_payable:payable,exceptions:Number(exceptions||0),unreconciled:Number(unreconciled||0),sync_queue:Number(queue||0)});
+    const excavatorInventoryLedger=Number(db.prepare(`SELECT COALESCE(SUM(l.debit_krw-l.credit_krw),0) v FROM accounting_journal_lines l JOIN accounting_journal_entries j ON j.id=l.journal_entry_id JOIN accounting_accounts a ON a.id=l.account_id WHERE j.status IN ('Posted','Reversed') AND a.system_key='EXCAVATOR_INVENTORY'${f.sql}`).get(...args).v||0);
+    const pendingScope=lineUnitFilter(req,'l'),pending=db.prepare(`SELECT COUNT(DISTINCT j.id) c,COALESCE(SUM(l.debit_krw),0) value_krw FROM accounting_journal_entries j JOIN accounting_journal_lines l ON l.journal_entry_id=j.id WHERE j.status IN ('Pending Review','Correction Required')${pendingScope.sql}`).get(...pendingScope.args);
+    const financeScope=req.selected_business_unit_id?' AND f.business_unit_id=?':req.user.role==='CEO / Owner'?'':req.user.business_unit_id?' AND f.business_unit_id=?':' AND 1=0',financeArgs=req.selected_business_unit_id?[Number(req.selected_business_unit_id)]:req.user.role==='CEO / Owner'?[]:req.user.business_unit_id?[Number(req.user.business_unit_id)]:[];
+    const pendingFinance=db.prepare(`SELECT COUNT(*) c,COALESCE(SUM(ABS(f.amount)),0) value_krw FROM finance_entries f WHERE f.status!='Voided' AND f.verification_status IN ('Pending Verification','Resubmitted')${financeScope}`).get(...financeArgs);
+    const exBu=db.prepare("SELECT id FROM business_units WHERE name='Excavator' AND status!='Archived' LIMIT 1").get(),requestedBu=req.selected_business_unit_id?Number(req.selected_business_unit_id):(req.user.role==='CEO / Owner'?null:Number(req.user.business_unit_id||0)),includeExcavator=!!exBu&&(!requestedBu||Number(exBu.id)===requestedBu);
+    let operationalBuyerAdvances=0,operationalSupplierPayable=0,operationalMachineInventory=0,operationalMachineCount=0;
+    let postedExcavatorBuyerAdvances=0,postedExcavatorSupplierPayable=0,postedExcavatorInventory=0;
+    if(includeExcavator){
+      operationalBuyerAdvances=Number(db.prepare(`SELECT COALESCE(SUM(available_krw),0) v FROM (SELECT MAX(0,COALESCE((SELECT SUM(p.krw_amount) FROM excavator_buyer_payments p WHERE p.buyer_id=b.id AND COALESCE(p.status,'Paid')!='Voided'),0)-COALESCE((SELECT SUM(a.amount_krw) FROM excavator_buyer_payment_allocations a JOIN excavator_buyer_payments p2 ON p2.id=a.payment_id WHERE p2.buyer_id=b.id AND COALESCE(a.status,'Active')='Active'),0)-COALESCE((SELECT SUM(r.krw_amount) FROM excavator_buyer_refunds r WHERE r.buyer_id=b.id AND COALESCE(r.status,'Active')!='Voided'),0)) available_krw FROM excavator_buyers b WHERE b.business_unit_id=?)`).get(exBu.id).v||0);
+      const supplierRows=db.prepare(`SELECT a.id,a.purchase_price,COALESCE((SELECT SUM(p.amount) FROM excavator_payments p WHERE p.asset_id=a.id AND p.payment_type='Purchase' AND p.status='Paid'),0) paid FROM excavator_assets a WHERE a.business_unit_id=? AND COALESCE(a.lifecycle_stage,'')!='Cancelled'`).all(exBu.id);
+      operationalSupplierPayable=supplierRows.reduce((n,x)=>n+Math.max(0,Number(x.purchase_price||0)-Number(x.paid||0)),0);
+      const inventoryAssets=db.prepare(`SELECT id FROM excavator_assets WHERE business_unit_id=? AND COALESCE(lifecycle_stage,'Purchased') NOT IN ('Sold / Completed','Cancelled')`).all(exBu.id);operationalMachineCount=inventoryAssets.length;operationalMachineInventory=inventoryAssets.reduce((n,x)=>n+Number(excavatorCostSnapshot(x.id)?.total||0),0);
+      const scopedPosted=(systemKey,normal='credit')=>{const row=db.prepare(`SELECT COALESCE(SUM(${normal==='credit'?'l.credit_krw-l.debit_krw':'l.debit_krw-l.credit_krw'}),0) v FROM accounting_journal_lines l JOIN accounting_journal_entries j ON j.id=l.journal_entry_id JOIN accounting_accounts a ON a.id=l.account_id WHERE j.status IN ('Posted','Reversed') AND a.system_key=? AND l.business_unit_id=?`).get(systemKey,exBu.id);return Math.max(0,Number(row?.v||0))};
+      postedExcavatorBuyerAdvances=scopedPosted('CUSTOMER_ADVANCES','credit');
+      postedExcavatorSupplierPayable=scopedPosted('ACCOUNTS_PAYABLE','credit');
+      postedExcavatorInventory=scopedPosted('EXCAVATOR_INVENTORY','debit');
+    }
+    res.json({version:'30.28.0',debit:Number(totals.debit||0),credit:Number(totals.credit||0),revenue,expense,profit:revenue-expense,assets,liabilities,equity,buyer_advances:buyerAdvanceLedger,supplier_payable:payable,exceptions:Number(exceptions||0),unreconciled:Number(unreconciled||0),sync_queue:Number(queue||0),posted:{buyer_advances:postedExcavatorBuyerAdvances,supplier_payable:postedExcavatorSupplierPayable,excavator_inventory:postedExcavatorInventory},operational:{scope:'Excavator',visible:includeExcavator,buyer_advances:operationalBuyerAdvances,supplier_payable:operationalSupplierPayable,machine_inventory:operationalMachineInventory,machine_count:operationalMachineCount},pending:{accounting_count:Number(pending?.c||0),accounting_value_krw:Number(pending?.value_krw||0),finance_count:Number(pendingFinance?.c||0),finance_value_krw:Number(pendingFinance?.value_krw||0)}});
   });
   app.get('/api/accounting/accounts',auth,allow('finance','dashboard'),(req,res)=>res.json(db.prepare('SELECT * FROM accounting_accounts ORDER BY code').all()));
   app.post('/api/accounting/accounts',auth,requireAccountingWrite,(req,res)=>{const code=text(req.body.code),name=text(req.body.name),type=text(req.body.account_type);if(!code||!name||!['Asset','Liability','Equity','Revenue','Expense'].includes(type))return res.status(400).json({error:'Code, name and a valid account type are required.'});const normal=['Liability','Equity','Revenue'].includes(type)?'Credit':'Debit';try{const r=db.prepare('INSERT INTO accounting_accounts(code,name,account_type,subtype,normal_balance,currency,allow_manual,notes) VALUES(?,?,?,?,?,?,?,?)').run(code,name,type,text(req.body.subtype),normal,text(req.body.currency||'KRW').toUpperCase(),req.body.allow_manual===false||req.body.allow_manual==='0'?0:1,text(req.body.notes));audit(req.user,'accounting_account',r.lastInsertRowid,'create',JSON.stringify({code,name,type}));res.json({id:r.lastInsertRowid})}catch(e){res.status(409).json({error:'Account code already exists or the account could not be created.'})}});
@@ -882,11 +938,11 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
 
   function reportRows(req,kind){
     processQueue(1000);const f=lineUnitFilter(req,'l'),from=text(req.query.from),to=text(req.query.to),args=[...f.args];let dateSql='';if(from){dateSql+=' AND date(j.transaction_date)>=date(?)';args.push(from)}if(to){dateSql+=' AND date(j.transaction_date)<=date(?)';args.push(to)}
-    const rows=db.prepare(`SELECT a.id,a.code,a.name,a.account_type,a.normal_balance,ROUND(COALESCE(SUM(CASE WHEN j.id IS NOT NULL THEN l.debit_krw ELSE 0 END),0),2) debit,ROUND(COALESCE(SUM(CASE WHEN j.id IS NOT NULL THEN l.credit_krw ELSE 0 END),0),2) credit FROM accounting_accounts a LEFT JOIN accounting_journal_lines l ON l.account_id=a.id${f.sql} LEFT JOIN accounting_journal_entries j ON j.id=l.journal_entry_id AND j.status IN ('Posted','Reversed')${dateSql} WHERE a.active=1 GROUP BY a.id ORDER BY a.code`).all(...args).map(r=>({...r,balance:['Liability','Equity','Revenue'].includes(r.account_type)?Number(r.credit||0)-Number(r.debit||0):Number(r.debit||0)-Number(r.credit||0)}));
+    const rows=db.prepare(`SELECT a.id,a.code,a.name,a.account_type,a.normal_balance,a.system_key,ROUND(COALESCE(SUM(CASE WHEN j.id IS NOT NULL THEN l.debit_krw ELSE 0 END),0),2) debit,ROUND(COALESCE(SUM(CASE WHEN j.id IS NOT NULL THEN l.credit_krw ELSE 0 END),0),2) credit FROM accounting_accounts a LEFT JOIN accounting_journal_lines l ON l.account_id=a.id${f.sql} LEFT JOIN accounting_journal_entries j ON j.id=l.journal_entry_id AND j.status IN ('Posted','Reversed')${dateSql} WHERE a.active=1 GROUP BY a.id ORDER BY a.code`).all(...args).map(r=>({...r,balance:['Liability','Equity','Revenue'].includes(r.account_type)?Number(r.credit||0)-Number(r.debit||0):Number(r.debit||0)-Number(r.credit||0)}));
     if(kind==='pnl')return rows.filter(r=>['Revenue','Expense'].includes(r.account_type));if(kind==='balance')return rows.filter(r=>['Asset','Liability','Equity'].includes(r.account_type));return rows
   }
   app.get('/api/accounting/trial-balance',auth,allow('finance','dashboard'),(req,res)=>{const rows=reportRows(req,'trial'),debit=rows.reduce((n,r)=>n+Number(r.debit||0),0),credit=rows.reduce((n,r)=>n+Number(r.credit||0),0);res.json({rows,debit,credit,difference:debit-credit})});
-  app.get('/api/accounting/pnl',auth,allow('finance','dashboard'),(req,res)=>{const rows=reportRows(req,'pnl'),revenue=rows.filter(r=>r.account_type==='Revenue').reduce((n,r)=>n+Number(r.balance||0),0),expense=rows.filter(r=>r.account_type==='Expense').reduce((n,r)=>n+Number(r.balance||0),0);res.json({rows,revenue,expense,profit:revenue-expense})});
+  app.get('/api/accounting/pnl',auth,allow('finance','dashboard'),(req,res)=>{const rows=reportRows(req,'pnl'),revenue=rows.filter(r=>r.account_type==='Revenue').reduce((n,r)=>n+Number(r.balance||0),0),expense=rows.filter(r=>r.account_type==='Expense').reduce((n,r)=>n+Number(r.balance||0),0),byKey=k=>Number(rows.find(r=>r.system_key===k)?.balance||0),koreaRevenue=byKey('EXCAVATOR_SALES_REVENUE'),koreaCogs=byKey('EXCAVATOR_COGS'),pakistanResale=byKey('PAKISTAN_RESALE_REVENUE');res.json({rows,revenue,expense,profit:revenue-expense,korea_machine_revenue:koreaRevenue,korea_machine_cogs:koreaCogs,korea_machine_margin:koreaRevenue-koreaCogs,pakistan_resale_profit_share:pakistanResale,separate_profit_reporting:true})});
   app.get('/api/accounting/balance-sheet',auth,allow('finance','dashboard'),(req,res)=>{const rows=reportRows(req,'balance'),assets=rows.filter(r=>r.account_type==='Asset').reduce((n,r)=>n+Number(r.balance||0),0),liabilities=rows.filter(r=>r.account_type==='Liability').reduce((n,r)=>n+Number(r.balance||0),0),equity=rows.filter(r=>r.account_type==='Equity').reduce((n,r)=>n+Number(r.balance||0),0);const pnl=reportRows(req,'pnl'),currentProfit=pnl.filter(r=>r.account_type==='Revenue').reduce((n,r)=>n+Number(r.balance||0),0)-pnl.filter(r=>r.account_type==='Expense').reduce((n,r)=>n+Number(r.balance||0),0);res.json({rows,assets,liabilities,equity,current_profit:currentProfit,equity_plus_profit:equity+currentProfit,difference:assets-(liabilities+equity+currentProfit)})});
   app.get('/api/accounting/exceptions',auth,allow('finance','dashboard'),(req,res)=>{let q='SELECT e.*,b.name business_unit,f.reference,f.source_type,f.source_id FROM accounting_exceptions e LEFT JOIN business_units b ON b.id=e.business_unit_id LEFT JOIN finance_entries f ON f.id=e.finance_entry_id WHERE e.status=?',args=[req.query.status||'Open'];if(req.selected_business_unit_id){q+=' AND e.business_unit_id=?';args.push(req.selected_business_unit_id)}else if(req.user.role!=='CEO / Owner'){q+=' AND e.business_unit_id=?';args.push(req.user.business_unit_id)}q+=' ORDER BY e.created_at DESC';res.json(db.prepare(q).all(...args))});
   app.post('/api/accounting/resync',auth,requireAccountingWrite,(req,res)=>{let q='INSERT OR IGNORE INTO accounting_sync_queue(finance_entry_id,queued_at) SELECT id,CURRENT_TIMESTAMP FROM finance_entries WHERE 1=1',args=[];if(req.selected_business_unit_id){q+=' AND business_unit_id=?';args.push(req.selected_business_unit_id)}else if(req.user.role!=='CEO / Owner'){q+=' AND business_unit_id=?';args.push(req.user.business_unit_id)}db.prepare(q).run(...args);processQueue(5000);res.json({ok:true,remaining:db.prepare('SELECT COUNT(*) c FROM accounting_sync_queue').get().c})});

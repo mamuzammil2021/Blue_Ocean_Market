@@ -1,3 +1,7 @@
+# V30.29.0 deployment note
+
+V30.29.0 is schema-preserving relative to V30.28.0. Keep the existing persistent database and uploads. This release changes workflow/UI behavior and settlement/verification logic without wiping or rebuilding business data. Existing Pakistan Resales tables and Bank Country / Account Country configuration remain required.
+
 # Blue Ocean Market — Git + Render Persistent Disk Deployment
 
 This package is prepared for the existing paid Render web service and an attached persistent disk.
@@ -51,7 +55,7 @@ This ZIP is intentionally repo-ready and contains no `.git` directory, database,
 ```bash
 git status
 git add -A
-git commit -m "V30.26.4 direct reset-button binding hotfix"
+git commit -m "V30.29.0 workflow UX and settlement integrity"
 git push
 ```
 
