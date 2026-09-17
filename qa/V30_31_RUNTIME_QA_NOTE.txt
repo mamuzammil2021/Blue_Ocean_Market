@@ -1,0 +1,23 @@
+Blue Ocean Market V30.31.0 — Runtime QA Note
+Date: 2026-09-16
+
+Runtime smoke is NOT claimed as passed in this build container.
+
+Attempted:
+  npm ci --no-audit --no-fund
+
+Result:
+  The dependency installation timed out in the container before required packages were installed. A follow-up module check confirmed express, better-sqlite3, bcryptjs, jsonwebtoken and multer were not available. Therefore npm run qa:runtime could not be executed reliably here.
+
+Completed release gates in this environment:
+  npm run qa:current — PASS
+  npm run qa:render — PASS
+  node qa/qa_v331_button_actions.js — PASS
+
+Required target-environment acceptance (Node 22):
+  npm ci
+  npm run qa:current
+  npm run qa:render
+  npm run qa:runtime
+
+The Git-ready package intentionally excludes node_modules and runtime data.

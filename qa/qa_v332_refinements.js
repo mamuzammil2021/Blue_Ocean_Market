@@ -1,0 +1,23 @@
+const fs=require('fs'),path=require('path'),cp=require('child_process');
+const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(root,f),'utf8');let failed=0;
+const check=(name,ok)=>{console.log((ok?'PASS ':'FAIL ')+name);if(!ok)failed++};
+const syntax=f=>{const r=cp.spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});check('syntax '+f,r.status===0);if(r.status!==0)console.error(r.stderr)};
+const ui=read('public/v332-client.js'),backend=read('server/v332.js'),server=read('server/server.js'),index=read('public/index.html'),pkg=JSON.parse(read('package.json'));
+syntax('public/v332-client.js');syntax('server/v332.js');syntax('server/server.js');
+check('release version is V30.32.0',pkg.version==='30.32.0'&&server.includes("version:'30.32.0'")&&index.includes('/v332-client.js?v=30.32.0'));
+check('V30.32 browser overlay loads after V30.31',index.indexOf('/v331-client.js?v=30.32.0')<index.indexOf('/v332-client.js?v=30.32.0'));
+check('payee save/archive refresh current modal instead of reopening it',ui.includes('renderPayeeManagerInPlace')&&ui.includes("window.savePayeeAccountV330=async function")&&ui.includes("window.archivePayeeAccountV330=async function")&&ui.includes('await renderPayeeManagerInPlace()'));
+check('single close restores parent and refreshes receiver selector',ui.includes('v332ClosePayeeAccounts')&&ui.includes('refreshVisibleReceiverAfterManager')&&ui.includes('closeModal(true)'));
+check('sidebar scrollbar is minimal width',ui.includes('::-webkit-scrollbar{width:2px')&&ui.includes('scrollbar-width:thin'));
+check('Accounting removes repeated top descriptions',ui.includes('#content.v332-accounting-compact .v318-accounting-banner')&&ui.includes('.v290-accounting-nav-note')&&ui.includes('#accountingV29Body>.v290-help:first-child'));
+check('Posting Control is injected beside page actions',ui.includes("querySelector('.titlebar .v285-page-actions,.titlebar .actions')")&&ui.includes('v332-posting-button')&&ui.includes('v332-posting-count'));
+check('Buyer top actions are stabilized while enhancers settle',ui.includes('document.body.classList.add(\'v332-buyer-opening\')')&&ui.includes('v332-buyer-actions-stable'));
+check('Buy Machine token has separate Paid From and Paid To accounts',ui.includes('token_payment_account_id')&&ui.includes('token_receiver_account_id')&&ui.includes('Pay From · Company Account')&&ui.includes('Paid To · Supplier Receiver Account'));
+check('new supplier can enter destination account inline',ui.includes('token_new_receiver_account_number')&&ui.includes('token_new_receiver_bank_name')&&ui.includes('New Supplier Receiver Account'));
+check('Buy Machine token evidence submits multipart',ui.includes("multipartApi('/api/excavator/assets',fd)"));
+check('backend requires/records supplier token receiver for electronic payment',server.includes('tokenElectronic')&&server.includes('tokenReceiverAccount')&&server.includes("Select the supplier receiver account (Paid To)")&&server.includes('receiverAccountId:tokenReceiverAccount?.id'));
+check('machine payments store receiver account id additively',backend.includes("addColumn('excavator_payments','receiver_account_id','INTEGER')")&&server.includes('payment_account_id,receiver_account_id'));
+check('Add Machine Cost receiver card spans modal and becomes one column on small screens',ui.includes('#modalRoot [data-v330-direct-receiver-box]{grid-column:1/-1')&&ui.includes('#modalRoot [data-v330-direct-receiver-box]>.grid.g2'));
+check('Finance correction shows both payment sides and original source context',ui.includes('Original Transaction Context')&&ui.includes("ctxRow('Paid From'")&&ui.includes("ctxRow('Paid To'")&&ui.includes("ctxRow('Source Type'")&&ui.includes("api('/api/finance/'+fid+'/detail')"));
+if(failed){console.error(`\nV30.32 refinement QA FAILED: ${failed} check(s)`);process.exit(1)}
+console.log('\nV30.32 refinement QA PASS');

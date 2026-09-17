@@ -1,5 +1,32 @@
 # Changelog
 
+## V30.31.0 — Lifecycle Integrity, Controlled Void/Reversal & Finance-Ready Posting Control
+
+- Fixed Add Supplier Save so success closes the dialog and refreshes the Supplier list.
+- Added one-navigation workflow cleanup, compact Accounting working chrome and a thinner sidebar scrollbar.
+- Added central stage-aware lifecycle policy for Finance/source records, exposing Request Void or Request Reversal only when valid.
+- Added impact Review & Confirm and lifecycle audit history; material void/reversal actions preserve original records and linked sources.
+- Posted Accounting journals are reversed through linked reversal proposals/journals rather than deleted or silently mutated.
+- Fixed Purchase Token and machine expense/cost void flows and synchronized linked machine purchase, supplier payable, machine cost basis and sold-machine COGS/profit where applicable.
+- Reworked machine-cost Correct & Resubmit to mirror original source fields, preserve evidence/history and remove unrelated mandatory Counterparty behavior.
+- Machine costs now expose Edit + Void semantics; voided costs remain visible for audit.
+- Supplier/Machine supplier-payment entry is Purchase-only; removed the obsolete Sale payment type.
+- Accounting Posting Control actionable queue now admits Finance-linked cash proposals only after Finance verification, while non-cash operational eligibility remains source-status driven.
+- Accounting sidebar badge uses the same actionable posting eligibility.
+- Added additive lifecycle audit schema/void metadata; no data reset required.
+
+## V30.30.0 — Receiver Account Traceability, Smart Account Routing, Resale Credit & PDF Quality
+
+- Added reusable Supplier/Buyer receiver/payee accounts and immutable destination-account snapshots on outgoing Finance records, including Buyer Advance refunds.
+- Finance Verification now shows receiver `Paid To` details as well as the Company Financial Account used.
+- Smart Company Financial Account filtering now respects account country, currency and receipt/payment direction.
+- Pakistan Resales enforce Pakistan/PKR Company Bank accounts; ordinary Korea-side Excavator cashflow is restricted to eligible South Korea accounts.
+- Company Financial Account defaults are scoped by BU + country + direction so Korea and Pakistan defaults can coexist.
+- Added Pakistan Resale Allocate Credit, Refund Credit and combined Existing Credit + New Payment settlement without duplicate Finance receipts.
+- Removed redundant Finance profitability card below the transaction list.
+- Rebuilt statement PDF transaction layout for professional EN/KR fonts, multiline Description/Reference wrapping and dynamic row heights.
+- Added additive schema support for counterparty payment accounts, Finance receiver snapshots and pooled Pakistan resale-credit refunds; no data reset required.
+
 ## V30.29.0 — Workflow UX, Finance Verification & Settlement Integrity
 
 - Reworked Supplier/Buyer list layouts to fit available width, wrap long values and keep right-side actions visible without normal desktop/laptop horizontal scrolling.

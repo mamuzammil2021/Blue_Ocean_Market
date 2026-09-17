@@ -192,12 +192,16 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
       ROUND((SELECT COALESCE(SUM(credit_krw),0) FROM accounting_journal_lines l WHERE l.journal_entry_id=j.id),2) total_credit
       FROM accounting_journal_entries j LEFT JOIN business_units b ON b.id=j.business_unit_id LEFT JOIN users creator ON creator.id=j.created_by LEFT JOIN users reviewer ON reviewer.id=j.reviewed_by LEFT JOIN finance_entries f ON f.id=j.finance_entry_id
       WHERE j.status IN (${marks})${scope.sql} ORDER BY CASE j.status WHEN 'Correction Required' THEN 0 WHEN 'Pending Review' THEN 1 ELSE 2 END,date(j.transaction_date) ASC,j.id ASC LIMIT 1000`).all(...statuses,...scope.args);
-    res.json(rows.map(raw=>({...raw,business_unit_ids:journalUnits(raw)})).filter(j=>canViewPosting(req,j)).map(j=>({...j,can_post:canPost(req,j),can_correct:canCorrect(req,j),finance_ready:financeReadiness(j).ready,period_closed:periodClosedUnits(j).length>0})));
+    const visible=rows.map(raw=>({...raw,business_unit_ids:journalUnits(raw)})).filter(j=>canViewPosting(req,j)).map(j=>{const readiness=financeReadiness(j);return {...j,can_post:canPost(req,j),can_correct:canCorrect(req,j),finance_ready:readiness.ready,finance_readiness_reason:readiness.reason||'',period_closed:periodClosedUnits(j).length>0}});
+    // V30.31: the actionable Pending/Correction queue contains only records that Accounting can act on now.
+    // Finance-linked proposals wait until Finance verification is complete. The All view still preserves visibility for audit/traceability.
+    res.json(status==='All'?visible:visible.filter(j=>['Posted','Cancelled','Reversed'].includes(j.status)||financeReadiness(j).ready));
   });
 
   app.get('/api/accounting/posting-control/summary',auth,(req,res)=>{
     const scope=queueScope(req),rows=db.prepare(`SELECT j.*,ROUND(COALESCE((SELECT SUM(debit_krw) FROM accounting_journal_lines l WHERE l.journal_entry_id=j.id),0),2) total_debit FROM accounting_journal_entries j WHERE j.status IN ('Pending Review','Correction Required','Posted')${scope.sql}`).all(...scope.args).map(j=>({...j,business_unit_ids:journalUnits(j)})).filter(j=>canViewPosting(req,j));
-    res.json({pending:rows.filter(x=>x.status==='Pending Review').length,correction:rows.filter(x=>x.status==='Correction Required').length,posted_today:rows.filter(x=>x.status==='Posted'&&String(x.reviewed_at||'').slice(0,10)===new Date().toISOString().slice(0,10)).length,pending_value_krw:rows.filter(x=>['Pending Review','Correction Required'].includes(x.status)).reduce((n,x)=>n+Number(x.total_debit||0),0)});
+    const actionable=rows.filter(x=>!['Pending Review','Correction Required'].includes(x.status)||financeReadiness(x).ready);
+    res.json({pending:actionable.filter(x=>x.status==='Pending Review').length,correction:actionable.filter(x=>x.status==='Correction Required').length,posted_today:rows.filter(x=>x.status==='Posted'&&String(x.reviewed_at||'').slice(0,10)===new Date().toISOString().slice(0,10)).length,pending_value_krw:actionable.filter(x=>['Pending Review','Correction Required'].includes(x.status)).reduce((n,x)=>n+Number(x.total_debit||0),0)});
   });
 
   app.get('/api/accounting/posting-control/:id',auth,(req,res)=>{

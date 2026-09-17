@@ -1,0 +1,26 @@
+PASS Add Supplier Save button is wired to saveExcavatorSupplier
+PASS Supplier Save closes the dialog after success
+PASS Supplier Save refreshes supplier list after success
+PASS Finance verification lifecycle action button calls V30.31 handler
+PASS Finance lifecycle button is state-driven by action policy
+PASS Finance Void/Reversal requires impact review and reason
+PASS Finance Void/Reversal has matching backend endpoint
+PASS Correct & Resubmit form is wired to saveFinanceCorrection
+PASS Correct & Resubmit submits source-aware Finance PUT
+PASS Correct & Resubmit has matching V30.31 backend endpoint
+PASS Machine cost active row exposes Edit
+PASS Machine cost active row exposes controlled Void
+PASS Voided machine cost remains visible with status instead of action buttons
+PASS Machine cost Void has matching controlled backend route
+PASS Supplier payment form offers Purchase only
+PASS Supplier payment Save button remains wired
+PASS Supplier payment server rejects non-Purchase types
+PASS Accounting Posting Queue Open button is wired
+PASS Posting Review Final Post button is wired and gated by readiness
+PASS Final Post has matching backend route
+PASS Posting correction/cancel buttons remain wired
+PASS One-navigation cleanup hides duplicate Back/X workflow controls
+PASS Posted lifecycle uses Request Reversal label
+PASS Unavailable lifecycle actions do not render a dead action button
+
+V30.31 BUTTON / ACTION STATIC AUDIT PASS
