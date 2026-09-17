@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.29.0",
+  "version": "30.32.0",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -16,7 +16,8 @@
     "qa:runtime": "node qa/runtime_smoke.js",
     "render:storage-check": "node scripts/render-storage-check.js",
     "render:migrate-storage": "node scripts/migrate-render-storage.js",
-    "qa:render": "node qa/qa_render_persistence.js"
+    "qa:render": "node qa/qa_render_persistence.js",
+    "qa:v332": "node qa/qa_v332_refinements.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

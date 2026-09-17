@@ -594,7 +594,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
 
   function excavatorCostSnapshot(assetId){
     const a=db.prepare('SELECT * FROM excavator_assets WHERE id=?').get(assetId);if(!a)return null;
-    const tx=db.prepare("SELECT * FROM excavator_transactions WHERE asset_id=? AND status!='Cancelled'").all(assetId),parse=t=>{try{return t.metadata?JSON.parse(t.metadata):{}}catch(_){return{}}},included=t=>parse(t).include_in_machine_cost!==false,sum=rows=>rows.reduce((n,x)=>n+Number(x.amount||0),0),linked=(type,key,id)=>tx.some(t=>t.type===type&&Number(parse(t)[key]||0)===Number(id));
+    const tx=db.prepare("SELECT * FROM excavator_transactions WHERE asset_id=? AND status NOT IN ('Cancelled','Voided')").all(assetId),parse=t=>{try{return t.metadata?JSON.parse(t.metadata):{}}catch(_){return{}}},included=t=>parse(t).include_in_machine_cost!==false,sum=rows=>rows.reduce((n,x)=>n+Number(x.amount||0),0),linked=(type,key,id)=>tx.some(t=>t.type===type&&Number(parse(t)[key]||0)===Number(id));
     const purchaseTx=sum(tx.filter(t=>t.type==='Purchase'&&included(t))),purchase=purchaseTx||Number(a.purchase_price||0);
     const logistics=sum(tx.filter(t=>t.type==='Logistics'&&included(t)))+db.prepare('SELECT * FROM excavator_logistics WHERE asset_id=?').all(assetId).filter(x=>!linked('Logistics','logistics_id',x.id)).reduce((n,x)=>n+Number(x.amount||0),0);
     const repair=sum(tx.filter(t=>t.type==='Repair'&&included(t)))+db.prepare('SELECT * FROM excavator_repairs WHERE asset_id=?').all(assetId).filter(x=>!linked('Repair','repair_id',x.id)).reduce((n,x)=>n+Number(x.amount||0),0);

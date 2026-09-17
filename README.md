@@ -1,31 +1,33 @@
-# Blue Ocean Market V30.29.0
+# Blue Ocean Market V30.31.0
 
-**Workflow UX + Finance Verification Traceability + Combined Sale Settlement + Pakistan Resale Allocation — Git-ready / Render Persistent Disk**
+**Lifecycle Integrity + Controlled Void/Reversal + Finance-Ready Posting Control + QA Refinements — Git-ready / Render Persistent Disk**
 
-V30.29.0 is built on V30.28.0. It focuses on the latest live Excavator QA findings while preserving the Finance Integrity Rule, Accounting Posting Control architecture, Pakistan Resales separation, country-scoped financial accounts and Render persistent-storage safeguards.
+V30.31.0 is built directly on the protected V30.30.0 baseline. It is a focused QA/integrity release: it fixes the reported Supplier/Finance correction/void issues, introduces stage-driven lifecycle controls, preserves audit history for void/reversal actions, synchronizes linked machine/supplier/accounting effects, and keeps Finance-not-ready cash proposals out of the actionable Accounting Posting Control queue. Unrelated business workflows are intentionally left unchanged.
 
-### V30.29.0 scope
+### V30.31.0 scope
 
-- Responsive Buyers/Suppliers lists that fit the available width, wrap long content and keep actions visible; Search + Add controls stay aligned on the right on normal desktop/laptop widths.
-- Supplier list simplified to **Open | Edit | Delete**. Open launches a full Supplier workspace with Overview, Machines, Requirements and Payments / Account.
-- Supplier workspace adds purchase/payment KPIs and recent payment visibility, while Supplier Statement remains the full ledger/history view.
-- Phone entry uses one compact searchable country-code selector beside the phone number; no duplicate search field.
-- Sell Machine supports **Buyer Advance + New Payment** in the same settlement. Existing advance is allocated without creating a duplicate Finance receipt; only newly received money creates a Finance cash record, with excess retained as Buyer Advance/Credit.
-- Accounting Posting Queue shows the source/transaction amount instead of a misleading combined debit total; Posting Review exposes sale, COGS, gross profit and balanced journal totals.
-- Finance Verification shows the exact Company Financial Account used as **Received Into** or **Paid From** for reviewer traceability.
-- Finance sidebar pending badge uses Finance-only actionable records and disappears when no Finance work is pending.
-- Buyer/Supplier Statement date Apply refreshes the same open statement dialog instead of stacking another modal.
-- Buyer Detail hard-deduplicates Pakistan Resales so exactly one action is shown.
-- Pakistan Resale Profit Payment uses machine selection/checkbox allocation with automatic allocation and unallocated resale credit handling. Review & Confirm is restored as a working protected financial review step.
+- Add Supplier Save now closes on success and refreshes the Supplier list.
+- One clear navigation path on full-screen workflows, compact Accounting working chrome, and a thinner sidebar scrollbar.
+- Central stage-driven **Request Void / Request Reversal** policy based on Finance state, Accounting state, permissions, approvals, periods and linked dependencies.
+- Posted Accounting records are never deleted: the original Posted journal is preserved and a linked reversal proposal/journal is created.
+- Source-aware **Correct & Resubmit** for machine costs, with original fields/evidence preserved and no unrelated mandatory Counterparty field.
+- Machine costs use **Edit + Void**; voided records remain visible for audit and are excluded from active cost calculations.
+- Purchase Token / supplier-payment voids recalculate linked machine purchase paid/outstanding and supplier payable; machine-cost voids recalculate cost basis and sold-machine COGS/profit where applicable.
+- Impact Review & Confirm shows linked Finance, Accounting, machine, supplier/buyer and reporting effects before controlled lifecycle execution.
+- Supplier Payment entry is Purchase-only; obsolete Sale type is removed.
+- Accounting Posting Control Pending Review shows Finance-linked cash proposals only after **Finance = Verified**; Accounting badge follows the same actionable rule.
+- Lifecycle audit history and stakeholder notifications preserve the complete change chain.
 
-See `V30_29_IMPLEMENTATION_SUMMARY.md` for implementation details.
+See `V30_31_IMPLEMENTATION_SUMMARY.md` for the detailed requirement-to-implementation map.
 
-### V30.29.0 QA status
+### V30.31.0 QA status
 
 - `npm run qa:current` — **PASS**
 - `npm run qa:render` — **PASS**
-- JavaScript/server syntax checks are included in the current regression gate.
-- Runtime smoke requires `npm ci` in the target Node 22 environment because `node_modules` is intentionally excluded from the Git-ready release artifact.
+- `node qa/qa_v331_button_actions.js` — **PASS** (targeted button/action wiring audit)
+- JavaScript/server syntax checks — **PASS** as part of current QA
+- Final ZIP is extracted and both main QA gates plus the button/action audit are rerun before delivery.
+- Runtime smoke is not claimed in this build container because `npm ci` timed out before dependencies were installed. Run `npm ci && npm run qa:runtime` in the normal Node 22 target environment.
 
 ## V30.24.2 hotfix scope
 

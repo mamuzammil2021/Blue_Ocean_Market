@@ -1,0 +1,18 @@
+Blue Ocean Market V30.30.0 Runtime QA Note
+
+Runtime dependency-backed smoke testing is not claimed in this build container.
+A clean `npm ci` was attempted, but dependency installation did not complete within the container/network timeout. The partial node_modules directory was removed before packaging.
+
+Verified release gates in this build container:
+- npm run qa:current: PASS
+- npm run qa:render: PASS
+- JavaScript syntax checks: PASS (included in qa:current)
+
+Before production acceptance in the target Node 22 environment, run:
+  npm ci
+  npm run qa:current
+  npm run qa:render
+  npm run qa:runtime
+  npm start
+
+Do not reset the existing database for V30.30.0. Schema changes are additive and initialize/backfill at startup.
