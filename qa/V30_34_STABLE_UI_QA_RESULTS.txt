@@ -1,0 +1,20 @@
+
+> blue-ocean-market-os@30.34.0 qa:v334
+> node qa/qa_v334_stable_ui.js
+
+PASS syntax public/v334-client.js
+PASS syntax public/v291-client.js
+PASS syntax server/v334.js
+PASS syntax server/server.js
+PASS release identity
+PASS V30.34 browser overlay loads after V30.33
+PASS Accounting simple tabs update body only
+PASS Accounting action chrome is defensively preserved
+PASS same-heading workflows keep toolbar mounted
+PASS Buyer top actions reuse existing DOM nodes
+PASS duplicate buyer detail requests are coalesced
+PASS stable action CSS disables flash animations
+PASS shared stable UI helper available for future features
+PASS standing slow-connection stable chrome requirement documented
+
+V30.34 STABLE UI QA PASS

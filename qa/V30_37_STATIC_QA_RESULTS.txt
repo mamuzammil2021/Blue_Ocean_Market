@@ -1,0 +1,17 @@
+PASS syntax public/v337-client.js
+PASS syntax server/v337.js
+PASS syntax server/server.js
+PASS V30.37 release identity
+PASS V30.37 additive/no-schema marker installed
+PASS V30.37 client overlay loads last
+PASS shared account manager repairs historic account buttons
+PASS supplier profile separates Payments and Accounts
+PASS buyer profile uses focused six-section layout
+PASS buyer Payment Accounts removed from top action row
+PASS buyer/supplier section state retained
+PASS account save refreshes profile and parent selectors
+PASS Finance and Posting use same responsive filter shell
+PASS responsive filters include desktop/tablet/mobile breakpoints
+PASS no full page reload introduced
+
+V30.37 PROFILE/ACCOUNT/FILTER QA PASS

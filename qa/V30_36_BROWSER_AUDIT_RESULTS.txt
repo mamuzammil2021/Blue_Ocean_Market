@@ -1,0 +1,63 @@
+BLUE OCEAN MARKET V30.36.0 — BROWSER BUTTON / FUNCTIONALITY AUDIT
+
+Method
+- Chromium/Playwright loaded the real Blue Ocean Market frontend overlays.
+- API calls were intercepted with controlled fixtures because the build environment cannot install the missing Node runtime dependencies from npm.
+- Backend/source behavior was additionally protected by the existing current, versioned and Render persistence QA suites.
+
+Broad rendered audit
+- Navigation states rendered: 99
+- Visible controls inventoried: 438
+- Unique rendered controls normalized: 169
+- Generic executed controls: 155
+- Generic runtime failures: 0
+- Remaining state-dependent Accounting/Payroll controls: separately exercised successfully
+- Finished Goods Archive/Delete: correctly disabled with stock; separately verified enabled at zero stock
+
+High-risk stateful Chromium audit
+PASS 01 boot Excavator dashboard renders
+PASS 02 Buy Machine exactly one Pay From + one Paid To
+PASS 03 compatible company source account selected
+PASS 04 supplier default receiver account auto-selected
+PASS 05 supplier listed machine fills details
+PASS 06 Add/Manage receiver account child modal opens without replacing Buy Machine
+PASS 07 closing account modal returns to same Buy Machine state
+PASS 08 Sell Machine New Payment follows selling price
+PASS 09 Buyer Advance + New Payment uses only New Payment Required
+PASS 10 combined amount recalculates after selling-price change
+PASS 11 required validation quiet while typing
+PASS 12 validation appears after blur
+PASS 13 sold-machine Purchase Edit hidden/disabled for normal user
+PASS 14 CEO/Owner retains sold-machine controlled edit
+PASS 15 verified/posted machine cost row removes direct Edit
+PASS 16 direct open of locked cost is blocked with correction/reversal message
+PASS 17 Finance filter resets pagination to page 1
+PASS 18 Finance date range composes before pagination
+PASS 19 machine search resets pagination to page 1
+PASS 20 Posting Control receives date range + pagination
+PASS 21 Posting Control search resets page 1
+PASS 22 Finished Goods blocks Archive/Delete while stock exists
+PASS 23 Finished Goods enables Archive/Delete at zero stock
+PASS 24 Review & Confirm dialog opens
+PASS 25 Review & Confirm resolves true
+PASS 26 mobile chrome no body-level horizontal overflow
+PASS 27 tablet chrome no body-level horizontal overflow
+PASS 28 stateful browser pass has no uncaught page errors
+
+SUMMARY 28 checks / 28 passed / 0 failed
+
+Source event wiring sweep
+- Expanded inline event attributes scanned: 1,248
+- Inline named call references scanned: 1,300
+- Unique named handler/call targets: 559
+- Genuine unresolved named handler/call targets: 0
+
+Actual defects corrected during audit
+- phone/email validation could still show/remote-check while typing
+- payment-reference validation could still be scheduled while typing
+- blur validation could dispatch invalid and pull focus backward
+- Sell Machine legacy listeners could call checkValidity while correcting fields
+- filtered/paged views did not always reset to page 1 after result-set changes
+
+Live backend runtime note
+The Express/SQLite server was not launched in this build container because installed dependencies are incomplete and npm registry access is unavailable. This audit therefore does not claim live end-to-end HTTP runtime coverage. Run npm ci && npm run qa:runtime in the normal networked Node 22 test environment before production acceptance.

@@ -1,0 +1,29 @@
+node:internal/modules/cjs/loader:1404
+  throw err;
+  ^
+
+Error: Cannot find module 'express'
+Require stack:
+- /mnt/data/bom_v3038_work/Blue_Ocean_Market_V30_37_0_PROFILE_SECTIONS_ACCOUNT_MANAGEMENT_RESPONSIVE_FILTER_UI_QA_GIT_READY_RENDER_PERSISTENT_DISK/server/server.js
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Module.require (node:internal/modules/cjs/loader:1487:12)
+    at require (node:internal/modules/helpers:135:16)
+    at Object.<anonymous> (/mnt/data/bom_v3038_work/Blue_Ocean_Market_V30_37_0_PROFILE_SECTIONS_ACCOUNT_MANAGEMENT_RESPONSIVE_FILTER_UI_QA_GIT_READY_RENDER_PERSISTENT_DISK/server/server.js:1:15)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/mnt/data/bom_v3038_work/Blue_Ocean_Market_V30_37_0_PROFILE_SECTIONS_ACCOUNT_MANAGEMENT_RESPONSIVE_FILTER_UI_QA_GIT_READY_RENDER_PERSISTENT_DISK/server/server.js'
+  ]
+}
+
+Node.js v22.16.0
+RUNTIME SMOKE FAIL Error: Server exited before startup
+    at fail (/mnt/data/bom_v3038_work/Blue_Ocean_Market_V30_37_0_PROFILE_SECTIONS_ACCOUNT_MANAGEMENT_RESPONSIVE_FILTER_UI_QA_GIT_READY_RENDER_PERSISTENT_DISK/qa/runtime_smoke.js:12:30)
+    at /mnt/data/bom_v3038_work/Blue_Ocean_Market_V30_37_0_PROFILE_SECTIONS_ACCOUNT_MANAGEMENT_RESPONSIVE_FILTER_UI_QA_GIT_READY_RENDER_PERSISTENT_DISK/qa/runtime_smoke.js:14:95
+
+EXIT_CODE=1

@@ -1,0 +1,8 @@
+V30.34.0 runtime acceptance note
+
+Static/current/regression/Render persistence QA passed in the build environment.
+Full runtime smoke is intentionally not claimed here because dependencies/runtime services were not installed as part of this packaging step.
+On the target Node 22 environment run:
+  npm ci
+  npm run qa:runtime
+Preserve the existing database, uploads, environment variables and Render persistent disk.

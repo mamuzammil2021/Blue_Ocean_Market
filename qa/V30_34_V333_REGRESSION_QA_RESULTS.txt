@@ -1,0 +1,19 @@
+
+> blue-ocean-market-os@30.34.0 qa:v333
+> node qa/qa_v333_targeted_refresh.js
+
+PASS syntax public/v333-client.js
+PASS syntax server/v333.js
+PASS syntax server/server.js
+PASS V30.33 implementation retained in V30.34 release
+PASS V30.33 browser overlay loads last
+PASS automatic mutation sync no longer reloads entire current view
+PASS mutation API wrapper records context without changing business request
+PASS local busy indicator is scoped to affected card/form/workflow
+PASS soft reload keeps previous content during legacy Loading placeholder
+PASS unchanged top-level sections are reused
+PASS fallback is guarded against modal/workflow/explicit UI updates
+PASS shared refresh API exists for future features
+PASS standing requirement documented
+
+V30.33 TARGETED REFRESH QA PASS

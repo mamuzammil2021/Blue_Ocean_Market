@@ -1,4 +1,86 @@
+# V30.38.0 — Pakistan Resale Sections, Account Edit/History & Canonical Sale Settlement
+
+- Added Edit/Archive/Default/History to the shared Buyer/Supplier receiver-account manager with Review & Confirm and audit history.
+- Added additive `counterparty_payment_account_history` table/index; no destructive migration/reset.
+- Protected immutable Finance receiver snapshots from later account-master edits.
+- Reorganized Pakistan Resales into Overview, Resale Records, Payments & Settlements, Credit, Refunds, Pakistan → Korea Bank Transfers and Documents.
+- Preserved selected Pakistan Resale section after refresh/child workflows.
+- Repaired Buy Machine receiver-account default/refresh flow for existing and newly created suppliers.
+- Added one shared Sell Machine settlement calculator used by browser and backend validation.
+- Verified combined settlement math: ₩15,000 sale + ₩10,000 buyer advance = ₩5,000 New Payment.
+- Added dynamic dependent-value/required-field recalculation and short-settlement rejection.
+- Made Finance/Accounting filter bodies collapsible while keeping Accounting posting-status controls permanently visible.
+- Added Korean localization for the V30.38 account/resale/filter/settlement UI.
+- V30.38 QA: 35/35 requirement checks, 18/18 focused Chromium checks, inherited V30.37 18/18 and V30.36 28/28 browser checks, 0 unresolved inline handlers.
+
+# V30.37.0 — Profile Sections, Account Management Repair & Responsive Filter UI
+
+- Fixed Buyer/Supplier/transaction Add-Manage account entry points through one shared counterparty account manager.
+- Split Supplier Payments and Accounts.
+- Redesigned Buyer Detail into six focused data sections while keeping Buyer Details visible.
+- Moved Buyer Accounts into the section row instead of the Pakistan Resales/top action area.
+- Preserved parent profile/form context when account child dialogs open/close.
+- Added shared responsive Search / Date Range / Status / Clear toolbar to Finance and Accounting Posting Control.
+- Preserved V30.33 targeted refresh, V30.34 stable chrome, V30.35 pagination and V30.36 browser-hardening rules.
+- No schema change or destructive migration.
+
 # Changelog
+
+## V30.36.0 — Complete Browser Button Audit & UX Hardening
+
+- Completed Chromium-based navigation/control audit across consolidated and all business-unit workspaces.
+- Fixed remaining contact/payment-reference validation that could surface while typing; field errors now appear on blur and are enforced again on Save/Submit.
+- Fixed blur-time validity checks that could dispatch `invalid` and pull focus back to the previous field.
+- Removed remaining Sell Machine typing/change `checkValidity()` calls that could trigger intrusive validation behavior.
+- Hardened shared pagination so search/filter/date changes reset affected lists to page 1 before rendering the new result set.
+- Retested Buy Machine account routing, nested Add/Manage account return context, Sell Machine new-payment calculations, sold/posted edit permissions, Finance/Posting filters, zero-stock Finished Goods actions, Review & Confirm and responsive stable chrome.
+- No schema change or destructive data migration; existing database, uploads and Render persistent storage remain compatible.
+
+
+## V30.35.0 — Workflow Validation & Pagination Integrity
+
+- Buy Machine Pay From / Paid To cleanup, supplier default destination auto-selection and account-load caching.
+- System-wide blur-first form validation with submit-time enforcement.
+- Sell Machine payment amount synchronization including Buyer Advance + New Payment.
+- Sold machine purchase edit restriction and posted/verified machine-cost UI locks.
+- Accounting Posting Control cleanup + date range filter; Finance date range filter.
+- Shared 25/50/100 pagination for large rendered lists/tables with filter-before-page behavior.
+- Preserves V30.34 stable chrome / targeted refresh rules.
+- No destructive schema migration.
+
+
+## V30.34.0 — Stable UI Chrome & Slow-Connection Integrity
+
+- Fixed remaining persistent-control re-render/flicker after V30.33 targeted refresh.
+- Accounting Simple View tabs now refresh only the selected body; Open Finance, Open Advanced Accounting and Posting Control remain mounted.
+- Same-detail full-screen workflow refreshes preserve the workflow toolbar and unchanged Buyer action controls.
+- Buyer Detail duplicate in-flight refreshes are coalesced to prevent repeated blinking on slow connections.
+- Added stable action-region rendering rules and a shared `BlueOceanStableUI` helper for future development.
+- Added standing Stable UI Chrome / Slow-Connection Rendering requirement and V30.34 QA gate.
+- No schema change; preserve existing database/uploads/persistent disk.
+
+## V30.33.0 — Targeted Refresh & Stable UI Responsiveness
+
+- Replaced broad automatic post-mutation current-view reloads with action/notification count synchronization plus targeted UI refresh behavior.
+- Added affected-section loading spinners for mutation actions while keeping unrelated screen content stable.
+- Added soft legacy view revalidation that suppresses the full `Loading…` flash and reuses unchanged top-level sections.
+- Added guarded fallback revalidation only when a successful mutation did not otherwise update visible UI.
+- Added shared `BlueOceanRefresh` helper for future feature development.
+- Added standing Targeted Refresh / Partial Revalidation architecture rule and V30.33 QA gate.
+- No schema change; preserve existing database/uploads/persistent disk.
+
+## V30.32.0 — UI & Account Flow Refinements
+
+- Fixed Receiver / Payee Account management so Save/Archive refreshes the current modal in place instead of recursively stacking duplicate modals.
+- Reduced sidebar scrollbar width and simplified Accounting top chrome; Posting Control now sits compactly beside primary Accounting actions.
+- Stabilized Buyer Detail top actions to eliminate visible flashing/re-rendering while async enhancers settle.
+- Added explicit supplier payment direction: Company Financial Account as `Paid From` and Supplier Receiver/Payee Account as `Paid To`, including Buy Machine token flow and later supplier purchase payments.
+- Added in-context saved-account selection and Add/Manage Receiver Account support without abandoning the current payment workflow.
+- Added nullable `excavator_payments.receiver_account_id` for destination-account linkage while preserving Finance receiver snapshots.
+- Made Add Machine Cost `Paid To · Receiver Account` layout responsive to modal width.
+- Expanded Correct & Resubmit Finance Entry with original transaction context, Paid From, Paid To, source linkage and other important original-entry data.
+- No destructive migration or data reset required.
+
 
 ## V30.31.0 — Lifecycle Integrity, Controlled Void/Reversal & Finance-Ready Posting Control
 

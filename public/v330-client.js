@@ -16,7 +16,7 @@ const pkr=v=>'PKR '+money(Number(v||0));
 const krw=v=>'₩ '+money(Number(v||0));
 const today=()=>new Date().toISOString().slice(0,10);
 
-function setAccountContext(form,{country='',currency='',direction='payment'}={}){if(!form)return;form.dataset.accountCountry=country;form.dataset.accountCurrency=currency;form.dataset.accountDirection=direction;const sel=form.querySelector('[name="payment_account_id"]');if(sel){sel.dataset.accountCountry=country;sel.dataset.accountCurrency=currency;sel.dataset.accountDirection=direction}if(typeof window.v320RefreshPaymentAccount==='function')setTimeout(()=>window.v320RefreshPaymentAccount(form,true),0)}
+function setAccountContext(form,{country='',currency='',direction='payment'}={}){if(!form)return;form.dataset.accountCountry=country;form.dataset.accountCurrency=currency;form.dataset.accountDirection=direction;const sel=form.querySelector('[name="payment_account_id"]');if(sel){sel.dataset.accountCountry=country;sel.dataset.accountCurrency=currency;sel.dataset.accountDirection=direction}if(typeof window.v320RefreshPaymentAccount==='function')Promise.resolve(window.v320RefreshPaymentAccount(form,true)).catch(()=>{})}
 function contextObserver(root=document){root.querySelectorAll?.('#v329ResaleProfitPaymentForm').forEach(f=>setAccountContext(f,{country:'Pakistan',currency:'PKR',direction:'receipt'}));root.querySelectorAll?.('form').forEach(f=>{if(f.id==='excavatorSaleForm')setAccountContext(f,{country:'South Korea',direction:'receipt'});if(f.querySelector('[name="payment_type"]')&&f.querySelector('[name="amount"]')&&String(f.getAttribute('onsubmit')||'').includes('saveExcavatorPayment'))setAccountContext(f,{country:'South Korea',currency:'KRW',direction:'payment'})})}
 
 async function payeeAccounts(type,id,method=''){const bu=selectedUnitId||me.business_unit_id||'';return api('/api/v330/payee-accounts?'+new URLSearchParams({business_unit_id:String(bu),entity_type:type,entity_id:String(id),method:String(method||'')}))}
@@ -29,11 +29,22 @@ window.archivePayeeAccountV330=async function(id,type,eid,name){const reason=awa
 
 // Supplier Payments / Account tab gets reusable receiver-account management.
 const supplierOpenBeforeV330=window.v329SupplierOpen;
-if(typeof supplierOpenBeforeV330==='function')window.v329SupplierOpen=async function(id,active='overview'){const r=await supplierOpenBeforeV330.apply(this,arguments);if(active==='payments'||active==='overview')setTimeout(async()=>{try{const d=await api('/api/excavator/suppliers/'+id+'/machines'),s=d.supplier||{};const host=wf();if(!host||host.querySelector('[data-v330-supplier-payee]'))return;const panel=document.createElement('div');panel.className='card';panel.dataset.v330SupplierPayee='1';panel.style.marginTop='14px';panel.innerHTML=`<div class="section-title"><div><h3>${esc(t('Receiver / Payee Accounts'))}</h3><div class="muted">Saved supplier destination accounts are selected as <b>Paid To</b> when recording outgoing bank/card payments.</div></div><button class="btn" onclick="managePayeeAccountsV330('excavator_supplier',${id},'${esc(s.name||'Supplier')}')">${esc(t('Payment Accounts'))}</button></div>`;const back=[...host.querySelectorAll('.actions')].pop();(back||host).insertAdjacentElement?.('beforebegin',panel)||host.appendChild(panel)}catch(_){ }},40);return r};
+if(typeof supplierOpenBeforeV330==='function')window.v329SupplierOpen=async function(id,active='overview'){
+  const r=await supplierOpenBeforeV330.apply(this,arguments);
+  if(active==='payments'||active==='overview')try{const host=wf();if(!host||host.querySelector('[data-v330-supplier-payee]'))return r;const supplierName=(host.querySelector('h1,h2')?.textContent||'Supplier').trim();const panel=document.createElement('div');panel.className='card';panel.dataset.v330SupplierPayee='1';panel.style.marginTop='14px';panel.innerHTML=`<div class="section-title"><div><h3>${esc(t('Receiver / Payee Accounts'))}</h3><div class="muted">Saved supplier destination accounts are selected as <b>Paid To</b> when recording outgoing bank/card payments.</div></div><button class="btn" onclick="managePayeeAccountsV330('excavator_supplier',${id},${JSON.stringify(supplierName)})">${esc(t('Payment Accounts'))}</button></div>`;const back=[...host.querySelectorAll('.actions')].pop();(back||host).insertAdjacentElement?.('beforebegin',panel)||host.appendChild(panel)}catch(_){ }
+  return r
+};
 
 // Buyer profile also exposes saved receiver accounts, especially for refunds.
 const buyerDetailBeforeV330=window.excavatorBuyerDetail;
-if(typeof buyerDetailBeforeV330==='function')window.excavatorBuyerDetail=async function(id){const r=await buyerDetailBeforeV330.apply(this,arguments);setTimeout(()=>{const host=wf();if(!host)return;const title=host.querySelector('.section-title .actions');if(title&&!title.querySelector('[data-v330-buyer-payee]')){const b=document.createElement('button');b.className='btn small';b.dataset.v330BuyerPayee='1';b.textContent=t('Payment Accounts');b.onclick=()=>managePayeeAccountsV330('excavator_buyer',id,(host.querySelector('h2')?.textContent||'Buyer').trim());title.appendChild(b)}},50);return r};
+if(typeof buyerDetailBeforeV330==='function')window.excavatorBuyerDetail=async function(id){
+  const r=await buyerDetailBeforeV330.apply(this,arguments);
+  // V30.34: Payment Accounts is part of the initial Buyer action row. Keep only
+  // a synchronous compatibility fallback for older/custom Buyer templates.
+  const host=wf();if(!host)return r;const title=host.querySelector('.section-title .actions');
+  if(title&&!title.querySelector('[data-v330-buyer-payee]')){const b=document.createElement('button');b.className='btn small';b.dataset.v330BuyerPayee='1';b.textContent=t('Payment Accounts');b.onclick=()=>managePayeeAccountsV330('excavator_buyer',id,(host.querySelector('h2')?.textContent||'Buyer').trim());title.appendChild(b)}
+  return r
+};
 
 
 // Buyer advance refund: normal Korea workflow shows South Korea Paid From and saved buyer Paid To.
@@ -58,7 +69,7 @@ window.v330MachinePayeeState=function(f){if(!f)return;const box=f.querySelector(
 
 // Incoming buyer payments should show only Korea company receiving accounts.
 const buyerPaymentFormBeforeV330=window.excavatorBuyerPaymentForm;
-if(typeof buyerPaymentFormBeforeV330==='function')window.excavatorBuyerPaymentForm=async function(){const r=await buyerPaymentFormBeforeV330.apply(this,arguments);setTimeout(()=>{const f=document.querySelector('#modalRoot form');if(f)setAccountContext(f,{country:'South Korea',direction:'receipt'})},0);return r};
+if(typeof buyerPaymentFormBeforeV330==='function')window.excavatorBuyerPaymentForm=async function(){const r=await buyerPaymentFormBeforeV330.apply(this,arguments);const f=document.querySelector('#modalRoot form');if(f)setAccountContext(f,{country:'South Korea',direction:'receipt'});return r};
 
 // Finance Verification shows both the company side and receiver side.
 const financeOpenBeforeV330=window.financeOpen;

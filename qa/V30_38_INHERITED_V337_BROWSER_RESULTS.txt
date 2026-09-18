@@ -1,0 +1,22 @@
+PASS V30.37 overlay loaded 
+PASS Supplier profile splits Payments and Accounts — ['Overview', 'Machines', 'Requirements', 'Payments', 'Accounts']
+PASS Supplier Payments shows payment-only data 
+PASS Supplier Accounts shows receiver-account data 
+PASS Supplier account-management button opens working child manager 
+PASS Closing supplier account manager preserves supplier Accounts section 
+PASS Buyer top actions keep Statement/Pakistan Resales but remove Payment Accounts — Buyer Statement
+Pakistan Resales
+PASS Buyer profile has six focused section buttons — ['Payments & Advance', 'Advance Refunds', 'Machines Sold', 'Requirements', 'Documents', 'Accounts']
+PASS Buyer defaults to one Payments section 
+PASS Buyer section switch shows only selected refund data — Buyer Advance Refunds
+Evidence-backed refunds remain linked to Finance and appro
+PASS Buyer Accounts is inside buyer detail sections 
+PASS Buyer account-management button opens child manager 
+PASS Buyer selected Accounts section survives child manager close — Accounts
+PASS Legacy Add/Manage account handler is repaired system-wide 
+PASS Finance filters use shared responsive toolbar 
+PASS Posting Queue filters use shared responsive toolbar 
+PASS New filter toolbar remains mobile-safe 
+PASS V30.37 focused browser pass has no uncaught page errors 
+
+SUMMARY 18 checks 0 failed

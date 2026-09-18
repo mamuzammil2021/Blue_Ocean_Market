@@ -57,8 +57,8 @@ function dedupePakistanResales(root=document){
 }
 
 // Keep required-field error styling synchronized while the user corrects Sell Machine fields.
-document.addEventListener('input',e=>{const f=e.target.closest?.('#excavatorSaleForm .field');if(f&&e.target.checkValidity?.())f.classList.remove('v326-invalid-field')},true);
-document.addEventListener('change',e=>{const f=e.target.closest?.('#excavatorSaleForm .field');if(f&&e.target.checkValidity?.())f.classList.remove('v326-invalid-field')},true);
+document.addEventListener('input',e=>{const f=e.target.closest?.('#excavatorSaleForm .field');if(f&&e.target.validity?.valid!==false)f.classList.remove('v326-invalid-field')},true);
+document.addEventListener('change',e=>{const f=e.target.closest?.('#excavatorSaleForm .field');if(f&&e.target.validity?.valid!==false)f.classList.remove('v326-invalid-field')},true);
 
 const obs=new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes)if(n.nodeType===1){enhanceCountrySearches(n);dedupePakistanResales(n)}});obs.observe(document.documentElement,{childList:true,subtree:true});enhanceCountrySearches(document);dedupePakistanResales(document);
 console.info(`Blue Ocean Market V${VERSION} QA/data-integrity UI loaded`);window.__BOM_V328={version:VERSION};

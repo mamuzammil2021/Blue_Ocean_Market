@@ -64,7 +64,16 @@
       simpleTabs291()+`<div id="accountingSimpleBodyV291"><div class="card">Loading…</div></div>`;
     await loadAccountingSimpleTabV291();
   }
-  window.accountingSimpleTabV291=async tab=>{simpleAccountingTab=tab;const c=document.getElementById('content');if(!c)return;await accountingSimpleV291(c)};
+  window.accountingSimpleTabV291=async tab=>{
+    simpleAccountingTab=tab;
+    const body=document.getElementById('accountingSimpleBodyV291'),tabs=document.querySelector('.v291-simple-tabs');
+    if(!body){const c=document.getElementById('content');if(c)await accountingSimpleV291(c);return}
+    // V30.34: simple-view tab changes are local body updates. Keep the page title,
+    // Open Finance / Advanced Accounting / Posting Control actions and tab shell mounted.
+    tabs?.querySelectorAll('button').forEach((btn,i)=>{const key=['summary','reports','cash'][i];btn.classList.toggle('active',key===simpleAccountingTab);btn.setAttribute('aria-selected',key===simpleAccountingTab?'true':'false')});
+    if(window.BlueOceanRefresh?.section)return BlueOceanRefresh.section(body,()=>loadAccountingSimpleTabV291());
+    await loadAccountingSimpleTabV291();
+  };
 
   async function loadAccountingSimpleTabV291(){const b=document.getElementById('accountingSimpleBodyV291');if(!b)return;if(simpleAccountingTab==='reports')return reportsSimpleV291(b);if(simpleAccountingTab==='cash')return cashSimpleV291(b);return summarySimpleV291(b)}
 

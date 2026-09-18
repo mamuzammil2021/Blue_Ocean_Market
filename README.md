@@ -1,33 +1,55 @@
-# Blue Ocean Market V30.31.0
+# Blue Ocean Market V30.38.0
 
-**Lifecycle Integrity + Controlled Void/Reversal + Finance-Ready Posting Control + QA Refinements — Git-ready / Render Persistent Disk**
+V30.38.0 is built directly on the protected V30.37.0 package. It adds editable/audited counterparty accounts, the seven-section Pakistan Resales workspace, Buy Machine receiver-account integrity, one canonical Sell Machine settlement engine shared by browser/backend validation, and collapsible Finance/Accounting filters with Accounting status controls kept visible.
 
-V30.31.0 is built directly on the protected V30.30.0 baseline. It is a focused QA/integrity release: it fixes the reported Supplier/Finance correction/void issues, introduces stage-driven lifecycle controls, preserves audit history for void/reversal actions, synchronizes linked machine/supplier/accounting effects, and keeps Finance-not-ready cash proposals out of the actionable Accounting Posting Control queue. Unrelated business workflows are intentionally left unchanged.
+The only schema change is the additive `counterparty_payment_account_history` audit table/index created with `IF NOT EXISTS`. There is **no destructive migration or reset**; existing SQLite data, uploads, backups and Render persistent storage remain compatible. See `V30_38_IMPLEMENTATION_SUMMARY.md` and `V30_38_QA_STATUS.md`.
 
-### V30.31.0 scope
+---
 
-- Add Supplier Save now closes on success and refreshes the Supplier list.
-- One clear navigation path on full-screen workflows, compact Accounting working chrome, and a thinner sidebar scrollbar.
-- Central stage-driven **Request Void / Request Reversal** policy based on Finance state, Accounting state, permissions, approvals, periods and linked dependencies.
-- Posted Accounting records are never deleted: the original Posted journal is preserved and a linked reversal proposal/journal is created.
-- Source-aware **Correct & Resubmit** for machine costs, with original fields/evidence preserved and no unrelated mandatory Counterparty field.
-- Machine costs use **Edit + Void**; voided records remain visible for audit and are excluded from active cost calculations.
-- Purchase Token / supplier-payment voids recalculate linked machine purchase paid/outstanding and supplier payable; machine-cost voids recalculate cost basis and sold-machine COGS/profit where applicable.
-- Impact Review & Confirm shows linked Finance, Accounting, machine, supplier/buyer and reporting effects before controlled lifecycle execution.
-- Supplier Payment entry is Purchase-only; obsolete Sale type is removed.
-- Accounting Posting Control Pending Review shows Finance-linked cash proposals only after **Finance = Verified**; Accounting badge follows the same actionable rule.
-- Lifecycle audit history and stakeholder notifications preserve the complete change chain.
+# Blue Ocean Market V30.37.0
 
-See `V30_31_IMPLEMENTATION_SUMMARY.md` for the detailed requirement-to-implementation map.
+V30.37.0 is a UI/workflow refinement release built directly on protected V30.36.0. It repairs the shared Buyer/Supplier payment-account entry points, standardizes Buyer/Supplier profile sections, and replaces the awkward Accounting/Finance date controls with a reusable responsive filter toolbar.
 
-### V30.31.0 QA status
+The release is additive with **no database schema change** and preserves existing SQLite data, uploads, backups and Render persistent disk. See `V30_37_IMPLEMENTATION_SUMMARY.md` and `V30_37_QA_STATUS.md`.
 
-- `npm run qa:current` — **PASS**
-- `npm run qa:render` — **PASS**
-- `node qa/qa_v331_button_actions.js` — **PASS** (targeted button/action wiring audit)
-- JavaScript/server syntax checks — **PASS** as part of current QA
-- Final ZIP is extracted and both main QA gates plus the button/action audit are rerun before delivery.
-- Runtime smoke is not claimed in this build container because `npm ci` timed out before dependencies were installed. Run `npm ci && npm run qa:runtime` in the normal Node 22 target environment.
+---
+
+# Blue Ocean Market V30.36.0
+
+V30.36.0 is a browser-audit and UX-hardening release built directly on the protected V30.35.0 workflow/pagination baseline. It completes a Chromium-based control audit across the application, fixes the remaining validation-while-typing/focus regression and filter-to-pagination reset gaps, and preserves all V30.31–V30.35 lifecycle, targeted-refresh, stable-chrome, Finance/Accounting and persistence rules.
+
+Browser audit evidence is recorded in `qa/V30_36_BROWSER_AUDIT_RESULTS.txt`; implementation details are in `V30_36_IMPLEMENTATION_SUMMARY.md`. No destructive migration or schema reset is required.
+
+---
+
+# Blue Ocean Market V30.35.0
+
+V30.35.0 is built directly on the protected V30.34.0 Stable UI Chrome & Slow-Connection Integrity baseline. It adds the post-V30.34 workflow refinements: Buy/Sell payment-account integrity, blur-based validation, sold/posted edit controls, Finance/Posting date filtering, and shared high-volume pagination while preserving stable UI chrome and targeted refresh behavior.
+
+See `V30_35_IMPLEMENTATION_SUMMARY.md` for the exact scope. No destructive migration or schema reset is required.
+
+---
+
+# Blue Ocean Market V30.34.0
+
+Blue Ocean Market management OS — Git/Render-ready targeted-refresh release.
+
+V30.34.0 is built directly on V30.32.0 and preserves all V30.32 account-flow, Finance/Accounting, lifecycle, approval, audit and persistent-storage behavior. The release focuses on system-wide UI responsiveness: mutation actions should update only affected data areas while unrelated UI remains stable.
+
+### V30.34.0 scope
+
+- System-wide targeted/partial refresh architecture.
+- Section-level localized loading indicators for mutations.
+- Broad automatic post-mutation screen reload removed.
+- Soft compatibility refresh for legacy handlers, keeping old content visible until new data is ready.
+- Unchanged top-level sections are reused after legacy revalidation.
+- Guarded fallback refresh preserves data consistency when an older handler does not explicitly update its UI.
+- Shared `BlueOceanRefresh` helper and standing development/QA rule for future features.
+- No database schema changes; preserve current DB/uploads and Render persistent disk.
+
+### V30.34.0 QA status
+
+Run `npm run qa:current`, `npm run qa:v333`, `npm run qa:render`, and after `npm ci`, `npm run qa:runtime`.
 
 ## V30.24.2 hotfix scope
 
