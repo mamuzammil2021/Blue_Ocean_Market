@@ -1,3 +1,11 @@
+# Blue Ocean Market V30.38.1
+
+V30.38.1 is a focused point-release hotfix built directly on protected V30.38.0. It repairs Sell Machine validation-state clearing and the Buy Machine Token Payment account workflow: Add / Manage Accounts routing, explicit Pay From / Paid To selection, parallel/prefetched account loading and slow-connection loading states.
+
+There is **no V30.38.1 database schema change, reset or destructive migration**. Existing SQLite data, uploads, backups and Render persistent storage remain compatible. See `V30_38_1_IMPLEMENTATION_SUMMARY.md` and `V30_38_1_QA_STATUS.md`.
+
+---
+
 # Blue Ocean Market V30.38.0
 
 V30.38.0 is built directly on the protected V30.37.0 package. It adds editable/audited counterparty accounts, the seven-section Pakistan Resales workspace, Buy Machine receiver-account integrity, one canonical Sell Machine settlement engine shared by browser/backend validation, and collapsible Finance/Accounting filters with Accounting status controls kept visible.

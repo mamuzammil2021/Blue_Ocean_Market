@@ -1,0 +1,28 @@
+'use strict';
+const fs=require('fs'),path=require('path'),assert=require('assert');
+const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const c=read('public/v3381-client.js'),index=read('public/index.html'),pkg=JSON.parse(read('package.json')),main=read('server/server.js'),v338=read('public/v338-client.js'),v335=read('public/v335-client.js');
+let pass=0;function ok(x,m){assert.ok(x,m);pass++;console.log('PASS',String(pass).padStart(2,'0'),m)}
+ok(pkg.version==='30.38.1','point release version is 30.38.1');
+ok(main.includes("version:'30.38.1'")&&main.includes('Blue Ocean Market V30.38.1 running on port'),'runtime health/version identity is 30.38.1');
+ok(index.includes('/v338-client.js?v=30.38.1')&&index.includes('/v3381-client.js?v=30.38.1')&&index.indexOf('/v338-client.js?v=30.38.1')<index.indexOf('/v3381-client.js?v=30.38.1'),'hotfix overlay is loaded after protected V30.38 UI');
+ok(c.includes("const VERSION='30.38.1'"),'hotfix overlay identifies V30.38.1');
+ok(c.includes('refreshSimpleValidity381')&&c.includes("name==='customer_name'")&&c.includes("name==='selling_price'"),'stale Sell Machine custom errors clear when corrected');
+ok(c.includes('v3381Submitted')&&c.includes('v3381Touched'),'Sell Machine red validation is interaction/submit aware');
+ok(c.includes("form.addEventListener('input'")&&c.includes("form.addEventListener('change'")&&c.includes("form.addEventListener('blur'"),'Sell Machine live error clearing covers input/change/blur');
+ok(c.includes('v335-field-invalid')&&c.includes('v326-invalid-field')&&c.includes('v338-required-missing'),'all inherited Sell Machine red-error classes are normalized');
+ok(v338.includes('markRequired338')&&v335.includes('Never distract users by painting errors while they are still typing.'),'V30.38.1 repairs inherited validation without removing backend/blur validation layers');
+ok(c.includes('companyCache381')&&c.includes('supplierCache381')&&c.includes('cachedPromise381'),'Buy Machine account calls use short-lived promise caches');
+ok(c.includes('Promise.allSettled([companyP,supplierP])'),'Pay From and Paid To account loads run in parallel');
+ok(c.includes('Loading company accounts…')&&c.includes('Loading supplier accounts…'),'slow connections show explicit loading states');
+ok(c.includes('Select company financial account')&&c.includes('Select supplier receiver account'),'both selectors retain explicit selectable placeholder/options');
+ok(c.includes('data-v332-manage-payee')&&c.includes('stopImmediatePropagation')&&c.includes('openCounterpartyAccountsV338'),'Add / Manage Accounts bypasses fragile legacy routing and opens final shared manager');
+ok(c.includes('prefetchBuy381')&&c.includes('supplierAccounts381(supplierId).catch'),'supplier receiver accounts begin prefetch as soon as supplier context is known');
+ok(c.includes('companyAccounts381(method).catch'),'company accounts are prefetched before token entry');
+ok(c.includes('forceSupplier:true')&&c.includes('supplierCache381.clear()'),'closing account manager invalidates cache and refreshes parent selector');
+ok(c.includes('sel.disabled=false')&&c.includes('rows.find(x=>Number(x.is_default||0))?.id||rows[0]?.id'),'one-account selectors remain enabled and select default/first eligible account');
+ok(c.includes('normalizeRows381')&&c.includes('/api/v330/payee-accounts?'),'supplier account loader normalizes response shapes and safely falls back to legacy read endpoint');
+ok(c.includes("if(!t&&(x.bank_name||x.account_number||x.account_number_masked||x.iban))t='bank'"),'legacy supplier bank accounts without method_type remain selectable');
+ok(c.includes("'Loading company accounts…':'회사 계정 불러오는 중…'")&&c.includes("'Supplier accounts could not be loaded. Retry or check connection.':'공급업체 계정을 불러오지 못했습니다. 다시 시도하거나 연결 상태를 확인하세요.'"),'V30.38.1 account loading/status UI is Korean-localized');
+ok(!c.includes('/api/v338/payee-accounts/'+"'"+'POST'), 'hotfix adds no new server mutation path/schema requirement');
+console.log(`\nV30.38.1 hotfix QA: ${pass}/${pass} PASS`);

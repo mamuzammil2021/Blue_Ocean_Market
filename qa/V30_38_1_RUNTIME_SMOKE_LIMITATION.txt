@@ -1,0 +1,15 @@
+V30.38.1 runtime smoke limitation
+
+The packaged build container does not contain node_modules. Running `npm run qa:runtime` stops before application startup because Node cannot resolve `express` from server/server.js.
+
+Observed environment:
+- Node.js v22.16.0
+- node_modules: absent
+- failure: Cannot find module 'express'
+
+This is an environment/dependency-install limitation, not a passed live runtime claim. Complete final live acceptance in the normal Mac/Render Node 22 environment with:
+
+  npm ci
+  npm run qa:runtime
+
+No database reset or destructive migration is required for V30.38.1.

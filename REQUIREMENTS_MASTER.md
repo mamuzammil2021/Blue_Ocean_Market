@@ -769,3 +769,15 @@ All current and future screens must keep persistent page chrome stable while chi
 - **Settlement clarity:** show Sale Price, Existing Allocated, Coverage Required, Buyer Advance Used, New Payment Required, New Payment Entered, Buyer Credit Added and Resulting Outstanding from the same calculation state.
 - **Finance/Accounting filters:** use the shared responsive/collapsible filter pattern. Accounting posting-status controls stay outside the collapsible area and remain visible. Preserve filter state through normal UI refreshes and reset the relevant pager to page 1 when result-set filters change.
 - **No regression:** V30.33 targeted refresh, V30.34 stable UI chrome, V30.35 pagination, V30.36 browser hardening, V30.37 profile/account routing, permissions, sold-machine safeguards, verified/posted machine-cost locks, Review & Confirm and Render persistent-storage rules remain release-blocking.
+
+
+## V30.38.1 — Sell Machine Validation & Buy Machine Token Account Hotfix
+
+- **Point-versioning:** focused bug fixes after V30.38.0 use point releases rather than jumping to a new major/minor release line unless the scope materially expands.
+- **Sell Machine validation presentation:** required/invalid fields remain visually neutral before interaction. Invalid styling appears on field interaction/blur or failed Save/Complete Sale, and immediately clears when the value becomes valid. This applies to New Buyer/Other and existing-buyer paths and every conditional Sell Machine field.
+- **Validation authority:** the UI may clear stale presentation/custom errors when the relevant value is valid, but backend settlement, account, country, reference, evidence, permissions and lifecycle validation remains authoritative.
+- **Buy Machine Add / Manage Accounts:** Token Payment account management must always open the final shared supplier receiver-account manager as a child workflow and return to the exact Buy Machine parent context.
+- **Pay From / Paid To selectors:** show every eligible active account, stay enabled/selectable even when only one eligible account exists, prefer the active Default where available, and refresh after account Add/Edit/Default/Archive.
+- **Slow-connection account loading:** prefetch company accounts when Buy Machine opens and supplier receiver accounts as soon as supplier context is known. Load Pay From and Paid To in parallel where possible, avoid duplicate requests with short-lived safe caching, and show localized loading/error states rather than an empty/broken selector.
+- **Compatibility:** account loaders tolerate supported legacy response shapes and historical bank-account rows lacking newer method metadata without weakening backend account eligibility checks.
+- **No regression:** V30.38 canonical Sell Machine settlement, shared account manager/history, Pakistan Resales, Finance/Accounting filter behavior, historical snapshots, targeted refresh, stable UI chrome, pagination, Review & Confirm and Render persistence remain release-blocking.

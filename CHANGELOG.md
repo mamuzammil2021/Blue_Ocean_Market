@@ -1,3 +1,18 @@
+# V30.38.1 — Sell Machine Validation & Buy Machine Account Hotfix
+
+- Kept point-versioning for this focused repair; protected V30.38.0 remains the functional baseline.
+- Sell Machine required/invalid red styling is now interaction/submit-aware instead of appearing prematurely.
+- Corrected valid Sell Machine values immediately clear stale red borders/messages/custom errors across inherited validation layers.
+- Repaired Buy Machine Token Payment `Add / Manage Accounts` routing to the final shared counterparty account manager.
+- Replaced layered sequential token-account loads with one cached/parallel path for Pay From and Paid To.
+- Prefetches company accounts on workflow open and supplier receiver accounts as soon as supplier context is known.
+- Added localized loading/error states for slow connections rather than empty/broken selectors.
+- Pay From and Paid To remain enabled and explicitly selectable even when only one eligible account exists.
+- Added supplier-account response normalization and safe read-only legacy fallback; older bank rows without `method_type` remain selectable.
+- Closing account management invalidates the short-lived cache and refreshes the parent selector without reloading the workflow.
+- No V30.38.1 schema change, reset or destructive migration.
+- QA: 22/22 hotfix checks, 10/10 focused Chromium, inherited V30.38 18/18, V30.37 18/18, V30.36 28/28, and 0 unresolved inline handler targets.
+
 # V30.38.0 — Pakistan Resale Sections, Account Edit/History & Canonical Sale Settlement
 
 - Added Edit/Archive/Default/History to the shared Buyer/Supplier receiver-account manager with Review & Confirm and audit history.

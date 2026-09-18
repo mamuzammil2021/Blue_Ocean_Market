@@ -6,10 +6,10 @@ const pkg=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.js
 const index=read('public/index.html'),server=read('server/server.js'),b336=read('server/v336.js'),c336=read('public/v336-client.js');
 const c321=read('public/v321-client.js'),c326=read('public/v326-client.js'),c328=read('public/v328-client.js'),c335=read('public/v335-client.js');
 const audit=read('qa/V30_36_BROWSER_AUDIT_RESULTS.txt');
-pass(pkg.version==='30.38.0'&&lock.version==='30.38.0'&&lock.packages?.['']?.version==='30.38.0','current release retains V30.36 hardening');
+pass(pkg.version==='30.38.1'&&lock.version==='30.38.1'&&lock.packages?.['']?.version==='30.38.1','current release retains V30.36 hardening');
 pass(server.includes("const v336=require('./v336').install({db});")&&b336.includes("VERSION='30.36.0'")&&b336.includes('schema_changes:false'),'V30.36 additive/no-schema server marker installed');
-pass(index.includes('/v336-client.js?v=30.38.0')&&index.indexOf('/v335-client.js?v=30.38.0')<index.indexOf('/v336-client.js?v=30.38.0')&&c336.includes('browser_button_audit:true'),'V30.36 browser audit marker retained before V30.37');
-pass(server.includes("version:'30.38.0'")&&server.includes('Blue Ocean Market V30.38.0 running on port'),'health/startup version current');
+pass(index.includes('/v336-client.js?v=30.38.1')&&index.indexOf('/v335-client.js?v=30.38.1')<index.indexOf('/v336-client.js?v=30.38.1')&&c336.includes('browser_button_audit:true'),'V30.36 browser audit marker retained before V30.37');
+pass(server.includes("version:'30.38.1'")&&server.includes('Blue Ocean Market V30.38.1 running on port'),'health/startup version current');
 pass(c321.includes("input.addEventListener('input',()=>{input.value=input.value.replace")&&c321.includes("sync(false)});input.addEventListener('blur',()=>{sync(true);remoteContactCheck(input)"),'phone validation is silent while typing and validates on blur');
 pass(c321.includes("input.addEventListener('input',()=>sync(false));input.addEventListener('blur',()=>{sync(true);remoteContactCheck(input)"),'email validation is silent while typing and validates on blur');
 pass((c321.match(/debouncedContactCheck\(/g)||[]).length===1,'legacy debounced contact helper is no longer invoked');

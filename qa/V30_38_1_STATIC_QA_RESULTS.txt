@@ -1,0 +1,24 @@
+PASS 01 point release version is 30.38.1
+PASS 02 runtime health/version identity is 30.38.1
+PASS 03 hotfix overlay is loaded after protected V30.38 UI
+PASS 04 hotfix overlay identifies V30.38.1
+PASS 05 stale Sell Machine custom errors clear when corrected
+PASS 06 Sell Machine red validation is interaction/submit aware
+PASS 07 Sell Machine live error clearing covers input/change/blur
+PASS 08 all inherited Sell Machine red-error classes are normalized
+PASS 09 V30.38.1 repairs inherited validation without removing backend/blur validation layers
+PASS 10 Buy Machine account calls use short-lived promise caches
+PASS 11 Pay From and Paid To account loads run in parallel
+PASS 12 slow connections show explicit loading states
+PASS 13 both selectors retain explicit selectable placeholder/options
+PASS 14 Add / Manage Accounts bypasses fragile legacy routing and opens final shared manager
+PASS 15 supplier receiver accounts begin prefetch as soon as supplier context is known
+PASS 16 company accounts are prefetched before token entry
+PASS 17 closing account manager invalidates cache and refreshes parent selector
+PASS 18 one-account selectors remain enabled and select default/first eligible account
+PASS 19 supplier account loader normalizes response shapes and safely falls back to legacy read endpoint
+PASS 20 legacy supplier bank accounts without method_type remain selectable
+PASS 21 V30.38.1 account loading/status UI is Korean-localized
+PASS 22 hotfix adds no new server mutation path/schema requirement
+
+V30.38.1 hotfix QA: 22/22 PASS
