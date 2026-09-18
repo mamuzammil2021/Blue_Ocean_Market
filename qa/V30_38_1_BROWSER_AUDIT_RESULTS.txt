@@ -1,0 +1,22 @@
+PASS V30.38.1 hotfix overlay loaded 
+PASS Sell Machine required fields are not red before interaction — {'red': 0, 'customer': '', 'field': 'field'}
+PASS Sell Machine still validates after field interaction — field v335-field-invalid
+PASS Entering a valid Sell Machine value immediately clears stale red/error state — {'custom': False, 'msg': '', 'field': 'field', 'cls': ''}
+PASS Slow connection shows clear account-loading states — {'company': 'Loading company accounts…', 'receiver': 'Loading supplier accounts…', 'disabled': [True, True], 'calls': [{'p': '/api/v320/financial-accounts/options', 'at': 1709.5999999999767}, {'p': '/api/v338/payee-accounts', 'at': 1709.7000000000698}]}
+PASS Pay From and Paid To requests start in parallel — [1709.5999999999767, 1709.7000000000698]
+PASS Single Pay From account is visible, enabled and selected — {'company': '101', 'receiver': '201', 'co': 2, 'ro': 2, 'disabled': [False, False], 'valid': ['', '']}
+PASS Single Paid To account is visible, enabled and selected — {'company': '101', 'receiver': '201', 'co': 2, 'ro': 2, 'disabled': [False, False], 'valid': ['', '']}
+PASS Buy Machine Add / Manage Accounts opens shared Supplier Accounts manager — Supplier Accounts
+Supplier Ten · shared receiver/payee account management.
+Close
+Supplier Main
+Supplier Ten
+KB
+South Korea · KRW · ****9988
+Default
+0 historical link(s)
+Edit
+Archiv
+PASS V30.38.1 browser hotfix audit has no uncaught page errors 
+
+SUMMARY 10 checks 0 failed

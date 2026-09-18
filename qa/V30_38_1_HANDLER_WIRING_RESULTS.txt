@@ -1,0 +1,4 @@
+Inline event attributes scanned: 1301
+Inline call references scanned: 1354
+Unique named handler/call targets: 576
+PASS 0 unresolved inline named handler/call targets
