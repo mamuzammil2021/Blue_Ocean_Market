@@ -1,0 +1,115 @@
+===== qa:v332 =====
+PASS syntax public/v332-client.js
+PASS syntax server/v332.js
+PASS syntax server/server.js
+PASS V30.32 implementation is retained in current release
+PASS V30.32 browser overlay loads after V30.31
+PASS payee save/archive refresh current modal instead of reopening it
+PASS single close restores parent and refreshes receiver selector
+PASS sidebar scrollbar is minimal width
+PASS Accounting removes repeated top descriptions
+PASS Posting Control is injected beside page actions
+PASS Buyer top actions are stabilized while enhancers settle
+PASS Buy Machine token has separate Paid From and Paid To accounts
+PASS new supplier can enter destination account inline
+PASS Buy Machine token evidence submits multipart
+PASS backend requires/records supplier token receiver for electronic payment
+PASS machine payments store receiver account id additively
+PASS Add Machine Cost receiver card spans modal and becomes one column on small screens
+PASS Finance correction shows both payment sides and original source context
+
+V30.32 refinement QA PASS
+
+===== qa:v333 =====
+PASS syntax public/v333-client.js
+PASS syntax server/v333.js
+PASS syntax server/server.js
+PASS V30.33 implementation retained in V30.34 release
+PASS V30.33 browser overlay retained before newer stability overlays
+PASS automatic mutation sync no longer reloads entire current view
+PASS mutation API wrapper records context without changing business request
+PASS local busy indicator is scoped to affected card/form/workflow
+PASS soft reload keeps previous content during legacy Loading placeholder
+PASS unchanged top-level sections are reused
+PASS fallback is guarded against modal/workflow/explicit UI updates
+PASS shared refresh API exists for future features
+PASS standing requirement documented
+
+V30.33 TARGETED REFRESH QA PASS
+
+===== qa:v334 =====
+PASS syntax public/v334-client.js
+PASS syntax public/v291-client.js
+PASS syntax server/v334.js
+PASS syntax server/server.js
+PASS V30.34 baseline retained in current release
+PASS V30.34 browser overlay loads after V30.33
+PASS Accounting simple tabs update body only
+PASS Accounting action chrome is defensively preserved
+PASS same-heading workflows keep toolbar mounted
+PASS Buyer top actions reuse existing DOM nodes
+PASS duplicate buyer detail requests are coalesced
+PASS stable action CSS disables flash animations
+PASS shared stable UI helper available for future features
+PASS standing slow-connection stable chrome requirement documented
+
+V30.34 STABLE UI QA PASS
+
+===== qa:v335 =====
+PASS current package version 30.37.0 retains V30.35 requirements
+PASS V30.35 client overlay retained before V30.36 hardening marker
+PASS V30.35 server overlay installed
+PASS sold machine purchase edit restricted server-side
+PASS system-wide blur validation
+PASS combined buyer advance + new payment supported
+PASS sale payment amount synchronization
+PASS supplier receiver accounts cached and default selected
+PASS Buy Machine Pay From / Paid To account integrity
+PASS machine cost UI lock checks finance/accounting lifecycle
+PASS Finance date range filter
+PASS Posting Control date range filter
+PASS Posting Control top summary/flow removed
+PASS shared 25/50/100 pagination
+PASS pagination composes after filters
+PASS targeted late-render enhancement without full page reload
+PASS no full-page reload introduced
+V30.35 workflow/pagination QA PASS
+
+===== qa:v336 =====
+PASS current release retains V30.36 hardening
+PASS V30.36 additive/no-schema server marker installed
+PASS V30.36 browser audit marker retained before V30.37
+PASS health/startup version current
+PASS phone validation is silent while typing and validates on blur
+PASS email validation is silent while typing and validates on blur
+PASS legacy debounced contact helper is no longer invoked
+PASS payment reference clears while typing and validates on blur
+PASS generic blur validation reads validity state without checkValidity invalid dispatch
+PASS V30.26 Sell Machine live correction listeners are non-disruptive
+PASS V30.28 Sell Machine listeners no longer dispatch invalid while correcting fields
+PASS Finance, Posting Control and Machine filters reset pagination
+PASS shared result-set controls reset pagers
+PASS shared pagination reset helpers retained/exported
+PASS browser/stateful/wiring audit evidence recorded
+PASS no full-page reload introduced by current overlays
+V30.36 browser button audit / UX hardening QA PASS
+
+===== qa:v337 =====
+PASS syntax public/v337-client.js
+PASS syntax server/v337.js
+PASS syntax server/server.js
+PASS Current V30.38 release identity retains V30.37
+PASS V30.37 additive/no-schema marker installed
+PASS V30.37 client overlay retained before V30.38
+PASS shared account manager repairs historic account buttons
+PASS supplier profile separates Payments and Accounts
+PASS buyer profile uses focused six-section layout
+PASS buyer Payment Accounts removed from top action row
+PASS buyer/supplier section state retained
+PASS account save refreshes profile and parent selectors
+PASS Finance and Posting use same responsive filter shell
+PASS responsive filters include desktop/tablet/mobile breakpoints
+PASS no full page reload introduced
+
+V30.37 PROFILE/ACCOUNT/FILTER QA PASS
+

@@ -24,12 +24,26 @@ function sameWorkflow(a,b){return String(a||'').trim().toLowerCase()===String(b|
 // instead of falling back to the module list/dashboard.
 const originalOpenWorkflow=window.openWorkflowHtmlV324,originalCloseWorkflow=window.closeWorkflowPageV324;
 const workflowStack=[];
+function rewriteWorkflowCloseV3241(surface){surface?.querySelectorAll?.('[onclick]').forEach(el=>{const code=String(el.getAttribute('onclick')||'').replace(/\s+/g,''),label=String(el.textContent||'').trim().toLowerCase();if((code==='closeModal()'||code==='closeModal(true)')&&['close','cancel','back','x','×','✕'].includes(label)){el.setAttribute('onclick','closeWorkflowPageV324()');if(['x','×','✕'].includes(label))el.classList.add('v324-hide-page-x')}})}
 if(typeof originalOpenWorkflow==='function'){
   window.openWorkflowHtmlV324=function(html,classOrOptions='wide',maybeOptions={}){
     const content=document.getElementById('content'),current=document.getElementById('v324WorkflowSurface');
     const options=typeof classOrOptions==='object'?classOrOptions:(maybeOptions||{}),next=String(options.title||htmlHeading(html));
-    if(current&&content){const now=workflowHeading();if(!sameWorkflow(now,next))workflowStack.push({html:content.innerHTML,scrollTop:Number(scrollHost()?.scrollTop||0),heading:now});}
-    else if(!current)workflowStack.length=0;
+    if(current&&content){
+      const now=workflowHeading();
+      if(sameWorkflow(now,next)){
+        // V30.34: same-record/detail refresh updates only the workflow surface. The
+        // Back toolbar and surrounding page shell remain mounted and do not blink.
+        const modalRoot=document.getElementById('modalRoot');if(modalRoot)modalRoot.innerHTML='';
+        const className=typeof classOrOptions==='string'?classOrOptions:String(options.className||'');
+        const sc=scrollHost(),scroll=Number(sc?.scrollTop||0);
+        current.className=`v324-workflow-surface ${className}`.trim();
+        current.innerHTML=html;rewriteWorkflowCloseV3241(current);try{translateElement(current)}catch(_){}formDirty=false;
+        if(sc)requestAnimationFrame(()=>{sc.scrollTop=scroll});
+        return true;
+      }
+      workflowStack.push({html:content.innerHTML,scrollTop:Number(scrollHost()?.scrollTop||0),heading:now});
+    } else if(!current)workflowStack.length=0;
     return originalOpenWorkflow(html,classOrOptions,maybeOptions);
   };
   window.closeWorkflowPageV324=function(force=false){

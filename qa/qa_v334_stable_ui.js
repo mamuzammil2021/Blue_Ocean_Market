@@ -1,0 +1,20 @@
+'use strict';
+const fs=require('fs'),path=require('path'),cp=require('child_process');
+const root=path.resolve(__dirname,'..');let failed=0;
+const read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const check=(name,ok)=>{console.log((ok?'PASS ':'FAIL ')+name);if(!ok)failed++};
+const syntax=f=>{const r=cp.spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});check('syntax '+f,r.status===0);if(r.status!==0)console.error(r.stderr)};
+['public/v334-client.js','public/v291-client.js','server/v334.js','server/server.js'].forEach(syntax);
+const c=read('public/v334-client.js'),a=read('public/v291-client.js'),s=read('server/server.js'),b=read('server/v334.js'),i=read('public/index.html'),p=JSON.parse(read('package.json')),r=read('REQUIREMENTS_MASTER.md');
+check('V30.34 baseline retained in current release',Number(String(p.version).split('.')[1])>=34&&s.includes("version:'30.38.0'")&&b.includes("VERSION='30.34.0'"));
+check('V30.34 browser overlay loads after V30.33',i.includes('/v334-client.js?v=30.38.0')&&i.indexOf('/v333-client.js?v=30.38.0')<i.indexOf('/v334-client.js?v=30.38.0')&&i.indexOf('/v334-client.js?v=30.38.0')<i.indexOf('/v335-client.js?v=30.38.0'));
+check('Accounting simple tabs update body only',a.includes("const body=document.getElementById('accountingSimpleBodyV291')")&&a.includes('BlueOceanRefresh.section(body')&&a.includes("tabs?.querySelectorAll('button')"));
+check('Accounting action chrome is defensively preserved',c.includes('hardenAccountingTabs')&&c.includes('actionSignature(actions)')&&c.includes('fresh.replaceWith(actionRef)'));
+check('same-heading workflows keep toolbar mounted',c.includes('hardenWorkflowRenderer')&&c.includes('if(newHeading&&oldHeading&&newHeading!==oldHeading)')&&c.includes('surface.replaceChildren(...temp.childNodes)'));
+check('Buyer top actions reuse existing DOM nodes',c.includes('oldBuyerActions')&&c.includes('freshBuyerActions')&&c.includes('freshBuyerActions.replaceWith(oldBuyerActions)'));
+check('duplicate buyer detail requests are coalesced',c.includes('pendingPromise&&pendingId===key')&&c.includes('hardenBuyerDetail'));
+check('stable action CSS disables flash animations',c.includes('.v334-stable-region')&&c.includes('animation:none!important')&&c.includes('transition:none!important'));
+check('shared stable UI helper available for future features',c.includes('window.BlueOceanStableUI=')&&c.includes('async updateSection'));
+check('standing slow-connection stable chrome requirement documented',r.includes('Stable UI Chrome / Slow-Connection Rendering'));
+if(failed){console.error(`\nV30.34 STABLE UI QA FAILED: ${failed}`);process.exit(1)}
+console.log('\nV30.34 STABLE UI QA PASS');

@@ -1,0 +1,17 @@
+Blue Ocean Market V30.33.0 runtime QA note
+
+Runtime smoke is not claimed in this build container because npm dependency installation did not complete within the available build-tool time window. The partial node_modules directory was removed before packaging.
+
+Completed static/release gates:
+- npm run qa:v333 — PASS
+- npm run qa:current — PASS
+- npm run qa:render — PASS
+
+Required target-environment acceptance on Node 22.x:
+1. npm ci
+2. npm run qa:current
+3. npm run qa:v333
+4. npm run qa:render
+5. npm run qa:runtime
+
+No database reset is required. Preserve the existing persistent database/uploads.

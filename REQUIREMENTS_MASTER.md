@@ -670,3 +670,102 @@ V30.24.0 is the code baseline. V30.24.1 is a refinement/hotfix release and must 
 - **Accounting badge:** the Accounting sidebar badge counts only actionable Posting Control items that currently meet posting eligibility.
 - **Audit chain:** auditors must be able to trace Original Source → Finance → Verification/Correction → Accounting Proposal → Posted Journal → Void/Cancel/Reversal → linked reversal/updated operational source → final balances without any material record silently disappearing.
 
+
+
+## V30.32.0 UI/account-flow refinement requirements
+
+- **Receiver/Payee modal stability system-wide:** account Save/Archive refreshes the existing modal in place, resets the entry form and never recursively opens/duplicates the same modal. One Close returns to the correct parent workflow.
+- **Sidebar scrollbar:** use a minimal-width scrollbar for left navigation without clipping or reducing usability.
+- **Accounting top chrome:** remove redundant explanatory text/banners and place Posting Control compactly beside `+ Manual Journal`, preserving pending status/count where practical.
+- **Buyer Detail action stability:** Buyer Statement, Pakistan Resales and Payment Accounts render in a stable action row without flashing or layout shift.
+- **Supplier payment dual-side accounts:** all purchase-side supplier payments identify both the Company Financial Account (`Paid From`) and Supplier Receiver/Payee Account (`Paid To`). Existing payee accounts are selectable and new accounts can be added in context.
+- **Machine-cost receiver responsiveness:** `Paid To · Receiver Account` uses modal width intelligently with two columns where space permits and one column on smaller widths.
+- **Finance correction context:** Correct & Resubmit shows and prefills all important original transaction data, including Paid From, Paid To, source record, amount/currency/FX, dates, method/reference, status, evidence/receipt, notes and relevant allocation context. Corrections update/resubmit the existing logical payment and must not create duplicate Finance money movement.
+
+## Standing UI Architecture Rule — Targeted Refresh / Partial Revalidation
+
+This is a mandatory platform rule for current cleanup **and all future feature development**.
+
+- After any create/update/delete/approval/payment/void/correction/posting or other mutation, refresh/revalidate only the data scopes actually affected by that action wherever safe.
+- Keep unaffected page sections, headers, tabs, filters, scroll position, modal/workflow context and sidebar state stable. Do not remount/reload the whole page merely to refresh one table/card/balance.
+- Show a compact localized loading spinner/state only inside the affected section while its data is being updated.
+- Prefer deterministic in-place UI updates followed by background verification. Otherwise re-fetch only the relevant endpoint/query/section.
+- Every mutation must define its refresh/invalidation dependencies, including linked Finance, Accounting, stock, balances, approvals, action counters, dashboards or documents when applicable.
+- Prevent duplicate/cascading refresh chains. One Save/action must not trigger repeated full-screen loading or multiple overlapping re-renders.
+- Existing Finance Integrity, Accounting Posting Control, approval, audit, stock and balance consistency rules remain authoritative; UX optimization must never leave linked data stale.
+- New features must use the shared targeted-refresh helper/pattern and must pass targeted-refresh QA before release acceptance.
+
+## Standing UI Architecture Rule — Stable UI Chrome / Slow-Connection Rendering
+
+All current and future screens must keep persistent page chrome stable while child data changes. Top action bars, workflow toolbars, navigation tabs, and entity action buttons must not repeatedly unmount/remount during tab changes, background revalidation, or linked-data refreshes. Local tab switches must update only the selected body/content region. Detail refreshes must preserve unchanged action DOM where practical, coalesce duplicate in-flight refreshes, and keep current page/tab/scroll/workflow context. On slow connections, unaffected controls must remain usable and visually stable; localized busy indicators belong only to the affected section. This rule is part of QA acceptance for all future feature development.
+
+## V30.35.0 — Workflow Validation & Shared Pagination Integrity
+
+### Buy Machine payment-account integrity
+- A token payment must show one authoritative Pay From company financial account field and one Paid To supplier receiver account field, in that order.
+- Existing supplier selection should preselect the supplier's active default compatible receiver account where available.
+- Receiver-account loading should avoid duplicate requests where practical; Add / Manage Accounts is a nested child workflow and must restore the same Buy Machine parent context on close.
+
+### Form validation interaction
+- Interactive field error styling must not distract the user while typing.
+- Validate fields when the user leaves the field (blur), and validate all authoritative rules again on Save / Submit.
+- Backend validation remains authoritative for permissions, financial integrity, uniqueness, lifecycle and cross-record rules.
+
+### Sell Machine settlement amount integrity
+- Record New Payment defaults/synchronizes Payment Amount to the current sale settlement requirement.
+- Buyer Advance + New Payment records only the New Payment Required after the chosen buyer-advance allocation; it must not blindly force the full selling price into the cash receipt.
+- Receipt/evidence, account, method/reference and Finance linkage rules remain applicable to the actual new-money portion.
+
+### Sold/posted edit controls
+- Purchase Edit is hidden/blocked for normal users once the machine is Sold / Completed; CEO / Owner access remains controlled and auditable.
+- A machine cost linked to Finance Verified / Accounting Posted history cannot be directly overwritten. Use controlled Finance correction, void/reversal and replacement so the original transaction, inventory/COGS/profit impact and audit history remain traceable.
+
+### Posting Control and Finance filters
+- Accounting Posting Control uses a compact queue presentation without redundant introductory summary chrome and includes From / To date filtering.
+- Finance transaction review includes From / To date filtering composed with search, status, type, evidence and other active filters.
+
+### Shared high-volume pagination
+- Potentially large tables/lists use a shared pagination pattern. Default page size is 25; 25 / 50 / 100 are offered where appropriate.
+- Show current range and total, plus Previous / Next and page state; mobile may simplify the page indicator controls.
+- Search, sorting, status filters, date range and other filters are applied before pagination. Changing the visible result set resets or clamps the current page safely.
+- Preserve current screen chrome, parent workflow and scroll/context where practical; mutations refresh only affected data/current scope.
+- Small fixed configuration lists and short dropdowns do not require pagination.
+- Prefer server-side pagination for endpoints that grow beyond practical bounded result sets; the shared UI paginator is the compatibility layer for existing bounded list APIs until each endpoint is moved to paged queries.
+
+### Stable UI / slow connection rule remains mandatory
+- V30.34 stable chrome and V30.33 targeted-refresh rules remain release-blocking. Loading data must not unnecessarily rebuild the sidebar, page header, tabs, workflow toolbar, parent dialog or unrelated sections.
+
+
+## V30.36.0 — Complete Browser Button Audit & UX Hardening
+
+- Browser acceptance must exercise rendered controls in the real frontend, not rely only on source grep. Generic crawls must be supplemented by state-aware workflows for permission-gated, lifecycle-gated, stock-gated and mounted/persistent panels.
+- Validation must remain quiet while the user is actively typing. Input handlers may sanitize values but must not call `checkValidity()`/`reportValidity()` or trigger remote duplicate checks merely because text changed. Visible field validation occurs on blur; authoritative validation runs again at Save/Submit.
+- Blur-time validation must inspect validity without dispatching a browser `invalid` event that steals focus. Focus/scroll-to-error behavior is reserved for an actual failed Save/Submit/review action.
+- Search, status, sort, date range and other result-set-changing controls reset the affected paginator to page 1 before rendering the new filtered result set. This applies to Finance, Posting Control, Excavator Machines and all shared high-volume paginated lists.
+- Nested child workflows such as Add/Manage receiver accounts must close back to the exact parent workflow and preserve entered state/context.
+- Release acceptance retains V30.33 targeted-refresh and V30.34 stable-chrome rules: browser hardening must not introduce page reloads, unrelated remounts, duplicated refresh chains or slow-connection UI flicker.
+- Browser/source event-handler audit should report unresolved action handlers; release-blocking handlers must not be missing or dead.
+
+
+## V30.37 — Profile Sections / Counterparty Accounts / Responsive Filter Bars
+- Buyer and Supplier account-management actions must use one shared, context-preserving counterparty account manager.
+- Supplier profile must separate Payments from Accounts.
+- Buyer profile keeps Buyer Details visible and exposes only one selected section at a time: Payments & Advance, Advance Refunds, Machines Sold, Requirements, Documents, Accounts.
+- Payment Accounts must not be a disconnected top action on Buyer Detail; it belongs to Accounts.
+- Account child dialogs must return to the same parent record/form and refresh only affected account selectors/sections.
+- Finance and Accounting Posting Control must use the same responsive Search / Date Range / status filter pattern on desktop, tablet and mobile.
+- Filter changes must retain targeted-refresh/stable-chrome behavior and reset the applicable pager to page 1.
+
+
+## V30.38.0 — Account Management, Pakistan Resales, Buy/Sell Settlement & Filter Controls
+
+- **Shared counterparty accounts:** Buyer/Supplier receiver/payee accounts use one shared manager and support Add, Edit/Update, Default, Archive and History. Consequential changes use Review & Confirm, permission checks, audit/history and EN/KR localization. Used accounts are archived rather than destructively deleted.
+- **Historical payment integrity:** editing an account master must never rewrite historical Finance/payment receiver snapshots. Past transactions continue to show the actual receiver details captured at transaction time.
+- **Buy Machine account integrity:** Pay From and Paid To are distinct and independently validated. Existing supplier defaults refresh reliably. A supplier created inline during Buy Machine can also receive a receiver account in the same workflow; supplier/account/purchase/token-payment linkage must remain consistent and child account management must return to the exact Buy Machine context.
+- **Pakistan Resales section pattern:** use one selected section at a time with exactly Overview, Resale Records, Payments & Settlements, Credit, Refunds, Pakistan → Korea Bank Transfers and Documents. Preserve the selected section after child actions/refresh. Do not combine Pakistan resale profit accounting with Korea machine-sale profit accounting.
+- **Pakistan → Korea transfer integrity:** this remains a separate inter-account cash movement; it does not create new resale income. Existing Pakistan-source/Korea-destination jurisdiction and account restrictions remain authoritative.
+- **Canonical Sell Machine settlement:** browser display and backend validation must use the same settlement formula. Selling price, current allocation, settlement mode, payment source, buyer advance, new-payment amount, currency and FX all feed one authoritative result. Every relevant input change immediately updates dependent values and required fields.
+- **Combined sale settlement:** support Buyer Advance only, New Payment only, and Buyer Advance + New Payment. Example: ₩15,000 sale with ₩10,000 available/selected advance requires exactly ₩5,000 New Payment. Short/inconsistent settlement must be visibly invalid and server-blocked.
+- **Settlement clarity:** show Sale Price, Existing Allocated, Coverage Required, Buyer Advance Used, New Payment Required, New Payment Entered, Buyer Credit Added and Resulting Outstanding from the same calculation state.
+- **Finance/Accounting filters:** use the shared responsive/collapsible filter pattern. Accounting posting-status controls stay outside the collapsible area and remain visible. Preserve filter state through normal UI refreshes and reset the relevant pager to page 1 when result-set filters change.
+- **No regression:** V30.33 targeted refresh, V30.34 stable UI chrome, V30.35 pagination, V30.36 browser hardening, V30.37 profile/account routing, permissions, sold-machine safeguards, verified/posted machine-cost locks, Review & Confirm and Render persistent-storage rules remain release-blocking.

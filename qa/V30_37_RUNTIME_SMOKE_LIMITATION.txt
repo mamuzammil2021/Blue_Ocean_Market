@@ -1,0 +1,11 @@
+V30.37.0 runtime smoke was attempted in the build container.
+
+Result: ENVIRONMENT-LIMITED before application startup.
+Node 22.16.0 is available, but the packaged source intentionally does not contain node_modules and this build environment cannot install missing npm packages. The runtime smoke exits before Blue Ocean starts because module `express` is not installed (`MODULE_NOT_FOUND`).
+
+This is not counted as an application regression. Browser QA uses the real shipped frontend with deterministic API fixtures; backend/source and Render-persistence checks pass. Complete live acceptance on the normal networked Mac/Render environment with:
+
+  npm ci
+  npm run qa:runtime
+
+No database reset is required.

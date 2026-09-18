@@ -1,103 +1,66 @@
-# V30.31.0 deployment note
+# V30.36.0 Render Deployment
 
-V30.31.0 adds safe additive lifecycle/audit schema and controlled Finance/Accounting void/reversal behavior. Keep the existing persistent database and uploads; do not reset them. Existing V30.30 receiver traceability, Pakistan Resales, Bank Country / Account Country configuration, Finance/Accounting integrity and persistent-storage rules remain required.
+V30.36.0 is an additive/no-schema browser-audit and UX-hardening release on the protected V30.35.0 baseline. Preserve the existing database, uploaded files, backups and persistent disk.
 
-# Blue Ocean Market — Git + Render Persistent Disk Deployment
+## Required runtime
 
-This package is prepared for the existing paid Render web service and an attached persistent disk.
+- Node.js 22.x
+- Existing Render Web Service
+- Existing persistent disk mounted at `/var/data`
+- Existing environment variables/secrets unchanged
 
-## Required Render disk
-Use **one persistent disk** mounted at exactly:
-
-`/var/data`
-
-The application stores:
-- SQLite database + WAL/SHM + in-app backups: `/var/data/data`
-- Attachments, receipts, evidence and generated PDFs: `/var/data/uploads`
-
-Only files below the disk mount survive Render restarts/redeploys. Do not store runtime data in `/app/data` or `/app/uploads` on Render.
-
-## Existing Render service — recommended settings
-Keep the existing paid service. In **Environment**, set:
-
-- `RENDER_PERSISTENT_ROOT=/var/data`
-- `DATA_DIR=/var/data/data`
-- `UPLOAD_DIR=/var/data/uploads`
-- `RENDER_REQUIRE_PERSISTENT_DISK=true`
-- existing `JWT_SECRET`
-- existing `APP_ENCRYPTION_KEY`
-- existing `ADMIN_EMAIL`
-- existing `ADMIN_PASSWORD`
-- `LOCAL_TEST_MODE=false`
-- `SEED_DEMO_USERS=false`
-- `SEED_DEMO_DATA=false`
-
-For a custom domain also set `APP_BASE_URL=https://your-domain`. For the normal Render URL, the app can use `RENDER_EXTERNAL_URL` automatically.
-
-Set Render **Health Check Path** to `/api/health`.
-
-## Important: preserve any current ephemeral test data BEFORE first disk-aware redeploy
-If the current Render instance still has data you care about and the disk is already mounted at `/var/data`, open the current service **Shell** and copy it before pushing this release. A safe SQLite backup can be made with the running application's installed `better-sqlite3` package.
-
-After this package is on the service, `npm run render:migrate-storage` can migrate from local `./data` and `./uploads` to `/var/data`, but an old instance's ephemeral filesystem is not available after it has already been replaced.
-
-## Deployment verification
-1. Push the repository branch connected to Render.
-2. Confirm deploy logs include a `[storage]` line showing `/var/data`, `/var/data/data`, `/var/data/uploads`, `disk_mount_detected=true`, and `writable=true`.
-3. Open `/api/health` and verify `persistent_storage:true`, `disk_mount_detected:true`, and `storage_writable:true`.
-4. Add a harmless test record and attachment.
-5. Trigger a manual redeploy.
-6. Confirm the record and attachment remain.
-
-## Git update workflow
-This ZIP is intentionally repo-ready and contains no `.git` directory, database, uploads, node_modules, or secrets. Copy/extract its contents into the existing repository working tree, then:
-
-```bash
-git status
-git add -A
-git commit -m "V30.31.0 lifecycle integrity void reversal and posting control QA"
-git push
-```
-
-## Operational note
-SQLite + a Render persistent disk is appropriate for the current single-instance testing/early-live setup. A Render service with a disk is single-instance storage and deploys have brief downtime. If Blue Ocean later needs horizontal scaling or multiple app instances, migrate the main database to managed Postgres and attachments to shared object storage.
-
-
-## V30.26.1 — development/testing reset controls
-
-For the **dedicated development/testing/staging Render service only**, add:
-
-- `APP_ENV=development` (or `testing`)
-- `ALLOW_TEST_DATA_RESET=true`
-- `TEST_RESET_BACKUP_RETENTION=3`
-
-The reset controls work in `APP_ENV=development` or `APP_ENV=testing` only when the explicit allow flag is true. The retention value is hard-clamped by the application to 2–3 automatic pre-reset snapshots. Snapshots live under `/var/data/data/backups/pre-reset` and contain both the SQLite database and an uploads snapshot. Full Reset clears the active database/uploads but does **not** detach or format `/var/data` and does not remove the protected pre-reset backup directory.
-
-Keep Production explicitly disabled:
-
-- `APP_ENV=production`
-- `ALLOW_TEST_DATA_RESET=false`
-
-Full Reset requires `ADMIN_EMAIL` and `ADMIN_PASSWORD` to remain configured because a fresh database must recreate the CEO account. **Full Reset + Demo** additionally requires `DEMO_USER_PASSWORD` (12+ characters).
-
-
-## V30.26.3 — Accounting-only Posting Control
-
-This release does not change Render storage paths or reset environment variables. It removes the Posting Control workspace from Finance and keeps it in Accounting only. The development/testing reset settings from V30.26.1 remain unchanged.
-
-Before pushing to Render, run:
+## Before deploy
 
 ```bash
 npm ci
 npm run qa:current
+npm run qa:v333
 npm run qa:render
+npm run qa:runtime
 ```
 
-After deployment, hard refresh once so the `v=30.26.3` browser cache identity is loaded.
+## Deploy
 
-## V30.26.3 reset-form hotfix
+Point the Render service to the V30.33 Git branch and use **Manual Deploy → Deploy latest commit**. Do not delete/recreate the persistent disk and do not reset the database/uploads.
 
-After deploying V30.26.3, hard-refresh the browser once. Full Clean Reset must remain on the same page until Review & Confirm completes, then call the protected reset POST API. Reset reason/password/confirmation must never appear in the address bar. If an older build exposed the admin password in a URL, rotate that password before continuing testing.
+## Post-deploy acceptance
 
-## V30.26.4 direct reset-button hotfix
-After deploying V30.26.4, hard-refresh once so `v=30.26.4` assets load. Full Clean Reset should open Review & Confirm immediately after the valid form is submitted. The reset button and Enter/form-submit paths are both bound directly at runtime and call the same protected POST runner.
+Confirm `/api/health` reports `30.34.0`, existing data remains present, and common Save/Update/Payment/Void actions show local section loading rather than repeated whole-screen refresh/flicker.
+
+## Test reset environment safety (retained)
+
+For the dedicated development/testing service only, the guarded test reset can be enabled with:
+
+```text
+APP_ENV=development
+ALLOW_TEST_DATA_RESET=true
+```
+
+For production, keep reset disabled:
+
+```text
+APP_ENV=production
+ALLOW_TEST_DATA_RESET=false
+```
+
+Do not enable the development reset flags on the production service.
+
+## Reset backup retention (retained)
+
+Keep:
+
+```text
+TEST_RESET_BACKUP_RETENTION=3
+```
+
+The application hard-limits pre-reset retention to 2 or 3 snapshots. Production must keep `ALLOW_TEST_DATA_RESET=false`; any pre-reset workflow is development/testing only.
+
+## Persistence verification after deploy
+
+Open `/api/health` and confirm the Render service reports:
+
+```text
+persistent_storage:true
+```
+
+Also confirm `disk_mount_detected:true` and `storage_writable:true` where shown. Enter a harmless test record/upload in the testing environment, perform a **manual redeploy**, and confirm the record/upload is still present afterward. This verifies the service is actually using the persistent disk rather than ephemeral storage.

@@ -2,6 +2,7 @@
 'use strict';
 
 const VERSION='30.26.0';
+const {calculateExcavatorSaleSettlementV338}=require('../public/settlement-v338');
 
 function install(ctx){
   const {app,db,auth,allow,audit,notify,upload,financeSync,voidFinanceBySource,configuredPaymentAccount,access,
@@ -128,7 +129,12 @@ function install(ctx){
         let saleId=existing?.id||0;
         if(!saleId){const rr=db.prepare(`INSERT INTO excavator_transactions(asset_id,type,stage,transaction_date,counterparty,amount,currency,status,notes,metadata,created_by,updated_by,updated_at) VALUES(?,?,?,?,?,?,'KRW','Completed',?,?,?,?,CURRENT_TIMESTAMP)`).run(asset.id,saleType,'Sold / Completed',saleDate,customer,amount,req.body.notes||'',JSON.stringify({}),req.user.id,req.user.id);saleId=Number(rr.lastInsertRowid)}
         let before=allocatedTotal(asset.id),cashResult=null,advanceAllocated=0;
-        const requestedAdvance=Math.max(0,num(req.body.advance_amount_krw));
+        // V30.38: use the exact same pure settlement calculator as the browser UI.
+        // This prevents stale or contradictory client/server payment arithmetic.
+        const currentForPlan=(!isUpdate||settlementMode==='replace'||buyerChanged)?0:allocatedTotal(asset.id);
+        const sharedPlan=calculateExcavatorSaleSettlementV338({salePrice:amount,currentAllocated:currentForPlan,settlementMode,paymentSource,availableAdvance:buyerId?buyerAvailable(buyerId,asset.id):0,requestedAdvance:num(req.body.advance_amount_krw),paymentAmountOriginal:num(req.body.payment_amount),paymentCurrency:text(req.body.payment_currency||'KRW'),fxRate:num(req.body.payment_fx_rate||1),buyerExists:!!buyerId,paymentMethod:text(req.body.payment_method),paymentDate:text(req.body.payment_date),paymentReference:text(req.body.payment_reference),hasEvidence:!!(req.files||[]).length,validatePaymentFields:true,requireMethod:true,requireDate:true,requireReference:true,requireEvidence:true});
+        if(!sharedPlan.valid)throw new Error(sharedPlan.errors[0]||'Sale settlement is incomplete or inconsistent.');
+        const requestedAdvance=Math.max(0,Number(sharedPlan.advanceUsedKrw||0));
         const allocateCombined=(needed,notePrefix)=>{
           if(!buyerId)throw new Error('Buyer advance can be used only for an existing buyer.');
           const adv=Math.min(Math.max(0,requestedAdvance),Math.max(0,needed));

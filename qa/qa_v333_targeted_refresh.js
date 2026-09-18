@@ -1,0 +1,20 @@
+'use strict';
+const fs=require('fs'),path=require('path'),cp=require('child_process');
+const root=path.resolve(__dirname,'..');let failed=0;
+const read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const check=(name,ok)=>{console.log((ok?'PASS ':'FAIL ')+name);if(!ok)failed++};
+const syntax=f=>{const r=cp.spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});check('syntax '+f,r.status===0);if(r.status!==0)console.error(r.stderr)};
+syntax('public/v333-client.js');syntax('server/v333.js');syntax('server/server.js');
+const c=read('public/v333-client.js'),s=read('server/server.js'),b=read('server/v333.js'),i=read('public/index.html'),p=JSON.parse(read('package.json')),r=read('REQUIREMENTS_MASTER.md');
+check('V30.33 implementation retained in V30.34 release',p.version==='30.38.0'&&s.includes("version:'30.38.0'")&&b.includes("VERSION='30.33.0'"));
+check('V30.33 browser overlay retained before newer stability overlays',i.includes('/v333-client.js?v=30.38.0')&&i.indexOf('/v332-client.js?v=30.38.0')<i.indexOf('/v333-client.js?v=30.38.0')&&i.indexOf('/v333-client.js?v=30.38.0')<i.indexOf('/v334-client.js?v=30.38.0'));
+check('automatic mutation sync no longer reloads entire current view',c.includes('window.scheduleDataSync=function')&&c.includes('refreshActionCounts')&&c.includes('refreshNotifCount')&&!c.slice(c.indexOf('window.scheduleDataSync=function'),c.indexOf('function loadingOnly')).includes('refreshCurrentView'));
+check('mutation API wrapper records context without changing business request',c.includes('const previousApi=')&&c.includes('previousApi.apply(this,arguments)')&&c.includes('lastMutation=')&&c.includes("bo:mutation-complete"));
+check('local busy indicator is scoped to affected card/form/workflow',c.includes('rootForAction')&&c.includes("closest?.('[data-refresh-scope],#modalRoot .card")&&c.includes('v333-section-busy'));
+check('soft reload keeps previous content during legacy Loading placeholder',c.includes('loadingOnly(c)')&&c.includes('c.replaceChildren(...oldNodes)')&&c.includes('v333-refresh-indicator'));
+check('unchanged top-level sections are reused',c.includes('sectionKey')&&c.includes('cleanCloneHtml(old)===cleanCloneHtml(fresh)')&&c.includes('fresh.replaceWith(old)'));
+check('fallback is guarded against modal/workflow/explicit UI updates',c.includes("document.querySelector('#modalRoot .modal')")&&c.includes("document.getElementById('v324WorkflowSurface')")&&c.includes('renderSerial!==serialAtSuccess')&&c.includes('uiEpoch!==epochAtSuccess'));
+check('shared refresh API exists for future features',c.includes('window.BlueOceanRefresh={')&&c.includes('async section(el,refreshFn)')&&c.includes('async counts()'));
+check('standing requirement documented',r.includes('Targeted Refresh / Partial Revalidation')&&r.includes('all future feature development'));
+if(failed){console.error(`\nV30.33 TARGETED REFRESH QA FAILED: ${failed}`);process.exit(1)}
+console.log('\nV30.33 TARGETED REFRESH QA PASS');

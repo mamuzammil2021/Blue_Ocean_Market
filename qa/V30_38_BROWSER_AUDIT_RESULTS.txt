@@ -1,0 +1,30 @@
+PASS V30.38 overlay loaded 
+PASS Shared settlement engine loaded 
+PASS Pakistan Resales has exact seven profile sections — ['Overview', 'Resale Records', 'Payments & Settlements', 'Credit', 'Refunds', 'Pakistan → Korea Bank Transfers', 'Documents']
+PASS Pakistan → Korea Bank Transfers is a real selected section — Pakistan → Korea Bank Transfers
+Cash movement only. It does not create new Pakistan resale income.
+Transfer Pakistan Funds to Kore
+PASS Pakistan Resale selected section survives refresh/child return — Pakistan → Korea Bank Transfers
+PASS Shared account manager exposes Edit, Archive and Account History — Supplier Accounts
+Akmal Abdullah · shared receiver/payee account management.
+Close
+Main Bank
+Akmal Abdullah
+KB
+South Korea · KRW · ****2222
+Default
+3 historical
+PASS Account update requires Review & Confirm 
+PASS Account edit calls V30.38 controlled update endpoint — {'puts': ['/api/v338/payee-accounts/201'], 'all': [['GET', '/api/v338/payee-accounts'], ['GET', '/api/v338/payee-account-history'], ['GET', '/api/v338/payee-accounts'], ['GET', '/api/v338/payee-account-history'], ['PUT', '/api/v338/payee-accounts/201'], ['GET', '/api/v338/payee-accounts'], ['GET', '/api/v338/payee-account-history'], ['GET', '/api/v330/payee-accounts'], ['GET', '/api/action-counts'], ['GET', '/api/notifications/unread-count']], 'confirm': '', 'form': '<form onsubmit="v338SaveAccount(event)"><input type="hidden" name="account_id" value="0"><div class="grid g2"><div class="field"><label>Label *</label><input name="label" required="" value=""></div><div class="field"><label>Method *</label><select name="method_type" onchange="v338AccountMethodChanged(this.form)"><option selected="" value="Bank">Bank</option><option value="Card">Card</option><option value="Wallet">Wallet</option><option value="Other">Other</option></select></div><div class="field', 'toast': 'Receiver account updated'}
+PASS Finance filter toolbar is collapsible 
+PASS Finance filter body actually collapses 
+PASS Accounting posting-status controls remain outside collapsible filters 
+PASS Accounting status controls remain visible with filters collapsed 
+PASS Sell Machine canonical live math: ₩15,000 − ₩10,000 advance = ₩5,000 New Payment — {'advance': '10000', 'payment': '5000', 'required': '₩ 5,000', 'preview': 'Sale Price\n₩ 15,000\nExisting Allocated\n₩ 0\nCoverage Required\n₩ 15,000\nBuyer Advance Used\n₩ 10,000\nNew Payment Required\n₩ 5,000\nNew Payment Entered\n₩ 5,000\nBuyer Credit Added\n₩ 0\nResulting Outstanding\n₩ 0\nReceipt / evidence is mandatory for a new buyer payment.'}
+PASS Changing sale price immediately recalculates dependent New Payment — 10000
+PASS Short New Payment is dynamically invalidated — New payment is short by KRW 1,000.
+PASS Inline new-supplier receiver account defaults to supplier Default account 
+PASS V30.38 Pakistan Resale UI is mobile-safe 
+PASS V30.38 browser audit has no uncaught page errors 
+
+SUMMARY 18 checks 0 failed

@@ -1,0 +1,12 @@
+V30.36.0 runtime smoke was attempted in the build container.
+
+Result: ENVIRONMENT BLOCKED BEFORE APPLICATION STARTUP
+Observed dependency error: Cannot find module 'express'
+Node: v22.16.0
+
+The extracted source package intentionally does not ship node_modules. The build environment could not complete npm dependency installation, so live Express/SQLite HTTP runtime was not available here. This is not recorded as a Blue Ocean application assertion failure because server code did not reach startup.
+
+Required acceptance in a normal networked Node 22 environment:
+  npm ci
+  npm run qa:runtime
+  npm start

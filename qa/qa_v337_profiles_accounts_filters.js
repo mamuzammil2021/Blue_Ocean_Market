@@ -1,0 +1,22 @@
+'use strict';
+const fs=require('fs'),path=require('path'),cp=require('child_process');
+const root=path.resolve(__dirname,'..');let failed=0;
+const read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const check=(name,ok)=>{console.log((ok?'PASS ':'FAIL ')+name);if(!ok)failed++};
+const syntax=f=>{const r=cp.spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});check('syntax '+f,r.status===0);if(r.status!==0)console.error(r.stderr)};
+['public/v337-client.js','server/v337.js','server/server.js'].forEach(syntax);
+const c=read('public/v337-client.js'),s=read('server/server.js'),b=read('server/v337.js'),i=read('public/index.html'),p=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json'));
+check('Current V30.38 release identity retains V30.37',p.version==='30.38.0'&&lock.version==='30.38.0'&&lock.packages?.['']?.version==='30.38.0'&&s.includes("version:'30.38.0'")&&s.includes('Blue Ocean Market V30.38.0 running on port'));
+check('V30.37 additive/no-schema marker installed',s.includes("const v337=require('./v337').install({db});")&&b.includes("VERSION='30.37.0'")&&b.includes('schema_changes:false'));
+check('V30.37 client overlay retained before V30.38',i.includes('/v337-client.js?v=30.38.0')&&i.indexOf('/v336-client.js?v=30.38.0')<i.indexOf('/v337-client.js?v=30.38.0'));
+check('shared account manager repairs historic account buttons',c.includes('window.managePayeeAccountsV330=window.openCounterpartyAccountsV337')&&c.includes('v337CloseAccountManager')&&c.includes('refreshParentAccountSelectors'));
+check('supplier profile separates Payments and Accounts',c.includes("['payments','Payments']")&&c.includes("['accounts','Accounts']")&&c.includes('supplierPayments337')&&c.includes("accountsSection337('excavator_supplier'"));
+check('buyer profile uses focused six-section layout',c.includes("['payments','Payments & Advance']")&&c.includes("['refunds','Advance Refunds']")&&c.includes("['machines','Machines Sold']")&&c.includes("['requirements','Requirements']")&&c.includes("['documents','Documents']")&&c.includes("['accounts','Accounts']"));
+check('buyer Payment Accounts removed from top action row',c.includes('data-v334-buyer-actions')&&!c.match(/data-v334-buyer-actions[\s\S]{0,500}Payment Accounts/));
+check('buyer/supplier section state retained',c.includes('const supplierState=new Map()')&&c.includes('const buyerState=new Map(),buyerActive=new Map()')&&c.includes('buyerActive.set(Number(id),active)'));
+check('account save refreshes profile and parent selectors',c.includes('refreshProfileAccounts337(accountManager.type,accountManager.id)')&&c.includes('refreshParentAccountSelectors(state)'));
+check('Finance and Posting use same responsive filter shell',c.includes('financeFilters337')&&c.includes('postingFilters337')&&c.includes('v337-filter-shell')&&c.includes('v337ClearFinanceFilters')&&c.includes('v337ClearPostingFilters'));
+check('responsive filters include desktop/tablet/mobile breakpoints',c.includes('@media(max-width:980px)')&&c.includes('@media(max-width:680px)'));
+check('no full page reload introduced',!c.includes('location.reload('));
+if(failed){console.error(`\nV30.37 PROFILE/ACCOUNT/FILTER QA FAILED: ${failed}`);process.exit(1)}
+console.log('\nV30.37 PROFILE/ACCOUNT/FILTER QA PASS');

@@ -1,0 +1,24 @@
+
+> blue-ocean-market-os@30.34.0 qa:v332
+> node qa/qa_v332_refinements.js
+
+PASS syntax public/v332-client.js
+PASS syntax server/v332.js
+PASS syntax server/server.js
+PASS V30.32 implementation is retained in current release
+PASS V30.32 browser overlay loads after V30.31
+PASS payee save/archive refresh current modal instead of reopening it
+PASS single close restores parent and refreshes receiver selector
+PASS sidebar scrollbar is minimal width
+PASS Accounting removes repeated top descriptions
+PASS Posting Control is injected beside page actions
+PASS Buyer top actions are stabilized while enhancers settle
+PASS Buy Machine token has separate Paid From and Paid To accounts
+PASS new supplier can enter destination account inline
+PASS Buy Machine token evidence submits multipart
+PASS backend requires/records supplier token receiver for electronic payment
+PASS machine payments store receiver account id additively
+PASS Add Machine Cost receiver card spans modal and becomes one column on small screens
+PASS Finance correction shows both payment sides and original source context
+
+V30.32 refinement QA PASS
