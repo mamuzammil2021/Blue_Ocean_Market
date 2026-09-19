@@ -1,3 +1,38 @@
+# V30.39.2 — Core Runtime & Data Path Optimization
+
+- Built directly on protected V30.39.1 with no destructive reset or business-workflow redesign.
+- Replaced forced Accounting queue drains with small time-budgeted background slices; ordinary Accounting/P&L reads no longer process thousands of queued Finance rows first.
+- Added short-lived effective-access/assigned-BU caching with immediate invalidation and same-request authentication reuse.
+- Removed operational alert generation from notification count/read endpoints; staged reminder/performance/Pink Salt alert families across independent low-priority ticks.
+- Reworked approval badge calculation so ordinary approval levels are counted in SQL; only L5 dual-approver sequencing retains row-level eligibility checks.
+- Added true SQL-backed Finance Control Center paging (25/50/100) with server search/status/type/evidence/date filters and separate scoped KPI aggregation.
+- Finance rows render independently of the slower correction queue; correction status fills progressively.
+- Removed high-value Finance linked-evidence N+1 list work and Pink Salt Supplier/Customer/Order N+1 master-summary calculations.
+- Ledgered historical Accounting/Pink Salt/Finance backfills so they run once rather than rescanning history on every restart.
+- Changed API gzip and interactive upload SHA-256 work to async/streaming paths.
+- Added event-loop lag, Accounting queue depth/age, access-cache TTL, migration count and memory diagnostics.
+- Added narrowly targeted query-path indexes; no speculative broad indexing.
+- Retained the audited 33-observer compatibility baseline without adding observers; observer removal is intentionally deferred to behavior-by-behavior consolidation rather than blind deletion.
+- Added permanent V30.39.2 non-blocking/set-based/migration rules to master requirements and retained the Smart Context-Aware Change & Impact-Control Standard.
+- QA: V30.39.2 core **66/66**, Finance browser **12/12**, inherited V30.39.1 **40/40**, progressive browser **13/13**, V30.39 foundation **54/54**, current QA **PASS**, Render persistence **PASS**, handler wiring **0 unresolved**.
+
+# V30.39.1 — Progressive Loading & Live Performance Optimization
+
+- Built directly on V30.39.0; no destructive database migration/reset and no intentional business-workflow redesign.
+- Added system-wide progressive page shells and reusable EN/KR skeleton/loading/error/retry section states.
+- Added permanent parallel-read rule: independent reads run concurrently; secondary section failure no longer needs to block the whole screen.
+- Buyer Detail now opens immediately, fetches its main detail without waiting for receiver accounts, and lazy-loads Accounts only when selected.
+- Supplier Profile now opens immediately; core supplier/machine and statement reads run concurrently for Overview, while Requirements and Accounts are loaded only when requested.
+- Added true SQL-backed 25/50/100 pagination for Excavator Machines, Buyers and Suppliers with search/filter/sort before pagination.
+- Reworked the Excavator overview path from loading entire related transaction/repair/logistics/parts/payment tables into JavaScript to SQL-side per-machine/aggregate calculation. Summary-only requests no longer transfer asset rows.
+- Machine paging uses a window total in the normal path to avoid running the expensive cost snapshot query twice.
+- Buyer/Supplier requirement profile reads now use persisted match counts instead of recomputing matching for every requirement on every profile open.
+- Login boot/context/access and Business Unit/P&L reads use parallel independent requests.
+- Added shared safe short-lived read-cache, debounce/cancellation reuse, visibility-based lazy helper, server pager UI and progressive diagnostics for future modules.
+- Live runtime remains 3 startup scripts and is regenerated as `runtime-v30391.js` with the V30.39.1 layer included.
+- Added permanent V30.39.1 progressive-loading/parallel-read/section-resilience rules to master requirements so future development inherits them automatically.
+- Added permanent Smart Context-Aware Change & Impact-Control rules: no blind cross-module changes; every change must be dependency-aware, preserve workflow/BU context, and validate neighboring impacts.
+
 # V30.39.0 — Performance Foundation & Runtime Consolidation
 
 - Built directly on protected V30.38.2 with no destructive data migration/reset.

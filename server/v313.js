@@ -17,7 +17,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads
   const pinkUnit=()=>db.prepare("SELECT id FROM business_units WHERE lower(name) LIKE '%pink%salt%' AND status!='Archived' ORDER BY id LIMIT 1").get()?.id||null;
   function guard(req,res){const bu=Number(pinkUnit()||0),selected=Number(currentUnit(req)||0);if(!bu){res.status(409).json({error:'Pink Salt business unit is not available.'});return null}if(!selected||selected!==bu||!enforceUnit(req,bu)){res.status(403).json({error:'Select the Pink Salt business unit to use this workspace.'});return null}return bu}
   function saveAttachment(bu,user,entityType,entityId,file,title){if(!file)return null;try{return Number(db.prepare('INSERT INTO pink_salt_attachments(business_unit_id,entity_type,entity_id,title,original_name,file_path,mime_type,size_bytes,uploaded_by) VALUES(?,?,?,?,?,?,?,?,?)').run(bu,entityType,entityId,title||file.originalname,file.originalname,'/uploads/'+file.filename,file.mimetype,file.size,user?.id||null).lastInsertRowid)}catch(_){return null}}
-  function flushAccounting(){try{accounting?.processQueue?.(1000)}catch(e){console.error('V30.13 accounting queue:',e.message)}}
+  function flushAccounting(){try{accounting?.scheduleQueue?.(0)}catch(e){console.error('V30.13 accounting queue:',e.message)}}
 
   ensureColumn('pink_salt_customers','pricing_tier',"TEXT DEFAULT 'Retail'");
   ensureColumn('pink_salt_customers','credit_terms_days','INTEGER NOT NULL DEFAULT 0');

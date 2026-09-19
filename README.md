@@ -1,3 +1,19 @@
+# Blue Ocean Market V30.39.2
+
+V30.39.2 is the **Core Runtime & Data Path Optimization** release built directly on V30.39.1. It reduces actual server/database waiting by time-slicing Accounting synchronization, safely reusing/caching access calculations, decoupling alert generation from count reads, removing high-value Finance/Pink Salt N+1 paths, making Finance truly server-paged, ledgering historical startup migrations, and moving large compression/upload hashing off synchronous request-path work.
+
+There is **no destructive database migration or reset**. Existing SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. The live browser remains three startup scripts through `runtime-v30392.js`. See `V30_39_2_IMPLEMENTATION_SUMMARY.md` and `V30_39_2_QA_STATUS.md`.
+
+---
+
+# Blue Ocean Market V30.39.1
+
+V30.39.1 is the **Progressive Loading & Live Performance Optimization** release built directly on V30.39.0. It makes the V30.39 performance foundation visible in real workflows: system-wide skeleton page shells, independent section loading/error/retry states, parallel independent reads, lazy secondary profile data, true server-side pagination for the first high-volume Excavator masters, and SQL-side reduction of expensive Excavator overview work.
+
+There is **no destructive database migration or reset**. Existing SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. The live browser still uses only three startup scripts, now through `runtime-v30391.js`. See `V30_39_1_IMPLEMENTATION_SUMMARY.md` and `V30_39_1_QA_STATUS.md`.
+
+---
+
 # Blue Ocean Market V30.39.0
 
 V30.39.0 is the **Performance Foundation & Runtime Consolidation** release built directly on the protected V30.38.2 baseline. It preserves current business workflows while reducing live browser startup requests, adding system-wide slow-network action feedback, request/performance diagnostics, safer async heavy-work handling, shared pagination/request/lifecycle primitives, SQLite runtime tuning, and permanent carry-forward performance rules for all future development.

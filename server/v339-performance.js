@@ -5,7 +5,7 @@ const path=require('path');
 const zlib=require('zlib');
 const crypto=require('crypto');
 
-const VERSION='30.39.0';
+const VERSION='30.39.2';
 const DEFAULT_SLOW_MS=Math.max(100,Number(process.env.BOM_SLOW_REQUEST_MS||750));
 const DEFAULT_LARGE_BYTES=Math.max(64*1024,Number(process.env.BOM_LARGE_RESPONSE_BYTES||1024*1024));
 const metrics={started_at:new Date().toISOString(),requests:0,api_requests:0,slow_requests:0,large_responses:0,errors:0,last_slow:[],last_large:[]};
@@ -59,12 +59,18 @@ function installEarly({app,root}){
         if(res.headersSent)return originalJson(body);
         const raw=Buffer.from(JSON.stringify(body));
         if(raw.length<2048)return originalJson(body);
-        const gz=zlib.gzipSync(raw,{level:zlib.constants.Z_BEST_SPEED});
-        res.setHeader('Content-Type','application/json; charset=utf-8');
-        res.setHeader('Content-Encoding','gzip');
-        res.setHeader('Vary','Accept-Encoding');
-        res.setHeader('Content-Length',String(gz.length));
-        return res.end(gz);
+        // V30.39.2: compression is asynchronous so a large JSON response does not
+        // monopolize the Node event loop on smaller Render instances.
+        zlib.gzip(raw,{level:zlib.constants.Z_BEST_SPEED},(err,gz)=>{
+          if(err){if(!res.headersSent)originalJson(body);return}
+          if(res.headersSent)return;
+          res.setHeader('Content-Type','application/json; charset=utf-8');
+          res.setHeader('Content-Encoding','gzip');
+          res.setHeader('Vary','Accept-Encoding');
+          res.setHeader('Content-Length',String(gz.length));
+          res.end(gz);
+        });
+        return res;
       }catch(_){return originalJson(body)}
     };
     next();
