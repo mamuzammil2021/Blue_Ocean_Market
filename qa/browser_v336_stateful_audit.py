@@ -48,7 +48,7 @@ async def main():
       machine_fill=await page.evaluate("({name:document.querySelector('[name=machine_name]').value,make:document.querySelector('[name=make]').value,model:document.querySelector('[name=model]').value,price:document.querySelector('[name=purchase_price]').value})")
       rec('Supplier listed machine fills Buy Machine details',machine_fill=={'name':'Hyundai R215','make':'Hyundai','model':'R215LC-9S','price':'85000000'},machine_fill)
       # manager child modal
-      await page.locator('[data-v332-manage-payee]').click(); await page.wait_for_timeout(100)
+      await page.locator('[data-v3382-manage-payee],[data-v332-manage-payee]').click(); await page.wait_for_timeout(100)
       child_open=await page.locator('#modalRoot .modal').count()==1
       parent_still=await page.locator('#v324WorkflowSurface form[onsubmit*="saveSimpleExcavatorMachine"]').count()==1
       rec('Add/Manage receiver account opens child modal without replacing Buy Machine',child_open and parent_still)
@@ -99,7 +99,7 @@ async def main():
 
       # Posted/verified machine cost lock
       locked_html=await page.evaluate("excavatorCostRowV319({id:88,type:'Repair',amount:1000000,status:'Active',transaction_date:'2026-09-01',finance_verification_status:'Verified / Correct',finance_accounting_status:'Posted',accounting_journal_id:55},1)")
-      rec('Finance-verified/posted machine cost row removes direct Edit','v335-cost-locked' in locked_html and '>Edit<' not in locked_html)
+      rec('Finance-verified/posted machine cost row uses disabled lock Edit','v3382-locked-edit' in locked_html and 'disabled' in locked_html and 'v335-cost-locked' not in locked_html, locked_html[:240])
       await page.evaluate("m=>window.__mock['/api/excavator/assets/1/transactions']=m", [{'id':88,'finance_verification_status':'Verified / Correct','finance_accounting_status':'Posted','accounting_journal_id':55,'status':'Active'}])
       await page.evaluate("document.getElementById('toastRoot').innerHTML=''; excavatorAddCost(1,88)"); await page.wait_for_timeout(80)
       lock_toast=await page.locator('#toastRoot').inner_text()

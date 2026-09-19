@@ -1,0 +1,38 @@
+PASS V30.38.2 patch overlay loaded 
+PASS Pay From custom picker exists 
+PASS Pay From list remains open after real mouse click 
+PASS Pay From can switch away from default account 
+PASS Paid To list remains open after real mouse click 
+PASS Paid To can switch away from default account 
+PASS Token Payment Manage button is repaired to V30.38.2 route 
+PASS Actual Add / Manage Accounts click opens Supplier Accounts manager — Supplier Accounts
+Supplier Ten · shared receiver/payee account management.
+Close
+Supplier Default
+KB
+— · KRW · ****3333
+Default
+0 historical
+PASS Refund preview clearly shows KRW deduction and remaining balance — Refund settlement
+Available Before
+₩ 47,000.00
+Refund Amount
+1,000.00 PKR
+KRW Equivalent / Advance Deduction
+₩ 4,800.00
+Remaining After Refund
+₩ 42,200.00
+Direct refund account must use the refund currency. Use an explicit FX conversion workflow when the funding account currency differs.
+PASS Refund Pay From account is filtered to Refund Currency — PKR Company · Bank · PKR · ****7777
+PASS Refund Paid To list excludes currency-mismatched accounts — ['Select account', 'Buyer PKR · HBL · PKR']
+PASS Successful child action automatically closes only child modal — ×
+Parent Context
+keep me
+PASS Failed action keeps dialog open for correction 
+PASS Machine Costs entries are isolated in bounded scroll list — {'rows': 5, 'totalOutside': True, 'locked': True, 'yellow': 0, 'actions': True}
+PASS Total machine cost stays outside scroll list — {'rows': 5, 'totalOutside': True, 'locked': True, 'yellow': 0, 'actions': True}
+PASS Verified/posted cost uses compact disabled lock Edit and no yellow card — {'rows': 5, 'totalOutside': True, 'locked': True, 'yellow': 0, 'actions': True}
+PASS Machine Cost actions align to the right — {'rows': 5, 'totalOutside': True, 'locked': True, 'yellow': 0, 'actions': True}
+PASS V30.38.2 focused browser audit has no uncaught page errors 
+
+SUMMARY 18 checks 0 failed

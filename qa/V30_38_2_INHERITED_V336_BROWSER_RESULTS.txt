@@ -1,0 +1,30 @@
+PASS boot Excavator dashboard renders 
+PASS Buy Machine has exactly one Pay From and one Paid To — {'from': 1, 'to': 1, 'fromVal': '101', 'toVal': '202', 'supplier': '10'}
+PASS Buy Machine selects compatible company source account — 101
+PASS Buy Machine auto-selects supplier default receiver account — 202
+PASS Supplier listed machine fills Buy Machine details — {'name': 'Hyundai R215', 'make': 'Hyundai', 'model': 'R215LC-9S', 'price': '85000000'}
+PASS Add/Manage receiver account opens child modal without replacing Buy Machine 
+PASS Closing receiver-account modal returns to same Buy Machine state — {'modal': False, 'form': True, 'supplier': '10', 'token': '1000000'}
+PASS Sell Machine New Payment follows selling price — 100000000
+PASS Buyer Advance + New Payment uses only New Payment Required — 70000000
+PASS Combined payment recalculates immediately after selling-price change — 90000000
+PASS Required-field validation stays quiet while user is typing — {'bad': False, 'toast': ''}
+PASS Required-field validation appears after blur 
+PASS Sold-machine Purchase Edit is hidden/disabled for normal user — {'hidden': True, 'disabled': True}
+PASS CEO/Owner retains controlled sold-machine Purchase Edit access — {'hidden': False, 'disabled': False}
+PASS Finance-verified/posted machine cost row uses disabled lock Edit — <div class="row v3382-cost-row "><span>Repair<small class="v319-cost-meta">2026-09-01 · 1,000,000.00 KRW · — · Ref —</small></span><span class="v319-cost-actions"><b>₩ 1,000,000.00</b><button type="button" class="btn small v3382-locked-edit
+PASS Direct open of locked machine cost is blocked — This machine cost is locked. Use Finance Request Correction / controlled reversal instead of direct editing.
+PASS Finance filter resets pagination to page 1 — 2 / 3 -> 1 / 2; 1–25 of 30
+PASS Finance date range composes before pagination — ['2026-09-04', '2026-09-05', '2026-09-06']
+PASS Machine search resets pagination to page 1 — 2 / 3 -> 1 / 2
+PASS Posting Control receives compact date-range + pagination controls — pagers=1, date=1
+PASS Posting Control search resets pagination to page 1 — 2 / 3 -> 1 / 2
+PASS Finished Goods blocks Archive/Delete while stock exists — {'sku': 'STOCK', 'archive': True, 'del': True}
+PASS Finished Goods enables Archive/Delete at zero stock — {'sku': 'ZERO', 'archive': False, 'del': False}
+PASS Review & Confirm dialog opens 
+PASS Review & Confirm action resolves true — True
+PASS Mobile app chrome avoids body-level horizontal overflow 
+PASS Tablet app chrome avoids body-level horizontal overflow 
+PASS Stateful browser pass has no uncaught page errors 
+
+SUMMARY 28 checks 0 failed

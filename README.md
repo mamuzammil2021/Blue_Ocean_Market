@@ -1,3 +1,19 @@
+# Blue Ocean Market V30.39.0
+
+V30.39.0 is the **Performance Foundation & Runtime Consolidation** release built directly on the protected V30.38.2 baseline. It preserves current business workflows while reducing live browser startup requests, adding system-wide slow-network action feedback, request/performance diagnostics, safer async heavy-work handling, shared pagination/request/lifecycle primitives, SQLite runtime tuning, and permanent carry-forward performance rules for all future development.
+
+There is **no destructive database migration or reset**. V30.39 adds only targeted indexes and runtime PRAGMA tuning; existing SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. Historical browser patch source files remain packaged for traceability, while the live browser now loads the ordered compatibility runtime through `runtime-v3039.js`. See `V30_39_IMPLEMENTATION_SUMMARY.md` and `V30_39_QA_STATUS.md`.
+
+---
+
+# Blue Ocean Market V30.38.2
+
+V30.38.2 is a focused point release built directly on protected V30.38.1. It fixes the real Buy Machine Token Payment Pay From/Paid To interaction and Add/Manage action, standardizes successful child-dialog auto-close behavior, adds shared refund currency/FX/account integrity, and refines Machine Detail Costs into a compact scrollable list with always-visible total and disabled `🔒 Edit` lock UI.
+
+There is **no V30.38.2 database schema change, reset or destructive migration**. Existing SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. See `V30_38_2_IMPLEMENTATION_SUMMARY.md` and `V30_38_2_QA_STATUS.md`.
+
+---
+
 # Blue Ocean Market V30.38.1
 
 V30.38.1 is a focused point-release hotfix built directly on protected V30.38.0. It repairs Sell Machine validation-state clearing and the Buy Machine Token Payment account workflow: Add / Manage Accounts routing, explicit Pay From / Paid To selection, parallel/prefetched account loading and slow-connection loading states.

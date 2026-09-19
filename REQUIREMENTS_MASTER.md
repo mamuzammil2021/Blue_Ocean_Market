@@ -781,3 +781,103 @@ All current and future screens must keep persistent page chrome stable while chi
 - **Slow-connection account loading:** prefetch company accounts when Buy Machine opens and supplier receiver accounts as soon as supplier context is known. Load Pay From and Paid To in parallel where possible, avoid duplicate requests with short-lived safe caching, and show localized loading/error states rather than an empty/broken selector.
 - **Compatibility:** account loaders tolerate supported legacy response shapes and historical bank-account rows lacking newer method metadata without weakening backend account eligibility checks.
 - **No regression:** V30.38 canonical Sell Machine settlement, shared account manager/history, Pakistan Resales, Finance/Accounting filter behavior, historical snapshots, targeted refresh, stable UI chrome, pagination, Review & Confirm and Render persistence remain release-blocking.
+
+## V30.38.2 — Refund Settlement, Modal Lifecycle, Token Account Interaction & Machine Costs
+
+- **Point release discipline:** focused bug fixes/refinements continue on the V30.38.x patch line unless scope materially expands.
+- **Buy Machine Token account interaction:** Pay From and Paid To must remain stable/open during normal mouse/touch selection; all eligible active accounts must be selectable, including switching away from Default. The underlying submitted account IDs remain authoritative and all backend eligibility rules remain enforced.
+- **Token Add / Manage Accounts:** must invoke the final shared Supplier Accounts manager as a nested child, preserve the full Buy Machine parent state, and refresh/reselect affected Paid To data after successful account mutations.
+- **Account-loading integrity:** retain V30.38.1 parallel/prefetched/cached loading and localized slow-connection states; account controls must not be repeatedly rebuilt while the user is actively choosing an option.
+- **Shared cash-refund settlement:** genuine cash refunds use Refund Currency + Refund Amount. KRW refunds use FX 1; foreign refunds require FX Rate to KRW. Show Available Before, Refund Amount/Currency, KRW Equivalent / Advance Deduction and Remaining After before confirmation. KRW-backed advances/credits deduct only the KRW equivalent.
+- **Refund account-currency integrity:** direct Paid To receiver-account currency must equal Refund Currency and direct Pay From company-account currency must equal Refund Currency. Filter UI choices and enforce backend validation. A different-currency funding source is an explicit FX-conversion workflow, not a silent mismatch.
+- **Refund scope:** apply the shared cash-refund rules to Buyer advance refunds, Supplier advance returns, customer/store cash-credit refunds and comparable real-money returns. Do not blindly apply cash-refund rules to non-cash voids, credit notes or accounting-only reversals.
+- **Modal success lifecycle:** after a confirmed successful Create/Save/Update/Submit/Approve/Complete/Receive/Record/Allocate/Archive/etc. mutation in a dialog, close only the active/topmost child and refresh affected parent data in place. Preserve parent record, tab/section, filters, pagination, selections and scroll where practical. Validation/API failure leaves the dialog open. Protected processing prevents duplicate submission.
+- **Machine Costs layout:** action controls align right; entries use a bounded vertical viewport (about 3–4 rows before scroll); Total machine cost stays permanently visible outside the scroll region; voided rows remain distinct.
+- **Locked Machine Cost UI:** verified/posted records show a compact disabled `🔒 Edit` control instead of a large yellow lock card. Backend lock enforcement remains authoritative. Void retains its separate permission/lifecycle rules.
+- **No regression:** preserve V30.33 targeted refresh, V30.34 stable chrome, V30.35 pagination, V30.36 browser hardening, V30.37 profile/account routing, V30.38 settlement/account history, V30.38.1 validation/account-loading, Review & Confirm and Render persistence.
+
+
+---
+
+# System-Wide Performance, Async Interaction & Scalability Standard — V30.39+ PERMANENT CARRY-FORWARD RULE
+
+This section is mandatory for **every existing module, every future change, every new Business Unit, every integration, every migration, and every future Blue Ocean Market release**. It is not a one-time optimization checklist. New development must inherit these rules automatically and QA must treat regressions as release blockers.
+
+## 1. Immediate action feedback and protected processing
+- A user action that can wait on network/server work must never appear ignored.
+- The triggering control must react immediately. When work starts, use a contextual spinner/label such as `Saving…`, `Recording payment…`, `Receiving import…`, `Generating PDF…`, `Approving…`, or the Korean equivalent.
+- Disable the active trigger while the same operation is in flight and preserve button width to avoid layout jump.
+- Normal actions use button-level feedback; important transactional workflows also lock the active modal/card/section; only system-level destructive/maintenance operations may lock the whole workspace.
+- After ~3.5 seconds without completion, show a truthful indeterminate `Still working…` state. Never display fake percentage progress.
+- On success, update the affected data and show success feedback. On failure, unlock the UI and show a clear retryable/non-retryable error.
+- All states must be fully EN/KR localized.
+
+## 2. Duplicate-submit and financial idempotency rule
+- The first valid mutation immediately enters an in-progress state; repeated clicks must not create repeated requests.
+- Financial/high-integrity mutations must use backend idempotency/duplicate protection in addition to the UI lock.
+- Lost responses/retries must not create duplicate payments, receipts, refunds, transfers, allocations, sales, purchases, stock movements, postings, voids, approvals, or other irreversible records.
+- A retry after an uncertain network result must verify/replay the existing operation where possible rather than blindly create another transaction.
+
+## 3. Targeted refresh / stable UI rule
+- After a mutation, refresh only the affected record/row/card/KPI/list scope. Do not reload unrelated modules or reconstruct the whole application.
+- Preserve parent screen, active tab/section, search, filters, sort, page, selection and scroll position where practical.
+- Nested child success closes only the correct child workflow and refreshes its parent in place.
+- Clicking an already-selected sidebar tab remains an explicit user refresh; mutations must not simulate a full-tab refresh unless technically required and documented.
+
+## 4. Large-list server-side pagination rule
+- Any list/table that can grow materially must support real database/API pagination; hiding rows in the browser is not sufficient for the scalable path.
+- Standard page size is 25 with 25/50/100 choices where appropriate.
+- Search, permission scope, BU scope, status/date filters and sorting are applied **before** pagination in the server/database query.
+- Changing search/filter/sort resets to page 1.
+- Responses must expose total/range metadata (`1–25 of 3,482` equivalent).
+- Small fixed settings lists and short dropdown enumerations are exempt.
+- New high-volume endpoints must use the shared V30.39 pagination helper rather than inventing a new paging contract.
+
+## 5. Shared request layer rule
+- New code must use the shared request infrastructure rather than creating ad-hoc network behavior.
+- Identical in-flight GETs must be reused/deduplicated when safe. Do not use stale caching for volatile financial balances or transactional state.
+- Remote search/autocomplete uses debouncing (normally ~300 ms) and cancels superseded searches.
+- Requests must have defined timeout/error behavior and must leave no permanent spinner on failure.
+
+## 6. Frontend runtime / lifecycle rule
+- V30.39 consolidates the historical browser compatibility chain into one ordered runtime asset for delivery. Historical source patches remain for traceability but are not individually loaded by the browser.
+- Do not resume indefinite `vXXXX-client.js` stacking in the live page. Future functionality belongs in the current maintained module/runtime and the release build is regenerated.
+- New features must prefer explicit component/workflow lifecycle hooks over document-wide `MutationObserver` patching.
+- Adding a new document-wide observer requires a documented justification and performance QA; the V30.39 observer baseline must not grow casually.
+
+## 7. Heavy work must not block normal requests
+- Chrome/PDF generation, large exports/imports, backups, migrations and similarly expensive external/process work must be asynchronous/non-blocking relative to the Node event loop where practical.
+- Do not introduce `execFileSync`, `spawnSync`, large synchronous CPU loops, or equivalent request-path blocking for user-facing jobs without an explicit reviewed exception.
+- Long jobs must use the shared processing UX so other users can continue working.
+
+## 8. Static/network efficiency rule
+- Versioned JS/CSS/text assets should use compression and safe browser caching.
+- HTML shell and dynamic authenticated API data must not be cached in a way that produces stale application/financial state.
+- API payloads should return only what the active screen needs. List endpoints should use summary rows; detail/history/attachments load separately when needed.
+- Attachments load metadata/preview first; do not transfer full receipt/document bytes merely to render a list.
+
+## 9. Database/query performance rule
+- Keep WAL and safe concurrency settings. Optimize measured queries, not guesses.
+- Slow endpoints/queries must be measured and investigated with query plans before adding indexes.
+- Use targeted/composite indexes aligned with actual BU/status/date/join/sort patterns; avoid uncontrolled index proliferation.
+- V30.39 provides optional SQL profiling (`BOM_SQL_PROFILE=true`) and slow-request logging. Future development should use these during QA when changing high-volume queries.
+- SQLite remains supported during development. PostgreSQL migration is a production-capacity decision, not a substitute for inefficient application/query design.
+
+## 10. Dashboard aggregation rule
+- Dashboards/KPIs should be calculated by compact aggregate queries/APIs (`SUM`, `COUNT`, grouped summaries) rather than downloading transaction history and calculating totals in the browser.
+- Dashboard refreshes should update only the relevant metrics and must not force unrelated transactional lists to reload.
+
+## 11. Performance budgets / release gate
+Targets are engineering targets under normal test conditions, not promises for every internet connection:
+- visible button/action response: effectively immediate;
+- normal API target: <300 ms where practical;
+- common search/filter target: <500 ms;
+- normal save/update target: generally <800 ms excluding external/heavy processing;
+- first useful list content: around <1 second;
+- dashboard: around 1–2 seconds;
+- no duplicate financial mutation is acceptable.
+
+V30.39 default diagnostics flag API requests >=750 ms as slow and responses >=1 MiB as large (environment-adjustable). New releases must run performance QA and must not silently increase runtime script count, document-wide observer count, synchronous heavy-process calls, or unpaginated high-volume patterns.
+
+## 12. Carry-forward development contract
+Every future requirement implicitly includes: permissions/BU scope + audit + Review & Confirm where applicable + EN/KR + immediate processing feedback + idempotency where applicable + targeted refresh + stable parent context + scalable pagination/list behavior + shared request/lifecycle patterns + performance QA. The user should not need to repeat these rules in future feature requests.
