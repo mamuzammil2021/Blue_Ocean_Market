@@ -3,8 +3,8 @@ const fs=require('fs');
 function read(p){return fs.readFileSync(p,'utf8')}
 function pass(ok,msg){if(!ok){console.error('FAIL',msg);process.exitCode=1}else console.log('PASS',msg)}
 const client=read('public/v335-client.js'),server=read('server/server.js'),index=read('public/index.html'),pkg=JSON.parse(read('package.json'));
-pass(pkg.version==='30.38.1','current V30.38.1 package retains V30.35 requirements');
-pass(index.includes('/v335-client.js?v=30.38.1')&&index.indexOf('/v335-client.js?v=30.38.1')<index.indexOf('/v336-client.js?v=30.38.1'),'V30.35 client overlay retained before V30.36 hardening marker');
+pass(pkg.version==='30.38.2','current V30.38.2 package retains V30.35 requirements');
+pass(index.includes('/v335-client.js?v=30.38.2')&&index.indexOf('/v335-client.js?v=30.38.2')<index.indexOf('/v336-client.js?v=30.38.2'),'V30.35 client overlay retained before V30.36 hardening marker');
 pass(server.includes("const v335=require('./v335').install({db});"),'V30.35 server overlay installed');
 pass(server.includes("a.lifecycle_stage==='Sold / Completed'&&req.user.role!=='CEO / Owner'"),'sold machine purchase edit restricted server-side');
 pass(client.includes("document.addEventListener('blur'"),'system-wide blur validation');

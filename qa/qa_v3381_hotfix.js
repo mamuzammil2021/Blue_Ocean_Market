@@ -3,10 +3,10 @@ const fs=require('fs'),path=require('path'),assert=require('assert');
 const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
 const c=read('public/v3381-client.js'),index=read('public/index.html'),pkg=JSON.parse(read('package.json')),main=read('server/server.js'),v338=read('public/v338-client.js'),v335=read('public/v335-client.js');
 let pass=0;function ok(x,m){assert.ok(x,m);pass++;console.log('PASS',String(pass).padStart(2,'0'),m)}
-ok(pkg.version==='30.38.1','point release version is 30.38.1');
-ok(main.includes("version:'30.38.1'")&&main.includes('Blue Ocean Market V30.38.1 running on port'),'runtime health/version identity is 30.38.1');
-ok(index.includes('/v338-client.js?v=30.38.1')&&index.includes('/v3381-client.js?v=30.38.1')&&index.indexOf('/v338-client.js?v=30.38.1')<index.indexOf('/v3381-client.js?v=30.38.1'),'hotfix overlay is loaded after protected V30.38 UI');
-ok(c.includes("const VERSION='30.38.1'"),'hotfix overlay identifies V30.38.1');
+ok(pkg.version==='30.38.2','point release version is 30.38.2');
+ok(main.includes("version:'30.38.2'")&&main.includes('Blue Ocean Market V30.38.2 running on port'),'runtime health/version identity is 30.38.2');
+ok(index.includes('/v338-client.js?v=30.38.2')&&index.includes('/v3381-client.js?v=30.38.2')&&index.indexOf('/v338-client.js?v=30.38.2')<index.indexOf('/v3381-client.js?v=30.38.2'),'hotfix overlay is loaded after protected V30.38 UI');
+ok(c.includes("const VERSION='30.38.1'"),'hotfix overlay identifies V30.38.1 implementation retained');
 ok(c.includes('refreshSimpleValidity381')&&c.includes("name==='customer_name'")&&c.includes("name==='selling_price'"),'stale Sell Machine custom errors clear when corrected');
 ok(c.includes('v3381Submitted')&&c.includes('v3381Touched'),'Sell Machine red validation is interaction/submit aware');
 ok(c.includes("form.addEventListener('input'")&&c.includes("form.addEventListener('change'")&&c.includes("form.addEventListener('blur'"),'Sell Machine live error clearing covers input/change/blur');
@@ -25,4 +25,4 @@ ok(c.includes('normalizeRows381')&&c.includes('/api/v330/payee-accounts?'),'supp
 ok(c.includes("if(!t&&(x.bank_name||x.account_number||x.account_number_masked||x.iban))t='bank'"),'legacy supplier bank accounts without method_type remain selectable');
 ok(c.includes("'Loading company accounts…':'회사 계정 불러오는 중…'")&&c.includes("'Supplier accounts could not be loaded. Retry or check connection.':'공급업체 계정을 불러오지 못했습니다. 다시 시도하거나 연결 상태를 확인하세요.'"),'V30.38.1 account loading/status UI is Korean-localized');
 ok(!c.includes('/api/v338/payee-accounts/'+"'"+'POST'), 'hotfix adds no new server mutation path/schema requirement');
-console.log(`\nV30.38.1 hotfix QA: ${pass}/${pass} PASS`);
+console.log(`\nV30.38.1 inherited hotfix QA: ${pass}/${pass} PASS`);

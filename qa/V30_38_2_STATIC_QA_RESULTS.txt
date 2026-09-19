@@ -1,0 +1,39 @@
+
+> blue-ocean-market-os@30.38.2 qa:v3382
+> node qa/qa_v3382_patch.js
+
+PASS 01 patch release identity is V30.38.2
+PASS 02 health/startup identity is V30.38.2
+PASS 03 V30.38.2 loads after protected V30.38.1 overlay
+PASS 04 V30.38.2 browser overlay identifies the point release
+PASS 05 Token Payment replaces fragile native pointer UI with interaction-safe picker
+PASS 06 real select remains form truth and receives normal change events
+PASS 07 custom account lists have stable open/close state
+PASS 08 Buy Machine Manage button is detached from conflicting legacy click route
+PASS 09 Manage button routes directly to final shared counterparty account manager
+PASS 10 underlying V30.38.1 async account loading is preserved and picker resynchronizes after refresh
+PASS 11 V30.38.1 parallel/prefetch slow-connection account loading remains protected
+PASS 12 shared refund settlement summary shows before/refund/KRW/remaining values
+PASS 13 KRW advance/credit balances deduct only the KRW equivalent while PKR resale credit remains PKR-native
+PASS 14 KRW refunds lock FX to 1 while foreign refund currencies require FX
+PASS 15 refund currency drives Company Pay From account filtering
+PASS 16 buyer Paid To accounts are filtered to Refund Currency
+PASS 17 Excavator buyer refund backend enforces both Pay From and Paid To currency match
+PASS 18 Pink Salt customer cash-refund source account enforces Refund Currency
+PASS 19 Pink Salt supplier advance-refund source account enforces Refund Currency
+PASS 20 Pakistan resale pooled refunds enforce PKR buyer destination account
+PASS 21 system-wide modal success lifecycle arms from actual modal form submissions
+PASS 22 modal lifecycle closes only after all successful mutating API work settles
+PASS 23 failed API actions cancel auto-close and leave dialog available for correction
+PASS 24 successful child close uses nested-dialog-safe parent restoration
+PASS 25 auto-close never blindly closes an unrelated modal opened after the action
+PASS 26 modal mutations show protected processing state
+PASS 27 Machine Costs entries use a bounded scroll viewport
+PASS 28 Total machine cost remains outside/below the scrollable entries list
+PASS 29 large yellow cost lock is replaced by compact disabled lock/Edit control
+PASS 30 Machine Cost Edit/Void actions align to the right
+PASS 31 legacy yellow lock pill is actively removed from locked cost rows
+PASS 32 new refund/modal states are Korean localized
+PASS 33 V30.38.2 introduces no destructive refund/account migration
+
+V30.38.2 patch QA: 33/33 PASS

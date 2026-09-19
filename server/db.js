@@ -6,6 +6,11 @@ const dataDir=storage.dataDir;
 fs.mkdirSync(dataDir,{recursive:true});
 const db=new Database(path.join(dataDir,'blue-ocean.sqlite'));
 db.pragma('journal_mode=WAL'); db.pragma('foreign_keys=ON');
+// V30.39 performance foundation: safe SQLite concurrency/read optimizations.
+try{db.pragma('busy_timeout=5000')}catch(_){}
+try{db.pragma('synchronous=NORMAL')}catch(_){}
+try{db.pragma('temp_store=MEMORY')}catch(_){}
+try{db.pragma('cache_size=-20000')}catch(_){}
 db.exec(`
 CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,email TEXT UNIQUE NOT NULL,password_hash TEXT NOT NULL,role TEXT NOT NULL,business_unit_id INTEGER,active INTEGER NOT NULL DEFAULT 1,created_at TEXT DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(business_unit_id) REFERENCES business_units(id));
 CREATE TABLE IF NOT EXISTS business_units(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT UNIQUE NOT NULL,manager_id INTEGER,status TEXT NOT NULL DEFAULT 'Active',notes TEXT DEFAULT '',created_at TEXT DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(manager_id) REFERENCES users(id));
@@ -157,6 +162,7 @@ try{db.exec('CREATE INDEX IF NOT EXISTS idx_finance_source ON finance_entries(so
 // V27.4 — finance verification/source integrity indexes. Keep source uniqueness scoped by business unit.
 try{db.exec('CREATE INDEX IF NOT EXISTS idx_finance_unit_source_v274 ON finance_entries(business_unit_id,source_type,source_id)')}catch(e){}
 try{db.exec('CREATE INDEX IF NOT EXISTS idx_finance_verification_v274 ON finance_entries(business_unit_id,verification_status,status)')}catch(e){}
+try{db.pragma('optimize')}catch(_){}
 module.exports=db;
 
 // V24.4 schema
@@ -970,3 +976,17 @@ try{
     }
   }
 }catch(e){console.error('V28.5 local test CEO bootstrap:',e.message)}
+
+// V30.39 — targeted high-volume list indexes. These support the permanent
+// search/filter/sort-before-pagination rule and are safe on existing databases.
+try{db.exec(`
+CREATE INDEX IF NOT EXISTS idx_finance_v339_list ON finance_entries(business_unit_id,created_at DESC,id DESC);
+CREATE INDEX IF NOT EXISTS idx_finance_v339_review ON finance_entries(business_unit_id,verification_status,status,created_at DESC,id DESC);
+CREATE INDEX IF NOT EXISTS idx_notifications_v339_list ON notifications(user_id,read_at,business_unit_id,created_at DESC,id DESC);
+CREATE INDEX IF NOT EXISTS idx_approvals_v339_list ON approvals(business_unit_id,status,created_at DESC,id DESC);
+CREATE INDEX IF NOT EXISTS idx_documents_v339_list ON documents(business_unit_id,created_at DESC,id DESC);
+CREATE INDEX IF NOT EXISTS idx_excavator_assets_v339_list ON excavator_assets(business_unit_id,lifecycle_stage,id DESC);
+CREATE INDEX IF NOT EXISTS idx_excavator_suppliers_v339_list ON excavator_suppliers(business_unit_id,active,name,id);
+CREATE INDEX IF NOT EXISTS idx_excavator_buyers_v339_list ON excavator_buyers(business_unit_id,name,id);
+`)}catch(e){console.warn('V30.39 list index setup:',e.message)}
+try{db.pragma('optimize')}catch(_){}

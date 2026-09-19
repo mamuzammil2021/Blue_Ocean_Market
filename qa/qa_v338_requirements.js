@@ -6,7 +6,7 @@ const client=read('public/v338-client.js'),server=read('server/v338.js'),main=re
 const {calculateExcavatorSaleSettlementV338:calc}=require('../public/settlement-v338');
 let pass=0;function ok(cond,msg){assert.ok(cond,msg);pass++;console.log('PASS',String(pass).padStart(2,'0'),msg)}
 ok(/^30\.38\./.test(pkg.version),'package remains in V30.38.x line');
-ok(index.includes('/settlement-v338.js?v=30.38.1')&&index.includes('/v338-client.js?v=30.38.1'),'V30.38 browser scripts are shipped');
+ok(index.includes('/settlement-v338.js?v=30.38.2')&&index.includes('/v338-client.js?v=30.38.2'),'V30.38 browser scripts are shipped');
 ok(main.includes("require('./v338').install"),'V30.38 server module is installed');
 ok(server.includes('counterparty_payment_account_history'),'account edit/history schema is additive');
 ok(server.includes("app.put('/api/v338/payee-accounts/:id'"),'receiver accounts can be updated');

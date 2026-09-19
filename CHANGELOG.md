@@ -1,3 +1,32 @@
+# V30.39.0 — Performance Foundation & Runtime Consolidation
+
+- Built directly on protected V30.38.2 with no destructive data migration/reset.
+- Consolidated the historical live browser patch chain into `runtime-v3039.js`; startup script tags reduced from 45 to 3 while historical source remains packaged.
+- Added precompressed gzip hot assets and versioned static caching for slow connections.
+- Added system-wide immediate action/busy feedback with contextual button state and a slow-response message.
+- Added in-flight GET deduplication, shared debounce/cancel remote search, shared paging requests, and an explicit lifecycle registry for future modules.
+- Added request IDs, response/server timing, slow-request/large-response diagnostics, authorized performance-health endpoint, and optional SQL profiling.
+- Added SQLite busy timeout/NORMAL synchronous/temp-memory/cache tuning, targeted list indexes and `PRAGMA optimize`.
+- Replaced synchronous Chrome PDF child-process execution in the affected Pink Salt PDF paths with async Promise-based execution.
+- Added `server/pagination-v339.js` as the permanent real server-side paging contract (25/50/100) for all new scalable lists and incremental legacy migration.
+- Added permanent **System-Wide Performance, Async Interaction & Scalability Standard** to master requirements so future BUs/releases inherit the rules automatically.
+- QA: V30.39 dedicated **54/54**, inherited current QA **PASS**, handler wiring **0 unresolved**.
+- Live runtime smoke remains a deployment-environment gate (`npm ci && npm run qa:runtime`).
+
+# V30.38.2 — Refund, Modal Lifecycle, Machine Cost & Token Account Interaction Hotfix
+
+- Kept point-versioning; built directly on protected V30.38.1.
+- Repaired the real Buy Machine Token Payment account interaction using stable click-driven Pay From / Paid To pickers while retaining the underlying real form selectors and V30.38.1 async/prefetch/caching.
+- Users can switch away from default accounts; one-account cases remain usable.
+- Detached Add / Manage Accounts from conflicting inherited click routes and connected it directly to the final shared Supplier Accounts manager.
+- Added shared refund settlement preview showing Available Before, Refund Amount/Currency, KRW Equivalent / Advance Deduction and Remaining After.
+- Direct refund Pay From and Paid To accounts are filtered/backend-validated to Refund Currency; cross-currency funding requires an explicit FX-conversion workflow.
+- Added system-wide successful modal lifecycle: successful mutating child actions close only the active child; failures remain open; parent context is preserved.
+- Machine Costs now use a bounded scrollable entries list with Total machine cost always visible and actions aligned right.
+- Replaced the large yellow verified/posted lock treatment with compact disabled `🔒 Edit`; Void keeps separate lifecycle/permission rules.
+- No V30.38.2 schema change, reset or destructive migration.
+- QA: 33/33 release checks, 18/18 focused Chromium, inherited V30.38.1 10/10, V30.38 18/18, V30.37 18/18, V30.36 stateful 28/28, and 0 unresolved inline handler targets.
+
 # V30.38.1 — Sell Machine Validation & Buy Machine Account Hotfix
 
 - Kept point-versioning for this focused repair; protected V30.38.0 remains the functional baseline.

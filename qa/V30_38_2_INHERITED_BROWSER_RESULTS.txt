@@ -1,0 +1,111 @@
+===== python qa/browser_v3381_hotfix_audit.py =====
+PASS V30.38.1 hotfix overlay loaded 
+PASS Sell Machine required fields are not red before interaction — {'red': 0, 'customer': '', 'field': 'field'}
+PASS Sell Machine still validates after field interaction — field v335-field-invalid
+PASS Entering a valid Sell Machine value immediately clears stale red/error state — {'custom': False, 'msg': '', 'field': 'field', 'cls': ''}
+PASS Slow connection shows clear account-loading states — {'company': 'Loading company accounts…', 'receiver': 'Loading supplier accounts…', 'disabled': [True, True], 'calls': [{'p': '/api/v320/financial-accounts/options', 'at': 1547.9000000001397}, {'p': '/api/v338/payee-accounts', 'at': 1548.1000000000931}]}
+PASS Pay From and Paid To requests start in parallel — [1547.9000000001397, 1548.1000000000931]
+PASS Single Pay From account is visible, enabled and selected — {'company': '101', 'receiver': '201', 'co': 2, 'ro': 2, 'disabled': [False, False], 'valid': ['', '']}
+PASS Single Paid To account is visible, enabled and selected — {'company': '101', 'receiver': '201', 'co': 2, 'ro': 2, 'disabled': [False, False], 'valid': ['', '']}
+PASS Buy Machine Add / Manage Accounts opens shared Supplier Accounts manager — Supplier Accounts
+Supplier Ten · shared receiver/payee account management.
+Close
+Supplier Main
+Supplier Ten
+KB
+South Korea · KRW · ****9988
+Default
+0 historical link(s)
+Edit
+Archiv
+PASS V30.38.1 browser hotfix audit has no uncaught page errors 
+
+SUMMARY 10 checks 0 failed
+
+===== python qa/browser_v338_release_audit.py =====
+PASS V30.38 overlay loaded 
+PASS Shared settlement engine loaded 
+PASS Pakistan Resales has exact seven profile sections — ['Overview', 'Resale Records', 'Payments & Settlements', 'Credit', 'Refunds', 'Pakistan → Korea Bank Transfers', 'Documents']
+PASS Pakistan → Korea Bank Transfers is a real selected section — Pakistan → Korea Bank Transfers
+Cash movement only. It does not create new Pakistan resale income.
+Transfer Pakistan Funds to Kore
+PASS Pakistan Resale selected section survives refresh/child return — Pakistan → Korea Bank Transfers
+PASS Shared account manager exposes Edit, Archive and Account History — Supplier Accounts
+Akmal Abdullah · shared receiver/payee account management.
+Close
+Main Bank
+Akmal Abdullah
+KB
+South Korea · KRW · ****2222
+Default
+3 historical
+PASS Account update requires Review & Confirm 
+PASS Account edit calls V30.38 controlled update endpoint — {'puts': ['/api/v338/payee-accounts/201'], 'all': [['GET', '/api/v338/payee-accounts'], ['GET', '/api/v338/payee-account-history'], ['GET', '/api/v338/payee-accounts'], ['GET', '/api/v338/payee-account-history'], ['PUT', '/api/v338/payee-accounts/201'], ['GET', '/api/v338/payee-accounts'], ['GET', '/api/v338/payee-account-history'], ['GET', '/api/v330/payee-accounts'], ['GET', '/api/action-counts'], ['GET', '/api/notifications/unread-count']], 'confirm': '', 'form': '<form onsubmit="v338SaveAccount(event)"><input type="hidden" name="account_id" value="0"><div class="grid g2"><div class="field"><label>Label *</label><input name="label" required="" value=""></div><div class="field"><label>Method *</label><select name="method_type" onchange="v338AccountMethodChanged(this.form)"><option selected="" value="Bank">Bank</option><option value="Card">Card</option><option value="Wallet">Wallet</option><option value="Other">Other</option></select></div><div class="field', 'toast': 'Receiver account updated'}
+PASS Finance filter toolbar is collapsible 
+PASS Finance filter body actually collapses 
+PASS Accounting posting-status controls remain outside collapsible filters 
+PASS Accounting status controls remain visible with filters collapsed 
+PASS Sell Machine canonical live math: ₩15,000 − ₩10,000 advance = ₩5,000 New Payment — {'advance': '10000', 'payment': '5000', 'required': '₩ 5,000', 'preview': 'Sale Price\n₩ 15,000\nExisting Allocated\n₩ 0\nCoverage Required\n₩ 15,000\nBuyer Advance Used\n₩ 10,000\nNew Payment Required\n₩ 5,000\nNew Payment Entered\n₩ 5,000\nBuyer Credit Added\n₩ 0\nResulting Outstanding\n₩ 0\nReceipt / evidence is mandatory for a new buyer payment.'}
+PASS Changing sale price immediately recalculates dependent New Payment — 10000
+PASS Short New Payment is dynamically invalidated — New payment is short by KRW 1,000.
+PASS Inline new-supplier receiver account defaults to supplier Default account 
+PASS V30.38 Pakistan Resale UI is mobile-safe 
+PASS V30.38 browser audit has no uncaught page errors 
+
+SUMMARY 18 checks 0 failed
+
+===== python qa/browser_v337_profile_accounts_filters.py =====
+PASS V30.37 overlay loaded 
+PASS Supplier profile splits Payments and Accounts — ['Overview', 'Machines', 'Requirements', 'Payments', 'Accounts']
+PASS Supplier Payments shows payment-only data 
+PASS Supplier Accounts shows receiver-account data 
+PASS Supplier account-management button opens working child manager 
+PASS Closing supplier account manager preserves supplier Accounts section 
+PASS Buyer top actions keep Statement/Pakistan Resales but remove Payment Accounts — Buyer Statement
+Pakistan Resales
+PASS Buyer profile has six focused section buttons — ['Payments & Advance', 'Advance Refunds', 'Machines Sold', 'Requirements', 'Documents', 'Accounts']
+PASS Buyer defaults to one Payments section 
+PASS Buyer section switch shows only selected refund data — Buyer Advance Refunds
+Evidence-backed refunds remain linked to Finance and appro
+PASS Buyer Accounts is inside buyer detail sections 
+PASS Buyer account-management button opens child manager 
+PASS Buyer selected Accounts section survives child manager close — Accounts
+PASS Legacy Add/Manage account handler is repaired system-wide 
+PASS Finance filters use shared responsive toolbar 
+PASS Posting Queue filters use shared responsive toolbar 
+PASS New filter toolbar remains mobile-safe 
+PASS V30.37 focused browser pass has no uncaught page errors 
+
+SUMMARY 18 checks 0 failed
+
+===== python qa/browser_v336_stateful_audit.py =====
+PASS boot Excavator dashboard renders 
+PASS Buy Machine has exactly one Pay From and one Paid To — {'from': 1, 'to': 1, 'fromVal': '101', 'toVal': '202', 'supplier': '10'}
+PASS Buy Machine selects compatible company source account — 101
+PASS Buy Machine auto-selects supplier default receiver account — 202
+PASS Supplier listed machine fills Buy Machine details — {'name': 'Hyundai R215', 'make': 'Hyundai', 'model': 'R215LC-9S', 'price': '85000000'}
+PASS Add/Manage receiver account opens child modal without replacing Buy Machine 
+PASS Closing receiver-account modal returns to same Buy Machine state — {'modal': False, 'form': True, 'supplier': '10', 'token': '1000000'}
+PASS Sell Machine New Payment follows selling price — 100000000
+PASS Buyer Advance + New Payment uses only New Payment Required — 70000000
+PASS Combined payment recalculates immediately after selling-price change — 90000000
+PASS Required-field validation stays quiet while user is typing — {'bad': False, 'toast': ''}
+PASS Required-field validation appears after blur 
+PASS Sold-machine Purchase Edit is hidden/disabled for normal user — {'hidden': True, 'disabled': True}
+PASS CEO/Owner retains controlled sold-machine Purchase Edit access — {'hidden': False, 'disabled': False}
+PASS Finance-verified/posted machine cost row uses disabled lock Edit — <div class="row v3382-cost-row "><span>Repair<small class="v319-cost-meta">2026-09-01 · 1,000,000.00 KRW · — · Ref —</small></span><span class="v319-cost-actions"><b>₩ 1,000,000.00</b><button type="button" class="btn small v3382-locked-edit
+PASS Direct open of locked machine cost is blocked — This machine cost is locked. Use Finance Request Correction / controlled reversal instead of direct editing.
+PASS Finance filter resets pagination to page 1 — 2 / 3 -> 1 / 2; 1–25 of 30
+PASS Finance date range composes before pagination — ['2026-09-04', '2026-09-05', '2026-09-06']
+PASS Machine search resets pagination to page 1 — 2 / 3 -> 1 / 2
+PASS Posting Control receives compact date-range + pagination controls — pagers=1, date=1
+PASS Posting Control search resets pagination to page 1 — 2 / 3 -> 1 / 2
+PASS Finished Goods blocks Archive/Delete while stock exists — {'sku': 'STOCK', 'archive': True, 'del': True}
+PASS Finished Goods enables Archive/Delete at zero stock — {'sku': 'ZERO', 'archive': False, 'del': False}
+PASS Review & Confirm dialog opens 
+PASS Review & Confirm action resolves true — True
+PASS Mobile app chrome avoids body-level horizontal overflow 
+PASS Tablet app chrome avoids body-level horizontal overflow 
+PASS Stateful browser pass has no uncaught page errors 
+
+SUMMARY 28 checks 0 failed
