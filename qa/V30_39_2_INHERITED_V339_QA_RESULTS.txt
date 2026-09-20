@@ -1,0 +1,60 @@
+
+> blue-ocean-market-os@30.39.2 qa:v339
+> node qa/qa_v339_performance.js
+
+PASS V30.39 foundation retained in package 30.39.2
+PASS qa:v339 script registered
+PASS live HTML reduced to 3 scripts
+PASS runtime bundle loaded
+PASS legacy patch chain not loaded separately
+PASS historical V30.38.2 patch preserved in bundle
+PASS V30.39 client foundation included
+PASS public/i18n-ko.js.gz exists
+PASS public/i18n-ko.js.gz smaller than source
+PASS public/client.js.gz exists
+PASS public/client.js.gz smaller than source
+PASS public/runtime-v30392.js.gz exists
+PASS public/runtime-v30392.js.gz smaller than source
+PASS server performance middleware installed before static runtime
+PASS server reports current V30.39.2 while V30.39 foundation remains installed
+PASS performance health route installed
+PASS slow request logging exists
+PASS large response logging exists
+PASS API gzip exists
+PASS static immutable cache exists
+PASS request id exists
+PASS server timing exists
+PASS optional SQL profiling exists
+PASS SQLite busy timeout enabled
+PASS SQLite NORMAL synchronous enabled
+PASS V30.39 list indexes exist
+PASS shared server pagination helper exists
+PASS server paging standard includes 25/50/100
+PASS client in-flight GET dedupe exists
+PASS client remote-search debounce/cancel exists
+PASS client shared paged API exists
+PASS client immediate busy button feedback exists
+PASS client slow connection feedback exists
+PASS future lifecycle registry exists
+PASS document observer baseline does not grow above V30.39 audit threshold
+PASS blocking Chrome execFileSync removed from server
+PASS server/v307.js uses async PDF helper
+PASS server/v308.js uses async PDF helper
+PASS server/v313.js uses async PDF helper
+PASS server/v315.js uses async PDF helper
+PASS permanent performance carry-forward rules documented
+PASS requirements mandate server-side pagination
+PASS requirements prohibit renewed patch stacking
+PASS requirements carry rules into future work
+PASS syntax server/server.js
+PASS syntax server/v339-performance.js
+PASS syntax server/pagination-v339.js
+PASS syntax server/async-pdf-v339.js
+PASS syntax server/v307.js
+PASS syntax server/v308.js
+PASS syntax server/v313.js
+PASS syntax server/v315.js
+PASS syntax public/v339-client.js
+PASS syntax public/runtime-v30392.js
+
+V30.39 QA: 54 passed, 0 failed

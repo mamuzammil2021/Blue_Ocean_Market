@@ -1,0 +1,75 @@
+
+> blue-ocean-market-os@30.40.0 qa:v340
+> node qa/qa_v340_access_ui.js
+
+PASS release identity is 30.40.0
+PASS V30.40 client is loaded last
+PASS Chrome translation suppression is declared in HTML
+PASS Chrome translation suppression is maintained at runtime
+PASS sidebar navigation becomes real links for new-tab support
+PASS hash navigation restores full-screen route in new tabs
+PASS self-navigation cleanup removes redundant Posting Control action
+PASS Actions columns are detected and moved to far right
+PASS Actions column is sticky and right aligned
+PASS wide tables remain scroll-capable rather than globally blocked
+PASS Accounting Proposal wraps to multiple lines
+PASS table enhancement is idempotent for newly paged rows
+PASS Finance and Posting filters default collapsed
+PASS dedicated Filter cards default collapsed
+PASS redundant Date Range labels are removed
+PASS machine purchase cost sorts first then entry order
+PASS verified machine cost Void UI is removed for non-CEO
+PASS verified/posted generic rows hide Void for non-CEO
+PASS verified/posted Finance void is server restricted to CEO/Owner
+PASS verified Excavator payments/costs enforce same server restriction
+PASS receiver bank account validation is server-side
+PASS receiver account validation is client-side with minimum digit count
+PASS account manager closes after successful save
+PASS supplier machine modal closes after successful save
+PASS Cash UI clears/disables receiver account fields
+PASS machine payment backend requires receiver only for electronic methods
+PASS buyer refund Cash no longer requires receiver account
+PASS Pakistan resale Cash refund no longer requires receiver account
+PASS multi-profile access tables exist
+PASS approval authority is separate from feature profiles
+PASS multiple profiles are additive in effective access
+PASS permission groups are additive in effective access
+PASS user overrides remain last-mile effective access controls
+PASS existing legacy roles migrate safely into profiles
+PASS new users receive an initial access profile
+PASS per-profile and per-group BU scope is stored
+PASS removing a BU cleans its scoped access objects
+PASS Access Profile CRUD and duplicate endpoints exist
+PASS multi-profile assignment endpoint exists
+PASS permission-group assignment endpoint exists
+PASS approval-authority endpoint exists
+PASS bulk profile assignment endpoint exists
+PASS V30.40 clone/copy endpoint exists
+PASS simple Access UI uses profiles/groups/scope/authority/advanced tabs
+PASS granular exceptions are explicitly advanced-only
+PASS Effective Access exposes permission source
+PASS profile library shows affected/assigned users
+PASS bulk user selection UI exists
+PASS profile edits warn they affect assigned users
+PASS approval level remains visibly separate in UI
+PASS global profile/group/authority scope is uniquely constrained
+PASS shared profile library mutation is restricted
+PASS legacy apply-template synchronizes Access Profiles
+PASS clone respects target BU scope and protects CEO profile
+PASS approval authority global scope uses null-safe replace
+PASS Finance maker-checker blocks own verification
+PASS Accounting maker-checker blocks own final posting
+PASS L5 finance reviewer uses configured authority plus Finance verify permission
+PASS Profile Library editing controls are hidden for ordinary delegated users
+PASS V30.40 QA scripts are registered
+PASS legacy performance runtime remains loaded and unchanged as compatibility layer
+PASS syntax server/server.js
+PASS syntax server/v316.js
+PASS syntax server/v331.js
+PASS syntax server/v330.js
+PASS syntax server/v338.js
+PASS syntax public/client.js
+PASS syntax public/runtime-v30392.js
+PASS syntax public/v340-client.js
+
+V30.40 QA: 69 passed, 0 failed

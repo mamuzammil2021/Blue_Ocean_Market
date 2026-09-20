@@ -214,6 +214,7 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
   app.post('/api/accounting/posting-control/:id/post',auth,(req,res)=>{
     const j=detailRow(req.params.id);if(!j||!canSee(req,j)||!canViewPosting(req,j))return res.status(404).json({error:'Accounting proposal not found.'});if(!canPost(req,j))return res.status(403).json({error:'Final Accounting posting permission is required for every business unit affected by this proposal.'});
     if(!['Pending Review','Correction Required'].includes(j.status))return res.status(409).json({error:`Only a pending/correction accounting proposal can be posted. Current status: ${j.status}.`});
+    if(req.user.role!=='CEO / Owner'&&Number(j.created_by)===Number(req.user.id))return res.status(403).json({error:'Maker/checker control: you cannot final-post an Accounting proposal you created.'});
     if(!j.balanced)return res.status(409).json({error:'The accounting proposal is not balanced and cannot be posted.'});
     const closed=periodClosedUnits(j);if(closed.length)return res.status(409).json({error:'The accounting period is closed for one or more affected business units. Reopen it before final posting.',business_unit_ids:closed});
     const readiness=financeReadiness(j);if(!readiness.ready)return res.status(409).json({error:'Source control / verification checks are not complete for this accounting proposal.',warnings:readiness.warnings});

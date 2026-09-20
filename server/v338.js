@@ -38,6 +38,7 @@ function install(ctx){
     const numberProvided=text(req.body.account_number),accountNumber=numberProvided||text(existing?.account_number);
     const bank=text(req.body.bank_name!==undefined?req.body.bank_name:existing?.bank_name);
     if(method==='Bank'&&!accountNumber)throw new Error('Receiver bank account number is required.');
+    if(method==='Bank'&&accountNumber){const digits=accountNumber.replace(/[^0-9]/g,'');if(!/^[0-9][0-9 -]{3,39}$/.test(accountNumber)||digits.length<4)throw new Error('Receiver account number may contain only numbers, spaces and hyphens, with at least 4 digits.');}
     if(method==='Bank'&&!bank)throw new Error('Receiver bank name is required.');
     return {bu,entityType,entityId,entity,method,label,bank,accountNumber,isDefault:req.body.is_default===true||String(req.body.is_default)==='1'};
   }

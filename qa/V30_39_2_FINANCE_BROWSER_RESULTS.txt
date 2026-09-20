@@ -1,0 +1,18 @@
+
+> blue-ocean-market-os@30.39.2 qa:v3392:browser
+> python3 qa/browser_v3392_finance_paging.py
+
+PASS Finance paints progressive shell immediately 
+PASS Finance rows render before slower corrections finish 
+PASS Correction badge remains progressive while corrections are still loading 
+PASS Finance server pager shows first range 
+PASS Finance page and corrections started independently — [{'p': '/api/finance/corrections', 'q': '', 'method': 'GET', 'at': 441.69999999995343}, {'p': '/api/finance/v3392-page', 'q': '?page=1&pageSize=25&search=&status=&type=&evidence=&special=&from=&to=', 'method': 'GET', 'at': 441.79999999981374}]
+PASS Correction badge fills independently when ready 
+PASS Finance search is sent to server before paging — ['?page=1&pageSize=25&search=&status=&type=&evidence=&special=&from=&to=', '?page=1&pageSize=25&search=Doosan&status=&type=&evidence=&special=&from=&to=']
+PASS Search result renders from server response 
+PASS Finance status filter is sent to server — ['?page=1&pageSize=25&search=&status=&type=&evidence=&special=&from=&to=', '?page=1&pageSize=25&search=Doosan&status=&type=&evidence=&special=&from=&to=', '?page=1&pageSize=25&search=Doosan&status=Pending+Verification&type=&evidence=&special=&from=&to=']
+PASS Finance Next/page request uses server page 2 — ['?page=1&pageSize=25&search=&status=&type=&evidence=&special=&from=&to=', '?page=1&pageSize=25&search=Doosan&status=&type=&evidence=&special=&from=&to=', '?page=1&pageSize=25&search=Doosan&status=Pending+Verification&type=&evidence=&special=&from=&to=', '?page=2&pageSize=25&search=Doosan&status=Pending+Verification&type=&evidence=&special=&from=&to=']
+PASS Server pager prevents legacy client-only pager duplication 
+PASS V30.39.2 Finance browser pass has no uncaught page errors 
+
+SUMMARY 12 checks 0 failed

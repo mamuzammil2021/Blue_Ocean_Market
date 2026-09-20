@@ -1,0 +1,19 @@
+
+> blue-ocean-market-os@30.39.2 qa:v3391:browser
+> python3 qa/browser_v3391_progressive_audit.py
+
+PASS Machine screen paints skeleton immediately 
+PASS Machine rows render before slower KPI summary completes 
+PASS KPI summary fills independently when ready 
+PASS Buyer profile opens with skeleton before detail response 
+PASS Buyer main profile renders without waiting for Accounts 
+PASS Buyer Accounts request is deferred until selected — ['/api/excavator/buyers/7']
+PASS Buyer Accounts section shows loading state while deferred request runs 
+PASS Buyer Accounts fills independently after selection 
+PASS Supplier opens immediately with progressive placeholders 
+PASS Supplier identity renders before slower statement 
+PASS Supplier Requirements/Accounts are not fetched for Overview — ['/api/excavator/suppliers/10/machines', '/api/excavator/suppliers/10/statement']
+PASS Supplier overview stats complete independently 
+PASS V30.39.1 focused browser pass has no uncaught page errors 
+
+SUMMARY 13 checks 0 failed

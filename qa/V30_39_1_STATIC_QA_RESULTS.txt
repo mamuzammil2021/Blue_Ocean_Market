@@ -1,0 +1,46 @@
+
+> blue-ocean-market-os@30.39.1 qa:v3391
+> node qa/qa_v3391_progressive.js
+
+PASS release identity 30.39.1
+PASS qa:v3391 registered
+PASS live browser remains three scripts
+PASS V30.39.1 runtime loaded
+PASS public/i18n-ko.js.gz exists
+PASS public/i18n-ko.js.gz smaller
+PASS public/client.js.gz exists
+PASS public/client.js.gz smaller
+PASS public/runtime-v30391.js.gz exists
+PASS public/runtime-v30391.js.gz smaller
+PASS generic view shell paints immediately
+PASS boot me/context/access parallelized
+PASS business units and pnl parallelized
+PASS progressive skeleton states
+PASS shared parallel/lazy/cache primitives
+PASS successful mutations invalidate progressive caches
+PASS machine page is server paged
+PASS buyer page is server paged
+PASS supplier page is server paged
+PASS server V30.39.1 performance module installed before legacy routes
+PASS summary-only Excavator overview supported
+PASS overview aggregate runs in SQL
+PASS machine paging uses SQL LIMIT/OFFSET and window total
+PASS V30.39.1 query-path indexes included
+PASS three legacy-compatible paged intercepts
+PASS buyer profile requirements use persisted match counts
+PASS supplier requirements use persisted match counts
+PASS buyer receiver accounts removed from initial critical path
+PASS supplier secondary sections lazy by key
+PASS supplier profile core reads can run concurrently
+PASS section-level retry exists
+PASS permanent progressive carry-forward rule
+PASS permanent smart context-aware impact rule
+PASS syntax server/server.js
+PASS syntax server/v3391-progressive.js
+PASS syntax public/client.js
+PASS syntax public/v337-client.js
+PASS syntax public/v3391-client.js
+PASS syntax public/runtime-v30391.js
+PASS syntax qa/qa_v3391_progressive.js
+
+V30.39.1 QA: 40 passed, 0 failed

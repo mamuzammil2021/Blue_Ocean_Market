@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.39.0",
+  "version": "30.40.0",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -27,7 +27,13 @@
     "qa:v338": "node qa/qa_v338_requirements.js",
     "qa:v3381": "node qa/qa_v3381_hotfix.js",
     "qa:v3382": "node qa/qa_v3382_patch.js",
-    "qa:v339": "node qa/qa_v339_performance.js"
+    "qa:v339": "node qa/qa_v339_performance.js",
+    "qa:v3391": "node qa/qa_v3391_progressive.js",
+    "qa:v3391:browser": "python3 qa/browser_v3391_progressive_audit.py",
+    "qa:v3392": "node qa/qa_v3392_core.js",
+    "qa:v3392:browser": "python3 qa/browser_v3392_finance_paging.py",
+    "qa:v340": "node qa/qa_v340_access_ui.js",
+    "qa:v340:runtime": "node qa/runtime_v340_access.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

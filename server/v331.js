@@ -157,6 +157,9 @@ function install(ctx={}){
     const payBlock=paymentDownstreamBlocker(f);if(payBlock)return {allowed:false,reason:payBlock};
     return {allowed:true,finance:f,journal:j,impacts:impactForFinance(f)};
   }
+  function protectedVerifiedStage(f){
+    if(!f)return false;const j=latestJournal(f);return ['Verified / Correct','Verified'].includes(text(f.verification_status))||j?.status==='Posted'||text(f.accounting_status)==='Posted'||Number(f.accounting_journal_id||0)>0;
+  }
   function financeActionPolicy(f){
     if(!f)return {can_request:false,action_label:'',stage:'Missing',reason:'Finance entry not found.',impacts:[]};
     const j=latestJournal(f),stage=financeStage(f,j),impacts=impactForFinance(f),sourceMessage=sourceManagedMessage(text(f.source_type));
@@ -222,10 +225,10 @@ function install(ctx={}){
   // Finance action policy is the authoritative UI/server rule for showing Request Void vs Request Reversal.
   app.get('/api/v331/finance/:id/action-policy',auth,allow('finance'),(req,res)=>{
     const f=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(req.params.id);if(!f)return res.status(404).json({error:'Finance entry not found.'});if(!enforceUnit(req,f.business_unit_id))return res.status(403).json({error:'You cannot access another business unit Finance record.'});
-    const p=financeActionPolicy(f),machine=linkedCostMachine(f)||linkedPaymentMachine(f)||null,authorized=canRequestLifecycle(req,f.business_unit_id);res.json({...p,can_request:authorized&&p.can_request,permission_allowed:authorized,reason:authorized?p.reason:'You are not authorized to request a Finance void/reversal.',finance_id:f.id,source:{type:f.source_type,id:f.source_id,machine}});
+    const p=financeActionPolicy(f),machine=linkedCostMachine(f)||linkedPaymentMachine(f)||null,verifiedAllowed=req.user.role==='CEO / Owner'||!protectedVerifiedStage(f),authorized=canRequestLifecycle(req,f.business_unit_id)&&verifiedAllowed;res.json({...p,can_request:authorized&&p.can_request,permission_allowed:authorized,reason:verifiedAllowed?(authorized?p.reason:'You are not authorized to request a Finance void/reversal.'):'Verified/posted records can be voided or reversed only by CEO / Owner.',finance_id:f.id,source:{type:f.source_type,id:f.source_id,machine}});
   });
   app.get('/api/v331/source-action-policy',auth,(req,res)=>{
-    const sourceType=text(req.query.source_type),sourceId=Number(req.query.source_id||0);if(!sourceType||!sourceId)return res.status(400).json({error:'source_type and source_id are required.'});const p=sourceVoidPolicy(sourceType,sourceId);if(p.finance_id){const f=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(p.finance_id);if(f&&!enforceUnit(req,f.business_unit_id))return res.status(403).json({error:'You cannot access this business unit record.'});const authorized=canRequestSourceLifecycle(req,f?.business_unit_id);return res.json({...p,allowed:authorized&&p.allowed,blocked:!authorized||p.blocked,reason:authorized?p.reason:'You are not authorized to request this source void/reversal.',permission_allowed:authorized})}res.json(p);
+    const sourceType=text(req.query.source_type),sourceId=Number(req.query.source_id||0);if(!sourceType||!sourceId)return res.status(400).json({error:'source_type and source_id are required.'});const p=sourceVoidPolicy(sourceType,sourceId);if(p.finance_id){const f=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(p.finance_id);if(f&&!enforceUnit(req,f.business_unit_id))return res.status(403).json({error:'You cannot access this business unit record.'});const verifiedAllowed=req.user.role==='CEO / Owner'||!protectedVerifiedStage(f),authorized=canRequestSourceLifecycle(req,f?.business_unit_id)&&verifiedAllowed;return res.json({...p,allowed:authorized&&p.allowed,blocked:!authorized||p.blocked,reason:verifiedAllowed?(authorized?p.reason:'You are not authorized to request this source void/reversal.'):'Verified/posted records can be voided or reversed only by CEO / Owner.',permission_allowed:authorized})}res.json(p);
   });
 
   app.get('/api/v331/lifecycle/history',auth,allow('finance'),(req,res)=>{
@@ -278,7 +281,7 @@ function install(ctx={}){
 
   // Fix the missing Finance Request Void endpoint and make it stage/dependency aware.
   app.delete('/api/finance/:id',auth,allow('finance'),(req,res)=>{
-    const f=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(req.params.id);if(!f)return res.status(404).json({error:'Finance entry not found.'});if(!enforceUnit(req,f.business_unit_id))return res.status(403).json({error:'You cannot access another business unit Finance record.'});if(!canRequestLifecycle(req,f.business_unit_id))return res.status(403).json({error:'Finance void/reversal permission is required.'});
+    const f=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(req.params.id);if(!f)return res.status(404).json({error:'Finance entry not found.'});if(!enforceUnit(req,f.business_unit_id))return res.status(403).json({error:'You cannot access another business unit Finance record.'});if(protectedVerifiedStage(f)&&req.user.role!=='CEO / Owner')return res.status(403).json({error:'Verified/posted records can be voided or reversed only by CEO / Owner.'});if(!canRequestLifecycle(req,f.business_unit_id))return res.status(403).json({error:'Finance void/reversal permission is required.'});
     const reason=text(req.body?.reason);if(!reason)return res.status(400).json({error:'Void / reversal reason is required.'});const policy=financeActionPolicy(f);if(!policy.can_request)return res.status(409).json({error:policy.reason||'This record cannot be voided/reversed at its current stage.',policy});
     const lifecycleId=createLifecycle({f,action:policy.action_label,reason,impacts:policy.impacts,userId:req.user.id});
     try{

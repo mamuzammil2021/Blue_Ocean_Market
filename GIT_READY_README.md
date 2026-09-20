@@ -1,18 +1,20 @@
-# Git / Render Ready — V30.39.0
+# Git / Render Ready — V30.40.0
 
-V30.39.0 is built directly on protected V30.38.2. It is a system-wide performance/architecture release: consolidated live browser runtime delivery, immediate slow-network processing feedback, GET request deduplication, shared search/pagination/lifecycle primitives, request and optional SQL diagnostics, async Chrome PDF execution, gzip/caching, SQLite tuning, and permanent performance carry-forward rules. Existing business workflows, SQLite data, uploads and Render persistent storage are preserved.
+V30.40.0 is built directly on the protected V30.39.2 baseline. It adds the multi-profile Users & Access redesign and the agreed 19 Sep/system-wide UI QA refinements without a destructive database reset.
+
+Existing SQLite data, uploads/evidence, backups and Render persistent storage are preserved. Do **not** delete/recreate the persistent disk for this release.
 
 Recommended verification before merge/deploy:
 
 ```bash
 npm ci
-npm run qa:v339
-npm run qa:v336:handlers
+npm run qa:v340
 npm run qa:current
 npm run qa:render
+npm run qa:v340:runtime
 npm run qa:runtime
 ```
 
-The packaged build environment used for this release does not include installed npm dependencies, so live Express/SQLite runtime smoke is not claimed here. Run `npm ci && npm run qa:runtime` in the normal networked Mac/Render Node 22 environment before production deployment. Preserve the existing database, uploads, backups and persistent disk.
+The shared Access Profile library is protected, per-user profile/group assignments are BU-scoped, Approval Authority remains separate, and Finance/Accounting maker-checker safeguards remain active. Wide tables may scroll horizontally when needed, but Actions stay at the far right and are sticky/right-aligned where practical.
 
-For scalable list development from V30.39 onward, use `server/pagination-v339.js` (25/50/100, filter/search/sort before paging). Existing legacy lists are to be migrated incrementally rather than rewritten blindly in this release.
+All V30.39/V30.39.1/V30.39.2 performance, progressive-loading, targeted-refresh and Smart Context-Aware Change & Impact-Control standards remain mandatory carry-forward rules.
