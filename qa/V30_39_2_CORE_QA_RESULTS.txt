@@ -1,0 +1,68 @@
+PASS release identity is 30.39.2
+PASS qa:v3392 registered
+PASS live browser remains three scripts
+PASS all live browser assets use 30.39.2 cache identity
+PASS V30.39.2 runtime preserves V30.39.1 before new overlay
+PASS public/i18n-ko.js.gz exists
+PASS public/i18n-ko.js.gz smaller than source
+PASS public/client.js.gz exists
+PASS public/client.js.gz smaller than source
+PASS public/runtime-v30392.js.gz exists
+PASS public/runtime-v30392.js.gz smaller than source
+PASS Accounting queue is bounded by count and time
+PASS Accounting queue uses recursive background scheduler
+PASS Accounting initial historical queue is migration-ledgered
+PASS no forced 1000/5000 Accounting queue drains remain
+PASS P&L schedules Accounting instead of draining it
+PASS Pink Salt historic Finance backfill is one-time
+PASS Finance integrity bootstrap is one-time
+PASS V30.25 finance separation backfill is one-time
+PASS effective access cache is short-lived and bounded
+PASS access cache exposes invalidation
+PASS central auth gate reuses verified request identity
+PASS notification read endpoints no longer run alert sweep
+PASS alert sweep is scheduled independently
+PASS alert families are staged across low-priority ticks
+PASS approval action-count path uses SQL for ordinary levels and row checks only for dual L5
+PASS API gzip uses asynchronous zlib
+PASS main attachment hashing streams file data
+PASS System Settings interactive uploads use streaming hash
+PASS Pink Salt supplier list uses set-based summaries
+PASS Pink Salt customer list avoids per-customer summary loop
+PASS Pink Salt order list avoids per-order financial loop
+PASS Finance list endpoint is truly server paged
+PASS Finance filters execute before LIMIT/OFFSET
+PASS Finance KPIs use separate scoped aggregate query
+PASS Finance list has SQL evidence counts instead of row-by-row JS
+PASS legacy Finance endpoint removed per-row evidence N+1
+PASS V30.39.2 client uses paged Finance endpoint
+PASS Finance client sends search/status/type/evidence/date filters server-side
+PASS Finance master and corrections reads start independently and secondary corrections do not block primary rows
+PASS old client pager skips server-paged sections
+PASS V30.39.2 diagnostics include event-loop lag
+PASS V30.39.2 diagnostics include Accounting queue age/depth
+PASS V30.39.2 diagnostics include memory/access-cache/migrations
+PASS V30.39.2 indexes are narrowly targeted and guarded
+PASS permanent non-blocking/set-based rule documented
+PASS permanent rule forbids request-path queue draining
+PASS permanent rule forbids N+1 growing lists
+PASS permanent rule requires access-cache invalidation
+PASS permanent rule requires ledgered migrations
+PASS permanent smart-context rule retained
+PASS V30.39.2 does not add to audited 33-observer compatibility baseline
+PASS syntax server/server.js
+PASS syntax server/v290.js
+PASS syntax server/v300.js
+PASS syntax server/v302.js
+PASS syntax server/v315.js
+PASS syntax server/v316.js
+PASS syntax server/v319.js
+PASS syntax server/v325.js
+PASS syntax server/v339-performance.js
+PASS syntax server/v3392-core.js
+PASS syntax public/v335-client.js
+PASS syntax public/v3392-client.js
+PASS syntax public/runtime-v30392.js
+PASS syntax qa/qa_v3392_core.js
+
+V30.39.2 CORE QA: 66 passed, 0 failed

@@ -1,0 +1,16 @@
+V30.39.2 runtime smoke packaging note
+
+A live Express/SQLite smoke was attempted in the packaging container with `npm run qa:runtime`.
+The local node_modules tree is incomplete and `express` is unavailable, so the server exits before startup.
+This is an environment/dependency limitation, not a claimed application runtime PASS.
+
+Required deployment gate on Mac/Render Node 22:
+  npm ci
+  npm run qa:v3392
+  npm run qa:current
+  npm run qa:render
+  npm run qa:runtime
+
+Browser audits already completed in the build environment:
+  V30.39.2 Finance progressive/server paging: 12/12 PASS
+  V30.39.1 inherited progressive behavior: 13/13 PASS

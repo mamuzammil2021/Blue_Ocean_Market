@@ -23,11 +23,20 @@ function install({app,db,auth,allow,currentUnit,audit,financeSync,accounting}){
         queue(f.id);operational++;
       }
     });
-    tx();try{accounting?.processQueue?.(5000)}catch(_){}
+    tx();try{accounting?.scheduleQueue?.(0)}catch(_){}
     return {operational_rows:operational,separated_payment_rows:separated};
   }
-  let migration={operational_rows:0,separated_payment_rows:0};
-  try{migration=migrateCore()}catch(e){console.error('V30.25 finance separation migration:',e.message)}
+  // V30.39.2: historical V30.25 Finance separation is a one-time data migration.
+  // Existing installations may not have a ledger row yet, so run it once on the first
+  // V30.39.2 startup, record the result, and never rescan all historical Sale/Purchase rows again.
+  db.exec(`CREATE TABLE IF NOT EXISTS system_migrations(migration_key TEXT PRIMARY KEY,applied_at TEXT DEFAULT CURRENT_TIMESTAMP,details TEXT DEFAULT '')`);
+  const migrationKey='v30.39.2-v325-finance-separation';
+  let migration={operational_rows:0,separated_payment_rows:0,skipped:true};
+  try{
+    const prior=db.prepare('SELECT details FROM system_migrations WHERE migration_key=?').get(migrationKey);
+    if(!prior){migration={...migrateCore(),skipped:false};db.prepare('INSERT OR REPLACE INTO system_migrations(migration_key,applied_at,details) VALUES(?,CURRENT_TIMESTAMP,?)').run(migrationKey,JSON.stringify(migration))}
+    else{try{migration={...migration,...JSON.parse(prior.details||'{}'),skipped:true}}catch(_){}}
+  }catch(e){console.error('V30.25 finance separation migration:',e.message)}
 
   app.get('/api/finance/integrity-v325',auth,allow('finance','dashboard'),(req,res)=>{
     let where="status!='Voided'",args=[];const bu=currentUnit(req);if(bu){where+=' AND business_unit_id=?';args=[Number(bu)]}else if(req.user.role!=='CEO / Owner'){where+=' AND business_unit_id=?';args=[Number(req.user.business_unit_id||0)]}

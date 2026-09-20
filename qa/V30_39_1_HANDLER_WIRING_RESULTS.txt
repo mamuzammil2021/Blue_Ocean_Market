@@ -1,0 +1,8 @@
+
+> blue-ocean-market-os@30.39.1 qa:v336:handlers
+> node qa/qa_v336_handler_wiring.js
+
+Inline event attributes scanned: 2889
+Inline call references scanned: 2972
+Unique named handler/call targets: 579
+PASS 0 unresolved inline named handler/call targets

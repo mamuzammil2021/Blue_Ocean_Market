@@ -1,26 +1,30 @@
 # Blue Ocean Market Release Manifest
 
-- Release: **V30.39.0 — Performance Foundation & Runtime Consolidation**
-- Protected baseline: **V30.38.2 — Refund / Modal / Machine Cost / Token Account Interaction Hotfix**
-- Release type: **system-wide performance architecture / compatibility consolidation**
+- Release: **V30.40.0 — Access Control, QA & System UI Refinement**
+- Direct baseline: **V30.39.2 — Core Runtime & Data Path Optimization**
+- Protected lineage: **V30.38.2 + V30.39.x functional/performance protections retained**
+- Release type: **access-control redesign + system-wide QA/UI refinement**
 - Destructive migration/reset: **None**
-- Database changes: **additive performance indexes + runtime PRAGMA tuning only; no table/column destructive migration**
+- Database changes: **additive access-profile/group/approval-authority tables/indexes with lossless legacy-role migration**
 - Existing SQLite data/uploads/backups/Render persistent disk: **Preserved / compatible**
-- Historical V30.38.2 browser patch source: **Retained for traceability/rollback**
-- Live browser delivery: **3 scripts (`i18n-ko.js`, `client.js`, `runtime-v3039.js`) instead of the previous 45 startup script tags**
-- Precompressed hot assets: **Included (`.gz`)**
-- Implementation summary: `V30_39_IMPLEMENTATION_SUMMARY.md`
-- QA status: `V30_39_QA_STATUS.md`
-- Dedicated release QA: `npm run qa:v339` — **54 passed, 0 failed**
-- Current/inherited QA: `npm run qa:current` — **PASS**
-- Handler wiring: `npm run qa:v336:handlers` — **0 unresolved inline handlers**
-- Render persistence QA: `npm run qa:render`
-- Runtime smoke: run `npm ci && npm run qa:runtime` in a networked Node 22 Mac/Render environment.
+- Live browser delivery: **4 scripts (`i18n-ko.js`, `client.js`, `runtime-v30392.js`, `v340-client.js`)**
+- Precompressed hot assets: **Included / regenerated for modified live scripts**
+- Implementation summary: `V30_40_IMPLEMENTATION_SUMMARY.md`
+- QA status: `V30_40_QA_STATUS.md`
+- Dedicated V30.40 QA: `npm run qa:v340` — **69 passed, 0 failed**
+- Current/inherited regression QA: `npm run qa:current` — **536 PASS**
+- Render persistence QA: `npm run qa:render` — **19 PASS**
+- V30.40 access runtime QA: `npm run qa:v340:runtime` — **packaged; run after dependencies are installed with `npm ci`**
+- Inherited runtime smoke: `npm run qa:runtime` — **deployment/local environment gate after `npm ci`**
 
-## Carry-forward architecture
+## V30.40 acceptance focus
+- Simple assignment-first Users & Access workflow with multiple BU-scoped Access Profiles per user.
+- Permission Groups and rare individual exceptions; Effective Access shows permission sources.
+- Approval Authority remains separate from feature access and maker/checker remains enforced.
+- Shared profile mutations are protected; delegated admins cannot grant above their own authority/scope.
+- Actions columns remain far right/right-aligned and sticky where practical; wide lists may scroll.
+- Modal lifecycle, filters, account validation, Cash handling, verified Void protection, new-tab navigation and Chrome translation behavior follow the V30.40 system rules.
+- V30.39.2 performance, targeted-refresh, progressive-loading and persistent-storage protections remain active.
 
-`REQUIREMENTS_MASTER.md` now contains the permanent **System-Wide Performance, Async Interaction & Scalability Standard**. New modules, new Business Units, new workflows and future releases inherit immediate action feedback, duplicate protection/idempotency, targeted refresh, stable parent context, shared request/lifecycle primitives, scalable server-side pagination, non-blocking heavy work, diagnostics and performance QA without requiring the user to repeat those requirements.
-
-## Pagination transition note
-
-V30.39 provides the shared server-side pagination contract/helper and makes it mandatory for new scalable lists. Existing legacy lists are not all rewritten to SQL `LIMIT/OFFSET` in this consolidation release; they can be migrated incrementally under the same 25/50/100 paging contract to avoid unnecessary regression risk.
+## Deployment note
+Do not reset the database or persistent disk. Deploy normally, let the additive schema migration run on startup, and verify `/api/health` reports `30.40.0`. Run runtime QA after `npm ci` in the target/local Node 22 environment before production promotion.

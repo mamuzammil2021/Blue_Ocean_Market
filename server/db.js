@@ -162,6 +162,7 @@ try{db.exec('CREATE INDEX IF NOT EXISTS idx_finance_source ON finance_entries(so
 // V27.4 — finance verification/source integrity indexes. Keep source uniqueness scoped by business unit.
 try{db.exec('CREATE INDEX IF NOT EXISTS idx_finance_unit_source_v274 ON finance_entries(business_unit_id,source_type,source_id)')}catch(e){}
 try{db.exec('CREATE INDEX IF NOT EXISTS idx_finance_verification_v274 ON finance_entries(business_unit_id,verification_status,status)')}catch(e){}
+
 try{db.pragma('optimize')}catch(_){}
 module.exports=db;
 
@@ -989,4 +990,20 @@ CREATE INDEX IF NOT EXISTS idx_excavator_assets_v339_list ON excavator_assets(bu
 CREATE INDEX IF NOT EXISTS idx_excavator_suppliers_v339_list ON excavator_suppliers(business_unit_id,active,name,id);
 CREATE INDEX IF NOT EXISTS idx_excavator_buyers_v339_list ON excavator_buyers(business_unit_id,name,id);
 `)}catch(e){console.warn('V30.39 list index setup:',e.message)}
+
+
+// V30.39.1 — indexes aligned to the progressive Excavator summary/page query paths.
+// Additive only; each index supports an actual asset/profile correlation used by V30.39.1.
+try{db.exec(`
+CREATE INDEX IF NOT EXISTS idx_exc_tx_v3391_asset_type_status ON excavator_transactions(asset_id,type,status);
+CREATE INDEX IF NOT EXISTS idx_exc_pay_v3391_asset_type_status ON excavator_payments(asset_id,payment_type,status);
+CREATE INDEX IF NOT EXISTS idx_exc_logistics_v3391_asset ON excavator_logistics(asset_id);
+CREATE INDEX IF NOT EXISTS idx_exc_repairs_v3391_asset ON excavator_repairs(asset_id);
+CREATE INDEX IF NOT EXISTS idx_exc_parts_v3391_asset_status ON excavator_parts(asset_id,status);
+CREATE INDEX IF NOT EXISTS idx_exc_docs_v3391_asset ON excavator_documents(asset_id);
+CREATE INDEX IF NOT EXISTS idx_exc_supplier_machines_v3391_supplier_status ON excavator_supplier_machines(supplier_id,status,id DESC);
+CREATE INDEX IF NOT EXISTS idx_exc_buyer_payments_v3391_buyer_status ON excavator_buyer_payments(buyer_id,status,id DESC);
+CREATE INDEX IF NOT EXISTS idx_exc_buyer_alloc_v3391_buyer_status ON excavator_buyer_payment_allocations(buyer_id,status,payment_id,asset_id);
+CREATE INDEX IF NOT EXISTS idx_exc_buyer_refunds_v3391_buyer_status ON excavator_buyer_refunds(buyer_id,status,id DESC);
+`)}catch(e){console.warn('V30.39.1 query-path index setup:',e.message)}
 try{db.pragma('optimize')}catch(_){}

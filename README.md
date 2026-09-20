@@ -1,3 +1,29 @@
+# Blue Ocean Market V30.40.0
+
+V30.40.0 is the **Access Control, QA & System UI Refinement** release built directly on the protected V30.39.2 performance baseline. It introduces simple reusable Access Profiles, multiple profiles per user, BU-scoped profile/group assignments, separate Approval Authority, Effective Access visibility and safe bulk/clone workflows while preserving the existing permission engine, maker/checker controls and audit trail.
+
+It also carries the 19 Sep QA refinements: reliable modal auto-close after successful child actions, receiver/payee account-number validation, browser new-tab navigation for full-page routes, collapsed filters by default, Machine Cost ordering, verified-record Void protection, Chrome translation suppression and corrected Cash-payment receiver logic. List/table behavior is context-aware: normal tables fit naturally, genuinely wide tables may scroll horizontally, while the Actions column stays at the far right and is sticky/right-aligned where practical. Accounting Posting Control removes redundant self-navigation and Accounting Proposal text can wrap.
+
+The V30.40 schema changes are **additive** (`user_access_profiles`, permission groups/assignments and approval-authority data plus supporting indexes). Existing V30.39.2 users are migrated losslessly into equivalent initial Access Profiles; no database reset is required. Existing SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. The live browser now loads four versioned scripts through `v340-client.js`. See `V30_40_IMPLEMENTATION_SUMMARY.md` and `V30_40_QA_STATUS.md`.
+
+---
+
+# Blue Ocean Market V30.39.2
+
+V30.39.2 is the **Core Runtime & Data Path Optimization** release built directly on V30.39.1. It reduces actual server/database waiting by time-slicing Accounting synchronization, safely reusing/caching access calculations, decoupling alert generation from count reads, removing high-value Finance/Pink Salt N+1 paths, making Finance truly server-paged, ledgering historical startup migrations, and moving large compression/upload hashing off synchronous request-path work.
+
+There is **no destructive database migration or reset**. Existing SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. The live browser remains three startup scripts through `runtime-v30392.js`. See `V30_39_2_IMPLEMENTATION_SUMMARY.md` and `V30_39_2_QA_STATUS.md`.
+
+---
+
+# Blue Ocean Market V30.39.1
+
+V30.39.1 is the **Progressive Loading & Live Performance Optimization** release built directly on V30.39.0. It makes the V30.39 performance foundation visible in real workflows: system-wide skeleton page shells, independent section loading/error/retry states, parallel independent reads, lazy secondary profile data, true server-side pagination for the first high-volume Excavator masters, and SQL-side reduction of expensive Excavator overview work.
+
+There is **no destructive database migration or reset**. Existing SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. The live browser still uses only three startup scripts, now through `runtime-v30391.js`. See `V30_39_1_IMPLEMENTATION_SUMMARY.md` and `V30_39_1_QA_STATUS.md`.
+
+---
+
 # Blue Ocean Market V30.39.0
 
 V30.39.0 is the **Performance Foundation & Runtime Consolidation** release built directly on the protected V30.38.2 baseline. It preserves current business workflows while reducing live browser startup requests, adding system-wide slow-network action feedback, request/performance diagnostics, safer async heavy-work handling, shared pagination/request/lifecycle primitives, SQLite runtime tuning, and permanent carry-forward performance rules for all future development.

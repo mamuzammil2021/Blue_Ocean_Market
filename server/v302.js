@@ -68,10 +68,18 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting}){
       db.prepare(`UPDATE finance_entries SET type=?,category=?,amount=?,krw_amount=?,original_amount=?,original_currency=?,fx_rate=?,transaction_date=COALESCE(?,transaction_date),description=?,receipt_file=CASE WHEN ?!='' THEN ? ELSE receipt_file END,payment_method=?,reference=?,source_label=?,source_record_id=COALESCE(?,source_record_id),source_payment_id=COALESCE(?,source_payment_id),updated_at=CURRENT_TIMESTAMP WHERE id=?`).run(latest.type,latest.category,latest.amount,latest.krw_amount,latest.original_amount,latest.original_currency,latest.fx_rate,latest.transaction_date,latest.description,latest.receipt_file||'',latest.receipt_file||'',latest.payment_method,latest.reference,latest.source_label,latest.source_record_id,latest.source_payment_id,keep.id);
       for(const d of rows.slice(1)){db.prepare("UPDATE finance_entries SET status='Voided',void_reason='Duplicate Finance source consolidated automatically in V30.2',voided_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(d.id);try{db.prepare("INSERT INTO audit_log(user_id,entity,entity_id,action,details) VALUES(NULL,'finance',?,'duplicate-consolidated',?)").run(d.id,JSON.stringify({kept_finance_id:keep.id,source_type:g.source_type,source_id:g.source_id}))}catch(_){}voided++}
     }
-    try{accounting?.processQueue?.(5000)}catch(_){}
+    try{accounting?.scheduleQueue?.(0)}catch(_){}
     return {groups:groups.length,voided};
   }
-  try{consolidateDuplicates();refreshClassifications();db.exec("CREATE UNIQUE INDEX IF NOT EXISTS idx_finance_active_source_unique_v302 ON finance_entries(business_unit_id,source_type,source_id) WHERE status!='Voided' AND source_type IS NOT NULL AND source_type!='' AND source_type!='Manual' AND source_id IS NOT NULL");}catch(e){console.error('V30.2 finance integrity bootstrap:',e.message)}
+  try{
+    db.exec(`CREATE TABLE IF NOT EXISTS system_migrations(migration_key TEXT PRIMARY KEY,applied_at TEXT DEFAULT CURRENT_TIMESTAMP,details TEXT DEFAULT '')`);
+    const startupKey='v30.39.2-v302-finance-integrity-bootstrap';
+    if(!db.prepare('SELECT 1 FROM system_migrations WHERE migration_key=?').get(startupKey)){
+      const result=consolidateDuplicates();refreshClassifications();
+      db.prepare('INSERT OR REPLACE INTO system_migrations(migration_key,applied_at,details) VALUES(?,CURRENT_TIMESTAMP,?)').run(startupKey,JSON.stringify(result));
+    }
+    db.exec("CREATE UNIQUE INDEX IF NOT EXISTS idx_finance_active_source_unique_v302 ON finance_entries(business_unit_id,source_type,source_id) WHERE status!='Voided' AND source_type IS NOT NULL AND source_type!='' AND source_type!='Manual' AND source_id IS NOT NULL");
+  }catch(e){console.error('V30.2 finance integrity bootstrap:',e.message)}
 
   app.get('/api/finance/integrity-v302',auth,allow('finance','dashboard'),(req,res)=>{
     let where='1=1',args=[];const bu=currentUnit(req);if(bu){where='business_unit_id=?';args=[Number(bu)]}else if(req.user.role!=='CEO / Owner'){where='business_unit_id=?';args=[Number(req.user.business_unit_id||0)]}
