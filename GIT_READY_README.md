@@ -1,20 +1,21 @@
-# Git / Render Ready — V30.40.0
+# Git / Render Ready — V30.41.0
 
-V30.40.0 is built directly on the protected V30.39.2 baseline. It adds the multi-profile Users & Access redesign and the agreed 19 Sep/system-wide UI QA refinements without a destructive database reset.
+V30.41.0 is built directly on V30.40.0 and completes the Access Control Center separation without a destructive database reset.
 
-Existing SQLite data, uploads/evidence, backups and Render persistent storage are preserved. Do **not** delete/recreate the persistent disk for this release.
+Existing SQLite data, users/access assignments, uploads/evidence, backups and Render persistent storage are preserved. Do **not** delete/recreate the persistent disk for this release.
 
 Recommended verification before merge/deploy:
 
 ```bash
 npm ci
-npm run qa:v340
+npm run qa:v341
 npm run qa:current
 npm run qa:render
+npm run qa:v341:runtime
 npm run qa:v340:runtime
 npm run qa:runtime
 ```
 
-The shared Access Profile library is protected, per-user profile/group assignments are BU-scoped, Approval Authority remains separate, and Finance/Accounting maker-checker safeguards remain active. Wide tables may scroll horizontally when needed, but Actions stay at the far right and are sticky/right-aligned where practical.
+Shared Access Profiles, multi-permission Permission Groups, multi-rule Access Policies, Approval Levels and Access Audit are managed under System Settings → Security & Access. Users & Access remains assignment-first, including multiple BU-scoped profiles/groups and separate Approval Authority.
 
-All V30.39/V30.39.1/V30.39.2 performance, progressive-loading, targeted-refresh and Smart Context-Aware Change & Impact-Control standards remain mandatory carry-forward rules.
+The V30.40/V30.39 performance, targeted-refresh, list/action, maker/checker and persistent-storage standards remain mandatory carry-forward rules.

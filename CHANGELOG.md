@@ -1,3 +1,17 @@
+# V30.41.0 — Access Control Center & Simple User Assignment
+
+- Moved shared access-structure design to System Settings → Security & Access → Access Control Center.
+- Added full Permission Group create/edit/duplicate/archive management with multiple permissions per group.
+- Added multi-rule Access Policies with company/BU scope and runtime restriction enforcement.
+- Added configurable L0–L5 Approval Level definitions while keeping Approval Authority separate from feature access.
+- Simplified Users & Access to assignment-first administration and added new-user creation with separate Job Title, multiple BU-scoped profiles/groups, approval authority and Effective Access preview.
+- Preserved Advanced individual exceptions, delegated-admin ceilings, audit history and maker/checker safeguards.
+- Added additive `users.job_title`, `access_policy_sets` and `access_approval_levels` schema only; no destructive reset.
+- Corrected Machine Cost Edit-lock behavior at the individual row level.
+- Advanced browser/server release identity to 30.41.0 and added dedicated V30.41 QA.
+
+---
+
 # V30.40.0 — Access Control, QA & System UI Refinement
 
 - Built directly on protected V30.39.2; no destructive reset and no rollback of V30.39 performance protections.

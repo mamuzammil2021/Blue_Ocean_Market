@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.40.0",
+  "version": "30.41.0",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -33,7 +33,9 @@
     "qa:v3392": "node qa/qa_v3392_core.js",
     "qa:v3392:browser": "python3 qa/browser_v3392_finance_paging.py",
     "qa:v340": "node qa/qa_v340_access_ui.js",
-    "qa:v340:runtime": "node qa/runtime_v340_access.js"
+    "qa:v340:runtime": "node qa/runtime_v340_access.js",
+    "qa:v341": "node qa/qa_v341_access_control.js",
+    "qa:v341:runtime": "node qa/runtime_v341_access.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

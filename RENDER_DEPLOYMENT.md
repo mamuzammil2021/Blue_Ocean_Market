@@ -1,6 +1,6 @@
-# V30.40.0 Render Deployment
+# V30.41.0 Render Deployment
 
-V30.40.0 is an access-control and system UI/QA refinement release built on V30.39.2. Preserve the existing database, uploaded files/evidence, backups, environment secrets and persistent disk. There is no destructive reset; the access schema changes are additive and existing users migrate to equivalent initial Access Profiles.
+V30.41.0 is an Access Control Center and user-assignment refinement release built directly on V30.40.0. Preserve the existing database, uploaded files/evidence, users/access assignments, backups, environment secrets and persistent disk. There is no destructive reset; the V30.41 schema additions are additive.
 
 ## Required runtime
 - Node.js 22.x
@@ -29,10 +29,10 @@ npm run qa:runtime
 ```
 
 ## Deploy
-Deploy the Git branch containing V30.40.0 using **Manual Deploy → Deploy latest commit**. Do not delete/recreate the persistent disk and do not reset the database/uploads.
+Deploy the Git branch containing V30.41.0 using **Manual Deploy → Deploy latest commit**. Do not delete/recreate the persistent disk and do not reset the database/uploads.
 
 ## Post-deploy acceptance
-Confirm `/api/health` reports version `30.40.0`, then verify:
+Confirm `/api/health` reports version `30.41.0`, then verify:
 - existing operational data/evidence remain present and persistence health remains true;
 - slow page opens show skeleton placeholders immediately instead of a blank/unchanged page;
 - Excavator Machines/Buyers/Suppliers show 25/50/100 server paging and search/filter before paging;
