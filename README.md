@@ -1,3 +1,13 @@
+# Blue Ocean Market V30.41.0
+
+V30.41.0 is the **Access Control Center & Simple User Assignment** release built directly on V30.40.0. It completes the access-management separation requested after V30.40: shared Access Profiles, multi-permission Permission Groups, multi-rule Access Policies, Approval Levels and Access Audit are managed centrally under **System Settings → Security & Access**, while **Users & Access** focuses on creating users and assigning approved profiles/groups/scopes/authority.
+
+New-user creation supports separate Job Title / Position, multiple BU-scoped Access Profiles, multiple optional BU-scoped Permission Groups, separate Approval Authority/limits, and Effective Access preview before Review & Confirm. Existing Advanced individual exceptions and maker/checker protections remain available and enforced. The release also corrects the Machine Cost Edit-lock regression so locking is evaluated per individual cost record rather than appearing across unrelated costs.
+
+The V30.41 schema changes are additive (`users.job_title`, `access_role_templates.description`, `access_policy_sets`, `access_approval_levels`). Existing users, permissions, SQLite data, uploads/evidence, backups and Render persistent storage remain compatible; no reset is required. The live browser now loads five versioned scripts through `v341-client.js`. See `V30_41_IMPLEMENTATION_SUMMARY.md` and `V30_41_QA_STATUS.md`.
+
+---
+
 # Blue Ocean Market V30.40.0
 
 V30.40.0 is the **Access Control, QA & System UI Refinement** release built directly on the protected V30.39.2 performance baseline. It introduces simple reusable Access Profiles, multiple profiles per user, BU-scoped profile/group assignments, separate Approval Authority, Effective Access visibility and safe bulk/clone workflows while preserving the existing permission engine, maker/checker controls and audit trail.
