@@ -1,14 +1,23 @@
-# Git / Render Ready — V30.42.0
+# Git / Render Ready — V30.43.0
 
-V30.42.0 is built directly on V30.41.0. It adds actionable system-generated Tasks, task-driven Finance corrections, notification-to-task deep links, CEO / Owner Full System Access hardening, and automatic future-permission registration/smart bundle mapping without a destructive database reset.
+V30.43.0 is built directly on V30.42.0 and is intended to be copied into/cloned over the existing Git repository while preserving the repository's `.git` directory, environment secrets and persistent runtime data.
 
-Existing SQLite data, users/access assignments, uploads/evidence, backups and Render persistent storage are preserved. Do **not** delete/recreate the persistent disk for this release.
+## Main release scope
+- targeted Supplier/Buyer section refresh after child mutations;
+- browser-refresh restoration of current child/detail workflow and selected section;
+- Machine Cost direct Edit remains available until Finance actually acts;
+- no duplicate Purchase Edit inside Costs; Sold / Completed Purchase is locked;
+- sold-machine document Delete / Archive restricted to CEO / Owner;
+- optional Buyer Sending Account on Buyer Payment and Sell Machine receipts;
+- Accounting Cash & Bank account drill-down with balance/statement history;
+- generated Account Statements and authenticated PDF download;
+- controlled same-BU company-account transfers and preserved Inter-BU workflow;
+- V30.42 actionable Tasks and Smart Access Control retained.
 
-Recommended verification before merge/deploy:
-
+## Recommended local QA before push/deploy
 ```bash
 npm ci
-npm run qa:v342
+npm run qa:v343
 npm run qa:current
 npm run qa:render
 npm run qa:v342:runtime
@@ -16,8 +25,7 @@ npm run qa:v341:runtime
 npm run qa:runtime
 ```
 
-Finance correction execution is now canonical from the linked Task. Automatically generated workflow Tasks expose their real contextual action and normally close from successful completion of the underlying workflow, not from passive manual task status changes.
+The clean release ZIP does not include `node_modules`, `.env`, runtime database files, uploads or backups.
 
-CEO / Owner is system-managed Full System Access. Future permissions are registered automatically and smart-mapped into relevant default Access Profiles / Permission Groups while preserving later administrator customization.
-
-The V30.41/V30.40/V30.39 performance, Access Control Center, targeted-refresh, maker/checker and persistent-storage standards remain mandatory carry-forward rules.
+## Git workflow
+Create a new branch from the current stable repository, copy the **contents** of this release into that clone without replacing `.git`, review `git status`, commit and push the branch. Test on Render before merging to the stable/main branch.

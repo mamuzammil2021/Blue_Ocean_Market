@@ -979,3 +979,32 @@ Every future requirement implicitly includes: permissions/BU scope + audit + Rev
 - The new permission must also be mapped intelligently into the relevant default Access Profiles and Permission Groups as part of the release, rather than being left only in the catalog. Do not grant it blindly to unrelated bundles.
 - Administrators may remove/adjust these defaults. Track the system-applied default mapping so a later startup/upgrade does not repeatedly force back a permission an administrator deliberately removed.
 - CEO / Owner automatically receives every new registered permission regardless of bundle mapping.
+
+## V30.43.0 — Workflow Context, Buyer Sender Accounts & Accounting Account Statements
+
+### Targeted refresh and child-route persistence — system-wide
+- When a successful child/modal action changes a visible list/section, refresh only that affected data scope immediately. Do not require a browser refresh and do not remount unrelated page sections.
+- Browser refresh while inside a child/detail workflow must restore the same record and selected child section/tab where practical instead of falling back to the parent list. This applies system-wide as workflows are touched.
+- New child/detail workflows should register with the shared context-preservation mechanism rather than implement isolated navigation hacks.
+
+### Excavator Machine Cost / Purchase edit controls
+- A Finance record merely existing does not lock the originating operational cost. Direct Edit remains available while Finance has not reviewed/acted on it.
+- Once Finance has acted (verification, correction request, rejection/return, resubmission handling) or Accounting has posted the record, normal direct Edit locks and the applicable controlled correction/reversal workflow is required.
+- Machine → Costs shows Purchase as informational only; it must not expose a duplicate Purchase Edit action because Purchase has its dedicated Purchase section.
+- After a machine is Sold / Completed, Purchase editing is locked in UI and backend.
+
+### Buyer sending account on receipts
+- Wherever a normal Excavator Buyer payment is received, allow optional capture of the Buyer-side account the funds were sent from.
+- The user may select an existing active Buyer account or optionally add new account details inline. Buyer sender account details are not mandatory for receipt completion.
+- The Buyer Sending Account is separate from Blue Ocean's Company Financial Account / Receive Into account. Existing company-account eligibility and receipt/evidence rules remain authoritative.
+- Persist the sender account on the receipt/payment record and surface it in payment history where recorded.
+
+### Sold-machine document protection
+- After a machine is Sold / Completed, only CEO / Owner may Delete / Archive machine documents. Hide the destructive action for other users and enforce the same rule server-side.
+
+### Accounting Cash & Bank account drill-down / statement / transfer
+- Every accessible Company Financial Account in Accounting may be opened to view account details, current balance and account transaction activity.
+- Authorized users may generate an Account Statement for a selected date range with opening balance, money in, money out, running balance, closing balance, date, reference, description/counterparty/source context and account/currency details.
+- Authorized users may download the generated statement as PDF. Statement/PDF behavior follows EN/KR localization, permission/BU scope, audit and existing document standards.
+- Statements must be derived from the actual account-specific Finance/Accounting money-movement history; do not create a disconnected manual ledger merely for presentation.
+- Company account transfers are controlled money movements. Same-BU transfers must create balanced Accounting entries between valid mapped accounts. Cross-BU transfers must use the existing Inter-BU due-from/due-to workflow rather than bypass it.

@@ -1,3 +1,21 @@
+# V30.43.0 — Workflow Context, Buyer Sender Accounts & Accounting Statements
+
+- Added a system-wide child/detail context persistence pattern so browser refresh restores the current Supplier, Buyer, Machine, Task, Approval, Finance record/correction or Accounting account instead of unnecessarily falling back to the parent list; selected Supplier/Buyer sections are preserved.
+- Hardened targeted refresh after child mutations: Supplier Available Machines refreshes immediately after Add/Delete Machine, and Buyer Payments refreshes immediately after a receipt mutation without a full-page remount.
+- Refined Excavator Machine Cost editing: an untouched/unverified linked Finance entry does not lock direct operational Edit; direct Edit locks only after Finance has actually acted or Accounting posting applies.
+- Removed the duplicate Purchase-row Edit action from Machine → Costs. Purchase remains editable only from the dedicated Purchase section while eligible.
+- Locked Purchase editing after a machine reaches Sold / Completed, with backend enforcement and a clear locked UI state.
+- Restricted sold-machine document Delete / Archive to CEO / Owner, including server-side enforcement; ordinary users do not see the destructive action.
+- Added optional Buyer Sending Account capture to Buyer Payment and Sell Machine receipt flows. Existing buyer accounts can be selected or new optional buyer account details can be saved for future use; the company Receive Into account remains separate.
+- Added Buyer Sending Account context to Buyer payment history.
+- Expanded Accounting → Cash & Bank Accounts into account drill-down with current balance, statement period, opening balance, Money In, Money Out, running balance, closing balance and transaction details sourced from actual Finance/Accounting money movements.
+- Added Account Statement generation and authenticated PDF download with English/Korean-capable output and existing account/BU permission checks.
+- Added controlled company financial-account transfers. Same-BU transfers create balanced Accounting journal entries; cross-BU transfers are routed through the existing Inter-BU transfer workflow rather than bypassing due-from/due-to controls.
+- Added V30.43-specific QA coverage and advanced release/browser/server identity to 30.43.0.
+- Additive upgrade only; no destructive database or persistent-storage reset.
+
+---
+
 # V30.42.0 — Actionable Tasks & Smart Access Control
 
 - Made automatically generated Tasks actionable workflow objects with contextual actions, source/related record context and workflow state.
