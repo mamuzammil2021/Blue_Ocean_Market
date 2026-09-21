@@ -1,3 +1,15 @@
+# Blue Ocean Market V30.42.0
+
+V30.42.0 is the **Actionable Tasks & Smart Access Control** release built directly on V30.41.0. It makes automatically generated Tasks the canonical action point for workflow work, including Finance corrections and Approval changes-required cycles; notifications now deep-link to the exact Task, and system-managed Tasks complete from the underlying business outcome rather than passive manual status changes.
+
+Finance correction now uses one reusable task per correction chain. The assigned user performs **Correct & Resubmit** from that Task using the dedicated full-page correction workflow; successful Finance verification automatically closes the task, while a repeated correction request reactivates the same task and notifies the user again. Normal users no longer see raw technical metadata in the correction workflow.
+
+CEO / Owner effective access is explicitly **Full System Access** across all active Business Units and all current/future registered permissions. V30.42 also adds an idempotent central permission catalog and tracked smart default mapping so future permissions are registered automatically and added to relevant Access Profiles / Permission Groups without blindly granting unrelated access or repeatedly overriding later administrator customization.
+
+The V30.42 schema additions are additive Task workflow/access-catalog support only; there is **no destructive reset**. Existing V30.41 users/access configuration, SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. The live browser now loads six versioned scripts through `v342-client.js`. See `V30_42_IMPLEMENTATION_SUMMARY.md` and `V30_42_QA_STATUS.md`.
+
+---
+
 # Blue Ocean Market V30.41.0
 
 V30.41.0 is the **Access Control Center & Simple User Assignment** release built directly on V30.40.0. It completes the access-management separation requested after V30.40: shared Access Profiles, multi-permission Permission Groups, multi-rule Access Policies, Approval Levels and Access Audit are managed centrally under **System Settings → Security & Access**, while **Users & Access** focuses on creating users and assigning approved profiles/groups/scopes/authority.

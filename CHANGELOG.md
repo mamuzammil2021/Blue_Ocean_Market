@@ -1,3 +1,20 @@
+# V30.42.0 — Actionable Tasks & Smart Access Control
+
+- Made automatically generated Tasks actionable workflow objects with contextual actions, source/related record context and workflow state.
+- Made Tasks the canonical action point for Finance corrections: request correction → same task Action Required → Correct & Resubmit → Awaiting Finance Verification → automatic completion after successful verification.
+- Reused/reactivated the same Finance correction task for repeated send-backs instead of creating duplicate tasks; append history and notify the assignee again.
+- Removed direct Finance **Correct & Resubmit** execution from verification/correction-review surfaces and routed the responsible user through the linked task.
+- Added a dedicated full-page **Correct & Resubmit Finance Entry** workflow and removed raw technical metadata/JSON from normal user correction views.
+- Deep-linked automatic task notifications to the exact Task; repeated notifications for the same workflow chain keep the same canonical task target.
+- Applied the actionable/reusable task pattern to Approval **Changes Required** workflows.
+- Protected system-managed tasks from passive/manual completion, cancellation or review outside the originating workflow.
+- Made CEO / Owner effective access system-managed Full System Access across all active Business Units and every current/future registered permission; corrected Access UI representation accordingly.
+- Added an idempotent central permission catalog and tracked smart default assignments for relevant Access Profiles / Permission Groups, preserving later administrator removals/customizations.
+- Advanced release/browser identity to 30.42.0 and added dedicated V30.42 static/runtime QA gates.
+- Additive upgrade only; no destructive database or persistent-storage reset.
+
+---
+
 # V30.41.0 — Access Control Center & Simple User Assignment
 
 - Moved shared access-structure design to System Settings → Security & Access → Access Control Center.

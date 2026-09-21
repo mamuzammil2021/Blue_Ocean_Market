@@ -1,6 +1,6 @@
-# V30.41.0 Render Deployment
+# V30.42.0 Render Deployment
 
-V30.41.0 is an Access Control Center and user-assignment refinement release built directly on V30.40.0. Preserve the existing database, uploaded files/evidence, users/access assignments, backups, environment secrets and persistent disk. There is no destructive reset; the V30.41 schema additions are additive.
+V30.42.0 is an actionable-task, Finance-correction and Access Control hardening release built directly on V30.41.0. Preserve the existing database, uploaded files/evidence, users/access assignments, backups, environment secrets and persistent disk. There is no destructive reset; V30.42 schema/catalog additions are additive and idempotent.
 
 ## Required runtime
 - Node.js 22.x
@@ -21,36 +21,34 @@ Keep SQL profiling off unless diagnosing performance because it adds diagnostic 
 ## Before deploy
 ```bash
 npm ci
-npm run qa:v340
+npm run qa:v342
 npm run qa:current
 npm run qa:render
-npm run qa:v340:runtime
+npm run qa:v342:runtime
+npm run qa:v341:runtime
 npm run qa:runtime
 ```
 
 ## Deploy
-Deploy the Git branch containing V30.41.0 using **Manual Deploy → Deploy latest commit**. Do not delete/recreate the persistent disk and do not reset the database/uploads.
+Deploy the Git branch containing V30.42.0 using **Manual Deploy → Deploy latest commit**. Do not delete/recreate the persistent disk and do not reset the database/uploads.
 
 ## Post-deploy acceptance
-Confirm `/api/health` reports version `30.41.0`, then verify:
+Confirm `/api/health` reports version `30.42.0`, then verify:
 - existing operational data/evidence remain present and persistence health remains true;
-- slow page opens show skeleton placeholders immediately instead of a blank/unchanged page;
-- Excavator Machines/Buyers/Suppliers show 25/50/100 server paging and search/filter before paging;
-- on Excavator Operations, machine rows may appear before KPI summary if the summary is slower; one section does not block the other;
-- Buyer Detail opens before receiver Accounts are loaded; Accounts load only when selected;
-- Supplier Overview opens immediately and core supplier/machine + statement reads progress independently; Requirements/Accounts load on demand;
-- failed secondary sections show their own Retry state rather than blanking the whole page;
-- normal Save/Payment/Update actions retain the V30.39 immediate processing feedback/idempotency protections;
-- Finance Control Center shows real 25/50/100 server paging and filters/search before paging; transaction rows can appear before the independent correction queue finishes;
-- repeated page reads no longer trigger Accounting queue drains or operational-alert generation;
-- `/api/performance/v3392/health` (authorized) exposes event-loop lag, Accounting queue depth/age, access-cache TTL, migrations and memory;
-- browser loads `runtime-v30392.js` followed by `v340-client.js`; precompressed assets must match the current uncompressed scripts.
-- Users & Access shows reusable profiles/groups and correct Effective Access without changing existing users unexpectedly.
-- ordinary users cannot review their own Finance transaction or final-post their own Accounting proposal; CEO / Owner controlled authority remains available.
+- browser loads `runtime-v30392.js`, `v340-client.js`, `v341-client.js`, then `v342-client.js`, and precompressed changed assets match their uncompressed scripts;
+- requesting a Finance correction creates/reactivates one system-managed Task and notification opens that exact Task;
+- the Task exposes **Correct & Resubmit** and opens the dedicated full-page Finance correction workflow rather than the generic Edit Finance Entry modal;
+- normal users do not see raw correction metadata/JSON;
+- after resubmission the task shows **Awaiting Finance Verification** and cannot be manually completed;
+- successful Finance verification automatically completes the linked correction Task;
+- a second correction request reuses/reactivates the same task and notifies again rather than creating a duplicate task;
+- Approval **Changes Required** follows the same reusable/actionable task behavior;
+- CEO / Owner effective access shows **Full System Access**, **All Business Units** and **All Permissions**, including newly registered permissions;
+- Access Control Center includes registered permission catalog additions and relevant default profile/group mappings without overwriting later administrator customization;
+- slow-loading, targeted-refresh, 25/50/100 server paging, maker/checker and Accounting/Finance integrity protections from prior protected releases remain intact.
 
 ## Test reset environment safety (retained)
 For dedicated development/testing only: `APP_ENV=development` and `ALLOW_TEST_DATA_RESET=true`. Production must keep `APP_ENV=production` and `ALLOW_TEST_DATA_RESET=false`. Keep `TEST_RESET_BACKUP_RETENTION=3`.
-
 
 ## Persistent storage verification (retained)
 After deployment, verify `/api/health` includes `persistent_storage:true` and that the disk is mounted/writable. Perform a **manual redeploy** and confirm previously entered test data and uploaded evidence are still present.

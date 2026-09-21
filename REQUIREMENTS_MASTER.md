@@ -952,3 +952,30 @@ Every future requirement implicitly includes: permissions/BU scope + audit + Rev
 - Multiple profiles/groups must never bypass maker/checker, self-verification, self-posting, approval separation or other segregation-of-duties controls.
 - Existing user access remains migration-compatible. Access redesigns are additive and must not silently remove or broaden current effective access.
 - Machine Cost normal Edit locking is evaluated **per individual cost row**, never machine-wide. Unverified/unposted costs remain directly editable; Finance Verified costs lock normal Edit; Accounting Posted records retain the existing stricter controlled-correction path.
+
+## V30.42.0 — Actionable Tasks, Finance Correction Task Flow & Smart Access Evolution
+
+### System-generated Tasks are actionable workflows
+- Every automatically created Task must identify the originating workflow/record and provide the contextual action required to resolve it, subject to current permissions and workflow state.
+- Auto-generated Tasks are system-managed: the underlying business action advances/completes the Task. Users must not be able to satisfy a workflow Task merely by manually changing its Task status/progress.
+- The Task is the canonical action point for system-generated workflow work. It should expose the same controlled source workflow rather than a generic edit form.
+- Repeated requests in the same workflow chain reuse/reactivate the same Task where practical, append audit history and notify the assignee again instead of creating duplicates.
+- Notifications created together with an automatic Task deep-link directly to that exact Task. Completed Task links remain viewable for history/context.
+
+### Finance correction workflow
+- Request Correction creates/reuses one Finance correction Task for the original record creator.
+- Finance Verification must not offer a separate direct Correct & Resubmit edit route after correction has been requested. The correction action lives in the Task.
+- Task → Correct & Resubmit opens the dedicated Finance correction workflow with original Paid From/Paid To and transaction context; it must not open the generic Edit Finance Entry modal.
+- Raw metadata/JSON is not shown to normal users on correction request/detail/correction forms. Preserve technical metadata internally for audit/system use.
+- After resubmit, keep the Task open as Awaiting Finance Verification. Successful verification automatically resolves the correction and completes the Task. A new request reopens the same task/chain and sends a fresh notification.
+
+### CEO / Owner protected Full System Access
+- CEO / Owner has all active Business Units and all current/future registered permissions by default and does not depend on Access Profile, Permission Group or ordinary BU-scope assignment for effective access.
+- Access UI must display Full System Access / All Permissions / All Business Units rather than zero assignments.
+- Ordinary profile/group/scope/override controls must not accidentally reduce CEO / Owner access. Existing Review & Confirm/audit safeguards remain.
+
+### Future permission development standard
+- Every new protected feature/action introduced by a release must register its stable permission in the central permission catalog in the same release using idempotent migration/upsert logic.
+- The new permission must also be mapped intelligently into the relevant default Access Profiles and Permission Groups as part of the release, rather than being left only in the catalog. Do not grant it blindly to unrelated bundles.
+- Administrators may remove/adjust these defaults. Track the system-applied default mapping so a later startup/upgrade does not repeatedly force back a permission an administrator deliberately removed.
+- CEO / Owner automatically receives every new registered permission regardless of bundle mapping.
