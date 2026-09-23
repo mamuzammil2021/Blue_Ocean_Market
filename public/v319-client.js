@@ -242,6 +242,6 @@ window.v319FinanceMethod=function(f){v319SetAccountRequirement(f,'payment_method
 document.addEventListener('input',e=>{const f=e.target.closest?.('form');if(!f)return;const method=f.querySelector('[name="payment_method"]'),ref=f.querySelector('[name="reference"]');if(method&&ref&&/finance/i.test(f.textContent||'')){method.required=true;ref.required=String(method.value||'').toLowerCase()!=='cash'}},true);
 
 // Patch Accounting Simple View classes after render to prevent desktop/laptop width overflow.
-const v319Mutation=new MutationObserver(()=>{if(view==='accounting'){document.getElementById('content')?.classList.add('v319-accounting-fix');document.querySelectorAll('.v291-kpis,.v291-health-grid,.v291-cash-grid,.v305-account-grid,.v305-ledger-kpis,.v305-ledger-grid').forEach(x=>x.style.minWidth='0')}});v319Mutation.observe(document.getElementById('root')||document.body,{childList:true,subtree:true});
+let v319LayoutQueued=false;BOMMutationHub.register('v319-accounting-layout',()=>{if(v319LayoutQueued)return;v319LayoutQueued=true;requestAnimationFrame(()=>{v319LayoutQueued=false;if(view==='accounting'){document.getElementById('content')?.classList.add('v319-accounting-fix');document.querySelectorAll('.v291-kpis,.v291-health-grid,.v291-cash-grid,.v305-account-grid,.v305-ledger-kpis,.v305-ledger-grid').forEach(x=>x.style.minWidth='0')}})},{root:'body'});
 
 })();

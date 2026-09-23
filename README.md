@@ -1,140 +1,32 @@
-# Blue Ocean Market V30.42.0
+# Blue Ocean Market V30.51.0 — Frontend Lazy Loading & Hardening
 
-V30.42.0 is the **Actionable Tasks & Smart Access Control** release built directly on V30.41.0. It makes automatically generated Tasks the canonical action point for workflow work, including Finance corrections and Approval changes-required cycles; notifications now deep-link to the exact Task, and system-managed Tasks complete from the underlying business outcome rather than passive manual status changes.
+Built directly from protected V30.50.0. Optional Pink Salt read modules load only on matching screens; sensitive runtime, finance and forms remain protected. See `V30_51_IMPLEMENTATION_SUMMARY.md`, `V30_51_QA_STATUS.md`, and `V30_51_REMAINING_PERFORMANCE_WORK.md`. Source QA is not authenticated Render acceptance.
 
-Finance correction now uses one reusable task per correction chain. The assigned user performs **Correct & Resubmit** from that Task using the dedicated full-page correction workflow; successful Finance verification automatically closes the task, while a repeated correction request reactivates the same task and notifies the user again. Normal users no longer see raw technical metadata in the correction workflow.
+# Blue Ocean Market V30.50.0 — Scoped Import & Raw Stock Performance
 
-CEO / Owner effective access is explicitly **Full System Access** across all active Business Units and all current/future registered permissions. V30.42 also adds an idempotent central permission catalog and tracked smart default mapping so future permissions are registered automatically and added to relevant Access Profiles / Permission Groups without blindly granting unrelated access or repeatedly overriding later administrator customization.
-
-The V30.42 schema additions are additive Task workflow/access-catalog support only; there is **no destructive reset**. Existing V30.41 users/access configuration, SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. The live browser now loads six versioned scripts through `v342-client.js`. See `V30_42_IMPLEMENTATION_SUMMARY.md` and `V30_42_QA_STATUS.md`.
+Built on protected V30.49.0. Read-side SQL pages for Pink Salt shipments and raw-stock list; original money, inventory, Accounting and full-form endpoints retained. Permanent QA gate passed locally; native authenticated/live Render acceptance remains pending. See `V30_50_IMPLEMENTATION_SUMMARY.md`, `V30_50_QA_STATUS.md` and `V30_50_REMAINING_PERFORMANCE_WORK.md`.
 
 ---
 
-# Blue Ocean Market V30.41.0
+# Blue Ocean Market V30.45.0 — Unified Action Feedback
 
-V30.41.0 is the **Access Control Center & Simple User Assignment** release built directly on V30.40.0. It completes the access-management separation requested after V30.40: shared Access Profiles, multi-permission Permission Groups, multi-rule Access Policies, Approval Levels and Access Audit are managed centrally under **System Settings → Security & Access**, while **Users & Access** focuses on creating users and assigning approved profiles/groups/scopes/authority.
+Direct continuation of the protected V30.44.0 source. V30.45.0 coordinates user-visible progress in one place per action instead of stacking a button spinner, modal chip, global banner and toast. Normal actions use a button state, important money/approval transactions use one modal/section overlay, and maintenance/reset uses full-screen feedback. Review & Confirm, idempotency, payment/accounting rules, V30.44 persistent account actions and Render data are unchanged. See `V30_45_IMPLEMENTATION_SUMMARY.md` and `V30_45_QA_STATUS.md`.
 
-New-user creation supports separate Job Title / Position, multiple BU-scoped Access Profiles, multiple optional BU-scoped Permission Groups, separate Approval Authority/limits, and Effective Access preview before Review & Confirm. Existing Advanced individual exceptions and maker/checker protections remain available and enforced. The release also corrects the Machine Cost Edit-lock regression so locking is evaluated per individual cost record rather than appearing across unrelated costs.
-
-The V30.41 schema changes are additive (`users.job_title`, `access_role_templates.description`, `access_policy_sets`, `access_approval_levels`). Existing users, permissions, SQLite data, uploads/evidence, backups and Render persistent storage remain compatible; no reset is required. The live browser now loads five versioned scripts through `v341-client.js`. See `V30_41_IMPLEMENTATION_SUMMARY.md` and `V30_41_QA_STATUS.md`.
+Run `npm ci && npm run qa:v345 && npm run qa:v344 && npm run qa:v343 && npm run qa:current && npm run qa:render` before deployment and confirm one-feedback behavior in an authenticated Render browser. No reset or data migration.
 
 ---
 
-# Blue Ocean Market V30.40.0
+# Blue Ocean Market V30.44.0 — Persistent Cash & Bank Account Actions
 
-V30.40.0 is the **Access Control, QA & System UI Refinement** release built directly on the protected V30.39.2 performance baseline. It introduces simple reusable Access Profiles, multiple profiles per user, BU-scoped profile/group assignments, separate Approval Authority, Effective Access visibility and safe bulk/clone workflows while preserving the existing permission engine, maker/checker controls and audit trail.
+Built directly on V30.43.0. This is a targeted Accounting UI repair: both Simple → Cash & Banks and Advanced → Cash & Bank Accounts show a real, accessible, persistent **Open →** button for every accessible company account. Both actions open the exact same V30.43 account-detail workflow (balance, dated statements, authenticated PDF, eligible transfers). The Simple renderer, V30.43 enhanced card renderer, and Advanced table source renderer all contain the action, so reselecting the tab, a section refresh, a fresh mount, and returning from detail cannot strip a post-render-injected button. The Advanced explicit Back action no longer forces the Simple mode. No new database tables, permission bypass, transaction changes, or reset. Existing V30.43 functionality is retained.
 
-It also carries the 19 Sep QA refinements: reliable modal auto-close after successful child actions, receiver/payee account-number validation, browser new-tab navigation for full-page routes, collapsed filters by default, Machine Cost ordering, verified-record Void protection, Chrome translation suppression and corrected Cash-payment receiver logic. List/table behavior is context-aware: normal tables fit naturally, genuinely wide tables may scroll horizontally, while the Actions column stays at the far right and is sticky/right-aligned where practical. Accounting Posting Control removes redundant self-navigation and Accounting Proposal text can wrap.
+## V30.43.0 inherited functionality
 
-The V30.40 schema changes are **additive** (`user_access_profiles`, permission groups/assignments and approval-authority data plus supporting indexes). Existing V30.39.2 users are migrated losslessly into equivalent initial Access Profiles; no database reset is required. Existing SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. The live browser now loads four versioned scripts through `v340-client.js`. See `V30_40_IMPLEMENTATION_SUMMARY.md` and `V30_40_QA_STATUS.md`.
+# Blue Ocean Market V30.43.0
 
----
+V30.43.0 is the **Workflow Context, Buyer Sender Accounts & Accounting Statements** release built directly on V30.42.0. It hardens targeted refresh and browser-refresh child context, refines Machine Cost/Purchase edit locking, adds optional Buyer Sending Account capture to buyer receipt/sale flows, protects sold-machine documents, and expands Accounting Cash & Bank Accounts with account drill-down, generated statements, PDF download and controlled company-account transfers.
 
-# Blue Ocean Market V30.39.2
-
-V30.39.2 is the **Core Runtime & Data Path Optimization** release built directly on V30.39.1. It reduces actual server/database waiting by time-slicing Accounting synchronization, safely reusing/caching access calculations, decoupling alert generation from count reads, removing high-value Finance/Pink Salt N+1 paths, making Finance truly server-paged, ledgering historical startup migrations, and moving large compression/upload hashing off synchronous request-path work.
-
-There is **no destructive database migration or reset**. Existing SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. The live browser remains three startup scripts through `runtime-v30392.js`. See `V30_39_2_IMPLEMENTATION_SUMMARY.md` and `V30_39_2_QA_STATUS.md`.
-
----
-
-# Blue Ocean Market V30.39.1
-
-V30.39.1 is the **Progressive Loading & Live Performance Optimization** release built directly on V30.39.0. It makes the V30.39 performance foundation visible in real workflows: system-wide skeleton page shells, independent section loading/error/retry states, parallel independent reads, lazy secondary profile data, true server-side pagination for the first high-volume Excavator masters, and SQL-side reduction of expensive Excavator overview work.
-
-There is **no destructive database migration or reset**. Existing SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. The live browser still uses only three startup scripts, now through `runtime-v30391.js`. See `V30_39_1_IMPLEMENTATION_SUMMARY.md` and `V30_39_1_QA_STATUS.md`.
-
----
-
-# Blue Ocean Market V30.39.0
-
-V30.39.0 is the **Performance Foundation & Runtime Consolidation** release built directly on the protected V30.38.2 baseline. It preserves current business workflows while reducing live browser startup requests, adding system-wide slow-network action feedback, request/performance diagnostics, safer async heavy-work handling, shared pagination/request/lifecycle primitives, SQLite runtime tuning, and permanent carry-forward performance rules for all future development.
-
-There is **no destructive database migration or reset**. V30.39 adds only targeted indexes and runtime PRAGMA tuning; existing SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. Historical browser patch source files remain packaged for traceability, while the live browser now loads the ordered compatibility runtime through `runtime-v3039.js`. See `V30_39_IMPLEMENTATION_SUMMARY.md` and `V30_39_QA_STATUS.md`.
-
----
-
-# Blue Ocean Market V30.38.2
-
-V30.38.2 is a focused point release built directly on protected V30.38.1. It fixes the real Buy Machine Token Payment Pay From/Paid To interaction and Add/Manage action, standardizes successful child-dialog auto-close behavior, adds shared refund currency/FX/account integrity, and refines Machine Detail Costs into a compact scrollable list with always-visible total and disabled `🔒 Edit` lock UI.
-
-There is **no V30.38.2 database schema change, reset or destructive migration**. Existing SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. See `V30_38_2_IMPLEMENTATION_SUMMARY.md` and `V30_38_2_QA_STATUS.md`.
-
----
-
-# Blue Ocean Market V30.38.1
-
-V30.38.1 is a focused point-release hotfix built directly on protected V30.38.0. It repairs Sell Machine validation-state clearing and the Buy Machine Token Payment account workflow: Add / Manage Accounts routing, explicit Pay From / Paid To selection, parallel/prefetched account loading and slow-connection loading states.
-
-There is **no V30.38.1 database schema change, reset or destructive migration**. Existing SQLite data, uploads, backups and Render persistent storage remain compatible. See `V30_38_1_IMPLEMENTATION_SUMMARY.md` and `V30_38_1_QA_STATUS.md`.
-
----
-
-# Blue Ocean Market V30.38.0
-
-V30.38.0 is built directly on the protected V30.37.0 package. It adds editable/audited counterparty accounts, the seven-section Pakistan Resales workspace, Buy Machine receiver-account integrity, one canonical Sell Machine settlement engine shared by browser/backend validation, and collapsible Finance/Accounting filters with Accounting status controls kept visible.
-
-The only schema change is the additive `counterparty_payment_account_history` audit table/index created with `IF NOT EXISTS`. There is **no destructive migration or reset**; existing SQLite data, uploads, backups and Render persistent storage remain compatible. See `V30_38_IMPLEMENTATION_SUMMARY.md` and `V30_38_QA_STATUS.md`.
-
----
-
-# Blue Ocean Market V30.37.0
-
-V30.37.0 is a UI/workflow refinement release built directly on protected V30.36.0. It repairs the shared Buyer/Supplier payment-account entry points, standardizes Buyer/Supplier profile sections, and replaces the awkward Accounting/Finance date controls with a reusable responsive filter toolbar.
-
-The release is additive with **no database schema change** and preserves existing SQLite data, uploads, backups and Render persistent disk. See `V30_37_IMPLEMENTATION_SUMMARY.md` and `V30_37_QA_STATUS.md`.
-
----
-
-# Blue Ocean Market V30.36.0
-
-V30.36.0 is a browser-audit and UX-hardening release built directly on the protected V30.35.0 workflow/pagination baseline. It completes a Chromium-based control audit across the application, fixes the remaining validation-while-typing/focus regression and filter-to-pagination reset gaps, and preserves all V30.31–V30.35 lifecycle, targeted-refresh, stable-chrome, Finance/Accounting and persistence rules.
-
-Browser audit evidence is recorded in `qa/V30_36_BROWSER_AUDIT_RESULTS.txt`; implementation details are in `V30_36_IMPLEMENTATION_SUMMARY.md`. No destructive migration or schema reset is required.
-
----
-
-# Blue Ocean Market V30.35.0
-
-V30.35.0 is built directly on the protected V30.34.0 Stable UI Chrome & Slow-Connection Integrity baseline. It adds the post-V30.34 workflow refinements: Buy/Sell payment-account integrity, blur-based validation, sold/posted edit controls, Finance/Posting date filtering, and shared high-volume pagination while preserving stable UI chrome and targeted refresh behavior.
-
-See `V30_35_IMPLEMENTATION_SUMMARY.md` for the exact scope. No destructive migration or schema reset is required.
-
----
-
-# Blue Ocean Market V30.34.0
-
-Blue Ocean Market management OS — Git/Render-ready targeted-refresh release.
-
-V30.34.0 is built directly on V30.32.0 and preserves all V30.32 account-flow, Finance/Accounting, lifecycle, approval, audit and persistent-storage behavior. The release focuses on system-wide UI responsiveness: mutation actions should update only affected data areas while unrelated UI remains stable.
-
-### V30.34.0 scope
-
-- System-wide targeted/partial refresh architecture.
-- Section-level localized loading indicators for mutations.
-- Broad automatic post-mutation screen reload removed.
-- Soft compatibility refresh for legacy handlers, keeping old content visible until new data is ready.
-- Unchanged top-level sections are reused after legacy revalidation.
-- Guarded fallback refresh preserves data consistency when an older handler does not explicitly update its UI.
-- Shared `BlueOceanRefresh` helper and standing development/QA rule for future features.
-- No database schema changes; preserve current DB/uploads and Render persistent disk.
-
-### V30.34.0 QA status
-
-Run `npm run qa:current`, `npm run qa:v333`, `npm run qa:render`, and after `npm ci`, `npm run qa:runtime`.
-
-## V30.24.2 hotfix scope
-
-
-- Fix nested child dialogs throughout the system so Close (X), backdrop and ESC close only the topmost child and restore the exact parent dialog/form state.
-- Preserve unsaved edits, file inputs, focus and scroll context while previews/history/child dialogs are open.
-- Reserve protected responsive header space for Close (X), status/actions and Download Original so they do not overlap.
-- Apply the shared behavior to Finance and Accounting Posting evidence previews and every module using the common modal layer.
-- Fix Finance Correct & Resubmit reference validation so the current logical payment and linked/mirrored Finance rows are excluded from duplicate matching.
-- Preserve the rule that only a genuinely different active transaction on the same actual Company Financial Account blocks a duplicate reference.
-- Remove the legacy `Unassigned KRW Bank` clearing placeholder from interactive account selection while preserving historical records.
-
-V30.24.2 is a focused hotfix built directly on V30.24.1. It does not introduce a new architecture or business module; it hardens shared dialog behavior and Finance correction/account integrity discovered during V30.24.1 QA.
+The V30.43 database changes are additive only: `excavator_buyer_payments.buyer_sender_account_id` plus the same-BU `accounting_account_transfers_v343` ledger. There is **no destructive reset**. Existing V30.42 Tasks/Access behavior, SQLite data, uploads/evidence, backups and Render persistent storage remain compatible. The live browser now loads seven versioned scripts through `v343-client.js`. See `V30_43_IMPLEMENTATION_SUMMARY.md` and `V30_43_QA_STATUS.md`.
 
 ## QA status
 

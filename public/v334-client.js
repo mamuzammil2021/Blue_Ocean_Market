@@ -117,8 +117,7 @@ function hardenBuyerDetail(){
 
 function install(){hardenAccountingTabs();hardenWorkflowRenderer();hardenBuyerDetail();markStable(document);dedupeKnownActions(document)}
 let scheduled=false;
-const observer=new MutationObserver(()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;install()})});
-observer.observe(document.documentElement,{childList:true,subtree:true});
+BOMMutationHub.register('v334-stable-ui',()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;install()})});
 install();setTimeout(install,0);setTimeout(install,400);setTimeout(install,1200);
 
 window.BlueOceanStableUI={

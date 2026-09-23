@@ -67,6 +67,29 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,upload,access,
 
   // Replace legacy document listing before the legacy route is registered. Archived rows
   // are not returned at all unless the caller has archive/restore authority.
+  try{db.exec('CREATE INDEX IF NOT EXISTS idx_v347_documents_scope ON documents(business_unit_id,archived,workflow_status,created_at,id)')}catch(e){console.warn('Document paging index:',e.message)}
+  // V30.47: use the identical archive/BU access predicate as the protected document master.
+  app.get('/api/v347/documents/page',auth,allow('documents'),(req,res)=>{try{
+    const sc=scope(req,'d'),canViewArchive=req.user.role==='CEO / Owner'||!!access?.canAction?.(req.user.id,'documents','delete',currentUnit(req))||!!access?.canAction?.(req.user.id,'documents','void',currentUnit(req));
+    const q=String(req.query.search||'').trim().slice(0,120),section=['active','final','archived'].includes(String(req.query.section))?String(req.query.section):'active';
+    if(section==='archived'&&!canViewArchive)return res.status(403).json({error:'Archived documents require archive access.'});
+    const active="COALESCE(d.archived,0)=0 AND COALESCE(d.workflow_status,'Draft') NOT IN ('Final','Archived')";
+    const final="COALESCE(d.archived,0)=0 AND d.workflow_status='Final'";
+    const archived="(COALESCE(d.archived,0)=1 OR d.workflow_status='Archived')";
+    const safeScope='1=1'+sc.sql+(canViewArchive?'':` AND NOT ${archived}`),base=[...sc.args];
+    const counts=db.prepare(`SELECT COUNT(*) total,SUM(CASE WHEN ${active} THEN 1 ELSE 0 END) active,
+      SUM(CASE WHEN ${final} THEN 1 ELSE 0 END) final,SUM(CASE WHEN ${archived} THEN 1 ELSE 0 END) archived FROM documents d WHERE ${safeScope}`).get(...base);
+    let where=safeScope+' AND '+({active,final,archived}[section]),args=[...base];
+    if(q){where+=' AND (d.title LIKE ? OR d.category LIKE ? OR d.original_name LIKE ?)';args.push(...Array(3).fill('%'+q+'%'))}
+    const total=db.prepare(`SELECT COUNT(*) n FROM documents d WHERE ${where}`).get(...args).n;
+    const size=[25,50,100].includes(Number(req.query.pageSize))?Number(req.query.pageSize):25,pages=Math.max(1,Math.ceil(total/size)),page=Math.min(pages,Math.max(1,Math.floor(Number(req.query.page)||1)));
+    const rows=db.prepare(`SELECT d.*,b.name business_unit,u.name uploaded_by_name,ab.name archived_by_name,rb.name restored_by_name
+      FROM documents d LEFT JOIN business_units b ON b.id=d.business_unit_id LEFT JOIN users u ON u.id=d.uploaded_by
+      LEFT JOIN users ab ON ab.id=d.archived_by LEFT JOIN users rb ON rb.id=d.restored_by WHERE ${where}
+      ORDER BY d.created_at DESC,d.id DESC LIMIT ? OFFSET ?`).all(...args,size,(page-1)*size).map(d=>clientDoc(req,d));
+    res.json({rows,pagination:{page,page_size:size,pageSize:size,total,pages,from:total?(page-1)*size+1:0,to:Math.min(total,page*size)},
+      summary:{total:Number(counts.total||0),active:Number(counts.active||0),final:Number(counts.final||0),archived:canViewArchive?Number(counts.archived||0):0},can_view_archive:canViewArchive});
+  }catch(e){console.error('V30.47 document page',e);res.status(500).json({error:'Unable to load document page'})}});
   app.get('/api/documents',auth,allow('documents'),(req,res)=>{
     const sc=scope(req,'d'),archivedAllowed=req.user.role==='CEO / Owner'||!!access?.canAction?.(req.user.id,'documents','delete',currentUnit(req))||!!access?.canAction?.(req.user.id,'documents','void',currentUnit(req));
     let q=`SELECT d.*,b.name business_unit,u.name uploaded_by_name,ab.name archived_by_name,rb.name restored_by_name

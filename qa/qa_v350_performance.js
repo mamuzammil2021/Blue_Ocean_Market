@@ -1,0 +1,46 @@
+#!/usr/bin/env node
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
+const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');let passed=0;
+function check(ok,message){assert.ok(ok,message);console.log('PASS '+message);passed++}
+(async()=>{
+ const pkg=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json')),index=read('public/index.html'),runtime=read('public/runtime-v30392.js'),server=read('server/server.js');
+ check(pkg.version==='30.51.0'&&lock.version==='30.51.0'&&lock.packages[''].version==='30.51.0','version identity and lockfile');
+ check(server.includes("require('./v350-import-pages').install({app,db,auth,allow,currentUnit,enforceUnit})"),'scoped import page route mounted in actual server');
+ check(index.includes('/v351-loader.js?v=30.51.0')&&!index.includes('<script src="/v350-import-pages.js')&&read('public/v351-loader.js').includes("psImports:'pink-imports'"),'import read module lazily loads on its own screen');
+ check(runtime.includes('window.BOMPinkImports350')&&runtime.includes("await api('/api/pink-salt/imports')"),'server-paged import renderer with protected legacy fallback');
+ check(runtime.includes('pg.filters()')&&runtime.includes('pg.pager(data.pagination)')&&runtime.includes('psImportDetail(${x.id})'),'search, pager and existing detail action retained');
+ check(server.includes("require('./v349-pink-pages').install")&&read('server/v300.js').includes("app.get('/api/pink-salt/imports',auth")&&read('server/v300.js').includes("app.get('/api/pink-salt/imports/:id',auth"),'prior list and detail APIs untouched');
+ check(read('server/v300.js').includes("app.post('/api/pink-salt/imports/:id/payments'")&&read('server/v305.js').includes("supplier_advance_allocations"),'protected cash payment and advance allocation sources remain');
+ const m=require('../server/v350-import-pages');let routes=new Map(),calls=[];
+ const db={exec(sql){calls.push({sql,exec:true})},prepare(sql){return {get(...args){calls.push({sql,args});if(sql.includes('FROM business_units'))return {id:2};if(sql.includes('COUNT(*) n'))return {n:51};return {}},all(...args){calls.push({sql,args});return [{id:1,purchase_krw:1000,cash_paid_krw:300,advance_allocated_krw:250,total_weight_kg:50,import_costs_krw:10},{id:2,purchase_krw:100,cash_paid_krw:0,advance_allocated_krw:0}]}}}};
+ m.install({app:{get(p,...f){routes.set(p,f)}},db,auth:()=>{},allow:(...permissions)=>permissions,currentUnit:r=>r.selected_business_unit_id,enforceUnit:(r,bu)=>r.user?.allowed===bu});
+ const chain=routes.get('/api/v350/pink-salt/imports/page');check(chain?.length===3&&chain[1].includes('purchases')&&chain[1].includes('finance'),'auth and original import list permission categories enforced');
+ const handler=chain.at(-1),res=()=>({code:200,status(n){this.code=n;return this},json(body){this.body=body;return this}});
+ let r=res();handler({selected_business_unit_id:3,user:{allowed:2},query:{}},r);check(r.code===403&&r.body.rows===undefined,'foreign BU selection rejected before querying details');
+ r=res();handler({selected_business_unit_id:2,user:{allowed:2},query:{page:'999',pageSize:'100000',search:'Salt',status:'Open'}},r);
+ check(r.code===200&&r.body.pagination.page===3&&r.body.pagination.pageSize===25&&r.body.pagination.total===51,'bounds page size and last page');
+ check(r.body.rows[0].paid_krw===550&&r.body.rows[0].outstanding_krw===450&&!r.body.rows[0].ready_to_receive,'cash plus advances and outstanding match original formula');
+ check(r.body.rows[1].payment_status==='Unpaid'&&r.body.rows[1].outstanding_krw===100,'unpaid import state retained');
+ const count=calls.find(x=>x.sql?.includes('SELECT COUNT(*) n'));check(count&&count.args.includes('Salt')===false&&count.args.includes('%Salt%')&&count.args.includes('Open'),'search/status bound in count query');
+ const rows=calls.find(x=>x.sql?.includes('WITH chosen AS MATERIALIZED'));check(rows&&rows.args.at(-2)===25&&rows.args.at(-1)===50&&rows.sql.includes('JOIN chosen c ON c.id=x.import_id'),'aggregates limited to selected page IDs');
+ check(rows.sql.includes("COALESCE(x.status,'Active')!='Voided'")&&rows.sql.includes("COALESCE(x.status,'Active')='Active'"),'voided/reversed finance effects excluded');
+ check(!read('server/v350-import-pages.js').includes('db.prepare(\'UPDATE ')&&!read('server/v350-import-pages.js').includes('db.prepare(\'INSERT '),'read-only implementation no financial mutation');
+ const client=read('public/v350-import-pages.js');let ctx={window:{},selectedUnitId:2,me:{id:10},view:'psImports',api:async u=>({url:u}),KO:{},t:x=>x,esc:x=>x,console,URLSearchParams,setTimeout,clearTimeout,document:{querySelector:()=>null}};ctx.window.loadView=async()=>{};vm.runInNewContext(client,ctx);const pg=ctx.window.BOMPinkImports350;let data=await pg.get();check(data.url.includes('/api/v350/pink-salt/imports/page?')&&data.url.includes('pageSize=25'),'browser uses bounded server page');
+ check(pg.filters().includes('data-v350-search')&&pg.pager({page:1,pageSize:25,pages:3,total:51,from:1,to:25}).includes('disabled'),'visible bilingual search and pager controls');
+ pg.goto(3);ctx.view='psOther';const old=await pg.get();check(old===null,'stale out-of-view result dropped');
+ const stock=require('../server/v350-raw-pages'),stockRoutes=new Map(),stockCalls=[];
+ const stockDb={exec(sql){stockCalls.push({sql,exec:true})},prepare(sql){return {get(...args){stockCalls.push({sql,args});if(sql.includes('FROM business_units'))return {id:2};if(sql.includes('COUNT(*) n'))return {n:45};if(sql.includes('WITH balances AS'))return {total_kg:900,active_batches:30,mesh_kg:400,mm_2_3_kg:200,mm_3_5_kg:300};return {}},all(...args){stockCalls.push({sql,args});return [{id:9,available_kg:50,salt_grade:'Mesh'}]}}}};
+ stock.install({app:{get(p,...f){stockRoutes.set(p,f)}},db:stockDb,auth:()=>{},allow:(...p)=>p,currentUnit:r=>r.selected_business_unit_id,enforceUnit:(r,bu)=>r.user?.allowed===bu});
+ const stockChain=stockRoutes.get('/api/v350/pink-salt/raw-stock/page');check(stockChain?.length===3&&stockChain[1].includes('inventory'),'raw stock route is authenticated with original stock permission categories');
+ const stockHandler=stockChain.at(-1);r=res();stockHandler({selected_business_unit_id:3,user:{allowed:2},query:{}},r);check(r.code===403,'raw stock denies cross-unit selection');
+ r=res();stockHandler({selected_business_unit_id:2,user:{allowed:2},query:{page:'99',pageSize:'50',search:'Mesh'}},r);
+ check(r.code===200&&r.body.pagination.page===1&&r.body.pagination.pageSize===50&&r.body.pagination.total===45,'raw stock bounds requested page after scoped filtered count');
+ check(r.body.summary.total_kg===900&&r.body.summary.active_batches===30&&r.body.summary.mesh_kg===400,'stock overview comes from authoritative all-unit summary not the page');
+ check(stockCalls.some(x=>x.sql?.includes('WITH chosen AS MATERIALIZED')&&x.sql.includes('LIMIT ? OFFSET ?')&&x.args.at(-2)===50),'stock balance aggregation scans selected items only');
+ check(read('server/v300.js').includes("app.get('/api/pink-salt/raw-stock',auth")&&runtime.includes("api('/api/pink-salt/raw-stock')")&&runtime.includes('window.psProductionForm'),'full stock source remains for production and waste forms');
+ check(runtime.includes('window.BOMPinkRaw350')&&runtime.includes('data.summary.total_kg')&&runtime.includes('data.summary.mm_3_5_kg')&&runtime.includes('psTraceRaw(${x.id})'),'stock list retains full-unit KPIs and traceability action');
+ check(!index.includes('<script src="/v350-raw-pages.js')&&read('public/v351-loader.js').includes("psRawStock:'pink-stock'"),'raw stock read module lazily loads on its own screen');
+ check(read('REQUIREMENTS_MASTER.md').includes('Mandatory regression gate — V30.46.0+')&&read('REQUIREMENTS_MASTER.md').includes('Selective Intelligent Data Loading — V30.48.0'),'permanent development rules remain');
+ console.log(`V30.50 DEDICATED PERFORMANCE QA PASS (${passed} checks)`);
+})().catch(e=>{console.error('V30.50 QA FAILURE',e.stack||e);process.exitCode=1});

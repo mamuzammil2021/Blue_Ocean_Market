@@ -41,8 +41,7 @@ function compactAccounting(){
   const accountingActive=(typeof view!=='undefined'&&view==='accounting')||!!c.querySelector('.v318-accounting-banner');
   c.classList.toggle('v331-accounting-compact',accountingActive);
 }
-let compactScheduled=false;const observer=new MutationObserver(()=>{if(compactScheduled)return;compactScheduled=true;requestAnimationFrame(()=>{compactScheduled=false;compactAccounting();if(document.getElementById('v324WorkflowSurface'))cleanupWorkflowChrome();else restoreBreadcrumbIfNeeded()})});
-observer.observe(document.documentElement,{childList:true,subtree:true});setTimeout(compactAccounting,0);
+let compactScheduled=false;window.BOMMutationHub.register('v331-accounting-layout',()=>{if(compactScheduled)return;compactScheduled=true;requestAnimationFrame(()=>{compactScheduled=false;compactAccounting();if(document.getElementById('v324WorkflowSurface'))cleanupWorkflowChrome();else restoreBreadcrumbIfNeeded()})});setTimeout(compactAccounting,0);
 
 async function policy331(id){return api('/api/v331/finance/'+id+'/action-policy')}
 async function lifecycleHistory331(id){try{return await api('/api/v331/lifecycle/history?entity_type=finance_entry&entity_id='+encodeURIComponent(id))}catch(_){return []}}
