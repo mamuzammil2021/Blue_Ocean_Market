@@ -979,3 +979,111 @@ Every future requirement implicitly includes: permissions/BU scope + audit + Rev
 - The new permission must also be mapped intelligently into the relevant default Access Profiles and Permission Groups as part of the release, rather than being left only in the catalog. Do not grant it blindly to unrelated bundles.
 - Administrators may remove/adjust these defaults. Track the system-applied default mapping so a later startup/upgrade does not repeatedly force back a permission an administrator deliberately removed.
 - CEO / Owner automatically receives every new registered permission regardless of bundle mapping.
+
+## V30.43.0 — Workflow Context, Buyer Sender Accounts & Accounting Account Statements
+
+### Targeted refresh and child-route persistence — system-wide
+- When a successful child/modal action changes a visible list/section, refresh only that affected data scope immediately. Do not require a browser refresh and do not remount unrelated page sections.
+- Browser refresh while inside a child/detail workflow must restore the same record and selected child section/tab where practical instead of falling back to the parent list. This applies system-wide as workflows are touched.
+- New child/detail workflows should register with the shared context-preservation mechanism rather than implement isolated navigation hacks.
+
+### Excavator Machine Cost / Purchase edit controls
+- A Finance record merely existing does not lock the originating operational cost. Direct Edit remains available while Finance has not reviewed/acted on it.
+- Once Finance has acted (verification, correction request, rejection/return, resubmission handling) or Accounting has posted the record, normal direct Edit locks and the applicable controlled correction/reversal workflow is required.
+- Machine → Costs shows Purchase as informational only; it must not expose a duplicate Purchase Edit action because Purchase has its dedicated Purchase section.
+- After a machine is Sold / Completed, Purchase editing is locked in UI and backend.
+
+### Buyer sending account on receipts
+- Wherever a normal Excavator Buyer payment is received, allow optional capture of the Buyer-side account the funds were sent from.
+- The user may select an existing active Buyer account or optionally add new account details inline. Buyer sender account details are not mandatory for receipt completion.
+- The Buyer Sending Account is separate from Blue Ocean's Company Financial Account / Receive Into account. Existing company-account eligibility and receipt/evidence rules remain authoritative.
+- Persist the sender account on the receipt/payment record and surface it in payment history where recorded.
+
+### Sold-machine document protection
+- After a machine is Sold / Completed, only CEO / Owner may Delete / Archive machine documents. Hide the destructive action for other users and enforce the same rule server-side.
+
+### Accounting Cash & Bank account drill-down / statement / transfer
+- Every accessible Company Financial Account in Accounting may be opened to view account details, current balance and account transaction activity.
+- Authorized users may generate an Account Statement for a selected date range with opening balance, money in, money out, running balance, closing balance, date, reference, description/counterparty/source context and account/currency details.
+- Authorized users may download the generated statement as PDF. Statement/PDF behavior follows EN/KR localization, permission/BU scope, audit and existing document standards.
+- Statements must be derived from the actual account-specific Finance/Accounting money-movement history; do not create a disconnected manual ledger merely for presentation.
+- Company account transfers are controlled money movements. Same-BU transfers must create balanced Accounting entries between valid mapped accounts. Cross-BU transfers must use the existing Inter-BU due-from/due-to workflow rather than bypass it.
+
+
+## V30.44.0 permanent Cash & Bank account navigation standard
+Simple Accounting → Cash & Banks and Advanced Accounting → Cash & Bank Accounts must always expose a persistent, usable Open/View Details button on every accessible company account, including after initial load, tab re-selection, targeted refresh, mode switches and returning from detail. Both views must use the same permission/BU-scoped account detail with balance, statement period, PDF export and controlled transfers. Do not rely solely on post-render DOM injection for essential actions. Preserve the originating Accounting mode when leaving account detail.
+
+
+## V30.45.0 Unified Action Feedback — permanent system-wide standard
+- **One operation, one primary feedback location.** Never display a second concurrent button-spinner, modal chip, network banner or top progress toast for the same action.
+- Ordinary local mutations use button-level feedback only: disable the action, show an in-place localized Saving/Working state, and restore original disabled/accessibility state afterward.
+- Important money/accounting/approval/void/reversal transactions use exactly one contextual modal/section overlay; the originating action stays disabled without another progress indicator. System maintenance, environment reset and database restore alone may use a full-screen overlay.
+- Slow-response guidance **replaces the existing message in the same surface**. Section reads show local skeleton/error/retry, never a competing global request banner.
+- Success is acknowledged once where useful; suppress duplicate identical or same-action success notices, never hide actionable errors. No generic success toast may imply a transaction committed before the backend has returned success.
+- Use `window.BOMFeedback` as shared presentation coordinator. The V30.14 API review/idempotency wrapper, V30.38.2 successful modal lifecycle and V30.39 in-flight-read/request diagnostics stay authoritative for their respective non-presentation functions. New modules should call the shared coordinator, not introduce independently stacked progress layers.
+- Preserve Review & Confirm, permission/BU checks, source context, finance/accounting integrity, attachments, existing persistent SQLite/Render disk, English/Korean localization, and targeted refresh. Feedback is a client presentation concern, not a business transaction or posting state.
+- New releases must test local, modal, global, concurrent, slow, success/error and EN/KR paths, as well as the inherited V30.44 account-detail actions. Do not blindly remove historical observers or business workflow patches as a side effect of feedback cleanup.
+
+### Remaining performance work after V30.45.0
+- The V30.39.0–V30.39.2 performance foundations remain protected. Gradually audit historical MutationObservers, canonicalize workflows, lazily load business-unit modules, complete server-side pagination and N+1 cleanup, add bounded request concurrency and compact APIs, enrich query/render diagnostics, and perform authenticated multi-user Render load testing. This release **does not** claim those remaining milestones as completed.
+
+
+## Mandatory regression gate — V30.46.0+ PERMANENT SYSTEM-WIDE REQUIREMENT
+- Every full release, point release, hotfix, performance change, schema/migration change, script/runtime consolidation, and deployment MUST run affected-workflow QA, inherited regression, Render persistence checks, and applicable authenticated runtime/browser acceptance. A defect fix MUST gain an exact regression test that fails on the old behavior and passes on the corrected one.
+- Assess upstream/downstream impact before coding: BU scope, user/approval authority, Review & Confirm, real-money Finance, Accounting posting/settlement, buyer/supplier advances, corrections/reversals, stock/production, localization, navigation/parent context, one-primary-feedback presentation, and persistent storage.
+- `npm run qa:release` is the current offline release gate: V30.46 dedicated tests + V30.45 feedback + V30.44 account action + V30.43 workflow static QA + all packaged JavaScript/inherited checks + Render persistence. Its success is NOT equivalent to authenticated browser/runtime or production load testing.
+- Every release's QA status MUST identify PASS / FAIL / BLOCKED / NOT RUN, the actual commands/evidence and limits. A feature cannot be declared fully verified if applicable critical checks fail or are not run. Static/source tests and mocked component tests must be reported as such, never as live Render acceptance.
+- Do not blindly remove compatibility observers; move audited idempotent functions to a shared dispatcher or explicit module lifecycle, verify each protected behavior, then delete the superseded observer.
+
+## V30.46.0 — Performance continuation and permanent standards
+- Bound concurrent same-origin `/api/` GET/HEAD requests to four in flight, with at most two evidence/history/document-heavy requests and priority for critical summary/context reads. Queued aborted reads must never start; POST/PUT/PATCH/DELETE are never queued by the read scheduler. Keep V30.45 unified-feedback lifecycle and V30.39 GET deduplication.
+- A shared child-node dispatcher is available for audited legacy DOM enhancers. Sale validation, permissions, modal/account-specific attribute observers must not be removed without workflow-level QA.
+- High-volume lists must be server-filtered before pagination, default 25, optional 25/50/100; preserve legacy array endpoints for existing consumers during incremental conversion. Per-list filters/page must survive targeted refresh and reset page on filter changes.
+- Detailed SQL/response diagnostics are opt-in (`BOM_PERF_DETAILED=true`), authorized and bounded; never output raw SQL, bind values, credentials, request bodies or personal data. Measure first, then change high-cost query patterns without changing balances or BU restrictions.
+- Remaining performance backlog cannot be declared complete from this release alone. Unconverted historic observers, fully BU-lazy compatibility runtime, remaining high-volume list pagination, complex account/payment N+1, additional compact APIs, startup/backfill/localization optimization and authenticated multi-user Render load testing require separately verified continuation.
+
+## V30.47.0 — Continued performance program and permanent regression protection
+
+- Protected baseline: V30.46.0 source ZIP. Keep V30.39.0–V30.46.0 performance, V30.45.0 Unified Action Feedback, V30.44.0 Cash/Bank account actions, later business permissions, Finance/Accounting, and Render persistence unchanged unless a verified dependency requires a controlled update.
+- Canonical paged Tasks, Approvals and Documents endpoints must apply original BU, owner, approval and document-archive restrictions **before** SQL LIMIT/OFFSET. Default 25, configurable 25/50/100. Existing array endpoints remain for dependent callers until safely retired. Preserve document archive/restore, original approval row actions, Task action/detail, and original Review & Confirm/idempotency flows.
+- Guarded on-demand Tasks/Approvals/Documents screen module: legacy cross-module workflow protections still load on startup; avoid promising full BU-level lazy loading until each dependency is migrated and tested. If module loading fails, restore original screen rendering.
+- Five additional audited, idempotent observer constructors use the shared DOM dispatcher; do not broadly remove protected modal, sale-validation, account-picker, Finance and permission observers.
+- Coalesce Korean text-node translation within a mutation turn; do not translate raw user-supplied content or change authorization/value fields. Keep EN/KO verification on all modified views.
+- Optional event-loop delay and bounded first-useful-view diagnostics; redact tokens, personal content and raw SQL values. Real benchmarks must use the actual Render host and representative data.
+- **Permanent regression gate:** every build, point release and urgent fix MUST run affected workflow tests and the inherited chain plus Render persistence. Capture new bugs as reproducible regression tests. If native dependency-backed or live authenticated checks cannot run, record NOT RUN or BLOCKED and do not claim production acceptance. Do not silently declare a feature complete from static tests alone.
+- Future backlog remains: 19 sensitive/legacy observer constructors still in the served compatibility runtime, canonical BU-based lazy module split, further Accounting/Pink Salt and other list pagination / N+1 / summary optimization, startup and payload cleanup, native integration and Render multi-user load results. Migration is workflow-by-workflow and must protect real-money integrity.
+
+
+## Selective Intelligent Data Loading — V30.48.0 (PERMANENT)
+- **Smart, not blind:** choose loading mode by record volume, screen purpose, visual quality, expected user interaction and device. Do not convert Finance/Accounting reconciliation, Audit, Tasks, Approvals, Documents, small configuration lists, transaction forms or authoritative summaries into endless feeds by default; retain deterministic server pagination, filters, total counts and required initial data.
+- Notification card feeds may predictively request bounded SQL-keyset batches near the viewport and provide an accessible manual Load More fallback. The bell preview must fetch only a bounded page. The active feed retains at most 250 cards before offering the original paged navigation. Large lists may use virtualization only after measuring benefit and preserving focus, accessibility and stable scroll.
+- Scope, search, status and user authorization MUST be applied server-side before LIMIT; cursors are scoped to filters/user/BU and do not grant access. On filter/BU change or stale navigation, discard old reads. Prevent overlapping batches and duplicate rows. Preserve previously loaded cards on transient errors and provide one contextual Retry, consistent with Unified Action Feedback. Full counts/financial summaries are computed on the server, never from a partly fetched page.
+- Pink Salt LIST summaries may use BU-scoped batched financial projections only when mathematically equivalent to existing per-order logic (active legacy receipts, active receipt allocations, active refunds, completed vs cancelled orders, unallocated credit, adjustments and aging); single-record settlement/credit-limit validation, Finance and Accounting authority remain unchanged. Introduce no ledger mutations via a read optimization.
+- Each performance release must preserve inherited workflow, permissions, EN/KR, Render persistence and full regression gate. Record explicit PASS/FAIL/BLOCKED/NOT RUN, including limitations of mock browser/runtime tests and live Render load verification.
+
+### V30.49.0 — Paged high-volume lists and permanent performance acceptance gate
+- Pink Salt Customers and Orders use server-filtered 25/50/100 pages for list browsing; summary KPIs are calculated over **all eligible scoped records**, never a loaded page. Legacy full-array APIs and single-record settlement/credit/Finance/Accounting validation remain intact for workflows still depending on them. Search/status/channel/type apply before pagination; state resets to page 1 on changes. The selected BU and effective permission must be validated before SQL reads.
+- Advanced Accounting General Ledger uses deterministic server pagination with count and per-page journal debit/credit aggregation, retaining original journal detail, manual posting, reconciliation and legacy API. No infinite scrolling on financial review tables. Only the Accounting body should refresh on page changes.
+- Keep selective smart loading. Do not claim complete BU code-splitting or remove sensitive historical observers by quota. Every safe observer migration must preserve actual behavior and add regression coverage; retain sensitive sale, permission, account and modal guards until parity is verified.
+- Before production promotion, run authenticated end-to-end, CEO/BU-restricted data isolation, EN/KO, live Render persistence and staging read-only multi-user performance measurements using representative records. Static browser/mocked SQL QA cannot fulfill these gates. Record PASS/FAIL/BLOCKED/NOT RUN, baseline/current latency, API payload size and SQLite contention; never substitute a source-only result for live acceptance.
+
+
+### V30.50.0 — Scoped Pink Salt import-list loading (permanent compatibility pattern)
+- Shipment list screen uses 25/50/100 SQL-filtered server pages with bounded shipment-item, cost, payment and supplier-advance aggregates for selected IDs only; preserve full authoritative item/financial totals and safe void/reversal semantics. No money record is created, removed or altered by list navigation.
+- Keep original full-array `/api/pink-salt/imports`, individual Import Detail, supplier account, receipt, advance allocation, stock and Accounting/Finance workflows available for dependent forms and mutations. Do not retrofit transaction forms to a partial list.
+- Search and status filter before pagination; keep explicit Previous/Next controls, English/Korean labels, current filter/page context and stale-request/BU isolation. One contextual loading/error surface; no global infinite scroll for financial reviews.
+- Continue protected observer and cross-module code-splitting work only after dependency-backed parity tests. Mandatory regression gate and live signed-in Render staging checks remain release requirements; static/browser fixtures are not equivalent to live acceptance.
+
+- Pink Salt Raw Stock display also uses explicit SQL-selected pages and a separate authoritative all-unit inventory summary (total kg, active batches, mesh and mm category weights). Search filters only the visible list, not overview totals; preserve batch traceability. Production, repacking, waste and valuation must retain the original full-stock validation source, not an incomplete browser page.
+
+
+### V30.51.0 — Dependency-safe optional read-module loading and permanent release discipline
+- Load independent Pink Salt customer/order, import-list, and raw-stock *read-only presentation* modules on first matching route. Shared business logic, permissions, Finance/Accounting, payment forms, and direct-tab Accounting code remain eager until authenticated parity tests justify a split.
+- Use a per-module single-flight promise, bounded optional modules, and original full-list renderers as fail-open fallback. A stale route/module result must never render over a newly selected route. Do not add duplicate feedback surfaces.
+- Reject stale buyer/customer, Pink Salt and journal page responses when business unit or signed-in identity changes; preserve authoritative server-scoped totals.
+- Mandatory regression: verify initial login shell and cross-BU navigation without optional read code, each read route's first lazy load/second cached load, failure/retry fallback, and EN/KO/permissions/financial invariants. Static browser mocks do not establish authenticated Render acceptance.
+- Do not retire the remaining protected observers or split the large shared business runtime until native authenticated end-to-end parity is available; optimize against measured bottlenecks rather than blindly.
+
+
+## V30.52.0 — QA and stability follow-through (23 September)
+Must preserve actual Finance verification/posting cost locks; mutation-authoritative cache invalidation and async epoch guards; no stale child restoration on selected sidebar main-tab clicks; oldest entered-first statement events consistently across screen/PDF; existing authenticated Sale Document preview and download; properly verified low-risk bulk Finance workflow with explicit skipped reasons; remove only redundant dashboard/Finance instructional cards. Preserve V30.51 performance and safe Render disk. Test on staging before promotion.

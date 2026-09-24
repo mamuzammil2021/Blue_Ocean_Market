@@ -5,7 +5,7 @@ const path=require('path');
 const zlib=require('zlib');
 const crypto=require('crypto');
 
-const VERSION='30.39.2';
+const VERSION='30.46.0'; // Current release header; this module retains its V30.39.x performance contracts.
 const DEFAULT_SLOW_MS=Math.max(100,Number(process.env.BOM_SLOW_REQUEST_MS||750));
 const DEFAULT_LARGE_BYTES=Math.max(64*1024,Number(process.env.BOM_LARGE_RESPONSE_BYTES||1024*1024));
 const metrics={started_at:new Date().toISOString(),requests:0,api_requests:0,slow_requests:0,large_responses:0,errors:0,last_slow:[],last_large:[]};

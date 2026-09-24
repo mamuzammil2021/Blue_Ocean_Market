@@ -254,7 +254,7 @@ window.BlueOceanRefresh={
 };
 
 /* Any late-created workflow gets the scoped wrappers too. */
-const late=new MutationObserver(()=>installScopedWrappers());late.observe(document.documentElement,{childList:true,subtree:true});
+let v333WrapQueued=false;BOMMutationHub.register('v333-scoped-wrappers',()=>{if(v333WrapQueued)return;v333WrapQueued=true;requestAnimationFrame(()=>{v333WrapQueued=false;installScopedWrappers()})});
 
 console.info(`Blue Ocean Market V${VERSION} targeted refresh / stable UI layer loaded`);
 })();

@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
+const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');let n=0;
+const check=(v,s)=>{assert.ok(v,s);console.log('PASS '+s);n++};
+(async()=>{
+ const pkg=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json')),idx=read('public/index.html'),runtime=read('public/runtime-v30392.js'),server=read('server/server.js'),v313=read('server/v313.js'),v290=read('server/v290.js'),bulk=read('server/v348-pink-salt-bulk.js');
+ check(pkg.version==='30.52.0'&&lock.packages[''].version==='30.52.0'&&server.includes("version:'30.52.0'"),'release identity matches protected source');
+ check(idx.includes('v351-loader.js?v=30.52.0')&&idx.includes('v349-accounting-pages.js?v=30.52.0')&&!idx.includes('<script src="/v349-pink-pages.js')&&read('public/v351-loader.js').includes("psCustomers:'pink-lists'"),'read views are route-lazy while direct Accounting tab remains available');
+ check(server.includes("require('./v349-pink-pages').install({app,db,auth,allow,currentUnit,enforceUnit})"),'Pink Salt routes mounted through original authenticated runtime');
+ check(v313.includes("app.get('/api/pink-salt/customers-v313'")&&v313.includes("app.get('/api/pink-salt/orders-v313'")&&v313.includes('function orderFinancials(order)')&&v313.includes('function customerSummary(customerId)'),'original array APIs and single-record finance validators untouched');
+ check(v290.includes("app.get('/api/accounting/journal',auth")&&v290.includes("app.get('/api/accounting/journal/:id',auth")&&v290.indexOf("/api/v349/accounting/journal/page")<v290.indexOf("/api/accounting/journal/:id"),'legacy journal/detail retained; page route inserted safely');
+ check(v290.includes("journalUnitFilter(req,'j')")&&v290.includes('JOIN page p ON p.id=l.journal_entry_id')&&v290.includes('LIMIT ? OFFSET ?'),'GL page scopes before paging and aggregates only selected ledger rows');
+ check(runtime.includes("pg?await pg.get('customers')")&&runtime.includes("pg?await pg.get('orders')")&&runtime.includes('data.summary.outstanding_krw')&&runtime.includes('data.summary.open_orders'),'Pink Salt views display authoritative full-data KPIs, not current page totals');
+ check(runtime.includes("pg?await pg.get():null")&&runtime.includes("pg.pager(data.pagination)")&&!runtime.includes("const [rows,accts]=await Promise.all([api('/api/accounting/journal')"),'General Ledger uses explicit pager without redundant account-master read');
+ check(bulk.includes('selectedCustomers=null')&&bulk.includes("AND customer_id IN (")&&bulk.includes("const restrict=ids.length")&&bulk.includes('financialsBulk(db,bu,orders,today)'),'Pink Salt financial projections bounded to selected IDs while preserving legacy full-list path');
+ check((runtime.match(/new MutationObserver/g)||[]).length===15,'three additional audited observers retired');
+ for(const h of ['v329-resale-phones','v331-accounting-layout','v337-finance-posting-polish'])check(runtime.includes("BOMMutationHub.register('"+h+"'"),'original behavior retained through shared dispatcher: '+h);
+ for(const p of ['saleObserver381=new MutationObserver','sensitiveObserver317=new MutationObserver','new MutationObserver(sync).observe(sel'])check(runtime.includes(p),'sensitive protected observer remains: '+p);
+ const pages=require('../server/v349-pink-pages');let routes=new Map(),queries=[];const db={exec(sql){queries.push(sql)},prepare(sql){return {get(...args){queries.push({sql,args});if(sql.includes('SELECT id FROM business_units'))return {id:2};if(sql.includes('COUNT(*) n'))return {n:36};if(sql.includes('SELECT COUNT(*) total_orders'))return {total_orders:36,open_orders:1,sales_krw:2400,gross_profit_krw:450,receivable_krw:1400,overdue_krw:500};if(sql.includes(' credit FROM'))return {credit:400};return {n:36}},all(...args){queries.push({sql,args});return []}}}};
+ pages.install({db,app:{get(name,...middleware){routes.set(name,middleware.at(-1))}},auth:()=>{},allow:()=>{},currentUnit:req=>req.selected_business_unit_id,enforceUnit:(req,bu)=>req.user.allowed===bu});
+ check(routes.has('/api/v349/pink-salt/customers/page')&&routes.has('/api/v349/pink-salt/orders/page'),'both page routes registered');
+ const res=()=>({statusCode:200,status(s){this.statusCode=s;return this},json(x){this.body=x;return this}});
+ let r=res();routes.get('/api/v349/pink-salt/customers/page')({selected_business_unit_id:3,user:{allowed:2},query:{}},r);
+ check(r.statusCode===403&&!r.body.rows,'wrong business-unit context cannot access page');
+ r=res();routes.get('/api/v349/pink-salt/customers/page')({selected_business_unit_id:2,user:{allowed:2},query:{pageSize:'10000',page:'999',search:'A',type:'Retail'}},r);
+ check(r.statusCode===200&&r.body.pagination.pageSize===25&&r.body.pagination.page===2&&r.body.pagination.total===36,'page limit and last-page clamping');
+ check(r.body.summary.customers===36&&r.body.summary.unallocated_credit_krw===400,'unfiltered full-data summary does not use current-page row count');
+ check(queries.some(q=>q.sql?.includes('SELECT * FROM pink_salt_customers')&&q.sql.includes('LIMIT ? OFFSET ?')&&q.args.at(-1)===25),'customer list paged in SQL, not browser slicing');
+ r=res();routes.get('/api/v349/pink-salt/orders/page')({selected_business_unit_id:2,user:{allowed:2},query:{pageSize:'50',status:'Completed',search:'A'}},r);
+ check(r.body.pagination.pageSize===50&&r.body.summary.sales_krw===2400&&r.body.summary.receivable_krw===1400,'order full-scope totals independent from search/filter');
+ check(queries.some(q=>q.sql?.includes('FROM pink_salt_orders o LEFT JOIN')&&q.sql.includes('LIMIT ? OFFSET ?')&&q.args.includes('Completed')),'order status filter bound in database before pagination');
+ const client=read('public/v349-pink-pages.js'),ctx={window:{},selectedUnitId:2,me:{id:7},view:'psCustomers',api:async url=>({url,rows:[],pagination:{total:0},summary:{}}),KO:{},t:x=>x,esc:x=>x,document:{},console,setTimeout,clearTimeout,URLSearchParams};vm.runInNewContext(client,ctx);
+ let p=await ctx.window.BOMPinkPages349.get('customers');check(p.url.includes('pageSize=25')&&p.url.includes('/customers/page?'),'small frontend pager fetches proper server list');
+ check(ctx.window.BOMPinkPages349.filterBar('customers').includes('data-v349-search')&&ctx.window.BOMPinkPages349.pager('customers',{page:1,pageSize:25,pages:2,total:30,from:1,to:25}).includes('disabled'),'bilingual-friendly search controls and bounded previous action');
+ check(read('REQUIREMENTS_MASTER.md').includes('Mandatory regression gate — V30.46.0+')&&read('REQUIREMENTS_MASTER.md').includes('Selective Intelligent Data Loading — V30.48.0'),'permanent regression and selective-loading requirements retained');
+ console.log(`\nV30.52.0 DEDICATED PERFORMANCE QA PASS (${n} checks)`);
+})().catch(e=>{console.error('V30.49 QA FAILURE:',e.stack||e);process.exitCode=1});

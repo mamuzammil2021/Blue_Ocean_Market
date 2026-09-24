@@ -17,7 +17,6 @@
       method.addEventListener('change',sync);ref.addEventListener('input',sync);sync();
     });
   }
-  new MutationObserver(()=>applyCashReferenceRule()).observe(document.documentElement,{subtree:true,childList:true});
   setTimeout(()=>applyCashReferenceRule(),0);
 
   // Robust BU-scoped searchable dropdown. It only enhances options already returned
@@ -55,7 +54,7 @@
     if(select.value)input.value=select.selectedOptions[0]?.textContent?.trim()||'';
   }
   function enhanceScopedSelectors(root=document){root.querySelectorAll('select[name],select[id]').forEach(enhanceScopedSelect)}
-  new MutationObserver(()=>enhanceScopedSelectors()).observe(document.documentElement,{subtree:true,childList:true});setTimeout(()=>enhanceScopedSelectors(),0);
+  let v325EnhanceQueued=false;BOMMutationHub.register('v325-payment-selectors',()=>{if(v325EnhanceQueued)return;v325EnhanceQueued=true;requestAnimationFrame(()=>{v325EnhanceQueued=false;applyCashReferenceRule();enhanceScopedSelectors()})});setTimeout(()=>enhanceScopedSelectors(),0);
 
   if(typeof window.excavatorNewMachine==='function'){
     const old=window.excavatorNewMachine;window.excavatorNewMachine=async function(){const r=await old.apply(this,arguments);try{const input=document.getElementById('buySupplierSearch');if(document.getElementById('buySupplierResults')){input?.removeAttribute('data-v325-search');return r}const suppliers=await api('/api/excavator/suppliers');enhanceMasterSearch(input,suppliers.map(s=>({id:s.id,label:s.name,sub:[s.location,s.phone,`${Number(s.available_machine_count||0)} available machine(s)`].filter(Boolean).join(' · '),search:[s.name,s.location,s.phone,s.contact_person].filter(Boolean).join(' ').toLowerCase()})),(x,label)=>selectBuySupplier(x?x.name:'Other / New Supplier'),{newLabel:'Other / New Supplier'})}catch(e){console.warn('V30.25 supplier search',e.message)}return r};

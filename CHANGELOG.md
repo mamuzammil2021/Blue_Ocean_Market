@@ -1,3 +1,79 @@
+## V30.52.0 — QA & System Stability Fixes (23 September QA)
+- Protected source: verified V30.51.0 ZIP (SHA-256 3544c8a0cb83afaf206d9420e6ad0eede216b8f654c3c414f670832ef418ddd5).
+- Fix machine-cost edit policy: normal edits lock only after valid Finance Verified / actual Accounting Posted, original creator owns correction/resubmission, and source-linked Finance is resynchronized after edits.
+- Finance verification successful close and main-sidebar route state fix; prevent Accounting Posting Control child state reopening on ordinary navigation.
+- Mutation-linked, epoch-guarded supplier/buyer detail invalidation: post-commit reads cannot be overwritten by stale in-flight responses, without a global remount.
+- Sold machine Sale Document action uses existing authenticated preview/download workflow.
+- Statement event sequencing uses recorded creation timestamp, with additive buyer-allocation timestamp/backfill for existing data; on-screen and exported statement share the same ledger source.
+- Remove the extra Excavator Workspace paragraph and Finance Integrity explanatory card, retaining their business controls and all action buttons.
+- Repair bulk low-risk Finance verification: scoped per-row checks, maker/checker, active evidence, source-warning eligibility, transaction-per-row update, clear skipped reasons and paged-list refresh.
+- Preserves protected performance loader, targeted refresh, paging, existing persistent disk structure and audit/approval rules.
+- QA: inherited release/static tests and V30.52 static stabilization suite pass. **Native authenticated browser/runtime, concurrency, Render deployment and user acceptance NOT run in this offline environment** (npm install dependencies unavailable). See V30_52_QA_STATUS.md.
+
+## V30.51.0 — Frontend Lazy Loading & Performance Hardening
+- Source: protected V30.50.0. Three Pink Salt read-only UI scripts deferred per view via single-flight fail-open loader.
+- Scope-safe guards for customer/order and Accounting journal async results.
+- Protected eager shared runtime, Accounting direct-tab module, 15 sensitive observers, Finance/Accounting write flows and Render persistence retained.
+- Permanent V30.51 QA including lazy browser, inherited SQL/browser and release source checks. Live native/Render gates remain open.
+
+## V30.48.0 — Selective Intelligent Loading and Batch Financial Reads
+- Added scoped, bounded/predictive Notifications feed with manual Load More and original paged fallback; bell preview no longer downloads complete notification history.
+- Bulk-projected Pink Salt customer/order list amounts without changing payment/settlement/Finance/Accounting mutations; indexable Audit date filter.
+- Migrated one audited legacy account-label observer; optional bounded endpoint percentile diagnostics and permanent per-screen smart loading rules.
+- Dedicated/inherited source QA, static browser and SQLite fixture; native authenticated/Render concurrency acceptance remains outstanding.
+
+## V30.47.0 — Paged Workspaces & Safe Runtime Consolidation
+- Tasks, Approvals and Documents server-paged scoped workspaces with guarded lazy frontend.
+- Five further audited observer paths consolidated into shared hub (19 served-runtime historical constructors remain).
+- Korean mutation translation batching, opt-in event-loop diagnostics, first-useful-section samples, and release/browser regression coverage.
+- Existing protected action and permission workflows preserved; authenticated Render runtime/load acceptance remains pending.
+
+## V30.46.0 — Performance continuation / regression release gate
+- Added bounded priority-aware read scheduling with no change to mutation request handling.
+- Consolidated seven audited DOM enhancers through one observer hub.
+- Added authorized, opt-in bounded performance diagnostics, server-backed Notifications/Audit pagination, Pink Salt supplier tier bulk retrieval.
+- Made regression QA a documented permanent gate. Preserved protected V30.45 feedback and V30.44 accounting account actions.
+- Static QA and unauthenticated browser-shell checks pass; live authenticated API and Render multi-user load remain pending.
+
+# V30.45.0 — Unified Action Feedback
+
+- Introduced one shared contextual feedback coordinator for local buttons, important transactions and maintenance.
+- Eliminated overlapping V30.14 full-screen/button, V30.38.2 modal chip and V30.39 network banner presentation, while retaining their business safety and request lifecycle.
+- Replaced slow messages in place, collapsed repeated progress/success, preserved actionable errors and EN/KR states.
+- Added regression coverage; preserved V30.44 Account Open actions and Render persistent-storage behavior. No DB migration.
+
+---
+
+# V30.44.0 — Persistent Cash & Bank Account Actions
+
+- Fixed disappearing Open button in Simple Accounting → Cash & Banks when tab is reselected or refreshed.
+- Added Open action column for every accessible account in Advanced Accounting → Cash & Bank Accounts.
+- Replaced V30.43's decorative Open span with a real keyboard-accessible button.
+- Both views use the same existing V30.43 account-detail, statement, PDF, and controlled transfer workflow; no parallel detail implementation.
+- Returning from Advanced account detail preserves Advanced view and Cash & Bank tab; ordinary access/BU scope remains enforced by existing APIs.
+- Updated source renderers and consolidated browser runtime, plus precompressed assets and repeat-render regression QA.
+- No database migrations or destructive reset.
+
+---
+
+# V30.43.0 — Workflow Context, Buyer Sender Accounts & Accounting Statements
+
+- Added a system-wide child/detail context persistence pattern so browser refresh restores the current Supplier, Buyer, Machine, Task, Approval, Finance record/correction or Accounting account instead of unnecessarily falling back to the parent list; selected Supplier/Buyer sections are preserved.
+- Hardened targeted refresh after child mutations: Supplier Available Machines refreshes immediately after Add/Delete Machine, and Buyer Payments refreshes immediately after a receipt mutation without a full-page remount.
+- Refined Excavator Machine Cost editing: an untouched/unverified linked Finance entry does not lock direct operational Edit; direct Edit locks only after Finance has actually acted or Accounting posting applies.
+- Removed the duplicate Purchase-row Edit action from Machine → Costs. Purchase remains editable only from the dedicated Purchase section while eligible.
+- Locked Purchase editing after a machine reaches Sold / Completed, with backend enforcement and a clear locked UI state.
+- Restricted sold-machine document Delete / Archive to CEO / Owner, including server-side enforcement; ordinary users do not see the destructive action.
+- Added optional Buyer Sending Account capture to Buyer Payment and Sell Machine receipt flows. Existing buyer accounts can be selected or new optional buyer account details can be saved for future use; the company Receive Into account remains separate.
+- Added Buyer Sending Account context to Buyer payment history.
+- Expanded Accounting → Cash & Bank Accounts into account drill-down with current balance, statement period, opening balance, Money In, Money Out, running balance, closing balance and transaction details sourced from actual Finance/Accounting money movements.
+- Added Account Statement generation and authenticated PDF download with English/Korean-capable output and existing account/BU permission checks.
+- Added controlled company financial-account transfers. Same-BU transfers create balanced Accounting journal entries; cross-BU transfers are routed through the existing Inter-BU transfer workflow rather than bypassing due-from/due-to controls.
+- Added V30.43-specific QA coverage and advanced release/browser/server identity to 30.43.0.
+- Additive upgrade only; no destructive database or persistent-storage reset.
+
+---
+
 # V30.42.0 — Actionable Tasks & Smart Access Control
 
 - Made automatically generated Tasks actionable workflow objects with contextual actions, source/related record context and workflow state.
@@ -629,3 +705,8 @@
 - Added `render:storage-check` and `render:migrate-storage` helpers plus Render deployment documentation and Blueprint example.
 - Strengthened `.gitignore` so runtime databases, WAL/SHM files, backups, uploads, secrets and node_modules are never committed.
 - Functional application version remains V30.24.3.
+
+## V30.49.0 — Performance continuation
+- Paged Pink Salt customer/order listings and authoritative full-set KPI projections, deterministic General Ledger pagination and selected-page debit/credit aggregation.
+- Migrated three audited DOM enhancers to shared dispatcher; maintained protected sensitive observers and all original settlement/posting APIs.
+- Added dedicated SQL/browser regression and optional staging read-only load harness; production acceptance remains outstanding.

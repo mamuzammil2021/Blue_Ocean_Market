@@ -241,6 +241,7 @@ CREATE TABLE IF NOT EXISTS excavator_buyer_payment_allocations(
  asset_id INTEGER NOT NULL,
  amount_krw REAL NOT NULL DEFAULT 0,
  allocation_date TEXT DEFAULT CURRENT_TIMESTAMP,
+ created_at TEXT DEFAULT CURRENT_TIMESTAMP,
  created_by INTEGER,
  notes TEXT DEFAULT '',
  FOREIGN KEY(payment_id) REFERENCES excavator_buyer_payments(id) ON DELETE CASCADE,

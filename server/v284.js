@@ -38,6 +38,21 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer}){
     END;`)}catch(e){console.error('V28.4 resale duplicate trigger:',e.message)}
   try{db.prepare("DELETE FROM request_idempotency WHERE datetime(created_at)<datetime('now','-2 days')").run()}catch(_){ }
 
+  // V30.52: allocation_date is a user/business date, not an entry timestamp.
+  // Add a separate entry time without dropping or rewriting any existing entries.
+  try{db.exec('ALTER TABLE excavator_buyer_payment_allocations ADD COLUMN created_at TEXT')}catch(_){ }
+  // For legacy allocations, the sale transaction creation timestamp is the closest
+  // recorded source of entry order. Keep date-only as an explicit last resort.
+  try{db.exec(`UPDATE excavator_buyer_payment_allocations SET created_at=COALESCE(
+    (SELECT t.created_at FROM excavator_transactions t WHERE t.asset_id=excavator_buyer_payment_allocations.asset_id
+      AND t.type IN ('Local Sale','Export Sale') AND COALESCE(t.status,'Completed')!='Cancelled'
+      ORDER BY t.id DESC LIMIT 1),
+    (SELECT p.created_at FROM excavator_buyer_payments p WHERE p.id=excavator_buyer_payment_allocations.payment_id),
+    allocation_date) WHERE created_at IS NULL`)}catch(e){console.warn('Allocation entry-time backfill:',e.message)}
+  try{db.exec(`CREATE TRIGGER IF NOT EXISTS set_excavator_allocation_entry_time_v352
+    AFTER INSERT ON excavator_buyer_payment_allocations WHEN NEW.created_at IS NULL
+    BEGIN UPDATE excavator_buyer_payment_allocations SET created_at=strftime('%Y-%m-%d %H:%M:%f','now') WHERE id=NEW.id; END`)}catch(e){console.warn('Allocation entry-time trigger:',e.message)}
+
   function safeJson(value){try{return JSON.stringify(value)}catch(_){return JSON.stringify({ok:true})}}
   function mutationIdempotency(req,res,next){
     const method=String(req.method||'GET').toUpperCase();
@@ -115,7 +130,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer}){
   function sum(rows,key){return rows.reduce((n,r)=>n+Number(r[key]||0),0)}
   function buildRunningRows(allRows,{from='',to='',opening=0,mode='credit-minus-debit'}={}){
     let balance=Number(opening||0);
-    return allRows.filter(r=>inPeriod(r.date,from,to)).sort((a,b)=>String(a.date).localeCompare(String(b.date))||Number(a.order||0)-Number(b.order||0)).map(r=>{
+    return allRows.filter(r=>inPeriod(r.date,from,to)).sort((a,b)=>String(a.entered_at||a.date||'').localeCompare(String(b.entered_at||b.date||''))||Number(a.entry_priority||0)-Number(b.entry_priority||0)||Number(a.order||0)-Number(b.order||0)).map(r=>{
       const debit=Number(r.debit||0),credit=Number(r.credit||0);
       balance+=mode==='debit-minus-credit'?debit-credit:credit-debit;
       return {...r,debit,credit,balance};
@@ -147,7 +162,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer}){
     if(!isFinanceReviewer(req.user)){q+=' AND f.created_by=?';args.push(req.user.id)}
     const records=db.prepare(q+' ORDER BY COALESCE(f.transaction_date,f.created_at),f.id').all(...args);
     const all=records.map(f=>({
-      date:dateOnly(f.transaction_date||f.created_at),order:f.id,
+      date:dateOnly(f.transaction_date||f.created_at),entered_at:f.created_at||f.transaction_date,order:f.id,
       description:`${f.business_unit||''}${f.business_unit?' · ':''}${f.category||f.type||'Finance'}${f.description?' · '+f.description:''}`,
       reference:f.reference||`FIN-${f.id}`,
       debit:(Number(f.cash_effect||0)<0||(Number(f.cash_effect||0)===0&&f.source_type==='Manual'&&String(f.type||'').toLowerCase()==='expense'))?Number(f.krw_amount||f.amount||0):0,
@@ -162,14 +177,14 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer}){
   function buyerStatement(req,res){
     const buyer=requireBuyer(req,res);if(!buyer)return null;const {from,to}=normalizePeriod(req);
     const payments=db.prepare(`SELECT p.*,a.asset_no,a.machine_name FROM excavator_buyer_payments p LEFT JOIN excavator_assets a ON a.id=p.asset_id WHERE p.buyer_id=? AND p.status='Active' ORDER BY p.payment_date,p.id`).all(buyer.id);
-    const allocations=db.prepare(`SELECT al.*,p.reference,a.asset_no,a.machine_name FROM excavator_buyer_payment_allocations al JOIN excavator_buyer_payments p ON p.id=al.payment_id AND p.status='Active' JOIN excavator_assets a ON a.id=al.asset_id WHERE al.buyer_id=? AND COALESCE(al.status,'Active')='Active' ORDER BY al.allocation_date,al.id`).all(buyer.id);
+    const allocations=db.prepare(`SELECT al.*,p.reference,a.asset_no,a.machine_name,(SELECT t.created_at FROM excavator_transactions t WHERE t.asset_id=al.asset_id AND t.type IN ('Local Sale','Export Sale') ORDER BY t.id DESC LIMIT 1) sale_created_at FROM excavator_buyer_payment_allocations al JOIN excavator_buyer_payments p ON p.id=al.payment_id AND p.status='Active' JOIN excavator_assets a ON a.id=al.asset_id WHERE al.buyer_id=? AND COALESCE(al.status,'Active')='Active' ORDER BY al.allocation_date,al.id`).all(buyer.id);
     const legacyAllocated=db.prepare(`SELECT p.*,a.asset_no,a.machine_name FROM excavator_buyer_payments p JOIN excavator_assets a ON a.id=p.asset_id WHERE p.buyer_id=? AND p.status='Active' AND p.asset_id IS NOT NULL AND NOT EXISTS(SELECT 1 FROM excavator_buyer_payment_allocations al WHERE al.payment_id=p.id AND COALESCE(al.status,'Active')='Active') ORDER BY p.payment_date,p.id`).all(buyer.id);
     const refunds=db.prepare("SELECT * FROM excavator_buyer_refunds WHERE buyer_id=? AND status='Completed' ORDER BY refund_date,id").all(buyer.id);
     const all=[];
-    payments.forEach(p=>all.push({date:dateOnly(p.payment_date||p.created_at),order:p.id*10+1,description:`Buyer Payment · ${p.payment_type||'Payment'}${p.currency&&p.currency!=='KRW'?` · ${Number(p.original_amount||0).toLocaleString()} ${p.currency}`:''}`,reference:p.reference||`PAY-${p.id}`,debit:0,credit:Number(p.krw_amount||0),machine:p.asset_no?`${p.asset_no} · ${p.machine_name||''}`:''}));
-    allocations.forEach(a=>all.push({date:dateOnly(a.allocation_date),order:a.id*10+2,description:'Advance Allocation to Machine',reference:a.reference||`ALLOC-${a.id}`,debit:Number(a.amount_krw||0),credit:0,machine:`${a.asset_no||''} · ${a.machine_name||''}`}));
-    legacyAllocated.forEach(p=>all.push({date:dateOnly(p.payment_date||p.created_at),order:p.id*10+3,description:'Legacy Direct Machine Allocation',reference:p.reference||`ALLOC-${p.id}`,debit:Number(p.krw_amount||0),credit:0,machine:`${p.asset_no||''} · ${p.machine_name||''}`}));
-    refunds.forEach(r=>all.push({date:dateOnly(r.refund_date||r.created_at),order:r.id*10+4,description:'Buyer Advance Refund',reference:r.reference||`REF-${r.id}`,debit:Number(r.krw_amount||0),credit:0}));
+    payments.forEach(p=>all.push({date:dateOnly(p.payment_date||p.created_at),entered_at:p.created_at||p.payment_date,entry_priority:1,order:p.id*10+1,description:`Buyer Payment · ${p.payment_type||'Payment'}${p.currency&&p.currency!=='KRW'?` · ${Number(p.original_amount||0).toLocaleString()} ${p.currency}`:''}`,reference:p.reference||`PAY-${p.id}`,debit:0,credit:Number(p.krw_amount||0),machine:p.asset_no?`${p.asset_no} · ${p.machine_name||''}`:''}));
+    allocations.forEach(a=>all.push({date:dateOnly(a.allocation_date),entered_at:a.created_at||a.sale_created_at||a.allocation_date,entry_priority:2,order:a.id*10+2,description:'Advance Allocation to Machine',reference:a.reference||`ALLOC-${a.id}`,debit:Number(a.amount_krw||0),credit:0,machine:`${a.asset_no||''} · ${a.machine_name||''}`}));
+    legacyAllocated.forEach(p=>all.push({date:dateOnly(p.payment_date||p.created_at),entered_at:p.created_at||p.payment_date,entry_priority:2,order:p.id*10+3,description:'Legacy Direct Machine Allocation',reference:p.reference||`ALLOC-${p.id}`,debit:Number(p.krw_amount||0),credit:0,machine:`${p.asset_no||''} · ${p.machine_name||''}`}));
+    refunds.forEach(r=>all.push({date:dateOnly(r.refund_date||r.created_at),entered_at:r.created_at||r.refund_date,entry_priority:3,order:r.id*10+4,description:'Buyer Advance Refund',reference:r.reference||`REF-${r.id}`,debit:Number(r.krw_amount||0),credit:0}));
     const opening=all.filter(r=>beforePeriod(r.date,from)).reduce((n,r)=>n+Number(r.credit||0)-Number(r.debit||0),0),rows=buildRunningRows(all,{from,to,opening}),baseSummary=statementSummary(rows,opening);
     // V30.24.1: every activity metric follows the selected period. Closing/available
     // balances still carry the pre-period opening balance forward, as a statement should.
@@ -181,11 +196,11 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer}){
 
   function supplierStatement(req,res){
     const supplier=requireSupplier(req,res);if(!supplier)return null;const {from,to}=normalizePeriod(req);
-    const assets=db.prepare('SELECT id,asset_no,machine_name,make,model,purchase_date,purchase_price FROM excavator_assets WHERE supplier_id=? AND business_unit_id=? ORDER BY purchase_date,id').all(supplier.id,supplier.business_unit_id);
+    const assets=db.prepare('SELECT id,asset_no,machine_name,make,model,purchase_date,purchase_price,created_at FROM excavator_assets WHERE supplier_id=? AND business_unit_id=? ORDER BY purchase_date,id').all(supplier.id,supplier.business_unit_id);
     const payments=db.prepare(`SELECT p.*,a.asset_no,a.machine_name FROM excavator_payments p JOIN excavator_assets a ON a.id=p.asset_id WHERE a.supplier_id=? AND a.business_unit_id=? AND p.payment_type='Purchase' AND p.status='Paid' ORDER BY COALESCE(p.paid_date,p.created_at),p.id`).all(supplier.id,supplier.business_unit_id);
     const all=[];
-    assets.forEach(a=>all.push({date:dateOnly(a.purchase_date),order:a.id*10+1,description:`Machine Purchase · ${a.asset_no} · ${a.machine_name||[a.make,a.model].filter(Boolean).join(' ')}`,reference:a.asset_no||`ASSET-${a.id}`,debit:0,credit:Number(a.purchase_price||0),machine:`${a.asset_no||''} · ${a.machine_name||''}`}));
-    payments.forEach(p=>all.push({date:dateOnly(p.paid_date||p.created_at),order:p.id*10+2,description:`Payment to Supplier · ${p.asset_no||''}`,reference:p.reference||`PAY-${p.id}`,debit:Number(p.amount||0),credit:0,machine:`${p.asset_no||''} · ${p.machine_name||''}`}));
+    assets.forEach(a=>all.push({date:dateOnly(a.purchase_date),entered_at:a.created_at||a.purchase_date,order:a.id*10+1,description:`Machine Purchase · ${a.asset_no} · ${a.machine_name||[a.make,a.model].filter(Boolean).join(' ')}`,reference:a.asset_no||`ASSET-${a.id}`,debit:0,credit:Number(a.purchase_price||0),machine:`${a.asset_no||''} · ${a.machine_name||''}`}));
+    payments.forEach(p=>all.push({date:dateOnly(p.paid_date||p.created_at),entered_at:p.created_at||p.paid_date,order:p.id*10+2,description:`Payment to Supplier · ${p.asset_no||''}`,reference:p.reference||`PAY-${p.id}`,debit:Number(p.amount||0),credit:0,machine:`${p.asset_no||''} · ${p.machine_name||''}`}));
     const opening=all.filter(r=>beforePeriod(r.date,from)).reduce((n,r)=>n+Number(r.credit||0)-Number(r.debit||0),0),rows=buildRunningRows(all,{from,to,opening}),baseSummary=statementSummary(rows,opening);
     const periodAssets=assets.filter(a=>inPeriod(a.purchase_date,from,to)),periodPayments=payments.filter(p=>inPeriod(p.paid_date||p.created_at,from,to));
     const purchases=periodAssets.reduce((n,a)=>n+Number(a.purchase_price||0),0),paid=periodPayments.reduce((n,p)=>n+Number(p.amount||0),0),outstanding=Math.max(0,Number(baseSummary['Closing Balance']||0));
@@ -195,7 +210,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer}){
   function resaleStatement(req,res){
     const buyer=requireBuyer(req,res);if(!buyer)return null;if(String(buyer.country||'').trim().toLowerCase()!=='pakistan'){res.status(403).json({error:'Pakistan Resale Profit Share is available only for Pakistani buyers.'});return null}const {from,to}=normalizePeriod(req);
     const records=db.prepare(`SELECT r.*,a.asset_no,a.machine_name,a.selling_price FROM excavator_buyer_resale_shares r JOIN excavator_assets a ON a.id=r.asset_id WHERE r.buyer_id=? AND a.business_unit_id=? ORDER BY COALESCE(r.received_date,r.created_at),r.id`).all(buyer.id,buyer.business_unit_id);
-    const all=records.map(r=>({date:dateOnly(r.received_date||r.created_at),order:r.id,description:`Resale Share · ${r.asset_no} · ${r.machine_name||'Machine'}`,reference:r.reference||`RESALE-${r.id}`,debit:Number(r.amount_received_pkr||0),credit:Number(r.our_share_pkr||0),machine:`Original Sale KRW ${Number(r.selling_price||0).toLocaleString()} · Pakistan Resale PKR ${Number(r.resale_price_pkr||0).toLocaleString()} · Manual Profit PKR ${Number(r.resale_profit_pkr||0).toLocaleString()}`,status:r.received?'Received':'Outstanding'}));
+    const all=records.map(r=>({date:dateOnly(r.received_date||r.created_at),entered_at:r.created_at||r.received_date,order:r.id,description:`Resale Share · ${r.asset_no} · ${r.machine_name||'Machine'}`,reference:r.reference||`RESALE-${r.id}`,debit:Number(r.amount_received_pkr||0),credit:Number(r.our_share_pkr||0),machine:`Original Sale KRW ${Number(r.selling_price||0).toLocaleString()} · Pakistan Resale PKR ${Number(r.resale_price_pkr||0).toLocaleString()} · Manual Profit PKR ${Number(r.resale_profit_pkr||0).toLocaleString()}`,status:r.received?'Received':'Outstanding'}));
     const opening=all.filter(r=>beforePeriod(r.date,from)).reduce((n,r)=>n+Number(r.credit||0)-Number(r.debit||0),0),rows=buildRunningRows(all,{from,to,opening}),baseSummary=statementSummary(rows,opening),periodRecords=records.filter(r=>inPeriod(r.received_date||r.created_at,from,to));
     const share=periodRecords.reduce((n,r)=>n+Number(r.our_share_pkr||0),0),received=periodRecords.reduce((n,r)=>n+Number(r.amount_received_pkr||0),0),outstanding=Math.max(0,Number(baseSummary['Closing Balance']||0));
     return {title:'Pakistan Resale Profit Share Statement',currency:'PKR',period:{from,to},profile:{Name:buyer.name,'Buyer Type':buyer.buyer_type||'International',Country:buyer.country||'',Location:buyer.location||'','Contact Person':buyer.contact_person||'',Phone:buyer.phone||'',Email:buyer.email||''},summary:{...baseSummary,'Total Company Share':share,'Total Received':received,'Total Outstanding':outstanding},rows};

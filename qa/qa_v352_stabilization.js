@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),cp=require('node:child_process');
+const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
+const pkg=require('../package.json'),lock=require('../package-lock.json'),server=read('server/server.js'),s284=read('server/v284.js'),s313=read('server/v313.js'),s315=read('server/v315.js'),s343=read('server/v343.js'),s326=read('server/v326.js'),db=read('server/db.js'),client=read('public/client.js'),runtime=read('public/runtime-v30392.js'),c343=read('public/v343-client.js'),c352=read('public/v352-client.js'),index=read('public/index.html');
+let passed=0;function pass(name,ok){assert.ok(ok,name);console.log('PASS '+name);passed++}
+pass('V30.52 source and lock identity',pkg.version==='30.52.0'&&lock.version==='30.52.0'&&lock.packages[''].version==='30.52.0'&&server.includes("version:'30.52.0'"));
+pass('Point 1: backend cost lock only verified or posted',server.includes('const financeLocked=')&&server.includes("['Verified / Correct','Verified'].includes(String(linkedFinance.verification_status")&&server.includes('FINANCE_ACTION_LOCKED'));
+pass('Point 1: current and legacy cost UI share correct lock conditions',c343.includes("return as==='Posted'||n(x?.accounting_journal_id)>0||['Verified / Correct','Verified'].includes(vs)")&&runtime.includes("['Verified / Correct','Verified'].includes(txt(x.finance_verification_status))"));
+pass('Point 1: updated cost source invokes finance resynchronization',server.includes("sourceType:'Excavator Cost Transaction',sourceId:x.id")&&server.includes('financeSync('));
+pass('Points 2 and 4: Finance decision closes page and Accounting main tab clears posting mode',client.includes("closeWorkflowPageV324(true);toast('Finance record verified')")&&c352.includes("window.__v318AccountingPostingMode=false")&&c352.includes("sessionStorage.removeItem('bom_v343_workflow_context')"));
+pass('Points 2 and 4: ordinary view reload does not restore stale child context',!c343.includes('setTimeout(restoreCtx343,40)')&&c343.includes('if(c)ctxClear()')&&c343.includes('BOMClearChildContextV343'));
+pass('Points 3 and 5: post-commit profile invalidation and in-flight result guards',c352.includes('BOMInvalidateProfilesV352')&&runtime.includes('window.BOMInvalidateProfilesV352=')&&runtime.includes('epoch!==Number(st.epoch||0)'));
+pass('Point 6: sold machine secure Sale Document action',s326.includes('sale_document_url:saleInfo.document?.file_path')&&runtime.includes("t('Sale Document')")&&runtime.includes('openStoredAttachmentV321'));
+pass('Point 7: buyer allocations get additive entry timestamp',db.includes('allocation_date TEXT DEFAULT CURRENT_TIMESTAMP,\n created_at TEXT DEFAULT CURRENT_TIMESTAMP')&&s284.includes('set_excavator_allocation_entry_time_v352'));
+for(const [f,s] of [['Excavator',s284],['Pink Salt customers',s313],['Pink Salt suppliers',s315],['Company accounts',s343]])pass('Point 7: chronological entry order in '+f,s.includes('entered_at')&&s.includes('String(a.entered_at||a.date'));
+pass('Point 8: redundant dashboard prose removed',!client.includes('<b>Excavator Workspace</b><span>Dashboard values are calculated')&&client.includes('Open Excavator Operations'));
+pass('Point 9: redundant Finance card removed without changing business integrity',!runtime.includes("panel.insertAdjacentHTML('afterbegin',`<div class=\"v302-finance-note\"")&&server.includes("app.post('/api/finance/bulk-verify'"));
+pass('Point 9: bulk verifier record-level safety and reasoned skips',server.includes('const verifyOne=db.transaction(')&&server.includes('financeWarnings(f,source,attachments,linkedEvidence)')&&server.includes('skipped_details')&&c352.includes("window.financeBulkVerify=bulk352"));
+pass('V30.51 optimized loader remains active',index.includes('v351-loader.js?v=30.52.0')&&index.includes('v352-client.js?v=30.52.0')&&index.indexOf('v352-client.js')>index.indexOf('v351-loader.js'));
+for(const f of ['public/v352-client.js','public/v343-client.js','public/client.js','public/runtime-v30392.js','server/server.js','server/v284.js','server/v313.js','server/v315.js','server/v343.js','server/v326.js','server/db.js']){const r=cp.spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});pass('Syntax '+f,r.status===0)}
+console.log(`V30.52 STATIC STABILIZATION QA PASS (${passed} checks)`);
