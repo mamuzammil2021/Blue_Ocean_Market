@@ -1,3 +1,8 @@
+## V30.55.0 — Cash & Banks visibility / account detail
+- Account cards and Advanced table now expose account-specific recorded KRW movement balances, period inflow/outflow and bank-statement matching status without needing to open a detail.
+- Added explicit separate posted GL balance only for uniquely mapped ledger accounts; detailed transaction/reconciliation/journal navigation and trend/CSV.
+- Scoped, read-only endpoint; V30.54 integrity/posting workflow unchanged. See V30_55_IMPLEMENTATION_SUMMARY.md and V30_55_QA_STATUS.md for caveats.
+
 ## V30.54.0 — Finance Deployment Integrity
 
 - Corrected startup creation of false ₩9,500 sale settlement Finance payment (Money Out) and wrong cash classification of full ₩5,000 operational purchase.
