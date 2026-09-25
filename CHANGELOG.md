@@ -1,3 +1,6 @@
+## V30.56.7 — Financing reconciliation review (staging)
+See V30_56_7_PROGRESS_AND_QA.md. Additive accountant review of source-linked liability without creating Finance or journal rows. Foreign currency and complex lease lifecycle remain incomplete.
+
 ## V30.55.0 — Cash & Banks visibility / account detail
 - Account cards and Advanced table now expose account-specific recorded KRW movement balances, period inflow/outflow and bank-statement matching status without needing to open a detail.
 - Added explicit separate posted GL balance only for uniquely mapped ledger accounts; detailed transaction/reconciliation/journal navigation and trend/CSV.

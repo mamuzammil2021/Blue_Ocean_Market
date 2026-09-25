@@ -204,6 +204,11 @@ require('./v284').install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceRe
 // V29.0 — unified double-entry financial architecture, Excavator accounting integration and payroll.
 const accountingV29=require('./v290').install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,audit,notify,uploads,upload,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
 const integrityV354=financeIntegrityV354.install({app,db,auth,allow,currentUnit,accounting:accountingV29});
+require('./v356-financing').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
+require('./v356-finalization').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
+require('./v3566-financing-audit').install({app,db,auth,allow,enforceUnit,currentUnit,audit,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
+require('./v356-final-foreign').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
+require('./v356-final-lease').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
 require('./v300').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads,upload,financeSync,voidFinanceBySource,accounting:accountingV29,configuredPaymentAccount});
 require('./v305').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads,upload,financeSync,voidFinanceBySource,accounting:accountingV29,configuredPaymentAccount});
 require('./v307').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads,upload,financeSync,accounting:accountingV29,maybeCreateApproval,stopForApproval,markApprovalExecuted,configuredPaymentAccount});
@@ -612,7 +617,7 @@ function notificationUnitScope(req){
   return {sql:' AND (business_unit_id IS NULL OR business_unit_id=?)',args:[req.user.business_unit_id||0]};
 }
 
-app.get('/api/health',(req,res)=>{const st=storage.status();res.json({ok:true,version:'30.55.0',render:st.isRender,persistent_storage:st.isRender?st.pathsPersistent:false,disk_mount_detected:st.isRender?st.mountDetected:false,storage_writable:st.writable})});
+app.get('/api/health',(req,res)=>{const st=storage.status();res.json({ok:true,version:'30.56.0',render:st.isRender,persistent_storage:st.isRender?st.pathsPersistent:false,disk_mount_detected:st.isRender?st.mountDetected:false,storage_writable:st.writable})});
 
 app.get('/api/action-counts',auth,(req,res)=>{
   try{
@@ -2942,5 +2947,5 @@ function apiErrorHandler(err,req,res,next){
 }
 
 app.use(apiErrorHandler);
-const httpServer=app.listen(PORT,'0.0.0.0',()=>console.log(`Blue Ocean Market V30.55.0 running on port ${PORT}`));
+const httpServer=app.listen(PORT,'0.0.0.0',()=>console.log(`Blue Ocean Market V30.56.2 running on port ${PORT}`));
 let shuttingDown=false;function gracefulShutdown(signal){if(shuttingDown)return;shuttingDown=true;console.log(`${signal} received; closing HTTP server and checkpointing SQLite.`);const force=setTimeout(()=>{console.error('Forced shutdown after timeout.');process.exit(1)},25000);force.unref();httpServer.close(()=>{try{db.pragma('wal_checkpoint(TRUNCATE)')}catch(e){console.warn('SQLite checkpoint during shutdown:',e.message)}try{db.close()}catch(_){}process.exit(0)});}process.on('SIGTERM',()=>gracefulShutdown('SIGTERM'));process.on('SIGINT',()=>gracefulShutdown('SIGINT'));
