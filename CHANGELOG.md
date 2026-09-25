@@ -1,3 +1,10 @@
+## V30.54.0 — Finance Deployment Integrity
+
+- Corrected startup creation of false ₩9,500 sale settlement Finance payment (Money Out) and wrong cash classification of full ₩5,000 operational purchase.
+- Preserved real ₩2,000/₩3,000 purchase payments and ₩9,000 advance + ₩500 new sale receipt; noncash purchase and sale recognition stays linked to Accounting.
+- Quarantine unposted historic mirror records, flag already-posted cases for controlled reversal, and block duplicate verification/posting. New scoped read-only diagnostic; repeat-deploy SQL fixture.
+- No Render persistent-disk reset or automatic posted-ledger reversal; live authenticated acceptance still required.
+
 ## V30.53.0 — Financial and UX regression candidate
 
 Source-level corrections for token payment selectors, pre-verification cost edit, sale payment reference validation, shared payment protection, origin-aware buyer edit, notifications, and Accounting toolbar. See V30_53_IMPLEMENTATION_SUMMARY.md. Staging acceptance outstanding.

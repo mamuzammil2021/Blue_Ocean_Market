@@ -5,9 +5,9 @@ const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p
 function ok(value,label){assert.ok(value,label);passed++;console.log('PASS '+label)}
 async function main(){
  const pkg=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json')),server=read('server/server.js'),doc=read('server/v3241.js'),html=read('public/index.html'),run=read('public/runtime-v30392.js'),lazy=read('public/v347-loader.js'),views=read('public/v347-client.js'),base=read('public/client.js'),perf=read('server/v346-performance.js');
- ok(pkg.version==='30.53.0'&&lock.version==='30.53.0'&&lock.packages[''].version==='30.53.0','release package and lock identities');
- ok(server.includes("version:'30.53.0'")&&server.includes('Blue Ocean Market V30.53.0 running'),'server and health identity');
- ok(html.includes('/v347-loader.js?v=30.53.0')&&!html.includes('<script src="/v347-client.js'),'workspaces are actually lazy, not eagerly duplicated');
+ ok(pkg.version==='30.54.0'&&lock.version==='30.54.0'&&lock.packages[''].version==='30.54.0','release package and lock identities');
+ ok(server.includes("version:'30.54.0'")&&server.includes('Blue Ocean Market V30.54.0 running'),'server and health identity');
+ ok(html.includes('/v347-loader.js?v=30.54.0')&&!html.includes('<script src="/v347-client.js'),'workspaces are actually lazy, not eagerly duplicated');
  ok(html.indexOf('/v345-client.js')<html.indexOf('/v346-client.js')&&html.indexOf('/v346-client.js')<html.indexOf('/v347-loader.js'),'protected action feedback and read scheduler load first');
  ok(lazy.includes("['tasks','approvals','documents'].includes(screen)")&&lazy.includes('await ensure()')&&lazy.includes('return false'),'guarded lazy module load and legacy fallback');
  ok(lazy.includes('try{loadView=window.loadView}'),'historical direct navigation uses guarded lazy wrapper');
@@ -36,6 +36,6 @@ async function main(){
  vm.runInNewContext(lazy,context);let a=context.window.loadView(),b=context.window.loadView();ok(scriptNodes.length===1,'lazy-loader deduplicates simultaneous route module fetches');
  scriptNodes[0].onerror();await Promise.all([a,b]);ok(called===2&&context.window.BOMLazy347.diagnostics().failed===1,'lazy-loader error falls back to original view');
  context.window.BOMPagedWorkspaces347={};await context.window.loadView();ok(called===3&&scriptNodes.length===1,'loaded module reused without new fetch');
- console.log(`\nV30.53.0 PERFORMANCE QA PASS (${passed} checks)`);
+ console.log(`\nV30.54.0 PERFORMANCE QA PASS (${passed} checks)`);
 }
 main().catch(e=>{console.error('V30.47 QA FAILURE:',e.stack||e);process.exitCode=1});

@@ -40,7 +40,8 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting}){
     if(st==='Excavator Sale')return {finance_role:'Sale / Revenue',cash_effect:0};
     if(st==='Excavator Buyer Payment'||st==='Buyer Payment')return {finance_role:'Buyer Receipt',cash_effect:1};
     if(st==='Excavator Buyer Refund')return {finance_role:'Buyer Refund',cash_effect:-1};
-    if(st==='Excavator Payment')return {finance_role:'Machine Payment / Settlement',cash_effect:-1};
+    if(st==='Excavator Payment')return {finance_role:'Machine Payment / Settlement',cash_effect:type==='Revenue'?1:-1};
+    if(st==='Excavator Cost Transaction'&&cat==='Purchase')return {finance_role:'Purchase / Payable',cash_effect:0};
     if(st.startsWith('Excavator '))return {finance_role:type==='Revenue'?'Revenue':'Machine Cost',cash_effect:type==='Revenue'?0:-1};
     if(st==='Purchase')return {finance_role:'Purchase / Payable',cash_effect:0};
     if(st==='Purchase Payment')return {finance_role:'Supplier Payment / Settlement',cash_effect:-1};
@@ -55,7 +56,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting}){
   }
   function keyFor(row){return row?.source_type&&row?.source_id!=null&&row.source_type!=='Manual'?`${Number(row.business_unit_id)}|${String(row.source_type)}|${Number(row.source_id)}`:''}
   function refreshClassifications(){
-    const rows=db.prepare('SELECT id,business_unit_id,type,category,payment_method,source_type,source_id FROM finance_entries').all();
+    const rows=db.prepare("SELECT id,business_unit_id,type,category,payment_method,source_type,source_id FROM finance_entries WHERE status!='Voided'").all();
     const up=db.prepare('UPDATE finance_entries SET finance_role=?,cash_effect=?,source_key=? WHERE id=?');
     const tx=db.transaction(()=>{for(const r of rows){const c=classify(r);up.run(c.finance_role,c.cash_effect,keyFor(r),r.id)}});tx();
   }

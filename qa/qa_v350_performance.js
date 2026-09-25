@@ -5,9 +5,9 @@ const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p
 function check(ok,message){assert.ok(ok,message);console.log('PASS '+message);passed++}
 (async()=>{
  const pkg=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json')),index=read('public/index.html'),runtime=read('public/runtime-v30392.js'),server=read('server/server.js');
- check(pkg.version==='30.53.0'&&lock.version==='30.53.0'&&lock.packages[''].version==='30.53.0','version identity and lockfile');
+ check(pkg.version==='30.54.0'&&lock.version==='30.54.0'&&lock.packages[''].version==='30.54.0','version identity and lockfile');
  check(server.includes("require('./v350-import-pages').install({app,db,auth,allow,currentUnit,enforceUnit})"),'scoped import page route mounted in actual server');
- check(index.includes('/v351-loader.js?v=30.53.0')&&!index.includes('<script src="/v350-import-pages.js')&&read('public/v351-loader.js').includes("psImports:'pink-imports'"),'import read module lazily loads on its own screen');
+ check(index.includes('/v351-loader.js?v=30.54.0')&&!index.includes('<script src="/v350-import-pages.js')&&read('public/v351-loader.js').includes("psImports:'pink-imports'"),'import read module lazily loads on its own screen');
  check(runtime.includes('window.BOMPinkImports350')&&runtime.includes("await api('/api/pink-salt/imports')"),'server-paged import renderer with protected legacy fallback');
  check(runtime.includes('pg.filters()')&&runtime.includes('pg.pager(data.pagination)')&&runtime.includes('psImportDetail(${x.id})'),'search, pager and existing detail action retained');
  check(server.includes("require('./v349-pink-pages').install")&&read('server/v300.js').includes("app.get('/api/pink-salt/imports',auth")&&read('server/v300.js').includes("app.get('/api/pink-salt/imports/:id',auth"),'prior list and detail APIs untouched');

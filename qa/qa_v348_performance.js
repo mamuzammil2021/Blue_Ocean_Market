@@ -5,9 +5,9 @@ const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p
 function ok(test,name){assert.ok(test,name);passed++;console.log('PASS '+name)}
 (async function(){
  const p=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json')),idx=read('public/index.html'),base=read('public/client.js'),runtime=read('public/runtime-v30392.js'),server=read('server/server.js'),notifs=read('public/v348-notifications.js'),bell=read('public/v348-bell.js'),lazy=read('public/v348-loader.js'),pink=read('server/v313.js'),perf=read('server/v346-performance.js');
- ok(p.version==='30.53.0'&&lock.version==='30.53.0'&&lock.packages[''].version==='30.53.0','current package/lock identity');
- ok(server.includes("version:'30.53.0'")&&server.includes('Blue Ocean Market V30.53.0 running'),'server health/runtime identity');
- ok(idx.includes('v348-bell.js?v=30.53.0')&&idx.includes('v348-loader.js?v=30.53.0')&&!idx.includes('<script src="/v348-notifications.js'),'small bell/loader boot; scroll view remains lazy');
+ ok(p.version==='30.54.0'&&lock.version==='30.54.0'&&lock.packages[''].version==='30.54.0','current package/lock identity');
+ ok(server.includes("version:'30.54.0'")&&server.includes('Blue Ocean Market V30.54.0 running'),'server health/runtime identity');
+ ok(idx.includes('v348-bell.js?v=30.54.0')&&idx.includes('v348-loader.js?v=30.54.0')&&!idx.includes('<script src="/v348-notifications.js'),'small bell/loader boot; scroll view remains lazy');
  ok(idx.indexOf('v347-loader.js')<idx.indexOf('v348-loader.js')&&idx.indexOf('v345-client.js')<idx.indexOf('v348-loader.js'),'pre-existing feedback, scheduler, and workspaces load first');
  ok(lazy.includes("view==='notifications'")&&lazy.includes('return previous.apply(this,arguments)')&&lazy.includes('pending=null'),'route-only loading, fallback and retry');
  ok(notifs.includes('IntersectionObserver')&&notifs.includes("rootMargin:'360px 0px'")&&notifs.includes('v348LoadMore'),'predictive, opt-in card scroll');
@@ -55,5 +55,5 @@ function ok(test,name){assert.ok(test,name);passed++;console.log('PASS '+name)}
  // Module failure is nonblocking, with old navigation as fallback.
  let scripts=[],called=0;const ctx={window:{loadView:()=>{called++}},view:'notifications',document:{createElement:()=>({}),head:{appendChild:s=>scripts.push(s)},getElementById:()=>({innerHTML:''})},console,Promise};vm.runInNewContext(lazy,ctx);const a=ctx.window.loadView(),b=ctx.window.loadView();
  ok(scripts.length===1,'one in-flight lazy notification module load');scripts[0].onerror();await Promise.all([a,b]);ok(called===2&&ctx.window.BOMLazy348.diagnostics().failed===1,'module failure falls back to original page without hanging');
- console.log(`\nV30.53.0 SMART PERFORMANCE QA PASS (${passed} checks)`);
+ console.log(`\nV30.54.0 SMART PERFORMANCE QA PASS (${passed} checks)`);
 })().catch(e=>{console.error('V30.48 QA FAILURE:',e.stack||e);process.exitCode=1});

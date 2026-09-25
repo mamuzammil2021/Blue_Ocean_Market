@@ -6,10 +6,10 @@ function ok(expr,label){assert.ok(expr,label);passed++;console.log('PASS '+label
 async function main(){
 const html=read('public/index.html'),run=read('public/runtime-v30392.js'),base=read('public/client.js'),server=read('server/server.js'),tiers=read('server/v313.js');
 const pkg=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json'));
-ok(pkg.version==='30.53.0'&&lock.version==='30.53.0'&&lock.packages[''].version==='30.53.0','package/lock release version');
-ok(server.includes("version:'30.53.0'")&&server.includes('Blue Ocean Market V30.53.0 running'),'health/log release identity');
-ok(html.includes('/bom-mutation-hub.js?v=30.53.0')&&html.indexOf('bom-mutation-hub.js')<html.indexOf('runtime-v30392.js'),'shared node dispatcher installed before compatibility runtime');
-ok(html.includes('/v345-client.js?v=30.53.0')&&html.indexOf('/v345-client.js')<html.indexOf('/v346-client.js'),'protected V30.45 feedback coordinator precedes new scheduler');
+ok(pkg.version==='30.54.0'&&lock.version==='30.54.0'&&lock.packages[''].version==='30.54.0','package/lock release version');
+ok(server.includes("version:'30.54.0'")&&server.includes('Blue Ocean Market V30.54.0 running'),'health/log release identity');
+ok(html.includes('/bom-mutation-hub.js?v=30.54.0')&&html.indexOf('bom-mutation-hub.js')<html.indexOf('runtime-v30392.js'),'shared node dispatcher installed before compatibility runtime');
+ok(html.includes('/v345-client.js?v=30.54.0')&&html.indexOf('/v345-client.js')<html.indexOf('/v346-client.js'),'protected V30.45 feedback coordinator precedes new scheduler');
 ok(run.includes('window.BOMReadScheduler.fetch(baseFetch,...arguments)')&&run.includes('if(method!==\'GET\'&&method!==\'HEAD\')'),'read scheduler wiring preserves mutation route');
 ok((run.match(/new MutationObserver/g)||[]).length===15&&run.includes("BOMMutationHub.register('v326-account-label'"),'eleven audited shared enhancements retained while sensitive observers remain');
 for(const key of ['pink-placeholders-quantities','v320-enhancements','v321-enhancements','v321-dialogs','country-and-resale','v330-context','v332-polish'])ok(run.includes("BOMMutationHub.register('"+key+"'"),'consolidated audited '+key);

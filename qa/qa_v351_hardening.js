@@ -5,10 +5,10 @@ const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(root,f
 function check(result,label){assert.ok(result,label);passed++;console.log('PASS '+label)}
 (async()=>{
 const pkg=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json')),index=read('public/index.html'),server=read('server/server.js'),loader=read('public/v351-loader.js'),runtime=read('public/runtime-v30392.js');
-check(pkg.version==='30.53.0'&&lock.version==='30.53.0'&&lock.packages[''].version==='30.53.0'&&server.includes("version:'30.53.0'"),'release identity consistent');
-check(index.includes('/v351-loader.js?v=30.53.0')&&index.indexOf('v351-loader.js')>index.indexOf('v348-loader.js'),'optional route loader installed after protected wrappers');
+check(pkg.version==='30.54.0'&&lock.version==='30.54.0'&&lock.packages[''].version==='30.54.0'&&server.includes("version:'30.54.0'"),'release identity consistent');
+check(index.includes('/v351-loader.js?v=30.54.0')&&index.indexOf('v351-loader.js')>index.indexOf('v348-loader.js'),'optional route loader installed after protected wrappers');
 for(const f of ['v349-pink-pages','v350-import-pages','v350-raw-pages'])check(!index.includes(`<script src="/${f}.js`)&&loader.includes(`/${f}.js?v=30.51.0`),'optional UI module absent from boot and registered for route: '+f);
-check(index.includes('/v349-accounting-pages.js?v=30.53.0')&&index.includes('/runtime-v30392.js?v=30.53.0')&&index.includes('/v345-client.js?v=30.53.0'),'direct Accounting tab, business runtime, and unified feedback remain eager');
+check(index.includes('/v349-accounting-pages.js?v=30.54.0')&&index.includes('/runtime-v30392.js?v=30.54.0')&&index.includes('/v345-client.js?v=30.54.0'),'direct Accounting tab, business runtime, and unified feedback remain eager');
 check((runtime.match(/new MutationObserver/g)||[]).length===15&&runtime.includes('sensitiveObserver317=new MutationObserver')&&runtime.includes('saleObserver381=new MutationObserver'),'15 protected legacy observers retained');
 check(runtime.includes("api('/api/pink-salt/customers-v313')")&&runtime.includes("api('/api/pink-salt/raw-stock')")&&runtime.includes("api('/api/pink-salt/imports')"),'fail-open complete legacy list paths retained');
 check(read('server/server.js').includes("require('./v350-import-pages').install")&&read('server/server.js').includes("require('./v350-raw-pages').install")&&read('server/server.js').includes("require('./v349-pink-pages').install"),'server pages still installed with original auth and BU middleware');

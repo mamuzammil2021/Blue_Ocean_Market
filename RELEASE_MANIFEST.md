@@ -1,3 +1,11 @@
+# Blue Ocean Market V30.54.0 — Finance Deployment Integrity
+
+- Direct source: V30.53.0 archived source. Financial backfill/sync repair, legacy noncash purchase classification, idempotent mirror quarantine and posted-case Accounting hold.
+- Additive case table + scoped read-only diagnostic `/api/finance/integrity-v354`; no reset, no deletion of real receipts or official posted journals. Posted suspect cases REQUIRE controlled reversal.
+- `npm run qa:release`, `npm run qa:v354`, synthetic SQLite repeat-deployment fixture. Real persistent DB and authenticated Render verification still required. See V30_54_IMPLEMENTATION_SUMMARY.md and V30_54_QA_STATUS.md.
+
+---
+
 # Blue Ocean Market V30.53.0 — Financial & UX regression candidate
 
 - Protected source: V30.52.0 exact recovered ZIP (baseline checksum recorded during source extraction).
