@@ -13,7 +13,7 @@ const h=v=>typeof esc==='function'?esc(v):String(v??'').replace(/[&<>"']/g,m=>({
 const tr343=v=>typeof t==='function'?t(v):v;
 const money343=v=>typeof money==='function'?money(v):Number(v||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 try{Object.assign(KO,{
-  'Buyer Sending Account (optional)':'구매자 송금 계좌 (선택)','Not provided':'미입력','Add New Buyer Account Details':'새 구매자 계좌 정보 추가','Account Statement':'계좌 명세서','Generate Statement':'명세서 생성','Download PDF':'PDF 다운로드','Transfer Funds':'자금 이체','Current Balance':'현재 잔액','Opening Balance':'기초 잔액','Closing Balance':'기말 잔액','Money In':'입금','Money Out':'출금','Statement From':'명세 시작일','Statement To':'명세 종료일','Full account details, statement and controlled company-account transfers.':'계좌 상세, 명세서 및 통제된 회사 계좌 이체','Locked after sale':'판매 후 잠김','Purchase editing is locked after sale.':'판매 완료 후 구매 정보 수정이 잠깁니다.','Finance has acted on this cost':'재무팀 처리 후 잠김','Direct edit remains available until Finance acts on this record.':'재무팀이 이 기록을 처리하기 전까지 직접 수정할 수 있습니다.'
+  'Buyer Sending Account (optional)':'구매자 송금 계좌 (선택)','Not provided':'미입력','Add New Buyer Account Details':'새 구매자 계좌 정보 추가','Account Statement':'계좌 명세서','Generate Statement':'명세서 생성','Download PDF':'PDF 다운로드','Transfer Funds':'자금 이체','Current Balance':'현재 잔액','Opening Balance':'기초 잔액','Closing Balance':'기말 잔액','Money In':'입금','Money Out':'출금','Statement From':'명세 시작일','Statement To':'명세 종료일','Full account details, statement and controlled company-account transfers.':'계좌 상세, 명세서 및 통제된 회사 계좌 이체','Locked after sale':'판매 후 잠김','Purchase editing is locked after sale.':'판매 완료 후 구매 정보 수정이 잠깁니다.','Finance has verified or Accounting has posted this cost':'재무팀 처리 후 잠김','Direct edit remains available until Finance acts on this record.':'재무팀이 이 기록을 처리하기 전까지 직접 수정할 수 있습니다.'
 })}catch(_){ }
 
 const style=document.createElement('style');style.id='v343-style';style.textContent=`
@@ -82,14 +82,14 @@ if(typeof window.saveExcavatorBuyerPayment==='function'&&!window.saveExcavatorBu
    - Once Finance acts (or Accounting posts), direct Edit locks.
    - Sold machine Purchase card locks for everyone.
    ---------------------------------------------------------------------- */
-function financeActed343(x){const vs=txt(x?.finance_verification_status),as=txt(x?.finance_accounting_status);return as==='Posted'||n(x?.accounting_journal_id)>0||['Verified / Correct','Verified'].includes(vs)}
+function financeActed343(x){const vs=txt(x?.finance_verification_status),as=txt(x?.finance_accounting_status);return as==='Posted'||['Verified / Correct','Verified'].includes(vs)}
 const baseCostRow343=window.excavatorCostRowV319;
 if(typeof baseCostRow343==='function'){
-  window.excavatorCostRowV319=function(x,assetId){let html=baseCostRow343.apply(this,arguments);if(txt(x?.type)==='Purchase'){html=html.replace(/<button class="btn small" onclick="excavatorAddCost\([^>]+>Edit<\/button>/,'');return html}if(financeActed343(x)&&!['Cancelled','Voided'].includes(txt(x?.status))){html=html.replace(/<button class="btn small" onclick="excavatorAddCost\([^>]+>Edit<\/button>/,`<span class="v343-lock" title="${h(tr343('Finance has acted on this cost'))}">🔒 ${h(tr343('Finance has acted on this cost'))}</span>`)}return html};try{excavatorCostRowV319=window.excavatorCostRowV319}catch(_){ }
+  window.excavatorCostRowV319=function(x,assetId){let html=baseCostRow343.apply(this,arguments);if(txt(x?.type)==='Purchase'){html=html.replace(/<button class="btn small" onclick="excavatorAddCost\([^>]+>Edit<\/button>/,'');return html}if(financeActed343(x)&&!['Cancelled','Voided'].includes(txt(x?.status))){html=html.replace(/<button class="btn small" onclick="excavatorAddCost\([^>]+>Edit<\/button>/,`<span class="v343-lock" title="${h(tr343('Finance has verified or Accounting has posted this cost'))}">🔒 ${h(tr343('Finance has verified or Accounting has posted this cost'))}</span>`)}return html};try{excavatorCostRowV319=window.excavatorCostRowV319}catch(_){ }
 }
 const baseAddCost343=window.excavatorAddCost;
 if(typeof baseAddCost343==='function'){
-  window.excavatorAddCost=async function(id,txid){if(Number(txid)>0){try{const rows=await api('/api/excavator/assets/'+id+'/transactions'),x=rows.find(r=>Number(r.id)===Number(txid));if(x&&financeActed343(x)){toast('Finance has acted on this cost. Use the controlled Finance correction / reversal workflow.');return}}catch(e){return toast(e.message)}}return baseAddCost343.apply(this,arguments)};try{excavatorAddCost=window.excavatorAddCost}catch(_){ }
+  window.excavatorAddCost=async function(id,txid){if(Number(txid)>0){try{const rows=await api('/api/excavator/assets/'+id+'/transactions'),x=rows.find(r=>Number(r.id)===Number(txid));if(x&&financeActed343(x)){toast('Finance has verified or Accounting has posted this cost. Use the controlled Finance correction / reversal workflow.');return}}catch(e){return toast(e.message)}}return baseAddCost343.apply(this,arguments)};try{excavatorAddCost=window.excavatorAddCost}catch(_){ }
 }
 const baseOpenMachine343=window.excavatorOpenMachine;
 if(typeof baseOpenMachine343==='function'){

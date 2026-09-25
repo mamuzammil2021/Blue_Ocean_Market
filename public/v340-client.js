@@ -133,7 +133,7 @@ let scheduled=false;const observer=new MutationObserver(()=>{if(scheduled)return
 /* Verified / posted machine costs: ordinary users must not be offered Void. CEO / Owner keeps controlled authority. */
 try{
   const beforeCostRow=window.excavatorCostRowV319;
-  if(typeof beforeCostRow==='function')window.excavatorCostRowV319=function(x,assetId){let html=beforeCostRow.apply(this,arguments);const protectedRecord=text(x?.finance_verification_status)==='Verified / Correct'||text(x?.finance_accounting_status)==='Posted'||n(x?.accounting_journal_id)>0;if(protectedRecord&&me?.role!=='CEO / Owner')html=html.replace(/<button[^>]*onclick="deleteExcavatorCostV319\([^>]*>Void<\/button>/g,'');return html};
+  if(typeof beforeCostRow==='function')window.excavatorCostRowV319=function(x,assetId){let html=beforeCostRow.apply(this,arguments);const protectedRecord=text(x?.finance_verification_status)==='Verified / Correct'||text(x?.finance_accounting_status)==='Posted';if(protectedRecord&&me?.role!=='CEO / Owner')html=html.replace(/<button[^>]*onclick="deleteExcavatorCostV319\([^>]*>Void<\/button>/g,'');return html};
 }catch(_){ }
 
 /* ---------- V30.40 Access Management ---------- */
