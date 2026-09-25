@@ -8,12 +8,12 @@ const has=(s,x,msg)=>must(s.includes(x),msg||`Missing ${x}`);
 const pkg=JSON.parse(read('package.json'));
 const idx=read('public/index.html'),client=read('public/v343-client.js'),server=read('server/v343.js'),main=read('server/server.js'),v319=read('server/v319.js');
 
-must(pkg.version==='30.53.0','current package version required');
+must(pkg.version==='30.54.0','current package version required');
 has(pkg.scripts['qa:v343']||'','qa_v343_qa_refinements.js','qa:v343 script missing');
-has(idx,'/v343-client.js?v=30.53.0','V30.43 client must load from index');
+has(idx,'/v343-client.js?v=30.54.0','V30.43 client must load from index');
 must(idx.indexOf('/v343-client.js')>idx.indexOf('/v342-client.js'),'V30.43 overlay must load after V30.42');
 has(main,"require('./v343').install",'server must install v343');
-has(main,'Blue Ocean Market V30.53.0 running','runtime release identity missing');
+has(main,'Blue Ocean Market V30.54.0 running','runtime release identity missing');
 
 // Targeted refresh + child context preservation.
 has(client,'bom_v343_workflow_context','persistent child context missing');
@@ -58,7 +58,7 @@ has(client,'v343TransferForm','company account transfer UI missing');
 has(client,"fetch(`/api/v343/accounting/payment-accounts/${Number(id)}/statement.pdf",'authenticated statement PDF fetch missing');
 
 // Additive migration and retained V30.42 layer.
-has(idx,'/v342-client.js?v=30.53.0','V30.42 client layer must remain');
+has(idx,'/v342-client.js?v=30.54.0','V30.42 client layer must remain');
 has(server,'CREATE TABLE IF NOT EXISTS','additive schema guard expected');
 must(!server.includes('DROP TABLE'),'V30.43 must not perform destructive table drops');
 

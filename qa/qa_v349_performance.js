@@ -5,8 +5,8 @@ const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p
 const check=(v,s)=>{assert.ok(v,s);console.log('PASS '+s);n++};
 (async()=>{
  const pkg=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json')),idx=read('public/index.html'),runtime=read('public/runtime-v30392.js'),server=read('server/server.js'),v313=read('server/v313.js'),v290=read('server/v290.js'),bulk=read('server/v348-pink-salt-bulk.js');
- check(pkg.version==='30.53.0'&&lock.packages[''].version==='30.53.0'&&server.includes("version:'30.53.0'"),'release identity matches protected source');
- check(idx.includes('v351-loader.js?v=30.53.0')&&idx.includes('v349-accounting-pages.js?v=30.53.0')&&!idx.includes('<script src="/v349-pink-pages.js')&&read('public/v351-loader.js').includes("psCustomers:'pink-lists'"),'read views are route-lazy while direct Accounting tab remains available');
+ check(pkg.version==='30.54.0'&&lock.packages[''].version==='30.54.0'&&server.includes("version:'30.54.0'"),'release identity matches protected source');
+ check(idx.includes('v351-loader.js?v=30.54.0')&&idx.includes('v349-accounting-pages.js?v=30.54.0')&&!idx.includes('<script src="/v349-pink-pages.js')&&read('public/v351-loader.js').includes("psCustomers:'pink-lists'"),'read views are route-lazy while direct Accounting tab remains available');
  check(server.includes("require('./v349-pink-pages').install({app,db,auth,allow,currentUnit,enforceUnit})"),'Pink Salt routes mounted through original authenticated runtime');
  check(v313.includes("app.get('/api/pink-salt/customers-v313'")&&v313.includes("app.get('/api/pink-salt/orders-v313'")&&v313.includes('function orderFinancials(order)')&&v313.includes('function customerSummary(customerId)'),'original array APIs and single-record finance validators untouched');
  check(v290.includes("app.get('/api/accounting/journal',auth")&&v290.includes("app.get('/api/accounting/journal/:id',auth")&&v290.indexOf("/api/v349/accounting/journal/page")<v290.indexOf("/api/accounting/journal/:id"),'legacy journal/detail retained; page route inserted safely');
@@ -34,5 +34,5 @@ const check=(v,s)=>{assert.ok(v,s);console.log('PASS '+s);n++};
  let p=await ctx.window.BOMPinkPages349.get('customers');check(p.url.includes('pageSize=25')&&p.url.includes('/customers/page?'),'small frontend pager fetches proper server list');
  check(ctx.window.BOMPinkPages349.filterBar('customers').includes('data-v349-search')&&ctx.window.BOMPinkPages349.pager('customers',{page:1,pageSize:25,pages:2,total:30,from:1,to:25}).includes('disabled'),'bilingual-friendly search controls and bounded previous action');
  check(read('REQUIREMENTS_MASTER.md').includes('Mandatory regression gate — V30.46.0+')&&read('REQUIREMENTS_MASTER.md').includes('Selective Intelligent Data Loading — V30.48.0'),'permanent regression and selective-loading requirements retained');
- console.log(`\nV30.53.0 DEDICATED PERFORMANCE QA PASS (${n} checks)`);
+ console.log(`\nV30.54.0 DEDICATED PERFORMANCE QA PASS (${n} checks)`);
 })().catch(e=>{console.error('V30.49 QA FAILURE:',e.stack||e);process.exitCode=1});

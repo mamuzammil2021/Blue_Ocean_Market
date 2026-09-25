@@ -829,6 +829,10 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
   let processing=false,queueTimer=null;
   function syncFinanceEntry(financeId){
     const finance=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(financeId);if(!finance){db.prepare('DELETE FROM accounting_sync_queue WHERE finance_entry_id=?').run(financeId);return {skipped:true}}
+    if(finance.source_type==='Excavator Payment'&&require('./v354-finance-integrity').isSaleSettlementMirror(db,finance.source_id)&&finance.status!=='Voided'){
+      addException(finance,'V354_SALE_SETTLEMENT_MIRROR','Sale settlement mirror is not a cash receipt. This historic Finance row is on integrity hold; posted journals require controlled reversal.','Critical');
+      db.prepare('DELETE FROM accounting_sync_queue WHERE finance_entry_id=?').run(finance.id);return {blocked:true,integrity_hold:true};
+    }
     const existing=db.prepare('SELECT * FROM accounting_journal_entries WHERE finance_entry_id=? ORDER BY id DESC LIMIT 1').get(finance.id);
     if(text(finance.status)==='Voided'){
       let reversalId=null;if(existing){if(isPeriodClosed(existing.business_unit_id,existing.transaction_date)){addException(finance,'CLOSED_PERIOD_VOID','A Finance record was voided in a closed accounting period. Reopen the period or post an authorized adjustment.','Critical');return {blocked:true}}reversalId=reverseJournal(existing,finance.void_reason||'Finance source voided',finance.voided_by||finance.created_by)}

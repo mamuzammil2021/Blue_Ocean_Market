@@ -116,13 +116,15 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
     const operational=Number(f.cash_effect||0)===0 && !/payment|receipt|refund|transfer/i.test(String(f.source_type||''));
     const op=operational?operationControl(f):null;
     if(f.status==='Voided')warnings.push('Linked source record is voided.');
+    const integrityHold=require('./v354-finance-integrity').isLegacyMirrorFinance(db,f)||!!require('./v354-finance-integrity').caseFor(db,f.id);
+    if(integrityHold)warnings.push('Duplicate sale-settlement mirror on integrity hold; cannot final-post this record.');
     if(operational&&op?.warnings?.length)warnings.push(...op.warnings);
     if(!operational&&!verified)warnings.push(`Finance verification is ${verification||'not complete'}.`);
     if(!operational&&Number(f.open_corrections||0)>0)warnings.push('A Finance correction request is still open.');
     const evidence=financeEvidence(f);if(!evidence.length)warnings.push(operational?'No linked operational evidence is available for review.':'No Finance or linked source evidence is available for review.');
     const reversal=pendingReversalForFinance(f.id,j.id);if(reversal)warnings.push(`Previous official posting must be reversed first (${reversal.journal_no}).`);
     const operationStatus=operational?(op?.source_status||'Completed / Approved'):'Finance Verified';
-    return {linked:true,operational,source_control:operationStatus,source_status:op?.source_status||null,linked_payment_status:op?.linked_payment_status||null,payment_requirement_status:op?.payment_requirement_status||null,finance_verification_required:!operational,ready:f.status!=='Voided'&&(operational?!!op?.ready:verified)&&(operational||!Number(f.open_corrections||0))&&!reversal,warnings,finance:f,pending_reversal:reversal||null,evidence_count:evidence.length};
+    return {linked:true,operational,source_control:operationStatus,source_status:op?.source_status||null,linked_payment_status:op?.linked_payment_status||null,payment_requirement_status:op?.payment_requirement_status||null,finance_verification_required:!operational,ready:!integrityHold&&f.status!=='Voided'&&(operational?!!op?.ready:verified)&&(operational||!Number(f.open_corrections||0))&&!reversal,warnings,finance:f,pending_reversal:reversal||null,evidence_count:evidence.length};
   }
   function totals(journalId){const x=db.prepare('SELECT ROUND(COALESCE(SUM(debit_krw),0),2) debit,ROUND(COALESCE(SUM(credit_krw),0),2) credit,COUNT(*) line_count FROM accounting_journal_lines WHERE journal_entry_id=?').get(journalId);return {debit:num(x?.debit),credit:num(x?.credit),line_count:Number(x?.line_count||0),balanced:Math.abs(num(x?.debit)-num(x?.credit))<=0.01&&Number(x?.line_count||0)>=2}}
   function detailRow(id){

@@ -4,8 +4,8 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(root,f),'utf8');
 const server=read('server/server.js'),runtime=read('public/runtime-v30392.js'),client=read('public/client.js'),v343=read('public/v343-client.js'),v3382=read('public/v3382-client.js'),v353=read('public/v353-client.js'),index=read('public/index.html'),pkg=require('../package.json'),lock=require('../package-lock.json');
 let checks=0;function check(name,condition){assert.ok(condition,name);console.log('PASS '+name);checks++}
-check('Release version and health agree',pkg.version==='30.53.0'&&lock.version==='30.53.0'&&lock.packages[''].version==='30.53.0'&&server.includes("version:'30.53.0'"));
-check('V30.53 patch loads after protected V30.52 patch',index.includes('/v353-client.js?v=30.53.0')&&index.indexOf('v353-client.js')>index.indexOf('v352-client.js'));
+check('Release version and health agree',pkg.version==='30.54.0'&&lock.version==='30.54.0'&&lock.packages[''].version==='30.54.0'&&server.includes("version:'30.54.0'"));
+check('V30.53 patch loads after protected V30.52 patch',index.includes('/v353-client.js?v=30.54.0')&&index.indexOf('v353-client.js')>index.indexOf('v352-client.js'));
 check('Cost lock requires verified or posted in backend, no mere linked journal',server.includes("['Verified / Correct','Verified'].includes(String(linkedFinance.verification_status")&&!/financeLocked=.*accounting_journal_id/.test(server));
 check('Legacy client lock only verified or posted',v343.includes("return as==='Posted'||['Verified / Correct','Verified'].includes(vs)")&&!v343.includes("return as==='Posted'||n(x?.accounting_journal_id)>0"));
 check('Consolidated bundle cost guard does not lock on journal ID',!runtime.includes("return as==='Posted'||n(x?.accounting_journal_id)>0"));
@@ -29,7 +29,7 @@ check('Notification cards preserve item IDs',client.includes('data-notification-
 check('Mark read is per-record and does not reload page',v353.includes('window.readNotif=read353')&&v353.includes('styleRead(id)')&&!v353.includes('loadView()'));
 check('Open related notification automatically marks read',v353.includes('await read353(notificationId)')&&read('public/v348-notifications.js').includes('notificationNavigate(${dest},${action},${id})'));
 check('Bell reopens unread-only feed, full history remains',read('public/v348-bell.js').includes('status=unread')&&read('public/v348-notifications.js').includes("['all','unread','read']"));
-check('Base lazy loading is retained',index.includes('v351-loader.js?v=30.53.0')&&index.includes('v348-loader.js?v=30.53.0'));
+check('Base lazy loading is retained',index.includes('v351-loader.js?v=30.54.0')&&index.includes('v348-loader.js?v=30.54.0'));
 const files=[...fs.readdirSync(path.join(root,'server')).filter(x=>x.endsWith('.js')).map(x=>'server/'+x),...fs.readdirSync(path.join(root,'public')).filter(x=>x.endsWith('.js')).map(x=>'public/'+x)];
 for(const f of files){const r=cp.spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});check('JavaScript syntax '+f,r.status===0)}
 for(const f of ['client.js','runtime-v30392.js','v353-client.js','v343-client.js']){const gz=fs.readFileSync(path.join(root,'public',f+'.gz')),raw=fs.readFileSync(path.join(root,'public',f));check('Compressed asset matches '+f,zlib.gunzipSync(gz).equals(raw))}

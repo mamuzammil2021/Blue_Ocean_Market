@@ -20,7 +20,7 @@ const window={toast(msg){toasts.push(msg)}};
 const ko={};const context={window,document,KO:ko,t:s=>ko[s]||s,console,...timers};
 vm.runInNewContext(src,context,{filename:'v345-client.js'});
 const f=window.BOMFeedback;
-check(f&&f.version==='30.45.0','new shared coordinator exports V30.53.0');
+check(f&&f.version==='30.45.0','new shared coordinator exports V30.54.0');
 const b=element('button');b.textContent='Save Buyer';
 let x=f.begin('/api/excavator/buyers/8',b);
 check(x.scope==='button'&&b.disabled&&b.dataset.bom345Label===ko['Saving…']&&modal.children.length===0,'ordinary Save uses only one button feedback surface');
@@ -54,7 +54,7 @@ check(global.scope==='global'&&processing.children.length===1&&processing.childr
 check(processing.children.length===0,'global overlay releases on completion');
 check(f.scopeFor('/api/finance/3/verify',b)==='transaction'&&f.scopeFor('/api/other',b)==='button','finance verification is transactional while standard edits are local');
 check(ko['Saving…']==='저장 중…'&&ko['Still working…']==='계속 처리 중…','EN/KO action and slow messages registered');
-check(idx.includes('/v345-client.js?v=30.53.0')&&idx.indexOf('/v345-client.js')>idx.indexOf('/v344-client.js'),'V30.45 served after protected V30.44 account actions');
+check(idx.includes('/v345-client.js?v=30.54.0')&&idx.indexOf('/v345-client.js')>idx.indexOf('/v344-client.js'),'V30.45 served after protected V30.44 account actions');
 check(runtime.includes('const ticket=feedback?.begin?.(url,actionButton')&&runtime.includes('feedback.end(ticket)'),'Review & Confirm API pipeline delegates presentation to coordinator');
 check(runtime.includes('if(window.BOMFeedback){if(chip)chip.remove();return}'),'legacy V30.38 modal chip is suppressed, modal lifecycle retained');
 check(runtime.includes('if(active<=0||window.BOMFeedback)return'),'V30.39 network banner no longer overlays action feedback');
@@ -62,6 +62,6 @@ check(runtime.includes("window.BOMFeedback.begin('',a.btn,{label:'Loading…',re
 check(runtime.includes("!b.closest('#confirmRoot,#processingRoot')"),'confirmation button does not replace actual original action context');
 check(runtime.includes("opt.headers['X-Idempotency-Key']=randomKey()")&&runtime.includes('genericApiReview(url,opt)'),'existing idempotency and Review & Confirm preserved');
 const pkg=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json'));
-check(pkg.version==='30.53.0'&&lock.version==='30.53.0'&&read('server/server.js').includes("version:'30.53.0'"),'package, lock and server release identity updated');
+check(pkg.version==='30.54.0'&&lock.version==='30.54.0'&&read('server/server.js').includes("version:'30.54.0'"),'package, lock and server release identity updated');
 check(read('REQUIREMENTS_MASTER.md').includes('V30.45.0 Unified Action Feedback'),'master requirements retain new permanent rule');
 console.log('V30.45.0 Unified Action Feedback QA: PASS');
