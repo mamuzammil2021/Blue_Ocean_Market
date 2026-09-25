@@ -4,9 +4,9 @@ const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('ass
 const root=path.resolve(__dirname,'..');const read=p=>fs.readFileSync(path.join(root,p),'utf8');
 const runtime=read('public/runtime-v30392.js'),v343=read('public/v343-client.js'),v344=read('public/v344-client.js'),index=read('public/index.html'),pkg=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json'));
 function check(value,label){assert.ok(value,label);console.log('PASS '+label)}
-check(pkg.version==='30.52.0'&&lock.version==='30.52.0'&&lock.packages[''].version==='30.52.0','versioned package and lockfile');
-check(index.includes('/v344-client.js?v=30.52.0')&&index.indexOf('/v343-client.js')<index.indexOf('/v344-client.js'),'V30.44 client retained before V30.45');
-check(read('server/server.js').includes("version:'30.52.0'"),'health release identity');
+check(pkg.version==='30.53.0'&&lock.version==='30.53.0'&&lock.packages[''].version==='30.53.0','versioned package and lockfile');
+check(index.includes('/v344-client.js?v=30.53.0')&&index.indexOf('/v343-client.js')<index.indexOf('/v344-client.js'),'V30.44 client retained before V30.45');
+check(read('server/server.js').includes("version:'30.53.0'"),'health release identity');
 const rows=[{id:17,name:'Hina Bank Korea',payment_type:'Bank',currency:'KRW',business_unit:'Company',bank_name:'Hina Bank',account_last4:'1234',ledger_code:'1000',ledger_name:'Cash / Bank Clearing',active:1},{id:23,name:'Cash on Hand',payment_type:'Cash',currency:'KRW',active:1,ledger_code:'1010',ledger_name:'Cash on Hand'}];
 const esc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const t=v=>v,api=async()=>rows,translateElement=()=>{},canWriteAccounting=()=>true,canAdvanced=()=>true,statusBadge=v=>v,badge291=v=>v;
@@ -26,5 +26,5 @@ check(!runtime.includes('DROP TABLE accounting_account_transfers_v343'),'No new 
 const events=[],storage={blueOceanAccountingMode:'advanced'},session={bom_v343_workflow_context:'saved'};
 const context={window:{v343CloseAccount(){events.push('simple-close')},closeWorkflowPageV324(force){events.push('workflow-close:'+force);return true}},document:{createElement(){return {style:{}}},head:{appendChild(){}}},localStorage:{getItem(k){return storage[k]}},sessionStorage:{removeItem(k){delete session[k]}},console};vm.runInNewContext(v344,context);
 context.window.v343CloseAccount();check(events.join()==='workflow-close:true','Advanced account returns to Advanced workflow without forcing Simple view');check(!('bom_v343_workflow_context' in session),'Advanced close clears stored child context');storage.blueOceanAccountingMode='simple';context.window.v343CloseAccount();check(events.at(-1)==='simple-close','Simple account uses its existing close flow');
-console.log('V30.52.0 Cash & Bank persistent action behavior QA: PASS');
+console.log('V30.53.0 Cash & Bank persistent action behavior QA: PASS');
 })().catch(e=>{console.error(e);process.exitCode=1});

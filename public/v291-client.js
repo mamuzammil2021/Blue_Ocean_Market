@@ -119,7 +119,7 @@
 
   window.accountingAdvancedV291=async()=>{if(!canAdvanced())return;localStorage.setItem('blueOceanAccountingMode','advanced');await loadView()};
   window.accountingSimpleV291=async()=>{localStorage.setItem('blueOceanAccountingMode','simple');await loadView()};
-  function enhanceAdvancedAccountingV291(){const c=document.getElementById('content');if(!c)return;const bar=document.createElement('div');bar.className='v291-advanced-return';bar.innerHTML=`<div><b>${esc(t('Advanced Accounting'))}</b><div class="muted">${esc(t('General Ledger, Chart of Accounts, reconciliation, periods, budgets and transfers.'))}</div></div><button class="btn primary" onclick="accountingSimpleV291()">← ${esc(t('Back to Simple View'))}</button>`;const first=c.firstElementChild;if(first)first.insertAdjacentElement('afterend',bar);else c.prepend(bar);try{translateElement(bar)}catch(_){ }}
+  function enhanceAdvancedAccountingV291(){const c=document.getElementById('content');if(!c)return;c.querySelectorAll('.v291-advanced-return').forEach(x=>x.remove());const bar=document.createElement('div');bar.className='v291-advanced-return';bar.innerHTML=`<div><b>${esc(t('Advanced Accounting'))}</b><div class="muted">${esc(t('General Ledger, Chart of Accounts, reconciliation, periods, budgets and transfers.'))}</div></div><button class="btn primary" onclick="accountingSimpleV291()">← ${esc(t('Back to Simple View'))}</button>`;const first=c.firstElementChild;if(first)first.insertAdjacentElement('afterend',bar);else c.prepend(bar);try{translateElement(bar)}catch(_){ }}
 
   loadView=async function(){
     if(view==='accounting'){

@@ -1,3 +1,12 @@
+# Blue Ocean Market V30.53.0 — Financial & UX regression candidate
+
+- Protected source: V30.52.0 exact recovered ZIP (baseline checksum recorded during source extraction).
+- Ten consolidated new requirements; see `V30_53_IMPLEMENTATION_SUMMARY.md`.
+- Inherited and dedicated QA must pass; browser and authenticated Render testing required before production.
+- No DB reset, storage change or destructive migration.
+
+---
+
 # Blue Ocean Market V30.52.0 — QA / Stabilization Release Manifest
 
 - Source: independently verified protected V30.51.0 ZIP; full historic code retained.

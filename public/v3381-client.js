@@ -112,7 +112,7 @@ async function refreshTokenAccounts381(f=buyForm381(),opts={}){if(!f)return;cons
   if(!electronic&&receiver){receiver.required=false;receiver.setCustomValidity('')}
   if(existing)existing.style.display=electronic&&!newSupplier?'block':'none';if(newBox)newBox.style.display=electronic&&newSupplier?'block':'none';
   for(const n of ['token_new_receiver_label','token_new_receiver_bank_name','token_new_receiver_account_number','token_new_receiver_account_country','token_new_receiver_currency'])if(f.elements[n])f.elements[n].required=electronic&&newSupplier;
-  if(electronic&&newSupplier&&f.token_new_receiver_account_holder&&!f.token_new_receiver_account_holder.value)f.token_new_receiver_account_holder.value=f.supplier_name?.value||'';
+  
   const companyP=companyAccounts381(method,!!opts.forceCompany);
   const supplierP=electronic&&!newSupplier&&supplierId?supplierAccounts381(supplierId,!!opts.forceSupplier):Promise.resolve([]);
   const [companyResult,supplierResult]=await Promise.allSettled([companyP,supplierP]);

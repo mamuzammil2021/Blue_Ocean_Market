@@ -1,3 +1,7 @@
+## V30.53.0 — Financial and UX regression candidate
+
+Source-level corrections for token payment selectors, pre-verification cost edit, sale payment reference validation, shared payment protection, origin-aware buyer edit, notifications, and Accounting toolbar. See V30_53_IMPLEMENTATION_SUMMARY.md. Staging acceptance outstanding.
+
 ## V30.52.0 — QA & System Stability Fixes (23 September QA)
 - Protected source: verified V30.51.0 ZIP (SHA-256 3544c8a0cb83afaf206d9420e6ad0eede216b8f654c3c414f670832ef418ddd5).
 - Fix machine-cost edit policy: normal edits lock only after valid Finance Verified / actual Accounting Posted, original creator owns correction/resubmission, and source-linked Finance is resynchronized after edits.
