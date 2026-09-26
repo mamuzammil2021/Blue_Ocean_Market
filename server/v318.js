@@ -171,7 +171,11 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
   function postingEvidence(j,financeInfo=null){
     const out=[],add=x=>{if(x?.file_path&&!out.some(y=>y.file_path===x.file_path&&y.evidence_label===x.evidence_label))out.push(x)};
     for(const d of proposalDocuments(j.id))add(evidenceItem(d.file_path,d.title||d.original_name,'Accounting Evidence',d.original_name));
-    const f=financeInfo?.finance||financeInfo||null;if(f)for(const e of financeEvidence(f))add(e);
+    let f=financeInfo?.finance||financeInfo||null;
+    if(j.source_type==='Financing Funding Reclassification'){const x=db.prepare('SELECT finance_entry_id FROM accounting_financing_funding_v356 WHERE id=?').get(j.source_id);if(x)f=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(x.finance_entry_id)||f;}
+    if(j.source_type==='Financing Repayment Reclassification'){const r=db.prepare('SELECT finance_entry_id FROM accounting_financing_repayments_v356 WHERE id=?').get(j.source_id);if(r)f=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(r.finance_entry_id)||f;}
+    if(j.source_type==='Financing Lease Deposit Reclassification'){const x=db.prepare('SELECT finance_entry_id FROM accounting_financing_lease_deposits_v356 WHERE id=?').get(j.source_id);if(x)f=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(x.finance_entry_id)||f;}
+    if(f)for(const e of financeEvidence(f))add(e);
     return out;
   }
   function canEditManual(req,j){
@@ -219,6 +223,35 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
     if(req.user.role!=='CEO / Owner'&&Number(j.created_by)===Number(req.user.id))return res.status(403).json({error:'Maker/checker control: you cannot final-post an Accounting proposal you created.'});
     if(!j.balanced)return res.status(409).json({error:'The accounting proposal is not balanced and cannot be posted.'});
     const closed=periodClosedUnits(j);if(closed.length)return res.status(409).json({error:'The accounting period is closed for one or more affected business units. Reopen it before final posting.',business_unit_ids:closed});
+    if(j.source_type==='Financing Funding Reclassification'){
+      const x=db.prepare('SELECT * FROM accounting_financing_funding_v356 WHERE id=?').get(j.source_id);
+      const a=x&&db.prepare('SELECT * FROM accounting_financing_v356 WHERE id=?').get(x.financing_id);
+      const f=x&&db.prepare('SELECT * FROM finance_entries WHERE id=?').get(x.finance_entry_id);
+      const original=f&&db.prepare("SELECT * FROM accounting_journal_entries WHERE finance_entry_id=? AND status='Posted' ORDER BY id DESC LIMIT 1").get(f.id);
+      if(!x||!a||!f||!original||a.status!=='Active'||f.status==='Voided'||f.verification_status!=='Verified / Correct'||Number(f.cash_effect)!==1||Number(f.business_unit_id)!==Number(j.business_unit_id)||Number(f.payment_account_id)!==Number(a.payment_account_id)||f.accounting_status!=='Posted'||Number(f.accounting_journal_id)!==Number(original.id)||db.prepare("SELECT id FROM accounting_journal_entries WHERE reversal_of_id=? AND status IN ('Pending Review','Correction Required','Posted') LIMIT 1").get(original?.id||0))return res.status(409).json({error:'Linked funding receipt/original posted journal changed; cannot post liability proposal.'});
+      if(db.prepare("SELECT COUNT(*) n FROM accounting_journal_entries WHERE source_type='Financing Funding Reclassification' AND source_id=? AND status='Posted' AND id<>?").get(x.id,j.id).n)return res.status(409).json({error:'Funding already recognized.'});
+    }
+    if(j.source_type==='Financing Repayment Reclassification'){
+      const r=db.prepare('SELECT * FROM accounting_financing_repayments_v356 WHERE id=?').get(j.source_id);
+      const agreement=r&&db.prepare('SELECT * FROM accounting_financing_v356 WHERE id=?').get(r.financing_id);
+      const f=r&&db.prepare('SELECT * FROM finance_entries WHERE id=?').get(r.finance_entry_id);
+      const original=f&&db.prepare("SELECT * FROM accounting_journal_entries WHERE finance_entry_id=? AND status='Posted' ORDER BY id DESC LIMIT 1").get(f.id);
+      if(!agreement||!f||!original||Number(f.accounting_journal_id)!==Number(original.id)||f.accounting_status!=='Posted'||db.prepare("SELECT id FROM accounting_journal_entries WHERE reversal_of_id=? AND status IN ('Pending Review','Correction Required','Posted') LIMIT 1").get(original?.id||0)||agreement.status!=='Active'||f.status==='Voided'||f.verification_status!=='Verified / Correct'||Number(f.cash_effect)!==-1||Number(f.business_unit_id)!==Number(j.business_unit_id)||Number(f.payment_account_id)!==Number(agreement.payment_account_id))return res.status(409).json({error:'The linked financing payment or its original posted journal is no longer eligible; do not post this proposal.'});
+      if(db.prepare("SELECT COUNT(*) n FROM accounting_journal_entries WHERE source_type='Financing Repayment Reclassification' AND source_id=? AND status='Posted' AND id<>?").get(r.id,j.id).n)return res.status(409).json({error:'This financing repayment is already reclassified.'});
+    }
+    if(j.source_type==='Financing Lease Commencement'){
+      const a=db.prepare('SELECT * FROM accounting_financing_v356 WHERE id=?').get(j.source_id);
+      if(!a||a.status!=='Active'||a.financing_type!=='Equipment Lease'||a.currency!=='KRW'||db.prepare('SELECT id FROM accounting_financing_opening_links_v356 WHERE financing_id=?').get(a.id)||db.prepare('SELECT id FROM accounting_financing_funding_v356 WHERE financing_id=?').get(a.id))return res.status(409).json({error:'Lease recognition source is no longer eligible.'});
+    }
+    if(j.source_type==='Financing Lease Depreciation'){
+      const e=db.prepare('SELECT * FROM accounting_financing_lease_events_v356 WHERE id=? AND event_type=?').get(j.source_id,'Depreciation');
+      const init=e&&db.prepare("SELECT * FROM accounting_journal_entries WHERE source_type='Financing Lease Commencement' AND source_id=?").get(e.financing_id);
+      if(!e||Number(e.journal_entry_id)!==Number(j.id)||!init||init.status!=='Posted'||db.prepare("SELECT id FROM accounting_journal_entries WHERE reversal_of_id=? AND status IN ('Pending Review','Correction Required','Posted') LIMIT 1").get(init.id))return res.status(409).json({error:'Lease commencement is not currently posted and unreversed.'});
+    }
+    if(j.source_type==='Financing Lease Deposit Reclassification'){
+      const x=db.prepare('SELECT * FROM accounting_financing_lease_deposits_v356 WHERE id=?').get(j.source_id),a=x&&db.prepare('SELECT * FROM accounting_financing_v356 WHERE id=?').get(x.financing_id),f=x&&db.prepare('SELECT * FROM finance_entries WHERE id=?').get(x.finance_entry_id),original=f&&db.prepare('SELECT * FROM accounting_journal_entries WHERE id=?').get(f.accounting_journal_id);
+      if(!a||!f||!original||f.status==='Voided'||f.verification_status!=='Verified / Correct'||f.accounting_status!=='Posted'||original.status!=='Posted'||Number(f.cash_effect)!==-1||Number(f.business_unit_id)!==Number(a.business_unit_id)||Number(f.payment_account_id)!==Number(a.payment_account_id)||String(f.original_currency||'KRW').toUpperCase()!=='KRW'||Math.abs(Number(f.krw_amount||f.amount)-Number(x.amount_krw))>.005||db.prepare("SELECT id FROM accounting_journal_entries WHERE reversal_of_id=? AND status IN ('Pending Review','Correction Required','Posted') LIMIT 1").get(original.id))return res.status(409).json({error:'Original refundable deposit payment/journal is no longer eligible.'});
+    }
     const readiness=financeReadiness(j);if(!readiness.ready)return res.status(409).json({error:'Source control / verification checks are not complete for this accounting proposal.',warnings:readiness.warnings});
     if(j.source_type==='Manual Journal'&&!proposalDocuments(j.id).length)return res.status(409).json({error:'Manual journal evidence is missing. Add supporting evidence before final posting.'});
     if(j.source_type==='Accounting Reversal'&&j.reversal_of_id){const original=db.prepare('SELECT * FROM accounting_journal_entries WHERE id=?').get(j.reversal_of_id);if(!original||original.status!=='Posted')return res.status(409).json({error:'The original journal is no longer Posted. Refresh Posting Control before finalizing this reversal.'})}

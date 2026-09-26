@@ -1,0 +1,9 @@
+{
+  "source_version": "30.56.0",
+  "proposed_coa_rows": 138,
+  "posting_rules": 61,
+  "existing_seed_accounts": 42,
+  "exact_code_collisions": 30,
+  "source_file": "Blue_Ocean_Accounting_Requirements_Draft_v2_Current_Project.xlsx",
+  "status": "IN PROGRESS; no financial posting changed"
+}

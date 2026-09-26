@@ -1,0 +1,139 @@
+draft_code,draft_name,draft_type,draft_BU,existing_live_code_name,code_collision,assessment,implementation_decision
+1000,ASSETS,Header,All,Cash / Bank Clearing,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+1100,Cash & Bank,Control,All,Accounts Receivable,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+1110,Cash in Hand,Control,All,Pakistan Resale Profit Share Receivable,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+1111,Excavator Cash in Hand,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1112,Pink Salt Cash in Hand,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1120,Bank Accounts,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1130,Cash / Bank Transfers in Transit,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1200,Receivables,Control,All,Excavator Inventory,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+1210,Trade Receivables - Buyers / Customers,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1211,Excavator Buyer Receivables - Restricted Exception,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1212,Pink Salt Customer Receivables,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1213,Pakistan Resale Profit Share Receivable,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1220,Other Receivables,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1230,Employee Receivables,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1240,Inter-Business Unit Due From / Clearing,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1300,Advances & Prepayments,Control,All,Pink Salt Supplier Advances,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+1310,Supplier Advances / Unallocated Supplier Credit,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1311,Excavator Supplier Advances / Credit,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1312,Pink Salt Supplier Advances / Shared Credit,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1320,Employee Advances,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1330,Prepaid Expenses,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1340,Advance Taxes / Withholding Tax Receivable,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1400,Inventory,Control,All,Employee Advances,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+1410,Excavator Inventory,Control,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1411,Machines - Purchase Cost,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1412,Machines - Capitalized Logistics,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1413,Machines - Capitalized Repair & Parts,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1414,Machines - Other Capitalized Direct Costs,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1420,Pink Salt Raw Material Inventory,Control,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1430,Pink Salt Packaging Material Inventory,Control,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1440,Pink Salt Work in Process,Control,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1450,Pink Salt Finished Goods,Control,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1460,Pink Salt Goods in Transit,Control,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1470,Inventory Clearing / Variance,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1500,Fixed Assets,Control,All,Inter-Business-Unit Receivable,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+1510,Vehicles,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1520,Machinery & Equipment,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1530,Furniture & Fixtures,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1540,Computers & Office Equipment,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+1550,Accumulated Depreciation,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2000,LIABILITIES,Header,All,Accounts Payable - Suppliers,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+2100,Trade & Other Payables,Control,All,Buyer / Customer Advances,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+2110,Trade Payables - Suppliers,Control,All,Pakistan Resale Unallocated Credit,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+2111,Excavator Supplier Payables,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2112,Pink Salt Supplier Payables,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2120,Accrued Expenses,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2130,Payroll / Salary Payable,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2140,Other Payables,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2150,Inter-Business Unit Due To / Clearing,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2200,Customer / Buyer Advances,Control,All,Salary Payable,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+2210,Excavator Buyer Advances,Posting,Excavator,Payroll Deductions Payable,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+2220,Pink Salt Customer Advances,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2300,Taxes & Statutory Payables,Control,All,Inter-Business-Unit Payable,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+2310,Withholding Tax Payable,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2320,Sales Tax / VAT Payable,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2330,Income Tax Payable,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2340,Customs / Duties Payable,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2400,Loans & Financing,Control,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2410,Short-Term Loans,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+2420,Long-Term Loans,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+3000,EQUITY,Header,All,Owner Equity / Retained Earnings,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+3100,Capital,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+3200,Reserves,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+3300,Retained Earnings,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+3400,Current Year Profit / Loss,System,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+3500,Opening Balance / Data Migration Clearing,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+4000,REVENUE,Header,All,Excavator Sales Revenue,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+4100,Excavator Revenue,Control,Excavator,General Sales Revenue,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+4110,Excavator Sales - Local,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+4120,Excavator Sales - Export,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+4130,Excavator Other Operating Income,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+4140,Pakistan Resale Profit Share Income,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+4200,Pink Salt Revenue,Control,Pink Salt,Pink Salt Sales Revenue,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+4210,Pink Salt Finished Goods Sales - Local,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+4220,Pink Salt Finished Goods Sales - Export,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+4230,Pink Salt Bulk / Raw Salt Sales,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+4240,Pink Salt Other Operating Income,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+4300,Other Income,Control,All,Foreign Exchange Gain,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+4310,Profit on Disposal of Assets,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+4320,Foreign Exchange Gain,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+4330,Miscellaneous Income,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+5000,COST OF SALES,Header,All,Excavator Cost of Goods Sold,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+5100,Excavator Cost of Sales,Control,Excavator,General Cost of Goods Sold,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+5110,Machine Purchase Cost Sold,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+5120,Capitalized Logistics Cost Sold,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+5130,Capitalized Repair & Parts Cost Sold,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+5140,Other Capitalized Direct Machine Cost Sold,Posting,Excavator,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+5200,Pink Salt Cost of Sales,Control,Pink Salt,Pink Salt Cost of Goods Sold,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+5210,Raw Salt Base Cost Sold,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+5220,Packaging Cost Sold,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+5230,Direct Production / Conversion Cost Sold,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+5240,Import / Landed Cost Component Sold,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+5250,Abnormal Inventory Loss / Write-off,Posting,Pink Salt,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6000,OPERATING EXPENSES,Header,All,Salary & Wages Expense,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+6100,Payroll & Staff Costs,Control,All,Transport / Logistics Expense,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+6110,Salaries & Wages,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6120,Overtime / Allowances,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6130,Employee Benefits & Welfare,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6140,Training / Recruitment,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6200,Office & Administration,Control,All,Repair & Maintenance Expense,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+6210,Office Supplies & Printing,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6220,Telephone & Internet,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6230,"Software, Cloud & Subscriptions",Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6240,"Professional, Audit & Legal Fees",Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6250,Travel & Accommodation,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6260,Entertainment & Meetings,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6270,"Courier, Postage & Documentation",Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6300,Premises & Utilities,Control,All,Parts / Spare Parts Expense,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+6310,Rent,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6320,Electricity,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6330,Gas / Fuel for Premises,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6340,Water,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6350,Repairs & Maintenance - Premises,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6400,Vehicles & Transport,Control,All,General Operating Expense,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+6410,Vehicle Fuel,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6420,Vehicle Repairs & Maintenance,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6430,Tolls / Parking / Local Transport,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6500,Maintenance & Consumables,Control,All,Bank / Payment Fees,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+6510,Equipment Repairs & Maintenance,Posting,All,Marketplace / Platform Fees,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+6520,Tools & Consumables,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+6600,Depreciation & Amortization,Control,All,Foreign Exchange Loss,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+6610,Depreciation Expense,Posting,All,Pink Salt Waste / Stock Loss,YES,Existing code occupied by different purpose,PRESERVE EXISTING / REVIEW ALTERNATE CODE
+7000,SELLING & DISTRIBUTION,Header,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+7100,Freight Outward / Delivery,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+7200,Sales Commission,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+7300,Loading / Handling Outward,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+7400,Marketing & Advertising,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+7500,Export Selling Expenses,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+8000,FINANCE & OTHER,Header,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+8100,Bank Charges,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+8200,Interest / Finance Cost,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+8300,Foreign Exchange Loss,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+8400,Loss on Disposal of Assets,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+8500,Other Non-Operating Expense,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+9000,TAX & SPECIAL,Header,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+9100,Income Tax Expense,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+9200,Prior Period / Approved Adjustments,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION
+9300,Suspense / Temporary Clearing,Posting,All,,NO,Draft-only code; needs mapping review,REVIEW BEFORE ACTIVATION

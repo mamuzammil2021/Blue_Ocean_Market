@@ -1,0 +1,500 @@
+sheet,row,identifier_or_requirement,source_verification,status,review
+Overview,1,Blue Ocean Market - Accounting Requirements Draft v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,2,"Updated for the current Blue Ocean project direction as of 07-Sep-2026. Near-final review draft covering Excavator + Pink Salt accounting, supplier accounts, controls, costing, rec",Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,3,Design Principle,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,4,Accounting engine,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,5,Normal user workflow,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,6,Base currency,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,7,Pink Salt suppliers,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,8,Supplier credit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,9,Packaging receipt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,10,Excavator buyer advance,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,11,Inventory,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,12,Corrections,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,13,Reconciliation & close,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,14,Historical data migration,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,15,Reporting,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,16,Draft v2 Coverage Summary,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,17,Metric,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,18,Proposed COA rows,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,19,Automatic posting rules,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,20,Supplier-account requirements,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,21,Dimensions / subledgers,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,22,Inventory / costing requirements,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,23,Control / correction requirements,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,24,Reconciliation / close checks,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,25,Defined reports,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,26,Migration requirements,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Overview,27,Items requiring your final review,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,1,What changed from Draft v1 to Draft v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,2,Use this sheet to quickly review the major project-driven accounting changes before reviewing the full specification.,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,3,Version,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,4,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,5,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,6,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,7,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,8,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,9,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,10,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,11,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,12,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,13,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,14,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,15,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Change Log,16,v2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,1,Proposed Chart of Accounts - Current Project Draft,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,2,"Control accounts remain clean; detailed buyer, supplier, machine, import, batch, SKU and allocation balances live in linked subledgers. Review Status and comments are editable.",Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,3,Account Code,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,4,1000,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,5,1100,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,6,1110,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,7,1111,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,8,1112,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,9,1120,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,10,1130,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,11,1200,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,12,1210,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,13,1211,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,14,1212,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,15,1213,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,16,1220,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,17,1230,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,18,1240,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,19,1300,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,20,1310,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,21,1311,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,22,1312,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,23,1320,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,24,1330,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,25,1340,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,26,1400,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,27,1410,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,28,1411,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,29,1412,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,30,1413,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,31,1414,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,32,1420,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,33,1430,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,34,1440,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,35,1450,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,36,1460,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,37,1470,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,38,1500,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,39,1510,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,40,1520,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,41,1530,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,42,1540,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,43,1550,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,44,2000,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,45,2100,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,46,2110,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,47,2111,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,48,2112,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,49,2120,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,50,2130,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,51,2140,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,52,2150,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,53,2200,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,54,2210,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,55,2220,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,56,2300,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,57,2310,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,58,2320,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,59,2330,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,60,2340,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,61,2400,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,62,2410,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,63,2420,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,64,3000,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,65,3100,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,66,3200,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,67,3300,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,68,3400,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,69,3500,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,70,4000,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,71,4100,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,72,4110,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,73,4120,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,74,4130,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,75,4140,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,76,4200,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,77,4210,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,78,4220,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,79,4230,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,80,4240,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,81,4300,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,82,4310,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,83,4320,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,84,4330,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,85,5000,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,86,5100,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,87,5110,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,88,5120,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,89,5130,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,90,5140,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,91,5200,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,92,5210,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,93,5220,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,94,5230,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,95,5240,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,96,5250,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,97,6000,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,98,6100,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,99,6110,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,100,6120,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,101,6130,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,102,6140,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,103,6200,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,104,6210,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,105,6220,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,106,6230,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,107,6240,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,108,6250,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,109,6260,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,110,6270,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,111,6300,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,112,6310,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,113,6320,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,114,6330,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,115,6340,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,116,6350,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,117,6400,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,118,6410,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,119,6420,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,120,6430,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,121,6500,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,122,6510,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,123,6520,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,124,6600,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,125,6610,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,126,7000,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,127,7100,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,128,7200,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,129,7300,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,130,7400,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,131,7500,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,132,8000,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,133,8100,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,134,8200,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,135,8300,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,136,8400,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,137,8500,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,138,9000,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,139,9100,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,140,9200,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Proposed COA,141,9300,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,1,Automatic Posting Rules - Operational Event to Double-Entry Accounting,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,2,"Important: stock receipt, payment, allocation, revenue recognition and corrections are separate business events unless explicitly shown as linked entries.",Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,3,Rule ID,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,4,GL-001,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,5,GL-002,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,6,GL-003,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,7,GL-004,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,8,GL-005,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,9,GL-006,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,10,GL-007,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,11,GL-008,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,12,GL-009,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,13,GL-010,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,14,GL-011,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,15,GL-012,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,16,GL-013,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,17,GL-014,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,18,GL-015,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,19,EX-001,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,20,EX-002,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,21,EX-003,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,22,EX-004,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,23,EX-005,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,24,EX-006,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,25,EX-007,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,26,EX-008,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,27,EX-009,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,28,EX-010,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,29,EX-011,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,30,EX-012,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,31,EX-013,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,32,EX-014,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,33,EX-015,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,34,EX-016,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,35,EX-017,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,36,EX-018,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,37,PS-001,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,38,PS-002,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,39,PS-003,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,40,PS-004,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,41,PS-005,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,42,PS-006,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,43,PS-007,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,44,PS-008,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,45,PS-009,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,46,PS-010,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,47,PS-011,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,48,PS-012,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,49,PS-013,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,50,PS-014,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,51,PS-015,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,52,PS-016,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,53,PS-017,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,54,PS-018,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,55,PS-019,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,56,PS-020,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,57,PS-021,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,58,PS-022,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,59,PS-023,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,60,PS-024,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,61,PS-025,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,62,PS-026,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,63,PS-027,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Auto Posting Rules,64,PS-028,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,1,Pink Salt Unified Supplier Account & Shared Credit Model,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,2,"This sheet reflects the current supplier design: one supplier can cover Import / Raw Salt and Packaging Material categories, while supplier payments/credit are centralized and safe",Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,3,Requirement,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,4,Unified Pink Salt supplier master,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,5,One supplier account across categories,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,6,Central supplier payments / advances,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,7,Payment can remain unallocated,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,8,One payment can fund multiple obligations,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,9,Shared credit pool,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,10,Import / raw-salt obligation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,11,Packaging receipt obligation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,12,Receipt and payment separated,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,13,Total Payables,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,14,Available Supplier Credit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,15,Net Position,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,16,Credit Terms / Credit Limit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,17,Aging,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,18,Payment Currency fields,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,19,Evidence,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,20,Allocation reversal,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,21,Payment correction / void,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,22,Supplier statement,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Supplier Account Model,23,Existing suppliers,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,1,Dimensions & Subledgers,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,2,These dimensions carry operational detail so the Chart of Accounts stays manageable while every journal remains drillable to its source.,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,3,Dimension / Subledger,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,4,Business Unit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,5,Counterparty Business Unit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,6,Buyer / Customer,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,7,Supplier,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,8,Supplier Category,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,9,Supplier Obligation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,10,Supplier Payment / Credit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,11,Allocation ID,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,12,Machine / Deal,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,13,Machine Cost Category,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,14,Import / Shipment,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,15,Import Cost Category,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,16,Raw Salt Batch / Lot,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,17,Salt Category / Grade,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,18,Production / Repacking Batch,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,19,Product / Finished SKU,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,20,BOM / Gift Box Composition,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,21,Packaging SKU,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,22,Sales Order / Invoice,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,23,Bank / Cash Account,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,24,Employee,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,25,Department / Cost Center,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,26,Location / Warehouse / Yard,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,27,Payment Currency,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,28,FX Rate to KRW,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,29,Tax Type,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,30,Source Transaction,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,31,Evidence / Document,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,32,Approval / Correction / Verification ID,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Dimensions & Subledgers,33,Created By / Responsible User,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,1,Inventory & Costing Policy - Excavator and Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,2,This sheet separates accounting treatment from operational validation and highlights the costing policies that still need final approval.,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,3,Business Unit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,4,Excavator,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,5,Excavator,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,6,Excavator,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,7,Excavator,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,8,Excavator,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,9,Excavator,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,10,Excavator,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,11,Excavator,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,12,Excavator,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,13,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,14,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,15,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,16,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,17,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,18,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,19,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,20,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,21,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,22,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,23,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,24,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,25,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,26,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Inventory & Costing,27,Pink Salt,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,1,"Finance Integrity, Verification, Corrections & Audit Controls",Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,2,"These controls are mandatory for trustworthy accounting because Blue Ocean finance is driven by operational modules, not by standalone manual journals.",Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,3,Control,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,4,Source-linked posting,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,5,Atomic transaction,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,6,Payment evidence,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,7,Payment terminology,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,8,Base currency,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,9,Buyer/supplier credit non-negative,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,10,Supplier shared-credit locking,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,11,Verified record lock,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,12,Request Correction,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,13,Correction posting,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,14,Void,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,15,CEO / Owner approval bypass,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,16,Approval badge,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,17,User finance visibility,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,18,Manual journal restriction,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,19,Period lock,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,20,Period reopen,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,21,Reversal dependency check,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,22,No destructive delete,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,23,Void exclusion,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,24,Quantity validation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,25,Bilingual accounting output,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,26,Audit fields,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Controls & Corrections,27,Reconciliation status,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,1,"Reconciliation, Period Close & Reopen Requirements",Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,2,A period should only be locked after GL balances reconcile to operational subledgers and material discrepancies are resolved or formally approved.,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,3,Reconciliation Area,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,4,Bank Reconciliation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,5,Cash Count / Cash Book,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,6,Excavator Supplier Payables,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,7,Excavator Supplier Credit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,8,Excavator Buyer Advances,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,9,Excavator Inventory,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,10,Pakistan Resale Profit Share,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,11,Pink Salt Supplier Payables,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,12,Pink Salt Supplier Shared Credit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,13,Pink Salt Goods in Transit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,14,Raw Salt Inventory,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,15,Packaging Inventory,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,16,Work in Process,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,17,Finished Goods,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,18,Customer Receivables / Advances,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,19,Payroll,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,20,Tax / WHT / Duties,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,21,Inter-BU Clearing,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,22,Suspense / Clearing,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,23,Corrections / Voids,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,24,Trial Balance,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,25,Period Close,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reconciliation & Close,26,Period Reopen,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,1,Required Accounting & Management Reports,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,2,"All financial and management reports should derive from the same journal/subledger source so totals reconcile across dashboards, statements and exports.",Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,3,Report,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,4,Trial Balance,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,5,Profit & Loss,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,6,Balance Sheet,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,7,Statement of Cash Flows,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,8,General Ledger,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,9,Journal / Source Audit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,10,Cash Book,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,11,Bank Book,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,12,Bank Reconciliation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,13,Buyer / Customer Statement,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,14,Supplier Statement - Unified,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,15,Supplier Net Position,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,16,Supplier Payables Ageing,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,17,Supplier Credit / Advance Report,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,18,Receivables Ageing,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,19,Buyer / Customer Advance Report,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,20,Inventory Valuation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,21,Inventory Movement / Traceability,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,22,Excavator Machine Cost Sheet,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,23,Excavator Machine Profitability,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,24,Pakistan Resale Profit Share,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,25,Pink Salt Import Landed Cost,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,26,Pink Salt Raw Stock Valuation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,27,Pink Salt Packaging Stock Valuation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,28,Pink Salt WIP Report,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,29,Pink Salt Batch Costing,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,30,Pink Salt Product Profitability,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,31,Expense Analysis,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,32,Tax / WHT / Duty Report,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,33,Audit & Correction Report,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,34,Period Close / Reconciliation Status,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Reports,35,Opening Balance / Migration Reconciliation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,1,Previous Company Data - Opening Balance & Migration Requirements,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,2,This is the recommended accounting cutover framework for moving previous company data into the final live system without creating duplicate or unbalanced history.,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,3,Step,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,4,1,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,5,2,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,6,3,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,7,4,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,8,5,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,9,6,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,10,7,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,11,8,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,12,9,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,13,10,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,14,11,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,15,12,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,16,13,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,17,14,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,18,15,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,19,16,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,20,17,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,21,18,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,22,19,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,23,20,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,24,21,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Migration & Opening,25,22,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,1,How the Flour Mill Accounting Concepts Are Adapted for Blue Ocean,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,2,"The original mill structure remains useful as a reference, but Blue Ocean uses operational subledgers and automated postings rather than copying every mill-specific account.",Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,3,Mill file concept,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,4,Main / Group / Transaction / Control hierarchy,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,5,Individual customer accounts inside COA,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,6,Individual supplier accounts inside COA,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,7,Supplier advances,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,8,Opening Stock / Closing Stock accounts,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,9,Goods in Transit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,10,Raw material accounts,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,11,Packing / Bardana accounts,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,12,Manufacturing direct costs,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,13,Production waste,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,14,Freight / cartage,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,15,Creditors / suppliers,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,16,Debtors / customers,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,17,Wages / salary payable,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,18,Advance tax / withholding tax,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,19,Fixed assets / depreciation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,20,Manual journal-heavy operation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,21,Silent edit/delete of posted entries,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,22,Separate business unit accounting,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Source Mapping,23,Historical data transfer,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,1,Final Review Checklist Before Accounting Specification Is Locked,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,2,"Please change Review Status to Approved where you agree. For anything else, select Change and write the exact requirement in Your Comment.",Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,3,Area,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,4,COA coding,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,5,Excavator buyer receivable account,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,6,Excavator sale funding,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,7,Excavator capitalizable costs,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,8,Pakistan resale profit-share,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,9,Pink Salt unified supplier account,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,10,Pink Salt supplier shared credit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,11,Packaging receipt accounting,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,12,Import draft / posting point,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,13,Import receipt payment gate,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,14,Pink Salt inventory costing method,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,15,Landed-cost allocation,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,16,Normal waste treatment,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,17,Pink Salt customer credit policy,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,18,Supplier credit terms / limit,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,19,Inter-BU clearing,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,20,FX accounting,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,21,Manual journals,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,22,Period close,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,23,Opening-data migration,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,24,Tax accounts,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Review & Changes,25,Core reports,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Lists,1,Review Status,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Lists,2,Review,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Lists,3,Approved,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Lists,4,Change,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Lists,5,Remove,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Lists,6,Add Later,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy
+Lists,7,,Unreviewed individual requirement,PENDING,Compare behavior with V30.56 + confirm accounting policy

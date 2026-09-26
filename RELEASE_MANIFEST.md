@@ -1,5 +1,7 @@
-# Blue Ocean Market V30.55.0 — Cash & Banks Visibility
+# V30.57.7 consolidated accounting engineering build
 
-Source: user-provided V30.54.0 release. Read V30_55_IMPLEMENTATION_SUMMARY.md and V30_55_QA_STATUS.md.
+Exact source baseline: `Blue_Ocean_Market_V30_57_6_NODE22_VERIFIED_ACCOUNTING_STAGING_CANDIDATE.zip`. Corrected owner directions: `V30_57_CORRECTED_OWNER_INSTRUCTIONS.md`.
 
-All prior source/QA files included. V30.54 Finance integrity behavior and persistent disk setup preserved; no intentional DB rewrite. Not yet validated against the live existing database. Do not replace the V30.54 rollback archive until staging acceptance succeeds.
+Review `V30_57_CONSOLIDATED_IMPLEMENTATION.md`, `V30_57_OUTSTANDING_ACCOUNTING_DECISIONS.md`, `qa/V30_57_CONSOLIDATED_QA_REPORT.md`, `accounting_spec/V30_57_COA_COMPATIBILITY_PROPOSAL.json` and `accounting_spec/V30_57_CONSOLIDATED_499_ROW_MATRIX.json`.
+
+Source and QA are included. No live database, uploads, credentials or `node_modules` are bundled. Local regression, synthetic existing-data copy migration and Node 22 runtime tests pass. Accountant policy approval, actual Render-copy validation and authenticated browser staging remain outstanding. No push, merge or deployment occurred; preserve the Render persistent disk.
