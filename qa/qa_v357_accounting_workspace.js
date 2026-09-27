@@ -1,0 +1,16 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),cp=require('node:child_process');
+const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(root,f),'utf8');
+const pkg=require('../package.json'),lock=require('../package-lock.json'),index=read('public/index.html'),ui=read('public/v357-accounting-workspace.js'),journal=read('public/v290-client.js'),workspace=read('public/v356-accounting.js'),server=read('server/server.js');
+let n=0;const check=(name,fn)=>{fn();n++;console.log('PASS '+name)};
+check('version and health aligned',()=>{assert.equal(pkg.version,'30.57.1');assert.equal(lock.version,pkg.version);assert.equal(lock.packages[''].version,pkg.version);assert(server.includes("version:'30.57.1'"))});
+check('new UI loaded after existing financing UI and cache refreshed',()=>{assert(index.indexOf('/v357-accounting-workspace.js')>index.indexOf('/v356-final-ui.js'));assert(index.includes('/v357-accounting-workspace.js?v=30.57.1'));assert(!index.includes('?v=30.56.0'))});
+check('six grouped navigation areas present',()=>{for(const x of ['Overview','Accounts & Ledgers','Money & Balances','Financial Reports','Accounting Control','Accounting Setup'])assert(ui.includes("['"+x+"'"))});
+check('old API and screen routes preserved',()=>{for(const x of ['v356Overview','v356Balances','v356Financing','v356ForeignFinancing','accountingSimpleTabV291','v355OpenAdvancedTab','v356Posting','manualJournalV29'])assert(ui.includes(x))});
+check('only account scope body is laid out and former duplicate menus hidden',()=>{assert(ui.includes('v357-layout'));assert(ui.includes('.v291-simple-tabs'));assert(ui.includes('.v290-tabs'));assert(ui.includes('.v356-quick'));assert(ui.includes("window.view!=='accounting'"))});
+check('journal exact active allowed accounts only selectable, grouped by real type',()=>{assert(journal.includes("const accts=await api('/api/accounting/accounts')"));assert(journal.includes("!a.active||!a.allow_manual?'disabled'"));assert(journal.includes('optgroup'));assert(journal.includes('v357AccountSearch'))});
+check('journal live totals and validation retained',()=>{assert(ui.includes('window.v357JournalUpdate'));assert(ui.includes('Math.abs(dr-cr)'));assert(ui.includes('submit.disabled='));assert(journal.includes('saveManualJournalV29'));assert(read('server/v318.js').includes('normalizeManualLines'))});
+check('overview is focused without inline bank list and balance list',()=>{assert(!workspace.includes('ac.map(a=>'));assert(workspace.includes('Accounting attention'));assert(workspace.includes('Official posted figures'))});
+check('no new financial mutation endpoint or schema migration',()=>{assert(!fs.existsSync(path.join(root,'server/v357.js')));assert(ui.includes('presentation-only routing'))});
+for(const f of ['public/v357-accounting-workspace.js','public/v290-client.js','public/v356-accounting.js','server/server.js'])check('syntax '+f,()=>{const a=cp.spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});assert.equal(a.status,0,a.stderr)});
+console.log(`V30.57 focused accounting workspace QA PASS (${n} checks). Browser and live Render validation still pending.`);

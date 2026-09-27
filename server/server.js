@@ -126,6 +126,7 @@ function allow(...p){return(req,res,next)=>{const bu=req.selected_business_unit_
 function audit(u,e,id,a,d=''){db.prepare('INSERT INTO audit_log(user_id,entity,entity_id,action,details) VALUES(?,?,?,?,?)').run(u?.id||null,e,id||null,a,d);}
 function ensureFinanceIntegrityColumn(column,definition){try{const cols=db.prepare('PRAGMA table_info(finance_entries)').all().map(x=>x.name);if(!cols.includes(column))db.exec(`ALTER TABLE finance_entries ADD COLUMN ${column} ${definition}`)}catch(e){console.error('Finance integrity migration',column,e.message)}}
 ensureFinanceIntegrityColumn('finance_role',"TEXT DEFAULT ''");ensureFinanceIntegrityColumn('cash_effect','INTEGER DEFAULT 0');ensureFinanceIntegrityColumn('source_key',"TEXT DEFAULT ''");ensureFinanceIntegrityColumn('reference_normalized',"TEXT DEFAULT ''");
+ensureFinanceIntegrityColumn('payment_account_id','INTEGER');
 ensureFinanceIntegrityColumn('receiver_entity_type',"TEXT DEFAULT ''");ensureFinanceIntegrityColumn('receiver_entity_id','INTEGER');ensureFinanceIntegrityColumn('receiver_account_id','INTEGER');ensureFinanceIntegrityColumn('receiver_name_snapshot',"TEXT DEFAULT ''");ensureFinanceIntegrityColumn('receiver_account_label_snapshot',"TEXT DEFAULT ''");ensureFinanceIntegrityColumn('receiver_bank_name_snapshot',"TEXT DEFAULT ''");ensureFinanceIntegrityColumn('receiver_account_country_snapshot',"TEXT DEFAULT ''");ensureFinanceIntegrityColumn('receiver_currency_snapshot',"TEXT DEFAULT ''");ensureFinanceIntegrityColumn('receiver_account_number_masked_snapshot',"TEXT DEFAULT ''");ensureFinanceIntegrityColumn('receiver_method_snapshot',"TEXT DEFAULT ''");
 function normalizePaymentReference(v){return String(v||'').trim().toLowerCase().replace(/[^a-z0-9가-힣]/g,'');}
 try{const upd=db.prepare('UPDATE finance_entries SET reference_normalized=? WHERE id=?'),rows=db.prepare("SELECT id,reference FROM finance_entries WHERE COALESCE(reference,'')<>'' AND COALESCE(reference_normalized,'')=''").all();db.transaction(()=>rows.forEach(r=>upd.run(normalizePaymentReference(r.reference),r.id)))()}catch(e){console.error('Finance reference backfill',e.message)}
@@ -204,6 +205,13 @@ require('./v284').install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceRe
 // V29.0 — unified double-entry financial architecture, Excavator accounting integration and payroll.
 const accountingV29=require('./v290').install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,audit,notify,uploads,upload,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
 const integrityV354=financeIntegrityV354.install({app,db,auth,allow,currentUnit,accounting:accountingV29});
+require('./v356-financing').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
+require('./v356-finalization').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
+require('./v3566-financing-audit').install({app,db,auth,allow,enforceUnit,currentUnit,audit,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
+require('./v356-final-foreign').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
+require('./v356-final-lease').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
+require('./v357-realworld').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
+require('./v357-inventory-review').install({app,db,auth,allow,currentUnit,enforceUnit});
 require('./v300').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads,upload,financeSync,voidFinanceBySource,accounting:accountingV29,configuredPaymentAccount});
 require('./v305').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads,upload,financeSync,voidFinanceBySource,accounting:accountingV29,configuredPaymentAccount});
 require('./v307').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads,upload,financeSync,accounting:accountingV29,maybeCreateApproval,stopForApproval,markApprovalExecuted,configuredPaymentAccount});
@@ -211,10 +219,16 @@ require('./v308').install({app,db,auth,allow,currentUnit,enforceUnit,audit,uploa
 require('./v310').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,voidFinanceBySource,accounting:accountingV29,maybeCreateApproval,stopForApproval,markApprovalExecuted});
 require('./v313').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads,upload,financeSync,accounting:accountingV29,maybeCreateApproval,stopForApproval,configuredPaymentAccount});
 require('./v315').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,accounting:accountingV29});
+require('./v357-completion').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
+require('./v358-reports').install({app,db,auth,allow,currentUnit,enforceUnit});
+require('./v358-control').install({app,db,auth,allow,currentUnit,enforceUnit});
+require('./v358-source-reconciliation').install({app,db,auth,allow,currentUnit,enforceUnit});
+require('./v358-management-detail').install({app,db,auth,allow,currentUnit,enforceUnit});
 accessV316=require('./v316').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,accounting:accountingV29});
 require('./v318').install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accounting:accountingV29,access:accessV316,openFinanceCorrection});
 const securityV322=require('./v322').install({app,db,auth,currentUnit,enforceUnit,audit,uploads,secret:SECRET,access:accessV316});
-configV319=require('./v319').install({app,db,auth,currentUnit,enforceUnit,audit,notify,access:accessV316,uploads,secret:SECRET});
+configV319=require('./v319').install({app,db,auth,currentUnit,enforceUnit,audit,notify,access:accessV316,uploads,secret:SECRET,accounting:accountingV29});
+require('./v358-migration').install({app,db,auth,accounting:accountingV29,audit,enforceUnit});
 require('./v320').install({app,db,auth,currentUnit,enforceUnit,audit,access:accessV316,config:configV319});
 accessV316=require('./v341').install({app,db,auth,audit,notify,access:accessV316,passwordPolicyError});
 const v342=require('./v342').install({app,db,auth,audit,notify,access:accessV316});
@@ -612,7 +626,7 @@ function notificationUnitScope(req){
   return {sql:' AND (business_unit_id IS NULL OR business_unit_id=?)',args:[req.user.business_unit_id||0]};
 }
 
-app.get('/api/health',(req,res)=>{const st=storage.status();res.json({ok:true,version:'30.55.0',render:st.isRender,persistent_storage:st.isRender?st.pathsPersistent:false,disk_mount_detected:st.isRender?st.mountDetected:false,storage_writable:st.writable})});
+app.get('/api/health',(req,res)=>{const st=storage.status();res.json({ok:true,version:'30.58.0',render:st.isRender,persistent_storage:st.isRender?st.pathsPersistent:false,disk_mount_detected:st.isRender?st.mountDetected:false,storage_writable:st.writable})});
 
 app.get('/api/action-counts',auth,(req,res)=>{
   try{
@@ -2942,5 +2956,5 @@ function apiErrorHandler(err,req,res,next){
 }
 
 app.use(apiErrorHandler);
-const httpServer=app.listen(PORT,'0.0.0.0',()=>console.log(`Blue Ocean Market V30.55.0 running on port ${PORT}`));
+const httpServer=app.listen(PORT,'0.0.0.0',()=>console.log(`Blue Ocean Market V30.58.0 running on port ${PORT}`));
 let shuttingDown=false;function gracefulShutdown(signal){if(shuttingDown)return;shuttingDown=true;console.log(`${signal} received; closing HTTP server and checkpointing SQLite.`);const force=setTimeout(()=>{console.error('Forced shutdown after timeout.');process.exit(1)},25000);force.unref();httpServer.close(()=>{try{db.pragma('wal_checkpoint(TRUNCATE)')}catch(e){console.warn('SQLite checkpoint during shutdown:',e.message)}try{db.close()}catch(_){}process.exit(0)});}process.on('SIGTERM',()=>gracefulShutdown('SIGTERM'));process.on('SIGINT',()=>gracefulShutdown('SIGINT'));

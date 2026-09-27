@@ -1,0 +1,17 @@
+'use strict';
+const assert=require('assert'),fs=require('fs'),path=require('path'),vm=require('vm');
+const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
+let tests=0;const test=(name,fn)=>{fn();tests++;console.log('PASS '+name)};
+const server=read('server/v356-financing.js'),client=read('public/v356-accounting.js');
+let routes=[];const result=require('../server/v356-financing').install({app:{get:(url,...f)=>routes.push(['GET',url,f]),post:(url,...f)=>routes.push(['POST',url,f])},db:{exec:()=>{}},auth:()=>{},allow:()=>()=>{},currentUnit:()=>1,enforceUnit:()=>true,audit:()=>{}});
+test('loan schedules: zero interest amortizes fully',()=>{const rows=result.schedule({opening_principal:12000,annual_rate:0,term_months:12,start_date:'2026-09-15',payment_day:15,repayment_method:'Equal Installments'});assert.equal(rows.length,12);assert.equal(rows[0].principal_krw,1000);assert.equal(rows[11].remaining_principal_krw,0);assert.equal(rows[0].due_date,'2026-10-15')});
+test('equal principal supports February month-end',()=>{const r=result.schedule({opening_principal:1200,annual_rate:12,term_months:3,start_date:'2026-01-31',payment_day:31,repayment_method:'Equal Principal'});assert.equal(r[0].due_date,'2026-02-28');assert.equal(r[0].principal_krw,400);assert.equal(r[2].remaining_principal_krw,0)});
+test('annuity fully amortizes with final rounding adjustment',()=>{const r=result.schedule({opening_principal:100000,annual_rate:5.5,term_months:48,start_date:'2026-09-15',payment_day:15,repayment_method:'Equal Installments'});assert.equal(r[47].remaining_principal_krw,0);assert(r.every(x=>x.principal_krw>=0&&x.interest_krw>=0))});
+test('read and write endpoints are authenticated',()=>{assert.equal(routes.length,7);assert(routes.every(r=>r[2].length>=2))});
+test('single finance record match enforced by unique constraint',()=>{assert(server.includes('finance_entry_id INTEGER NOT NULL UNIQUE'));assert(server.includes("verification_status!=='Verified / Correct'"));assert(server.includes('cash_effect'));assert(server.includes('payment_account_id'))});
+test('repayment split must equal existing verified Finance money out',()=>{assert(server.includes('principal+interest+fee'));assert(server.includes('krw_amount||f.amount'));assert(server.includes('principal exceeds')||server.includes('Principal exceeds'))});
+test('no Finance or GL insertion from financing register',()=>{assert(!server.includes('INSERT INTO finance_entries'));assert(server.includes('accounting.postJournal'));assert(server.includes('Financing Repayment Reclassification'));assert(server.includes('No additional Finance or GL cash entry')); assert(server.includes('accounting_reconciliation_required:true'))});
+test('frontend is parseable and uses protected confirmation',()=>{new vm.Script(client);assert(client.includes('confirmAction('));assert(client.includes("'Content-Type':'application/json'"));assert(client.includes('v356FinancingDetail'))});
+test('Financing is linked from accounting overview',()=>assert(client.includes('${financeLink()}')));
+test('source retains former workspace and account details',()=>{assert(client.includes('v343OpenAccount'));assert(client.includes('simple-v305/open-balances'));assert(client.includes('v356Posting'))});
+console.log('V30.56.2 financing inherited QA '+tests+'/'+tests+' passed (static and isolated schedule tests; NOT live Finance/GL integration).');

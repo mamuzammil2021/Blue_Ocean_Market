@@ -1,5 +1,5 @@
-# Blue Ocean Market V30.55.0 — Cash & Banks Visibility
+# V30.58.0 consolidated Accounting engineering source manifest
 
-Source: user-provided V30.54.0 release. Read V30_55_IMPLEMENTATION_SUMMARY.md and V30_55_QA_STATUS.md.
+Baseline: protected V30.57.7 source SHA-256 `8eb42ff232e84dabcc89182c2735c1477e4c68a9af5a4f8eb33a6c15d54b6bff`. The source ZIP excludes database, uploads, credentials, `node_modules` and Git metadata.
 
-All prior source/QA files included. V30.54 Finance integrity behavior and persistent disk setup preserved; no intentional DB rewrite. Not yet validated against the live existing database. Do not replace the V30.54 rollback archive until staging acceptance succeeds.
+Read `GIT_READY_README.md`, `V30_58_IMPLEMENTATION_SUMMARY.md`, `V30_58_OUTSTANDING_DECISIONS_AND_ACCEPTANCE.md` and `qa/V30_58_CONSOLIDATED_QA_REPORT.md`. No push, merge, deployment or Render disk change was made.

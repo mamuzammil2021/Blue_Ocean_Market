@@ -1,0 +1,12 @@
+# V30.58 staging, deployment and rollback instructions
+
+This build is source delivery only. No push, merge or deployment is authorized here.
+
+1. Review the ZIP and diff from the exact V30.57.7 baseline. Install Node 22 dependencies with `npm ci` in a fresh, isolated checkout. Run `npm run qa:v358:consolidated` and `npm run qa:v357:full-audit` before staging.
+2. Make a consistent SQLite backup with SQLite's backup API or an application-stopped copy that includes WAL/SHM as appropriate. Copy the existing persistent uploads directory separately. Record digests and account/journal/balance snapshots. **Never** reset or overwrite the Render database or persistent disk to test a release.
+3. Restore that backup and uploads to a separate staging data directory. Start V30.58 there; compare schemas and protected snapshots, test real reports, bank preview, migrations and all user roles. The synthetic copy test in QA is only a preparatory compatibility gate. On a consistent, separately stored backup, run `node qa/staging_v358_existing_data.js --db /staging-input/blue-ocean.sqlite --uploads /staging-input/uploads --report /safe-output/v358-existing-data.json`. The script makes another isolated backup, starts only that temporary copy, compares retained rows and posted balances and checks uploads. A `PASS` is necessary but does not replace business acceptance. Keep the report outside the database and uploads directories.
+4. Obtain accountant policy/mapping approval and owner acceptance. Require explicit owner authorization before pushing, merging or deploying. Keep policy-dependent posting inactive until then.
+5. For an authorized production rollout, retain the verified pre-change backup and uploads snapshot. Stop writes during the cutover, apply the reviewed source, smoke-test health/auth, posted trial balance, source evidence and disk restart. Monitor exceptions and reconciliation.
+6. For rollback after a failed cutover, stop writes and restore **both** the matching pre-change SQLite backup and uploads snapshot to an isolated recovery path; verify digests/balances before switching traffic. Do not put an old binary against a database already migrated by the new binary without reviewing backward schema compatibility. Preserve post-cutover records for controlled reconciliation rather than silently discarding them.
+
+Environment paths and deployment method must be confirmed against actual Render settings; this document does not claim a production restore rehearsal occurred.

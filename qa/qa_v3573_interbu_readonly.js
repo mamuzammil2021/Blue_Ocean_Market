@@ -1,0 +1,20 @@
+'use strict';
+const assert=require('node:assert/strict');const {DatabaseSync}=require('node:sqlite');const db=new DatabaseSync(':memory:');
+db.exec(`CREATE TABLE accounting_accounts(id INTEGER PRIMARY KEY,code TEXT,name TEXT,account_type TEXT,active INTEGER,allow_manual INTEGER,system_key TEXT);
+CREATE TABLE accounting_journal_entries(id INTEGER PRIMARY KEY,status TEXT,business_unit_id INTEGER,transaction_date TEXT,finance_entry_id INTEGER,reversal_of_id INTEGER);
+CREATE TABLE accounting_journal_lines(id INTEGER PRIMARY KEY,journal_entry_id INTEGER,account_id INTEGER,business_unit_id INTEGER,debit_krw REAL,credit_krw REAL);
+CREATE TABLE business_units(id INTEGER PRIMARY KEY,name TEXT);
+INSERT INTO business_units VALUES(1,'Excavator'),(2,'Pink Salt');
+INSERT INTO accounting_accounts VALUES(1,'1500','Due From','Asset',1,0,'INTER_BU_RECEIVABLE'),(2,'2300','Due To','Liability',1,0,'INTER_BU_PAYABLE');
+INSERT INTO accounting_journal_entries VALUES(10,'Posted',NULL,'2026-02-15',NULL,NULL),(11,'Pending Review',NULL,'2026-02-16',NULL,NULL);
+INSERT INTO accounting_journal_lines(journal_entry_id,account_id,business_unit_id,debit_krw,credit_krw) VALUES(10,1,1,500,0),(10,2,2,0,500),(11,1,1,200,0);`);
+db.transaction=fn=>()=>{db.exec('BEGIN');try{const r=fn();db.exec('COMMIT');return r}catch(e){db.exec('ROLLBACK');throw e}};
+const routes=new Map();const app={get:(path,...handlers)=>routes.set('GET '+path,handlers.at(-1)),post:(path,...handlers)=>routes.set('POST '+path,handlers.at(-1))};
+let selected=0;let role='CEO / Owner';
+require('../server/v357-realworld').install({app,db,auth:()=>{},allow:()=>()=>{},currentUnit:()=>selected,enforceUnit:(req,bu)=>role==='CEO / Owner'||bu===1,audit:()=>{},accounting:{},hasAccess:()=>false});
+function read(asOf){let status=200,value;const res={status:n=>{status=n;return res},json:v=>{value=v;return res}};routes.get('GET /api/accounting/inter-bu-reconciliation-v357')({query:{as_of:asOf},user:{id:1,role}},res);return {status,value};}
+let r=read('2026-02-28');assert.equal(r.status,200);assert.equal(r.value.company_totals.difference_krw,0);assert.equal(r.value.rows.length,2);assert.equal(r.value.company_totals.due_from_krw,500);console.log('PASS posted inter-BU due-from/due-to reconcile without pending journal');
+r=read('2026-02-01');assert.equal(r.value.company_totals.due_from_krw,0);console.log('PASS as-of filter');
+r=read('2026-02-30');assert.equal(r.status,400);console.log('PASS strict calendar date rejects rollover');
+selected=1;role='BU Manager';r=read('2026-02-28');assert.equal(r.value.rows.length,1);assert.equal(r.value.company_totals,null);console.log('PASS BU scope does not disclose company totals');
+assert.equal(db.prepare('SELECT COUNT(*) c FROM accounting_journal_entries').get().c,2);assert.equal(db.prepare('SELECT COUNT(*) c FROM sqlite_master WHERE name=?').get('finance_entries').c,0);console.log('PASS reconciliation is read-only and creates no cash records');

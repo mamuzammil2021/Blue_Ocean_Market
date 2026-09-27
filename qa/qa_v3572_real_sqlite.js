@@ -1,0 +1,45 @@
+'use strict';
+const assert=require('node:assert/strict');const {DatabaseSync}=require('node:sqlite');const db=new DatabaseSync(':memory:');
+db.exec(`PRAGMA foreign_keys=ON;
+ CREATE TABLE accounting_accounts(id INTEGER PRIMARY KEY,code TEXT,account_type TEXT,active INTEGER,allow_manual INTEGER,name TEXT);
+ CREATE TABLE accounting_journal_entries(id INTEGER PRIMARY KEY,status TEXT,business_unit_id INTEGER,transaction_date TEXT,finance_entry_id INTEGER,reversal_of_id INTEGER);
+ CREATE TABLE accounting_journal_lines(id INTEGER PRIMARY KEY,journal_entry_id INTEGER,account_id INTEGER,debit_krw REAL,credit_krw REAL);
+ CREATE TABLE business_units(id INTEGER PRIMARY KEY,name TEXT);
+ CREATE TABLE users(id INTEGER PRIMARY KEY,name TEXT);
+ INSERT INTO business_units VALUES(1,'Excavator');INSERT INTO users VALUES(1,'QA CEO');
+ INSERT INTO accounting_accounts VALUES(1,'A1','Asset',1,1,'Equipment'),(2,'A2','Asset',1,1,'Accumulated Depreciation'),(3,'E1','Expense',1,1,'Depreciation'),(4,'L1','Liability',1,1,'Accrued Expenses'),(5,'A3','Asset',1,1,'Prepaid Expense');
+ INSERT INTO accounting_journal_entries VALUES(10,'Posted',1,'2026-01-05',NULL,NULL),(11,'Posted',1,'2026-01-09',NULL,NULL);
+ INSERT INTO accounting_journal_lines(journal_entry_id,account_id,debit_krw,credit_krw) VALUES(10,1,1000,0),(10,4,0,1000),(11,3,240,0),(11,4,0,240);`);
+db.transaction=fn=>(()=>{db.exec('BEGIN');try{const r=fn();db.exec('COMMIT');return r}catch(e){db.exec('ROLLBACK');throw e}});
+const routes=new Map(),proposals=[];let periodClosed=false;
+const app={get:(path,...args)=>routes.set('GET '+path,args.at(-1)),post:(path,...args)=>routes.set('POST '+path,args.at(-1))};
+require('../server/v357-realworld').install({app,db,auth:()=>{},allow:()=>()=>{},currentUnit:()=>1,enforceUnit:(req,bu)=>bu===1,audit:()=>{},accounting:{isPeriodClosed:()=>periodClosed,postJournal:p=>{assert.equal(p.postingStatus,undefined);assert(Math.abs(p.lines.reduce((n,l)=>n+l.debit_krw-l.credit_krw,0))<.005);proposals.push(p);const id=db.prepare('INSERT INTO accounting_journal_entries(status,business_unit_id,transaction_date,finance_entry_id) VALUES(?,?,?,NULL)').run('Pending Review',p.businessUnitId,p.transactionDate).lastInsertRowid;for(const l of p.lines)db.prepare('INSERT INTO accounting_journal_lines(journal_entry_id,account_id,debit_krw,credit_krw) VALUES(?,?,?,?)').run(id,l.account_id,l.debit_krw,l.credit_krw);return Number(id);}},hasAccess:()=>true});
+function request(method,pattern,body={},id='1'){let status=200,payload;const res={status:n=>{status=n;return res},json:x=>{payload=x}};routes.get(method+' '+pattern)({body,params:{id},user:{id:1,role:'CEO / Owner'}},res);return {status,payload};}
+let r=request('POST','/api/accounting/fixed-assets-v357',{asset_no:'FA-QA-001',name:'Equipment Test',category:'Equipment',acquisition_date:'2026-01-06',cost_krw:1000,residual_krw:100,useful_life_months:9,asset_account_id:1,contra_account_id:2,expense_account_id:3,source_journal_id:10,policy_reference:'Policy FA-001'});assert.equal(r.status,201,r.payload?.error);assert.equal(db.prepare('SELECT COUNT(*) c FROM accounting_fixed_assets_v357').get().c,1);assert.equal(proposals.length,0);console.log('PASS actual SQLite fixed asset registration, source-linked only');
+r=request('POST','/api/accounting/fixed-assets-v357',{asset_no:'FA-QA-001',name:'Equipment Test',category:'Equipment',acquisition_date:'2026-01-06',cost_krw:1000,residual_krw:100,useful_life_months:9,asset_account_id:1,contra_account_id:2,expense_account_id:3,source_journal_id:10,policy_reference:'Policy FA-001'});assert.equal(r.status,409,r.payload?.error);console.log('PASS real SQLite unique asset/source constraint');
+r=request('POST','/api/accounting/fixed-assets-v357/:id/depreciation',{period_end:'2026-02-28',policy_reference:'Policy FA-001'});assert.equal(r.status,201,r.payload?.error);assert.equal(proposals.at(-1).lines.length,2);assert.equal(proposals.at(-1).lines.reduce((n,l)=>n+l.debit_krw,0),100);assert.equal(db.prepare("SELECT COUNT(*) c FROM accounting_fixed_asset_events_v357 WHERE event_type='Depreciation'").get().c,1);console.log('PASS real SQLite balanced depreciation pending review');
+r=request('POST','/api/accounting/fixed-assets-v357/:id/depreciation',{period_end:'2026-03-31',policy_reference:'Policy FA-001'});assert.equal(r.status,409);db.prepare("UPDATE accounting_journal_entries SET status='Posted' WHERE id=?").run(proposals.length+11); // first proposal journal is ID 12
+r=request('POST','/api/accounting/fixed-assets-v357/:id/depreciation',{period_end:'2026-03-31',policy_reference:'Policy FA-001'});assert.equal(r.status,201,r.payload?.error);console.log('PASS next month requires previous posting');
+r=request('POST','/api/accounting/expense-obligations-v357/accrue',{reference:'INV-1',description:'Office service invoice',recognition_date:'2026-02-28',amount_krw:60,expense_account_id:3,liability_account_id:4,policy_reference:'Accrual policy 1'});assert.equal(r.status,201,r.payload?.error);assert.equal(r.payload.no_cash_movement,true);console.log('PASS accrued invoice proposal persisted, no Finance movement');
+r=request('POST','/api/accounting/expense-obligations-v357/accrue',{reference:'INV-1',description:'Office service invoice',recognition_date:'2026-02-28',amount_krw:60,expense_account_id:3,liability_account_id:4,policy_reference:'Accrual policy 1'});assert.equal(r.status,409);console.log('PASS duplicate invoice reference blocked');
+r=request('POST','/api/accounting/expense-obligations-v357/reclassify-prepaid',{reference:'PRE-1',description:'Annual policy prepaid',recognition_date:'2026-02-28',amount_krw:240,expense_account_id:3,prepaid_account_id:5,source_journal_id:11,policy_reference:'Prepaid policy 1'});assert.equal(r.status,201,r.payload?.error);assert.equal(r.payload.no_cash_movement,true);console.log('PASS prepaid reclassification of existing journal');
+const prepaidId=r.payload.id;
+r=request('POST','/api/accounting/expense-obligations-v357/:id/amortize',{period_end:'2026-03-31',amount_krw:20,policy_reference:'Prepaid policy 1'},String(prepaidId));assert.equal(r.status,409);const pre=db.prepare('SELECT recognition_journal_id FROM accounting_expense_obligations_v357 WHERE id=?').get(prepaidId);db.prepare("UPDATE accounting_journal_entries SET status='Posted' WHERE id=?").run(pre.recognition_journal_id);
+r=request('POST','/api/accounting/expense-obligations-v357/:id/amortize',{period_end:'2026-03-31',amount_krw:20,policy_reference:'Prepaid policy 1'},String(prepaidId));assert.equal(r.status,201,r.payload?.error);assert.equal(proposals.at(-1).lines.reduce((n,l)=>n+l.debit_krw-l.credit_krw,0),0);console.log('PASS prepaid amortization requires posted recognition and remains cash-neutral');
+// A reversal submitted for review must not prematurely change official posted subledger balances.
+const firstDep=db.prepare("SELECT journal_id FROM accounting_fixed_asset_events_v357 WHERE event_type='Depreciation' ORDER BY id LIMIT 1").get().journal_id;
+const amort=db.prepare('SELECT journal_id FROM accounting_expense_amortization_v357 WHERE obligation_id=?').get(prepaidId).journal_id;
+db.prepare("UPDATE accounting_journal_entries SET status='Posted' WHERE id=?").run(amort);
+const priorDep=request('GET','/api/accounting/fixed-assets-v357/:id').payload.posted_depreciation_krw;
+const priorAmort=request('GET','/api/accounting/expense-obligations-v357').payload.rows.find(x=>x.id===prepaidId).posted_amortization_krw;
+const reversalInsert=db.prepare("INSERT INTO accounting_journal_entries(status,business_unit_id,transaction_date,finance_entry_id,reversal_of_id) VALUES('Pending Review',1,'2026-04-01',NULL,?)");
+const depReversal=Number(reversalInsert.run(firstDep).lastInsertRowid),amortReversal=Number(reversalInsert.run(amort).lastInsertRowid);
+assert.equal(request('GET','/api/accounting/fixed-assets-v357/:id').payload.posted_depreciation_krw,priorDep);
+assert.equal(request('GET','/api/accounting/expense-obligations-v357').payload.rows.find(x=>x.id===prepaidId).posted_amortization_krw,priorAmort);
+console.log('PASS pending reversals preserve posted fixed asset and prepaid balances');
+db.prepare("UPDATE accounting_journal_entries SET status='Posted' WHERE id IN (?,?)").run(depReversal,amortReversal);
+assert.equal(request('GET','/api/accounting/fixed-assets-v357/:id').payload.posted_depreciation_krw,0);
+assert.equal(request('GET','/api/accounting/expense-obligations-v357').payload.rows.find(x=>x.id===prepaidId).posted_amortization_krw,0);
+console.log('PASS only posted reversals alter official subledger balances');
+periodClosed=true;r=request('POST','/api/accounting/expense-obligations-v357/accrue',{reference:'INV-2',description:'Closed period test',recognition_date:'2026-02-28',amount_krw:30,expense_account_id:3,liability_account_id:4,policy_reference:'Accrual policy 1'});assert.equal(r.status,409);console.log('PASS closed period restrictions');
+console.log('Real SQLite V30.57.2 accounting lifecycle QA PASS. Finance entries table was never created.');
