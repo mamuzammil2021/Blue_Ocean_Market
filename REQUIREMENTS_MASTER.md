@@ -1087,3 +1087,17 @@ Simple Accounting → Cash & Banks and Advanced Accounting → Cash & Bank Accou
 
 ## V30.52.0 — QA and stability follow-through (23 September)
 Must preserve actual Finance verification/posting cost locks; mutation-authoritative cache invalidation and async epoch guards; no stale child restoration on selected sidebar main-tab clicks; oldest entered-first statement events consistently across screen/PDF; existing authenticated Sale Document preview and download; properly verified low-risk bulk Finance workflow with explicit skipped reasons; remove only redundant dashboard/Finance instructional cards. Preserve V30.51 performance and safe Render disk. Test on staging before promotion.
+
+## V30.59 — Employees, Payroll & My Account permanent requirements
+
+- Employees remain distinct business/person records from application users. A normal logged-in user may be linked to one employee record for self-service.
+- Employee profiles use sectioned workspaces: Overview, Employment, Compensation, Advances, Payroll History, Accounts, Documents and Cost Allocation.
+- Employee payment accounts reuse the controlled counterparty account pattern. Historical payments retain the actual receiving-account snapshot used at payment time.
+- Advance recovery terms apply to the employee's total active outstanding advance balance, while each individual advance remains a separately auditable Finance-backed source event.
+- Supported recovery terms are Manual, Full Balance, Fixed Amount per payroll, Fixed Payrolls and Percentage of Salary. Payroll may use Scheduled, Full, Skip or Custom recovery; deviations from schedule require a reason and audit history.
+- Every payroll draft visibly stores advance balance before, scheduled recovery, applied recovery and advance balance after. A balance change after draft preparation blocks approval until the item is refreshed/reviewed.
+- Giving an employee advance is one real Finance Money Out transaction with Paid From company account, Paid To employee account, reference/evidence and receiver snapshot. Accounting is derived after Finance verification; payroll must not duplicate the cash movement.
+- Payroll advance recovery is non-cash and reduces Salary Payable / Employee Advances through Accounting. Direct employee repayment is a separate real Finance Money In event.
+- Compensation changes are effective-dated and require a reason so historical payroll is not rewritten.
+- Normal logged-in users have My Account self-service: Profile, Security, My Employment, My Payroll, My Payslips, My Advances, My Payment Accounts, My Documents and My Access. Users can only see their own employee/payroll data.
+- Employee-requested payroll-account changes remain pending until authorized payroll review; normal users cannot modify their own system permissions.

@@ -1,0 +1,110 @@
+{
+  "source_version": "30.58.0",
+  "ran_at": "2026-09-27T08:11:45.680Z",
+  "passed": 17,
+  "failed": 0,
+  "results": [
+    {
+      "file": "qa/qa_v351_hardening.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v350_performance.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v349_performance.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v348_performance.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v347_performance.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v346_performance.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v345_feedback.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v344_cash_accounts.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v343_qa_refinements.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_current.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_render_persistence.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v352_stabilization.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v353_regressions.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v354_integrity.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v355_cash_banks.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v356_workspace.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    },
+    {
+      "file": "qa/qa_v3575_consolidated_gate.js",
+      "passed": true,
+      "exit_code": 0,
+      "issue": ""
+    }
+  ]
+}

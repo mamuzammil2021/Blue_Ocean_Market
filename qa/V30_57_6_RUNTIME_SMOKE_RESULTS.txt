@@ -1,0 +1,48 @@
+(node:6) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> blue-ocean-market-os@30.57.6 qa:runtime
+> node qa/runtime_smoke.js
+
+(node:19) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+V28.5 local test CEO login: admin@blueocean.local / BO-Uhol6JKAK8dXcWS-!9a
+Blue Ocean Market V30.9.0 Pink Salt packaging calculation core loaded
+Blue Ocean Market V30.7.0 supplier advances and simple accounting backend loaded
+Blue Ocean Market V30.7.0 workflow refinement backend loaded
+Blue Ocean Market V30.9.0 production workflow + PDF backend loaded
+Blue Ocean Market V30.10.0 import controls and quantity integrity backend loaded
+Blue Ocean Market V30.13.0 Pink Salt customer accounts + pricing backend loaded
+Blue Ocean Market V30.15.0 unified Pink Salt supplier accounts backend loaded
+Blue Ocean Market V30.18.0 Posting Control installed
+Blue Ocean Market V30.7.0 Finance integrity backend loaded
+Blue Ocean Market V30.24.1 document/workflow refinement backend loaded
+Blue Ocean Market V30.25.1 Finance Integrity rule installed
+Blue Ocean Market V30.26.0 Excavator sale/payment lifecycle installed
+Blue Ocean Market V30.27.0 Pakistan resale subledger installed
+Blue Ocean Market V30.39.2 core runtime/data-path optimization installed
+(node:27) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Blue Ocean Market V30.57.6 running on port 32937
+PASS runtime health 30.57.6
+PASS runtime local CEO login
+PASS V30.57 Accounting inventory, asset, expense and integrity reads
+PASS V30.19 System Settings catalog
+PASS V30.19 System Overview
+PASS V30.20 direct attachment policy
+PASS persisted language preference endpoint
+PASS Company Financial Account / GL mapping
+PASS smart Cash/Card financial-account filtering
+PASS manual journal enters Pending Review
+PASS Posting Control detail is balanced and evidence-backed
+PASS Pending Review excluded from official ledger
+PASS authorized final post succeeds
+PASS Posted journal reaches official Trial Balance exactly once
+PASS correction/cancel workflow stays outside official ledger
+PASS Posting Control summary API
+PASS period close initially blocked by reconciliation checklist
+PASS V2 close-readiness controls become ready after sign-off
+PASS reconciled period closes
+PASS authorized reopen resets reconciliation sign-offs
+SIGTERM received; closing HTTP server and checkpointing SQLite.

@@ -6,7 +6,7 @@ const root=path.resolve(__dirname,'..'),read=n=>fs.readFileSync(path.join(root,n
 const server=read('server/server.js'),integritySource=read('server/v354-finance-integrity.js'),accounting=read('server/v290.js'),posting=read('server/v318.js'),classifier=read('server/v302.js');
 const packageJSON=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.json'));let n=0;
 function check(name,ok){assert.ok(ok,name);console.log('PASS '+name);n++}
-check('V30.54 version and health match',packageJSON.version==='30.54.0'&&lock.version==='30.54.0'&&lock.packages[''].version==='30.54.0'&&server.includes("version:'30.54.0'"));
+check('V30.54 version and health match',packageJSON.version==='30.59.0'&&lock.version==='30.59.0'&&lock.packages[''].version==='30.59.0'&&server.includes("version:'30.59.0'"));
 check('Source is installed once Accounting exists and before other financial routes',server.indexOf('const integrityV354=financeIntegrityV354.install')>server.indexOf('const accountingV29=')&&server.indexOf('const integrityV354=financeIntegrityV354.install')<server.indexOf("require('./v300').install"));
 check('Startup payment backfill requires Paid and skips mirrors',server.includes("FROM excavator_payments WHERE asset_id=? AND status='Paid'")&&server.includes('filter(p=>!financeIntegrityV354.isSaleSettlementMirror(db,p.id))'));
 check('FinanceSync never creates cash from sale settlement mirror',server.includes("if(sourceType==='Excavator Payment'&&financeIntegrityV354.isSaleSettlementMirror(db,sourceId))return null"));
@@ -24,7 +24,7 @@ check('Final Accounting posting readiness rejects mirror or integrity case',post
 check('Persistent audit-safe integrity diagnostic route available',integritySource.includes("'/api/finance/integrity-v354'")&&integritySource.includes('manual_reversal_required'));
 check('Old classifier leaves voided source rows intact',classifier.includes("FROM finance_entries WHERE status!='Voided'"));
 check('No changes to real Buyer Advance or real buyer receipt posting logic',accounting.includes("st==='Excavator Buyer Payment'")&&accounting.includes("st==='Excavator Sale'"));
-check('Protected current UI and cache-busted scripts retained',read('public/index.html').includes('v353-client.js?v=30.54.0')&&read('public/index.html').includes('v351-loader.js?v=30.54.0'));
+check('Protected current UI and cache-busted scripts retained',read('public/index.html').includes('v353-client.js?v=30.59.0')&&read('public/index.html').includes('v351-loader.js?v=30.59.0'));
 for(const f of ['server/server.js','server/v290.js','server/v302.js','server/v318.js','server/v354-finance-integrity.js']){
  const result=cp.spawnSync(process.execPath,['--check',path.join(root,f)],{encoding:'utf8'});check('Syntax '+f,result.status===0);
 }

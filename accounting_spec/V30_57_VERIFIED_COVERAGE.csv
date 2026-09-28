@@ -1,0 +1,19 @@
+Requirement / scope,Source status,Code evidence,Verification,Remaining / caution
+Accounting workspace navigation,Existing and extended,public/v357-accounting-workspace.js,Static UI gate passed,Authenticated browser QA pending
+Manual journal exact account selection,Existing,public/v290-client.js + server/v318.js,Inherited source check only,Hierarchical parent/child COA still requires policy and migration
+Posted financial overview graph,New source implementation,server/v357-realworld.js + public/v356-accounting.js,Source QA passed,Authenticated graph/API and monthly reconciliation pending
+Fixed asset register,New restricted implementation,server/v357-realworld.js + public/v357-fixed-assets.js,Real SQLite and mock fixture passed,Requires existing posted acquisition/opening journal; fresh acquisition/payment process not added
+Fixed asset depreciation,New restricted implementation,server/v357-realworld.js,Real SQLite and mock fixture passed,Straight-line only; zero-residual full disposal only; impairment/transfers/improvements pending
+Accrued invoice recognition,New restricted implementation,server/v357-realworld.js + public/v357-expenses.js,Real SQLite test passed,Settlement against verified Finance and accrual-to-payable reconciliation pending
+Prepaid expense reclassification,New restricted implementation,server/v357-realworld.js + public/v357-expenses.js,Real SQLite test passed,One full source expense line at a time; partial reclassification pending
+Prepaid amortization,New restricted implementation,server/v357-realworld.js,Real SQLite test passed,User-specified approved amount; automated schedules pending
+Payroll accrual,Already implemented,server/v290.js payroll-runs approve,Source inspected,End-to-end existing Render payroll QA pending
+Payroll payments,Already implemented,server/v290.js payroll-runs pay,Source inspected,Need verification against Finance cash-movement policy and evidence
+Inter-business-unit transfer,Already implemented,server/v290.js inter-unit-transfers,Source inspected,Consolidation elimination and linked Finance audit not yet signed off
+Excavator purchase and COGS,Already implemented foundation,server/v290.js buildFinancePosting,Source inspected,Machine-level costing and operational reconciliation pending
+Pink Salt sales and inventory accounting,Already implemented foundation,server/v290.js buildFinancePosting,Source inspected,Lot/batch valuation and normal/abnormal loss workflow pending
+Financing and lease accounting,Existing V30.56 source,server/v356*.js,Selected existing QA passed,Authenticated live verification pending
+Workbook COA mapping,In progress,accounting_spec/COA_COMPATIBILITY.csv,30 code collisions detected,Do not activate draft codes until approved map
+Workbook posting rules,In progress,accounting_spec/POSTING_RULE_COVERAGE.csv,61 rules inventoried,Row-by-row behavior and policy signoff pending
+Tax accounting,Pending policy and workflow,accounting_spec/original_v2_reference.json,Not implemented in this checkpoint,Jurisdiction and accounting policy approval required
+Inventory costing extensions,Pending,accounting_spec/original_v2_reference.json,Not implemented in this checkpoint,Excavator and Pink Salt subledger reconciliations required

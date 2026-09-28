@@ -1,0 +1,1 @@
+V30.56.4 STAGING. Source syntax and in-memory SQLite route checks PASS; V30.54 SQL integrity fixture PASS. Historical version-locked QA tests need compatibility update. Actual live authenticated Render testing, historical opening-GL signoff, complete lease accounting, FX financing: NOT COMPLETE. Do not merge to production.

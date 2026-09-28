@@ -1,5 +1,12 @@
-# Blue Ocean Market V30.55.0 — Cash & Banks Visibility
+# V30.59.0 Employees, Payroll & My Account engineering source manifest
 
-Source: user-provided V30.54.0 release. Read V30_55_IMPLEMENTATION_SUMMARY.md and V30_55_QA_STATUS.md.
+Baseline: Blue Ocean Market V30.58.0 consolidated Accounting engineering source supplied in this conversation.
 
-All prior source/QA files included. V30.54 Finance integrity behavior and persistent disk setup preserved; no intentional DB rewrite. Not yet validated against the live existing database. Do not replace the V30.54 rollback archive until staging acceptance succeeds.
+This source ZIP is intended to exclude database files, uploads, credentials, `node_modules` and Git metadata. No push, merge, deployment or Render persistent-disk change was made.
+
+Primary V30.59 documents:
+- `V30_59_IMPLEMENTATION_SUMMARY.md`
+- `V30_59_QA_STATUS.md`
+- `qa/qa_v359_employees_payroll.js`
+
+Inherited V30.58 Accounting specifications, migration material and QA remain in the source tree and are preserved unless explicitly superseded by V30.59.

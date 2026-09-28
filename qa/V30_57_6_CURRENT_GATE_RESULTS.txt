@@ -1,0 +1,28 @@
+PASS qa_v357_coa_compatibility.js
+PASS qa_v3572_consolidated.js
+PASS qa_v3572_fixed_asset_fixture.js
+PASS qa_v3572_real_sqlite.js
+PASS qa_v3573_interbu_readonly.js
+PASS qa_v3575_integrity_review.js
+PASS qa_v3576_asset_lifecycle.js
+PASS qa_v3576_interbu_elimination.js
+PASS qa_v3562_financing_integration.js
+PASS historic ₩9,500 sale mirror and ₩500 actual receipt regression
+PASS syntax server/v357-realworld.js
+PASS syntax public/v357-fixed-assets.js
+PASS syntax public/v357-expenses.js
+PASS syntax public/v357-integrity-review.js
+PASS syntax public/v357-accounting-workspace.js
+PASS syntax public/v357-interbu.js
+PASS compressed asset v357-fixed-assets.js
+PASS compressed asset v357-expenses.js
+PASS compressed asset v357-integrity-review.js
+PASS compressed asset v357-accounting-workspace.js
+PASS compressed asset v357-interbu.js
+PASS no_new_finance_inserts
+PASS review_read_only
+PASS source_journal_picker
+PASS ui_wired
+PASS official_prepaid_recognition
+PASS source_register_constraints
+V30.57.6 CONSOLIDATED CURRENT GATE PASS; 9 suites + Finance mirror fixture, 6 syntax checks, 5 compressed assets, 6 invariants; historical qa:release and Render are separate obligations.
