@@ -1,12 +1,16 @@
-# Blue Ocean Market V30.59.0 — Employees, Payroll & My Account
+# Blue Ocean Market V30.59.1 — Git-Ready Build
 
-This Git-ready engineering build continues directly from the supplied V30.58.0 consolidated Accounting build.
+This source continues directly from V30.59.0 and contains the Employees / Payroll / My Account full-page UI hotfix and redesign.
 
-V30.59 focuses on the Employees & Payroll workspace, total employee-advance recovery management, employee payment accounts, effective-dated compensation history, and a redesigned normal-user **My Account** self-service area while preserving the existing Finance/Accounting integrity model.
+Before commit, verify that `.env`, SQLite/DB files, `data/`, `uploads/`, `node_modules/` and credentials are not staged.
 
-Read:
-- `V30_59_IMPLEMENTATION_SUMMARY.md`
-- `V30_59_QA_STATUS.md`
-- `qa/qa_v359_employees_payroll.js`
+Recommended QA after `npm ci`:
 
-No database, uploads, credentials, `node_modules`, Git metadata, push, merge or deployment is included. Preserve the existing Render persistent database/disk. Before production deployment, install locked dependencies (`npm ci`), run runtime QA, and test the new payroll/advance flows against a copied or staging database.
+```bash
+npm run qa:v3591
+npm run qa:v359
+npm run qa:current
+npm run qa:runtime
+```
+
+Use a separate Git branch for Render/staging validation before merging into the release branch.

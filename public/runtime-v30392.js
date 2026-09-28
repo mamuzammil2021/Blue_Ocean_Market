@@ -590,6 +590,7 @@ window.v324UIStatus=()=>({version:VERSION,active:!!document.getElementById('v324
   // Payroll UI
   // -------------------------------------------------------------------------
   async function payrollV29(c){
+    if(typeof window.payrollWorkspaceV3591==='function')return window.payrollWorkspaceV3591(c);
     const tabs=[['employees','Employees'],['runs','Payroll Runs']];
     c.innerHTML=title('Employees & Payroll','Payroll is restricted to CEO / Owner and Finance / Admin.',`<div class="v285-page-actions"><button class="btn" onclick="payrollTabV29('runs')">${esc(t('Payroll Runs'))}</button><button class="btn primary" onclick="addEmployeeV29()">+ ${esc(t('Add Employee'))}</button></div>`)+`<div class="v290-accounting-nav-note">${esc(t('No demo payroll or accounting data is seeded.'))}</div>`+tabsHtml(tabs,payrollTab,'payrollTabV29')+`<div id="payrollV29Body"><div class="card">Loading…</div></div>`;await loadPayrollTabV29();
   }
