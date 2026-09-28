@@ -1,5 +1,12 @@
-# V30.58.0 consolidated Accounting engineering source manifest
+# V30.59.0 Employees, Payroll & My Account engineering source manifest
 
-Baseline: protected V30.57.7 source SHA-256 `8eb42ff232e84dabcc89182c2735c1477e4c68a9af5a4f8eb33a6c15d54b6bff`. The source ZIP excludes database, uploads, credentials, `node_modules` and Git metadata.
+Baseline: Blue Ocean Market V30.58.0 consolidated Accounting engineering source supplied in this conversation.
 
-Read `GIT_READY_README.md`, `V30_58_IMPLEMENTATION_SUMMARY.md`, `V30_58_OUTSTANDING_DECISIONS_AND_ACCEPTANCE.md` and `qa/V30_58_CONSOLIDATED_QA_REPORT.md`. No push, merge, deployment or Render disk change was made.
+This source ZIP is intended to exclude database files, uploads, credentials, `node_modules` and Git metadata. No push, merge, deployment or Render persistent-disk change was made.
+
+Primary V30.59 documents:
+- `V30_59_IMPLEMENTATION_SUMMARY.md`
+- `V30_59_QA_STATUS.md`
+- `qa/qa_v359_employees_payroll.js`
+
+Inherited V30.58 Accounting specifications, migration material and QA remain in the source tree and are preserved unless explicitly superseded by V30.59.

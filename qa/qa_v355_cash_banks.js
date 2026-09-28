@@ -12,5 +12,5 @@ check('CSV formula protection and UTF8 export',()=>{assert(detail.includes('if(/
 check('EN/KR translations and responsive stylesheet',()=>{assert(detail.includes('기록된 계좌 잔액'));assert(detail.includes('@media(max-width:680px)'))});
 check('browser script loaded after prior extensions',()=>{assert(html.indexOf('/v355-client.js')>html.indexOf('/v353-client.js'))});
 check('gzip mirrors loaded source assets',()=>{for(const file of ['runtime-v30392.js','v343-client.js','v355-client.js','index.html'])assert.deepStrictEqual(zlib.gunzipSync(fs.readFileSync(path.join(root,'public',file+'.gz'))),fs.readFileSync(path.join(root,'public',file)))});
-check('package version and production health version updated',()=>{assert.equal(require('../package.json').version,'30.58.0');assert(read('server/server.js').includes("version:'30.58.0'"))});
+check('package version and production health version updated',()=>{assert.equal(require('../package.json').version,'30.59.0');assert(read('server/server.js').includes("version:'30.59.0'"))});
 console.log('V30.55 static QA: '+count+' checks passed; authenticated staging/database QA still required.');

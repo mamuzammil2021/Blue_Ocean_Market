@@ -1,5 +1,12 @@
-# Blue Ocean Market V30.58.0 consolidated Accounting engineering build
+# Blue Ocean Market V30.59.0 — Employees, Payroll & My Account
 
-This ZIP continues from the protected V30.57.7 source (SHA-256 `8eb42ff232e84dabcc89182c2735c1477e4c68a9af5a4f8eb33a6c15d54b6bff`). Review `V30_58_IMPLEMENTATION_SUMMARY.md`, `V30_58_OUTSTANDING_DECISIONS_AND_ACCEPTANCE.md`, `qa/V30_58_CONSOLIDATED_QA_REPORT.md`, `accounting_spec/COA_COMPATIBILITY.csv` and `accounting_spec/V30_58_CONSOLIDATED_499_ROW_MATRIX.xlsx`.
+This Git-ready engineering build continues directly from the supplied V30.58.0 consolidated Accounting build.
 
-Git-ready source and QA are included; no live database, uploads, credentials or `node_modules` are bundled. No push, merge or deployment occurred. Preserve the existing Render database and persistent disk. Accountant decisions, real restored-copy staging and authenticated browser acceptance remain required.
+V30.59 focuses on the Employees & Payroll workspace, total employee-advance recovery management, employee payment accounts, effective-dated compensation history, and a redesigned normal-user **My Account** self-service area while preserving the existing Finance/Accounting integrity model.
+
+Read:
+- `V30_59_IMPLEMENTATION_SUMMARY.md`
+- `V30_59_QA_STATUS.md`
+- `qa/qa_v359_employees_payroll.js`
+
+No database, uploads, credentials, `node_modules`, Git metadata, push, merge or deployment is included. Preserve the existing Render persistent database/disk. Before production deployment, install locked dependencies (`npm ci`), run runtime QA, and test the new payroll/advance flows against a copied or staging database.
