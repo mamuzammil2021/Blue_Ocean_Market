@@ -1,3 +1,10 @@
+# V30.59.1
+- Fixed Employee Profile / My Account `statusBadge is not defined` runtime error.
+- Full-page Employees & Payroll workspace, Employee Profile and Payroll Run detail redesign.
+- Full-page My Account redesign with responsive section navigation.
+- Clear payroll advance before/recovery/after/net-pay presentation and list-level recovery summaries.
+- Focused action modal lifecycle hardened for return to full-page context.
+
 ## V30.56.7 — Financing reconciliation review (staging)
 See V30_56_7_PROGRESS_AND_QA.md. Additive accountant review of source-linked liability without creating Finance or journal rows. Foreign currency and complex lease lifecycle remain incomplete.
 
