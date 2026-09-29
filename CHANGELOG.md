@@ -1,3 +1,10 @@
+# V30.59.2
+
+- Employee/My Account profile pattern and targeted section refresh.
+- Employee payment-account approval notifications and pending badges.
+- Stable full-screen Back/header loading behavior.
+- Protected processing overlay hardening.
+
 # V30.59.1
 - Fixed Employee Profile / My Account `statusBadge is not defined` runtime error.
 - Full-page Employees & Payroll workspace, Employee Profile and Payroll Run detail redesign.

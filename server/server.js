@@ -284,7 +284,7 @@ const v335=require('./v335').install({db});
 const v336=require('./v336').install({db});
 const v337=require('./v337').install({db});
 const v338=require('./v338').install({app,db,auth,allow,audit,enforceUnit,currentUnit});
-require('./v359-payroll').install({app,db,auth,audit,enforceUnit,currentUnit,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
+require('./v359-payroll').install({app,db,auth,audit,enforceUnit,currentUnit,notify,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
 const v339=perfV339.installRoutes({app,db,auth,allow});
 perfV346.installRoutes({app,auth,allow});
 const v3391=require('./v3391-progressive').install({app,db,auth,allow,excavatorGuard});
@@ -627,7 +627,7 @@ function notificationUnitScope(req){
   return {sql:' AND (business_unit_id IS NULL OR business_unit_id=?)',args:[req.user.business_unit_id||0]};
 }
 
-app.get('/api/health',(req,res)=>{const st=storage.status();res.json({ok:true,version:'30.59.1',render:st.isRender,persistent_storage:st.isRender?st.pathsPersistent:false,disk_mount_detected:st.isRender?st.mountDetected:false,storage_writable:st.writable})});
+app.get('/api/health',(req,res)=>{const st=storage.status();res.json({ok:true,version:'30.59.2',render:st.isRender,persistent_storage:st.isRender?st.pathsPersistent:false,disk_mount_detected:st.isRender?st.mountDetected:false,storage_writable:st.writable})});
 
 app.get('/api/action-counts',auth,(req,res)=>{
   try{
@@ -2957,5 +2957,5 @@ function apiErrorHandler(err,req,res,next){
 }
 
 app.use(apiErrorHandler);
-const httpServer=app.listen(PORT,'0.0.0.0',()=>console.log(`Blue Ocean Market V30.59.1 running on port ${PORT}`));
+const httpServer=app.listen(PORT,'0.0.0.0',()=>console.log(`Blue Ocean Market V30.59.2 running on port ${PORT}`));
 let shuttingDown=false;function gracefulShutdown(signal){if(shuttingDown)return;shuttingDown=true;console.log(`${signal} received; closing HTTP server and checkpointing SQLite.`);const force=setTimeout(()=>{console.error('Forced shutdown after timeout.');process.exit(1)},25000);force.unref();httpServer.close(()=>{try{db.pragma('wal_checkpoint(TRUNCATE)')}catch(e){console.warn('SQLite checkpoint during shutdown:',e.message)}try{db.close()}catch(_){}process.exit(0)});}process.on('SIGTERM',()=>gracefulShutdown('SIGTERM'));process.on('SIGINT',()=>gracefulShutdown('SIGINT'));
