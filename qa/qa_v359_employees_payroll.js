@@ -5,8 +5,8 @@ const read=f=>fs.readFileSync(path.join(root,f),'utf8');
 let fail=0,pass=0;const check=(name,ok)=>{console.log((ok?'PASS ':'FAIL ')+name);if(ok)pass++;else fail++};
 const pkg=require('../package.json'),lock=require('../package-lock.json'),server=read('server/server.js'),pay=read('server/v290.js'),v359=read('server/v359-payroll.js'),ui=read('public/v359-payroll.js'),idx=read('public/index.html'),client=read('public/client.js'),v338=read('server/v338.js'),link=read('server/v357-payroll-link.js');
 for(const [n,s] of [['server/v290.js',pay],['server/v359-payroll.js',v359],['public/v359-payroll.js',ui]]){try{new vm.Script(s);check('syntax '+n,true)}catch(e){check('syntax '+n,false);console.error(e.message)}}
-check('V30.59.2 release identity',pkg.version==='30.59.2'&&lock.version==='30.59.2'&&server.includes("version:'30.59.2'")&&server.includes('Blue Ocean Market V30.59.2 running'));
-check('V30.59 client loaded last',idx.includes('/v359-payroll.js?v=30.59.2')&&idx.indexOf('v359-payroll.js')>idx.indexOf('v357-accounting-workspace.js'));
+check('V30.60.0 release identity',pkg.version==='30.60.0'&&lock.version==='30.60.0'&&server.includes("version:'30.60.0'")&&server.includes('Blue Ocean Market V30.60.0 running'));
+check('V30.59 client loaded last',idx.includes('/v359-payroll.js?v=30.60.0')&&idx.indexOf('v359-payroll.js')>idx.indexOf('v357-accounting-workspace.js'));
 check('My Account replaces normal My Profile navigation',client.includes("profile:'My Account'")&&client.includes("['profile','My Account','⚙️']")&&ui.includes("title('My Account'"));
 check('employee profile is section based',ui.includes("'overview','Overview'")&&ui.includes("'employment','Employment'")&&ui.includes("'compensation','Compensation'")&&ui.includes("'advances','Advances'")&&ui.includes("'payroll','Payroll History'")&&ui.includes("'accounts','Accounts'")&&ui.includes("'documents','Documents'")&&ui.includes("'allocation','Cost Allocation'"));
 check('employee payee accounts reuse mature shared manager',v338.includes("type==='employee'")&&ui.includes("fn('employee',Number(id)")&&ui.includes('Employee Payment Accounts'));

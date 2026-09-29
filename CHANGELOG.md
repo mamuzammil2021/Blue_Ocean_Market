@@ -1,3 +1,12 @@
+# V30.60.0
+
+- Added controlled bulk posting with Review & Confirm, batch audit and all-or-nothing final posting.
+- Upgraded Posting Control to KPI/control-dashboard workflow with selection summaries and PDF report.
+- Verified Finance corrections now auto-post the exact prior Accounting reversal while the corrected replacement remains under normal Posting Control.
+- Added duplicate/closed-period correction safeguards and read-only historical reversal reconciliation; deploy does not manufacture historic reversals.
+- Hardened system-wide important mutations to one top-level locked processing overlay above screens/modals.
+- Added report-specific Accounting PDFs for financial statements, ledger, cash flow, management, bank reconciliation, source reconciliation, year-end readiness and Posting Control.
+
 # V30.59.2
 
 - Employee/My Account profile pattern and targeted section refresh.

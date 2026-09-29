@@ -25,16 +25,18 @@ function install({app,db,auth,allow,currentUnit,enforceUnit}){
   {kind:'buyer_advance',table:'excavator_buyers',required:['excavator_buyers','excavator_buyer_payments','excavator_buyer_payment_allocations','excavator_buyer_refunds'],read:buyer},
   {kind:'supplier_payable',table:'pink_salt_suppliers',required:['pink_salt_suppliers','pink_salt_imports','pink_salt_import_items','pink_salt_import_payments','pink_salt_supplier_advance_allocations','pink_salt_packaging_movements','pink_salt_supplier_packaging_allocations'],read:supplierPayable}
  ];
- app.get('/api/accounting/v358/source-reconciliation',auth,allow('accounting','finance'),(req,res)=>{try{
-  const bu=scope(req),kind=String(req.query.kind||'all'),page=Math.max(1,Math.min(100000,Math.trunc(Number(req.query.page)||1))),page_size=[25,50,100].includes(Number(req.query.page_size))?Number(req.query.page_size):25;
-  if(kind!=='all'&&!definitions.some(d=>d.kind===kind))return res.status(400).json({error:'Unsupported source kind'});
+ const buildSourceReconciliation=req=>{
+  const bu=scope(req),kind=String(req.query.kind||'all'),page=Math.max(1,Math.min(100000,Math.trunc(Number(req.query.page)||1))),page_size=(req.__internalPdfReport&&Number(req.query.page_size)===500)?500:([25,50,100].includes(Number(req.query.page_size))?Number(req.query.page_size):25);
+  if(kind!=='all'&&!definitions.some(d=>d.kind===kind))throw Object.assign(new Error('Unsupported source kind'),{status:400});
   const active=definitions.filter(d=>(kind==='all'||d.kind===kind)&&d.required.every(exists));
   const counts=active.map(d=>({definition:d,total:db.prepare(`SELECT COUNT(*) n FROM ${d.table} WHERE ${d.where||'1=1'} ${bu?'AND business_unit_id=?':''}`).get(...(bu?[bu]:[])).n}));
   const total=counts.reduce((n,x)=>n+x.total,0);let offset=(page-1)*page_size,remaining=page_size;const rows=[];
   for(const x of counts){if(!remaining)break;if(offset>=x.total){offset-=x.total;continue}const batch=x.definition.read(bu,remaining,offset);rows.push(...batch);remaining-=batch.length;offset=0}
   const exceptions=rows.filter(x=>x.status!=='Aligned');
-  res.json({business_unit_id:bu,as_of:'current state',kind,page,page_size,total,rows,exceptions,counts_scope:'page',counts:{aligned:rows.filter(x=>x.status==='Aligned').length,difference:rows.filter(x=>x.status==='Difference').length,pending:rows.filter(x=>x.status==='Posting Pending').length},basis:'Paged, source-specific current-state comparison. Page counts describe only visible rows. Detail screens provide inventory, fixed-asset, financing and inter-BU reviews. No proposed correction, Finance movement or GL adjustment is created.'});
- }catch(e){res.status(e.status||500).json({error:e.message})}});
+  return {business_unit_id:bu,as_of:'current state',kind,page,page_size,total,rows,exceptions,counts_scope:'page',counts:{aligned:rows.filter(x=>x.status==='Aligned').length,difference:rows.filter(x=>x.status==='Difference').length,pending:rows.filter(x=>x.status==='Posting Pending').length},basis:'Paged, source-specific current-state comparison. Page counts describe only visible rows. Detail screens provide inventory, fixed-asset, financing and inter-BU reviews. No proposed correction, Finance movement or GL adjustment is created.'};
+ };
+ module.exports.build=(req)=>buildSourceReconciliation(req);
+ app.get('/api/accounting/v358/source-reconciliation',auth,allow('accounting','finance'),(req,res)=>{try{res.json(buildSourceReconciliation(req))}catch(e){res.status(e.status||500).json({error:e.message})}});
 
 }
 module.exports={install};

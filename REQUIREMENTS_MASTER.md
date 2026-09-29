@@ -1101,3 +1101,12 @@ Must preserve actual Finance verification/posting cost locks; mutation-authorita
 - Compensation changes are effective-dated and require a reason so historical payroll is not rewritten.
 - Normal logged-in users have My Account self-service: Profile, Security, My Employment, My Payroll, My Payslips, My Advances, My Payment Accounts, My Documents and My Access. Users can only see their own employee/payroll data.
 - Employee-requested payroll-account changes remain pending until authorized payroll review; normal users cannot modify their own system permissions.
+
+
+## V30.60 Posting Control and Accounting reporting standard
+- Posting Control supports controlled bulk posting only for ordinary fully eligible proposals; maker/checker, Finance verification, balanced journal, period, BU and permission rules remain mandatory.
+- Bulk posting uses Review & Confirm, a posting batch audit ID and all-or-nothing final transaction semantics.
+- Verified Finance corrections automatically post the exact mirrored reversal of the previously posted Accounting journal; the corrected replacement remains subject to normal Posting Control. Existing historic reversal chains must be reconciled idempotently and never recreated merely by deployment.
+- Posting Control provides actionable KPI cards, blocked reasons, posting method/batch traceability and report-specific PDF output.
+- All Accounting reports that can be generated must provide appropriate report-specific PDF output based on authoritative Accounting data, not a generic DOM/screenshot dump.
+- Important system mutations must show one top-level processing overlay above all screens/modals and lock conflicting UI until completion; local duplicate processing messages are prohibited.

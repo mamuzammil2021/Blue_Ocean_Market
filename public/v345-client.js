@@ -44,11 +44,10 @@
     if(['global','transaction','button'].includes(explicit))return explicit;
     const s=(String(url||'')+' '+String(btn?.textContent||'')).toLowerCase();
     if(/(?:test[-_/]?reset|environment[-_/]?reset|restore[-_/]?(?:backup|database)|backup[-_/]?restore|full[-_/]?reset|maintenance[-_/]?reset)/.test(s))return 'global';
-    if(/(?:payment|receipt|refund|settlement|transfer|posting|journal|allocat|void|revers|approval|approve|verif|period[-_/]?close|purchase|sale[-_/]?complete|complete[-_/]?sale)/.test(s))return 'transaction';
-    return btn?.isConnected?'button':'transaction';
+    if(/(?:payment|receipt|refund|settlement|transfer|posting|journal|allocat|void|revers|approval|approve|verif|period[-_/]?close|purchase|sale[-_/]?complete|complete[-_/]?sale|save|create|add|update|edit|submit|archive|restore|delete|correct)/.test(s))return 'transaction';
+    return 'transaction';
   }
-  function hostFor(scope){if(scope==='global')return document.getElementById('processingRoot')||document.body;
-    return document.querySelector('#modalRoot .modal,#v324WorkflowSurface,#content')||document.body;
+  function hostFor(scope){return document.getElementById('processingRoot')||document.body;
   }
   function setButton(btn,on,message){if(!btn?.isConnected)return;
     if(on){let state=buttons.get(btn);if(!state){state={count:0,disabled:btn.disabled,minWidth:btn.style.minWidth,aria:btn.getAttribute('aria-label')};buttons.set(btn,state)}state.count++;
@@ -63,7 +62,7 @@
   function updateButtonLabel(btn,message){if(!btn?.isConnected||!buttons.has(btn))return;btn.dataset.bom345Label=tr(message);btn.setAttribute('aria-label',tr(message))}
   function updateHost(host){const tokens=[...active.values()].filter(x=>x.host===host&&x.scope!=='button');let entry=overlays.get(host);
     if(!tokens.length){if(entry){entry.node.remove();overlays.delete(host);if(entry.marked)host.classList.remove('bom345-progress-host')}return}
-    const token=tokens.at(-1),global=token.scope==='global',message=tr(token.slow?'Still working…':token.message);
+    const token=tokens.at(-1),global=token.scope==='global'||token.scope==='transaction',message=tr(token.slow?'Still working…':token.message);
     if(!entry){const node=document.createElement('div');node.className=global?'bom345-global':'bom345-progress';node.setAttribute('role','status');node.setAttribute('aria-live','polite');node.setAttribute('aria-busy','true');node.innerHTML='<div class="bom345-progress-card"><span class="bom345-spinner" aria-hidden="true"></span><span data-bom345-message></span></div>';const marked=!global&&!host.classList.contains('bom345-progress-host');if(marked)host.classList.add('bom345-progress-host');host.appendChild(node);entry={node,marked};overlays.set(host,entry)}
     entry.node.querySelector('[data-bom345-message]').textContent=message;
   }
@@ -91,6 +90,7 @@
       return baseToast.call(this,message);
     };window.toast=coordinatedToast;try{toast=coordinatedToast}catch(_){ }
   }
-  window.BOMFeedback={version:'30.45.0',begin,end,scopeFor,isActive:()=>active.size>0,hasMutation:()=>[...active.values()].some(x=>!x.read),diagnostics:()=>({active:active.size,visible_surfaces:overlays.size,legacy_network_banner_enabled:false})};
-  console.info('Blue Ocean Market V30.45.0 unified action feedback loaded');
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&[...active.values()].some(x=>!x.read)){e.preventDefault();e.stopImmediatePropagation()}},true);
+  window.BOMFeedback={version:'30.60.0',begin,end,scopeFor,isActive:()=>active.size>0,hasMutation:()=>[...active.values()].some(x=>!x.read),diagnostics:()=>({active:active.size,visible_surfaces:overlays.size,legacy_network_banner_enabled:false})};
+  console.info('Blue Ocean Market V30.60.0 unified action feedback loaded');
 })();

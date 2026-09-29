@@ -4,8 +4,8 @@ const root=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(root,f
 let pass=0,fail=0;const check=(n,ok)=>{console.log((ok?'PASS ':'FAIL ')+n);ok?pass++:fail++};
 const ui=read('public/v3591-payroll-ui.js'),old=read('public/v359-payroll.js'),rt=read('public/runtime-v30392.js'),idx=read('public/index.html'),pay=read('server/v290.js'),pkg=require('../package.json'),lock=require('../package-lock.json'),server=read('server/server.js');
 for(const [n,s] of [['public/v3591-payroll-ui.js',ui],['public/runtime-v30392.js',rt],['server/v290.js',pay]]){try{new vm.Script(s);check('syntax '+n,true)}catch(e){check('syntax '+n,false);console.error(e.message)}}
-check('V30.59.2 identity',pkg.version==='30.59.2'&&lock.version==='30.59.2'&&server.includes("version:'30.59.2'")&&server.includes('Blue Ocean Market V30.59.2 running on port'));
-check('full-page UI extension loaded after V30.59 base',idx.includes('/v3591-payroll-ui.js?v=30.59.2')&&idx.indexOf('v3591-payroll-ui.js')>idx.indexOf('v359-payroll.js'));
+check('V30.60.0 identity',pkg.version==='30.60.0'&&lock.version==='30.60.0'&&server.includes("version:'30.60.0'")&&server.includes('Blue Ocean Market V30.60.0 running on port'));
+check('full-page UI extension loaded after V30.59 base',idx.includes('/v3591-payroll-ui.js?v=30.60.0')&&idx.indexOf('v3591-payroll-ui.js')>idx.indexOf('v359-payroll.js'));
 check('payroll core delegates to full-page workspace',rt.includes("if(typeof window.payrollWorkspaceV3591==='function')return window.payrollWorkspaceV3591(c)"));
 check('shared statusBadge runtime dependency removed from new UI',ui.includes('function badge(s)')&&!/[^A-Za-z]statusBadge\s*\(/.test(ui));
 check('employees payroll workspace has agreed sections',ui.includes("sectionButton('overview','Overview'")&&ui.includes("sectionButton('employees','Employees'")&&ui.includes("sectionButton('runs','Payroll Runs'")&&ui.includes("sectionButton('advances','Advances'"));
