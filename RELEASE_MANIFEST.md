@@ -1,11 +1,19 @@
-# V30.59.2 Release Manifest
+# V30.60.0 Release Manifest
 
-Primary changed files:
-- `public/v3592-payroll-ui.js`
-- `public/runtime-v3039.js`
-- `public/index.html`
-- `server/v359-payroll.js`
+Primary changed/new files:
+- `server/v290.js`
+- `server/v358-source-reconciliation.js`
+- `server/v360-accounting-controls.js`
 - `server/server.js`
-- `qa/qa_v3592_profile_approvals.js`
-- `V30_59_2_IMPLEMENTATION_SUMMARY.md`
-- `V30_59_2_QA_STATUS.md`
+- `public/v345-client.js`
+- `public/v358-accounting.js`
+- `public/v360-accounting-controls.js`
+- `public/index.html`
+- `package.json` / `package-lock.json`
+- `qa/qa_v360_accounting_controls.js`
+- `qa/qa_current.js`
+- inherited V30.59 QA release-identity updates
+- `V30_60_IMPLEMENTATION_SUMMARY.md`
+- `V30_60_QA_STATUS.md`
+
+No `.env`, SQLite DB, uploads, `node_modules`, credentials or Git metadata are part of the Git-ready deliverable.

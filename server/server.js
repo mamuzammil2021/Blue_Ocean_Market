@@ -226,6 +226,7 @@ require('./v358-source-reconciliation').install({app,db,auth,allow,currentUnit,e
 require('./v358-management-detail').install({app,db,auth,allow,currentUnit,enforceUnit});
 accessV316=require('./v316').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,accounting:accountingV29});
 require('./v318').install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accounting:accountingV29,access:accessV316,openFinanceCorrection});
+require('./v360-accounting-controls').install({app,db,auth,currentUnit,enforceUnit,audit,access:accessV316,accounting:accountingV29});
 const securityV322=require('./v322').install({app,db,auth,currentUnit,enforceUnit,audit,uploads,secret:SECRET,access:accessV316});
 configV319=require('./v319').install({app,db,auth,currentUnit,enforceUnit,audit,notify,access:accessV316,uploads,secret:SECRET,accounting:accountingV29});
 require('./v358-migration').install({app,db,auth,accounting:accountingV29,audit,enforceUnit});
@@ -627,7 +628,7 @@ function notificationUnitScope(req){
   return {sql:' AND (business_unit_id IS NULL OR business_unit_id=?)',args:[req.user.business_unit_id||0]};
 }
 
-app.get('/api/health',(req,res)=>{const st=storage.status();res.json({ok:true,version:'30.59.2',render:st.isRender,persistent_storage:st.isRender?st.pathsPersistent:false,disk_mount_detected:st.isRender?st.mountDetected:false,storage_writable:st.writable})});
+app.get('/api/health',(req,res)=>{const st=storage.status();res.json({ok:true,version:'30.60.0',render:st.isRender,persistent_storage:st.isRender?st.pathsPersistent:false,disk_mount_detected:st.isRender?st.mountDetected:false,storage_writable:st.writable})});
 
 app.get('/api/action-counts',auth,(req,res)=>{
   try{
@@ -2957,5 +2958,5 @@ function apiErrorHandler(err,req,res,next){
 }
 
 app.use(apiErrorHandler);
-const httpServer=app.listen(PORT,'0.0.0.0',()=>console.log(`Blue Ocean Market V30.59.2 running on port ${PORT}`));
+const httpServer=app.listen(PORT,'0.0.0.0',()=>console.log(`Blue Ocean Market V30.60.0 running on port ${PORT}`));
 let shuttingDown=false;function gracefulShutdown(signal){if(shuttingDown)return;shuttingDown=true;console.log(`${signal} received; closing HTTP server and checkpointing SQLite.`);const force=setTimeout(()=>{console.error('Forced shutdown after timeout.');process.exit(1)},25000);force.unref();httpServer.close(()=>{try{db.pragma('wal_checkpoint(TRUNCATE)')}catch(e){console.warn('SQLite checkpoint during shutdown:',e.message)}try{db.close()}catch(_){}process.exit(0)});}process.on('SIGTERM',()=>gracefulShutdown('SIGTERM'));process.on('SIGINT',()=>gracefulShutdown('SIGINT'));
