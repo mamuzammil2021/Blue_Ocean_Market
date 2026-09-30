@@ -1,0 +1,1 @@
+Checksum is generated for the final ZIP after packaging; see the handoff message.

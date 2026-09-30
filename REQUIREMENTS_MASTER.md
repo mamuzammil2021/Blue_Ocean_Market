@@ -1110,3 +1110,14 @@ Must preserve actual Finance verification/posting cost locks; mutation-authorita
 - Posting Control provides actionable KPI cards, blocked reasons, posting method/batch traceability and report-specific PDF output.
 - All Accounting reports that can be generated must provide appropriate report-specific PDF output based on authoritative Accounting data, not a generic DOM/screenshot dump.
 - Important system mutations must show one top-level processing overlay above all screens/modals and lock conflicting UI until completion; local duplicate processing messages are prohibited.
+
+## V30.63 persistent dialog-action and root-processing UX standard
+- Medium/large scrollable modals and confirmation dialogs keep their terminal action group persistently visible with a shared sticky footer. Users must not need to scroll to the end of a long dialog merely to Save, Update, Continue, Approve, Reject, Record Payment, Refund, Transfer, Archive or Confirm.
+- Small dialogs that naturally fit the viewport retain their compact layout; do not force unnecessary scrolling or oversized chrome.
+- Sticky action footers belong to the dialog surface, remain responsive on mobile, preserve the final form fields, and use the established action ordering/spacing.
+- For serious mutations (Create/Add/Save/Update/Edit/Submit/Approve/Reject/Record Payment/Refund/Transfer/Void/Archive/Restore/Delete/Publish and comparable consequential actions), processing feedback is a true root/application-level full-screen overlay above pages, modals, drawers, confirmations and nested content.
+- Serious-mutation processing must not be rendered only inside the originating modal/body. Legacy modal-local processing chips/overlays are suppressed while the root processing surface is active.
+- While the root processing state is active, conflicting UI is locked: duplicate actions are blocked, modal close/backdrop/Escape are prevented where applicable, and navigation/unload receives protection. One operation has one visible primary processing surface.
+- Existing Review & Confirm, idempotency, Finance/Accounting integrity, evidence, approval, targeted-refresh, success/error and modal-success lifecycle rules remain authoritative. V30.63 changes presentation/locking only and must not rewrite stable business logic.
+- Apply this standard incrementally and conservatively to existing dialogs through the shared dialog/processing layer; do not blindly refactor stable workflows.
+- This V30.63 standard supersedes older presentation guidance that limited full-screen overlays to maintenance-only operations. Consequential business mutations now use the root-level protected processing surface.
