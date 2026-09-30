@@ -5,7 +5,7 @@ const pkg=JSON.parse(read('package.json')),lock=JSON.parse(read('package-lock.js
 const server=read('server/server.js'),controls=read('server/v360-accounting-controls.js'),acct=read('server/v290.js'),feedback=read('public/v345-client.js'),ui=read('public/v360-accounting-controls.js'),idx=read('public/index.html'),reports=read('public/v358-accounting.js'),source=read('server/v358-source-reconciliation.js');
 let fail=0;const check=(n,v)=>{console.log(`${v?'PASS':'FAIL'} ${n}`);if(!v)fail++};
 check('V30.60 accounting controls retained in current release',Number(String(pkg.version).split('.')[1]||0)>=60&&Number(String(lock.version).split('.')[1]||0)>=60);
-check('V30.60 accounting client retained after payroll',idx.includes('/v360-accounting-controls.js?v=30.62.0')&&idx.indexOf('v360-accounting-controls.js')>idx.indexOf('v3592-payroll-ui.js'));
+check('V30.60 accounting client retained after payroll',idx.includes('/v360-accounting-controls.js?v=30.63.0')&&idx.indexOf('v360-accounting-controls.js')>idx.indexOf('v3592-payroll-ui.js'));
 check('Posting batch schema',controls.includes('accounting_posting_batches_v360')&&controls.includes('accounting_posting_batch_items_v360'));
 check('Bulk preview + post endpoints',controls.includes("posting-control-v360/bulk-preview")&&controls.includes("posting-control-v360/bulk-post"));
 check('Bulk all-or-nothing transaction',controls.includes('const tx=db.transaction')&&controls.includes('Bulk posting rolled back. No entries were posted.'));
