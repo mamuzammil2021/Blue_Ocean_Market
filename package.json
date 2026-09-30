@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.60.0",
+  "version": "30.62.0",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -77,7 +77,9 @@
     "qa:v359": "node qa/qa_v359_employees_payroll.js",
     "qa:v3591": "node qa/qa_v3591_fullpage_ui.js",
     "qa:v3592": "node qa/qa_v3592_profile_approvals.js",
-    "qa:v360": "node qa/qa_v360_accounting_controls.js"
+    "qa:v360": "node qa/qa_v360_accounting_controls.js",
+    "qa:v361": "node qa/qa_v361_platform_registry.js",
+    "qa:v362": "node qa/qa_v362_collaboration_platform.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
