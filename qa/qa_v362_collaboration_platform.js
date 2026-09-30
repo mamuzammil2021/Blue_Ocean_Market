@@ -1,0 +1,26 @@
+const fs=require('fs'),path=require('path');
+const root=path.join(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
+let pass=0,fail=0;function check(n,c){if(c){pass++;console.log('PASS',n)}else{fail++;console.error('FAIL',n)}}
+const server=read('server/server.js'),mod=read('server/v362-collaboration-platform.js'),ui=read('public/v362-collaboration.js'),idx=read('public/index.html'),pkg=JSON.parse(read('package.json'));
+check('release version 30.62.0',pkg.version==='30.62.0');
+check('v362 module installed',server.includes("require('./v362-collaboration-platform').install"));
+check('health version updated',server.includes("version:'30.62.0'"));
+check('agenda items table',mod.includes('CREATE TABLE IF NOT EXISTS meeting_agenda_items'));
+check('decision items table',mod.includes('CREATE TABLE IF NOT EXISTS meeting_decision_items'));
+check('minutes publish state',mod.includes("minutes_status='Published'"));
+check('archive preserves record',mod.includes("status='Closed/Archived'"));
+check('bounded entity search',mod.includes("Math.min(20")&&mod.includes("/api/v362/platform/entity-search"));
+check('task search access tightened',mod.includes("type==='task'&&!isManager(req.user)"));
+check('secure v362 related link API',mod.includes("app.post('/api/v362/platform/related'"));
+check('meeting related links access checked',mod.includes("Only organizer or authorized manager can link records"));
+check('agenda CRUD routes',mod.includes("/agenda',auth")&&mod.includes("/agenda/:id'"));
+check('decision routes',mod.includes("/decisions',auth")&&mod.includes("/decisions/:id'"));
+check('agenda PDF',mod.includes("kind==='agenda'?'Meeting Agenda'"));
+check('minutes PDF',mod.includes("'Meeting Minutes'"));
+check('enhanced meeting detail UI',ui.includes('registry-ready collaboration'));
+check('universal related-record search UI',ui.includes('v362SearchRecords'));
+check('meeting archive replaces destructive delete UI',ui.includes('window.deleteMeeting=async function(id){return v362ArchiveMeeting(id)}'));
+check('task related-record panel',ui.includes('window.taskRelations'));
+check('v362 client loaded last',idx.includes('/v362-collaboration.js?v=30.62.0'));
+check('V30.62 cache identity',!idx.includes('v=30.61.0'));
+console.log(`\nV30.62 source QA: ${pass} passed, ${fail} failed`);if(fail)process.exit(1);
