@@ -60,6 +60,10 @@ This is a system-wide rule for every current and future business unit and major 
 - Korean remains fully supported across navigation, dashboards, forms, buttons, statuses, validation/error messages, notifications, dialogs, Finance, Accounting, operational modules, reports, documents, and generated/printable outputs where localization is applicable.
 - System labels may be translated, but user-entered business data must not be altered.
 - Newly introduced UI copy must include localization coverage before release.
+- **Permanent EN/KR release rule:** every new or modified user-facing feature must ship with both English and Korean coverage through the shared i18n layer. This includes headings, labels, buttons, placeholders, helper text, table headers, filters, statuses, empty states, tooltips, modal/dialog text, Review & Confirm content, processing/progress text, validation/errors, success messages, notifications, reports/PDF labels, and dynamically generated system strings. Hard-coded English that remains visible in Korean mode is a regression.
+- When an existing area is fixed or modified, audit the affected scope for language leakage and safely migrate reusable system text into the shared localization catalog rather than adding one-off translations. Do not translate user-entered names, references, SKUs, serials, account numbers, document content or other externally sourced business values.
+- English mode must remain English throughout the interface (Korea-context examples may be used, but unintended Hangul must not leak into English UI). Korean mode must not expose untranslated English system copy except intentional brand names, standardized codes/acronyms, currencies, or user/external data.
+- EN/KR completeness is part of regression QA for every future build; missing translations and late-rendered untranslated placeholders/titles/ARIA labels must be treated as release defects.
 
 ## 6. Pink Salt standing workflow requirements
 
@@ -1121,3 +1125,12 @@ Must preserve actual Finance verification/posting cost locks; mutation-authorita
 - Existing Review & Confirm, idempotency, Finance/Accounting integrity, evidence, approval, targeted-refresh, success/error and modal-success lifecycle rules remain authoritative. V30.63 changes presentation/locking only and must not rewrite stable business logic.
 - Apply this standard incrementally and conservatively to existing dialogs through the shared dialog/processing layer; do not blindly refactor stable workflows.
 - This V30.63 standard supersedes older presentation guidance that limited full-screen overlays to maintenance-only operations. Consequential business mutations now use the root-level protected processing surface.
+
+## V30.66 Pink Salt Product Master / future-commerce foundation standard
+- Pink Salt owns the authoritative operational product, SKU/variant, BOM, production, finished inventory, cost and fulfillment data. Future website/marketplace channels must reference this master rather than duplicate independent product masters.
+- Pink Salt products support reusable product media stored once in Blue Ocean: multiple images, one primary image, explicit order, EN/KR alt text/caption metadata and controlled archive. Future channels may select/reorder subsets through channel mappings without duplicating master media.
+- Commerce/channel architecture remains channel-agnostic. Own website, marketplaces, social/B2B portals and future channels are configured as data/connector records; no core Pink Salt schema may depend on one named marketplace.
+- Product, payment and fulfillment states are separate concerns. External commerce must never treat fulfillment completion as proof of payment or vice versa.
+- Pink Salt food traceability must preserve production batch/lot and best-before data and maintain a path back to raw import inputs and packaging consumption.
+- Pink Salt storage uses a reusable Warehouse → Zone → Rack/Bin foundation. Historic stock records must remain valid when structured locations are introduced incrementally.
+- Pink Salt and all future BU interfaces follow the established Excavator/shared Blue Ocean design language; domain-specific workflows may differ but page shells, section headers, cards, tables, actions, status chips, forms/modals, processing, targeted refresh and responsive behavior should remain system-consistent.

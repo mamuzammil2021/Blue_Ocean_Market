@@ -1,0 +1,17 @@
+'use strict';
+const fs=require('fs'),path=require('path'),root=path.join(__dirname,'..');
+let ok=0,fail=0;const check=(name,cond)=>{if(cond){ok++;console.log('PASS',name)}else{fail++;console.error('FAIL',name)}};
+const index=fs.readFileSync(path.join(root,'public/index.html'),'utf8');
+const client=fs.readFileSync(path.join(root,'public/client.js'),'utf8');
+const cat=fs.readFileSync(path.join(root,'public/v364-i18n-quality.js'),'utf8');
+const pkg=JSON.parse(fs.readFileSync(path.join(root,'package.json'),'utf8'));
+check('release version 30.64.0',pkg.version==='30.64.0');
+check('V30.64 catalog loads before client',index.indexOf('/v364-i18n-quality.js?v=30.64.0')>0&&index.indexOf('/v364-i18n-quality.js?v=30.64.0')<index.indexOf('/client.js?v=30.64.0'));
+check('client merges V30.64 supplemental catalog',client.includes('window.BO_I18N_KO_V364||{}'));
+check('runtime i18n audit helper exists',cat.includes('window.boI18nAudit=function'));
+check('late text/attribute translation observer exists',cat.includes("attributeFilter:['placeholder','title','aria-label']")&&cat.includes("characterData:true"));
+const critical=['Base Salary','Payment Reference','Account Holder','Pay Payroll','Add Agenda Item','Record Decision','Accounting Posting Control','Access Control Center','Employees & Payroll','Company-wide','No matching records.','Apply Filters'];
+for(const key of critical)check('Korean catalog: '+key,cat.includes("'"+key.replace(/'/g,"\\'")+"':"));
+check('English remains source language (no destructive source rewrite)',client.includes("if(currentLanguage!=='ko'||!raw)return raw"));
+check('data-no-i18n protection retained',client.includes('data-no-i18n')); 
+console.log(`V30.64 i18n QA: ${ok} passed, ${fail} failed`);if(fail)process.exit(1);

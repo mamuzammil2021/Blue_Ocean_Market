@@ -630,7 +630,7 @@ function notificationUnitScope(req){
   return {sql:' AND (business_unit_id IS NULL OR business_unit_id=?)',args:[req.user.business_unit_id||0]};
 }
 
-app.get('/api/health',(req,res)=>{const st=storage.status();res.json({ok:true,version:'30.63.0',render:st.isRender,persistent_storage:st.isRender?st.pathsPersistent:false,disk_mount_detected:st.isRender?st.mountDetected:false,storage_writable:st.writable})});
+app.get('/api/health',(req,res)=>{const st=storage.status();res.json({ok:true,version:'30.64.0',render:st.isRender,persistent_storage:st.isRender?st.pathsPersistent:false,disk_mount_detected:st.isRender?st.mountDetected:false,storage_writable:st.writable})});
 
 app.get('/api/action-counts',auth,(req,res)=>{
   try{
@@ -1778,6 +1778,9 @@ require('./v349-pink-pages').install({app,db,auth,allow,currentUnit,enforceUnit}
 // V30.50 scoped, bounded import list read path; original import/finance writes unchanged.
 require('./v350-import-pages').install({app,db,auth,allow,currentUnit,enforceUnit});
 require('./v350-raw-pages').install({app,db,auth,allow,currentUnit,enforceUnit});
+require('./v365-pink-commerce-foundation').install({app,db,auth,allow,currentUnit,enforceUnit,audit});
+require('./v366-pink-product-master').install({app,db,auth,allow,currentUnit,enforceUnit,audit,upload});
+require('./v367-pink-operational-completion').install({app,db,auth,allow,currentUnit,enforceUnit,audit,upload});
 // V30.46 opt-in paged endpoints; preserve legacy array APIs for compatible callers.
 function page346(query){const raw=Number(query.pageSize||25);return {page:Math.max(1,Math.min(100000,Math.floor(Number(query.page)||1))),size:[25,50,100].includes(raw)?raw:25}}
 app.get('/api/v346/notifications/page',auth,(req,res)=>{try{
@@ -2962,5 +2965,5 @@ function apiErrorHandler(err,req,res,next){
 }
 
 app.use(apiErrorHandler);
-const httpServer=app.listen(PORT,'0.0.0.0',()=>console.log(`Blue Ocean Market V30.63.0 running on port ${PORT}`));
+const httpServer=app.listen(PORT,'0.0.0.0',()=>console.log(`Blue Ocean Market V30.66.0 running on port ${PORT}`));
 let shuttingDown=false;function gracefulShutdown(signal){if(shuttingDown)return;shuttingDown=true;console.log(`${signal} received; closing HTTP server and checkpointing SQLite.`);const force=setTimeout(()=>{console.error('Forced shutdown after timeout.');process.exit(1)},25000);force.unref();httpServer.close(()=>{try{db.pragma('wal_checkpoint(TRUNCATE)')}catch(e){console.warn('SQLite checkpoint during shutdown:',e.message)}try{db.close()}catch(_){}process.exit(0)});}process.on('SIGTERM',()=>gracefulShutdown('SIGTERM'));process.on('SIGINT',()=>gracefulShutdown('SIGINT'));
