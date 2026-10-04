@@ -4,7 +4,7 @@ let pass=0,fail=0;function check(n,c){if(c){pass++;console.log('PASS',n)}else{fa
 const server=read('server/server.js'),mod=read('server/v362-collaboration-platform.js'),ui=read('public/v362-collaboration.js'),idx=read('public/index.html'),pkg=JSON.parse(read('package.json'));
 check('V30.62 collaboration retained in current release',Number(String(pkg.version).split('.')[1])>=62);
 check('v362 module installed',server.includes("require('./v362-collaboration-platform').install"));
-check('health version current',server.includes("version:'30.63.0'"));
+check('health version current',server.includes("version:'30.64.0'"));
 check('agenda items table',mod.includes('CREATE TABLE IF NOT EXISTS meeting_agenda_items'));
 check('decision items table',mod.includes('CREATE TABLE IF NOT EXISTS meeting_decision_items'));
 check('minutes publish state',mod.includes("minutes_status='Published'"));
@@ -21,6 +21,6 @@ check('enhanced meeting detail UI',ui.includes('registry-ready collaboration'));
 check('universal related-record search UI',ui.includes('v362SearchRecords'));
 check('meeting archive replaces destructive delete UI',ui.includes('window.deleteMeeting=async function(id){return v362ArchiveMeeting(id)}'));
 check('task related-record panel',ui.includes('window.taskRelations'));
-check('v362 client retained before v363',idx.includes('/v362-collaboration.js?v=30.63.0')&&idx.indexOf('/v362-collaboration.js')<idx.indexOf('/v363-dialog-processing.js'));
-check('current cache identity',idx.includes('v=30.63.0')&&!idx.includes('v=30.62.0'));
+check('v362 client retained before v363',idx.includes('/v362-collaboration.js?v=30.64.0')&&idx.indexOf('/v362-collaboration.js')<idx.indexOf('/v363-dialog-processing.js'));
+check('current cache identity',idx.includes('v=30.64.0')&&!idx.includes('v=30.62.0'));
 console.log(`\nV30.62 collaboration regression QA: ${pass} passed, ${fail} failed`);if(fail)process.exit(1);
