@@ -1,0 +1,24 @@
+'use strict';
+const fs=require('fs'),path=require('path'),root=path.resolve(__dirname,'..');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');let fail=0;
+function check(name,ok){console.log((ok?'PASS ':'FAIL ')+name);if(!ok)fail++}
+const server=read('server/server.js'),b369=read('server/v369-pink-shared-workflows.js'),b330=read('server/v330.js'),b338=read('server/v338.js'),b305=read('server/v305.js'),ui=read('public/v369-pink-shared-workflows.js'),index=read('public/index.html');
+check('V30.69 backend installed',server.includes("require('./v369-pink-shared-workflows').install"));
+check('V30.69 UI loads last',index.includes('/v369-pink-shared-workflows.js?v=30.69.1')&&index.indexOf('/v367-pink-operational-completion.js')<index.indexOf('/v369-pink-shared-workflows.js'));
+check('Pink Salt supplier supported by shared payee accounts',b330.includes("type==='pink_salt_supplier'")&&b338.includes("type==='pink_salt_supplier'"));
+check('supplier advance stores Paid From and Paid To',b305.includes('payment_account_id,receiver_account_id')&&b305.includes("receiverEntityType:'pink_salt_supplier'"));
+check('combined import settlement supports advance plus new payment',b369.includes('advance_amount_krw')&&b369.includes('settlement-v369')&&b369.includes('Pink Salt Supplier Advance Allocation'));
+check('advance allocation remains non-cash',b369.includes('This is non-cash and creates no Finance payment row.'));
+check('fresh payment stores receiver account and Finance snapshot',b369.includes('receiver_account_id')&&b369.includes("receiverEntityType:'pink_salt_supplier'")&&b369.includes('receiverAccountId:payee?.id'));
+check('overpayment blocked',b369.includes('Settlement cannot exceed the outstanding balance'));
+check('supplier list has edit archive actions',ui.includes('ps369SupplierListActions')&&ui.includes('ps369ArchiveSupplier'));
+check('supplier profile preserves selected section and has accounts section',ui.includes("supplierTab='account'")&&ui.includes("key==='accounts'")&&ui.includes('ps369SupplierAccounts'));
+check('new supplier returns to supplier list',ui.includes("if(view!=='psSuppliers')go('psSuppliers');else loadView()"));
+check('supplier advance UI shows Paid From and Paid To',ui.includes("tr('Paid From')")&&ui.includes("tr('Paid To')")&&ui.includes('ps369AdvanceRefreshAccounts'));
+check('import settlement UI shows advance payment outstanding and both accounts',ui.includes('Combined Import Settlement')&&ui.includes('Remaining After This Settlement')&&ui.includes('payment_account_id')&&ui.includes('receiver_account_id'));
+check('import cost edit void controlled by Finance lock',b369.includes("verification_status==='Verified / Correct'")&&b369.includes("['Posted','Reversed']")&&ui.includes('ps369EditCost')&&ui.includes('ps369VoidCost'));
+check('received and fully settled import hides mutations',ui.includes("x.status==='Received'&&n(x.outstanding_krw)<=.01")&&ui.includes('Mutation actions are locked'));
+check('new/edit import supplier search enhancement present',ui.includes('enhanceSupplierSelect')&&ui.includes('Search Supplier / Seller'));
+check('edit import auto closes after save',ui.includes('closeModalAfterSave();await psImportDetail(id)'));
+check('Excavator reuse registry marker documented',ui.includes('reused_from_excavator')&&ui.includes('counterparty_payment_accounts')&&ui.includes('combined settlement pattern'));
+process.exitCode=fail?1:0;

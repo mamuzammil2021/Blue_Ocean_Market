@@ -1,14 +1,14 @@
-# V30.62.0 Release Manifest
+# V30.69.1 Release Manifest
 
-Primary V30.62 files:
-- `server/v362-collaboration-platform.js`
-- `public/v362-collaboration.js`
-- `server/v361-platform-registry.js` (retained V30.61 foundation)
-- `server/server.js`
-- `public/client.js`
-- `public/index.html`
-- `qa/qa_v362_collaboration_platform.js`
-- `V30_62_IMPLEMENTATION_SUMMARY.md`
-- `V30_62_QA_STATUS.md`
+Base: V30.69.0
+Release: Pink Salt Import UX Hotfix
+Git-ready folder: `Blue_Ocean_Market_V30_69_1`
+Primary changes: `public/v369-pink-shared-workflows.js`, version marker in `server/v369-pink-shared-workflows.js`, `public/index.html`, package version/QA, dedicated QA script.
 
-Protected continuity: built directly from V30.61.0; no persistent database or uploads are bundled.
+# Blue Ocean Market V30.69.0
+
+Baseline: V30.68.1 PASSWORD_RESET_HOTFIX.
+
+Scope: Pink Salt QA corrections (05 Oct) plus shared Excavator-pattern supplier account/payment/settlement reuse.
+
+Persistent-data safety: additive schema migration only. No database reset, destructive migration, or persistent-disk reset.

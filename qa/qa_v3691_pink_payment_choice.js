@@ -1,0 +1,20 @@
+'use strict';
+const fs=require('fs'),path=require('path'),root=path.resolve(__dirname,'..');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');let fail=0;
+function check(name,ok){console.log((ok?'PASS ':'FAIL ')+name);if(!ok)fail++}
+const ui=read('public/v369-pink-shared-workflows.js'),index=read('public/index.html'),pkg=JSON.parse(read('package.json')),server=read('server/v369-pink-shared-workflows.js');
+check('package version is V30.69.1',pkg.version==='30.69.1');
+check('V30.69.1 UI cache key loaded',index.includes('/v369-pink-shared-workflows.js?v=30.69.1'));
+check('frontend/backend version markers updated',ui.includes("const VERSION='30.69.1'")&&server.includes("const VERSION='30.69.1'"));
+check('new import keeps a single visible searchable supplier control',ui.includes('v369-hidden-native-select')&&ui.includes("field?.querySelector('.muted')?.remove()")&&!ui.includes("input.className='v369-search-wrap'"));
+check('supplier select fallback prevents duplicate V325 enhancer',ui.includes("sel.dataset.v325ScopedSearch='1'"));
+check('import list actions made sticky/visible',ui.includes('ps369ImportListActions')&&ui.includes('v369-import-actions-sticky')&&ui.includes("cell.textContent=tr('Actions')"));
+check('payment source has three choices',ui.includes("data-mode=\"advance\"")&&ui.includes("data-mode=\"new\"")&&ui.includes("data-mode=\"both\""));
+check('advance-only hides fresh payment fields',ui.includes("p.style.display=mode==='advance'?'none':'block'"));
+check('new-payment-only hides advance fields',ui.includes("a.style.display=mode==='new'?'none':'block'"));
+check('both mode uses advance plus fresh payment',ui.includes("mode==='both'")&&ui.includes('ps369CombinedSummary'));
+check('advance-only forces no fresh payment',ui.includes("if(mode==='advance'){fd.set('original_amount','0')"));
+check('new-payment-only forces no advance allocation',ui.includes("if(mode==='new')fd.set('advance_amount_krw','0')"));
+check('fresh payment still requires evidence',ui.includes('Payment receipt / evidence is required for new money payments.'));
+check('Excavator Buy Machine reuse documented in registry marker',ui.includes('Buy Machine payment-source choice'));
+process.exitCode=fail?1:0;
