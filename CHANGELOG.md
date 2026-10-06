@@ -1,3 +1,15 @@
+# V30.69.0 — Pink Salt QA + Shared Excavator Workflow Reuse
+
+- Pink Salt supplier creation now returns to the supplier list; supplier profile section state is preserved after actions.
+- Pink Salt supplier receiver/payee accounts reuse the shared Excavator counterparty account manager, including add, edit, default, archive and history.
+- Supplier advances now record both Paid From company financial account and Paid To supplier receiver account, with Finance receiver snapshots.
+- Import settlement now supports supplier advance + new payment in one controlled flow, partial settlement, outstanding/advance visibility, Paid From/Paid To selection and overpayment prevention. Advance allocation remains non-cash; only fresh money creates a Finance record.
+- Pink Salt supplier list gains persistent Edit/Archive actions; archive is blocked while active imports exist.
+- New/Edit Import supplier selector receives search assistance; Edit Import keeps the full item/category payload and closes correctly after save.
+- Import costs gain controlled Edit/Void actions before Finance verification; Finance Verified / Accounting Posted records are locked and must use correction workflow.
+- Fully paid + received imports hide mutation actions while retaining read-only history/documents.
+- Reuses shared Excavator patterns instead of new BU-specific copies: counterparty accounts, Paid From/Paid To, company-account compatibility, settlement mechanics, Finance locks, profile section persistence and protected refresh behavior.
+
 # V30.60.0
 
 - Added controlled bulk posting with Review & Confirm, batch audit and all-or-nothing final posting.
@@ -755,3 +767,33 @@ Source-level corrections for token payment selectors, pre-verification cost edit
 
 ## V30.57.2 INTERNAL ACCOUNTING DEVELOPMENT CHECKPOINT (NOT RELEASED)
 Posted-only overview trends, existing-journal-linked fixed asset register/depreciation, accrual/prepaid proposals, dedicated submenu screens, additive tables, real SQLite fixture and explicit incomplete-work handoff. Not approved for production.
+
+## V30.65.0 — Pink Salt Operational & Commerce Foundation
+- Decoupled physical import receipt from supplier payment completion; supplier settlement can continue after receipt.
+- Added generic Commerce / Channels foundation and per-product channel availability controls.
+- Added channel-agnostic inventory-policy/external-ID/sync-ready mappings.
+- Added additive product/catalog, customer-address, shipment, external transaction and order-channel foundations.
+- Preserved Pink Salt operational ownership and existing Finance/Accounting integrity; no external marketplace APIs are activated in this build.
+
+## V30.66.0 — Pink Salt Product Master & Commerce-Ready Operations
+- Completed the Pink Salt Product Master foundation with EN/KR catalog data, variants, barcode, origin, shelf-life, ingredients/storage content and default structured location.
+- Added reusable multi-image product media management with authenticated previews, primary image, ordering, EN/KR alt text and channel-image mapping foundation.
+- Persisted production lot number and best-before date and surfaced them in production workflow/detail.
+- Added Warehouse → Zone → Rack/Bin management and additive stock-movement location references.
+- Activated reusable Commerce Price List management and channel price-list selection.
+- Added customer multi-address management and separate order fulfillment status.
+- Preserved V30.65 channel-agnostic commerce foundation, Pink Salt inventory/Finance/Accounting integrity and existing database compatibility; no external marketplace connector is activated.
+
+## V30.67.0 — Pink Salt Operational Completion
+- Added true Pink Salt Product Family → SKU Variant relationships while preserving existing product/SKU records.
+- Preserved per-SKU reusable product images and prepared shared family/media hierarchy without channel-specific duplication.
+- Added finished-goods lot inventory sourced from completed production batches, including lot number, production date, best-before date, quality status and storage location.
+- Added automatic FEFO allocation of completed Pink Salt sales to finished lots and order traceability back through production batches to raw import sources.
+- Added expiry/quality lot management and dashboard attention indicators for low products, low packaging, expiring lots and waiting orders.
+- Completed customer classification plus editable/default multiple-address controls.
+- Exposed fulfillment status directly in the Sales / Orders list.
+- Added an explicit pricing hierarchy view across product default, price lists/tiers, customer-specific pricing and controlled manual override.
+- Grouped the Pink Salt sidebar into Purchasing, Inventory & Production, Sales, Commerce and Control using the existing Blue Ocean/Excavator navigation language.
+- Corrected Product Master save wiring so catalog fields introduced in V30.66 persist consistently alongside family/variant data.
+- Kept commerce channel-agnostic; no website, marketplace, courier or payment-provider connector is activated in this build.
+- All V30.67 schema work is additive; no production database reset or destructive migration is required.

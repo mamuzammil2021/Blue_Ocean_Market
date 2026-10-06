@@ -1,14 +1,7 @@
-# V30.62.0 Release Manifest
+# Blue Ocean Market V30.69.0
 
-Primary V30.62 files:
-- `server/v362-collaboration-platform.js`
-- `public/v362-collaboration.js`
-- `server/v361-platform-registry.js` (retained V30.61 foundation)
-- `server/server.js`
-- `public/client.js`
-- `public/index.html`
-- `qa/qa_v362_collaboration_platform.js`
-- `V30_62_IMPLEMENTATION_SUMMARY.md`
-- `V30_62_QA_STATUS.md`
+Baseline: V30.68.1 PASSWORD_RESET_HOTFIX.
 
-Protected continuity: built directly from V30.61.0; no persistent database or uploads are bundled.
+Scope: Pink Salt QA corrections (05 Oct) plus shared Excavator-pattern supplier account/payment/settlement reuse.
+
+Persistent-data safety: additive schema migration only. No database reset, destructive migration, or persistent-disk reset.

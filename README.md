@@ -1,3 +1,13 @@
+# Blue Ocean Market V30.67.0
+
+Latest protected engineering build: Pink Salt Operational Completion on top of V30.66.0.
+
+# Blue Ocean Market V30.67.0 — Pink Salt Product Master & Commerce-Ready Operations
+
+Built directly from V30.65.0. This release completes the agreed Pink Salt foundation: richer Product Master, reusable product images, production lot/best-before traceability, structured locations, reusable commerce price lists, customer addresses and separate fulfillment state, while keeping the commerce architecture channel-agnostic and preserving existing Finance/Accounting and persistent data. See `V30_66_IMPLEMENTATION_SUMMARY.md` and `V30_66_QA_STATUS.md`.
+
+---
+
 # Blue Ocean Market V30.52.0 — Frontend Lazy Loading & Hardening
 
 Built directly from protected V30.50.0. Optional Pink Salt read modules load only on matching screens; sensitive runtime, finance and forms remain protected. See `V30_51_IMPLEMENTATION_SUMMARY.md`, `V30_51_QA_STATUS.md`, and `V30_51_REMAINING_PERFORMANCE_WORK.md`. Source QA is not authenticated Render acceptance.
