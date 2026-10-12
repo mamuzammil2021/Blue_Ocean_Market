@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.69.5",
+  "version": "30.69.6",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -90,7 +90,8 @@
     "qa:v3692": "node qa/qa_v3692_pink_qa.js",
     "qa:v3693": "node qa/qa_v3693_persistent_routing.js",
     "qa:v3694": "node qa/qa_v3694_pink_qa.js",
-    "qa:v3695": "node qa/qa_v3695_repacking_inputs.js"
+    "qa:v3695": "node qa/qa_v3695_repacking_inputs.js",
+    "qa:v3696": "node qa/qa_v3696_system_routing.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

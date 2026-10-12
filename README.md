@@ -1,3 +1,7 @@
+# Current release: V30.69.6
+
+System-wide refresh/persistent-routing hardening. Full-screen navigation now preserves the active business-unit scope in the browser URL and restores the requested page before first render. See `V30_69_6_BUILD_NOTES.md`.
+
 # Blue Ocean Market V30.67.0
 
 Latest protected engineering build: Pink Salt Operational Completion on top of V30.66.0.

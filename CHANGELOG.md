@@ -1,3 +1,11 @@
+# V30.69.6 — System-Wide Refresh / Persistent Routing Hardening
+- Fixed hard browser refresh falling back to Dashboard across business-unit pages by restoring URL view + unit context before first render.
+- Added canonical `unit=` scope to top-level and registered record/detail routes.
+- Added backward-compatible business-unit inference for legacy Pink Salt / Excavator / MIMI hashes without unit context.
+- Hardened browser Back/Forward and copied deep-link restoration.
+- Cache-busted changed routing/browser assets to V30.69.6.
+- No database or persistent-disk migration.
+
 # V30.69.5
 - Pink Salt New Repacking Batch: Actual Input Weight is blank/manual instead of auto-filled.
 - Repacking required-salt calculation aligned client/server for Retail, Bulk Pack/BOM, and Gift Box outputs.
