@@ -49,7 +49,7 @@ const oldSupplierAccount=window.psSupplierAccount315;if(oldSupplierAccount)windo
 const oldSupplierTab=window.psSupplierTab315;if(oldSupplierTab)window.psSupplierTab315=function(key){window.__ps3692SupplierTab=key||'account';const r=oldSupplierTab(key);const id=window.__ps315SupplierAccount?.supplier?.id;if(id&&!restoringRoute)setRoute('psSuppliers','supplier',id,window.__ps3692SupplierTab);return r};
 const oldImportDetail=window.psImportDetail;if(oldImportDetail)window.psImportDetail=async function(id){const r=await oldImportDetail(id);if(!restoringRoute)setRoute('psImports','import',id,'');setTimeout(()=>ps3692PolishImportDetail(id),0);return r};
 async function restoreRoute(){if(restoringRoute)return;const r=parseRoute();if(r.view!==view||!r.id)return;restoringRoute=true;try{if(r.view==='psSuppliers'&&r.kind==='supplier'){await window.psSupplierAccount315?.(r.id);if(r.section)window.psSupplierTab315?.(r.section)}else if(r.view==='psImports'&&r.kind==='import'){await window.psImportDetail?.(r.id)}}catch(e){console.warn('V30.69.2 route restore:',e.message)}finally{restoringRoute=false}}
-const oldLoadView=window.loadView;if(oldLoadView)window.loadView=async function(...args){const r=await oldLoadView.apply(this,args);setTimeout(restoreRoute,20);return r};
+const oldLoadView=window.loadView;if(oldLoadView)window.loadView=async function(...args){const r=await oldLoadView.apply(this,args);return r};
 
 // Strong payment-method / Paid From compatibility in Pink Salt advance and import-settlement forms.
 const oldAdvanceRefresh=window.ps369AdvanceRefreshAccounts;if(oldAdvanceRefresh)window.ps369AdvanceRefreshAccounts=async function(f,id){const r=await oldAdvanceRefresh(f,id);const method=txt(f?.payment_method?.value||'Bank'),sel=f?.payment_account_id||document.querySelector('[name="payment_account_id"][form="ps369AdvanceForm"]');if(sel){sel.dataset.paymentMethod=method;if(!sel.value)sel.insertAdjacentHTML('afterend',`<div class="v3692-account-warning">${esc2(tr(method==='Cash'?'Select a Cash account for a cash payment.':'Select an account matching the payment method.'))}</div>`)}return r};
@@ -76,7 +76,7 @@ const oldSaveSettlement=window.ps369SaveSettlement;if(oldSaveSettlement)window.p
 const oldProdForm=window.psProductionForm;if(oldProdForm)window.psProductionForm=async function(...args){const r=await oldProdForm.apply(this,args);const form=(typeof workflowSurfaceV324==='function'?workflowSurfaceV324():document)?.querySelector?.('form[onsubmit*="psSaveProduction"]');form?.querySelectorAll('#psProdOutputs input[type="number"]').forEach(input=>{input.addEventListener('input',()=>{const line=input.closest('.ps-output-line'),idx=[...line.parentElement.children].indexOf(line);if(window.psProdOutputs?.[idx])window.psProdOutputs[idx].quantity_units=Number(input.value||0);window.psRebuildProdInputs?.()})});return r};
 
 // Initial deep-link restoration after boot/render.
-setTimeout(restoreRoute,120);
+// Restored centrally by BOMPersistentRouting after authenticated module loading.
 window.__BOM_V3692={version:VERSION,reused_from_excavator:['parent_child_navigation','cash_bank_account_compatibility','archive_restore','finance_verified_lock','bounded_cost_panel','record_deep_links'],qa_points:12};
 console.info(`Blue Ocean Market V${VERSION} Pink Salt QA refinements loaded`);
 })();
