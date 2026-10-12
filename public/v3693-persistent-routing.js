@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-const VERSION='30.69.6';
+const VERSION='30.69.7';
 let restoring=false,lastRestored='';
 const core=()=>window.BOMRouteCoreV3696;
 function parse(){
@@ -34,6 +34,7 @@ function install(){
 }
 async function restore({renderShell=true}={}){
   if(restoring||typeof me==='undefined'||!me)return;
+  if(window.BOMRouteProblemV3697)return;
   const r=normalize(parse());if(!r.view)return;const sig=[r.view,r.kind,r.id,r.section,r.unit].join('|');if(sig===lastRestored&&r.id)return;
   restoring=true;
   try{
@@ -58,11 +59,17 @@ async function restore({renderShell=true}={}){
   }catch(e){console.warn('V30.69.6 route restore:',e?.message||e)}finally{restoring=false}
 }
 async function historyRestore(){
-  if(typeof me==='undefined'||!me)return;const r=normalize(parse());core()?.resolveUnit?.(r);if(typeof view!=='undefined')view=r.view||'dashboard';if(typeof render==='function')render();setTimeout(()=>restore({renderShell:false}),40);
+  if(typeof me==='undefined'||!me)return;
+  const r=normalize(parse());
+  core()?.apply?.();
+  lastRestored='';
+  if(typeof render==='function')render();
+  await restore({renderShell:false});
 }
+
 window.addEventListener('beforeunload',()=>{try{window.captureViewState?.()}catch(_){}});
-window.addEventListener('hashchange',()=>setTimeout(()=>{install();historyRestore()},20));
-window.addEventListener('popstate',()=>setTimeout(()=>{install();historyRestore()},20));
+window.addEventListener('hashchange',()=>{install();historyRestore()});
+window.addEventListener('popstate',()=>{install();historyRestore()});
 let tries=0;const timer=setInterval(()=>{tries++;install();if(typeof me!=='undefined'&&me){clearInterval(timer);setTimeout(()=>restore(),60)}else if(tries>160)clearInterval(timer)},50);
 setTimeout(()=>{install();restore()},220);
 window.BOMPersistentRouting={version:VERSION,parse:()=>normalize(parse()),set,restore,hash,install};

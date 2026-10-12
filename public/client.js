@@ -50,14 +50,26 @@ function withRouteUnitV3696(hashValue,unit=selectedUnitId){
   const q=params.toString();return '#'+r.path+(q?'?'+q:'');
 }
 function applyBrowserRouteV3696(){
-  const r=parseAppRouteV3696();resolveRouteUnitV3696(r);
+  const r=parseAppRouteV3696();
+  resolveRouteUnitV3696(r);
   const routeViews=new Set([...Object.keys(viewLabels||{}),'accounting','payroll','psCommerce','psCustomers','psFinished','psImports','psPackaging','psProduction','psRawStock','psSales','psSuppliers','psWaste']);
-  let next=routeViews.has(r.view)?r.view:'dashboard';
-  if(!allowed(next)&&!['profile','notifications'].includes(next))next='dashboard';
-  view=next;
-  const base=(r.view===view&&r.raw)?'#'+r.raw:'#'+encodeURIComponent(view);
-  const canonical=withRouteUnitV3696(base,selectedUnitId);
-  history.replaceState({view,unit:selectedUnitId},'',canonical);
+  // Never destroy a deep link just because its module is not registered yet or its
+  // permission has not loaded. Preserve the URL for an explanatory error/retry.
+  if(!routeViews.has(r.view)){
+    view='dashboard';
+    window.BOMRouteProblemV3697={reason:'unknown',requested:r.view,url:location.hash};
+    return {...r,view,routeError:'unknown'};
+  }
+  if(!allowed(r.view)){
+    view=r.view;
+    window.BOMRouteProblemV3697={reason:'access',requested:r.view,url:location.hash};
+    return {...r,view,routeError:'access'};
+  }
+  window.BOMRouteProblemV3697=null;
+  view=r.view;
+  // Normalize legacy URLs only after the destination is authenticated and valid.
+  const canonical=withRouteUnitV3696('#'+r.raw,selectedUnitId);
+  if(location.hash!==canonical)history.replaceState({view,unit:selectedUnitId},'',canonical);
   return {...r,view};
 }
 window.BOMRouteCoreV3696={version:'30.69.6',parse:parseAppRouteV3696,withUnit:withRouteUnitV3696,resolveUnit:resolveRouteUnitV3696,apply:applyBrowserRouteV3696,businessNameForView:businessNameForViewV3696};
@@ -193,7 +205,7 @@ async function doResetPassword(e){
 }
 async function boot(){if(localStorage.getItem('bo_sidebar_collapsed')==='1')document.body.classList.add('sidebar-collapsed');const resetToken=resetTokenFromUrl();if(resetToken)return resetPasswordView(resetToken);if(!token)return login();try{const [meResult,ctx,accessResult]=await Promise.all([api('/api/me'),api('/api/context'),api('/api/access/me')]);me=meResult.user;accessState={permissions:accessResult.permissions||{},limits:accessResult.limits||{},assigned_units:accessResult.assigned_units||[]};currentLanguage=me.preferred_language||localStorage.getItem('bo_language')||'ko';localStorage.setItem('bo_language',currentLanguage);unitOptions=ctx.units||[];const stored=selectedUnitId;if(me.role==='CEO / Owner'){if(selectedUnitId&&!unitOptions.some(x=>String(x.id)===String(selectedUnitId)))selectedUnitId='';}else selectedUnitId=unitOptions.some(x=>String(x.id)===String(stored))?stored:String(ctx.selected_business_unit_id||me.business_unit_id||unitOptions[0]?.id||'');applyBrowserRouteV3696();render();setTimeout(()=>{restoreViewState(view);window.BOMPersistentRouting?.restore?.()},120)}catch(e){logout()}}
 async function switchUnit(id){const candidate=id||'';if(me.role!=='CEO / Owner'&&!unitOptions.some(x=>String(x.id)===String(candidate)))return toast('You are not assigned to this business unit');guardDirty('You have unsaved changes. Switch business unit and discard them?',async()=>{captureViewState();selectedUnitId=candidate;if(selectedUnitId)localStorage.setItem('bo_unit',selectedUnitId);else localStorage.removeItem('bo_unit');await hydrateAccess();view='dashboard';history.pushState({view,unit:selectedUnitId},'',withRouteUnitV3696('#dashboard',selectedUnitId));render()})}
-async function loadView(){const c=document.getElementById('content');c.innerHTML=(window.BOMProgressive?.viewShell?.(view)||'<div class="card">Loading…</div>');try{if(view==='dashboard'){const selected=unitOptions.find(x=>String(x.id)===String(selectedUnitId));if(selected?.name==='Excavator')return excavatorDashboard(c);if(selected?.name==='MIMI Resturant')return mimiDashboard(c);return dashboard(c);}if(view==='businesses')return businesses(c);if(view==='sales')return sales(c);if(view==='purchases')return purchases(c);if(view==='inventory')return inventory(c);if(view==='finance')return finance(c);if(view==='approvals')return approvals(c);if(view==='tasks')return tasks(c);if(view==='performance')return peoplePerformance(c);if(view==='reports')return reports(c);if(view==='documents')return documents(c);if(view==='meetings')return meetings(c);if(view==='restaurantTables')return restaurantTables(c);if(view==='restaurant')return restaurant(c);if(view==='excavator')return excavator(c);if(view==='excavatorSuppliers')return excavatorSuppliers(c);if(view==='excavatorBuyers')return excavatorBuyers(c);if(view==='notifications')return notificationsView(c);if(view==='users')return users(c);if(view==='profile')return profileView(c);if(view==='audit')return auditView(c)}catch(e){c.innerHTML='<div class="card"><b>Error</b><p class="muted">'+esc(e.message)+'</p></div>'}}
+async function loadView(){const c=document.getElementById('content');if(window.BOMRouteProblemV3697){const p=window.BOMRouteProblemV3697;c.innerHTML='<div class="card"><h2>'+esc(p.reason==='access'?'Access denied':'Page not found')+'</h2><p>'+esc('Requested page: '+p.requested)+'</p><button class="btn" onclick="location.reload()">Retry</button></div>';return;}c.innerHTML=(window.BOMProgressive?.viewShell?.(view)||'<div class="card">Loading…</div>');try{if(view==='dashboard'){const selected=unitOptions.find(x=>String(x.id)===String(selectedUnitId));if(selected?.name==='Excavator')return excavatorDashboard(c);if(selected?.name==='MIMI Resturant')return mimiDashboard(c);return dashboard(c);}if(view==='businesses')return businesses(c);if(view==='sales')return sales(c);if(view==='purchases')return purchases(c);if(view==='inventory')return inventory(c);if(view==='finance')return finance(c);if(view==='approvals')return approvals(c);if(view==='tasks')return tasks(c);if(view==='performance')return peoplePerformance(c);if(view==='reports')return reports(c);if(view==='documents')return documents(c);if(view==='meetings')return meetings(c);if(view==='restaurantTables')return restaurantTables(c);if(view==='restaurant')return restaurant(c);if(view==='excavator')return excavator(c);if(view==='excavatorSuppliers')return excavatorSuppliers(c);if(view==='excavatorBuyers')return excavatorBuyers(c);if(view==='notifications')return notificationsView(c);if(view==='users')return users(c);if(view==='profile')return profileView(c);if(view==='audit')return auditView(c)}catch(e){c.innerHTML='<div class="card"><b>Error</b><p class="muted">'+esc(e.message)+'</p></div>'}}
 function title(tt,s,btn=''){return `<div class="titlebar"><div><h1>${esc(t(tt))}</h1><div class="muted">${esc(t(s||''))}</div></div>${btn}</div>`}
 async function dashboard(c){
   const selected=unitOptions.find(x=>String(x.id)===String(selectedUnitId));
@@ -1251,14 +1263,8 @@ Object.assign(KO,{
 });
 
 function financeCanCreateManual(){return !!me&&['CEO / Owner','Operations Manager','Finance / Admin','Business Unit Manager'].includes(me.role)}
-function allowed(key){
-  if(!me)return false;
-  if(key==='systemSettings')return me.role==='CEO / Owner'||hasPermission('sensitive.system_admin');
-  if(key==='businesses')return me.role==='CEO / Owner'&&!selectedUnitId;
-  if(me.role==='CEO / Owner')return true;
-  const map={dashboard:1,finance:1,sales:['Operations Manager','Finance / Admin','Sales / Business Development','Business Unit Manager'],purchases:['Operations Manager','Finance / Admin','Business Unit Manager'],inventory:['Operations Manager','Finance / Admin','Business Unit Manager','Staff Member'],approvals:['Operations Manager','Finance / Admin','Sales / Business Development','Business Unit Manager'],tasks:1,performance:['Operations Manager','Finance / Admin','Sales / Business Development','Business Unit Manager','Staff Member'],reports:['Operations Manager','Finance / Admin','Sales / Business Development','Business Unit Manager','Staff Member'],documents:['Operations Manager','Finance / Admin','Sales / Business Development','Business Unit Manager','Staff Member'],meetings:1,restaurant:['Operations Manager','Business Unit Manager'],excavator:['Operations Manager','Finance / Admin','Sales / Business Development','Business Unit Manager'],excavatorSuppliers:['Operations Manager','Finance / Admin','Sales / Business Development','Business Unit Manager'],excavatorBuyers:['Operations Manager','Finance / Admin','Sales / Business Development','Business Unit Manager'],users:['Operations Manager'],audit:['Operations Manager']};
-  return map[key]===1||map[key]?.includes(me.role)||['notifications','profile'].includes(key);
-}
+// V30.69.7: The access registry above is the sole permission authority.
+// Do not shadow allowed() with legacy role mappings here.
 function navButton(x){
   const count=Number(actionCounts[x[0]]||0),badge=count>0?`<span class="nav-action-badge" data-nav-badge>${count>99?'99+':count}</span>`:'';
   return `<button data-nav-key="${esc(x[0])}" class="${view===x[0]?'active':''}" title="${esc(t(x[1]))}" aria-current="${view===x[0]?'page':'false'}" onclick="closeMobileSidebar();go('${x[0]}')"><span class="nav-icon">${x[2]||'•'}</span><span class="nav-label">${esc(t(x[1]))}</span>${badge}</button>`;
