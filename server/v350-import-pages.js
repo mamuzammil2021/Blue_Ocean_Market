@@ -32,7 +32,7 @@ function importPage(db,bu,query={}){
  const from='FROM pink_salt_imports i LEFT JOIN pink_salt_suppliers s ON s.id=i.supplier_id AND s.business_unit_id=i.business_unit_id';
  const total=db.prepare(`SELECT COUNT(*) n ${from} WHERE ${filter.where}`).get(...args).n;
  const pagination=paging(query,total),rows=db.prepare(IMPORT_PAGE_SQL.replace('%WHERE%',filter.where)).all(...args,pagination.pageSize,(pagination.page-1)*pagination.pageSize);
- for(const x of rows){x.paid_krw=Number(x.cash_paid_krw||0)+Number(x.advance_allocated_krw||0);x.outstanding_krw=Math.max(0,Number(x.purchase_krw||0)-x.paid_krw);x.payment_status=x.paid_krw<=0?'Unpaid':x.outstanding_krw<=.01?'Fully Paid / Ready to Receive':'Partially Paid';x.ready_to_receive=x.outstanding_krw<=.01&&Number(x.purchase_krw||0)>0;}
+ for(const x of rows){x.paid_krw=Number(x.cash_paid_krw||0)+Number(x.advance_allocated_krw||0);x.outstanding_krw=Math.max(0,Number(x.purchase_krw||0)-x.paid_krw);x.payment_status=x.status==='Received'&&x.outstanding_krw<=.01?'Fully Paid':x.paid_krw<=0?'Unpaid':x.outstanding_krw<=.01?'Fully Paid / Ready to Receive':'Partially Paid';x.ready_to_receive=x.status!=='Received'&&x.outstanding_krw<=.01&&Number(x.purchase_krw||0)>0;}
  return {rows,pagination};
 }
 function install({app,db,auth,allow,currentUnit,enforceUnit}){

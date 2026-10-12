@@ -83,7 +83,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,voidFin
       (SELECT COALESCE(SUM(krw_amount),0) FROM pink_salt_import_payments p WHERE p.import_id=i.id AND COALESCE(p.status,'Active')!='Voided') cash_paid_krw,
       (SELECT COALESCE(SUM(amount_krw),0) FROM pink_salt_supplier_advance_allocations a WHERE a.import_id=i.id AND COALESCE(a.status,'Active')='Active') advance_allocated_krw
       FROM pink_salt_imports i LEFT JOIN pink_salt_suppliers s ON s.id=i.supplier_id WHERE i.business_unit_id=? ORDER BY i.id DESC`).all(bu);
-    for(const x of rows){x.paid_krw=num(x.cash_paid_krw)+num(x.advance_allocated_krw);const terminal=['Cancelled','Voided'].includes(x.status);x.outstanding_krw=terminal?0:Math.max(0,num(x.purchase_krw)-x.paid_krw);x.payment_status=terminal?x.status:x.paid_krw<=0?'Unpaid':x.outstanding_krw<=0.01?'Fully Paid / Ready to Receive':'Partially Paid'}
+    for(const x of rows){x.paid_krw=num(x.cash_paid_krw)+num(x.advance_allocated_krw);const terminal=['Cancelled','Voided'].includes(x.status);x.outstanding_krw=terminal?0:Math.max(0,num(x.purchase_krw)-x.paid_krw);x.payment_status=terminal?x.status:x.status==='Received'&&x.outstanding_krw<=0.01?'Fully Paid':x.paid_krw<=0?'Unpaid':x.outstanding_krw<=0.01?'Fully Paid / Ready to Receive':'Partially Paid'}
     res.json(rows);
   });
 

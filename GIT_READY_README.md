@@ -1,17 +1,16 @@
-# Blue Ocean Market V30.60.0 — Git-Ready Build
+# Blue Ocean Market V30.69.4 — Git-Ready Build
 
-Built directly from V30.59.2. This source is ready for branch-based Git/Render staging validation. Runtime data, uploads, `.env`, SQLite databases and `node_modules` are intentionally excluded.
+Built directly from V30.69.3. This release completes the Pink Salt QA 07 Oct regression fixes: Cash-vs-Bank account compatibility, supplier account targeted refresh, Pink Salt deep-link refresh recovery, Edit Import category action placement, reliable three-mode import settlement, Import Detail cleanup, received-shipment PDF actions, and received-status semantics.
 
-Before release acceptance run:
+Runtime data, `.env`, SQLite/database files, uploads, `data/`, and `node_modules` are not part of the release package.
+
+Recommended source QA before deployment:
 
 ```bash
-npm ci
-npm run qa:v360
-npm run qa:v3592
-npm run qa:v3591
-npm run qa:v359
-npm run qa:current
-npm run qa:runtime
+node qa/qa_v3694_pink_qa.js
+node qa/qa_v3693_persistent_routing.js
 ```
 
-Then complete the staging tests documented in `V30_60_QA_STATUS.md`, especially bulk posting, Finance-correction reversal automation, existing-DB reversal reconciliation, global processing overlay behavior and Accounting PDF downloads.
+Then complete authenticated Render acceptance against the existing persistent database/disk.
+
+**Do not reset/delete the Render persistent disk or production database.**

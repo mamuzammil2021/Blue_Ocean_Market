@@ -1,0 +1,18 @@
+'use strict';
+const fs=require('fs'),assert=require('assert');
+const calc=require('../server/v309-calculations');
+let pass=0; const ok=(name,fn)=>{fn();pass++;console.log('PASS',name)};
+const pub=fs.readFileSync('public/v3695-repacking-inputs.js','utf8');
+const idx=fs.readFileSync('public/index.html','utf8');
+ok('V30.69.5 script loaded after V30.69.4',()=>assert(idx.includes('/v3695-repacking-inputs.js?v=30.69.5')));
+ok('new raw input defaults blank',()=>assert(pub.includes("input_weight_kg:''")));
+ok('manual actual-input placeholder present',()=>assert(pub.includes('Enter actual raw salt used')));
+ok('input changes update state/summary',()=>assert(pub.includes('psProdInputChanged')));
+ok('required/actual/difference summary present',()=>{assert(pub.includes("t('Required Salt Weight')"));assert(pub.includes("t('Actual Entered')"));assert(pub.includes("t('Difference')"))});
+ok('client calculation includes bulk-pack pouch BOM multiplier',()=>assert(pub.includes("packaging_category||'')==='Pouch / Bag'")));
+ok('client calculation includes gift components',()=>assert(pub.includes("style==='Gift Box / Set'")));
+ok('retail requirement 100 x 22g = 2.2kg',()=>{const m=calc.calculateSaltRequirements({packagingStyle:'Retail Pack',saltGrade:'Mesh',packWeightG:22,quantityUnits:100});assert(Math.abs(m.get('Mesh')-2.2)<1e-9)});
+ok('bulk pack requirement uses inner pouch count',()=>{const m=calc.calculateSaltRequirements({packagingStyle:'Bulk Pack',saltGrade:'Mesh',packWeightG:250,pouchCount:4,quantityUnits:10});assert(Math.abs(m.get('Mesh')-10)<1e-9)});
+ok('gift box requirement splits categories correctly',()=>{const m=calc.calculateSaltRequirements({packagingStyle:'Gift Box / Set',giftPouchWeightG:200,giftComponents:[{salt_grade:'Fine',pouches_per_box:2},{salt_grade:'Mesh',pouches_per_box:3}],quantityUnits:5});assert(Math.abs(m.get('Fine')-2)<1e-9);assert(Math.abs(m.get('Mesh')-3)<1e-9)});
+ok('server remains authoritative and validates insufficient raw input',()=>{const s=fs.readFileSync('server/v300.js','utf8');assert(s.includes('Not enough ${grade} input'));assert(s.includes('Production input exceeds available'))});
+console.log(`V30.69.5 QA ${pass}/11 PASS`);

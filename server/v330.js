@@ -66,6 +66,7 @@ function install({app,db,auth,allow,audit,upload,financeSync,currentUnit,enforce
   function entityRow(type,id,bu){
     if(type==='excavator_supplier')return db.prepare('SELECT id,name FROM excavator_suppliers WHERE id=? AND business_unit_id=? AND active=1').get(id,bu);
     if(type==='excavator_buyer')return db.prepare('SELECT id,name FROM excavator_buyers WHERE id=? AND business_unit_id=? AND active=1').get(id,bu);
+    if(type==='pink_salt_supplier')return db.prepare('SELECT id,name FROM pink_salt_suppliers WHERE id=? AND business_unit_id=? AND active=1').get(id,bu);
     if(type==='employee'){try{return db.prepare('SELECT id,name FROM employees WHERE id=? AND business_unit_id=?').get(id,bu)}catch(_){return null}}
     return type==='other'?{id,name:'Other Payee'}:null;
   }
