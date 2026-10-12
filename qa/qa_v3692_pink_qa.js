@@ -1,0 +1,23 @@
+'use strict';
+const fs=require('fs'),path=require('path'),root=path.resolve(__dirname,'..');
+const read=p=>fs.readFileSync(path.join(root,p),'utf8');let fail=0;
+function check(name,ok){console.log((ok?'PASS ':'FAIL ')+name);if(!ok)fail++}
+const ui=read('public/v3692-pink-qa.js'),base=read('public/v369-pink-shared-workflows.js'),server=read('server/v3692-pink-qa.js'),server369=read('server/v369-pink-shared-workflows.js'),main=read('server/server.js'),client=read('public/client.js'),index=read('public/index.html'),pkg=JSON.parse(read('package.json'));
+check('package version V30.69.2',pkg.version==='30.69.2');
+check('V30.69.2 UI loaded after V30.69',index.includes('/v3692-pink-qa.js?v=30.69.2')&&index.indexOf('/v369-pink-shared-workflows.js')<index.indexOf('/v3692-pink-qa.js'));
+check('V30.69.2 server installed',main.includes("require('./v3692-pink-qa').install"));
+check('supplier edit parent-child origin preserved',ui.includes("supplierEditOrigin=id&&supplierProfileVisible()?'profile':'list'")&&ui.includes("supplierEditOrigin==='profile'"));
+check('cash/bank Paid From choices refresh by payment method',base.includes('companyAccounts(method,currency)')&&ui.includes('ps369AdvanceRefreshAccounts')&&ui.includes('oldSupplierPayment'));
+check('deep-link hash parser keeps base view and record route',client.includes('rawHash.split(/[\\/?]/)[0]')&&client.includes('preservedHash')&&ui.includes('function routeHash'));
+check('supplier profile section encoded in URL',ui.includes("setRoute('psSuppliers','supplier'")&&ui.includes('section='));
+check('archived suppliers separate and restorable',ui.includes('Archived Suppliers')&&ui.includes('ps3692RestoreSupplier')&&server.includes('restore-v3692'));
+check('import cost lock metadata and received lock',server.includes('cost-locks-v3692')&&server369.includes('Import cost editing is locked')&&server369.includes('Import cost voiding is locked'));
+check('import cost uses Void terminology and bounded equal panels',ui.includes('Void Cost')&&ui.includes('v3692-import-scroll')&&ui.includes('v3692-import-two'));
+check('import cost Void uses controlled approval engine',server369.includes("actionKey:'payment.void'")&&server369.includes("sourceEntity:'pink_salt_import_cost'")&&server369.includes('stopForApproval')&&main.includes('maybeCreateApproval,stopForApproval,executeApprovedAction'));
+check('edit import current supplier remains selected/searchable',ui.includes('selectedOptions[0]')&&ui.includes('oldEditImport'));
+check('salt category remove button anchored to category area',ui.includes('v3692-category-remove')&&ui.includes("#psV310EditItems,.ps-line-builder"));
+check('three import payment modes retained',base.includes('Supplier Advance Only')&&base.includes('New Payment Only')&&base.includes('Advance + New Payment')&&ui.includes('oldSetMode'));
+check('payment completion returns to import detail route',ui.includes("setRoute('psImports','import',id")&&ui.includes('oldSaveSettlement'));
+check('repacking qty runtime fallback and visible quantity sync',ui.includes("typeof window.qty!=='function'")&&ui.includes('psProdOutputs')&&ui.includes('quantity_units=Number(input.value||0)'));
+check('Excavator reuse markers documented',ui.includes('reused_from_excavator')&&ui.includes('parent_child_navigation')&&ui.includes('cash_bank_account_compatibility'));
+process.exitCode=fail?1:0;
