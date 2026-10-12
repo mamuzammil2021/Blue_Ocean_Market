@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-const VERSION='30.69.7';
+const VERSION='30.69.8';
 let restoring=false,lastRestored='';
 const core=()=>window.BOMRouteCoreV3696;
 function parse(){
@@ -31,6 +31,9 @@ function install(){
   wrap('psOrderDetail',a=>({view:'psSales',kind:'order',id:Number(a[0])}));
   wrap('psOrderDetail313',a=>({view:'psSales',kind:'order',id:Number(a[0])}));
   wrap('psProductionDetail',a=>({view:'psProduction',kind:'batch',id:Number(a[0])}));
+  // Do not depend exclusively on the separate Pink Salt QA route writer.
+  wrap('psSupplierAccount315',a=>({view:'psSuppliers',kind:'supplier',id:Number(a[0]),section:window.__ps3692SupplierTab||'account'}));
+  wrap('psImportDetail',a=>({view:'psImports',kind:'import',id:Number(a[0])}));
 }
 async function restore({renderShell=true}={}){
   if(restoring||typeof me==='undefined'||!me)return;
@@ -39,7 +42,10 @@ async function restore({renderShell=true}={}){
   restoring=true;
   try{
     core()?.resolveUnit?.(r);
-    if(typeof view!=='undefined'&&view!==r.view){view=r.view;if(renderShell&&typeof render==='function')render();else await window.loadView?.()}
+    if(typeof view!=='undefined'&&view!==r.view){view=r.view;if(renderShell&&typeof render==='function')render()}
+    // A successful shell render is not a completed module load. The async list
+    // renderer can otherwise overwrite a restored level-3 record afterwards.
+    if(renderShell && typeof window.loadView==='function')await window.loadView();
     else if(renderShell&&typeof render==='function'&&!document.getElementById('content'))render();
     if(!r.id){lastRestored=sig;return}
     if(r.view==='excavator'&&r.kind==='machine')await window.excavatorOpenMachine?.(r.id);
@@ -55,8 +61,19 @@ async function restore({renderShell=true}={}){
     else if(r.view==='psImports'&&r.kind==='import')await window.psImportDetail?.(r.id);
     else if(r.view==='psSales'&&r.kind==='order')await (window.psOrderDetail313||window.psOrderDetail)?.(r.id);
     else if(r.view==='psProduction'&&r.kind==='batch')await window.psProductionDetail?.(r.id);
-    lastRestored=sig;
-  }catch(e){console.warn('V30.69.6 route restore:',e?.message||e)}finally{restoring=false}
+    // Only mark record restored when it actually had an opener.
+    const handlers={
+      'excavator/machine':'excavatorOpenMachine','excavatorBuyers/buyer':'excavatorBuyerDetail',
+      'excavatorSuppliers/supplier':'v329SupplierOpen','payroll/employee':'employeeProfileV359',
+      'finance/record':'financeOpen','finance/correction':'financeCorrectionOpen',
+      'tasks/task':'taskDetail','meetings/meeting':'meetingDetail','reports/report':'reportDetail',
+      'psSuppliers/supplier':'psSupplierAccount315','psImports/import':'psImportDetail',
+      'psSales/order':'psOrderDetail','psProduction/batch':'psProductionDetail'
+    };
+    const key=r.view+'/'+r.kind;
+    if(handlers[key] && typeof window[handlers[key]]==='function')lastRestored=sig;
+    else console.warn('Deep link has no ready handler:',key);
+  }catch(e){console.warn('V30.69.8 route restore:',e?.message||e)}finally{restoring=false}
 }
 async function historyRestore(){
   if(typeof me==='undefined'||!me)return;
