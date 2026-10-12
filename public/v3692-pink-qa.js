@@ -14,7 +14,7 @@ const style=document.createElement('style');style.textContent=`
 `;document.head.appendChild(style);
 
 let supplierEditOrigin='list', supplierArchiveMode='active', restoringRoute=false;
-function routeHash(viewName,kind,id,section){let h='#'+encodeURIComponent(viewName);if(kind&&id)h+='/'+encodeURIComponent(kind)+'/'+encodeURIComponent(id);if(section)h+='?section='+encodeURIComponent(section);return h}
+function routeHash(viewName,kind,id,section){let path='#'+encodeURIComponent(viewName);if(kind&&id)path+='/'+encodeURIComponent(kind)+'/'+encodeURIComponent(id);const q=new URLSearchParams();if(section)q.set('section',section);q.set('unit',window.selectedUnitId||typeof selectedUnitId!=='undefined'&&selectedUnitId?String(selectedUnitId):'all');return path+'?'+q.toString()}
 function setRoute(viewName,kind,id,section,replace=true){const h=routeHash(viewName,kind,id,section);if(location.hash===h)return;history[replace?'replaceState':'pushState']({view:viewName,unit:window.selectedUnitId,kind,id,section},'',h)}
 function parseRoute(){const raw=decodeURIComponent((location.hash||'').slice(1));const [path,q='']=raw.split('?'),parts=path.split('/').filter(Boolean),params=new URLSearchParams(q);return {view:parts[0]||'',kind:parts[1]||'',id:Number(parts[2]||0),section:params.get('section')||''}}
 function supplierProfileVisible(){return !!document.getElementById('ps315SupplierPanel')&&!!window.__ps315SupplierAccount?.supplier?.id}

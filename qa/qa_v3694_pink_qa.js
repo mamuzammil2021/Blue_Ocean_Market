@@ -5,7 +5,7 @@ const overlay=read('public/v3694-pink-qa.js');
 const index=read('public/index.html');
 const v300=read('server/v300.js'),v305=read('server/v305.js'),v310=read('server/v310.js'),v350=read('server/v350-import-pages.js');
 const checks=[
- ['V30.69.4 overlay loaded after routing',index.includes('/v3693-persistent-routing.js?v=30.69.3')&&index.includes('/v3694-pink-qa.js?v=30.69.4')&&index.indexOf('/v3694-pink-qa.js?v=30.69.4')>index.indexOf('/v3693-persistent-routing.js?v=30.69.3')],
+ ['V30.69.4 overlay loaded after routing',/\/v3693-persistent-routing\.js\?v=30\.69\.(?:3|6)/.test(index)&&index.includes('/v3694-pink-qa.js?v=30.69.4')&&index.indexOf('/v3694-pink-qa.js?v=30.69.4')>index.indexOf('/v3693-persistent-routing.js?v=30.69.6')],
  ['Cash company account query does not blindly force country',overlay.includes("if(!/^cash$/i.test(text(method)))qs.set('country','South Korea')")],
  ['Cash selector filters to Cash accounts',overlay.includes("wanted==='cash'?ty==='cash'")],
  ['Bank selector filters to Bank accounts',overlay.includes("wanted==='bank'?ty==='bank'")],

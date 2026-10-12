@@ -65,7 +65,7 @@
 
   const _renderV300=render;
   render=function(){
-    if(!psSelected()&&psViews.has(view))view='dashboard';
+    if(!psSelected()&&psViews.has(view)){const required=window.BOMRouteCoreV3696?.businessNameForView?.(view)||'Pink Salt',match=unitOptions?.find(x=>String(x.name||'').trim().toLowerCase()===String(required).toLowerCase());if(match){selectedUnitId=String(match.id);localStorage.setItem('bo_unit',selectedUnitId)}else view='dashboard';}
     _renderV300();
     if(!psSelected())return;
     const navEl=document.querySelector('.nav');if(!navEl)return;

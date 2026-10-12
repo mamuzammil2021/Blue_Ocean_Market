@@ -1,3 +1,12 @@
+# V30.69.6 Release Manifest
+
+Base: V30.69.5
+Release: System-Wide Refresh / Persistent Routing Hardening
+Git-ready folder: `Blue_Ocean_Market_V30_69_6`
+Primary changes: `public/client.js`, `public/runtime-v30392.js`, compatibility runtime copies, `public/v3692-pink-qa.js`, `public/v3693-persistent-routing.js`, `public/index.html`, package version/QA, dedicated V30.69.6 QA script.
+Persistent-data safety: no DB reset, no persistent-disk reset, no destructive migration. Existing data/history preserved.
+Runtime acceptance: authenticated Render/browser refresh testing remains required before protected-baseline promotion.
+
 # V30.69.4 Release Manifest
 
 Base: V30.69.3
