@@ -1,0 +1,11 @@
+const fs=require('fs'),assert=require('assert');
+const s=fs.readFileSync('server/v305.js','utf8');
+const refund=s.split("app.post('/api/pink-salt/suppliers/:id/advance-refunds'")[1].split('\n  app.')[0];
+const advances=s.split("app.post('/api/pink-salt/suppliers/:id/advances'")[1].split('\n  app.')[0];
+assert(refund.includes("{requiredForNonCash:true,direction:'receipt'}"));
+assert(refund.includes("if(!paymentAccount)throw Object.assign(new Error('Select an active company Cash or Bank account to receive the supplier refund.')"));
+assert(refund.includes("if(String(paymentAccount.currency||'KRW').trim().toUpperCase()!==currency)"));
+assert(refund.indexOf('if(!paymentAccount)throw')<refund.indexOf('db.transaction(()=>'));
+assert(refund.includes('syncRefund(id)'));
+assert(advances.includes('configuredPaymentAccount(req,s.business_unit_id,method,req.body.payment_account_id,{requiredForNonCash:true})'));
+console.log('PASS: Refund requires company receiving account, validates currency before mutation, correct direction; outgoing advances unchanged.');

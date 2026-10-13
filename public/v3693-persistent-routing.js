@@ -1,94 +1,62 @@
-(function(){
-'use strict';
-const VERSION='30.69.8';
-let restoring=false,lastRestored='';
-const core=()=>window.BOMRouteCoreV3696;
-function parse(){
-  const c=core(); if(c?.parse)return c.parse(location.hash);
-  const raw=decodeURIComponent((location.hash||'').replace(/^#/,'')).trim(),[path,q='']=raw.split('?'),parts=path.split('/').filter(Boolean),params=new URLSearchParams(q);
-  return {raw,path,parts,params,view:parts[0]||'',kind:parts[1]||'',id:Number(parts[2]||0),section:params.get('section')||'',unit:params.get('unit')||''};
+/* V30.69.22: the sole route lifecycle owner; replaces legacy timer restorers. */
+(()=>{'use strict';
+const registry=window.BOMRoutes;
+const userEvent=()=>window.event?.isTrusted===true;
+let epoch=0,active=null,queue=Promise.resolve(),phase='idle',loaded=null,loadedUnit='',shellOnly=false,failure=null,started=false,lastEventHash='',ready=Promise.resolve();
+const originals=new Map(),bound=new WeakSet(),safeState=['page','pageSize','status','type','activity','payment','channel','sort','direction','mode','from','to','evidence','special','filter','scope'];
+const T=(en,ko)=>currentLanguage==='ko'?ko:en;
+function parse(value=location.hash){let raw=String(value||'#dashboard').replace(/^#/,'');const i=raw.indexOf('?'),p=(i<0?raw:raw.slice(0,i)).split('/').filter(Boolean).map(x=>{try{return decodeURIComponent(x)}catch(_){return x}}),params=new URLSearchParams(i<0?'':raw.slice(i+1));return {raw,path:p.join('/'),parts:p,view:p[0]||'dashboard',kind:p[1]||'',id:p[2]?Number(p[2]):0,section:params.get('section')||'',unit:params.get('unit')||'',params}}
+function hash(v,kind='',id=0,section='',unit=selectedUnitId,params={}){const q=new URLSearchParams(Object.fromEntries(Object.entries(params).filter(([key])=>(safeState.includes(key)||key==='section'||key==='unit'))));if(section)q.set('section',section);else q.delete('section');q.set('unit',unit?String(unit):'all');return '#'+encodeURIComponent(v)+(kind?'/'+encodeURIComponent(kind)+(id?'/'+id:''):'')+'?'+q.toString()}
+function url(r){return hash(r.view,r.kind,r.id,r.section,r.unit==='all'?'':r.unit,Object.fromEntries(r.params||[]))}
+function allowedView(key){if(!me)return false;if(me.role==='CEO / Owner')return key!=='businesses'||!selectedUnitId;if(['profile','notifications'].includes(key))return true;if(key==='systemSettings')return accessState.permissions['sensitive.system_admin']===true;if(key==='businesses')return false;const module=registry.moduleFor(key);if(accessState.permissions['module.'+module+'.view']!==true)return false;if(key==='payroll')return accessState.permissions['sensitive.payroll']===true;if(key==='audit')return accessState.permissions['sensitive.audit_logs']===true;return true}
+function resolveUnit(r){const explicit=r.unit,required=registry.unitName(r.view),known=unitOptions.find(x=>String(x.id)===explicit);if(explicit&&explicit!=='all'){if(!known)return {reason:'unit'};if(required&&String(known.name).toLowerCase()!==required.toLowerCase())return {reason:'unit'};selectedUnitId=explicit}else if(explicit==='all'){if(me.role!=='CEO / Owner'||required)return {reason:'unit'};selectedUnitId=''}else if(required){const bu=unitOptions.find(x=>String(x.name).toLowerCase()===required.toLowerCase());if(!bu)return {reason:'unit'};selectedUnitId=String(bu.id)}else if(me.role!=='CEO / Owner'&&!unitOptions.some(x=>String(x.id)===String(selectedUnitId)))selectedUnitId=String(me.business_unit_id||unitOptions[0]?.id||'');r.unit=selectedUnitId||'all';if(selectedUnitId)localStorage.setItem('bo_unit',selectedUnitId);else localStorage.removeItem('bo_unit');return null}
+function resetSessionData(){window.BOMProfileRoutes337?.reset();window.BOMEmployeeRoutes3592?.reset();window.BOMProgressive?.invalidate('');}
+function clearDialogs(){window.closeAllModalsV3242?.(true);document.getElementById('modalRoot')?.replaceChildren();document.getElementById('confirmRoot')?.replaceChildren()}
+function routeError(reason,error){loaded=null;clearDialogs();phase=reason;const labels={access:T('Access denied','접근 거부'),unit:T('Business unit unavailable','사업부 사용 불가'),notfound:T('Record not found','기록 없음'),invalid:T('Unsupported route','지원되지 않는 경로'),temporary:T('Unable to load this destination','목적지를 불러올 수 없습니다')};const host=document.getElementById('content')||root;host.innerHTML=`<section class="card" data-bom-route-state="${reason}"><h2>${esc(labels[reason]||labels.temporary)}</h2><p>${esc(T('The requested URL has been preserved.','요청한 URL을 유지합니다.'))}</p>${reason==='temporary'?`<button class="btn primary" onclick="BOMRouter.retry()">${esc(T('Retry','다시 시도'))}</button>`:''}</section>`;if(error)console.warn('Route failed',reason,error.status||error.message);}
+function shell(){shellOnly=true;try{render()}finally{shellOnly=false}}
+async function initialize(r){const key=window.BOMLazy351?.route(r.view);if(key&&!(await BOMLazy351.ensure(key)))throw Object.assign(new Error('Module unavailable'),{status:503});if(['tasks','approvals','documents'].includes(r.view)&&window.BOMLazy347)await BOMLazy347.ensure();if(r.view==='notifications'&&window.BOMLazy348)await BOMLazy348.ensure()}
+function stateFor(r){const st=window.BOMPinkPages349?.states?.[r.view==='psCustomers'?'customers':r.view==='psSales'?'orders':''];if(st)for(const key of safeState)if(r.params.has(key)&&key in st)st[key]=['page','pageSize'].includes(key)?Math.max(1,Number(r.params.get(key))||1):r.params.get(key)}
+function fnFor(names){return (names||[]).map(n=>originals.get(n)||n.split('.').reduce((a,k)=>a?.[k],window)).find(x=>typeof x==='function')}
+async function section(entry,r){if(!entry?.section||!r.section)return;const descriptor=entry.section;if(descriptor.values&&!descriptor.values.includes(r.section))throw Object.assign(new Error('Invalid section'),{status:400});const names=descriptor.accounting?(r.section.startsWith('workspace:')?['v357AccountingOpen']:r.params.get('mode')==='advanced'?['accountingTabV29']:['balances','movement','health'].includes(r.section)?['accountingV305Tab']:['accountingSimpleTabV291']):descriptor.open,f=fnFor(names);if(!f)throw Object.assign(new Error('Section handler unavailable'),{status:503});if(descriptor.dom){const button=[...document.querySelectorAll('[data-ps313-tab]')].find(b=>b.dataset.ps313Tab===r.section);if(!button)throw Object.assign(new Error('Invalid section'),{status:400});await f(button,r.section)}else if(descriptor.arg===1)await f(r.id,r.section);else await f(r.section.startsWith('workspace:')?r.section.slice(10):r.section)}
+async function apply(r,my){if(!me){clearDialogs();phase='authentication';login();return}if(my!==epoch)return;phase='loading';failure=null;const issue=resolveUnit(r);view=r.view;window.BOMRouteProblemV3697=null;
+ if(!registry.views().has(r.view)||r.parts.length>3||(r.kind&&(!registry.find(r)||(!registry.find(r).noId&&(!Number.isSafeInteger(r.id)||r.id<=0))))){shell();routeError('invalid');return}
+ if(issue){shell();routeError(issue.reason);return}
+ if(r.view==='accounting'){window.__v318AccountingPostingMode=r.kind==='control';const mode=r.params.get('mode')||registry.find(r)?.mode||(['overview','journal','accounts','reconciliation','periods','budgets','transfers'].includes(r.section)?'advanced':'simple');r.params.set('mode',mode);localStorage.setItem('blueOceanAccountingMode',mode)}const unitChanged=loadedUnit!==selectedUnitId;await hydrateAccess();if(my!==epoch)return;if(failure)throw failure;
+ if(!allowedView(r.view)){shell();routeError('access');return}
+ const canonical=url(r);if(location.hash!==canonical)history.replaceState({...history.state,route:canonical},'',canonical);
+ const entry=registry.find(r);if(entry?.ensure)await entry.ensure();if(my!==epoch)return;const sameRecord=loaded&&loaded.view===r.view&&loaded.kind===r.kind&&loaded.id===r.id&&!unitChanged;
+ if(sameRecord&&r.params.get('mode')===loaded.params.get('mode')&&r.section!==loaded.section&&entry?.section){await section(entry,r)}else{
+  clearDialogs();if(!document.getElementById('content')||!loaded||loaded.view!==r.view||unitChanged)shell();await initialize(r);stateFor(r);await window.loadView();if(my!==epoch)return;bind();
+  if(r.kind){const opener=fnFor(entry.open);if(!opener)throw Object.assign(new Error('Record handler unavailable'),{status:503});await opener(...(entry.noId?[]:[r.id]));if(my!==epoch)return}
+  if(!entry?.handlesSection)await section(entry,r);
+ }
+ if(my!==epoch)return;if(failure)throw failure;loaded={...r};loadedUnit=selectedUnitId;phase='ready';document.getElementById('content')?.setAttribute('data-bom-route',canonical);window.BOMRouteProblemV3697=null;
+ // Renderers are consumers, not history writers. Keep the controller's final route.
+ if(location.hash!==canonical)history.replaceState({...history.state,route:canonical},'',canonical);
 }
-function normalize(r){return {...r,kind:r.kind||r.parts?.[1]||'',id:Number(r.id||r.parts?.[2]||0),section:r.section||r.params?.get?.('section')||'',unit:r.unit||r.params?.get?.('unit')||''}}
-function hash(viewName,kind='',id=0,section=''){
-  let path='#'+encodeURIComponent(viewName||'dashboard');if(kind&&id)path+='/'+encodeURIComponent(kind)+'/'+encodeURIComponent(id);
-  const q=new URLSearchParams();if(section)q.set('section',section);q.set('unit',typeof selectedUnitId!=='undefined'&&selectedUnitId?String(selectedUnitId):'all');return path+'?'+q.toString();
-}
-function set(viewName,kind='',id=0,section='',replace=true){const h=hash(viewName,kind,id,section);if(location.hash===h)return;history[replace?'replaceState':'pushState']({view:viewName,kind,id,section,unit:typeof selectedUnitId!=='undefined'?selectedUnitId:''},'',h)}
-function wrap(name,route){const fn=window[name];if(typeof fn!=='function'||fn.__v3696)return;const wrapped=async function(){const args=[...arguments],out=await fn.apply(this,args);if(!restoring){const r=route(args);if(r)set(r.view,r.kind,r.id,r.section||'',true)}return out};wrapped.__v3696=true;wrapped.__v3693=true;wrapped.__v3693Original=fn;window[name]=wrapped}
-function install(){
-  wrap('excavatorOpenMachine',a=>({view:'excavator',kind:'machine',id:Number(a[0])}));
-  wrap('excavatorBuyerDetail',a=>({view:'excavatorBuyers',kind:'buyer',id:Number(a[0]),section:window.__v3693BuyerSection||''}));
-  wrap('v337BuyerSection',a=>{window.__v3693BuyerSection=a[1]||'payments';return {view:'excavatorBuyers',kind:'buyer',id:Number(a[0]),section:window.__v3693BuyerSection}});
-  wrap('v329SupplierOpen',a=>({view:'excavatorSuppliers',kind:'supplier',id:Number(a[0]),section:a[1]||'overview'}));
-  wrap('v337SupplierSection',a=>({view:'excavatorSuppliers',kind:'supplier',id:Number(a[0]),section:a[1]||'overview'}));
-  wrap('employeeProfileV359',a=>({view:'payroll',kind:'employee',id:Number(a[0]),section:a[1]||'overview'}));
-  wrap('employeeProfileV3592',a=>({view:'payroll',kind:'employee',id:Number(a[0]),section:a[1]||'overview'}));
-  wrap('financeOpen',a=>({view:'finance',kind:'record',id:Number(a[0])}));
-  wrap('financeCorrectionOpen',a=>({view:'finance',kind:'correction',id:Number(a[0])}));
-  wrap('taskDetail',a=>({view:'tasks',kind:'task',id:Number(a[0])}));
-  wrap('meetingDetail',a=>({view:'meetings',kind:'meeting',id:Number(a[0])}));
-  wrap('reportDetail',a=>({view:'reports',kind:'report',id:Number(a[0])}));
-  wrap('psOrderDetail',a=>({view:'psSales',kind:'order',id:Number(a[0])}));
-  wrap('psOrderDetail313',a=>({view:'psSales',kind:'order',id:Number(a[0])}));
-  wrap('psProductionDetail',a=>({view:'psProduction',kind:'batch',id:Number(a[0])}));
-  // Do not depend exclusively on the separate Pink Salt QA route writer.
-  wrap('psSupplierAccount315',a=>({view:'psSuppliers',kind:'supplier',id:Number(a[0]),section:window.__ps3692SupplierTab||'account'}));
-  wrap('psImportDetail',a=>({view:'psImports',kind:'import',id:Number(a[0])}));
-}
-async function restore({renderShell=true}={}){
-  if(restoring||typeof me==='undefined'||!me)return;
-  if(window.BOMRouteProblemV3697)return;
-  const r=normalize(parse());if(!r.view)return;const sig=[r.view,r.kind,r.id,r.section,r.unit].join('|');if(sig===lastRestored&&r.id)return;
-  restoring=true;
-  try{
-    core()?.resolveUnit?.(r);
-    if(typeof view!=='undefined'&&view!==r.view){view=r.view;if(renderShell&&typeof render==='function')render()}
-    // A successful shell render is not a completed module load. The async list
-    // renderer can otherwise overwrite a restored level-3 record afterwards.
-    if(renderShell && typeof window.loadView==='function')await window.loadView();
-    else if(renderShell&&typeof render==='function'&&!document.getElementById('content'))render();
-    if(!r.id){lastRestored=sig;return}
-    if(r.view==='excavator'&&r.kind==='machine')await window.excavatorOpenMachine?.(r.id);
-    else if(r.view==='excavatorBuyers'&&r.kind==='buyer'){await window.excavatorBuyerDetail?.(r.id);if(r.section)window.v337BuyerSection?.(r.id,r.section)}
-    else if(r.view==='excavatorSuppliers'&&r.kind==='supplier')await window.v329SupplierOpen?.(r.id,r.section||'overview');
-    else if(r.view==='payroll'&&r.kind==='employee')await (window.employeeProfileV3592||window.employeeProfileV359)?.(r.id,r.section||'overview');
-    else if(r.view==='finance'&&r.kind==='record')await window.financeOpen?.(r.id);
-    else if(r.view==='finance'&&r.kind==='correction')await window.financeCorrectionOpen?.(r.id);
-    else if(r.view==='tasks'&&r.kind==='task')await window.taskDetail?.(r.id);
-    else if(r.view==='meetings'&&r.kind==='meeting')await window.meetingDetail?.(r.id);
-    else if(r.view==='reports'&&r.kind==='report')await window.reportDetail?.(r.id);
-    else if(r.view==='psSuppliers'&&r.kind==='supplier'){await window.psSupplierAccount315?.(r.id);if(r.section)window.psSupplierTab315?.(r.section)}
-    else if(r.view==='psImports'&&r.kind==='import')await window.psImportDetail?.(r.id);
-    else if(r.view==='psSales'&&r.kind==='order')await (window.psOrderDetail313||window.psOrderDetail)?.(r.id);
-    else if(r.view==='psProduction'&&r.kind==='batch')await window.psProductionDetail?.(r.id);
-    // Only mark record restored when it actually had an opener.
-    const handlers={
-      'excavator/machine':'excavatorOpenMachine','excavatorBuyers/buyer':'excavatorBuyerDetail',
-      'excavatorSuppliers/supplier':'v329SupplierOpen','payroll/employee':'employeeProfileV359',
-      'finance/record':'financeOpen','finance/correction':'financeCorrectionOpen',
-      'tasks/task':'taskDetail','meetings/meeting':'meetingDetail','reports/report':'reportDetail',
-      'psSuppliers/supplier':'psSupplierAccount315','psImports/import':'psImportDetail',
-      'psSales/order':'psOrderDetail','psProduction/batch':'psProductionDetail'
-    };
-    const key=r.view+'/'+r.kind;
-    if(handlers[key] && typeof window[handlers[key]]==='function')lastRestored=sig;
-    else console.warn('Deep link has no ready handler:',key);
-  }catch(e){console.warn('V30.69.8 route restore:',e?.message||e)}finally{restoring=false}
-}
-async function historyRestore(){
-  if(typeof me==='undefined'||!me)return;
-  const r=normalize(parse());
-  core()?.apply?.();
-  lastRestored='';
-  if(typeof render==='function')render();
-  await restore({renderShell:false});
-}
-
-window.addEventListener('beforeunload',()=>{try{window.captureViewState?.()}catch(_){}});
-window.addEventListener('hashchange',()=>{install();historyRestore()});
-window.addEventListener('popstate',()=>{install();historyRestore()});
-let tries=0;const timer=setInterval(()=>{tries++;install();if(typeof me!=='undefined'&&me){clearInterval(timer);setTimeout(()=>restore(),60)}else if(tries>160)clearInterval(timer)},50);
-setTimeout(()=>{install();restore()},220);
-window.BOMPersistentRouting={version:VERSION,parse:()=>normalize(parse()),set,restore,hash,install};
-console.info('Blue Ocean Market V'+VERSION+' persistent routing loaded');
+function transition(r,{replace=false,historyEvent=false,discardConfirmed=false}={}){if(window.BOMDialogProcessingV363?.isActive?.()||window.__bomProcessingActive===true){if(historyEvent&&loaded){const current=url(loaded);history.replaceState({...history.state,route:current},'',current);lastEventHash=current;}return Promise.resolve(false);}if(formDirty&&!active&&!historyEvent&&!discardConfirmed)return confirmAction({title:T('Unsaved changes','저장하지 않은 변경'),message:T('Discard unsaved changes and navigate?','저장하지 않은 변경을 취소하고 이동할까요?'),confirmLabel:T('Discard Changes','변경 취소'),cancelLabel:T('Keep Editing','계속 편집'),tone:'danger'}).then(ok=>{if(!ok)return false;formDirty=false;return transition(r,{replace,historyEvent,discardConfirmed:true})});const my=++epoch;window.BOMNavigationNonce=(window.BOMNavigationNonce||0)+1;active?.controller.abort();const canonical=url(r);if(!historyEvent&&location.hash!==canonical)history[replace?'replaceState':'pushState']({route:canonical,previousRoute:location.hash},'',canonical);lastEventHash=location.hash;ready=queue=queue.catch(()=>{}).then(async()=>{if(my!==epoch)return;active={my,controller:new AbortController()};try{await apply(r,my)}catch(e){if(my!==epoch||e.name==='AbortError')return;if(e.status===401){loaded=null;loadedUnit='';token=null;me=null;formDirty=false;localStorage.removeItem('bo_token');clearDialogs();phase='authentication';login()}else routeError(e.status===403?'access':e.status===404?'notfound':e.status===400?'invalid':'temporary',e)}finally{if(active?.my===my)active=null}});return ready}
+function navigate(v,kind='',id=0,sectionName='',options={}){const r=parse(hash(v,kind,id,sectionName,options.unit??selectedUnitId,options.params||{}));return transition(r,options)}
+function adapter(name,entry,isSection){if(name.includes('.'))return;const fn=(entry.legacy||entry.section?.legacy)?(isSection?fnFor(entry.section.open):fnFor(entry.open)):window[name];if(typeof fn!=='function'||bound.has(fn)||fn.__bomRouteBound||fn.__v333Original?.__bomRouteBound)return;originals.set(name,fn);const wrapped=function(...args){if((active&&!userEvent())||(name==='v357AccountingOpen'&&args[0]==='manual'))return fn.apply(this,args);let id=isSection?(entry.section.arg===1?Number(args[0]):(loaded?.id||0)):Number(args[0]||0),sectionName=isSection?(entry.section.dom?args[1]:entry.section.arg===1?args[1]:args[0]):entry.section?(String(args[1]||entry.section.defaults||'')):'';if(name==='v357AccountingOpen')sectionName='workspace:'+sectionName;if(entry.noId)id=0;return navigate(entry.view,entry.kind||'',id,sectionName,entry.view==='accounting'?{params:{mode:name==='accountingTabV29'?'advanced':'simple'}}:entry.scopeArgument!==undefined?{params:{scope:Number(args[entry.scopeArgument]||0)}}:{})};wrapped.__bomRouteBound=true;bound.add(wrapped);window[name]=wrapped;}
+function bind(){for(const entry of registry.entries.values()){for(const name of entry.legacy||entry.open||[])adapter(name,entry,false);for(const name of entry.section?.legacy||entry.section?.open||[])adapter(name,entry,true)}}
+function historyEvent(){if(location.hash===lastEventHash)return;lastEventHash=location.hash;transition(parse(),{historyEvent:true})}
+function set(v,kind='',id=0,sectionName='',replace=false){if(active)return;return navigate(v,kind,id,sectionName,{replace})}
+function authFailure(){resetSessionData();loaded=null;loadedUnit='';if(phase==='authentication')return;epoch++;active?.controller.abort();token=null;me=null;formDirty=false;localStorage.removeItem('bo_token');clearDialogs();phase='authentication';login()}
+window.BOMRouter={version:'30.69.22',parse,hash,navigate,set,restore:()=>transition(parse(),{historyEvent:true}),retry:()=>transition(parse(),{historyEvent:true}),install:bind,bind,allowed:allowedView,resolveUnit,
+ logout(){if(window.BOMDialogProcessingV363?.isActive?.())return false;epoch++;active?.controller.abort();resetSessionData();loaded=null;loadedUnit='';token=null;me=null;formDirty=false;localStorage.removeItem('bo_token');clearDialogs();phase='authentication';login();return true},get shellOnly(){return shellOnly},get ready(){return ready},get restoring(){return !!active},get readSignal(){return active?.controller.signal},
+ recordFailure(url,e){if(active&& !/^\/api\/v367\/pink-salt\/attention(?:\?|$)/.test(url)&& !/\/api\/(?:notifications|actions\/counts|dashboard|pnl|health)/.test(url)&&!failure)failure=Object.assign(e,{route_read_url:url})},authFailure,
+ diagnostics:()=>({phase,restoring:!!active,lastRestored:loaded?url(loaded):'',history_pending:active?1:0,registry_entries:registry.entries.size,error_url:failure?.route_read_url,error_status:failure?.status,epoch}),
+ start(){started=true;resetSessionData();loaded=null;bind();return transition(parse(),{historyEvent:true})},
+ state(params,{replace=true}={}){const r=parse();for(const [k,v] of Object.entries(params))if(safeState.includes(k))r.params.set(k,String(v));const target=url(r);history[replace?'replaceState':'pushState']({route:target},'',target);lastEventHash=target;},
+};
+for(const [name,sectionName,mode] of [['accountingAdvancedV291','overview','advanced'],['accountingSimpleV291','summary','simple'],['v355OpenAdvancedTab',null,'advanced']]){const fn=window[name];if(fn){originals.set(name,fn);window[name]=function(tab){if(active&&!userEvent())return fn.apply(this,arguments);return navigate('accounting','',0,sectionName||tab,{params:{mode}})}}}
+if(window.BOMPinkFX){const native=window.BOMPinkFX.view;window.BOMPinkFX.view=id=>active&&!userEvent()?native(id):navigate(['psImports','psSales'].includes(view)?view:'psImports','fx',Number(id));}
+window.BOMPersistentRouting=window.BOMRouter;
+window.BOMRouteCoreV3696={version:'30.69.22',parse,withUnit:(h,u)=>{const r=parse(h);r.unit=u||'all';return url(r)},resolveUnit,apply:()=>parse(),businessNameForView:registry.unitName};
+window.addEventListener('storage',e=>{if(e.key!=='bo_token'||e.newValue===token)return;epoch++;active?.controller.abort();resetSessionData();loaded=null;loadedUnit='';token=e.newValue;me=null;clearDialogs();if(!token){phase='authentication';login();}else{phase='loading';boot();}});
+window.addEventListener('popstate',historyEvent);window.addEventListener('hashchange',historyEvent);
+window.go=(v,opts={})=>{closeMobileSidebar();if(formDirty)return guardDirty(T('Discard unsaved changes and navigate?','저장하지 않은 변경을 취소하고 이동할까요?'),()=>navigate(v,'',0,'',{replace:!!opts.replace}));return navigate(v,'',0,'',{replace:!!opts.replace})};go=window.go;
+window.switchUnit=id=>navigate(view,'',0,'',{unit:id||''});switchUnit=window.switchUnit;
+allowed=allowedView;window.closeWorkflowPageV324=function(force=false){const finish=()=>{formDirty=false;if(history.state?.previousRoute)history.back();else navigate(view,'',0,'',{replace:true})};if(!force&&formDirty)return guardDirty(T('Discard unsaved changes and return?','저장하지 않은 변경을 취소하고 돌아갈까요?'),finish);return finish()};
+// All eager module initialization is now complete before authentication starts.
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>boot(),{once:true});else boot();
 })();
