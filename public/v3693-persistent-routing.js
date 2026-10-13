@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 const VERSION='30.69.8';
-let restoring=false,lastRestored='';
+let restoring=false,lastRestored='',historyEpoch=0,historyPending=0;
 const core=()=>window.BOMRouteCoreV3696;
 function parse(){
   const c=core(); if(c?.parse)return c.parse(location.hash);
@@ -14,7 +14,7 @@ function hash(viewName,kind='',id=0,section=''){
   const q=new URLSearchParams();if(section)q.set('section',section);q.set('unit',typeof selectedUnitId!=='undefined'&&selectedUnitId?String(selectedUnitId):'all');return path+'?'+q.toString();
 }
 function set(viewName,kind='',id=0,section='',replace=true){const h=hash(viewName,kind,id,section);if(location.hash===h)return;history[replace?'replaceState':'pushState']({view:viewName,kind,id,section,unit:typeof selectedUnitId!=='undefined'?selectedUnitId:''},'',h)}
-function wrap(name,route){const fn=window[name];if(typeof fn!=='function'||fn.__v3696)return;const wrapped=async function(){const args=[...arguments],out=await fn.apply(this,args);if(!restoring){const r=route(args);if(r)set(r.view,r.kind,r.id,r.section||'',true)}return out};wrapped.__v3696=true;wrapped.__v3693=true;wrapped.__v3693Original=fn;window[name]=wrapped}
+function wrap(name,route){const fn=window[name];if(typeof fn!=='function'||fn.__v3696)return;const wrapped=async function(){const args=[...arguments],navigationNonce=window.BOMNavigationNonce||0,beforeHash=location.hash,beforeState=history.state,beforeLength=history.length,out=await fn.apply(this,args);if(navigationNonce!==(window.BOMNavigationNonce||0))return out;if(!restoring){const r=route(args);if(r){const target=hash(r.view,r.kind,r.id,r.section||'');if(beforeHash!==target&&history.length===beforeLength&&location.hash!==beforeHash)history.replaceState(beforeState,'',beforeHash);set(r.view,r.kind,r.id,r.section||'',false)}}return out};wrapped.__v3696=true;wrapped.__v3693=true;wrapped.__v3693Original=fn;window[name]=wrapped}
 function install(){
   wrap('excavatorOpenMachine',a=>({view:'excavator',kind:'machine',id:Number(a[0])}));
   wrap('excavatorBuyerDetail',a=>({view:'excavatorBuyers',kind:'buyer',id:Number(a[0]),section:window.__v3693BuyerSection||''}));
@@ -30,6 +30,7 @@ function install(){
   wrap('reportDetail',a=>({view:'reports',kind:'report',id:Number(a[0])}));
   wrap('psOrderDetail',a=>({view:'psSales',kind:'order',id:Number(a[0])}));
   wrap('psOrderDetail313',a=>({view:'psSales',kind:'order',id:Number(a[0])}));
+  wrap('psCustomerAccount313',a=>({view:'psCustomers',kind:'customer',id:Number(a[0]),section:new URLSearchParams(location.hash.split('?')[1]||'').get('section')||'orders'}));
   wrap('psProductionDetail',a=>({view:'psProduction',kind:'batch',id:Number(a[0])}));
   // Do not depend exclusively on the separate Pink Salt QA route writer.
   wrap('psSupplierAccount315',a=>({view:'psSuppliers',kind:'supplier',id:Number(a[0]),section:window.__ps3692SupplierTab||'account'}));
@@ -47,7 +48,7 @@ async function restore({renderShell=true}={}){
     // renderer can otherwise overwrite a restored level-3 record afterwards.
     if(renderShell && typeof window.loadView==='function')await window.loadView();
     else if(renderShell&&typeof render==='function'&&!document.getElementById('content'))render();
-    if(!r.id){lastRestored=sig;return}
+    if(!r.id){if(r.view==='psSales'&&r.kind==='new')await window.psSaleForm313?.();lastRestored=sig;return}
     if(r.view==='excavator'&&r.kind==='machine')await window.excavatorOpenMachine?.(r.id);
     else if(r.view==='excavatorBuyers'&&r.kind==='buyer'){await window.excavatorBuyerDetail?.(r.id);if(r.section)window.v337BuyerSection?.(r.id,r.section)}
     else if(r.view==='excavatorSuppliers'&&r.kind==='supplier')await window.v329SupplierOpen?.(r.id,r.section||'overview');
@@ -58,8 +59,10 @@ async function restore({renderShell=true}={}){
     else if(r.view==='meetings'&&r.kind==='meeting')await window.meetingDetail?.(r.id);
     else if(r.view==='reports'&&r.kind==='report')await window.reportDetail?.(r.id);
     else if(r.view==='psSuppliers'&&r.kind==='supplier'){await window.psSupplierAccount315?.(r.id);if(r.section)window.psSupplierTab315?.(r.section)}
+    else if(['psImports','psSales'].includes(r.view)&&r.kind==='fx')await window.psFxTransactionDetail?.(r.id);
     else if(r.view==='psImports'&&r.kind==='import')await window.psImportDetail?.(r.id);
     else if(r.view==='psSales'&&r.kind==='order')await (window.psOrderDetail313||window.psOrderDetail)?.(r.id);
+    else if(r.view==='psCustomers'&&r.kind==='customer'){await window.psCustomerAccount313?.(r.id);if(r.section){const b=document.querySelector('[data-ps313-tab="'+r.section+'"]');if(b)window.psAccountTab313?.(b,r.section)}}
     else if(r.view==='psProduction'&&r.kind==='batch')await window.psProductionDetail?.(r.id);
     // Only mark record restored when it actually had an opener.
     const handlers={
@@ -67,8 +70,8 @@ async function restore({renderShell=true}={}){
       'excavatorSuppliers/supplier':'v329SupplierOpen','payroll/employee':'employeeProfileV359',
       'finance/record':'financeOpen','finance/correction':'financeCorrectionOpen',
       'tasks/task':'taskDetail','meetings/meeting':'meetingDetail','reports/report':'reportDetail',
-      'psSuppliers/supplier':'psSupplierAccount315','psImports/import':'psImportDetail',
-      'psSales/order':'psOrderDetail','psProduction/batch':'psProductionDetail'
+      'psSuppliers/supplier':'psSupplierAccount315','psImports/import':'psImportDetail','psImports/fx':'psFxTransactionDetail','psSales/fx':'psFxTransactionDetail',
+      'psCustomers/customer':'psCustomerAccount313','psSales/order':'psOrderDetail','psProduction/batch':'psProductionDetail'
     };
     const key=r.view+'/'+r.kind;
     if(handlers[key] && typeof window[handlers[key]]==='function')lastRestored=sig;
@@ -77,18 +80,17 @@ async function restore({renderShell=true}={}){
 }
 async function historyRestore(){
   if(typeof me==='undefined'||!me)return;
-  const r=normalize(parse());
-  core()?.apply?.();
-  lastRestored='';
-  if(typeof render==='function')render();
-  await restore({renderShell:false});
+  const epoch=++historyEpoch,startedHash=location.hash;historyPending++;
+  try{core()?.apply?.();lastRestored='';if(typeof render==='function')render();if(window.BOMActiveViewLoad)await window.BOMActiveViewLoad;
+    if(epoch!==historyEpoch||location.hash!==startedHash)return;
+    await restore({renderShell:false});
+  }finally{historyPending=Math.max(0,historyPending-1)}
 }
-
 window.addEventListener('beforeunload',()=>{try{window.captureViewState?.()}catch(_){}});
 window.addEventListener('hashchange',()=>{install();historyRestore()});
 window.addEventListener('popstate',()=>{install();historyRestore()});
 let tries=0;const timer=setInterval(()=>{tries++;install();if(typeof me!=='undefined'&&me){clearInterval(timer);setTimeout(()=>restore(),60)}else if(tries>160)clearInterval(timer)},50);
 setTimeout(()=>{install();restore()},220);
-window.BOMPersistentRouting={version:VERSION,parse:()=>normalize(parse()),set,restore,hash,install};
+window.BOMPersistentRouting={version:VERSION,parse:()=>normalize(parse()),set,restore,hash,install,diagnostics:()=>({restoring,lastRestored,history_pending:historyPending})};
 console.info('Blue Ocean Market V'+VERSION+' persistent routing loaded');
 })();

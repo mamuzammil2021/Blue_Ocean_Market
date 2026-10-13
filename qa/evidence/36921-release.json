@@ -1,0 +1,219 @@
+{
+  "status": "PASS",
+  "version": "30.69.21",
+  "node": "v22.16.0",
+  "results": [
+    {
+      "name": "All active server and public JavaScript syntax",
+      "status": "PASS"
+    },
+    {
+      "name": "Application, Accounting and period-control runtime regression",
+      "status": "PASS",
+      "checks": [
+        "PASS runtime health 30.69.21",
+        "PASS runtime local CEO login",
+        "PASS V30.57 Accounting inventory, asset, expense and integrity reads",
+        "PASS V30.19 System Settings catalog",
+        "PASS V30.19 System Overview",
+        "PASS V30.20 direct attachment policy",
+        "PASS persisted language preference endpoint",
+        "PASS Company Financial Account / GL mapping",
+        "PASS smart Cash/Card financial-account filtering",
+        "PASS manual journal enters Pending Review",
+        "PASS Posting Control detail is balanced and evidence-backed",
+        "PASS Pending Review excluded from official ledger",
+        "PASS authorized final post succeeds",
+        "PASS Posted journal reaches official Trial Balance exactly once",
+        "PASS correction/cancel workflow stays outside official ledger",
+        "PASS Posting Control summary API",
+        "PASS period close initially blocked by reconciliation checklist",
+        "PASS V2 close-readiness controls become ready after sign-off",
+        "PASS reconciled period closes",
+        "PASS authorized reopen resets reconciliation sign-offs",
+        "PASS V30.58 bank preview, duplicate file block and no Finance/journal insertion",
+        "PASS V30.58 official reports, balanced historical migration proposal, pending exclusion and duplicate block"
+      ],
+      "elapsed_ms": 3788
+    },
+    {
+      "name": "Financial integrity E2E",
+      "status": "PASS",
+      "checks": [
+        "PASS Real application startup and additive schema migration",
+        "PASS KRW→USD live server preview",
+        "PASS Atomic durable bank debit and invoice carrying settlement",
+        "PASS One authoritative Finance outflow in source account currency",
+        "PASS Balanced Accounting proposal, fee and realized FX legs",
+        "PASS Idempotent duplicate submit returns same transaction",
+        "PASS Same key with different payload rejected",
+        "PASS Missing exact source account rejected",
+        "PASS Inactive account rejected",
+        "PASS Invalid bank FX rate rejected",
+        "PASS Estimated recipient credit cannot settle invoice",
+        "PASS Overpayment prevented",
+        "PASS Actual SQL failure rolls back request, transaction and Finance",
+        "PASS Finance verification gates posting",
+        "PASS Unapproved FX/fee accounting policy gates posting",
+        "PASS Finance-verified policy-approved journal posts once",
+        "PASS Controlled reversal preserves history and reopens invoice",
+        "PASS Posted journal reversal is a controlled pending proposal"
+      ],
+      "elapsed_ms": 2361
+    },
+    {
+      "name": "Pink Salt workflow and reconciliation matrix",
+      "status": "PASS",
+      "checks": [
+        "PASS Valid KRW cash payment with optional reference and exact account",
+        "PASS USD invoice paid from USD bank with correct native debit",
+        "PASS KRW invoice paid from supported PKR bank conversion",
+        "PASS Actual supplier advance bank payment persists as reusable credit",
+        "PASS Advance-only import settlement creates no Finance movement",
+        "PASS Combined advance and new payment creates exactly one bank movement",
+        "PASS Supplier advance refund is a real bank inflow and reduces available credit",
+        "PASS Customer advance receipt is a real bank inflow",
+        "PASS Customer refund reserves credit against legacy allocation paths",
+        "PASS Customer advance-only order settlement is non-cash",
+        "PASS Combined order advance and new receipt uses one Finance inflow",
+        "PASS Correction atomically reverses original and records linked replacement",
+        "PASS Packaging payable payment uses native durable currency engine",
+        "PASS Import operating cost produces one authoritative bank movement",
+        "PASS Account from another business unit is rejected",
+        "PASS Unsupported intermediary conversion blocked explicitly",
+        "PASS Separate real bank charge has its own linked debit, not a duplicate supplier payment",
+        "PASS Reversal includes the separate bank fee movement",
+        "PASS Intermediary charge deducted from transfer reconciles debit and actual recipient amount",
+        "PASS Foreign-currency customer bank credit reconciles to KRW receivable and FX difference",
+        "PASS Explicit bank and recipient reconciliation advances status with retained evidence",
+        "PASS Different actual bank debit requires controlled correction, never an in-place balance rewrite",
+        "PASS Standalone supplier operational expense uses the same atomic bank/FX engine",
+        "PASS A late separate-fee duplicate rolls back advance allocation, invoice payment, Finance and both journal effects",
+        "PASS Full settlement has zero outstanding and blocks additional allocation"
+      ],
+      "elapsed_ms": 2719
+    },
+    {
+      "name": "Permission and approval execution matrix",
+      "status": "PASS",
+      "checks": [
+        "PASS Staff cannot record procurement payment",
+        "PASS User assigned only to another BU cannot access Pink Salt",
+        "PASS Configured approval gate defers all money and settlement writes",
+        "PASS Final independent approval executes exact stored request atomically",
+        "PASS Repeated approval execution is idempotent",
+        "PASS CEO cannot silently correct another original user’s payment",
+        "PASS Original-user correction respects configured approval gate"
+      ],
+      "elapsed_ms": 3906
+    },
+    {
+      "name": "Excavator financial regression",
+      "status": "PASS",
+      "checks": [
+        "PASS Buy Machine token payment with exact account and receiver",
+        "PASS Excavator supplier balance payment",
+        "PASS Buyer advance receipt",
+        "PASS Buyer advance refund",
+        "PASS Machine sale combined advance plus new payment",
+        "PASS Sale recognizes one 500 KRW new receipt; 9000 KRW allocation is non-cash",
+        "PASS Excavator Finance verification and Accounting posting",
+        "PASS Machine sale using only new buyer payment",
+        "PASS Machine sale using only advance allocation",
+        "PASS Excavator correction request preserves original Finance and source snapshots",
+        "PASS Excavator original-user Correct & Resubmit retains the single bank receipt and active allocation",
+        "PASS Corrected Excavator receipt returns through Finance verification",
+        "PASS Excavator controlled buyer-refund reversal remains functional"
+      ],
+      "elapsed_ms": 3407
+    },
+    {
+      "name": "Previous-version migration and restart",
+      "status": "PASS",
+      "checks": [
+        "PASS Supplied V30.69.19 starts against an isolated pre-migration database",
+        "PASS Candidate migrates the actual legacy database and starts successfully",
+        "PASS Historical payment values, account IDs, evidence and Finance count remain unchanged",
+        "PASS Repeated startup/backfill does not duplicate or overwrite the new authoritative bank movement",
+        "PASS Additive migration is idempotent on repeated startup"
+      ],
+      "elapsed_ms": 3264
+    },
+    {
+      "name": "October QA server controls, inventory and order atomicity",
+      "status": "PASS",
+      "checks": [
+        "PASS Unpaid import direct API receive is blocked",
+        "PASS Recorded but unverified full payment does not unlock receiving",
+        "PASS Full Finance-verified settlement unlocks shipment",
+        "PASS Eligible receive creates actual raw inventory and keeps payment linkage",
+        "PASS Payment reversal preserves already completed historical receipt",
+        "PASS Verified partial payment remains locked",
+        "PASS Production records actual raw consumption, waste and finished output",
+        "PASS Finalized metadata edit preserves stock and traceability",
+        "PASS Direct stock-changing metadata edit is rejected",
+        "PASS Completed production recognition is balanced and final-postable under Posting Control",
+        "PASS Controlled batch void restores stock exactly and retains original outputs/audit",
+        "PASS Posted production void creates a balanced controlled reversal proposal",
+        "PASS Repeated batch void cannot duplicate inventory reversal",
+        "PASS Corrected replacement is linked and unique; GL waits for original reversal final posting",
+        "PASS Consumed production output blocks destructive void",
+        "PASS Customer archive keeps historical orders, filters active selection and blocks new orders",
+        "PASS Customer restore and historical account remain functional",
+        "PASS Server rejects negative prices/fees and over-discounts without creating orders",
+        "PASS Idempotent order replay creates stock and invoice once; different payload rejected",
+        "PASS Sale summary reconciles invoice, delivery, discount, COGS and separate expense fee",
+        "PASS Late order line failure rolls back invoice and inventory together",
+        "PASS Cancelled sale restores stock once and releases finished-lot allocation",
+        "PASS Legacy draft metadata/date correction preserves draft and stock",
+        "PASS Unauthorized production void and cross-BU customer mutation are rejected"
+      ],
+      "elapsed_ms": 2432
+    },
+    {
+      "name": "October QA authenticated sales and receiving browser",
+      "status": "PASS",
+      "checks": [
+        "PASS Missing customer/product highlighted beside specific fields and form data retained",
+        "PASS Multi-product quantities, discount, delivery and expense fee produce correct live totals before settlement",
+        "PASS Responsive order lines and footer remain within workspace at four desktop/compact widths",
+        "PASS Partial receipt continuation labels actual company receiving account correctly",
+        "PASS Actual partial receipt creates one exact-account Finance movement and leaves correct outstanding balance",
+        "PASS Subsequent receipt fully settles order with exactly two real movements",
+        "PASS Blue selected customer-account tab is readable and survives nested detail refresh",
+        "PASS Unpaid shipment visibly locked with one contextual reason",
+        "PASS Browser receiving lock changes only after full settlement and Finance verification",
+        "PASS Payment reversal visibly restores receiving lock",
+        "PASS Authenticated customer Archive and Restore actions preserve historical orders and balances",
+        "PASS Authenticated production metadata edit records reason and preserves quantities",
+        "PASS Authenticated production Void reviews consequences and creates durable reversal",
+        "PASS New summary, settlement choices and validation interface render Korean"
+      ],
+      "elapsed_ms": 11508
+    },
+    {
+      "name": "Authenticated Chromium payment, correction and routing matrix",
+      "status": "PASS",
+      "checks": [
+        "PASS Authenticated native payment form shows all eligible currencies and one authoritative source selector",
+        "PASS Repeated Cash/Bank changes clear selections without duplicated validation or controls",
+        "PASS Zero-advance option explains New Payment Only",
+        "PASS Cancel closes without saving",
+        "PASS Actual authenticated browser KRW→USD transaction stores correct bank debit, settlement and one Finance record",
+        "PASS Native payment UI renders Korean labels",
+        "PASS Import record URL persists on browser refresh",
+        "PASS Actual supplier advance entry point records cross-currency bank debit and advance credit",
+        "PASS Actual browser advance-only settlement hides money fields and creates no Finance movement",
+        "PASS Actual browser mixed advance and USD new payment creates one native-currency Finance movement",
+        "PASS Actual browser KRW cash settlement works without a reference or recipient bank account",
+        "PASS Copied currency transaction deep link authenticates and restores the same record",
+        "PASS Browser Back and Forward restore currency and import records",
+        "PASS Actual paid sales-order creation continues into native cross-currency receipt and completes as Paid",
+        "PASS Actual browser correction preserves exact original accounts/evidence and atomically replaces financial effects",
+        "PASS Actual browser reconciliation retains additional evidence without rewriting bank or invoice amounts"
+      ],
+      "elapsed_ms": 17019
+    }
+  ],
+  "production_data_used": false
+}

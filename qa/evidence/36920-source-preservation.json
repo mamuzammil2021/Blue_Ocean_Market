@@ -1,0 +1,73 @@
+{
+  "baseline_zip_sha256": "971ee81df1beb70815c5d7065e0bdc140b323ed14ad0cefcb38e76fddeb4df4b",
+  "excavator_core_handlers": [
+    {
+      "function": "createExcavatorAsset",
+      "unchanged": true,
+      "sha256": "74780b24543ef153da0f634bfce25f801e57539ea8c2fa5a27d5df8718bdcaf1"
+    },
+    {
+      "function": "completeExcavatorSaleHandler",
+      "unchanged": true,
+      "sha256": "f23894cd898356c36fe6a6b9e6c533b87a84b9a29ffa5c51eb2590e69ed37a47"
+    },
+    {
+      "function": "createBuyerRefundRecord",
+      "unchanged": true,
+      "sha256": "eac10b781f1447f92bfac61bbafbc1c5315beafae4bda03dd1e9debab4cb5f0c"
+    }
+  ],
+  "changed_source_files": [
+    ".env.example",
+    "CHANGELOG.md",
+    "GIT_READY_README.md",
+    "README.md",
+    "RELEASE_MANIFEST.md",
+    "package-lock.json",
+    "package.json",
+    "public/client.js",
+    "public/index.html",
+    "public/runtime-v30392.js",
+    "public/v300-client.js",
+    "public/v305-client.js",
+    "public/v313-client.js",
+    "public/v315-client.js",
+    "public/v324-client.js",
+    "public/v3241-client.js",
+    "public/v363-dialog-processing.js",
+    "public/v369-pink-shared-workflows.js",
+    "public/v36910-pink-import-actions.js",
+    "public/v3692-pink-qa.js",
+    "public/v3693-persistent-routing.js",
+    "server/server.js",
+    "server/v290.js",
+    "server/v300.js",
+    "server/v313.js",
+    "server/v315.js",
+    "server/v318.js",
+    "server/v348-pink-salt-bulk.js",
+    "server/v349-pink-pages.js",
+    "server/v358-management-detail.js"
+  ],
+  "new_source_files": [
+    "V30_69_20_IMPLEMENTATION_AND_ACCEPTANCE.md",
+    "public/pink-fx-calculation.js",
+    "public/pink-fx-payment.js",
+    "qa/browser_v36920_fx.py",
+    "qa/fx_browser_fixture.js",
+    "qa/fx_fixture.js",
+    "qa/qa_v36920_excavator.js",
+    "qa/qa_v36920_fx_e2e.js",
+    "qa/qa_v36920_migration_restart.js",
+    "qa/qa_v36920_permissions.js",
+    "qa/qa_v36920_release_gate.js",
+    "qa/qa_v36920_workflows.js",
+    "scripts/build-pink-fx-client.js",
+    "server/migrations/36920-pink-fx.sql",
+    "server/pink-fx-calculation.js",
+    "server/pink-fx-engine.js",
+    "server/pink-fx-errors.js"
+  ],
+  "restored_shell_reference": "V30.64 renderer and breadcrumb functions only; V30.69.19 routing/boot retained",
+  "newer_protected_baseline_found": false
+}

@@ -97,6 +97,7 @@
   function isSeriousMutation(url,opt={}){
     const method=String(opt.method||url?.method||'GET').toUpperCase();if(['GET','HEAD','OPTIONS'].includes(method))return false;
     const u=String(typeof url==='string'?url:url?.url||'');
+    if(/\/pink-salt\/fx\/[^/]+\/\d+\/preview/.test(u))return false;
     if(/\/api\/auth\//i.test(u)||/\/api\/notifications(?:\/|$)/i.test(u)||/\/api\/me\/language(?:\?|$)/i.test(u))return false;
     return /\/api\//i.test(u)||method==='DELETE';
   }
