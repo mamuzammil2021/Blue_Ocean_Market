@@ -29,12 +29,7 @@
   const perfIndex=nav.findIndex(x=>x[0]==='performance');
   if(!nav.some(x=>x[0]==='payroll'))nav.splice(perfIndex>=0?perfIndex+1:nav.length,0,['payroll','Employees & Payroll','🧑‍💼']);
 
-  const _allowed=allowed;
-  allowed=function(key){
-    if(key==='accounting')return !!me&&(me.role==='CEO / Owner'||['Finance / Admin','Operations Manager','Business Unit Manager'].includes(me.role));
-    if(key==='payroll')return !!me&&['CEO / Owner','Finance / Admin'].includes(me.role);
-    return _allowed(key);
-  };
+  // Effective module access is owned by BOMRouter.
   const _loadView=loadView;
   loadView=async function(){
     if(view==='accounting'){const c=document.getElementById('content');c.innerHTML='<div class="card">Loading…</div>';try{return await accountingV29(c)}catch(e){c.innerHTML='<div class="card"><b>Error</b><p class="muted">'+esc(e.message)+'</p></div>'}return;}

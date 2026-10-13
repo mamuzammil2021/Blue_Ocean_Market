@@ -3,7 +3,7 @@
 (function(){'use strict';
 let pending=null,failed=0;const samples=[];
 function ensure(){if(window.BOMPagedWorkspaces347)return Promise.resolve(true);if(pending)return pending;
-  pending=new Promise((resolve,reject)=>{const el=document.createElement('script');el.src='/v347-client.js?v=30.51.0';el.async=true;
+  pending=new Promise((resolve,reject)=>{const el=document.createElement('script');el.src='/v347-client.js?v=30.69.23';el.async=true;
     el.onload=()=>{if(window.BOMPagedWorkspaces347)resolve(true);else reject(new Error('Paged workspace module did not initialize'))};
     el.onerror=()=>reject(new Error('Paged workspace module unavailable'));document.head.appendChild(el);
   }).catch(e=>{pending=null;failed++;console.warn('V30.47 lazy workspace fallback:',e.message);return false});return pending;

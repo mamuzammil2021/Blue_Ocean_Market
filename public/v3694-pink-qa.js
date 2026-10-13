@@ -4,7 +4,7 @@
 const VERSION='30.69.4', num=v=>Number(v||0), text=v=>String(v??'').trim(), T=s=>typeof t==='function'?t(s):s;
 const E=v=>typeof esc==='function'?esc(v):String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 try{Object.assign(KO,{
- 'View Shipment PDF':'선적 PDF 보기','Download Shipment PDF':'선적 PDF 다운로드','No compatible company account is configured.':'호환되는 회사 계정이 설정되어 있지 않습니다.','Select company Cash account':'회사 현금 계정 선택','Select company Bank account':'회사 은행 계정 선택','Fully Paid':'완납'
+ 'View Shipment PDF':'선적 PDF 보기','Download Shipment PDF':'선적 PDF 다운로드','No compatible company account is configured.':'호환되는 회사 계정이 설정되어 있지 않습니다.','Select company Cash account':'회사 현금 계정 선택','Select company Bank account':'회사 은행 계정 선택','Fully Paid':'완납','No active company account matches this payment method and currency. Check the currency or account settings.':'이 결제 방식과 통화에 맞는 활성 회사 계좌가 없습니다. 통화 또는 계좌 설정을 확인하세요.','Unable to load company accounts. Please retry.':'회사 계좌를 불러올 수 없습니다. 다시 시도하세요.'
 })}catch(_){}
 const style=document.createElement('style');style.textContent=`
 .v3694-hidden{display:none!important}.v3694-mode-active{background:var(--brand)!important;border-color:var(--brand)!important;color:#fff!important;font-weight:800}.v3694-no-account{color:var(--bad);font-size:12px;margin-top:5px}.v3694-doc-actions{display:contents}.v3694-payment-choice button{min-height:44px}
@@ -13,8 +13,8 @@ function bu(){return Number(selectedUnitId||me?.business_unit_id||0)}
 function typeOfAccount(a){return text(a.financial_account_type||a.payment_type||a.method_type||'Bank').toLowerCase()}
 async function companyAccounts(method,currency){
   const qs=new URLSearchParams({business_unit_id:String(bu()),method:text(method)||'Bank',currency:text(currency||'KRW').toUpperCase(),direction:'payment'});
-  // Do not blindly force South Korea for cash: Cash on Hand may legitimately have no country metadata.
-  if(!/^cash$/i.test(text(method)))qs.set('country','South Korea');
+  // Bank accounts may be registered in Korea, Pakistan, or another country.
+  // Preserve the backend's active, business-unit, method and currency checks; never force country here.
   const d=await api('/api/v320/financial-accounts/options?'+qs);const wanted=text(method).toLowerCase();
   return (d.accounts||[]).filter(a=>{const ty=typeOfAccount(a);return wanted==='cash'?ty==='cash':wanted==='card'?ty==='card':wanted==='bank'?ty==='bank':true});
 }
@@ -22,23 +22,26 @@ async function payeeAccounts(supplierId,method,currency){
   const qs=new URLSearchParams({business_unit_id:String(bu()),entity_type:'pink_salt_supplier',entity_id:String(Number(supplierId||0))});
   if(method)qs.set('method',method);let rows=await api('/api/v330/payee-accounts?'+qs);const cur=text(currency).toUpperCase();if(cur)rows=rows.filter(a=>text(a.currency||'KRW').toUpperCase()===cur);return rows;
 }
-function setOptions(sel,rows,placeholder){if(!sel)return;const old=String(sel.value||'');sel.innerHTML=`<option value="">${E(T(placeholder))}</option>`+(rows||[]).map(a=>`<option value="${Number(a.id)}">${E(a.label||a.name||'Account')} · ${E(a.bank_name||a.financial_account_type||a.payment_type||'')} · ${E(a.currency||'KRW')} ${E(a.account_number_masked||'')}</option>`).join('');const chosen=(rows||[]).find(a=>String(a.id)===old)||(rows||[]).find(a=>Number(a.default_payment||a.is_default||0))||(rows||[])[0];if(chosen)sel.value=String(chosen.id)}
+function setOptions(sel,rows,placeholder){if(!sel)return;const old=String(sel.value||'');sel.innerHTML=`<option value="">${E(T(placeholder))}</option>`+(rows||[]).map(a=>`<option value="${Number(a.id)}">${E(a.label||a.name||'Account')} · ${E(a.bank_name||a.financial_account_type||a.payment_type||'')} · ${E(a.currency||'KRW')} ${E(a.account_number_masked||'')}</option>`).join('');const chosen=(rows||[]).find(a=>String(a.id)===old)||(rows||[]).find(a=>Number(a.default_payment||a.is_default||0));if(chosen)sel.value=String(chosen.id)}
 function fieldOf(el){return el?.closest('.field')||el?.parentElement}
+const paymentLoadEpoch=new WeakMap();
 async function refreshPaymentAccounts(form,supplierId){
-  if(!form)return;const method=text(form.payment_method?.value||'Bank'),currency=text(form.original_currency?.value||'KRW').toUpperCase();
+  if(!form)return;
+  const epoch=(paymentLoadEpoch.get(form)||0)+1;
+  paymentLoadEpoch.set(form,epoch);const method=text(form.payment_method?.value||'Bank'),currency=text(form.original_currency?.value||'KRW').toUpperCase();
   const from=form.payment_account_id||document.querySelector('[name="payment_account_id"][form="ps369AdvanceForm"]');const to=form.receiver_account_id||document.querySelector('[name="receiver_account_id"][form="ps369AdvanceForm"]');
   if(from){from.innerHTML=`<option value="">${E(T('Loading accounts…'))}</option>`;from.required=true}
   if(to)to.innerHTML=`<option value="">${E(T('Loading accounts…'))}</option>`;
   try{
-    const fromRows=await companyAccounts(method,currency);setOptions(from,fromRows,method==='Cash'?'Select company Cash account':method==='Bank'?'Select company Bank account':'Select company financial account');
+    const fromRows=await companyAccounts(method,currency);if(paymentLoadEpoch.get(form)!==epoch)return;if(from)delete from.dataset.accountLoadError;setOptions(from,fromRows,method==='Cash'?'Select company Cash account':method==='Bank'?'Select company Bank account':'Select company financial account');
     const paidToField=fieldOf(to);if(method==='Cash'){
       if(to){to.required=false;to.value=''};paidToField?.classList.add('v3694-hidden');
     }else{
-      paidToField?.classList.remove('v3694-hidden');const toRows=await payeeAccounts(supplierId,method,currency);setOptions(to,toRows,'Select supplier Paid To account');if(to)to.required=true;
+      paidToField?.classList.remove('v3694-hidden');const toRows=await payeeAccounts(supplierId,method,currency);if(paymentLoadEpoch.get(form)!==epoch)return;setOptions(to,toRows,'Select supplier Paid To account');if(to)to.required=true;
     }
-    let warn=from?.parentElement?.querySelector('.v3694-no-account');if(!fromRows.length&&!warn&&from){warn=document.createElement('div');warn.className='v3694-no-account';warn.textContent=T('No compatible company account is configured.');from.insertAdjacentElement('afterend',warn)}else if(fromRows.length&&warn)warn.remove();
+    let warn=from?.parentElement?.querySelector('.v3694-no-account');if(!fromRows.length&&!warn&&from){warn=document.createElement('div');warn.className='v3694-no-account';warn.textContent=T('No active company account matches this payment method and currency. Check the currency or account settings.');from.insertAdjacentElement('afterend',warn)}else if(fromRows.length&&warn)warn.remove();
     if(form.reference)form.reference.required=method!=='Cash';if(form.fx_rate_to_krw&&currency==='KRW')form.fx_rate_to_krw.value='1';
-  }catch(e){if(from)from.innerHTML=`<option value="">${E(e.message||T('No compatible company account is configured.'))}</option>`;toast(e.message||T('Request failed'))}
+  }catch(e){if(paymentLoadEpoch.get(form)!==epoch)return;if(from){from.innerHTML=`<option value="">${E(T('Unable to load company accounts. Please retry.'))}</option>`;from.dataset.accountLoadError='1'}toast(T('Unable to load company accounts. Please retry.')+' '+(e?.message||''))}
 }
 // QA 1/2 — authoritative method/account compatibility for every current Pink Salt supplier payment form.
 window.ps369AdvanceRefreshAccounts=async function(form,id){await refreshPaymentAccounts(form,id)};
@@ -66,12 +69,7 @@ const oldSaveAccount=window.v337SaveAccount;if(oldSaveAccount)window.v337SaveAcc
 const oldArchiveAccount=window.v337ArchiveAccount;if(oldArchiveAccount)window.v337ArchiveAccount=async function(id){const r=await oldArchiveAccount(id);refreshPinkSupplierAccounts();return r};
 const oldCloseAccount=window.v337CloseAccountManager;if(oldCloseAccount)window.v337CloseAccountManager=function(){const r=oldCloseAccount();refreshPinkSupplierAccounts();return r};
 
-// QA 4 — hard-refresh/deep-link retry for Pink Salt record routes; never silently fall back to dashboard while route is valid.
-let restoring=false,lastSig='';function parseRoute(){const raw=decodeURIComponent((location.hash||'').replace(/^#/,'')),[p,q='']=raw.split('?'),parts=p.split('/').filter(Boolean),sp=new URLSearchParams(q);return {view:parts[0]||'',kind:parts[1]||'',id:Number(parts[2]||0),section:sp.get('section')||''}}
-async function restorePinkRoute(force=false){const r=parseRoute();if(!r.id||!['psSuppliers','psImports'].includes(r.view)||restoring)return;const sig=[r.view,r.kind,r.id,r.section].join('|');if(!force&&sig===lastSig)return;restoring=true;try{if(typeof view!=='undefined'&&view!==r.view){view=r.view;await window.loadView?.()}if(r.view==='psSuppliers'&&r.kind==='supplier'){await window.psSupplierAccount315?.(r.id);if(r.section)window.psSupplierTab315?.(r.section)}else if(r.view==='psImports'&&r.kind==='import'){await window.psImportDetail?.(r.id)}lastSig=sig}catch(e){console.warn('V30.69.4 route restore:',e?.message||e)}finally{restoring=false}}
-window.addEventListener('hashchange',()=>setTimeout(()=>restorePinkRoute(true),30));window.addEventListener('popstate',()=>setTimeout(()=>restorePinkRoute(true),30));
-let routeTries=0;const routeTimer=setInterval(()=>{routeTries++;if(typeof me!=='undefined'&&me&&typeof window.loadView==='function'){restorePinkRoute(routeTries%5===0);if(routeTries>60)clearInterval(routeTimer)}else if(routeTries>120)clearInterval(routeTimer)},100);
-
+// Routing restoration is owned by BOMRouter.
 // QA 5 — category remove controls belong only to their own category row, never in the Edit Import header.
 function cleanEditImportRemoveButtons(){const root=document.getElementById('modalRoot'),items=root?.querySelector('#psV310EditItems');if(!items)return;root.querySelectorAll('.ps-remove').forEach(b=>{if(!b.closest('#psV310EditItems .ps-line'))b.remove()});items.querySelectorAll('.ps-line').forEach(row=>{const b=row.querySelector('.ps-remove');if(b){b.style.position='static';b.style.inset='auto';b.style.margin='0';b.style.alignSelf='end'}})}
 const oldEditImport=window.psV310EditImport;if(oldEditImport)window.psV310EditImport=async function(id){const r=await oldEditImport(id);cleanEditImportRemoveButtons();setTimeout(cleanEditImportRemoveButtons,0);return r};

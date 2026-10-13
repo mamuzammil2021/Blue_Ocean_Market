@@ -2,9 +2,9 @@
 // Core business/permission/finance/transaction scripts deliberately remain eager.
 (function(){'use strict';
 const modules=Object.freeze({
- 'pink-lists':{path:'/v349-pink-pages.js?v=30.51.0',ready:()=>!!window.BOMPinkPages349},
- 'pink-imports':{path:'/v350-import-pages.js?v=30.51.0',ready:()=>!!window.BOMPinkImports350},
- 'pink-stock':{path:'/v350-raw-pages.js?v=30.51.0',ready:()=>!!window.BOMPinkRaw350}
+ 'pink-lists':{path:'/v349-pink-pages.js?v=30.69.23',ready:()=>!!window.BOMPinkPages349},
+ 'pink-imports':{path:'/v350-import-pages.js?v=30.69.23',ready:()=>!!window.BOMPinkImports350},
+ 'pink-stock':{path:'/v350-raw-pages.js?v=30.69.23',ready:()=>!!window.BOMPinkRaw350}
 });
 const routes=Object.freeze({psCustomers:'pink-lists',psSales:'pink-lists',psImports:'pink-imports',psRawStock:'pink-stock'});
 const inflight=new Map(),failed=new Map(),loads=new Map();

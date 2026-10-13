@@ -1,4 +1,16 @@
-# Current release: V30.69.6
+# V30.69.23 — deployed refresh hotfix staging candidate
+
+Corrects stale precompressed JavaScript delivery confirmed on the live Render site, restores missing native sidebar helpers, invalidates old asset URLs and checks frontend release consistency before database startup. Read [the hotfix report](V30_69_23_REFRESH_HOTFIX.md), [Mac Git steps](V30_69_23_MAC_GIT_PUSH.md) and `qa/evidence/36923-release.json`. No production database or persistent disk is included or reset. Production deployment and acceptance remain required. All entries below are historical.
+
+# V30.69.21 — October QA and sales settlement staging candidate
+
+Primary paths for all seven QA points are implemented with server and authenticated browser testing. See `V30_69_21_QA12_IMPLEMENTATION_AND_ACCEPTANCE.md` and `qa/evidence/36921-release.json` for per-point evidence, remaining acceptance and safe deployment/rollback. Entries below are historical.
+
+# V30.69.20 — Cross-currency payment staging candidate
+
+Consolidated durable Pink Salt settlement engine, native payment UI, approval/Finance/Accounting integration, immutable corrections and reversals, and real server/browser QA. See `V30_69_20_IMPLEMENTATION_AND_ACCEPTANCE.md` and `qa/evidence/36920-release.json` for evidence, remaining acceptance work and safe Render rollback. Historical entries below describe earlier releases.
+
+# Historical release: V30.69.6
 
 System-wide refresh/persistent-routing hardening. Full-screen navigation now preserves the active business-unit scope in the browser URL and restores the requested page before first render. See `V30_69_6_BUILD_NOTES.md`.
 

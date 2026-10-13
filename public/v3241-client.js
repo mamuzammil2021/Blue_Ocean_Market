@@ -34,7 +34,7 @@ if(typeof originalOpenWorkflow==='function'){
       if(sameWorkflow(now,next)){
         // V30.34: same-record/detail refresh updates only the workflow surface. The
         // Back toolbar and surrounding page shell remain mounted and do not blink.
-        const modalRoot=document.getElementById('modalRoot');if(modalRoot)modalRoot.innerHTML='';
+        const modalRoot=document.getElementById('modalRoot');if(modalRoot&&!modalRoot.querySelector('#bomFxPaymentForm,[data-pink-qa21]'))modalRoot.innerHTML='';
         const className=typeof classOrOptions==='string'?classOrOptions:String(options.className||'');
         const sc=scrollHost(),scroll=Number(sc?.scrollTop||0);
         current.className=`v324-workflow-surface ${className}`.trim();

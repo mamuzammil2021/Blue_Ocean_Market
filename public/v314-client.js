@@ -6,7 +6,7 @@
   if(typeof oldApi!=='function')return;
 
   const reviewedHandlers=new Set(['saveFinance','saveFinanceEdit','saveFinanceCorrection','savePurchaseEdit','saveExcavatorBuyerRefund']);
-  const noReviewUrls=[/^\/api\/auth\//,/^\/api\/notifications(?:\/|$)/,/^\/api\/me\/language$/,/^\/api\/excavator\/assets\/\d+\/documents(?:\?|$)/,/\/statement-v313\.(?:csv|pdf)(?:\?|$)/,/\/received-pdf-v307(?:\?|$)/,/\/pdf-v308(?:\?|$)/,/\/payslip\.pdf(?:\?|$)/];
+  const noReviewUrls=[/^\/api\/finance\/corrections\/\d+\/view$/,/^\/api\/auth\//,/^\/api\/notifications(?:\/|$)/,/^\/api\/me\/language$/,/^\/api\/excavator\/assets\/\d+\/documents(?:\?|$)/,/\/statement-v313\.(?:csv|pdf)(?:\?|$)/,/\/received-pdf-v307(?:\?|$)/,/\/pdf-v308(?:\?|$)/,/\/payslip\.pdf(?:\?|$)/];
   let reviewAllowanceUntil=0,reviewAllowanceCount=0,processingCount=0,lastActionButton=null,lastActionAt=0;
 
   function tr(v){try{return typeof t==='function'?t(v):String(v)}catch(_){return String(v)}}
@@ -81,6 +81,7 @@
     return el.name?prettyLabel(el.name):`${prettyLabel(el.type||el.tagName)} ${index+1}`;
   }
   function currentValue(el){
+    if(el.type==='password')return el.value?'••••••••':'';
     if(el.type==='file')return [...(el.files||[])].map(f=>f.name).join(', ');
     if(el.type==='checkbox')return el.checked?tr('Yes'):tr('No');
     if(el.type==='radio'){if(!el.checked)return null;return el.value||tr('Selected')}
@@ -88,6 +89,7 @@
     return String(el.value??'').trim();
   }
   function initialValue(el){
+    if(el.type==='password')return el.defaultValue?'••••••••':'';
     if(el.type==='file')return '';
     if(el.type==='checkbox')return el.defaultChecked?tr('Yes'):tr('No');
     if(el.type==='radio'){if(!el.defaultChecked)return null;return el.defaultValue||tr('Selected')}

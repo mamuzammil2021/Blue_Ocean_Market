@@ -37,7 +37,7 @@ if(typeof apiBefore==='function'){
     const method=safeText(opt?.method||'GET').toUpperCase();
     if(method!=='GET'&&method!=='HEAD')return apiBefore.apply(this,arguments);
     const bu=safeText((typeof selectedUnitId!=='undefined'?selectedUnitId:'')||(typeof me!=='undefined'?me?.business_unit_id:'')),lang=safeText((typeof currentLanguage!=='undefined'?currentLanguage:'ko'));
-    const key=`${method}|${url}|${bu}|${lang}`;
+    const actor=typeof me!=='undefined'?String(me?.id||'')+'|'+String(me?.auth_version||''):'';const routeEpoch=window.BOMRouter?.diagnostics().epoch||0;const key=`${method}|${url}|${bu}|${lang}|${actor}|${routeEpoch}`;
     if(inFlight.has(key))return inFlight.get(key);
     const p=Promise.resolve(apiBefore.apply(this,arguments)).finally(()=>inFlight.delete(key));inFlight.set(key,p);return p;
   };

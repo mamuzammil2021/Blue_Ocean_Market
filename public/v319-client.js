@@ -30,7 +30,6 @@ document.head.appendChild(style);
 try{
   viewLabels.systemSettings='System Settings';
   if(!nav.some(x=>x[0]==='systemSettings')){const idx=Math.max(0,nav.findIndex(x=>x[0]==='profile'));nav.splice(idx,0,['systemSettings','System Settings','⚙️']);}
-  const oldAllowed=allowed;allowed=function(key){if(key==='systemSettings')return !!me&&(me.role==='CEO / Owner'||hasSensitive('sensitive.system_admin'));return oldAllowed(key)};
   const oldLoadView=loadView;loadView=async function(){if(view==='systemSettings'){const c=document.getElementById('content');c.innerHTML='<div class="card">Loading…</div>';try{return await systemSettingsV319(c)}catch(e){c.innerHTML='<div class="card"><b>Error</b><p class="muted">'+esc(e.message)+'</p></div>';return}}return oldLoadView()};
 }catch(e){console.error('V30.19 navigation setup',e)}
 
@@ -191,7 +190,7 @@ async function v319RenderAi(panel,row,meta){const st=v319ScopeState(),status=awa
 window.v319AiDiagnostic=async function(){try{const r=await api('/api/system-settings-v319/ai/diagnostic',{method:'POST'}),el=document.getElementById('v319AiDiagnosticResult');if(el)el.innerHTML=`<div class="workspace-banner" style="margin-top:12px"><b>${r.ok?'Configuration ready':'Configuration incomplete'}</b><span>${esc((r.checks||[]).map(x=>x.key+': '+(x.ok?'OK':'Missing')).join(' · '))}</span></div>`;toast(r.ok?'AI configuration checks passed':'AI configuration needs attention')}catch(x){toast(x.message)}};
 
 // Persist selected language immediately in UI + account. Local storage remains a safe offline fallback.
-try{setLanguage=function(lang){lang=lang==='en'?'en':'ko';currentLanguage=lang;document.documentElement.lang=lang;localStorage.setItem('bo_language',lang);if(me){me.preferred_language=lang;localStorage.removeItem('bo_prelogin_language');api('/api/me/language',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({preferred_language:lang})}).catch(e=>toast('Language saved locally; account sync failed: '+e.message))}else localStorage.setItem('bo_prelogin_language',lang);if(document.getElementById('confirmRoot'))document.getElementById('confirmRoot').innerHTML='';if(me)render();else login()}}catch(_){ }
+try{setLanguage=function(lang){lang=lang==='en'?'en':'ko';currentLanguage=lang;document.documentElement.lang=lang;localStorage.setItem('bo_language',lang);if(me){me.preferred_language=lang;localStorage.removeItem('bo_prelogin_language');api('/api/me/language',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({preferred_language:lang})}).catch(e=>toast('Language saved locally; account sync failed: '+e.message))}else localStorage.setItem('bo_prelogin_language',lang);if(document.getElementById('confirmRoot'))document.getElementById('confirmRoot').innerHTML='';if(me)return window.BOMRouter?BOMRouter.restore():render();else login()}}catch(_){ }
 
 // Fix supplier screen modal lifecycle: refresh the existing Supplier page instead of opening a duplicate list modal.
 try{const baseSupplier=excavatorSuppliers;excavatorSuppliers=async function(c){if(!c&&view==='excavatorSuppliers'){try{closeModal(true)}catch(_){}c=document.getElementById('content')}return baseSupplier(c)}}catch(_){ }
