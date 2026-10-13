@@ -19,6 +19,7 @@ const style=document.createElement('style');style.textContent=`
 `;document.head.appendChild(style);
 function moveAccounts(form){
  if(!form)return;
+ if(form.dataset.psAccountLayout==='native'){const from=$(form,'payment_account_id'),to=$(form,'receiver_account_id');const root=from?.closest('.ps3699-account-row');return from&&to&&root?{from,to,root}:undefined}
  const from=$(form,'payment_account_id')||document.querySelector('[name="payment_account_id"][form="'+form.id+'"]');
  const to=$(form,'receiver_account_id')||document.querySelector('[name="receiver_account_id"][form="'+form.id+'"]');
  if(!from||!to)return;
@@ -50,12 +51,12 @@ function updateVisibility(form){
 }
 function guardAccount(form){
  const mode=$(form,'settlement_mode')?.value;
- const cashSection=mode==='advance';if(cashSection)return true;
+ const cashSection=window.BOMPaymentRules?.requiresSource? !window.BOMPaymentRules.requiresSource(mode):mode==='advance';if(cashSection)return true;
  const original=number($(form,'original_amount')?.value);
  if(original<=0){toast(T('Enter a positive payment amount.'));return false}
  const from=$(form,'payment_account_id');if(!from?.value){toast(T('Select an active company account matching the payment method and currency.'));from?.focus();return false}
  const method=String($(form,'payment_method')?.value||'Bank').toLowerCase();
- if(method!=='cash'&&!$(form,'receiver_account_id')?.value){toast(T('Select supplier Paid To account'));return false}
+ if((window.BOMPaymentRules?.requiresCounterparty?.(method,mode)??method!=='cash')&&!$(form,'receiver_account_id')?.value){toast(T('Select supplier Paid To account'));return false}
  return true;
 }
 // The API is authoritative: all accounts are method/currency filtered by V30.69.4.
@@ -89,6 +90,7 @@ const previousSupplier=window.psSupplierPayment315;
 window.psSupplierPayment315=async function(id){
  const result=await previousSupplier?.(id);const form=document.getElementById('ps369AdvanceForm');
  if(!form)return result;
+ if(form.dataset.psAccountLayout==='native')return result;
  moveAccounts(form);
  // Remove legacy non-authoritative selectors injected by other scripts; never clone submitted IDs.
  const primary=$(form,'payment_account_id');
