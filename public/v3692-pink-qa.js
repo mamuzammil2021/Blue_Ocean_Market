@@ -15,7 +15,7 @@ const style=document.createElement('style');style.textContent=`
 
 let supplierEditOrigin='list', supplierArchiveMode='active', restoringRoute=false;
 function routeHash(viewName,kind,id,section){let path='#'+encodeURIComponent(viewName);if(kind&&id)path+='/'+encodeURIComponent(kind)+'/'+encodeURIComponent(id);const q=new URLSearchParams();if(section)q.set('section',section);q.set('unit',window.selectedUnitId||typeof selectedUnitId!=='undefined'&&selectedUnitId?String(selectedUnitId):'all');return path+'?'+q.toString()}
-function setRoute(viewName,kind,id,section,replace=true){const h=routeHash(viewName,kind,id,section);if(location.hash===h)return;history[replace?'replaceState':'pushState']({view:viewName,unit:window.selectedUnitId,kind,id,section},'',h)}
+function setRoute(viewName,kind,id,section,replace=true){return window.BOMRouter?.set(viewName,kind,id,section,replace)}
 function parseRoute(){const raw=decodeURIComponent((location.hash||'').slice(1));const [path,q='']=raw.split('?'),parts=path.split('/').filter(Boolean),params=new URLSearchParams(q);return {view:parts[0]||'',kind:parts[1]||'',id:Number(parts[2]||0),section:params.get('section')||''}}
 function supplierProfileVisible(){return !!document.getElementById('ps315SupplierPanel')&&!!window.__ps315SupplierAccount?.supplier?.id}
 
@@ -45,12 +45,6 @@ const oldSuppliersView=window.psSuppliersView;if(oldSuppliersView)window.psSuppl
 const oldApply=window.ps315ApplySupplierFilters;if(oldApply)window.ps315ApplySupplierFilters=function(){const r=oldApply();setTimeout(ps3692SupplierActions,0);return r};
 
 // Browser URL deep-linking for the Pink Salt record pages/sections requested in QA.
-const oldSupplierAccount=window.psSupplierAccount315;if(oldSupplierAccount)window.psSupplierAccount315=async function(id){const r=await oldSupplierAccount(id);if(!restoringRoute)setRoute('psSuppliers','supplier',id,window.__ps3692SupplierTab||'account');return r};
-const oldSupplierTab=window.psSupplierTab315;if(oldSupplierTab)window.psSupplierTab315=function(key){window.__ps3692SupplierTab=key||'account';const r=oldSupplierTab(key);const id=window.__ps315SupplierAccount?.supplier?.id;if(id&&!restoringRoute)setRoute('psSuppliers','supplier',id,window.__ps3692SupplierTab);return r};
-const oldImportDetail=window.psImportDetail;if(oldImportDetail)window.psImportDetail=async function(id){const r=await oldImportDetail(id);if(!restoringRoute)setRoute('psImports','import',id,'');setTimeout(()=>ps3692PolishImportDetail(id),0);return r};
-async function restoreRoute(){if(restoringRoute)return;const r=parseRoute();if(r.view!==view||!r.id)return;restoringRoute=true;try{if(r.view==='psSuppliers'&&r.kind==='supplier'){await window.psSupplierAccount315?.(r.id);if(r.section)window.psSupplierTab315?.(r.section)}else if(r.view==='psImports'&&r.kind==='import'){await window.psImportDetail?.(r.id)}}catch(e){console.warn('V30.69.2 route restore:',e.message)}finally{restoringRoute=false}}
-const oldLoadView=window.loadView;if(oldLoadView)window.loadView=async function(...args){const r=await oldLoadView.apply(this,args);return r};
-
 // Strong payment-method / Paid From compatibility in Pink Salt advance and import-settlement forms.
 const oldAdvanceRefresh=window.ps369AdvanceRefreshAccounts;if(oldAdvanceRefresh)window.ps369AdvanceRefreshAccounts=async function(f,id){const r=await oldAdvanceRefresh(f,id);const method=txt(f?.payment_method?.value||'Bank'),sel=f?.payment_account_id||document.querySelector('[name="payment_account_id"][form="ps369AdvanceForm"]');if(sel){sel.dataset.paymentMethod=method;if(!sel.value)sel.insertAdjacentHTML('afterend',`<div class="v3692-account-warning">${esc2(tr(method==='Cash'?'Select a Cash account for a cash payment.':'Select an account matching the payment method.'))}</div>`)}return r};
 const oldSettlementAccounts=window.ps369SettlementAccounts;if(oldSettlementAccounts)window.ps369SettlementAccounts=async function(f,id){const r=await oldSettlementAccounts(f,id);if(f?.payment_account_id)f.payment_account_id.dataset.paymentMethod=txt(f.payment_method?.value||'Bank');return r};

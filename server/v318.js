@@ -112,7 +112,9 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
       (SELECT COUNT(*) FROM finance_correction_requests c WHERE c.finance_entry_id=f.id AND c.status IN ('Open','Viewed','Resubmitted')) open_corrections
       FROM finance_entries f LEFT JOIN business_units b ON b.id=f.business_unit_id LEFT JOIN users u ON u.id=f.created_by LEFT JOIN users v ON v.id=f.verified_by WHERE f.id=?`).get(j.finance_entry_id);
     if(!f)return {linked:true,ready:false,warnings:['Linked Finance record is missing.'],finance:null};
+    const fxPolicyReady=require('./pink-fx-engine').policyReady(db,f,j.id);
     const verification=text(f.verification_status),verified=['Verified','Verified / Correct'].includes(verification),warnings=[];
+    if(!fxPolicyReady)warnings.push('Currency settlement needs approved policy, completed linked reversals and journal lines matching the immutable bank/settlement snapshot before posting.');
     const operational=Number(f.cash_effect||0)===0 && !/payment|receipt|refund|transfer/i.test(String(f.source_type||''));
     const op=operational?operationControl(f):null;
     if(f.status==='Voided')warnings.push('Linked source record is voided.');
@@ -124,7 +126,7 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
     const evidence=financeEvidence(f);if(!evidence.length)warnings.push(operational?'No linked operational evidence is available for review.':'No Finance or linked source evidence is available for review.');
     const reversal=pendingReversalForFinance(f.id,j.id);if(reversal)warnings.push(`Previous official posting must be reversed first (${reversal.journal_no}).`);
     const operationStatus=operational?(op?.source_status||'Completed / Approved'):'Finance Verified';
-    return {linked:true,operational,source_control:operationStatus,source_status:op?.source_status||null,linked_payment_status:op?.linked_payment_status||null,payment_requirement_status:op?.payment_requirement_status||null,finance_verification_required:!operational,ready:!integrityHold&&f.status!=='Voided'&&(operational?!!op?.ready:verified)&&(operational||!Number(f.open_corrections||0))&&!reversal,warnings,finance:f,pending_reversal:reversal||null,evidence_count:evidence.length};
+    return {linked:true,operational,source_control:operationStatus,source_status:op?.source_status||null,linked_payment_status:op?.linked_payment_status||null,payment_requirement_status:op?.payment_requirement_status||null,finance_verification_required:!operational,ready:fxPolicyReady&&!integrityHold&&f.status!=='Voided'&&(operational?!!op?.ready:verified)&&(operational||!Number(f.open_corrections||0))&&!reversal,warnings,finance:f,pending_reversal:reversal||null,evidence_count:evidence.length};
   }
   function totals(journalId){const x=db.prepare('SELECT ROUND(COALESCE(SUM(debit_krw),0),2) debit,ROUND(COALESCE(SUM(credit_krw),0),2) credit,COUNT(*) line_count FROM accounting_journal_lines WHERE journal_entry_id=?').get(journalId);return {debit:num(x?.debit),credit:num(x?.credit),line_count:Number(x?.line_count||0),balanced:Math.abs(num(x?.debit)-num(x?.credit))<=0.01&&Number(x?.line_count||0)>=2}}
   function detailRow(id){
@@ -222,6 +224,7 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
     if(!['Pending Review','Correction Required'].includes(j.status))return res.status(409).json({error:`Only a pending/correction accounting proposal can be posted. Current status: ${j.status}.`});
     if(req.user.role!=='CEO / Owner'&&Number(j.created_by)===Number(req.user.id))return res.status(403).json({error:'Maker/checker control: you cannot final-post an Accounting proposal you created.'});
     if(!j.balanced)return res.status(409).json({error:'The accounting proposal is not balanced and cannot be posted.'});
+    if(j.source_type==='Pink Salt Production'){const b=db.prepare('SELECT replaces_batch_id FROM pink_salt_production_batches WHERE id=?').get(j.source_id);if(b?.replaces_batch_id&&db.prepare("SELECT id FROM accounting_journal_entries WHERE source_type='Pink Salt Production' AND source_id=? AND status='Posted'").get(b.replaces_batch_id))return res.status(409).json({error:'Final-post the original production reversal before posting its replacement.'})}
     const closed=periodClosedUnits(j);if(closed.length)return res.status(409).json({error:'The accounting period is closed for one or more affected business units. Reopen it before final posting.',business_unit_ids:closed});
     if(j.source_type==='Financing Funding Reclassification'){
       const x=db.prepare('SELECT * FROM accounting_financing_funding_v356 WHERE id=?').get(j.source_id);

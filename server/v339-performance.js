@@ -5,7 +5,7 @@ const path=require('path');
 const zlib=require('zlib');
 const crypto=require('crypto');
 
-const VERSION='30.46.0'; // Current release header; this module retains its V30.39.x performance contracts.
+const VERSION=require('../package.json').version;
 const DEFAULT_SLOW_MS=Math.max(100,Number(process.env.BOM_SLOW_REQUEST_MS||750));
 const DEFAULT_LARGE_BYTES=Math.max(64*1024,Number(process.env.BOM_LARGE_RESPONSE_BYTES||1024*1024));
 const metrics={started_at:new Date().toISOString(),requests:0,api_requests:0,slow_requests:0,large_responses:0,errors:0,last_slow:[],last_large:[]};
@@ -15,6 +15,18 @@ function requestLabel(req){return `${String(req.method||'GET').toUpperCase()} ${
 
 function installEarly({app,root}){
   const publicRoot=path.join(root,'public');
+  const compressedChecks=new Map();
+  function compressedMatchesSource(source,gz){
+    const a=fs.statSync(source),b=fs.statSync(gz);
+    if(!a.isFile()||!b.isFile())return false;
+    const signature=[a.size,a.mtimeMs,a.ctimeMs,b.size,b.mtimeMs,b.ctimeMs].join(':');
+    const prior=compressedChecks.get(source);if(prior?.signature===signature)return prior.valid;
+    let valid=false;
+    try{valid=zlib.gunzipSync(fs.readFileSync(gz),{maxOutputLength:a.size+1}).equals(fs.readFileSync(source))}catch(_){}
+    compressedChecks.set(source,{signature,valid});
+    if(!valid)console.warn('[STATIC] Ignoring stale compressed asset: '+path.relative(publicRoot,gz));
+    return valid;
+  }
 
   // Request measurement is intentionally first so every route/module is covered.
   app.use((req,res,next)=>{
@@ -79,17 +91,18 @@ function installEarly({app,root}){
   // Prefer pre-compressed static assets when present. Versioned assets are immutable-cacheable.
   app.use((req,res,next)=>{
     if(req.method!=='GET'&&req.method!=='HEAD')return next();
-    if(!/\bgzip\b/i.test(String(req.headers['accept-encoding']||'')))return next();
-    const rel=decodeURIComponent(String(req.path||'')).replace(/^\/+/, '');
+    let rel;try{rel=decodeURIComponent(String(req.path||'')).replace(/^\/+/, '')}catch(_){return next()}
     if(!/\.(?:js|css|json)$/i.test(rel)||rel.includes('..'))return next();
+    res.vary('Accept-Encoding');
+    if(!/\bgzip\b/i.test(String(req.headers['accept-encoding']||''))||/\bgzip\s*;\s*q=0(?:\.0+)?\s*(?:,|$)/i.test(String(req.headers['accept-encoding']||'')))return next();
     const source=path.join(publicRoot,rel),gz=source+'.gz';
     try{
-      if(!fs.existsSync(gz)||!fs.statSync(gz).isFile())return next();
+      if(!fs.existsSync(source)||!fs.existsSync(gz)||!compressedMatchesSource(source,gz))return next();
       const ext=path.extname(source).slice(1)||'bin';
       res.type(ext);
       res.setHeader('Content-Encoding','gzip');
       res.setHeader('Vary','Accept-Encoding');
-      res.setHeader('Cache-Control','public, max-age=604800, immutable');
+      res.setHeader('Cache-Control',req.query.v?'public, max-age=604800, immutable':'no-cache');
       return res.sendFile(gz);
     }catch(_){return next()}
   });

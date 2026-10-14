@@ -1,3 +1,11 @@
+# V30.69.21 — October QA and sales settlement staging candidate
+
+Primary paths for all seven QA points are implemented with server and authenticated browser testing. See `V30_69_21_QA12_IMPLEMENTATION_AND_ACCEPTANCE.md` and `qa/evidence/36921-release.json` for per-point evidence, remaining acceptance and safe deployment/rollback. Entries below are historical.
+
+# V30.69.20 — Cross-currency payment staging candidate
+
+Consolidated durable Pink Salt settlement engine, native payment UI, approval/Finance/Accounting integration, immutable corrections and reversals, and real server/browser QA. See `V30_69_20_IMPLEMENTATION_AND_ACCEPTANCE.md` and `qa/evidence/36920-release.json` for evidence, remaining acceptance work and safe Render rollback. Historical entries below describe earlier releases.
+
 # V30.69.6 Release Manifest
 
 Base: V30.69.5

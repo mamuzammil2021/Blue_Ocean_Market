@@ -1,0 +1,11 @@
+{
+  "version": "30.69.23",
+  "status": "STAGING_CANDIDATE",
+  "automated_gate": "PASS",
+  "automated_behavioral_assertions": 325,
+  "syntax_gate": "PASS",
+  "live_root_cause_confirmed": true,
+  "hotfix_deployed_to_production": false,
+  "production_data_used": false,
+  "remaining": "Production deployment and post-deployment refresh acceptance; inherited broader payment acceptance remains in V30.69.22 QA_COVERAGE.md."
+}

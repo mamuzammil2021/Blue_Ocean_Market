@@ -28,6 +28,7 @@ window.psImportCost=async function(id){const result=await oldCost?.(id);const ro
 const oldDetail=window.psImportDetail;
 window.psImportDetail=async function(id){const r=await oldDetail?.(id);let data;try{data=await api('/api/pink-salt/imports/'+id)}catch(_){return r}if(!data)return r;
  const root=typeof workflowSurfaceV324==='function'?workflowSurfaceV324():document.getElementById('v324WorkflowSurface');if(!root)return r;
+ await window.BOMPinkFX?.history('import',id,root);const eligibility=await api('/api/pink-salt/imports/'+id+'/receive-eligibility');root.querySelectorAll('button[onclick*="psReceiveImport("]').forEach(b=>{b.disabled=!eligibility.ready_to_receive;b.setAttribute('aria-disabled',String(!eligibility.ready_to_receive));if(!eligibility.ready_to_receive){b.title=(currentLanguage==='ko'?'공급업체 정산 및 재무 검증 필요. 잔액: ':'Requires full supplier settlement and Finance verification. Outstanding: ')+'₩'+Number(eligibility.outstanding_krw).toLocaleString();b.textContent='🔒 '+T('Receive Shipment')}});
  const outstanding=Number(data.outstanding_krw);
  if(Number.isFinite(outstanding)&&outstanding<=.01){root.querySelectorAll('.ps-actions button[onclick*="psImportPayment("]').forEach(b=>b.remove())}
  return r};

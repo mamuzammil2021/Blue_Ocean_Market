@@ -176,7 +176,7 @@ if(typeof previousLoadView==='function'){
 /* Scope-heavy detail functions so their existing targeted reloads show a small
    local spinner instead of making the entire workspace feel busy. */
 function wrapScoped(name,selector){
-  const fn=window[name];if(typeof fn!=='function'||fn.__v333Wrapped)return;
+  const fn=window[name];if(typeof fn!=='function'||fn.__v333Wrapped||fn.__bomRouteBound)return;
   const wrapped=async function(){
     let el=null;try{el=typeof selector==='function'?selector(...arguments):document.querySelector(selector)}catch(_){ }
     if(lastMutation&&now()-lastMutation.at<8000)setBusy(el,true);

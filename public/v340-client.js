@@ -56,25 +56,18 @@ const style=document.createElement('style');style.id='v340-ui';style.textContent
 `;
 document.head.appendChild(style);
 
-function navHref(viewKey){return `#${encodeURIComponent(viewKey)}`}
+function navHref(viewKey){return window.BOMRouter?.hash(viewKey)||`#${encodeURIComponent(viewKey)}`}
 function upgradeNavLinks(){
   $$('.nav button[onclick*="go("]').forEach(btn=>{
     if(btn.dataset.v340Link==='1')return;
     const oc=btn.getAttribute('onclick')||'',m=oc.match(/go\(['"]([^'"]+)['"]\)/);if(!m)return;
     const a=document.createElement('a');a.href=navHref(m[1]);a.className=(btn.className?btn.className+' ':'')+'v340-nav-link';a.innerHTML=btn.innerHTML;a.title=btn.title||'';a.dataset.v340Link='1';a.dataset.navKey=m[1];
-    a.addEventListener('click',ev=>{if(ev.button!==0||ev.ctrlKey||ev.metaKey||ev.shiftKey||ev.altKey)return;ev.preventDefault();try{history.replaceState(null,'',navHref(m[1]))}catch(_){};try{closeMobileSidebar()}catch(_){};go(m[1])});
+    a.addEventListener('click',ev=>{if(ev.button!==0||ev.ctrlKey||ev.metaKey||ev.shiftKey||ev.altKey)return;ev.preventDefault();try{closeMobileSidebar()}catch(_){};go(m[1])});
     btn.replaceWith(a);
   });
 }
 
-function routeFromHash(){
-  const raw=decodeURIComponent(String(location.hash||'').replace(/^#/,'')).trim();
-  if(!raw)return;
-  const a=$(`.nav a.v340-nav-link[data-nav-key="${CSS.escape(raw)}"]`);if(!a)return;
-  try{go(raw)}catch(_){ }
-}
-window.addEventListener('hashchange',()=>setTimeout(routeFromHash,0));
-let v340InitialRouteTries=0;const v340InitialRouteTimer=setInterval(()=>{v340InitialRouteTries++;upgradeNavLinks();if(location.hash&&$('.nav a.v340-nav-link')){clearInterval(v340InitialRouteTimer);routeFromHash()}else if(v340InitialRouteTries>40)clearInterval(v340InitialRouteTimer)},100);
+// Sidebar links use go(); no independent hash listener or initial route timer.
 
 function isActionHeader(cell){return /^(actions?|작업|동작)$/i.test(text(cell?.textContent))}
 function isProposalHeader(cell){return /accounting proposal|회계 제안/i.test(text(cell?.textContent))}

@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Supplied V30.69.19 starts against an isolated pre-migration database",
+    "Candidate migrates the actual legacy database and starts successfully",
+    "Historical payment values, account IDs, evidence and Finance count remain unchanged",
+    "Repeated startup/backfill does not duplicate or overwrite the new authoritative bank movement",
+    "Additive migration is idempotent on repeated startup"
+  ],
+  "baseline": "V30.69.19",
+  "production_data_used": false
+}
