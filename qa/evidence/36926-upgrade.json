@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Protected V30.69.25 starts and records a historical registered-recipient cost on isolated storage",
+    "V30.69.26 migrates the real V30.69.25 database and starts successfully",
+    "Upgrade preserves every existing cost, transaction and Finance field plus Chart of Accounts codes",
+    "Historical registered cost still exposes original Finance recipient details after migration",
+    "Typed payment persists across restart without creating another master, debit or Finance record"
+  ],
+  "baseline": "30.69.25",
+  "production_data_used": false
+}

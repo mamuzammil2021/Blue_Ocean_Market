@@ -1,3 +1,43 @@
+# V30.69.26 — Simple Import Cost recipients
+
+Based on protected V30.69.25. Import Cost now accepts a typed recipient name, optional contact/company/address details, and bank/payment-provider, account holder, account/payment identifier and optional country for non-cash payments. The selected payment currency is the recipient account currency; unsupported intermediary routes remain blocked.
+
+Removed the saved-payee dropdown, Add Recipient step and receiver-account manager from this form. The authoritative company financial-account selector remains. Each new cost stores immutable recipient details with its FX transaction and operational cost; existing Finance snapshot fields hold the name/provider/holder, currency and masked account identifier. No new payee or reusable receiver-account master is created.
+
+Cash clears and excludes bank details. Validation, required markers, focus, Review & Confirm, protected processing, idempotency, FX blur calculations, permissions, evidence, correction/reversal and targeted Import Detail refresh remain. Recipient edits invalidate prior amount confirmation. Correction guidance is a stable informational note, so clearing an error while leaving the reason field cannot shift the confirmation checkbox during a click.
+
+Legacy registered payees/accounts remain available to historical API clients and records. The current correction form uses Finance snapshots and requires re-entry if a historical account number no longer matches the preserved masked identifier. A historical account-holder field was not previously snapshotted separately: an unchanged matching account can supply it for review; otherwise the user must enter and confirm it. No historical transaction is rewritten.
+
+Shared code is registered through the existing Pink Salt settlement capability registry (`per_payment_recipient_snapshot`); Excavator handlers are unchanged.
+
+
+# V30.69.25 — consolidated October 14 QA corrections
+
+- Build on protected V30.69.24 and reconcile active bundled handlers with canonical Pink Salt and authentication paths.
+- Target supplier KPI/list refresh for payments, advances and allocations; stabilize shared account management and Accounts routing.
+- Correct statement completeness/date ordering, original-currency context and CSV totals; reduce repeated generation using ledger-keyed PDF reuse; verify EN/KR exports and remove a blank PDF page.
+- Add scoped, idempotent Finance action notifications and exact related-read behavior.
+- Preserve active Posting Control, search/status/scroll and intentional Finance return navigation through review/posting.
+- Preserve Import Detail on Edit Save/Cancel/X and failed-save retry; protect historical Actual Arrival and collect it only in receiving.
+- Separate third-party Import Costs from purchase-invoice payment context; use independent payees/accounts, categories and conditional validation; eliminate the unbounded sentinel and reject unsafe numeric precision.
+- Equalize/bound import payment/cost panels and maintain exact correction/task/Finance status until acceptance.
+- Use atomic immutable replacements/reversals for supported corrections, including separately evidenced fees, original-user ownership, audit and controlled posting gates. Restore unreceived landed valuation on a cost reversal.
+- Improve shared field highlighting/focus/scroll and dynamic required markers; rebuild the translated shell at the same URL/record/section when changing language; protect row-remove controls from modal-close normalizers and keep voided cost history read-only.
+- Revoke only the logged-out token; issue unique tokens in the active authentication handler; isolate stale responses; reset explicit-login navigation while preserving authorized refresh/deep links.
+- Add additive migrations, authenticated browser/financial tests, PDF and performance evidence, source-protection comparison, completion matrix and deployment/rollback/Mac Git instructions.
+
+No production data, credentials, private uploads or dependencies are distributed. Existing Chart of Accounts codes and approvals remain intact. No production deployment or Git push is performed by this build.
+
+Historical changelog follows.
+
+# V30.69.21 — October QA and sales settlement staging candidate
+
+Primary paths for all seven QA points are implemented with server and authenticated browser testing. See `V30_69_21_QA12_IMPLEMENTATION_AND_ACCEPTANCE.md` and `qa/evidence/36921-release.json` for per-point evidence, remaining acceptance and safe deployment/rollback. Entries below are historical.
+
+# V30.69.20 — Cross-currency payment staging candidate
+
+Consolidated durable Pink Salt settlement engine, native payment UI, approval/Finance/Accounting integration, immutable corrections and reversals, and real server/browser QA. See `V30_69_20_IMPLEMENTATION_AND_ACCEPTANCE.md` and `qa/evidence/36920-release.json` for evidence, remaining acceptance work and safe Render rollback. Historical entries below describe earlier releases.
+
 # V30.69.6 — System-Wide Refresh / Persistent Routing Hardening
 - Fixed hard browser refresh falling back to Dashboard across business-unit pages by restoring URL view + unit context before first render.
 - Added canonical `unit=` scope to top-level and registered record/detail routes.

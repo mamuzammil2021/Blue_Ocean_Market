@@ -11,7 +11,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit}){
   });
 
   app.get('/api/pink-salt/imports/:id/cost-locks-v3692',auth,allow('purchases','inventory','finance','dashboard'),(req,res)=>{
-    const bu=guard(req,res);if(!bu)return;const imp=db.prepare('SELECT id,status,received_at FROM pink_salt_imports WHERE id=? AND business_unit_id=?').get(Number(req.params.id),bu);if(!imp)return res.status(404).json({error:'Import not found.'});const costs=db.prepare("SELECT * FROM pink_salt_import_costs WHERE import_id=? AND COALESCE(status,'Active')!='Voided' ORDER BY cost_date,id").all(imp.id).map(c=>{const lock=costLock(c.id);return {id:c.id,locked:!!lock,lock_reason:lock?(['Posted','Reversed'].includes(text(lock.accounting_status))?'Accounting Posted':'Finance Verified'):''}});res.json({import_received:text(imp.status)==='Received'||!!imp.received_at,costs});
+    const bu=guard(req,res);if(!bu)return;const imp=db.prepare('SELECT id,status,received_at FROM pink_salt_imports WHERE id=? AND business_unit_id=?').get(Number(req.params.id),bu);if(!imp)return res.status(404).json({error:'Import not found.'});const costs=db.prepare("SELECT * FROM pink_salt_import_costs WHERE import_id=? ORDER BY cost_date,id").all(imp.id).map(c=>{const lock=costLock(c.id);return {id:c.id,status:c.status,fx_transaction_id:c.fx_transaction_id||null,locked:c.status==='Voided'||!!lock,lock_reason:c.status==='Voided'?'Voided':lock?(['Posted','Reversed'].includes(text(lock.accounting_status))?'Accounting Posted':'Finance Verified'):''}});res.json({import_received:text(imp.status)==='Received'||!!imp.received_at,costs});
   });
 
   console.info(`Blue Ocean Market V${VERSION} Pink Salt QA server refinements loaded`);

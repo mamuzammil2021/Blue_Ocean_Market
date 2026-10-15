@@ -146,7 +146,7 @@
       else wrap.appendChild(x);
     });
   }
-  function isCloseButton(btn){const txt=String(btn.textContent||'').trim(),onclick=String(btn.getAttribute('onclick')||'');return ['✕','×','X'].includes(txt)||(onclick.includes('closeModal')&&txt.length<=2)}
+  function isCloseButton(btn){if(btn?.matches?.('.ps-remove,[data-no-modal-close]'))return false;const txt=String(btn.textContent||'').trim(),onclick=String(btn.getAttribute('onclick')||'');return ['✕','×','X'].includes(txt)||(onclick.includes('closeModal')&&txt.length<=2)}
   function enhanceModal(box){
     if(!box)return;
     const header=[...box.children].find(x=>x.classList?.contains('section-title'))||box.querySelector('.section-title');
