@@ -1,0 +1,529 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Copied nested destination is preserved through first Sign In",
+    "psImports/import/1  restores exact URL, record and section without adding history",
+    "psCustomers/customer/1 receipts restores exact URL, record and section without adding history",
+    "psSales/order/1  restores exact URL, record and section without adding history",
+    "excavator/machine/1  restores exact URL, record and section without adding history",
+    "excavatorBuyers/buyer/1 accounts restores exact URL, record and section without adding history",
+    "excavatorSuppliers/supplier/1 accounts restores exact URL, record and section without adding history",
+    "payroll/employee/1 accounts restores exact URL, record and section without adding history",
+    "tasks/task/1  restores exact URL, record and section without adding history",
+    "payroll/run/1  restores exact URL, record and section without adding history",
+    "meetings/meeting/1  restores exact URL, record and section without adding history",
+    "reports/report/1  restores exact URL, record and section without adding history",
+    "approvals/approval/1  restores exact URL, record and section without adding history",
+    "finance/correction/1  restores exact URL, record and section without adding history",
+    "accounting/foreign-financing/1  restores exact URL, record and section without adding history",
+    "accounting/asset/1  restores exact URL, record and section without adding history",
+    "accounting/journal/1  restores exact URL, record and section without adding history",
+    "psImports/fx/1  restores exact URL, record and section without adding history",
+    "finance/record/1  restores exact URL, record and section without adding history",
+    "psSuppliers/supplier/1 payments restores exact URL, record and section without adding history",
+    "psProduction/batch/1  restores exact URL, record and section without adding history",
+    "accounting/account/4  restores exact URL, record and section without adding history",
+    "accounting/financing/1  restores exact URL, record and section without adding history",
+    "excavatorBuyers/pakistan/2 overview restores exact URL, record and section without adding history",
+    "excavatorBuyers/pakistan/2 records restores exact URL, record and section without adding history",
+    "excavatorBuyers/pakistan/2 payments restores exact URL, record and section without adding history",
+    "excavatorBuyers/pakistan/2 credit restores exact URL, record and section without adding history",
+    "excavatorBuyers/pakistan/2 refunds restores exact URL, record and section without adding history",
+    "excavatorBuyers/pakistan/2 transfers restores exact URL, record and section without adding history",
+    "excavatorBuyers/pakistan/2 documents restores exact URL, record and section without adding history",
+    "psSuppliers/supplier/1 overview restores exact URL, record and section without adding history",
+    "psSuppliers/supplier/1 account restores exact URL, record and section without adding history",
+    "psSuppliers/supplier/1 imports restores exact URL, record and section without adding history",
+    "psSuppliers/supplier/1 packaging restores exact URL, record and section without adding history",
+    "psSuppliers/supplier/1 documents restores exact URL, record and section without adding history",
+    "psSuppliers/supplier/1 history restores exact URL, record and section without adding history",
+    "excavatorBuyers/buyer/1 payments restores exact URL, record and section without adding history",
+    "excavatorBuyers/buyer/1 refunds restores exact URL, record and section without adding history",
+    "excavatorBuyers/buyer/1 machines restores exact URL, record and section without adding history",
+    "excavatorBuyers/buyer/1 requirements restores exact URL, record and section without adding history",
+    "excavatorBuyers/buyer/1 documents restores exact URL, record and section without adding history",
+    "excavatorSuppliers/supplier/1 overview restores exact URL, record and section without adding history",
+    "excavatorSuppliers/supplier/1 machines restores exact URL, record and section without adding history",
+    "excavatorSuppliers/supplier/1 requirements restores exact URL, record and section without adding history",
+    "excavatorSuppliers/supplier/1 payments restores exact URL, record and section without adding history",
+    "payroll/employee/1 overview restores exact URL, record and section without adding history",
+    "payroll/employee/1 employment restores exact URL, record and section without adding history",
+    "payroll/employee/1 compensation restores exact URL, record and section without adding history",
+    "payroll/employee/1 advances restores exact URL, record and section without adding history",
+    "payroll/employee/1 payroll restores exact URL, record and section without adding history",
+    "payroll/employee/1 documents restores exact URL, record and section without adding history",
+    "payroll/employee/1 allocation restores exact URL, record and section without adding history",
+    "Main page psRawStock restores without Dashboard fallback",
+    "Main page psPackaging restores without Dashboard fallback",
+    "Main page psProduction restores without Dashboard fallback",
+    "Main page psFinished restores without Dashboard fallback",
+    "Main page psCommerce restores without Dashboard fallback",
+    "Main page finance restores without Dashboard fallback",
+    "Main page accounting restores without Dashboard fallback",
+    "Main page payroll restores without Dashboard fallback",
+    "Main page documents restores without Dashboard fallback",
+    "Main page approvals restores without Dashboard fallback",
+    "Main page notifications restores without Dashboard fallback",
+    "Main page audit restores without Dashboard fallback",
+    "Main page users restores without Dashboard fallback",
+    "Main page profile restores without Dashboard fallback",
+    "Main page systemSettings restores without Dashboard fallback",
+    "Main page meetings restores without Dashboard fallback",
+    "Main page reports restores without Dashboard fallback",
+    "Additional main workspace dashboard survives refresh",
+    "Additional main workspace sales survives refresh",
+    "Additional main workspace purchases survives refresh",
+    "Additional main workspace inventory survives refresh",
+    "Additional main workspace performance survives refresh",
+    "Additional main workspace psWaste survives refresh",
+    "Additional main workspace psSuppliers survives refresh",
+    "Additional main workspace psImports survives refresh",
+    "Additional main workspace psSales survives refresh",
+    "Additional main workspace psCustomers survives refresh",
+    "MIMI workspace restaurant preserves its stable BU ID",
+    "MIMI workspace restaurantTables preserves its stable BU ID",
+    "MIMI menu read workspace survives refresh",
+    "MIMI stock read workspace survives refresh",
+    "MIMI weekly read workspace survives refresh",
+    "MIMI buffet read workspace survives refresh",
+    "MIMI open-orders read workspace survives refresh",
+    "CEO All Units destination survives refresh",
+    "Native BU switching and Back/Forward preserve the requested stable unit IDs",
+    "Shared URL writer rejects unregistered credential parameters",
+    "users/access/2 summary restores exact URL, record and section without adding history",
+    "users/access/2 profiles restores exact URL, record and section without adding history",
+    "users/access/2 groups restores exact URL, record and section without adding history",
+    "users/access/2 scope restores exact URL, record and section without adding history",
+    "users/access/2 authority restores exact URL, record and section without adding history",
+    "users/access/2 advanced restores exact URL, record and section without adding history",
+    "users/access/2 history restores exact URL, record and section without adding history",
+    "Access Profile Library survives refresh",
+    "Access Control Center overview survives refresh",
+    "Access Control Center profiles survives refresh",
+    "Access Control Center groups survives refresh",
+    "Access Control Center policies survives refresh",
+    "Access Control Center approval survives refresh",
+    "Access Control Center audit survives refresh",
+    "Access Control Center defaults survives refresh",
+    "Excavator machine filter, sort and page size survive refresh",
+    "My Account Security section survives refresh",
+    "User section navigation creates predictable Back/Forward entries",
+    "Missing record retains URL and renders Record Not Found",
+    "Unsupported route retains URL and renders explicit invalid state",
+    "Unavailable explicit BU is rejected without choosing another unit",
+    "Expired session returns to exact order after authentication",
+    "Temporary API failure preserves destination and Retry restores it",
+    "Permission-service outage is Retry state rather than false Access Denied",
+    "Finance status, movement type and server pagination restore from URL",
+    "Accounting Simple Cash & Banks section restores its actual body",
+    "Accounting Advanced Chart of Accounts restores mode and section",
+    "Accounting workspace simple:overview survives refresh",
+    "Accounting workspace simple:balances survives refresh",
+    "Accounting workspace simple:financing survives refresh",
+    "Accounting workspace v358:statements survives refresh",
+    "Accounting workspace v358:cashflow survives refresh",
+    "Accounting workspace v358:management survives refresh",
+    "Accounting workspace fixed survives refresh",
+    "Accounting workspace expenses survives refresh",
+    "Accounting workspace inventory survives refresh",
+    "Accounting workspace integrity survives refresh",
+    "Accounting workspace interbu survives refresh",
+    "Financial report date range survives refresh from URL",
+    "Posting Control workspace survives refresh",
+    "Server-paged customer activity filter is restored from URL",
+    "EN/KR switching preserves buyer record and Accounts section",
+    "Explicit Logout and ordinary Sign In open Dashboard",
+    "Slow obsolete import response cannot overwrite newer customer navigation",
+    "Copied nested URL opens the exact customer section in another tab",
+    "Restricted user sees Access Denied with exact URL and no protected record content",
+    "Restricted user can still open an authorized workspace"
+  ],
+  "production_data_used": false,
+  "authenticated": true,
+  "console_errors": [],
+  "registry": [
+    {
+      "view": "restaurant",
+      "kind": "menu",
+      "open": [
+        "restaurantMenu"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "restaurant",
+      "kind": "stock",
+      "open": [
+        "restaurantStock"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "restaurant",
+      "kind": "weekly",
+      "open": [
+        "restaurantWeekly"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "restaurant",
+      "kind": "buffet",
+      "open": [
+        "restaurantBuffet"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "restaurant",
+      "kind": "open-orders",
+      "open": [
+        "restaurantOpenOrders"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "excavator",
+      "kind": "machine",
+      "open": [
+        "excavatorOpenMachine"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "excavatorSuppliers",
+      "kind": "supplier",
+      "open": [
+        "BOMProfileRoutes337.supplier"
+      ],
+      "section": true,
+      "temporary": false
+    },
+    {
+      "view": "excavatorBuyers",
+      "kind": "buyer",
+      "open": [
+        "BOMProfileRoutes337.buyer"
+      ],
+      "section": true,
+      "temporary": false
+    },
+    {
+      "view": "excavatorBuyers",
+      "kind": "pakistan",
+      "open": [
+        "openPakistanResalesV327"
+      ],
+      "section": true,
+      "temporary": false
+    },
+    {
+      "view": "psSuppliers",
+      "kind": "supplier",
+      "open": [
+        "psSupplierAccount315"
+      ],
+      "section": true,
+      "temporary": false
+    },
+    {
+      "view": "psImports",
+      "kind": "import",
+      "open": [
+        "psImportDetail"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "psImports",
+      "kind": "fx",
+      "open": [
+        "psFxTransactionDetail"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "psSales",
+      "kind": "fx",
+      "open": [
+        "psFxTransactionDetail"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "psSales",
+      "kind": "order",
+      "open": [
+        "psOrderDetail313",
+        "psOrderDetail"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "psSales",
+      "kind": "new",
+      "open": [
+        "psSaleForm313"
+      ],
+      "section": false,
+      "temporary": true
+    },
+    {
+      "view": "psCustomers",
+      "kind": "customer",
+      "open": [
+        "psCustomerAccount313"
+      ],
+      "section": true,
+      "temporary": false
+    },
+    {
+      "view": "psProduction",
+      "kind": "batch",
+      "open": [
+        "psProductionDetail"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "finance",
+      "kind": "record",
+      "open": [
+        "financeOpen"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "finance",
+      "kind": "correction",
+      "open": [
+        "financeCorrectionOpen"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "users",
+      "kind": "access",
+      "open": [
+        "BOMUserRoutes340.open"
+      ],
+      "section": true,
+      "temporary": false
+    },
+    {
+      "view": "users",
+      "kind": "profiles",
+      "open": [
+        "v340ProfileLibrary"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "tasks",
+      "kind": "task",
+      "open": [
+        "taskDetail"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "meetings",
+      "kind": "meeting",
+      "open": [
+        "meetingDetail"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "reports",
+      "kind": "report",
+      "open": [
+        "reportDetail"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "approvals",
+      "kind": "approval",
+      "open": [
+        "approvalDetail"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "payroll",
+      "kind": "employee",
+      "open": [
+        "employeeProfileV3592",
+        "employeeProfileV359",
+        "employeeDetailV29"
+      ],
+      "section": true,
+      "temporary": false
+    },
+    {
+      "view": "payroll",
+      "kind": "run",
+      "open": [
+        "payrollRunDetailV3591",
+        "payrollRunDetailV29"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "profile",
+      "kind": "",
+      "open": [],
+      "section": true,
+      "temporary": false
+    },
+    {
+      "view": "payroll",
+      "kind": "",
+      "open": [],
+      "section": true,
+      "temporary": false
+    },
+    {
+      "view": "accounting",
+      "kind": "",
+      "open": [],
+      "section": true,
+      "temporary": false
+    },
+    {
+      "view": "accounting",
+      "kind": "account",
+      "open": [
+        "v343OpenAccount"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "psFinished",
+      "kind": "lots",
+      "open": [
+        "psLotsV367"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "psSales",
+      "kind": "trace",
+      "open": [
+        "psOrderLotTraceV367"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "psFinished",
+      "kind": "families",
+      "open": [
+        "psFamiliesV367"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "accounting",
+      "kind": "journal",
+      "open": [
+        "journalDetailV29"
+      ],
+      "section": false,
+      "temporary": true
+    },
+    {
+      "view": "accounting",
+      "kind": "posting",
+      "open": [
+        "postingOpenV318"
+      ],
+      "section": false,
+      "temporary": true
+    },
+    {
+      "view": "accounting",
+      "kind": "control",
+      "open": [
+        "accountingPostingControlV318"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "accounting",
+      "kind": "financing",
+      "open": [
+        "v356FinancingDetail"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "accounting",
+      "kind": "asset",
+      "open": [
+        "v357FixedAssetDetail"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "accounting",
+      "kind": "ledger",
+      "open": [
+        "v358AccountLedger"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "accounting",
+      "kind": "foreign-financing",
+      "open": [
+        "v356ForeignDetail"
+      ],
+      "section": false,
+      "temporary": false
+    },
+    {
+      "view": "systemSettings",
+      "kind": "security",
+      "open": [
+        "BOMSecurityRoutes.open"
+      ],
+      "section": true,
+      "temporary": false
+    },
+    {
+      "view": "systemSettings",
+      "kind": "",
+      "open": [],
+      "section": true,
+      "temporary": false
+    }
+  ]
+}

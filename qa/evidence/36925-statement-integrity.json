@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Statement closes exactly against original KRW invoice obligations, advance, direct payment and refund",
+    "Advance allocation appears in statement without a second cash debit",
+    "Statement running balances follow transaction dates including backdated records",
+    "Statement date range carries accurate opening and closing balances",
+    "Statement reversal restores balance while transaction audit history remains durable",
+    "Korean CSV retains exact reconciled figures and localized balance labels",
+    "Evidence digest rejects changed idempotent replay and cleans only unused uploaded duplicates",
+    "Failed payment leaves no orphan evidence, Finance record or partial settlement"
+  ],
+  "production_data_used": false,
+  "invoice_obligations": 1400000,
+  "advance": 5000,
+  "direct_payment": 2000,
+  "refund": 500,
+  "closing_before_reversal": 1393500,
+  "closing_after_reversal": 1395500
+}

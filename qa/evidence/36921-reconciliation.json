@@ -1,0 +1,39 @@
+{
+  "source": "Assertions from disposable authenticated browser and real SQLite/server QA; no production data",
+  "order": {
+    "currency": "KRW",
+    "quantities": [
+      2,
+      3
+    ],
+    "unit_price": 1000,
+    "subtotal": 5000,
+    "discount": 20,
+    "delivery": 100,
+    "platform_fee_expense_estimate": 50,
+    "grand_total": 5080,
+    "receipts": [
+      1000,
+      4080
+    ],
+    "partial_outstanding": 4080,
+    "final_outstanding": 0,
+    "finance_direction": "In",
+    "company_account": "Exact QA company Cash account selected",
+    "expected_real_money_movements": 2
+  },
+  "production": {
+    "input_kg": 6,
+    "output_units": 10,
+    "unit_weight_kg": 0.5,
+    "output_weight_kg": 5,
+    "waste_kg": 1,
+    "void_raw_delta_kg": 6,
+    "void_finished_delta_units": -10,
+    "original_history_preserved": true,
+    "repeat_void_creates_movements": false,
+    "replacement_reference_unique": true,
+    "replacement_GL_posting_waits_for_original_reversal": true
+  },
+  "accounting_policy": "Disposable QA approval only; actual business FX policy remains subject to CEO/Accounting decision"
+}

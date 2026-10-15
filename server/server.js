@@ -1,4 +1,5 @@
 const express=require('express'),jwt=require('jsonwebtoken'),bcrypt=require('bcryptjs'),multer=require('multer'),fs=require('fs'),path=require('path'),crypto=require('crypto');
+require('./frontend-integrity').assertFrontendIntegrity();
 const storage=require('./runtime-storage');
 const db=require('./db');
 const financeIntegrityV354=require('./v354-finance-integrity');
@@ -11,7 +12,9 @@ perfV339.installEarly({app,root});
 perfV339.enableSqlProfiling(db);
 const perfV346=require('./v346-performance');
 perfV346.installEarly({app,db});
-let accessV316=null,configV319=null;
+let accessV316=null,configV319=null,pinkFxEngine=null;
+const {createApprovalDetail,safeApprovalValue}=require('./approval-detail');
+const approvalSourceDetail=createApprovalDetail({db,enforceUnit,access:()=>accessV316,canViewFinanceRecord});
 // V30.22.1: store uploaded bytes unchanged and preserve the original extension in the
 // server-side storage name. The original user filename/MIME/checksum are recorded
 // separately so authenticated downloads can restore the exact original identity.
@@ -61,7 +64,7 @@ const upload={
   single(field){return [rawUpload.single(field),attachmentPolicyMiddleware]},
   array(field,maxCount){return [rawUpload.array(field,Math.max(1,Math.min(Number(maxCount||30),100))),attachmentPolicyMiddleware]}
 };
-app.use(express.json({limit:'5mb'}));app.use(express.urlencoded({extended:true}));app.use(express.static(path.join(root,'public'),{etag:true,lastModified:true,maxAge:'7d',immutable:true,setHeaders:(res,file)=>{if(String(file).endsWith('index.html'))res.setHeader('Cache-Control','no-cache')}}));
+app.use(express.json({limit:'5mb'}));app.use(express.urlencoded({extended:true}));app.use(express.static(path.join(root,'public'),{etag:true,lastModified:true,maxAge:'7d',immutable:true,setHeaders:(res,file)=>{if(String(file).endsWith('index.html')||(!res.req.query.v&&/\.(?:js|css|json)$/i.test(String(file))))res.setHeader('Cache-Control','no-cache')}}));
 // V30.22: private company attachments are never exposed as public static files.
 app.use('/uploads',(req,res)=>res.status(404).set('Cache-Control','no-store').send('Attachment access requires the authenticated in-app viewer.'));
 app.use('/api',(req,res,next)=>{res.set('Cache-Control','no-store, no-cache, must-revalidate, proxy-revalidate');res.set('Pragma','no-cache');res.set('Expires','0');next();});
@@ -85,6 +88,7 @@ function accessPathModule(p=''){
   if(p.startsWith('/excavator/suppliers'))return'excavatorSuppliers';
   if(p.startsWith('/excavator/buyers'))return'excavatorBuyers';
   if(p.startsWith('/excavator'))return'excavator';
+  if(p.startsWith('/pink-salt/fx/')){if(/\/fx\/(order|customer_)/.test(p))return'sales';if(/\/fx\/(import|supplier_|packaging|expense)/.test(p))return'purchases';return'finance'}
   if(p.startsWith('/pink-salt/dashboard'))return'dashboard';
   if(p.startsWith('/pink-salt/orders')||p.startsWith('/pink-salt/customers')||p.startsWith('/pink-salt/price'))return'sales';
   if(p.startsWith('/pink-salt/import')||p.startsWith('/pink-salt/supplier'))return'purchases';
@@ -120,8 +124,10 @@ const roles={
  'Sales / Business Development':['dashboard','tasks','reports','performance','meetings','crm','kpi','documents','sales','customers','approvals'],
  'Business Unit Manager':['dashboard','tasks','staff','reports','kpi','inventory','finance','approvals','performance','meetings','sales','purchases','crm','documents','pos','restaurant'],
  'Staff Member':['dashboard','tasks','reports','performance','meetings','documents','inventory']};
+app.post('/api/auth/logout',auth,(req,res)=>{const raw=req.headers.authorization.slice(7),decoded=jwt.verify(raw,SECRET);db.transaction(()=>{db.prepare('DELETE FROM auth_revoked_sessions WHERE expires_at<?').run(Math.floor(Date.now()/1000));db.prepare('INSERT OR IGNORE INTO auth_revoked_sessions(token_hash,expires_at,user_id) VALUES(?,?,?)').run(crypto.createHash('sha256').update(raw).digest('hex'),decoded.exp,req.user.id)})();res.json({ok:true})});
 function tok(u){return{id:u.id,name:u.name,email:u.email,role:u.role,business_unit_id:u.business_unit_id,preferred_language:u.preferred_language||'ko',auth_version:Number(u.auth_version||1)};}
-function auth(req,res,next){const h=req.headers.authorization||'';if(!h.startsWith('Bearer '))return res.status(401).json({error:'Authentication required'});try{let decoded,live;if(req._bomPreAuth&&req._bomPreAuth.token===h.slice(7)){decoded=req._bomPreAuth.decoded;live=req._bomPreAuth.live}else{decoded=jwt.verify(h.slice(7),SECRET);live=db.prepare("SELECT id,name,email,role,business_unit_id,active,COALESCE(preferred_language,'ko') preferred_language,COALESCE(auth_version,1) auth_version FROM users WHERE id=?").get(decoded.id)}if(!live||!live.active)return res.status(401).json({error:'Your account is inactive or no longer available'});if(Number(decoded.auth_version||0)!==Number(live.auth_version||1))return res.status(401).json({error:'This session is no longer valid. Please sign in again.'});req.user=tok(live);const requested=req.headers['x-business-unit-id'];if(req.user.role==='CEO / Owner'){req.selected_business_unit_id=requested?Number(requested):null;if(requested&&!db.prepare("SELECT id FROM business_units WHERE id=? AND status!='Archived'").get(req.selected_business_unit_id))return res.status(400).json({error:'Invalid business unit selection'});}else if(accessV316){const assigned=accessV316.assignedUnits(req.user.id),primary=Number(req.user.business_unit_id||assigned.find(x=>x.is_primary)?.id||assigned[0]?.id||0);const wanted=requested?Number(requested):primary;if(!wanted||!accessV316.isAssigned(req.user.id,wanted))return res.status(403).json({error:'You are not assigned to this business unit'});req.selected_business_unit_id=wanted;}else{req.selected_business_unit_id=req.user.business_unit_id||null;if(requested&&Number(requested)!==Number(req.selected_business_unit_id))return res.status(403).json({error:'You cannot access another business unit'});}next();}catch(e){res.status(401).json({error:'Invalid or expired session'});}}
+db.exec('CREATE TABLE IF NOT EXISTS auth_revoked_sessions(token_hash TEXT PRIMARY KEY,expires_at INTEGER NOT NULL,user_id INTEGER NOT NULL REFERENCES users(id))');
+function auth(req,res,next){const h=req.headers.authorization||'';if(!h.startsWith('Bearer '))return res.status(401).json({error:'Authentication required'});if(db.prepare('SELECT 1 FROM auth_revoked_sessions WHERE token_hash=?').get(crypto.createHash('sha256').update(h.slice(7)).digest('hex')))return res.status(401).json({error:'This session was logged out.'});try{let decoded,live;if(req._bomPreAuth&&req._bomPreAuth.token===h.slice(7)){decoded=req._bomPreAuth.decoded;live=req._bomPreAuth.live}else{decoded=jwt.verify(h.slice(7),SECRET);live=db.prepare("SELECT id,name,email,role,business_unit_id,active,COALESCE(preferred_language,'ko') preferred_language,COALESCE(auth_version,1) auth_version FROM users WHERE id=?").get(decoded.id)}if(!live||!live.active)return res.status(401).json({error:'Your account is inactive or no longer available'});if(Number(decoded.auth_version||0)!==Number(live.auth_version||1))return res.status(401).json({error:'This session is no longer valid. Please sign in again.'});req.user=tok(live);const requested=req.headers['x-business-unit-id'];if(req.user.role==='CEO / Owner'){req.selected_business_unit_id=requested?Number(requested):null;if(requested&&!db.prepare("SELECT id FROM business_units WHERE id=? AND status!='Archived'").get(req.selected_business_unit_id))return res.status(400).json({error:'Invalid business unit selection'});}else if(accessV316){const assigned=accessV316.assignedUnits(req.user.id),primary=Number(req.user.business_unit_id||assigned.find(x=>x.is_primary)?.id||assigned[0]?.id||0);const wanted=requested?Number(requested):primary;if(!wanted||!accessV316.isAssigned(req.user.id,wanted))return res.status(403).json({error:'You are not assigned to this business unit'});req.selected_business_unit_id=wanted;}else{req.selected_business_unit_id=req.user.business_unit_id||null;if(requested&&Number(requested)!==Number(req.selected_business_unit_id))return res.status(403).json({error:'You cannot access another business unit'});}next();}catch(e){res.status(401).json({error:'Invalid or expired session'});}}
 function allow(...p){return(req,res,next)=>{const bu=req.selected_business_unit_id||req.user.business_unit_id||null;if(accessV316){if(req.user.role==='CEO / Owner'||accessV316.canAnyModule(req.user.id,p,bu))return next();return res.status(403).json({error:'You do not have permission for this action'});}if(req.user.role==='CEO / Owner'||(roles[req.user.role]||[]).includes('*')||p.some(x=>(roles[req.user.role]||[]).includes(x)))return next();res.status(403).json({error:'You do not have permission for this action'});};}
 function audit(u,e,id,a,d=''){db.prepare('INSERT INTO audit_log(user_id,entity,entity_id,action,details) VALUES(?,?,?,?,?)').run(u?.id||null,e,id||null,a,d);}
 function ensureFinanceIntegrityColumn(column,definition){try{const cols=db.prepare('PRAGMA table_info(finance_entries)').all().map(x=>x.name);if(!cols.includes(column))db.exec(`ALTER TABLE finance_entries ADD COLUMN ${column} ${definition}`)}catch(e){console.error('Finance integrity migration',column,e.message)}}
@@ -143,6 +149,9 @@ function notify(uid,level,title,message,businessUnitId=null,entityType='',entity
 function financeRoleMeta(sourceType,type,category,paymentMethod=''){const st=String(sourceType||''),ty=String(type||''),cat=String(category||'');if(st==='Employee Advance')return ['Employee Advance Payment',-1];if(st==='Pink Salt Supplier Advance')return ['Supplier Advance Payment',-1];if(st==='Pink Salt Supplier Advance Refund')return ['Supplier Advance Refund',1];if(st==='Pink Salt Import Purchase')return ['Purchase / Payable',0];if(st==='Pink Salt Import Payment')return ['Supplier Payment / Settlement',-1];if(st==='Pink Salt Import Cost')return ['Import Cost Payment',-1];if(st==='Pink Salt Packaging Purchase')return ['Packaging Purchase / Payable',0];if(st==='Pink Salt Sale')return ['Sale / Revenue',0];if(st==='Pink Salt Customer Receipt')return ['Customer Receipt',1];if(st==='Pink Salt Marketplace Settlement Fee')return ['Marketplace Withheld Fee',0];if(st==='Pink Salt Customer Payment')return ['Customer Receipt',1];if(st==='Pink Salt Customer Refund')return ['Customer Refund',-1];if(st==='Pink Salt Platform Fee')return ['Marketplace Fee Payment',-1];if(st==='Pink Salt Waste')return ['Inventory Loss',0];if(st==='Excavator Sale')return ['Sale / Revenue',0];if(st==='Excavator Buyer Payment'||st==='Buyer Payment')return ['Buyer Receipt',1];if(st==='Excavator Buyer Refund')return ['Buyer Refund',-1];if(st==='Excavator Payment')return ['Machine Payment / Settlement',ty==='Revenue'?1:-1];if(st==='Excavator Cost Transaction'&&cat==='Purchase')return ['Purchase / Payable',0];if(st==='Pakistan Resale Profit Payment')return ['Pakistan Resale Profit Receipt',1];if(st==='Pakistan Resale Profit Refund')return ['Pakistan Resale Profit Refund',-1];if(st==='Pakistan Resale Bank Transfer')return ['Inter-account Bank Transfer',0];if(st==='Purchase')return ['Purchase / Payable',0];if(st==='Purchase Payment')return ['Supplier Payment / Settlement',-1];if(st==='Sale')return ['Sale / Revenue',0];if(st==='Sale Payment'||st==='MIMI Sale Payment')return ['Customer Receipt',1];if(st==='Manual')return [ty==='Revenue'?'Manual Income':'Manual Expense',ty==='Revenue'?1:-1];if(/payment|receipt|refund/i.test(st+' '+cat))return [/refund/i.test(st+' '+cat)?'Refund / Payment':'Payment / Settlement',/refund/i.test(st+' '+cat)?-1:(ty==='Revenue'||ty==='Receipt'?1:-1)];if(ty==='Revenue')return ['Revenue',0];if(ty==='Expense')return ['Expense',-1];if(ty==='Inventory'||ty==='Inventory Cost')return ['Inventory / Cost',0];return [ty||'Financial Record',0]}
 function financeSync({businessUnitId,type='Expense',category,amount,description,paymentMethod='',reference='',paymentAccountId=null,createdBy,sourceType,sourceId,receiptFile='',resetVerification=false,originalAmount=null,originalCurrency='KRW',fxRate=1,transactionDate=null,sourceLabel='',sourceRecordId=null,sourcePaymentId=null,receiverAccountId=null,receiverEntityType='',receiverEntityId=null,receiverName='',receiverAccountLabel='',receiverBankName='',receiverAccountCountry='',receiverCurrency='',receiverAccountNumber='',receiverMethod=''}){
   if(!businessUnitId||!sourceType||sourceId==null||Number(amount||0)===0)return null;
+  const fxLink=require('./pink-fx-engine').legacyFinanceLink(db,sourceType,sourceId);
+  if(fxLink)return fxLink.finance_entry_id; // operational projection is never a second bank movement
+
   // V30.54: settlement mirrors represent allocations, NOT independently received money.
   if(sourceType==='Excavator Payment'&&financeIntegrityV354.isSaleSettlementMirror(db,sourceId))return null;
   const sourceIdNum=Number(sourceId),value=Number(amount||0),orig=originalAmount==null?value:Number(originalAmount||0),currency=String(originalCurrency||'KRW').toUpperCase(),rate=Number(fxRate||1)||1,[financeRole,cashEffect]=financeRoleMeta(sourceType,type,category,paymentMethod),sourceKey=sourceType==='Manual'?'':`${Number(businessUnitId)}|${String(sourceType)}|${sourceIdNum}`,referenceNormalized=normalizePaymentReference(reference);
@@ -217,6 +226,19 @@ require('./v356-final-foreign').install({app,db,auth,allow,currentUnit,enforceUn
 require('./v356-final-lease').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
 require('./v357-realworld').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29,hasAccess:(userId,key,bu)=>!!accessV316&&accessV316.can(userId,key,bu)});
 require('./v357-inventory-review').install({app,db,auth,allow,currentUnit,enforceUnit});
+// Currency-engine projections can only be changed through their audited engine.
+app.use('/api',(req,res,next)=>{
+  if(['GET','HEAD','OPTIONS'].includes(req.method))return next();
+  const route=String(req.path||'');
+  let table=null,id=null;
+  const matches=[[/^\/pink-salt\/suppliers\/\d+\/advances\/(\d+)/,'pink_salt_supplier_advances'],[/^\/pink-salt\/imports\/\d+\/payments\/(\d+)/,'pink_salt_import_payments'],[/^\/pink-salt\/customers\/\d+\/receipts-v313\/(\d+)\/(?:void|edit)/,'pink_salt_customer_receipts'],[/^\/pink-salt\/orders\/\d+\/payments\/(\d+)/,'pink_salt_customer_payments'],[/^\/pink-salt\/orders\/\d+\/refunds\/(\d+)/,'pink_salt_customer_refunds'],[/^\/pink-salt\/suppliers\/\d+\/advance-refunds\/(\d+)/,'pink_salt_supplier_advance_refunds'],[/^\/pink-salt\/imports\/\d+\/costs\/(\d+)/,'pink_salt_import_costs']];
+  for(const [re,t] of matches){const m=route.match(re);if(m){table=t;id=Number(m[1]);break}}
+  const exists=db.prepare("SELECT 1 FROM sqlite_master WHERE name='pink_fx_transactions'").get();
+  if(exists&&table){const tx=db.prepare('SELECT id FROM pink_fx_transactions WHERE projection_table=? AND projection_id=?').get(table,id);if(tx)return res.status(409).json({error:'Use the currency transaction correction/reversal workflow to preserve all linked financial effects.',transaction_id:tx.id})}
+  const fm=route.match(/^\/finance\/(\d+)\/(?:correct|resubmit|update)/);
+  if(exists&&fm){const tx=db.prepare('SELECT id FROM pink_fx_transactions WHERE finance_entry_id=?').get(Number(fm[1]));if(tx)return res.status(409).json({error:'Correct the immutable currency transaction from Pink Salt; direct Finance amount edits are blocked.',transaction_id:tx.id})}
+  next();
+});
 require('./v300').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads,upload,financeSync,voidFinanceBySource,accounting:accountingV29,configuredPaymentAccount});
 require('./v305').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads,upload,financeSync,voidFinanceBySource,accounting:accountingV29,configuredPaymentAccount});
 require('./v307').install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads,upload,financeSync,accounting:accountingV29,maybeCreateApproval,stopForApproval,markApprovalExecuted,configuredPaymentAccount});
@@ -273,6 +295,13 @@ function configuredPaymentAccount(req,businessUnitId,paymentMethod,paymentAccoun
   const mappingRequired=configV319?.getSetting?.('finance_accounting','bank_gl_mapping_required',{businessUnitId:bu,userId:req?.user?.id,fallback:true})!==false;
   const allowedLedgerTypes=actual==='Card'?['Asset','Liability']:['Asset'];
   if(mappingRequired&&(!row.ledger_account_id||Number(row.ledger_active||0)!==1||!allowedLedgerTypes.includes(row.ledger_type)))throw Object.assign(new Error(`Posting Control blocked this ${actual} account because it has no valid active ${actual==='Card'?'Asset/Liability':'Asset'} GL mapping. Configure it in System Settings → Company Financial Accounts.`),{status:409});
+  // Legacy Pink Salt writes cannot silently debit a different currency. The native
+  // currency engine passes through its explicit, validated source/recipient legs.
+  if(req?.path?.includes('/pink-salt/')&&!req.path.includes('/pink-salt/fx/')&&!req.path.includes('/cross-currency-preview-')){
+    let legacyCurrency=String(req.body?.original_currency||req.body?.currency||'').trim().toUpperCase();
+    if(!legacyCurrency){const importPath=req.path.match(/\/imports\/(\d+)\/(payments|settlement-v369)$/);if(importPath)legacyCurrency=db.prepare('SELECT invoice_currency FROM pink_salt_imports WHERE id=?').get(Number(importPath[1]))?.invoice_currency||'KRW';else legacyCurrency='KRW'}
+    if(String(row.currency||'KRW').toUpperCase()!==legacyCurrency)throw Object.assign(new Error('Use the Pink Salt currency settlement form to record the actual bank conversion. The legacy single-currency path cannot debit this account.'),{status:409});
+  }
   return row;
 }
 function passwordPolicyError(password,userId=null,businessUnitId=null){const policy=configV319?.effectiveFor?.('security_access',businessUnitId,userId)||{password_min_length:12,password_require_upper:true,password_require_lower:true,password_require_number:true,password_require_special:false},p=String(password||''),min=Math.max(8,Number(policy.password_min_length||12)),errors=[];if(p.length<min)errors.push(`at least ${min} characters`);if(policy.password_require_upper&&!/[A-Z]/.test(p))errors.push('an uppercase letter');if(policy.password_require_lower&&!/[a-z]/.test(p))errors.push('a lowercase letter');if(policy.password_require_number&&!/\d/.test(p))errors.push('a number');if(policy.password_require_special&&!/[^A-Za-z0-9]/.test(p))errors.push('a special character');return errors.length?'Password must contain '+errors.join(', ')+'.':''}
@@ -457,6 +486,12 @@ function executeApprovedAction(approval,user){
   if(a.status==='Executed')return {executed:true,already_executed:true};
   const reason=a.reason||'Approved controlled action',source=String(a.source_entity||''),sourceId=Number(a.source_id||0),actor=user?.id||a.decided_by||a.requester_id;
   try{
+    if(['pink_fx_request','pink_fx_reversal'].includes(source))return pinkFxEngine.executeApproval(a,user);
+    if(a.action_key==='payment.void'){
+      const tables={pink_salt_import_payment:'pink_salt_import_payments',pink_salt_customer_payment:'pink_salt_customer_payments',pink_salt_customer_refund:'pink_salt_customer_refunds',pink_salt_supplier_advance:'pink_salt_supplier_advances',pink_salt_supplier_advance_refund:'pink_salt_supplier_advance_refunds',pink_salt_import_cost:'pink_salt_import_costs',pink_salt_customer_receipt:'pink_salt_customer_receipts'};
+      const table=tables[source];if(table){const tx=db.prepare('SELECT id,business_unit_id FROM pink_fx_transactions WHERE projection_table=? AND projection_id=?').get(table,sourceId);if(tx){const result=db.transaction(()=>pinkFxEngine.reverse({user,selected_business_unit_id:tx.business_unit_id},tx.id,reason))();markApprovalExecuted(a,user,result);return {executed:true,...result}}}
+    }
+
     if(a.action_key==='payment.void'){
       const lifecycleGuard=v331?.executionGuard?.(source,sourceId);if(lifecycleGuard&&lifecycleGuard.allowed===false)return {executed:false,error:lifecycleGuard.reason||'This void/reversal is blocked by the current lifecycle stage or linked records.'};
       if(source==='sale'){
@@ -464,7 +499,7 @@ function executeApprovedAction(approval,user){
       }else if(source==='purchase'){
         const purchase=db.prepare('SELECT * FROM purchases WHERE id=?').get(sourceId);if(!purchase)return {executed:false,error:'Linked purchase not found'};if(purchase.status!=='Voided')db.transaction(()=>{const items=db.prepare('SELECT * FROM purchase_items WHERE purchase_id=?').all(purchase.id);for(const item of items){const product=db.prepare('SELECT current_stock,item_type FROM products WHERE id=?').get(item.product_id);if(product&&String(product.item_type||'').toUpperCase()==='PRODUCT'&&Number(product.current_stock||0)<Number(item.quantity||0))throw new Error(`Purchase cannot be voided because ${item.item_name||'inventory'} has already been consumed.`)}db.prepare("UPDATE purchases SET status='Voided' WHERE id=?").run(purchase.id);voidFinanceBySource('Purchase',purchase.id,reason,actor,purchase.business_unit_id);for(const item of items){const product=db.prepare('SELECT item_type,cost_price FROM products WHERE id=?').get(item.product_id);if(product&&String(product.item_type||'').toUpperCase()==='PRODUCT'){db.prepare('UPDATE products SET current_stock=current_stock-? WHERE id=?').run(Number(item.quantity||0),item.product_id);db.prepare('INSERT INTO stock_movements(product_id,type,quantity,unit_cost,reason,reference_type,reference_id,user_id) VALUES(?,?,?,?,?,?,?,?)').run(item.product_id,'PURCHASE VOID',Number(item.quantity||0),Number(item.unit_cost||0),reason,'PURCHASE_VOID',purchase.id,actor)}}})();
       }else if(source==='finance_entry'){
-        const finance=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(sourceId);if(!finance)return {executed:false,error:'Linked Finance entry not found'};const mapped=({'Sale':'sale','Purchase':'purchase','Excavator Payment':'excavator_payment','Excavator Cost Transaction':'excavator_transaction','Excavator Buyer Payment':'excavator_buyer_payment','Buyer Payment':'excavator_buyer_payment','Excavator Buyer Refund':'buyer_advance_refund','Pink Salt Import Payment':'pink_salt_import_payment','Pink Salt Import Cost':'pink_salt_import_cost','Pink Salt Packaging Purchase':'pink_salt_packaging_purchase','Pink Salt Customer Payment':'pink_salt_customer_payment','Pink Salt Customer Refund':'pink_salt_customer_refund'})[finance.source_type];if(mapped&&finance.source_id!=null)return executeApprovedAction({...a,source_entity:mapped,source_id:finance.source_id},user);if(finance.source_type==='Excavator Sale')return {executed:false,error:'Void the linked machine sale from Excavator Operations so the machine, buyer allocation, document and Finance records reverse together.'};if(['Pink Salt Import Purchase','Pink Salt Sale','Pink Salt Platform Fee','Pink Salt Waste'].includes(finance.source_type))return {executed:false,error:'This Pink Salt Finance record is managed by its operational source. Use the linked Pink Salt record so stock, payable/receivable and accounting reverse together.'};db.prepare("UPDATE finance_entries SET status='Voided',void_reason=?,voided_by=?,voided_at=CURRENT_TIMESTAMP WHERE id=? AND status!='Voided'").run(reason,actor,finance.id);
+        const finance=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(sourceId);if(!finance)return {executed:false,error:'Linked Finance entry not found'};const mapped=({'Sale':'sale','Purchase':'purchase','Excavator Payment':'excavator_payment','Excavator Cost Transaction':'excavator_transaction','Excavator Buyer Payment':'excavator_buyer_payment','Buyer Payment':'excavator_buyer_payment','Excavator Buyer Refund':'buyer_advance_refund','Pink Salt Import Payment':'pink_salt_import_payment','Pink Salt Import Cost':'pink_salt_import_cost','Pink Salt Packaging Purchase':'pink_salt_packaging_purchase','Pink Salt Customer Payment':'pink_salt_customer_payment','Pink Salt Customer Refund':'pink_salt_customer_refund'})[finance.source_type];if(mapped&&finance.source_id!=null)return executeApprovedAction({...a,source_entity:mapped,source_id:finance.source_id},user);if(['Pink Salt FX Payment','Pink Salt FX Fee'].includes(finance.source_type)){const txId=finance.source_type==='Pink Salt FX Payment'?finance.source_id:db.prepare('SELECT transaction_id FROM pink_fx_fee_debits WHERE id=?').get(finance.source_id)?.transaction_id;const r=db.transaction(()=>pinkFxEngine.reverse({user,selected_business_unit_id:finance.business_unit_id},txId,reason))();markApprovalExecuted(a,user,r);return {executed:true,...r}}if(finance.source_type==='Excavator Sale')return {executed:false,error:'Void the linked machine sale from Excavator Operations so the machine, buyer allocation, document and Finance records reverse together.'};if(['Pink Salt Import Purchase','Pink Salt Sale','Pink Salt Platform Fee','Pink Salt Waste'].includes(finance.source_type))return {executed:false,error:'This Pink Salt Finance record is managed by its operational source. Use the linked Pink Salt record so stock, payable/receivable and accounting reverse together.'};db.prepare("UPDATE finance_entries SET status='Voided',void_reason=?,voided_by=?,voided_at=CURRENT_TIMESTAMP WHERE id=? AND status!='Voided'").run(reason,actor,finance.id);
       }else if(source==='excavator_payment'){
         const payment=db.prepare('SELECT * FROM excavator_payments WHERE id=?').get(sourceId);if(!payment)return {executed:false,error:'Linked Excavator payment not found'};db.prepare("UPDATE excavator_payments SET status='Voided',notes=COALESCE(notes,'')||? WHERE id=? AND status!='Voided'").run(' | VOIDED: '+reason,payment.id);voidFinanceBySource('Excavator Payment',payment.id,reason,actor);
       }else if(source==='excavator_transaction'){
@@ -636,7 +671,7 @@ function notificationUnitScope(req){
   return {sql:' AND (business_unit_id IS NULL OR business_unit_id=?)',args:[req.user.business_unit_id||0]};
 }
 
-app.get('/api/health',(req,res)=>{const st=storage.status();res.json({ok:true,version:'30.69.0',render:st.isRender,persistent_storage:st.isRender?st.pathsPersistent:false,disk_mount_detected:st.isRender?st.mountDetected:false,storage_writable:st.writable})});
+app.get('/api/health',(req,res)=>{const st=storage.status();res.json({ok:true,version:require('../package.json').version,render:st.isRender,persistent_storage:st.isRender?st.pathsPersistent:false,disk_mount_detected:st.isRender?st.mountDetected:false,storage_writable:st.writable})});
 
 app.get('/api/action-counts',auth,(req,res)=>{
   try{
@@ -692,7 +727,7 @@ app.get('/api/system/integrity',auth,allow('dashboard','finance'),(req,res)=>{
   const critical=checks.reduce((n,x)=>n+(x.severity==='critical'?x.count:0),0),warnings=checks.reduce((n,x)=>n+(x.severity==='warning'?x.count:0),0);
   res.json({ok:critical===0,scope:all?'all':'unit',business_unit_id:unit||null,checked_at:new Date().toISOString(),critical,warnings,checks});
 });
-app.post('/api/auth/login',(req,res)=>{const {email,password}=req.body||{};const u=db.prepare('SELECT * FROM users WHERE lower(email)=lower(?) AND active=1').get(email||'');if(!u||!bcrypt.compareSync(password||'',u.password_hash))return res.status(401).json({error:'Invalid email or password'});const t=jwt.sign(tok(u),SECRET,{expiresIn:'12h'});audit(u,'auth',u.id,'login');res.json({token:t,user:tok(u)});});
+app.post('/api/auth/login',(req,res)=>{const {email,password}=req.body||{};const u=db.prepare('SELECT * FROM users WHERE lower(email)=lower(?) AND active=1').get(email||'');if(!u||!bcrypt.compareSync(password||'',u.password_hash))return res.status(401).json({error:'Invalid email or password'});const t=jwt.sign({...tok(u),jti:crypto.randomUUID()},SECRET,{expiresIn:'12h'});audit(u,'auth',u.id,'login');res.json({token:t,user:tok(u)});});
 app.post('/api/auth/forgot',(req,res)=>{const u=db.prepare('SELECT * FROM users WHERE lower(email)=lower(?) AND active=1').get(req.body.email||'');if(!u)return res.json({message:'If the account exists, a reset link has been created.'});const token=uid();db.prepare('INSERT INTO password_resets(user_id,token,expires_at) VALUES(?,?,datetime(\'now\',\'+30 minutes\'))').run(u.id,token);const base=`${req.protocol}://${req.get('host')}`;res.json({message:'Reset link created.',reset_url:`${base}/?reset=${token}`});});
 app.post('/api/auth/reset',(req,res)=>{const r=db.prepare('SELECT * FROM password_resets WHERE token=? AND used=0 AND datetime(expires_at)>datetime(\'now\')').get(req.body.token||'');if(!r)return res.status(400).json({error:'Reset token is invalid or expired'});if(!req.body.password||req.body.password.length<8)return res.status(400).json({error:'Password must be at least 8 characters'});db.prepare('UPDATE users SET password_hash=? WHERE id=?').run(bcrypt.hashSync(req.body.password,12),r.user_id);db.prepare('UPDATE password_resets SET used=1 WHERE id=?').run(r.id);res.json({ok:true});});
 app.get('/api/me',auth,(req,res)=>{const u=db.prepare("SELECT id,name,email,role,business_unit_id,COALESCE(preferred_language,'ko') preferred_language FROM users WHERE id=? AND active=1").get(req.user.id);if(!u)return res.status(404).json({error:'User not found'});res.json({user:u})});
@@ -1077,7 +1112,11 @@ app.get('/api/purchases',auth,allow('purchases','inventory'),(req,res)=>{let q=`
 function financeSourceDetail(f){
   const out={label:f.source_label||f.source_type||'Manual',record:'Manual finance entry',party:'',machine:'',status:'',action_view:'',action_id:null,amount:null,reference:'',transaction_date:''};
   try{
-    if(f.source_type==='Excavator Payment'){
+    if(['Pink Salt FX Payment','Pink Salt FX Fee'].includes(f.source_type)){
+      const r=f.source_type==='Pink Salt FX Payment'?db.prepare('SELECT * FROM pink_fx_transactions WHERE id=?').get(f.source_id):db.prepare('SELECT t.* FROM pink_fx_fee_debits x JOIN pink_fx_transactions t ON t.id=x.transaction_id WHERE x.id=?').get(f.source_id);
+      if(r){out.label='Pink Salt Currency Settlement';out.record=`Currency transaction #${r.id} · ${r.reference}`;out.party=db.prepare(`SELECT name FROM ${r.counterparty_type==='pink_salt_supplier'?'pink_salt_suppliers':'pink_salt_customers'} WHERE id=?`).get(r.counterparty_id)?.name||'';out.status=r.status;out.amount=Number(f.krw_amount);out.reference=f.reference;out.transaction_date=r.payment_date;out.fx_transaction_id=r.id;out.action_view=r.workflow.startsWith('order')?'psSales':r.workflow.startsWith('customer')?'psCustomers':r.workflow.startsWith('supplier')||r.workflow==='expense'?'psSuppliers':'psImports';out.action_id=r.record_id;}
+    }else if(f.source_type==='Excavator Payment'){
+
       const r=db.prepare(`SELECT p.*,a.asset_no,a.machine_name,a.id asset_id,s.name supplier_name FROM excavator_payments p JOIN excavator_assets a ON a.id=p.asset_id LEFT JOIN excavator_suppliers s ON s.id=a.supplier_id WHERE p.id=?`).get(f.source_id);
       if(r){out.label='Excavator → Machine Payment';out.record=`${r.payment_type||'Payment'} · ${r.reference||'No reference'}`;out.party=r.supplier_name||'';out.machine=`${r.asset_no||''} ${r.machine_name||''}`.trim();out.status=r.status||'';out.action_view='excavator';out.action_id=r.asset_id;}
     }else if(f.source_type==='Excavator Repair'){
@@ -1253,6 +1292,7 @@ function financeTimeline(f){
   return timeline.sort((a,b)=>String(a.created_at||'').localeCompare(String(b.created_at||'')));
 }
 function applyFinanceCorrection(f,body,files,user){
+  if(['Pink Salt FX Payment','Pink Salt FX Fee'].includes(f.source_type))throw new Error('Use Pink Salt currency transaction correction; immutable bank snapshots cannot be edited directly from Finance.');
   const definition=financeCorrectionForm(f),before=definition.record||{},values={};
   for(const field of definition.fields){
     let value=body[field.name];if(value===undefined)value=before[field.name]??'';
@@ -1374,10 +1414,11 @@ function applyFinanceCorrection(f,body,files,user){
 function openFinanceCorrection({finance,requestedBy,reason,severity='Normal',requestedChanges=''}){
   const assignedTo=Number(finance.created_by||requestedBy);
   if(!assignedTo)throw new Error('The Finance record has no original creator to receive this correction');
+  const duplicate=db.prepare("SELECT * FROM finance_correction_requests WHERE (finance_entry_id=? OR replacement_finance_entry_id=?) AND status IN ('Open','Viewed') ORDER BY id DESC LIMIT 1").get(finance.id,finance.id);if(duplicate&&duplicate.reason===reason&&duplicate.requested_changes===(requestedChanges||reason)&&duplicate.severity===severity&&Number(duplicate.assigned_to)===assignedTo)return duplicate.id;
   const snapshot=financeCorrectionSnapshot(finance),priority=severity==='Critical'?'Critical':severity==='High'?'High':'Normal';
   const transaction=db.transaction(()=>{
     // One correction chain + one task per Finance record. Reopen/reuse the latest chain instead of creating duplicates.
-    let correction=db.prepare("SELECT * FROM finance_correction_requests WHERE finance_entry_id=? ORDER BY id DESC LIMIT 1").get(finance.id);
+    let correction=db.prepare("SELECT * FROM finance_correction_requests WHERE finance_entry_id=? OR replacement_finance_entry_id=? ORDER BY id DESC LIMIT 1").get(finance.id,finance.id);
     if(correction){
       db.prepare("UPDATE finance_correction_requests SET reason=?,requested_changes=?,severity=?,status='Open',requested_by=?,assigned_to=?,requested_at=CURRENT_TIMESTAMP,due_at=datetime('now','+3 days'),responded_at=NULL,resolved_at=NULL,outcome='',source_snapshot_json=CASE WHEN COALESCE(source_snapshot_json,'{}')='{}' THEN ? ELSE source_snapshot_json END,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(reason,requestedChanges||reason,severity,requestedBy,assignedTo,JSON.stringify(snapshot),correction.id);
       correction=db.prepare('SELECT * FROM finance_correction_requests WHERE id=?').get(correction.id);
@@ -1402,7 +1443,7 @@ function openFinanceCorrection({finance,requestedBy,reason,severity='Normal',req
   return Number(transaction());
 }
 function completeFinanceCorrectionWorkflow(financeId,userId,note='Corrected transaction verified'){
-  const active=db.prepare("SELECT * FROM finance_correction_requests WHERE finance_entry_id=? AND status IN ('Open','Viewed','Resubmitted') ORDER BY id DESC LIMIT 1").get(financeId);
+  const active=db.prepare("SELECT * FROM finance_correction_requests WHERE COALESCE(replacement_finance_entry_id,finance_entry_id)=? AND status IN ('Open','Viewed','Resubmitted') ORDER BY id DESC LIMIT 1").get(financeId);
   if(!active)return null;
   db.prepare("UPDATE finance_correction_requests SET status='Resolved',outcome='Verified / Correct',resolved_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(active.id);
   const resolved=db.prepare('SELECT * FROM finance_correction_requests WHERE id=?').get(active.id);financeCorrectionHistory(resolved,userId,'Verified & Resolved',note);
@@ -1453,7 +1494,7 @@ app.get('/api/finance/corrections',auth,allow('finance','dashboard','performance
   let q=`SELECT c.*,f.type finance_type,f.category,f.amount,f.description,f.reference,f.receipt_file,f.verification_status,
     assignee.name assigned_to_name,requester.name requested_by_name,b.name business_unit,
     CAST(CASE WHEN c.responded_at IS NOT NULL THEN (julianday(c.responded_at)-julianday(c.requested_at))*24 ELSE NULL END AS REAL) response_hours
-    FROM finance_correction_requests c JOIN finance_entries f ON f.id=c.finance_entry_id JOIN business_units b ON b.id=c.business_unit_id
+    FROM finance_correction_requests c JOIN finance_entries f ON f.id=COALESCE(c.replacement_finance_entry_id,c.finance_entry_id) JOIN business_units b ON b.id=c.business_unit_id
     LEFT JOIN users assignee ON assignee.id=c.assigned_to LEFT JOIN users requester ON requester.id=c.requested_by WHERE 1=1`;
   const args=[];if(req.user.role==='CEO / Owner'){if(req.selected_business_unit_id){q+=' AND c.business_unit_id=?';args.push(req.selected_business_unit_id)}}else if(req.user.role==='Finance / Admin'){q+=' AND c.business_unit_id=?';args.push(req.user.business_unit_id)}else{q+=' AND c.assigned_to=?';args.push(req.user.id)}
   res.json(db.prepare(q+" ORDER BY CASE c.status WHEN 'Open' THEN 0 WHEN 'Viewed' THEN 1 WHEN 'Resubmitted' THEN 2 ELSE 3 END,COALESCE(c.due_at,c.requested_at),c.id DESC").all(...args));
@@ -1461,11 +1502,11 @@ app.get('/api/finance/corrections',auth,allow('finance','dashboard','performance
 app.get('/api/finance/corrections/:id',auth,(req,res)=>{
   const c=db.prepare(`SELECT c.*,f.type finance_type,f.category,f.amount,f.description,f.reference,f.receipt_file,f.verification_status,f.created_by,
     assignee.name assigned_to_name,requester.name requested_by_name,b.name business_unit
-    FROM finance_correction_requests c JOIN finance_entries f ON f.id=c.finance_entry_id JOIN business_units b ON b.id=c.business_unit_id
+    FROM finance_correction_requests c JOIN finance_entries f ON f.id=COALESCE(c.replacement_finance_entry_id,c.finance_entry_id) JOIN business_units b ON b.id=c.business_unit_id
     LEFT JOIN users assignee ON assignee.id=c.assigned_to LEFT JOIN users requester ON requester.id=c.requested_by WHERE c.id=?`).get(req.params.id);
   if(!c)return res.status(404).json({error:'Correction request not found'});if(!enforceUnit(req,c.business_unit_id))return res.status(403).json({error:'You cannot access another business unit correction'});
   if(!isFinanceReviewer(req.user)&&Number(c.assigned_to)!==Number(req.user.id))return res.status(403).json({error:'This correction request is assigned to another user'});
-  const finance=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(c.finance_entry_id),definition=financeCorrectionForm(finance),source=financeSourceDetail(finance);
+  const finance=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(c.replacement_finance_entry_id||c.finance_entry_id),definition=financeCorrectionForm(finance),source=financeSourceDetail(finance);
   const publicDefinition={...definition,record:financePublicCorrectionRecord(definition.record||{})},originalSnapshot=financeSafeCorrectionSnapshot(c.source_snapshot_json||'{}');
   const canTechnicalHistory=req.user.role==='CEO / Owner'||!!accessV316?.can?.(req.user.id,'sensitive.audit_logs',c.business_unit_id);
   const statusAfter=action=>({'Correction Requested':'Open','Correction Requested Again':'Open','Viewed':'Viewed','Reminder Sent':'Viewed','Corrected & Resubmitted':'Resubmitted','Verified & Resolved':'Resolved','Resolved':'Resolved','Cancelled':'Cancelled'})[String(action||'')]||'';
@@ -1485,7 +1526,7 @@ app.get('/api/finance/:id/detail',auth,(req,res)=>{
   if(!f)return res.status(404).json({error:'Finance entry not found'});if(!canViewFinanceRecord(req,f))return res.status(403).json({error:'You can only view Finance records that you entered'});
   const attachments=db.prepare('SELECT * FROM finance_attachments WHERE finance_entry_id=? AND COALESCE(archived,0)=0 ORDER BY id DESC').all(f.id);
   const approvals=db.prepare("SELECT id,type,status,reason,created_at,decision_note FROM approvals WHERE source_entity='finance_entry' AND source_id=? ORDER BY id DESC").all(f.id);
-  const correction=db.prepare("SELECT * FROM finance_correction_requests WHERE finance_entry_id=? ORDER BY id DESC LIMIT 1").get(f.id),source=financeSourceDetail(f),linked_evidence=financeLinkedEvidence(f),warnings=financeWarnings(f,source,attachments,linked_evidence);
+  const correction=db.prepare("SELECT * FROM finance_correction_requests WHERE finance_entry_id=? OR replacement_finance_entry_id=? ORDER BY id DESC LIMIT 1").get(f.id,f.id),source=financeSourceDetail(f),linked_evidence=financeLinkedEvidence(f),warnings=financeWarnings(f,source,attachments,linked_evidence);
   let payment_account=null;
   if(f.payment_account_id){const pa=db.prepare(`SELECT id,name,COALESCE(NULLIF(financial_account_type,''),payment_type,'Bank') financial_account_type,currency,bank_name,account_country,account_holder,account_number,account_last4,status,active FROM accounting_payment_accounts WHERE id=?`).get(f.payment_account_id);if(pa){const raw=String(pa.account_number||pa.account_last4||''),last4=raw.slice(-4);payment_account={...pa,account_number:undefined,account_number_masked:last4?'****'+last4:''}}}
   const receiver_account=f.receiver_account_id||f.receiver_name_snapshot?{id:f.receiver_account_id||null,entity_type:f.receiver_entity_type||'',entity_id:f.receiver_entity_id||null,name:f.receiver_name_snapshot||'',label:f.receiver_account_label_snapshot||'',bank_name:f.receiver_bank_name_snapshot||'',account_country:f.receiver_account_country_snapshot||'',currency:f.receiver_currency_snapshot||'',account_number_masked:f.receiver_account_number_masked_snapshot||'',method_type:f.receiver_method_snapshot||''}:null;
@@ -1543,8 +1584,8 @@ app.get('/api/approvals',auth,allow('approvals'),(req,res)=>{
 });
 app.get('/api/approvals/:id/history',auth,allow('approvals'),(req,res)=>{
   const a=db.prepare(`SELECT a.*,u.name requester,u.name requester_name,b.name business_unit FROM approvals a LEFT JOIN users u ON u.id=a.requester_id LEFT JOIN business_units b ON b.id=a.business_unit_id WHERE a.id=?`).get(req.params.id);if(!a)return res.status(404).json({error:'Approval not found'});if(!enforceUnit(req,a.business_unit_id))return res.status(403).json({error:'You cannot access another business unit approval'});
-  const history=db.prepare('SELECT h.*,u.name user_name,u.role user_role FROM approval_history h LEFT JOIN users u ON u.id=h.user_id WHERE h.approval_id=? ORDER BY h.created_at,h.id').all(a.id),detail=approvalSourceDetail(a);let original={};try{original=JSON.parse(a.original_snapshot_json||'{}')}catch(_){}let changed=[];try{changed=JSON.parse(a.changed_fields_json||'[]')}catch(_){}
-  res.json({approval:approvalClientRow(a,req.user),history,...detail,original_snapshot:original,changed_fields:changed,next_reviewer_ids:approvalNextReviewerIds(a)});
+  const history=db.prepare('SELECT h.*,u.name user_name,u.role user_role FROM approval_history h LEFT JOIN users u ON u.id=h.user_id WHERE h.approval_id=? ORDER BY h.created_at,h.id').all(a.id),detail=approvalSourceDetail(a,req);let original={};try{original=JSON.parse(a.original_snapshot_json||'{}')}catch(_){}let changed=[];try{changed=JSON.parse(a.changed_fields_json||'[]')}catch(_){}
+  res.json(safeApprovalValue({approval:approvalClientRow(a,req.user),history,...detail,original_snapshot:original,changed_fields:changed,next_reviewer_ids:approvalNextReviewerIds(a)}));
 });
 app.post('/api/approvals',auth,allow('approvals','finance'),upload.single('attachment'),(req,res)=>{
   const bu=Number(req.body.business_unit_id||currentUnit(req));if(!bu||!enforceUnit(req,bu))return res.status(403).json({error:'Approval must belong to the current business unit'});const reason=String(req.body.reason||'').trim(),type=String(req.body.type||'').trim();if(!type||!reason)return res.status(400).json({error:'Request type and business justification are required.'});
@@ -1765,6 +1806,7 @@ app.delete('/api/meeting-actions/:id',auth,allow('meetings'),(req,res)=>{const a
 
 app.get('/api/notifications/unread-count',auth,(req,res)=>{try{const ns=notificationUnitScope(req);const r=db.prepare(`SELECT COUNT(*) c FROM notifications WHERE (user_id IS NULL OR user_id=?) AND read_at IS NULL${ns.sql}`).get(req.user.id,...ns.args);res.json({count:r.c})}catch(e){res.status(500).json({error:e.message})}});
 app.get('/api/notifications',auth,(req,res)=>{try{const ns=notificationUnitScope(req);const rows=db.prepare(`SELECT * FROM notifications WHERE (user_id IS NULL OR user_id=?)${ns.sql} ORDER BY CASE WHEN read_at IS NULL THEN 0 ELSE 1 END,created_at DESC,id DESC LIMIT 100`).all(req.user.id,...ns.args);res.json(rows)}catch(e){console.error('GET /api/notifications:',e);res.status(500).json({error:'Notifications database error',detail:e.message})}});
+app.post('/api/notifications/finance/:id/read-related',auth,(req,res)=>{const f=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(req.params.id);if(!f)return res.status(404).json({error:'Finance entry not found'});if(!canViewFinanceRecord(req,f))return res.status(403).json({error:'Access denied'});const r=db.prepare("UPDATE notifications SET read_at=CURRENT_TIMESTAMP WHERE user_id=? AND business_unit_id=? AND entity_type='finance' AND entity_id=? AND action_view='finance' AND read_at IS NULL").run(req.user.id,f.business_unit_id,f.id);res.json({ok:true,marked:r.changes})});
 app.put('/api/notifications/:id/read',auth,(req,res)=>{db.prepare('UPDATE notifications SET read_at=CURRENT_TIMESTAMP WHERE id=? AND (user_id IS NULL OR user_id=?)').run(req.params.id,req.user.id);res.json({ok:true});});
 app.get('/api/audit',auth,allow('dashboard'),(req,res)=>{if(req.user.role==='CEO / Owner')return res.json(db.prepare(`SELECT a.*,u.name user_name FROM audit_log a LEFT JOIN users u ON u.id=a.user_id ORDER BY a.created_at DESC LIMIT 500`).all());res.json(db.prepare(`SELECT a.*,u.name user_name FROM audit_log a LEFT JOIN users u ON u.id=a.user_id WHERE u.business_unit_id=? ORDER BY a.created_at DESC LIMIT 500`).all(req.user.business_unit_id||0));});
 
@@ -1789,6 +1831,8 @@ require('./v366-pink-product-master').install({app,db,auth,allow,currentUnit,enf
 require('./v367-pink-operational-completion').install({app,db,auth,allow,currentUnit,enforceUnit,audit,upload});
 require('./v369-pink-shared-workflows').install({app,db,auth,allow,currentUnit,enforceUnit,audit,uploads,upload,financeSync,configuredPaymentAccount,accounting:accountingV29,payeeAccount:v330.payeeAccount,maybeCreateApproval,stopForApproval,executeApprovedAction,approvalRequestSnapshot});
 require('./v3692-pink-qa').install({app,db,auth,allow,currentUnit,enforceUnit,audit});
+pinkFxEngine=require('./pink-fx-engine').install({app,db,auth,allow,currentUnit,enforceUnit,audit,upload,financeSync,configuredPaymentAccount,payeeAccount:v330.payeeAccount,accounting:accountingV29,maybeCreateApproval,stopForApproval,markApprovalExecuted,access:accessV316,notify});
+require('./pink-qa21').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29});
 // V30.46 opt-in paged endpoints; preserve legacy array APIs for compatible callers.
 function page346(query){const raw=Number(query.pageSize||25);return {page:Math.max(1,Math.min(100000,Math.floor(Number(query.page)||1))),size:[25,50,100].includes(raw)?raw:25}}
 app.get('/api/v346/notifications/page',auth,(req,res)=>{try{
@@ -2973,5 +3017,5 @@ function apiErrorHandler(err,req,res,next){
 }
 
 app.use(apiErrorHandler);
-const httpServer=app.listen(PORT,'0.0.0.0',()=>console.log(`Blue Ocean Market V30.69.0 running on port ${PORT}`));
+const httpServer=app.listen(PORT,'0.0.0.0',()=>console.log(`Blue Ocean Market V${require('../package.json').version} running on port ${PORT}`));
 let shuttingDown=false;function gracefulShutdown(signal){if(shuttingDown)return;shuttingDown=true;console.log(`${signal} received; closing HTTP server and checkpointing SQLite.`);const force=setTimeout(()=>{console.error('Forced shutdown after timeout.');process.exit(1)},25000);force.unref();httpServer.close(()=>{try{db.pragma('wal_checkpoint(TRUNCATE)')}catch(e){console.warn('SQLite checkpoint during shutdown:',e.message)}try{db.close()}catch(_){}process.exit(0)});}process.on('SIGTERM',()=>gracefulShutdown('SIGTERM'));process.on('SIGINT',()=>gracefulShutdown('SIGINT'));

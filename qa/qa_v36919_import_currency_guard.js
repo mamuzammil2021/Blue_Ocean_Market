@@ -1,0 +1,11 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const source=fs.readFileSync(require('node:path').join(__dirname,'../server/v369-pink-shared-workflows.js'),'utf8');
+const entry=source.split("app.post('/api/pink-salt/imports/:id/settlement-v369'")[1].split("app.post('/api/pink-salt/suppliers/:id/archive-v369'")[0];
+assert(entry.includes('if(text(company.currency).toUpperCase()!==currency)'), 'Legacy import posting requires a currency compatibility guard');
+assert(entry.indexOf('if(text(company.currency).toUpperCase()!==currency)')<entry.indexOf('db.transaction(()=>'), 'Guard must precede any financial mutation');
+assert(entry.includes('Cross-currency posting is not enabled.'), 'Cross-currency payloads remain explicitly blocked');
+assert(entry.includes('if(!req.file)'), 'Evidence requirement preserved');
+assert(entry.includes('financeSync({'), 'Existing Finance sync remains in place for compatible payments');
+console.log('PASS 5 legacy import currency safety assertions');
