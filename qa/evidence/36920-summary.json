@@ -1,0 +1,24 @@
+{
+  "version": "30.69.20",
+  "label": "STAGING_CANDIDATE",
+  "automated_gate": "PASS",
+  "checks_by_suite": {
+    "All active server and public JavaScript syntax": 0,
+    "Application, Accounting and period-control runtime regression": 22,
+    "Financial integrity E2E": 18,
+    "Pink Salt workflow and reconciliation matrix": 25,
+    "Permission and approval execution matrix": 7,
+    "Excavator financial regression": 13,
+    "Previous-version migration and restart": 5,
+    "Authenticated Chromium payment, correction and routing matrix": 16
+  },
+  "full_user_acceptance": "PENDING",
+  "remaining": [
+    "Complete Excavator browser interaction matrix",
+    "EN/KR PDF rendering",
+    "All historic operational entry points and UI edge states",
+    "Isolated Render persistent-disk deployment/restore rehearsal",
+    "Business accounting-policy approval"
+  ],
+  "production_data_used": false
+}

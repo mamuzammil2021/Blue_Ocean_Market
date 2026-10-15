@@ -1,0 +1,43 @@
+{
+  "baseline_version": "30.69.24",
+  "handlers": [
+    {
+      "handler": "saveSimpleExcavatorMachine",
+      "native_body_identical": true,
+      "sha256": "33b41d0e46c7bf836743a98c51a5210079c5be1c3e32ac5e1970f7fd29b675a5"
+    },
+    {
+      "handler": "saveExcavatorBuyerPayment",
+      "native_body_identical": true,
+      "sha256": "1e655e80bd4b69a284807bf30f37184bcc63cd6d4b964aa48e52705f0b29cce7"
+    },
+    {
+      "handler": "saveExcavatorBuyerRefund",
+      "native_body_identical": true,
+      "sha256": "49773c78de79e7d4733e9e6216d7d065fb898f0b5dd111751d6976115f9e899a"
+    },
+    {
+      "handler": "saveSimpleExcavatorCost",
+      "native_body_identical": true,
+      "sha256": "81f946555043cf5e8c46f97329d394aa8766ca3088297a3b34eab08df5efffed"
+    },
+    {
+      "handler": "completeExcavatorSale",
+      "native_body_identical": true,
+      "sha256": "f578633d1c11f2538c9cbde39c6b139cbccfbf5c194e3fae85b9a59db645e03d"
+    },
+    {
+      "handler": "saveExcavatorPayment",
+      "native_body_identical": true,
+      "sha256": "d8402b740461361b973373967a6da1378fce7822d023a994c054772213f7d0e9"
+    }
+  ],
+  "shared_changes": [
+    "Token revocation and stale-session response isolation",
+    "Failed-response duplicate-submit release",
+    "Account manager stale-render ownership guard",
+    "Pink Salt-only owned lifecycle and row-remove close-control exclusion"
+  ],
+  "financial_runtime_regression": "36920-excavator.json",
+  "production_data_used": false
+}

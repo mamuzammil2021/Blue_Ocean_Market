@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Application starts with additive QA14 schema",
+    "Import Cost has no fake invoice obligation or numeric sentinel",
+    "General third-party payee supports the shared receiver-account manager",
+    "Third-party Import Cost preserves exact payee, source debit and one Finance movement",
+    "Cost changes landed value without settling supplier invoice",
+    "Import Cost Accounting proposal is balanced",
+    "Repeated submit creates no duplicate movement or payment notification",
+    "Payment notification deep-links to the exact Finance action",
+    "Opening Finance acknowledges only the acting user’s related notification",
+    "Finance correction creates one original-user task and chain",
+    "Exact import cost exposes Correction Required state",
+    "Authorized resubmission atomically replaces the movement and preserves immutable original",
+    "Resubmission retains one task and waits for replacement verification",
+    "Correction indicator remains while Finance acceptance is pending",
+    "Correction review follows current replacement and preserves original snapshot",
+    "Only accepted Finance verification resolves task and removes correction flag",
+    "Invalid correction rolls back without reversing a valid movement",
+    "Posted correction preserves original journal and creates controlled reversal proposal",
+    "Replacement posting remains gated by linked pending reversal",
+    "Supplier statement includes direct payments and has finite reconciled closing balance",
+    "Ordinary import editor cannot alter Actual Arrival history",
+    "Explicit logout invalidates the current server token",
+    "Ordinary relogin issues a distinct valid session"
+  ],
+  "production_data_used": false,
+  "financial_reconciliation": {
+    "cost_native_debit": 2000,
+    "corrected_debit": 2200,
+    "one_active_movement": true,
+    "balanced_journal": true,
+    "correction_task_reused": true,
+    "posted_reversal_pending": true
+  }
+}

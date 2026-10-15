@@ -1,0 +1,12 @@
+'use strict';
+const assert=require('assert/strict'),fs=require('fs'),path=require('path'),cp=require('child_process'),{fixture}=require('./fx_fixture');
+(async()=>{let f;const checks=[],pass=x=>{checks.push(x);console.log('PASS '+x)};try{
+ f=await fixture();const out=path.join(__dirname,'evidence','statement-samples');fs.mkdirSync(out,{recursive:true});
+ const pdf=async(lang,name)=>{const r=await fetch(f.base+`/api/pink-salt/suppliers/${f.supplier}/statement-v315.pdf?lang=${lang}`,{headers:{Authorization:'Bearer '+f.login.token,'X-Business-Unit-ID':String(f.pink),'X-Language':lang}});assert(r.ok);const bytes=Buffer.from(await r.arrayBuffer());assert.equal(bytes.subarray(0,5).toString(),'%PDF-');const file=path.join(out,name);fs.writeFileSync(file,bytes);return {file,bytes,text:cp.execFileSync(process.env.BOM_PDFTOTEXT||'pdftotext',[file,'-'],{encoding:'utf8'})}};
+ const en=await pdf('en','supplier-en-before.pdf');assert(en.text.includes('Supplier Statement')&&en.text.includes('1,400,000')&&en.text.includes('USD 1000'));pass('Actual English PDF contains exact KRW closing and original invoice-currency context');
+ const ko=await pdf('ko','supplier-ko-before.pdf');assert(ko.text.includes('공급업체 거래명세서')&&ko.text.includes('1,400,000'));pass('Actual Korean PDF retains readable Korean labels and identical financial figures');
+ const again=await pdf('en','supplier-en-cached.pdf');assert.deepEqual(again.bytes,en.bytes);pass('Identical authorized statement reuses the same financially keyed PDF snapshot');
+ const b=f.payment({payment_method:'Cash',payment_account_id:String(f.accounts.cash),receiver_account_id:'',invoice_currency:'KRW',invoice_rate_to_krw:'1',recipient_expected_amount:'1000',recipient_confirmed_amount:'1000',source_debit_amount:'1000',source_fee_amount:'0',bank_fx_rate:'1',reference:'PDF-SNAPSHOT-CHANGE'});const saved=await f.api('POST',`/api/pink-salt/fx/supplier_advance/${f.supplier}/record`,f.fd(b));assert(saved.ok);
+ const changed=await pdf('en','supplier-en-after.pdf');assert(!changed.bytes.equals(en.bytes));assert(changed.text.includes('1,399,000')&&/PDF-SNAPSHOT-?\s*CHANGE/.test(changed.text));pass('A real payment invalidates the PDF snapshot and updates exact closing and transaction contents');
+ fs.writeFileSync(path.join(__dirname,'evidence/36925-statement-pdf.json'),JSON.stringify({status:'PASS',checks,production_data_used:false,samples:'qa/evidence/statement-samples',original_closing:1400000,changed_closing:1399000},null,2));
+ }catch(e){console.error(e);process.exitCode=1}finally{f?.close()}})();

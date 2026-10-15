@@ -1,0 +1,45 @@
+{
+  "version": "30.69.24",
+  "baseline": "Blue_Ocean_Market_V30_69_23_ACTUAL_REFRESH_HOTFIX_STAGING_CANDIDATE_GIT_READY.zip",
+  "changed_files": [
+    "README.md",
+    "package-lock.json",
+    "package.json",
+    "public/index.html",
+    "public/pink-fx-calculation.js",
+    "public/pink-fx-payment.js",
+    "public/runtime-v30392.js",
+    "public/v315-client.js",
+    "public/v347-loader.js",
+    "public/v348-loader.js",
+    "public/v351-loader.js",
+    "public/v3693-persistent-routing.js",
+    "qa/browser_v36920_fx.py",
+    "qa/browser_v36921_qa.py",
+    "qa/evidence/36920-fx-integration.json",
+    "qa/evidence/36921-receive-locked.png",
+    "qa/evidence/36921-sales-ko.png",
+    "server/frontend-manifest.json",
+    "server/pink-fx-calculation.js"
+  ],
+  "added_files": [
+    "V30_69_24_MAC_GIT_PUSH.md",
+    "V30_69_24_SIMPLE_PAYMENT_RELEASE.md",
+    "qa/browser_v36924_payments.py",
+    "qa/evidence/36924-calculation.json",
+    "qa/evidence/36924-payment-ui.json",
+    "qa/evidence/36924-release.json",
+    "qa/qa_v36924_calculation.js",
+    "qa/qa_v36924_release_gate.js"
+  ],
+  "removed_files": [],
+  "server_files_changed": [
+    "server/frontend-manifest.json",
+    "server/pink-fx-calculation.js"
+  ],
+  "financial_engine_and_migrations_preserved": true,
+  "strict_server_calculation_contract": "All financial routes retain strict two-argument calculate; preview-only arithmetic uses an explicit UI-only third argument and cannot be requested through API payload.",
+  "excavator_runtime_handlers_preserved": true,
+  "schema_migration_added": false,
+  "production_data_used": false
+}

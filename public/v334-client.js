@@ -42,7 +42,7 @@ function dedupeKnownActions(root=document){
 /* Accounting Simple View: only the selected body is allowed to change.
    The title, Open Finance / Advanced Accounting / Posting Control and tab shell stay mounted. */
 function hardenAccountingTabs(){
-  if(typeof window.accountingSimpleTabV291!=='function'||window.accountingSimpleTabV291.__v334Stable)return;
+  if(typeof window.accountingSimpleTabV291!=='function'||window.accountingSimpleTabV291.__v334Stable||window.accountingSimpleTabV291.__bomRouteBound)return;
   const base=window.accountingSimpleTabV291;
   const wrapped=async function(tab){
     const body=document.getElementById('accountingSimpleBodyV291');
@@ -67,7 +67,7 @@ function hardenAccountingTabs(){
    are unchanged. This removes the 2–3 flashes seen on slow connections. */
 function hardenWorkflowRenderer(){
   const base=window.openWorkflowHtmlV324;
-  if(typeof base!=='function'||base.__v334Stable)return;
+  if(typeof base!=='function'||base.__v334Stable||base.__bomRouteBound)return;
   const wrapped=function(html,classOrOptions='wide',maybeOptions={}){
     const current=document.querySelector('#content .v324-workflow');
     const surface=document.getElementById('v324WorkflowSurface');
@@ -100,7 +100,7 @@ function hardenWorkflowRenderer(){
    identical in-flight requests so one click cannot produce multiple re-renders. */
 function hardenBuyerDetail(){
   const base=window.excavatorBuyerDetail;
-  if(typeof base!=='function'||base.__v334Stable)return;
+  if(typeof base!=='function'||base.__v334Stable||base.__bomRouteBound)return;
   let pendingId=null,pendingPromise=null,lastId=null,lastAt=0;
   const wrapped=function(id){
     const key=String(id);

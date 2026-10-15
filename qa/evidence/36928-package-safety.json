@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "version": "30.69.28",
+  "source_baseline": "30.69.27",
+  "production_database_included": false,
+  "credentials_or_env_included": false,
+  "node_modules_included": false,
+  "private_uploads_included": false,
+  "file_count_before_safety_report": 842,
+  "excluded_files": []
+}

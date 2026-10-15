@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Delayed genuine old-session response cannot clear a newly authenticated session in either tab",
+    "Two-tab explicit Logout / Back / ordinary Login opens Home and exposes no previous private page, cycle 1",
+    "Two-tab intentional deep-link Login and Refresh retain exact authorized supplier section, cycle 1",
+    "Two-tab explicit Logout / Back / ordinary Login opens Home and exposes no previous private page, cycle 2",
+    "Two-tab intentional deep-link Login and Refresh retain exact authorized supplier section, cycle 2",
+    "Two-tab explicit Logout / Back / ordinary Login opens Home and exposes no previous private page, cycle 3",
+    "Two-tab intentional deep-link Login and Refresh retain exact authorized supplier section, cycle 3"
+  ],
+  "authenticated": true,
+  "real_server_responses": true,
+  "production_data_used": false
+}

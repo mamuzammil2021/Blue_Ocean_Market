@@ -1,0 +1,26 @@
+'use strict';
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const {preview}=require('../server/pink-cross-currency-contract');
+const usdInvoice={source_account_currency:'KRW',source_debit_amount:2810000,source_fee_amount:10000,transfer_currency:'USD',transfer_amount:2000,recipient_currency:'USD',recipient_expected_amount:2000,invoice_currency:'USD',invoice_amount_applied:2000,invoice_outstanding:2500,invoice_rate_to_krw:1395,bank_fx_rate:1400,fx_rate_pair:'USD/KRW: 1 USD = 1400 KRW',bank_quote_reference:'QUOTE-01',fx_evidence_reference:'PROOF-01'};
+let assertions=0;
+function check(fn){fn();assertions++}
+check(()=>assert.equal(preview(usdInvoice).cross_currency,true));
+check(()=>assert.equal(preview(usdInvoice).source_debit_amount,2810000));
+check(()=>assert.equal(preview(usdInvoice).invoice_settlement_krw,2790000));
+check(()=>assert.equal(preview(usdInvoice).recipient_confirmation_status,'Estimated'));
+check(()=>assert.equal(preview({...usdInvoice,recipient_confirmed_amount:1995}).recipient_confirmation_status,'Confirmed'));
+check(()=>assert.equal(preview(usdInvoice).posting_supported,false));
+check(()=>assert.throws(()=>preview({...usdInvoice,bank_quote_reference:''}),/quotation/));
+check(()=>assert.throws(()=>preview({...usdInvoice,fx_evidence_reference:''}),/evidence/));
+check(()=>assert.throws(()=>preview({...usdInvoice,bank_fx_rate:0}),/FX rate/));
+check(()=>assert.throws(()=>preview({...usdInvoice,invoice_amount_applied:2600}),/outstanding/));
+check(()=>assert.throws(()=>preview({...usdInvoice,source_debit_amount:-1}),/greater than zero/));
+const same={source_account_currency:'KRW',source_debit_amount:101000,source_fee_amount:1000,transfer_currency:'KRW',transfer_amount:100000,recipient_currency:'KRW',recipient_expected_amount:100000,invoice_currency:'KRW',invoice_amount_applied:100000,invoice_outstanding:120000};
+check(()=>assert.equal(preview(same).cross_currency,false));
+check(()=>assert.equal(preview(same).posting_supported,true));
+check(()=>assert.throws(()=>preview({...same,source_debit_amount:102000}),/reconcile/));
+const server=fs.readFileSync(require.resolve('../server/v369-pink-shared-workflows'),'utf8');
+check(()=>assert.match(server,/cross-currency-preview-v36917/));
+check(()=>assert.match(server,/Cross-currency posting is not enabled/));
+console.log(`PASS ${assertions} cross-currency contract and safety checks`);

@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Supplier form removes quotation controls and redundant confirmation checkbox; one source selector remains",
+    "All eligible KRW, USD and PKR bank accounts remain available for a USD invoice",
+    "Zero advance shows one contextual top alert without switching to an unusable choice",
+    "Validation highlights and focuses the first missing field while keeping a top form alert",
+    "Per-payment FX direction, field-exit calculation, fees and estimated preview remain accurate",
+    "Missing field inside a collapsed fee section expands, scrolls and focuses without losing entered amounts",
+    "One concise review presents actual source debit and recipient amounts before evidence confirmation",
+    "Recording uses one root processing surface and blocks Cancel/duplicate actions before the real server write",
+    "Confirmed browser cross-currency payment stores one exact evidenced debit without quote metadata and preserves Import Detail",
+    "Cash mismatch alert stays at the top while invalid and clears on compatible method changes without duplicates",
+    "Same-currency Cash supplier advance needs no supplier bank or reference",
+    "Supplier Advance Only hides banking fields and creates no additional Finance movement",
+    "Both applies the advance and records one new Cash movement",
+    "Unverified cost opens cost-specific details and relevant actions, without generic settlement clutter or unsolicited correction",
+    "Cost detail retains its existing URL on refresh and Back/Forward returns to the originating import",
+    "Browser pre-verification edit uses an audited immutable replacement and keeps original debit data",
+    "Verified cost shows its Finance lock in the import list and detail and removes ordinary Edit",
+    "Actual correction enables original-user resubmission once and keeps the pending Finance indicator",
+    "Cost details and pending Finance state render in Korean without a route change",
+    "Korean field validation, focused scrolling, sticky visible footer and Cancel remain functional"
+  ],
+  "evidence": [
+    {
+      "cross_transaction": {
+        "id": 2,
+        "company_account_id": 4,
+        "company_amount": 29000.0,
+        "invoice_amount": 20.0,
+        "fee_krw": 1000.0,
+        "quote_reference": "",
+        "finance_entry_id": 2
+      },
+      "cost_original": 6,
+      "cost_amended": 7,
+      "cost_corrected": 8
+    }
+  ],
+  "production_data_used": false,
+  "console_errors": []
+}

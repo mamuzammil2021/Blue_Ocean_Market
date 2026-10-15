@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Protected V30.69.26 reproduces saved active USD supplier bank missing under default KRW payment and historical method label"
+  ],
+  "authenticated": true,
+  "production_data_used": false
+}

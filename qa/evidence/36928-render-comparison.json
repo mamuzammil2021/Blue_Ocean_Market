@@ -1,0 +1,97 @@
+{
+  "baseline": "30.69.27",
+  "release": "30.69.28",
+  "same_fixture_and_browser": true,
+  "samples_per_case": 1,
+  "observations": [
+    {
+      "case": "psSuppliers/supplier",
+      "before_ms": 208,
+      "after_ms": 181,
+      "before_api_reads": 12,
+      "after_api_reads": 10,
+      "before_headings": [
+        "Supplier Accounts",
+        "QA FX Supplier \u00b7 Supplier Profile"
+      ],
+      "after_headings": [
+        "QA FX Supplier \u00b7 Supplier Profile"
+      ]
+    },
+    {
+      "case": "excavatorSuppliers/supplier",
+      "before_ms": 167,
+      "after_ms": 126,
+      "before_api_reads": 10,
+      "after_api_reads": 8,
+      "before_headings": [
+        "Excavator Suppliers",
+        "Supplier Management",
+        "Supplier",
+        "Synthetic Routing Supplier"
+      ],
+      "after_headings": [
+        "Synthetic Routing Supplier"
+      ]
+    },
+    {
+      "case": "excavatorBuyers/buyer",
+      "before_ms": 184,
+      "after_ms": 154,
+      "before_api_reads": 9,
+      "after_api_reads": 8,
+      "before_headings": [
+        "Excavator Buyers",
+        "Buyer Management",
+        "Loading data\u2026",
+        "Synthetic Routing Buyer"
+      ],
+      "after_headings": [
+        "Synthetic Routing Buyer"
+      ]
+    },
+    {
+      "case": "payroll/employee",
+      "before_ms": 173,
+      "after_ms": 149,
+      "before_api_reads": 14,
+      "after_api_reads": 10,
+      "before_headings": [
+        "Employees & Payroll",
+        "Synthetic Route Employee"
+      ],
+      "after_headings": [
+        "Synthetic Route Employee"
+      ]
+    },
+    {
+      "case": "finance/record",
+      "before_ms": 252,
+      "after_ms": 197,
+      "before_api_reads": 17,
+      "after_api_reads": 15,
+      "before_headings": [
+        "Finance Control Center",
+        "Finance Verification #1"
+      ],
+      "after_headings": [
+        "Finance Verification #1"
+      ]
+    },
+    {
+      "case": "accounting/account",
+      "before_ms": 224,
+      "after_ms": 170,
+      "before_api_reads": 12,
+      "after_api_reads": 7,
+      "before_headings": [
+        "Accounts & Finance",
+        "QA krw"
+      ],
+      "after_headings": [
+        "QA krw"
+      ]
+    }
+  ],
+  "production_data_used": false
+}

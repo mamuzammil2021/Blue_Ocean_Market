@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Stale gzip falls back to the exact current canonical source",
+    "Identity and gzip clients receive the same release with Vary headers",
+    "Matching precompressed source retains gzip delivery",
+    "HTTP release header identifies the actual application version",
+    "Unversioned compressed assets require cache revalidation",
+    "Cached gzip validation is invalidated when canonical source changes",
+    "Corrupt compressed artifacts safely fall back without a failed page",
+    "Explicit gzip quality zero respects client encoding preference",
+    "HEAD negotiates the same verified representation without a response body",
+    "An orphan compressed file cannot replace a missing canonical asset",
+    "Matching frontend release passes startup integrity validation",
+    "A mixed canonical frontend release is rejected before database startup"
+  ],
+  "production_data_used": false
+}
