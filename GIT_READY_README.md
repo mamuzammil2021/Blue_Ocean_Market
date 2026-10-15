@@ -1,17 +1,7 @@
-# Blue Ocean Market V30.69.6 — Git-Ready Build
+Current release: **V30.69.30**. Read [START_HERE_V30_69_30.md](START_HERE_V30_69_30.md) for single-entry payment rates, actual checks and Git instructions. Based directly on protected V30.69.29. Earlier notes below are historical.
 
-Built directly from V30.69.5. This release fixes the system-wide browser-refresh fallback to Dashboard by making the current full-screen view and business-unit context URL-addressable and restoring them before first render. Existing registered record/detail deep links are restored after the page shell.
+Current release: **V30.69.29**. Read [START_HERE_V30_69_29.md](START_HERE_V30_69_29.md) for October 15 QA corrections, actual tests and Git main-branch instructions. Based directly on protected V30.69.28. Earlier notes below are historical.
 
-Runtime data, `.env`, SQLite/database files, uploads, `data/`, and `node_modules` are not part of the release package.
+# V30.69.21 — Git-ready staging candidate
 
-Recommended source QA before deployment:
-
-```bash
-node qa/qa_v3696_system_routing.js
-node qa/qa_v3695_repacking_inputs.js
-node qa/qa_v3694_pink_qa.js
-```
-
-Then test browser refresh, copied URLs, and Back/Forward on Render against the existing persistent database/disk.
-
-**Do not reset/delete the Render persistent disk or production database.**
+Read `V30_69_21_QA12_IMPLEMENTATION_AND_ACCEPTANCE.md` for QA points 1–7, tests, screenshots, reconciliation, limitations, Render and Mac Git instructions. Source is based on V30.69.20 with cross-currency work preserved. No production data, credentials, uploads or dependencies are bundled.

@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "checks": [
+    "KRW-to-KRW hides conversion fields without a visible default rate",
+    "Optional bank fees and accounting details are collapsed for an ordinary payment",
+    "Amount calculation runs on leaving the field, rather than every keystroke",
+    "Editing an amount clears previous confirmation immediately",
+    "Cancel saves no estimated or partial settlement",
+    "KRW bank paying a USD invoice requires an empty, direction-labelled bank FX rate",
+    "Missing rate never produces an invented conversion or premature unrelated error",
+    "Bank FX blur calculates an explicitly estimated debit before quote evidence is entered",
+    "Changing the bank FX rate recalculates the related company debit",
+    "Last edited company debit becomes the calculation basis",
+    "Fee changes preserve the last entered company debit and update recipient amount",
+    "Editing recipient amount switches the basis and includes bank fees in company debit",
+    "Invalid FX rate clears stale calculated values and uses one validation surface",
+    "Estimated preview cannot bypass missing bank quotation evidence or create records",
+    "Transfer-deducted fee updates the send debit while preserving the intended recipient amount",
+    "Separate bank charge is previewed distinctly and hides the KRW identity rate",
+    "Confirmed browser transaction stores exact source account, debit, fee, allocation and one Finance movement",
+    "Fee and exchange difference remain a balanced controlled posting proposal",
+    "A new payment never inherits the previous payment FX rate or quote",
+    "Each payment durably retains its own independently entered FX rate",
+    "USD-to-USD has no bank conversion and leaves KRW accounting rate unknown until entered",
+    "Missing foreign-account accounting rate blocks recording without financial effects",
+    "Same-currency foreign payment records its explicit KRW accounting rate while internal identity remains one",
+    "Account changes clear incompatible FX rates, quote state and prior confirmation",
+    "Visible cash account cannot authorize an unsupported cross-currency conversion",
+    "Supplier Pay Outstanding chooses an invoice separately from recording an advance",
+    "Supplier advance entry shows the advance to record without a fictitious invoice balance",
+    "Advance blur updates new payment needed without silently changing a partial-payment amount",
+    "Advance-only allocation retains an editable date and creates no additional Finance movement",
+    "Combined settlement applies the advance and creates exactly one new-money Finance movement",
+    "Simplified payment labels and conversion direction render correctly in Korean",
+    "Payment blur, account switching and confirmation produce no JavaScript errors"
+  ],
+  "authenticated": true,
+  "production_data_used": false,
+  "reconciliation": {
+    "first_transaction": {
+      "company_currency": "KRW",
+      "company_debit": 157000.0,
+      "invoice_amount": 110.0,
+      "bank_rate": 1400.0,
+      "fees": 3000.0,
+      "fx_difference": 11000.0
+    },
+    "second_bank_rate": 1350.0,
+    "foreign_account_krw_rate": 1500.0
+  }
+}

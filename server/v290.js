@@ -671,6 +671,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
     const cash=paymentLedgerAccount(finance),debit=(acct,amt=amount,meta={})=>lines.push({account_id:acct,debit_krw:amt,credit_krw:0,...meta}),credit=(acct,amt=amount,meta={})=>lines.push({account_id:acct,debit_krw:0,credit_krw:amt,...meta});
     const source=sourceAssetContext(finance),st=text(finance.source_type),category=text(finance.category),entityBase={business_unit_id:finance.business_unit_id,original_amount:Number(finance.original_amount??amount),original_currency:finance.original_currency||'KRW',fx_rate:Number(finance.fx_rate||1)};
 
+    if(['Pink Salt FX Payment','Pink Salt FX Fee'].includes(st))return require('./pink-fx-engine').posting(db,finance);
     if(st==='Excavator Buyer Payment'||st==='Buyer Payment'){
       const p=db.prepare('SELECT p.*,b.name buyer_name FROM excavator_buyer_payments p LEFT JOIN excavator_buyers b ON b.id=p.buyer_id WHERE p.id=?').get(finance.source_id);
       if(!p)return {error:'Linked Excavator buyer payment was not found.'};

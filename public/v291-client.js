@@ -57,12 +57,14 @@
   function badge291(text,kind=''){return `<span class="v290-badge ${kind}">${esc(t(text))}</span>`}
   function simpleTabs291(){return `<div class="v291-simple-tabs"><button class="btn small ${simpleAccountingTab==='summary'?'active':''}" onclick="accountingSimpleTabV291('summary')">${esc(t('Financial Summary'))}</button><button class="btn small ${simpleAccountingTab==='reports'?'active':''}" onclick="accountingSimpleTabV291('reports')">${esc(t('Business Reports'))}</button><button class="btn small ${simpleAccountingTab==='cash'?'active':''}" onclick="accountingSimpleTabV291('cash')">${esc(t('Cash & Banks'))}</button></div>`}
 
-  async function accountingSimpleV291(c){
+  async function accountingSimpleV291(c,shellOnly=false){
+    if(shellOnly){const r=window.BOMRouter?.parse();simpleAccountingTab=r?.kind?'':r?.section||'summary';}
     const action=`<div class="v291-title-actions"><button class="btn" onclick="go('finance')">${esc(t('Open Finance'))}</button>${canAdvanced()?`<button class="btn primary" onclick="accountingAdvancedV291()">${esc(t('Open Advanced Accounting'))}</button>`:''}</div>`;
     c.innerHTML=title('Accounts & Finance','Use this page mainly for company results and financial health.',action)+
       `<div class="v291-guide"><div><b>${esc(t('Accounting proposals are prepared automatically'))}</b><div class="muted">${esc(t('They become part of the official ledger only after Posting Control review.'))}</div></div><div>${badge291('Simple View','good')}</div></div>`+
       simpleTabs291()+`<div id="accountingSimpleBodyV291"><div class="card">Loading…</div></div>`;
-    await loadAccountingSimpleTabV291();
+    if(!shellOnly)await loadAccountingSimpleTabV291();
+    else window.BOMAccountingWorkspace?.initialize();
   }
   window.accountingSimpleTabV291=async tab=>{
     simpleAccountingTab=tab;
@@ -117,6 +119,7 @@
   async function cashSimpleV291(b){
     try{const rows=await api('/api/accounting/payment-accounts');b.innerHTML=`<div class="card"><div class="section-title"><div><h3>${esc(t('Cash & Banks'))}</h3><div class="muted">${esc(t('Map operational payments to the actual bank, cash or gateway account.'))}</div></div>${canAdvanced()?`<button class="btn" onclick="accountingAdvancedV291()">${esc(t('Advanced'))}</button>`:''}</div><div class="v291-cash-grid">${rows.map(p=>`<div class="v291-cash-card"><b>${esc(p.name)}</b><small>${esc(p.payment_type)} · ${esc(p.currency)}</small><small>${esc(p.business_unit||t('Company / Shared'))}</small>${p.bank_name||p.account_last4?`<small>${esc(p.bank_name||'')}${p.account_last4?' · ••••'+esc(p.account_last4):''}</small>`:''}<small>${esc(p.ledger_name||'')}</small>${p.is_default?`<div style="margin-top:8px">${badge291('Default','good')}</div>`:''}<div class="v344-account-action"><button type="button" class="btn small v344-account-open" onclick="v343OpenAccount(${Number(p.id)})" aria-label="${esc(t('Open'))}: ${esc(p.name)}">${esc(t('Open'))} →</button></div></div>`).join('')||`<div class="empty">—</div>`}</div></div>`;translateElement(b)}catch(e){b.innerHTML=`<div class="review-warning critical"><b>${esc(t('Error'))}</b><span>${esc(e.message)}</span></div>`}}
 
+  window.BOMAccountingShell291=c=>accountingSimpleV291(c,true);
   window.accountingAdvancedV291=async()=>{if(!canAdvanced())return;localStorage.setItem('blueOceanAccountingMode','advanced');await loadView()};
   window.accountingSimpleV291=async()=>{localStorage.setItem('blueOceanAccountingMode','simple');await loadView()};
   function enhanceAdvancedAccountingV291(){const c=document.getElementById('content');if(!c)return;c.querySelectorAll('.v291-advanced-return').forEach(x=>x.remove());const bar=document.createElement('div');bar.className='v291-advanced-return';bar.innerHTML=`<div><b>${esc(t('Advanced Accounting'))}</b><div class="muted">${esc(t('General Ledger, Chart of Accounts, reconciliation, periods, budgets and transfers.'))}</div></div><button class="btn primary" onclick="accountingSimpleV291()">← ${esc(t('Back to Simple View'))}</button>`;const first=c.firstElementChild;if(first)first.insertAdjacentElement('afterend',bar);else c.prepend(bar);try{translateElement(bar)}catch(_){ }}

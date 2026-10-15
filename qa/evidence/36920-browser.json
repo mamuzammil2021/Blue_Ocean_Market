@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Authenticated native payment form shows all eligible currencies and one authoritative source selector",
+    "Repeated Cash/Bank changes clear selections without duplicated validation or controls",
+    "Zero-advance option explains New Payment Only",
+    "Cancel closes without saving",
+    "Actual authenticated browser KRW\u2192USD transaction stores correct bank debit, settlement and one Finance record",
+    "Native payment UI renders Korean labels",
+    "Import record URL persists on browser refresh",
+    "Actual supplier advance entry point records cross-currency bank debit and advance credit",
+    "Actual browser advance-only settlement hides money fields and creates no Finance movement",
+    "Actual browser mixed advance and USD new payment creates one native-currency Finance movement",
+    "Actual browser KRW cash settlement works without a reference or recipient bank account",
+    "Copied currency transaction deep link authenticates and restores the same record",
+    "Browser Back and Forward restore currency and import records",
+    "Actual paid sales-order creation continues into native cross-currency receipt and completes as Paid",
+    "Actual browser correction preserves exact original accounts/evidence and atomically replaces financial effects",
+    "Actual browser reconciliation retains additional evidence without rewriting bank or invoice amounts"
+  ],
+  "browser": "Chromium 153",
+  "authenticated": true
+}
