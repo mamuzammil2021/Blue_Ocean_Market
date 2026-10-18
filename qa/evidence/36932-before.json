@@ -1,0 +1,33 @@
+{
+  "baseline": "30.69.31",
+  "production_data_used": false,
+  "reproduction": "Explicitly supplied a same-currency transfer rate and KRW valuation of 1. This reproduces the reported amounts but does not establish how the live user supplied the rate.",
+  "bank_krw": 49950,
+  "allocation_krw": 49950000,
+  "fx_difference_krw": -49900050,
+  "timings": [
+    {
+      "operation": "supplier_statement_json",
+      "ms": 19.751338000000032,
+      "status": 200,
+      "bytes": 1380
+    },
+    {
+      "operation": "supplier_statement_csv",
+      "ms": 5.19323600000007,
+      "status": 200,
+      "bytes": 611
+    },
+    {
+      "operation": "supplier_statement_pdf",
+      "ms": 191.34768600000007,
+      "status": 200,
+      "bytes": 40899
+    },
+    {
+      "operation": "import_metadata_save",
+      "ms": 7.144018999999844,
+      "status": 200
+    }
+  ]
+}

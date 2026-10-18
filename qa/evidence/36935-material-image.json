@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Real browser uploads a material image through review and saves the authenticated attachment reference",
+    "Existing authenticated attachment viewer renders the uploaded image successfully without browser errors"
+  ],
+  "errors": [],
+  "browser": "153.0.8010.0",
+  "production_data_used": false
+}

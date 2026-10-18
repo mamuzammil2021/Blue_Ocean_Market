@@ -1,3 +1,148 @@
+## V30.69.35 — Packaging workflow completion (staging build)
+
+Extends .34 with authorized GRNI receipt/invoice reconciliation, differential purchase amendments and controlled cancellation, supplier credit notes/refunds and reversals, production packaging reservations and partial unused returns, native-currency advance carrying values, outgoing evidenced conversion legs, central supplier currency balances, and final third-party acquisition invoices with correction controls. Existing supplier, stock, Finance, Accounting, approval and routing services remain authoritative. See V30_69_35_IMPLEMENTATION_AND_QA.md and docs/releases/v30.69.35/DEPLOYMENT_AND_ACCEPTANCE.md for executed evidence and explicit operating limits; production acceptance remains outstanding.
+
+# Current engineering candidate: V30.69.34
+
+Read `START_HERE_V30_69_34.md`. Operational Packaging Materials redesign on protected .33; remaining production acceptance gaps are explicit. Earlier entries below are historical.
+
+# V30.69.33 — payment settlement and approvals
+
+Native account inflows/outflows are distinct from KRW; exact-account postings are verified end to end. Required approvals now precede individual/bulk Finance verification. One actionable approval task follows stages; notifications and important-task email reuse shared controls. Exact-payment policy approval gives valid FX/fee settlements a controlled completion path. Protected source: V30.69.32. See current release reports for actual verification and limits.
+
+## V30.69.32 — October 17 QA and all-currency integrity
+
+Protected baseline: V30.69.31. Stable operational cost/advance revisions; complete current/historical cost details; advance edit/void/draft controls and authoritative locks; exact native/KRW valuation, evidenced identity-rate exceptions and specific posting reasons; read-only valuation audit and controlled repair; interactive CEO authorization and registered independent import approval executor; atomic import/receiving operation receipts and lost-response recovery; receiving no longer waits for PDF generation; bounded isolated PDF processes and actual statement downloads. Current results: qa/evidence/36932-release.json. No production changes, push, merge or deploy.
+
+# V30.69.31 — consolidated Pink Salt QA corrections
+
+Built from protected V30.69.30. Fixed account-scoped reference normalization/preflight/constraint handling, optional blank cash references, same-reference controlled corrections, category button placement/focus, responsive cost states/totals/history, and confirmed stale-render/cache/request races. Preserved cost locks, FX simplification, evidence, Finance/Accounting controls and direct hydration. Added focused server/browser/upgrade evidence and main-only Git instructions. See docs/releases/v30.69.31/ROOT_CAUSES_AND_CHANGES.md and TEST_RESULTS.md.
+
+# V30.69.30 — single-entry payment exchange rates
+
+Built directly from protected V30.69.29 (ZIP SHA256 dbb486636052cf2546350ad676d4968a0009f30f2713ee2f0acea73d6cc0ec67).
+
+- Removed the entire Bank quote / confirmation details section from all shared Pink Salt payment forms, including Import Costs and refunds. Quote reference, source and timestamp are no longer required by the server. Existing historical values are retained.
+- Removed duplicate Payment accounting rate entry when a new payment’s entered bank rate already determines its KRW value. Source debit, recipient amount, fees and KRW equivalent reuse that rate and update on leaving the field.
+- Same-currency foreign payments show one KRW reporting rate. KRW-to-KRW payments have no editable rate. Two foreign currencies plus KRW may require two distinct pairs; the third rate is calculated, never invented.
+- New payment conversion/reporting rates remain empty until entered. Currency/account changes clear incompatible rates. Same-currency identity conversion uses 1 internally.
+- Original invoice carrying rates and historical correction bases remain intact. An existing independent accounting basis is shown read-only for applicable KRW-account corrections, preserving real FX differences.
+- Server checks reject inconsistent shared rates atomically. Existing legacy API calls retain their explicit accounting bases. Historical snapshots store normalized rates for reliable corrections.
+- Preserved evidence/reference policy, Review & Confirm, processing protection, cost locks, permissions, idempotency, Finance linkage, controlled Accounting proposals and deep-route hydration.
+
+No schema migration or existing-record rewrite is introduced. Shared capabilities are registered additively. Native Excavator handlers and routing code remain unchanged.
+
+
+# V30.69.29 October 15 QA corrections
+
+Built directly from the exact protected V30.69.28 ZIP. Verified SHA256: `c81c14b9818a548c60dfca9814dbf5c7d53482f6877c24fce2efd5c4c361989a`. Reviewed all text and all four embedded screenshots in QA POINTS 15 oct.docx.
+
+## Cost locking and details
+
+- Replace the two overlapping Pink Salt lock lookups with a shared read-only `costState` policy. Resolve the actual FX-linked Finance record as well as legacy cost-source links, including historical costs whose projection-link field is empty.
+- Derive verification and posting locks from Finance and Accounting. Show the translated lock in FX-backed cost rows instead of returning early after inserting Open.
+- Preserve legacy permitted edits before verification. Reject verified legacy direct edits/ordinary voids and keep immutable FX bank snapshots protected.
+- Show a proper Import Cost detail page on the existing stable FX URL: category, notes, amount/currency, date/method, import, actual paying account/debit, typed payee/account, reference/evidence, verification/posting state and audit history. Same-currency costs omit irrelevant conversion and financial-leg summaries.
+- Return authoritative action eligibility from the server. Correct & Resubmit requires an actual Open/Viewed assigned Finance correction and the original authorized creator. Resubmitted records wait for Finance acceptance; they do not immediately enable another correction.
+- Edit Cost before verification uses the existing atomic reversal/replacement engine with an explicit amendment flag and audit linkage. Original snapshots and historical Finance rows remain intact; only the current active version affects cash.
+- Retain controlled Correct Posted Cost for an authorized original CEO/Admin, with a linked reversal proposal and posting gates. No direct edit of a posted movement is introduced.
+
+## Supplier payment simplicity
+
+- Remove Bank quote / confirmation details and required quote reference, rate source and rate timestamp from outgoing import supplier payments, supplier advances, packaging supplier payments and supplier operational expenses. No historical stored values are deleted.
+- Keep the essential FX pair/rate, actual source debit, recipient amount, fee math, accounting equivalent, overpayment controls, required evidence and non-cash advance allocation.
+- Keep one Review & Confirm step for these supplier payments. The live recipient calculation stays estimated until the user confirms the actual amounts against attached evidence. Customer/refund and general import-cost quote policy is unchanged.
+- Move the single form-wide alert immediately below the modal heading. Keep the cash-currency restriction and clear/update its alert when the method/account becomes compatible.
+- Highlight missing/invalid fields, open collapsed fee sections and focus/scroll to the first error while preserving values. Clear field errors when corrected and hide errors for inactive fields.
+- Preserve shared root processing protection, duplicate-submit guards, targeted refresh and bilingual labels.
+
+## Scope protection
+
+No new database schema migration, financial backfill, database reset or production storage operation. Registry capabilities are additive/idempotent. The sole deep-route controller, route registry, application shell and Excavator native UI/money-mutation handlers are unchanged from V30.69.28. Existing financial history is retained.
+
+
+---
+
+# V30.69.28 — Direct deep-route hydration
+
+Baseline: actual protected V30.69.27 supplier-account/Cash release. The Library source check found no newer protected source. The V30.69.26 baseline quoted in the request was historical and was not used as the development baseline.
+
+## Root cause
+
+The existing sole router restored the correct URL, but its `apply` lifecycle unconditionally awaited `loadView()` before opening a registered record. That rendered the module list/dashboard first. Profiles then initialized a default section before the router selected the requested section. Pink Salt supplier native and shared adapters repeated section loading. Accounting and Access Control depended on parent structural containers; creating those containers also fetched and rendered their default overview.
+
+## Changes
+
+- Extend existing route descriptors with direct destinations, structural prerequisites, initial-section arguments and section ownership. Preserve existing URL syntax and history ownership.
+- Resolve authentication, access, business unit and full destination before rendering a registered record. Keep one destination loading surface during required dependency reads.
+- Open records directly without rendering a module list. Accounting and Settings expose their existing structural shells without loading a default overview.
+- Supply the requested section to Excavator supplier/buyer/Pakistan, employee and profile loaders. Pink Salt supplier section loading has one owner; customer panels start with the requested visibility state.
+- Await required Excavator profile data before committing the initial record frame. Preserve cache/deduplication and native payment handlers.
+- Preserve navigation AbortError signals and reject stale GET results. Retain the existing epoch/controller and serialized lifecycle; add no competing route listener or timer-based restorer.
+- Reuse the existing authenticated shell across navigation. Local section updates retain the profile heading/content host.
+- Reject invalid registered profile/settings sections explicitly. Preserve missing, denied and temporary-error URLs with appropriate states and Retry.
+- Add bounded, opt-in development traces (`window.BOM_ROUTE_DEBUG=true` before startup); no trace is collected by default. Trace contains route/phase/timing only.
+
+No server business logic, database schema, Chart of Accounts, bank snapshots, financial mutation handlers or payment policies changed. The existing single router and registry remain authoritative. Matching canonical legacy modules and the served runtime bundle were updated together.
+
+---
+
+# V30.69.27 — Supplier saved accounts and Cash
+
+Built on protected V30.69.26. Reproduced a saved active USD supplier bank disappearing under a default KRW supplier-advance currency and a historical Bank Transfer method label. The prior form also populated recipients only after company-account loading succeeded.
+
+- Populate saved supplier accounts independently of company-account loading. Company-source failures still block recording; they no longer erase the supplier list.
+- Normalize saved currency whitespace/case and historical method labels consistently with the shared server payee resolver. Keep account IDs and historical records unchanged.
+- Show active method-compatible saved accounts with currency and bank details. For advances/other editable-payment-currency flows, choosing another supported recipient currency sets the payment currency, retains an eligible company source and clears the applicable FX/accounting rates for explicit entry.
+- For fixed-currency invoices, show incompatible recipient currencies as disabled choices with a localized explanation. Do not permit unsupported intermediary conversions.
+- Fetch fresh context/account lists for each payment opening or shared account refresh. New accounts appear and archived accounts disappear immediately.
+- Cash hides, clears and disables the supplier account selector and its required-field marker. Cash recording does not resolve or store a supplier bank account, even if a stale receiver ID is submitted. The exact authorized company Cash source and evidence remain mandatory; cash reference remains optional.
+- Preserve shared Review & Confirm, targeted supplier refresh, Finance snapshots, approvals, audit, fees, FX evidence, idempotency and correction/reversal controls. New Finance receiver-currency snapshots are normalized without rewriting old snapshots.
+- Register supplier_account_currency_choices on the existing Pink Salt settlement capability. Excavator native/shared runtime handlers remain byte-identical to V30.69.26.
+
+No schema migration is introduced. Existing additive startup migrations and registry registration remain idempotent. The separate previously noted ancestor-page flash during deep refresh is outside this supplier-account correction.
+
+
+# V30.69.26 — Simple Import Cost recipients
+
+Based on protected V30.69.25. Import Cost now accepts a typed recipient name, optional contact/company/address details, and bank/payment-provider, account holder, account/payment identifier and optional country for non-cash payments. The selected payment currency is the recipient account currency; unsupported intermediary routes remain blocked.
+
+Removed the saved-payee dropdown, Add Recipient step and receiver-account manager from this form. The authoritative company financial-account selector remains. Each new cost stores immutable recipient details with its FX transaction and operational cost; existing Finance snapshot fields hold the name/provider/holder, currency and masked account identifier. No new payee or reusable receiver-account master is created.
+
+Cash clears and excludes bank details. Validation, required markers, focus, Review & Confirm, protected processing, idempotency, FX blur calculations, permissions, evidence, correction/reversal and targeted Import Detail refresh remain. Recipient edits invalidate prior amount confirmation. Correction guidance is a stable informational note, so clearing an error while leaving the reason field cannot shift the confirmation checkbox during a click.
+
+Legacy registered payees/accounts remain available to historical API clients and records. The current correction form uses Finance snapshots and requires re-entry if a historical account number no longer matches the preserved masked identifier. A historical account-holder field was not previously snapshotted separately: an unchanged matching account can supply it for review; otherwise the user must enter and confirm it. No historical transaction is rewritten.
+
+Shared code is registered through the existing Pink Salt settlement capability registry (`per_payment_recipient_snapshot`); Excavator handlers are unchanged.
+
+
+# V30.69.25 — consolidated October 14 QA corrections
+
+- Build on protected V30.69.24 and reconcile active bundled handlers with canonical Pink Salt and authentication paths.
+- Target supplier KPI/list refresh for payments, advances and allocations; stabilize shared account management and Accounts routing.
+- Correct statement completeness/date ordering, original-currency context and CSV totals; reduce repeated generation using ledger-keyed PDF reuse; verify EN/KR exports and remove a blank PDF page.
+- Add scoped, idempotent Finance action notifications and exact related-read behavior.
+- Preserve active Posting Control, search/status/scroll and intentional Finance return navigation through review/posting.
+- Preserve Import Detail on Edit Save/Cancel/X and failed-save retry; protect historical Actual Arrival and collect it only in receiving.
+- Separate third-party Import Costs from purchase-invoice payment context; use independent payees/accounts, categories and conditional validation; eliminate the unbounded sentinel and reject unsafe numeric precision.
+- Equalize/bound import payment/cost panels and maintain exact correction/task/Finance status until acceptance.
+- Use atomic immutable replacements/reversals for supported corrections, including separately evidenced fees, original-user ownership, audit and controlled posting gates. Restore unreceived landed valuation on a cost reversal.
+- Improve shared field highlighting/focus/scroll and dynamic required markers; rebuild the translated shell at the same URL/record/section when changing language; protect row-remove controls from modal-close normalizers and keep voided cost history read-only.
+- Revoke only the logged-out token; issue unique tokens in the active authentication handler; isolate stale responses; reset explicit-login navigation while preserving authorized refresh/deep links.
+- Add additive migrations, authenticated browser/financial tests, PDF and performance evidence, source-protection comparison, completion matrix and deployment/rollback/Mac Git instructions.
+
+No production data, credentials, private uploads or dependencies are distributed. Existing Chart of Accounts codes and approvals remain intact. No production deployment or Git push is performed by this build.
+
+Historical changelog follows.
+
+# V30.69.21 — October QA and sales settlement staging candidate
+
+Primary paths for all seven QA points are implemented with server and authenticated browser testing. See `V30_69_21_QA12_IMPLEMENTATION_AND_ACCEPTANCE.md` and `qa/evidence/36921-release.json` for per-point evidence, remaining acceptance and safe deployment/rollback. Entries below are historical.
+
+# V30.69.20 — Cross-currency payment staging candidate
+
+Consolidated durable Pink Salt settlement engine, native payment UI, approval/Finance/Accounting integration, immutable corrections and reversals, and real server/browser QA. See `V30_69_20_IMPLEMENTATION_AND_ACCEPTANCE.md` and `qa/evidence/36920-release.json` for evidence, remaining acceptance work and safe Render rollback. Historical entries below describe earlier releases.
+
 # V30.69.6 — System-Wide Refresh / Persistent Routing Hardening
 - Fixed hard browser refresh falling back to Dashboard across business-unit pages by restoring URL view + unit context before first render.
 - Added canonical `unit=` scope to top-level and registered record/detail routes.

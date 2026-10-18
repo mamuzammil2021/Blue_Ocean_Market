@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Unbilled partial receipt posts approved GRNI, later invoice clears GRNI exactly and recognizes only remaining in-transit value",
+    "Recognized price amendment uses a balanced differential journal and preserves original receipt IDs, snapshots and physical quantities",
+    "Warehouse reservations reduce available stock, block competing deductions and release without physical movement",
+    "Source-linked supplier credit reduces payable and cancels replacement quantity without a second inventory deduction",
+    "Paid invoice credit becomes supplier receivable, shared refund engine records one exact company-account receipt and clears credit",
+    "Evidenced KRW → USD → PKR → USD invoice conversion preserves actual debit, recipient amount, invoice settlement and immutable leg history",
+    "Selected USD advance clears native balance at historic carrying cost and realizes the invoice-rate difference once without a bank movement",
+    "Controlled cancellation restores stock/payable sources with audited journal cancellations/reversal proposals",
+    "Reserved native production consumes actual use plus waste atomically; partial unused return restores stock, corrects finished cost, preserves lot snapshots and rejects excess",
+    "Whole-batch controlled void reverses both consumption and partial returns without duplicating material stock",
+    "Third-party invoice uses an existing central supplier, classifies acquisition cost, settles through shared payments and reconciles central currency balances",
+    "Repeated additive completion migration preserves stock, Finance records and all foreign keys"
+  ],
+  "production_data_used": false
+}

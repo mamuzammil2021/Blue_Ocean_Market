@@ -20,14 +20,15 @@
     const mutation=url.includes('/api/')&&['POST','PUT','PATCH','DELETE'].includes(method)&&!url.includes('/api/auth/');
     if(!mutation)return realFetch(input,init);
     const bodySig=bodySignature(init.body),ceo=headerValue(init.headers,'X-CEO-Confirmed'),user=typeof me!=='undefined'&&me?.id?me.id:0;
-    const signature=`${user}|${method}|${url}|${ceo}|${bodySig}`,fingerprint=`v284-${tinyHash(signature)}`;
+    const unit=headerValue(init.headers,'X-Business-Unit-ID');
+    const signature=`${user}|${unit}|${method}|${url}|${ceo}|${bodySig}`,fingerprint=`v284-${tinyHash(signature)}`;
     if(pending.has(signature)){
       const response=await pending.get(signature);return response.clone();
     }
     const headers=new Headers(init.headers||{});
     if(!headers.has('X-Idempotency-Key'))headers.set('X-Idempotency-Key',`v284-${user}-${Date.now()}-${Math.random().toString(36).slice(2,12)}`);
     headers.set('X-Request-Fingerprint',fingerprint);
-    const promise=realFetch(input,{...init,headers}).then(r=>{setTimeout(()=>pending.delete(signature),2500);return r}).catch(e=>{pending.delete(signature);throw e});
+    const promise=realFetch(input,{...init,headers}).then(r=>{if(r.ok)setTimeout(()=>{if(pending.get(signature)===promise)pending.delete(signature)},2500);else if(pending.get(signature)===promise)pending.delete(signature);return r}).catch(e=>{if(pending.get(signature)===promise)pending.delete(signature);throw e});
     pending.set(signature,promise);
     const response=await promise;return response.clone();
   };

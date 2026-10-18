@@ -1,17 +1,21 @@
-# Blue Ocean Market V30.69.6 — Git-Ready Build
+# Current engineering candidate: V30.69.34
 
-Built directly from V30.69.5. This release fixes the system-wide browser-refresh fallback to Dashboard by making the current full-screen view and business-unit context URL-addressable and restoring them before first render. Existing registered record/detail deep links are restored after the page shell.
+Read `START_HERE_V30_69_34.md`. Operational Packaging Materials redesign on protected .33; remaining production acceptance gaps are explicit. Earlier entries below are historical.
 
-Runtime data, `.env`, SQLite/database files, uploads, `data/`, and `node_modules` are not part of the release package.
+# Current release: V30.69.33
 
-Recommended source QA before deployment:
+Read START_HERE_V30_69_33.md. Current tests: qa/evidence/36933-release.json. Git: V30_69_33_MAC_GIT_NEW_BRANCH.md (NEW branch). Earlier guidance below is historical.
 
-```bash
-node qa/qa_v3696_system_routing.js
-node qa/qa_v3695_repacking_inputs.js
-node qa/qa_v3694_pink_qa.js
-```
+# Current release V30.69.32
 
-Then test browser refresh, copied URLs, and Back/Forward on Render against the existing persistent database/disk.
+Read START_HERE_V30_69_32.md and V30_69_32_MAC_GIT_NEW_BRANCH.md. Create a NEW branch from updated main; do not push main directly. Older instructions below are historical.
 
-**Do not reset/delete the Render persistent disk or production database.**
+Current release: **V30.69.31**. Read [START_HERE_V30_69_31.md](START_HERE_V30_69_31.md). Based on protected V30.69.30. Use V30_69_31_MAC_GIT_MAIN_PUSH.md: main only, no new branch. Earlier notes below are historical.
+
+Current release: **V30.69.30**. Read [START_HERE_V30_69_30.md](START_HERE_V30_69_30.md) for single-entry payment rates, actual checks and Git instructions. Based directly on protected V30.69.29. Earlier notes below are historical.
+
+Current release: **V30.69.29**. Read [START_HERE_V30_69_29.md](START_HERE_V30_69_29.md) for October 15 QA corrections, actual tests and Git main-branch instructions. Based directly on protected V30.69.28. Earlier notes below are historical.
+
+# V30.69.21 — Git-ready staging candidate
+
+Read `V30_69_21_QA12_IMPLEMENTATION_AND_ACCEPTANCE.md` for QA points 1–7, tests, screenshots, reconciliation, limitations, Render and Mac Git instructions. Source is based on V30.69.20 with cross-currency work preserved. No production data, credentials, uploads or dependencies are bundled.

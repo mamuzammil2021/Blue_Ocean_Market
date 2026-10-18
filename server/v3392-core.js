@@ -72,7 +72,7 @@ function install({app,db,auth,allow,access,currentUnit,isFinanceReviewer}){
         SUM(CASE WHEN f.status!='Voided' AND EXISTS(SELECT 1 FROM approvals ap WHERE ap.source_entity='finance_entry' AND ap.source_id=f.id AND ap.status IN ('Pending','Resubmitted','Changes Required')) THEN 1 ELSE 0 END) open_request_rows
         FROM finance_entries f WHERE 1=1${scopeSql}`).get(...scopeArgs)||{};
       res.setHeader('X-Total-Count',String(total));
-      res.json({rows,pagination:{page,page_size:pageSize,total,pages:Math.max(1,Math.ceil(total/pageSize)),from:total?offset+1:0,to:Math.min(total,offset+pageSize)},summary:{pending_count:Number(sum.pending_count||0),correction_count:Number(sum.correction_count||0),resubmitted_count:Number(sum.resubmitted_count||0),verified_count:Number(sum.verified_count||0),unverified_amount:Number(sum.unverified_amount||0),income:Number(sum.income||0),expenses:Number(sum.expenses||0),open_request_rows:Number(sum.open_request_rows||0)}});
+      res.json({rows:rows.map(f=>({...f,authorization:require('./payment-approval-workflow').authorization(db,f)})),pagination:{page,page_size:pageSize,total,pages:Math.max(1,Math.ceil(total/pageSize)),from:total?offset+1:0,to:Math.min(total,offset+pageSize)},summary:{pending_count:Number(sum.pending_count||0),correction_count:Number(sum.correction_count||0),resubmitted_count:Number(sum.resubmitted_count||0),verified_count:Number(sum.verified_count||0),unverified_amount:Number(sum.unverified_amount||0),income:Number(sum.income||0),expenses:Number(sum.expenses||0),open_request_rows:Number(sum.open_request_rows||0)}});
     }catch(e){res.status(500).json({error:'Finance page could not be loaded',detail:e.message})}
   });
 

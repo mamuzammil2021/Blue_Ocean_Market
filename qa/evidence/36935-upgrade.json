@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Actual protected .34 server creates legacy material, receipt/evidence, supplier advance, allocation, verified Finance entry and posted journal",
+    "Protected .34 application creates a recognized multi-event purchase and partial accepted/rejected receipt before migration",
+    "The explicit migration command creates a consistent SQLite backup, validates the expected schema and completes its stock/Finance reconciliation",
+    "Upgrade preserves every original selected field, supplier ID, movement, advance, allocation, verification, posted journal and CoA record; it invents no historical purchases",
+    "Migrated records remain visible in legacy purchase detail and the existing supplier profile with exact balances and evidence",
+    "Repeat startup is idempotent and leaves one reconciliation audit without duplicate cash, stock or journals"
+  ],
+  "baseline_sha256": "2f79c14fdf9f43e163a125588b7874e35bae57b0016d224e212e04e0ee5ff0f9",
+  "tables_compared": [
+    "pink_salt_suppliers",
+    "pink_salt_packaging_items",
+    "pink_salt_packaging_movements",
+    "pink_salt_supplier_advances",
+    "pink_salt_supplier_packaging_allocations",
+    "pink_salt_import_payments",
+    "pink_salt_production_inputs",
+    "pink_salt_production_packaging",
+    "pink_salt_production_outputs",
+    "finance_entries",
+    "accounting_accounts",
+    "accounting_journal_entries",
+    "accounting_journal_lines",
+    "pink_pack_purchases",
+    "pink_pack_purchase_lines",
+    "pink_pack_receipts",
+    "pink_pack_receipt_lines",
+    "pink_pack_material_suppliers",
+    "pink_pack_history",
+    "pink_pack_actions"
+  ],
+  "production_data_used": false
+}

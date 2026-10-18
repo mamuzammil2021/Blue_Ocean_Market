@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Authenticated Packaging Materials landing renders exactly three primary sections and four live KPI cards",
+    "A catalog save uses one root-level processing overlay and locks the modal and conflicting navigation",
+    "Real browser creates a bilingual material with purchase conversion and central supplier mapping using Review & Confirm",
+    "Material detail restores directly on browser refresh",
+    "Browser creates a purchase in box units, reaches full-screen detail and adds no stock",
+    "CEO authorizes the reviewed purchase through the real UI with an explicit reason and audited execution",
+    "Purchase internal tabs persist in URLs and survive refresh and browser Back",
+    "Real Receive All Now browser action creates receipt history and exactly 1000 base units",
+    "Purchase payment opens the existing shared form; advance-only hides fresh company-account fields",
+    "Native production browser shows expected/actual packaging without draft deduction, then consumes five pouches plus one recorded wastage on confirmation",
+    "Purchase details fit a 390px mobile viewport without document overflow",
+    "Korean purchase view renders Korean headings, tabs and actions",
+    "No uncaught browser JavaScript errors"
+  ],
+  "errors": [],
+  "browser": "153.0.8010.0",
+  "viewports": [
+    1360,
+    390
+  ],
+  "production_data_used": false
+}

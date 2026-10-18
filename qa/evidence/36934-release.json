@@ -1,0 +1,90 @@
+{
+  "version": "30.69.34",
+  "status": "PASS",
+  "production_ready": false,
+  "started": "2026-10-18T18:42:39.203Z",
+  "finished": "2026-10-18T18:44:03.679Z",
+  "node": "v22.23.3",
+  "baseline": "30.69.33",
+  "baseline_sha256": "a15de0392ca38fe0f920796453e48dccc4781c77cfe8fb37b0d9e8e17d6fa0c3",
+  "results": [
+    {
+      "name": "JavaScript syntax",
+      "status": "PASS",
+      "files_checked": 381
+    },
+    {
+      "name": "Catalog, purchasing, receipts, stock and shared settlements",
+      "file": "qa/qa_v36934_packaging.js",
+      "status": "PASS",
+      "duration_ms": 2431,
+      "passed_log_lines": 18
+    },
+    {
+      "name": "Delegated approvals, production, posting and evidence",
+      "file": "qa/qa_v36934_integration.js",
+      "status": "PASS",
+      "duration_ms": 2918,
+      "passed_log_lines": 10
+    },
+    {
+      "name": "Native KRW/USD/PKR closure, cash, reversal and tax treatment",
+      "file": "qa/qa_v36934_currencies.js",
+      "status": "PASS",
+      "duration_ms": 2302,
+      "passed_log_lines": 9
+    },
+    {
+      "name": "Actual protected .33 data upgrade and repeated startup",
+      "file": "qa/qa_v36934_upgrade.js",
+      "status": "PASS",
+      "duration_ms": 4035,
+      "passed_log_lines": 5
+    },
+    {
+      "name": "Authenticated browser, native production, deep routes, EN/KR and responsive UI",
+      "file": "qa/browser_v36934_packaging.js",
+      "status": "PASS",
+      "duration_ms": 6914,
+      "passed_log_lines": 13
+    },
+    {
+      "name": "Nineteen protected financial and operational regression suites",
+      "file": "qa/qa_v36934_regressions.js",
+      "status": "PASS",
+      "duration_ms": 45017,
+      "passed_log_lines": 19
+    },
+    {
+      "name": "Actual English/Korean statement PDFs and cache invalidation",
+      "file": "qa/qa_v36925_statement_pdf.js",
+      "status": "PASS",
+      "duration_ms": 3869,
+      "passed_log_lines": 4
+    }
+  ],
+  "source_sha256": {
+    "scripts/migrate-packaging.js": "54de644246d7b43ba72c7d3272ca041ad69bd296de885f5d886ec3ce8a8050c2",
+    "scripts/build-packaging-client.js": "6325e339292af755410913f8e5fb550b3bc7e787f2f316481c5a13a0bdb05427",
+    "public/packaging-decimal.js": "ce74e08d98a529287a5f7377895ef77d058428929246a448c910a8d873b1e6aa",
+    "server/packaging-materials.js": "a03a9c4642f06cdc770f44ac8fccdf7dfc6f32c9c6b5e455a14d024358b431c1",
+    "server/packaging-decimal.js": "882177f4539e2670d4f6e8a62240dd1a70e6bc7ce8ae98f5d3fcbc855a393ff3",
+    "server/migrations/36934-packaging.sql": "683ce6616f49a6981d83629a8be89acd07fcfc30f88f7f95259f68d5c89b8941",
+    "server/pink-fx-engine.js": "0d9679e1318ec1149f227f549b78eefa86e43837f382f5d9534484af79403ac3",
+    "server/v300.js": "f4b486d4d3fc40f1e60d93c033f704a8aaa691c846688feb3670c27c9325a10e",
+    "server/pink-qa21.js": "7bc753d4455d4e522c51c5d26ad719db2dbb77ac96f7e7e5c35b06ce8ecd8000",
+    "server/v315.js": "fd263587e953a33fe496de40a8e3e3ff62f49abee30961392822ab4ecd02e6c7",
+    "server/v305.js": "b95f51cc363c701ace42b60590cbea143c3ecd8b1d9a03515bd97143391a9c46",
+    "server/server.js": "d33a10d9525110cfe55c79b0b7d7ffab69d4083b37af7b065c5fb9e97ef048b2",
+    "public/packaging-materials.js": "da2bbca448562029d132733665ee61367b4d9f18f167595507641587f9b835af",
+    "public/route-registry.js": "836e105a4bcaabfefab1090aaa8655eee14619f181927e6dd42064a8d1f24e98",
+    "public/pink-fx-payment.js": "866fd6db4ffb1518ca8b2947413c6937aa1174f8ef83a78d9850b1f45a0f3f01",
+    "public/client.js": "cbd90f700684e1aa1a6b031c32097dac534c3bae05c5cb11043c25f0393ace12",
+    "public/runtime-v30392.js": "3868b07ebdba6849f570368a504253895a2c080e5c7316a6953ba05eb07eea7c",
+    "public/index.html": "06b146b462ba6097f93d3bd9141973f65cebb9828e0fd82163d38e8a8a92d9b1"
+  },
+  "production_data_used": false,
+  "external_emails_sent": false,
+  "pdf_runtime": "Actual Chromium rendered via a local Playwright CLI adapter; standard Docker Chromium CLI remains staging acceptance",
+  "remaining_acceptance": "Read docs/releases/v30.69.34/DEPLOYMENT_AND_LIMITATIONS.md; a passing engineering gate does not satisfy every requested business workflow."
+}

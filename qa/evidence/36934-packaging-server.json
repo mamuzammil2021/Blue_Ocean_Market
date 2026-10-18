@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Material master creates bilingual variants, unit conversions and supplier mappings; duplicate code/specification rejected",
+    "Identical duplicate submissions replay one durable result",
+    "One eligible supplier and multiple materials; exact discount/tax/expense totals; purchase creates no stock",
+    "Purchase authorization is separate from invoice recognition, receipt and cash movement",
+    "Partial and full receipts are durable, reject over-receipt and keep damaged goods outside usable stock",
+    "Receipt failures roll back all lines and stock atomically",
+    "Rejected-item return clears quarantine without reducing usable stock or creating inventory value",
+    "Supplier return links the original receipt, reopens replacement balance and creates no cash movement",
+    "Historical line snapshots survive edits; used units/deletion locked; archive and unused deletion work",
+    "Packaging invoice context uses the shared FX engine and original carrying basis",
+    "USD→USD payment debits USD 10 on the exact bank account, values KRW 14000 and settles KRW 13000 without changing stock",
+    "Advance-only settlement uses the central supplier advance ledger and creates no bank or stock movement",
+    "Combined advance and PKR→USD bank payment retain separate non-cash allocation and actual PKR debit",
+    "Existing central supplier profile and statement include new purchase obligations and settlements",
+    "Existing account/reference duplicate guard applies to packaging purchase payments",
+    "Packaging BOM reuses existing product recipes, supports proportional cartons and preserves revisions",
+    "Additive migration is retry-safe; stock quantity, movement count, Finance count and foreign keys reconcile",
+    "Backend KPI counts and paginated material reads use actual records"
+  ],
+  "production_data_used": false,
+  "node": "v22.23.3",
+  "baseline": "30.69.33"
+}

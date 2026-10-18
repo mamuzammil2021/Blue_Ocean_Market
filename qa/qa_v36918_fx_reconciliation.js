@@ -1,0 +1,15 @@
+'use strict';
+const assert=require('node:assert/strict');
+const {preview}=require('../server/pink-cross-currency-contract');
+const x={source_account_currency:'KRW',source_debit_amount:2810000,source_fee_amount:10000,transfer_currency:'USD',transfer_amount:2000,recipient_currency:'USD',recipient_expected_amount:2000,invoice_currency:'USD',invoice_amount_applied:2000,invoice_outstanding:2500,invoice_rate_to_krw:1395,bank_fx_rate:1400,fx_rate_pair:'USD/KRW: 1 USD = 1400 KRW',bank_quote_reference:'QUOTE-01',fx_evidence_reference:'PROOF-01'};
+let n=0;const test=(f)=>{f();n++};
+test(()=>assert.equal(preview(x).source_debit_amount,2810000));
+test(()=>assert.throws(()=>preview({...x,source_debit_amount:2800000}),/does not reconcile/));
+test(()=>assert.throws(()=>preview({...x,bank_fx_rate:1390}),/does not reconcile/));
+test(()=>assert.throws(()=>preview({...x,transfer_currency:'EUR'}),/intermediary FX leg/));
+test(()=>assert.throws(()=>preview({...x,recipient_currency:'EUR',transfer_currency:'EUR'}),/invoice-settlement FX leg/));
+test(()=>assert.throws(()=>preview({...x,recipient_confirmed_amount:2050}),/Confirmed recipient amount/));
+test(()=>assert.throws(()=>preview({...x,source_account_currency:'BTC'}),/Unsupported transaction currency/));
+test(()=>assert.throws(()=>preview({...x,source_fee_amount:2810001}),/fee exceeds/));
+test(()=>assert.equal(preview({...x,source_debit_amount:2800000,source_fee_amount:0}).source_debit_amount,2800000));
+console.log(`PASS ${n} FX reconciliation safeguards`);

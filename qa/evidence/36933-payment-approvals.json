@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Even CEO cannot Finance-verify a payment before its required FX/fee accounting approval",
+    "Bulk verification cannot bypass the same pre-verification approval boundary",
+    "Approval request creates one assigned actionable task, full bank/invoice/advance/fee snapshot and reviewer notification",
+    "Opening the responsible approval marks only its related notification read while unrelated reminders remain unread",
+    "Retries, changed request notes and another reviewer reuse one approval/task without another cash movement",
+    "Approval → Finance verification → posting debits payable/FX loss and credits the exact USD bank ledger, without approving unrelated payments",
+    "USD native debit and running movement reconcile separately from KRW without inventing a foreign opening balance",
+    "A real customer receipt credits the exact USD account and reconciles its native inflow against prior native debits",
+    "Known native money direction is preserved even when a historical KRW valuation is zero; no rate or KRW amount is invented",
+    "Supplier advance application changes settlement without another Finance or native bank movement",
+    "The shared Finance verification boundary enforces relevant pending approvals outside Pink Salt",
+    "Dual authorization routes one task Finance → CEO, refuses skipped stages and creates exactly one actual payment only after final approval",
+    "The approved payment retains its exact authorization link; the maker cannot self-verify and an authorized independent Finance checker can",
+    "Changes-required resubmission retains the review task and authoritative native values, ignoring forged client payment amounts",
+    "Opening approval from the principal or separate fee reuses one complete review and authorizes both real debits without duplicate movements",
+    "Important/urgent approval email promotion deduplicates delivery and includes the exact authorized deep link; routine successes remain in-app",
+    "A new approval revision receives its own important email while retries of the same revision stay deduplicated"
+  ],
+  "production_data_used": false,
+  "external_emails_sent": false,
+  "email_delivery_spy_calls": 2
+}

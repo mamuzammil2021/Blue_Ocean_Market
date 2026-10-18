@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "version": "30.69.35",
+  "checks": [
+    "Real application startup and additive schema migration",
+    "KRW→USD live server preview",
+    "Atomic durable bank debit and invoice carrying settlement",
+    "One authoritative Finance outflow in source account currency",
+    "Balanced Accounting proposal, fee and realized FX legs",
+    "Idempotent duplicate submit returns same transaction",
+    "Same key with different payload rejected",
+    "Missing exact source account rejected",
+    "Inactive account rejected",
+    "Invalid bank FX rate rejected",
+    "Estimated recipient credit cannot settle invoice",
+    "Overpayment prevented",
+    "Actual SQL failure rolls back request, transaction and Finance",
+    "Finance verification gates posting",
+    "Unapproved FX/fee treatment gates Finance verification before posting",
+    "Unapproved FX/fee accounting policy gates posting",
+    "Finance-verified policy-approved journal posts once",
+    "Controlled reversal preserves history and reopens invoice",
+    "Posted journal reversal is a controlled pending proposal"
+  ],
+  "financial_example": {
+    "invoice_currency": "USD",
+    "invoice_amount": 100,
+    "carrying_rate": 1300,
+    "company_currency": "KRW",
+    "company_debit": 141000,
+    "bank_rate": 1400,
+    "fee_krw": 1000,
+    "fx_loss_krw": 10000,
+    "invoice_allocation_krw": 130000,
+    "finance_records": 1,
+    "balanced_journal": true
+  },
+  "runtime": "Node v22.23.3"
+}

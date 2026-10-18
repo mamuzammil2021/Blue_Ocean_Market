@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "checks": [
+    "A delegated purchase creates one actionable approval task; receipt is blocked until authorization; approval executes the source exactly once",
+    "Invoice recognition has its own Finance authorization and balanced proposal; receiving is a separate inventory event",
+    "Backend action permissions and business-unit isolation reject unauthorized mutations",
+    "Warehouse transfers preserve total owned stock; wastage reduces stock and overdraw is rejected",
+    "Actual confirmed production consumes the existing BOM at warehouse level, records cost once, retains batch/lot links and feeds finished-unit cost",
+    "Expected packaging preview is read-only; confirmed actual use plus wastage reconciles to stock, finished cost and one waste-expense proposal",
+    "Controlled production void restores used and wasted material at original locations, retains unique movement IDs and reverses its accounting proposal",
+    "Insufficient production input is rejected without partial material consumption",
+    "Required payment approval defers the real debit; an independent Finance checker verifies and Posting Control posts one balanced payment",
+    "Purchase evidence is durable and opens through the existing authenticated attachment viewer"
+  ],
+  "production_data_used": false
+}

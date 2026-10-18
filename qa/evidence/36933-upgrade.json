@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "baseline": "30.69.32",
+  "checks": [
+    "Protected .32 real server records, verifies and posts a synthetic USD payment before upgrade",
+    "Additive .33 startup preserves every historical Finance/settlement field, posted line and Chart-of-Accounts code",
+    "An existing posted native USD payment appears accurately in native and KRW account statements after migration",
+    "Repeated startup is safe and does not duplicate movements, revalue history or disturb posted entries"
+  ],
+  "production_data_used": false
+}

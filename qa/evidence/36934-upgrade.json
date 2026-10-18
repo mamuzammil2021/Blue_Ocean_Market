@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Actual protected .33 server creates legacy material, receipt/evidence, supplier advance, allocation, verified Finance entry and posted journal",
+    "The explicit migration command creates a consistent SQLite backup, validates the expected schema and completes its stock/Finance reconciliation",
+    "Upgrade preserves every original selected field, supplier ID, movement, advance, allocation, verification, posted journal and CoA record; it invents no historical purchases",
+    "Migrated records remain visible in legacy purchase detail and the existing supplier profile with exact balances and evidence",
+    "Repeat startup is idempotent and leaves one reconciliation audit without duplicate cash, stock or journals"
+  ],
+  "baseline_sha256": "a15de0392ca38fe0f920796453e48dccc4781c77cfe8fb37b0d9e8e17d6fa0c3",
+  "tables_compared": [
+    "pink_salt_suppliers",
+    "pink_salt_packaging_items",
+    "pink_salt_packaging_movements",
+    "pink_salt_supplier_advances",
+    "pink_salt_supplier_packaging_allocations",
+    "pink_salt_import_payments",
+    "pink_salt_production_inputs",
+    "pink_salt_production_packaging",
+    "pink_salt_production_outputs",
+    "finance_entries",
+    "accounting_accounts",
+    "accounting_journal_entries",
+    "accounting_journal_lines"
+  ],
+  "production_data_used": false
+}

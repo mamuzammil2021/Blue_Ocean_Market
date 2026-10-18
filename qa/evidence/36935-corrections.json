@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Concurrent identical receive submissions commit exactly one receipt and one physical stock increment",
+    "Unauthorized users cannot amend; Finance amendment creates an actionable approval task and executes only after the required CEO decision",
+    "Posted supplier credit correction retains the original Posted entry and creates a Posting Control reversal proposal while reopening replacement quantity",
+    "External invoice correction reverses the source journal and acquisition valuation, retaining history and blocking further payment",
+    "Amended and partially returned purchase cancellation preserves original receipts and removes the exact revised stock value",
+    "Explicit conversion fees, native debit, invoice allocation and realized difference reconcile after decimal-safe rounding"
+  ],
+  "production_data_used": false
+}

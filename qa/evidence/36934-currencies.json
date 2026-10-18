@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "checks": [
+    "KRW native invoice: partial plus final bank payments debit the exact native account, reconcile original/base values and close after full receiving",
+    "USD native invoice: partial plus final bank payments debit the exact native account, reconcile original/base values and close after full receiving",
+    "PKR native invoice: partial plus final bank payments debit the exact native account, reconcile original/base values and close after full receiving",
+    "A zero supplier-advance pool cannot be allocated to a packaging invoice",
+    "Controlled payment reversal reopens a closed purchase, restores exact outstanding and retains its voided Finance history",
+    "Cash settlement requires no supplier bank account/reference, supports idempotent replay and never increases physical stock",
+    "Recoverable tax and operating cost stay separate from inventory acquisition value in one balanced invoice proposal",
+    "Invoice conversion and proportional acquisition-cost allocation use bounded integer arithmetic with explicit half-up rounding",
+    "Partial receipt valuation carries rounding residue into the final receipt so inventory proposals clear the invoice acquisition value exactly"
+  ],
+  "production_data_used": false
+}

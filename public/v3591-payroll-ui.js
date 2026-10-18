@@ -22,6 +22,7 @@ const css=document.createElement('style');css.id='v3591-payroll-ui-style';css.te
 let workspaceSection='overview', employeeSection='overview', mySection='overview';
 window.payrollWorkspaceSectionV3591=async function(k){workspaceSection=k;const c=currentContent();if(c)await window.payrollWorkspaceV3591(c)};
 window.payrollWorkspaceV3591=async function(c){
+  if(window.BOMRouter?.restoring&&BOMRouter.parse().view==='payroll'&&!BOMRouter.parse().kind)workspaceSection=BOMRouter.parse().section||'overview';
   try{
     loading(c);
     const [sum,employees,runs]=await Promise.all([api('/api/payroll/summary'),api('/api/payroll/employees'),api('/api/payroll/runs')]);
@@ -107,6 +108,5 @@ closeAfterAction('saveEmployeeEditV359',a=>({type:'employee',id:Number(a[1]),sec
 closeAfterAction('savePayrollItemV359',a=>({type:'payroll',id:Number(a[1])}));
 closeAfterAction('linkPayrollFinanceV359',a=>({type:'payroll',id:Number(a[1])}));
 
-setTimeout(()=>{try{if(typeof view!=='undefined'&&view==='payroll'&&currentContent())window.payrollWorkspaceV3591(currentContent());else if(location.hash==='#profile'&&currentContent())window.renderMyAccountV3591(currentContent(),true)}catch(e){console.warn('V30.59.1 initial render:',e.message)}},0);
 console.info('Blue Ocean Market V30.59.1 Employees / Payroll / My Account full-page UX loaded');
 })();

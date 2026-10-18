@@ -1,3 +1,11 @@
+# Current engineering candidate: V30.69.34
+
+Read `START_HERE_V30_69_34.md`. Operational Packaging Materials redesign on protected .33; remaining production acceptance gaps are explicit. Earlier entries below are historical.
+
+# V30.69.33 permanent payment lifecycle rule
+
+Record accurate native debits/credits and distinct KRW accounting values. Complete required authorization before Finance verification, including bulk actions; approval itself must not verify or post cash. Each pending approval needs one actionable staged review task and relevant notifications; important/high/urgent task events may email through configured important-only delivery. Retain Review & Confirm, permissions, audit, evidence and one real movement → one Finance record.
+
 # Blue Ocean Market — Master Requirements
 
 This document is the standing acceptance baseline for the Blue Ocean Market Management OS. The original Blue Ocean Management Software Blueprint remains mandatory, together with all compulsory requirements added during development unless the user explicitly marks a requirement optional or supersedes it later.
