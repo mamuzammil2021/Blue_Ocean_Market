@@ -30,16 +30,15 @@ document.head.appendChild(style);
 try{
   viewLabels.systemSettings='System Settings';
   if(!nav.some(x=>x[0]==='systemSettings')){const idx=Math.max(0,nav.findIndex(x=>x[0]==='profile'));nav.splice(idx,0,['systemSettings','System Settings','⚙️']);}
-  const oldAllowed=allowed;allowed=function(key){if(key==='systemSettings')return !!me&&(me.role==='CEO / Owner'||hasSensitive('sensitive.system_admin'));return oldAllowed(key)};
   const oldLoadView=loadView;loadView=async function(){if(view==='systemSettings'){const c=document.getElementById('content');c.innerHTML='<div class="card">Loading…</div>';try{return await systemSettingsV319(c)}catch(e){c.innerHTML='<div class="card"><b>Error</b><p class="muted">'+esc(e.message)+'</p></div>';return}}return oldLoadView()};
 }catch(e){console.error('V30.19 navigation setup',e)}
 
 function v319Label(key){return String(key||'').replaceAll('_',' ').replace(/\b\w/g,m=>m.toUpperCase())}
 function v319ScopeState(){return window._v319Scope||{type:'company',id:0,section:'overview'}}
 function v319ScopeQuery(){const st=v319ScopeState(),p=new URLSearchParams({scope_type:st.type,scope_id:String(st.id||0)});if(selectedUnitId)p.set('business_unit_id',selectedUnitId);if(st.type==='user'&&st.id)p.set('user_id',st.id);return p.toString()}
-async function systemSettingsV319(c){
+async function systemSettingsV319(c,{section,deferPanel=false}={}){
   if(!(me.role==='CEO / Owner'||hasSensitive('sensitive.system_admin')))throw new Error('System Settings requires CEO / Owner or System Administrator access.');
-  const catalog=await api('/api/system-settings-v319/catalog');window._v319Catalog=catalog;const st=v319ScopeState();if(!catalog.sections.some(x=>x.key===st.section))st.section='overview';
+  const catalog=await api('/api/system-settings-v319/catalog');window._v319Catalog=catalog;const st=v319ScopeState();if(section)st.section=section;else if(window.BOMRouter?.restoring&&BOMRouter.parse().view==='systemSettings')st.section=BOMRouter.parse().kind==='security'?'security_access':BOMRouter.parse().section||'overview';if(!catalog.sections.some(x=>x.key===st.section)){if(section||window.BOMRouter?.parse().section)throw Object.assign(new Error('Invalid settings section'),{status:400});st.section='overview';}
   let users=[];try{users=await api('/api/users')}catch(_){users=[]}
   if(st.type==='business_unit'&&!st.id)st.id=Number(selectedUnitId||unitOptions[0]?.id||0);if(st.type==='user'&&!st.id)st.id=Number(users.find(x=>x.role!=='CEO / Owner')?.id||users[0]?.id||me.id);
   window._v319Scope=st;
@@ -48,8 +47,9 @@ async function systemSettingsV319(c){
   `<div class="workspace-banner"><b>Precedence</b><span>Company Default → Business Unit Override → User Override. CEO / Owner controls policy and high-risk settings; System Administrators can manage technical settings within their authority.</span></div>`+
   `<div class="card"><div class="v319-scopebar"><div class="field"><label>Scope</label><select id="v319ScopeType" onchange="v319ChangeScope(this.value)"><option value="company" ${st.type==='company'?'selected':''}>Company Default</option><option value="business_unit" ${st.type==='business_unit'?'selected':''}>BU Override</option><option value="user" ${st.type==='user'?'selected':''}>User Override</option></select></div><div class="field"><label>Target</label><select id="v319ScopeId" onchange="v319ChangeScopeId(this.value)" ${st.type==='company'?'disabled':''}>${targetOptions}</select></div><div class="field"><label>Selected Business Unit</label><input value="${esc(unitOptions.find(x=>String(x.id)===String(selectedUnitId))?.name||'Company / assigned scope')}" disabled></div></div></div>`+
   `<div class="v319-settings-layout" style="margin-top:14px"><aside class="card v319-settings-nav">${catalog.sections.map(s=>`<button class="btn ${s.key===st.section?'active':''}" onclick="v319SettingsSection('${s.key}')">${esc(t(s.label))}<small style="margin-left:auto">${s.policy==='policy'?'Policy':'Technical'}</small></button>`).join('')}</aside><main id="v319SettingsPanel"></main></div>`;
-  translateElement(c);await v319RenderSettingsPanel();
+  translateElement(c);if(!deferPanel)await window.v319SettingsSection(st.section);
 }
+window.BOMSettingsShell319=(c,section)=>systemSettingsV319(c,{section,deferPanel:true});
 window.v319ChangeScope=async function(type){const st=v319ScopeState();st.type=type;st.id=type==='company'?0:Number(type==='business_unit'?(selectedUnitId||unitOptions[0]?.id||0):me.id);window._v319Scope=st;return loadView()};
 window.v319ChangeScopeId=async function(id){v319ScopeState().id=Number(id||0);return v319RenderSettingsPanel()};
 window.v319SettingsSection=async function(section){v319ScopeState().section=section;document.querySelectorAll('.v319-settings-nav .btn').forEach((b,i)=>b.classList.toggle('active',window._v319Catalog.sections[i]?.key===section));return v319RenderSettingsPanel()};
@@ -191,7 +191,7 @@ async function v319RenderAi(panel,row,meta){const st=v319ScopeState(),status=awa
 window.v319AiDiagnostic=async function(){try{const r=await api('/api/system-settings-v319/ai/diagnostic',{method:'POST'}),el=document.getElementById('v319AiDiagnosticResult');if(el)el.innerHTML=`<div class="workspace-banner" style="margin-top:12px"><b>${r.ok?'Configuration ready':'Configuration incomplete'}</b><span>${esc((r.checks||[]).map(x=>x.key+': '+(x.ok?'OK':'Missing')).join(' · '))}</span></div>`;toast(r.ok?'AI configuration checks passed':'AI configuration needs attention')}catch(x){toast(x.message)}};
 
 // Persist selected language immediately in UI + account. Local storage remains a safe offline fallback.
-try{setLanguage=function(lang){lang=lang==='en'?'en':'ko';currentLanguage=lang;document.documentElement.lang=lang;localStorage.setItem('bo_language',lang);if(me){me.preferred_language=lang;localStorage.removeItem('bo_prelogin_language');api('/api/me/language',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({preferred_language:lang})}).catch(e=>toast('Language saved locally; account sync failed: '+e.message))}else localStorage.setItem('bo_prelogin_language',lang);if(document.getElementById('confirmRoot'))document.getElementById('confirmRoot').innerHTML='';if(me)render();else login()}}catch(_){ }
+try{setLanguage=function(lang){lang=lang==='en'?'en':'ko';currentLanguage=lang;document.documentElement.lang=lang;localStorage.setItem('bo_language',lang);if(me){me.preferred_language=lang;localStorage.removeItem('bo_prelogin_language');api('/api/me/language',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({preferred_language:lang})}).catch(e=>toast('Language saved locally; account sync failed: '+e.message))}else localStorage.setItem('bo_prelogin_language',lang);if(document.getElementById('confirmRoot'))document.getElementById('confirmRoot').innerHTML='';if(me)return window.BOMRouter?BOMRouter.retranslate():render();else login()}}catch(_){ }
 
 // Fix supplier screen modal lifecycle: refresh the existing Supplier page instead of opening a duplicate list modal.
 try{const baseSupplier=excavatorSuppliers;excavatorSuppliers=async function(c){if(!c&&view==='excavatorSuppliers'){try{closeModal(true)}catch(_){}c=document.getElementById('content')}return baseSupplier(c)}}catch(_){ }

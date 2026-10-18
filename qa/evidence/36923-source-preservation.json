@@ -1,0 +1,42 @@
+{
+  "version": "30.69.23",
+  "baseline": "Blue_Ocean_Market_V30_69_22_SYSTEM_WIDE_ROUTING_STAGING_CANDIDATE_GIT_READY.zip",
+  "changed_files": [
+    "README.md",
+    "package-lock.json",
+    "package.json",
+    "public/client.js",
+    "public/index.html",
+    "public/v347-loader.js",
+    "public/v348-loader.js",
+    "public/v351-loader.js",
+    "public/v3693-persistent-routing.js",
+    "qa/evidence/36920-fx-integration.json",
+    "qa/evidence/36921-receive-locked.png",
+    "server/server.js",
+    "server/v339-performance.js"
+  ],
+  "added_files": [
+    "V30_69_23_MAC_GIT_PUSH.md",
+    "V30_69_23_REFRESH_HOTFIX.md",
+    "qa/browser_v36923_refresh.py",
+    "qa/evidence/36923-live-root-cause.json",
+    "qa/evidence/36923-native-refresh.json",
+    "qa/evidence/36923-release.json",
+    "qa/evidence/36923-static-assets.json",
+    "qa/qa_v36923_release_gate.js",
+    "qa/qa_v36923_static_assets.js",
+    "scripts/build-frontend-manifest.js",
+    "server/frontend-integrity.js",
+    "server/frontend-manifest.json"
+  ],
+  "removed_files": [],
+  "existing_server_files_changed": [
+    "server/server.js",
+    "server/v339-performance.js"
+  ],
+  "financial_and_database_backend_files_preserved": 84,
+  "changes_to_server_main": "Frontend integrity check before database initialization; static cache headers only. Financial handlers unchanged.",
+  "schema_migration_added": false,
+  "production_data_used": false
+}

@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Actual English PDF contains exact KRW closing and original invoice-currency context",
+    "Actual Korean PDF retains readable Korean labels and identical financial figures",
+    "Identical authorized statement reuses the same financially keyed PDF snapshot",
+    "A real payment invalidates the PDF snapshot and updates exact closing and transaction contents"
+  ],
+  "production_data_used": false,
+  "samples": "qa/evidence/statement-samples",
+  "original_closing": 1400000,
+  "changed_closing": 1399000
+}

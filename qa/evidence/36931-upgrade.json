@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Unchanged protected V30.69.30 reproduces the raw reference index error for two optional whitespace cash references on isolated data; reported production values remain unknown",
+    "Protected V30.69.30 starts and records a historical registered-recipient cost on isolated storage",
+    "V30.69.31 migrates the real V30.69.30 database and starts successfully",
+    "Upgrade preserves every existing cost, transaction and Finance field plus Chart of Accounts codes",
+    "Historical registered cost still exposes original Finance recipient details after migration",
+    "Typed payment persists across restart without creating another master, debit or Finance record",
+    "Migrated persistent database accepts a new optional blank cash reference while preserving the exact historical whitespace reference"
+  ],
+  "baseline": "30.69.30",
+  "production_data_used": false
+}

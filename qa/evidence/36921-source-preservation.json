@@ -1,0 +1,60 @@
+{
+  "baseline": "V30.69.20 staging candidate",
+  "baseline_zip_sha256": "794aac0447698a60a34644ab90281ae159dd8096ea8b8a22e8387902f6b9bc70",
+  "newer_source_found": false,
+  "changed_files": [
+    "package-lock.json",
+    "GIT_READY_README.md",
+    "RELEASE_MANIFEST.md",
+    "README.md",
+    "CHANGELOG.md",
+    "package.json",
+    "qa/fx_fixture.js",
+    "qa/fx_browser_fixture.js",
+    "qa/browser_v36920_fx.py",
+    "server/v349-pink-pages.js",
+    "server/v313.js",
+    "server/server.js",
+    "server/v318.js",
+    "server/v300.js",
+    "public/v349-pink-pages.js",
+    "public/v3693-persistent-routing.js",
+    "public/v335-client.js",
+    "public/v324-client.js",
+    "public/v3241-client.js",
+    "public/runtime-v30392.js",
+    "public/index.html",
+    "public/client.js",
+    "public/v300-client.js",
+    "public/pink-fx-payment.js",
+    "public/v313-client.js",
+    "public/v36910-pink-import-actions.js"
+  ],
+  "new_files": [
+    "V30_69_21_QA12_IMPLEMENTATION_AND_ACCEPTANCE.md",
+    "qa/qa_v36921_release_gate.js",
+    "qa/browser_v36921_qa.py",
+    "qa/qa_v36921_controls.js",
+    "server/pink-qa21.js",
+    "public/pink-qa21.js",
+    "server/migrations/36921-qa-controls.sql"
+  ],
+  "excavator_core_handlers": [
+    {
+      "function": "createExcavatorAsset",
+      "unchanged": true,
+      "sha256": "74780b24543ef153da0f634bfce25f801e57539ea8c2fa5a27d5df8718bdcaf1"
+    },
+    {
+      "function": "completeExcavatorSaleHandler",
+      "unchanged": true,
+      "sha256": "f23894cd898356c36fe6a6b9e6c533b87a84b9a29ffa5c51eb2590e69ed37a47"
+    },
+    {
+      "function": "createBuyerRefundRecord",
+      "unchanged": true,
+      "sha256": "eac10b781f1447f92bfac61bbafbc1c5315beafae4bda03dd1e9debab4cb5f0c"
+    }
+  ],
+  "note": "Excavator financial handlers remain unchanged from the original protected source; source edits affect Pink Salt and scoped UI behavior. Full Excavator browser acceptance is still pending."
+}

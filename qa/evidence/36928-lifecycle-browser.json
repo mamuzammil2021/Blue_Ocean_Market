@@ -1,0 +1,1472 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Intentional deep-link login renders only Supplier Accounts",
+    "Slow supplier dependency shows one loading state and no parent page",
+    "Slow authentication/context restoration never renders Dashboard",
+    "Section Back/Forward preserves shell, profile heading and selected section",
+    "Cross-module navigation reuses the authenticated shell",
+    "503 retains exact destination and Retry loads it without Dashboard",
+    "Superseded pending fetch is aborted and cannot overwrite the newer destination",
+    "Copied deep link opens the exact section directly in a new tab",
+    "notfound renders directly and preserves the rejected URL",
+    "invalid renders directly and preserves the rejected URL",
+    "unit renders directly and preserves the rejected URL",
+    "invalid renders directly and preserves the rejected URL",
+    "Expired session preserves the intended order through authentication",
+    "Explicit Logout followed by ordinary Login starts at Dashboard",
+    "Unauthorized user sees only Access Denied with no protected record render"
+  ],
+  "observations": [
+    {
+      "writes": [
+        {
+          "at": 751,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 770,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [
+            "accounts"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "ps315SupplierPanel"
+        }
+      ],
+      "paint": [
+        {
+          "at": 730,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 766,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [
+            "accounts"
+          ],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/auth/login",
+        "/api/me/language",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/suppliers/1/account-v315",
+        "/api/v330/payee-accounts?business_unit_id=4&entity_type=pink_salt_supplier&entity_id=1",
+        "/api/action-counts",
+        "/api/notifications/unread-count",
+        "/api/pink-salt/fx/records/supplier/1/transactions",
+        "/api/pink-salt/suppliers/1/account-v315"
+      ],
+      "start": 12.799999999813735,
+      "label": "Intentional deep-link login"
+    },
+    {
+      "writes": [
+        {
+          "at": 501,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 518,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [
+            "accounts"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "ps315SupplierPanel"
+        }
+      ],
+      "paint": [
+        {
+          "at": 128,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 513,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [
+            "accounts"
+          ],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/suppliers/1/account-v315",
+        "/api/v330/payee-accounts?business_unit_id=4&entity_type=pink_salt_supplier&entity_id=1",
+        "/api/pink-salt/fx/records/supplier/1/transactions",
+        "/api/pink-salt/suppliers/1/account-v315"
+      ],
+      "start": 15.600000000093132,
+      "label": "Delayed supplier API"
+    },
+    {
+      "writes": [
+        {
+          "at": 493,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 538,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [
+            "accounts"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "ps315SupplierPanel"
+        }
+      ],
+      "paint": [
+        {
+          "at": 441,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 527,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [
+            "accounts"
+          ],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/suppliers/1/account-v315",
+        "/api/v330/payee-accounts?business_unit_id=4&entity_type=pink_salt_supplier&entity_id=1",
+        "/api/pink-salt/fx/records/supplier/1/transactions",
+        "/api/pink-salt/suppliers/1/account-v315"
+      ],
+      "start": 16.699999999720603,
+      "label": "Delayed session context"
+    },
+    {
+      "writes": [
+        {
+          "at": 165,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Unable to load this destination"
+          ],
+          "tabs": [],
+          "state": "temporary",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 134,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 168,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Unable to load this destination"
+          ],
+          "tabs": [],
+          "state": "temporary",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1"
+      ],
+      "start": 15.399999999906868,
+      "label": "Temporary API failure"
+    },
+    {
+      "writes": [
+        {
+          "at": 165,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Unable to load this destination"
+          ],
+          "tabs": [],
+          "state": "temporary",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 311,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Detail \u00b7 QA-IMP-94c7ee99b2"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 381,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 691,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "QA Customer \u00b7 Account"
+          ],
+          "tabs": [
+            "prices"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 1262,
+          "hash": "#psImports/import/999999?unit=4",
+          "headings": [
+            "Record not found"
+          ],
+          "tabs": [],
+          "state": "notfound",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 134,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 168,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Unable to load this destination"
+          ],
+          "tabs": [],
+          "state": "temporary",
+          "visible": true
+        },
+        {
+          "at": 284,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 335,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Detail \u00b7 QA-IMP-94c7ee99b2"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 364,
+          "hash": "#dashboard?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 396,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 418,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 701,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "QA Customer \u00b7 Account"
+          ],
+          "tabs": [
+            "prices"
+          ],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 1257,
+          "hash": "#psImports/import/999999?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 1274,
+          "hash": "#psImports/import/999999?unit=4",
+          "headings": [
+            "Record not found"
+          ],
+          "tabs": [],
+          "state": "notfound",
+          "visible": true
+        }
+      ],
+      "history": [
+        {
+          "action": "pushState",
+          "url": "#dashboard?unit=4"
+        },
+        {
+          "action": "pushState",
+          "url": "#psImports/import/1?unit=4"
+        },
+        {
+          "action": "pushState",
+          "url": "#psCustomers/customer/1?section=prices&unit=4"
+        }
+      ],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/dashboard",
+        "/api/pink-salt/dashboard-v313",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/customers/1/account-v313",
+        "/api/pink-salt/fx/records/customer/1/transactions",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/999999"
+      ],
+      "start": 15.399999999906868,
+      "label": "notfound"
+    },
+    {
+      "writes": [
+        {
+          "at": 165,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Unable to load this destination"
+          ],
+          "tabs": [],
+          "state": "temporary",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 311,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Detail \u00b7 QA-IMP-94c7ee99b2"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 381,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 691,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "QA Customer \u00b7 Account"
+          ],
+          "tabs": [
+            "prices"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 1262,
+          "hash": "#psImports/import/999999?unit=4",
+          "headings": [
+            "Record not found"
+          ],
+          "tabs": [],
+          "state": "notfound",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 1317,
+          "hash": "#psSuppliers/supplier/1?unit=4&section=unknown",
+          "headings": [
+            "Unsupported route"
+          ],
+          "tabs": [],
+          "state": "invalid",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 134,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 168,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Unable to load this destination"
+          ],
+          "tabs": [],
+          "state": "temporary",
+          "visible": true
+        },
+        {
+          "at": 284,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 335,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Detail \u00b7 QA-IMP-94c7ee99b2"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 364,
+          "hash": "#dashboard?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 396,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 418,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 701,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "QA Customer \u00b7 Account"
+          ],
+          "tabs": [
+            "prices"
+          ],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 1257,
+          "hash": "#psImports/import/999999?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 1274,
+          "hash": "#psImports/import/999999?unit=4",
+          "headings": [
+            "Record not found"
+          ],
+          "tabs": [],
+          "state": "notfound",
+          "visible": true
+        },
+        {
+          "at": 1319,
+          "hash": "#psSuppliers/supplier/1?unit=4&section=unknown",
+          "headings": [
+            "Unsupported route"
+          ],
+          "tabs": [],
+          "state": "invalid",
+          "visible": true
+        }
+      ],
+      "history": [
+        {
+          "action": "pushState",
+          "url": "#dashboard?unit=4"
+        },
+        {
+          "action": "pushState",
+          "url": "#psImports/import/1?unit=4"
+        },
+        {
+          "action": "pushState",
+          "url": "#psCustomers/customer/1?section=prices&unit=4"
+        }
+      ],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/dashboard",
+        "/api/pink-salt/dashboard-v313",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/customers/1/account-v313",
+        "/api/pink-salt/fx/records/customer/1/transactions",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/999999",
+        "/api/access/me"
+      ],
+      "start": 15.399999999906868,
+      "label": "invalid"
+    },
+    {
+      "writes": [
+        {
+          "at": 165,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Unable to load this destination"
+          ],
+          "tabs": [],
+          "state": "temporary",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 311,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Detail \u00b7 QA-IMP-94c7ee99b2"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 381,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 691,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "QA Customer \u00b7 Account"
+          ],
+          "tabs": [
+            "prices"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 1262,
+          "hash": "#psImports/import/999999?unit=4",
+          "headings": [
+            "Record not found"
+          ],
+          "tabs": [],
+          "state": "notfound",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 1317,
+          "hash": "#psSuppliers/supplier/1?unit=4&section=unknown",
+          "headings": [
+            "Unsupported route"
+          ],
+          "tabs": [],
+          "state": "invalid",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 1362,
+          "hash": "#psImports/import/1?unit=999999",
+          "headings": [
+            "Business unit unavailable"
+          ],
+          "tabs": [],
+          "state": "unit",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 134,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 168,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Unable to load this destination"
+          ],
+          "tabs": [],
+          "state": "temporary",
+          "visible": true
+        },
+        {
+          "at": 284,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 335,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Detail \u00b7 QA-IMP-94c7ee99b2"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 364,
+          "hash": "#dashboard?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 396,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 418,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 701,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "QA Customer \u00b7 Account"
+          ],
+          "tabs": [
+            "prices"
+          ],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 1257,
+          "hash": "#psImports/import/999999?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 1274,
+          "hash": "#psImports/import/999999?unit=4",
+          "headings": [
+            "Record not found"
+          ],
+          "tabs": [],
+          "state": "notfound",
+          "visible": true
+        },
+        {
+          "at": 1319,
+          "hash": "#psSuppliers/supplier/1?unit=4&section=unknown",
+          "headings": [
+            "Unsupported route"
+          ],
+          "tabs": [],
+          "state": "invalid",
+          "visible": true
+        },
+        {
+          "at": 1368,
+          "hash": "#psImports/import/1?unit=999999",
+          "headings": [
+            "Business unit unavailable"
+          ],
+          "tabs": [],
+          "state": "unit",
+          "visible": true
+        }
+      ],
+      "history": [
+        {
+          "action": "pushState",
+          "url": "#dashboard?unit=4"
+        },
+        {
+          "action": "pushState",
+          "url": "#psImports/import/1?unit=4"
+        },
+        {
+          "action": "pushState",
+          "url": "#psCustomers/customer/1?section=prices&unit=4"
+        }
+      ],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/dashboard",
+        "/api/pink-salt/dashboard-v313",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/customers/1/account-v313",
+        "/api/pink-salt/fx/records/customer/1/transactions",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/999999",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts"
+      ],
+      "start": 15.399999999906868,
+      "label": "unit"
+    },
+    {
+      "writes": [
+        {
+          "at": 165,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Unable to load this destination"
+          ],
+          "tabs": [],
+          "state": "temporary",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 311,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Detail \u00b7 QA-IMP-94c7ee99b2"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 381,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 691,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "QA Customer \u00b7 Account"
+          ],
+          "tabs": [
+            "prices"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 1262,
+          "hash": "#psImports/import/999999?unit=4",
+          "headings": [
+            "Record not found"
+          ],
+          "tabs": [],
+          "state": "notfound",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 1317,
+          "hash": "#psSuppliers/supplier/1?unit=4&section=unknown",
+          "headings": [
+            "Unsupported route"
+          ],
+          "tabs": [],
+          "state": "invalid",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 1362,
+          "hash": "#psImports/import/1?unit=999999",
+          "headings": [
+            "Business unit unavailable"
+          ],
+          "tabs": [],
+          "state": "unit",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 1416,
+          "hash": "#systemSettings?unit=4&section=unknown",
+          "headings": [
+            "Unsupported route"
+          ],
+          "tabs": [],
+          "state": "invalid",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 134,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 168,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Unable to load this destination"
+          ],
+          "tabs": [],
+          "state": "temporary",
+          "visible": true
+        },
+        {
+          "at": 284,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 335,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Detail \u00b7 QA-IMP-94c7ee99b2"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 364,
+          "hash": "#dashboard?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 396,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 418,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 701,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "QA Customer \u00b7 Account"
+          ],
+          "tabs": [
+            "prices"
+          ],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 1257,
+          "hash": "#psImports/import/999999?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 1274,
+          "hash": "#psImports/import/999999?unit=4",
+          "headings": [
+            "Record not found"
+          ],
+          "tabs": [],
+          "state": "notfound",
+          "visible": true
+        },
+        {
+          "at": 1319,
+          "hash": "#psSuppliers/supplier/1?unit=4&section=unknown",
+          "headings": [
+            "Unsupported route"
+          ],
+          "tabs": [],
+          "state": "invalid",
+          "visible": true
+        },
+        {
+          "at": 1368,
+          "hash": "#psImports/import/1?unit=999999",
+          "headings": [
+            "Business unit unavailable"
+          ],
+          "tabs": [],
+          "state": "unit",
+          "visible": true
+        },
+        {
+          "at": 1402,
+          "hash": "#systemSettings?unit=4&section=unknown",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 1420,
+          "hash": "#systemSettings?unit=4&section=unknown",
+          "headings": [
+            "Unsupported route"
+          ],
+          "tabs": [],
+          "state": "invalid",
+          "visible": true
+        }
+      ],
+      "history": [
+        {
+          "action": "pushState",
+          "url": "#dashboard?unit=4"
+        },
+        {
+          "action": "pushState",
+          "url": "#psImports/import/1?unit=4"
+        },
+        {
+          "action": "pushState",
+          "url": "#psCustomers/customer/1?section=prices&unit=4"
+        }
+      ],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/dashboard",
+        "/api/pink-salt/dashboard-v313",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/1",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/customers/1/account-v313",
+        "/api/pink-salt/fx/records/customer/1/transactions",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/imports/999999",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/system-settings-v319/catalog"
+      ],
+      "start": 15.399999999906868,
+      "label": "invalid"
+    },
+    {
+      "writes": [
+        {
+          "at": 604,
+          "hash": "#psSales/order/1?unit=4",
+          "headings": [
+            "QA-ORDER"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 620,
+          "hash": "#psSales/order/1?unit=4",
+          "headings": [
+            "QA-ORDER"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/auth/login",
+        "/api/me/language",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/orders/1/detail-v313",
+        "/api/pink-salt/orders/1",
+        "/api/action-counts",
+        "/api/notifications/unread-count"
+      ],
+      "start": 14.199999999720603,
+      "label": "Expired-session reauthentication"
+    },
+    {
+      "writes": [
+        {
+          "at": 604,
+          "hash": "#psSales/order/1?unit=4",
+          "headings": [
+            "QA-ORDER"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 1070,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 620,
+          "hash": "#psSales/order/1?unit=4",
+          "headings": [
+            "QA-ORDER"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 1082,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [
+        {
+          "action": "replaceState",
+          "url": "/#dashboard"
+        },
+        {
+          "action": "replaceState",
+          "url": "#dashboard?unit=4"
+        }
+      ],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/auth/login",
+        "/api/me/language",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/orders/1/detail-v313",
+        "/api/pink-salt/orders/1",
+        "/api/action-counts",
+        "/api/notifications/unread-count",
+        "/api/auth/logout",
+        "/api/auth/login",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/dashboard",
+        "/api/pink-salt/dashboard-v313"
+      ],
+      "start": 14.199999999720603,
+      "label": "Ordinary login"
+    },
+    {
+      "writes": [
+        {
+          "at": 604,
+          "hash": "#psSales/order/1?unit=4",
+          "headings": [
+            "QA-ORDER"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 1070,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 1296,
+          "hash": "#accounting/account/4?unit=4",
+          "headings": [
+            "Access denied"
+          ],
+          "tabs": [],
+          "state": "access",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 620,
+          "hash": "#psSales/order/1?unit=4",
+          "headings": [
+            "QA-ORDER"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 1082,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 1307,
+          "hash": "#accounting/account/4?unit=4",
+          "headings": [
+            "Access denied"
+          ],
+          "tabs": [],
+          "state": "access",
+          "visible": true
+        }
+      ],
+      "history": [
+        {
+          "action": "replaceState",
+          "url": "/#dashboard"
+        },
+        {
+          "action": "replaceState",
+          "url": "#dashboard?unit=4"
+        },
+        {
+          "action": "replaceState",
+          "url": "/#dashboard"
+        }
+      ],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/auth/login",
+        "/api/me/language",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/orders/1/detail-v313",
+        "/api/pink-salt/orders/1",
+        "/api/action-counts",
+        "/api/notifications/unread-count",
+        "/api/auth/logout",
+        "/api/auth/login",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/dashboard",
+        "/api/pink-salt/dashboard-v313",
+        "/api/auth/logout",
+        "/api/auth/login",
+        "/api/me/language",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/action-counts",
+        "/api/notifications/unread-count"
+      ],
+      "start": 14.199999999720603,
+      "label": "Permission denied"
+    }
+  ],
+  "production_data_used": false
+}

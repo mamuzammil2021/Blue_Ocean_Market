@@ -696,6 +696,7 @@ for(const [table,column,definition] of [
   ['excavator_buyer_requirements','exchange_machine',"TEXT DEFAULT ''"],
   ['excavator_buyer_requirements','updated_at','TEXT'],
   ['finance_correction_requests','task_id','INTEGER'],
+  ['finance_correction_requests','replacement_finance_entry_id','INTEGER REFERENCES finance_entries(id)'],
   ['finance_correction_requests','reminder_count','INTEGER DEFAULT 0'],
   ['finance_correction_requests','last_reminder_at','TEXT'],
   ['finance_correction_requests','source_snapshot_json',"TEXT DEFAULT '{}'"],

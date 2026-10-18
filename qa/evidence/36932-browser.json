@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "checks": [
+    "CEO authorization stays interactive, completes once, closes processing and preserves the originating import",
+    "A lost import-save response is recovered from operation status without resubmitting or losing entered values",
+    "Correct & Resubmit retains the current cost row, operational ID, original reference and account/evidence prefill",
+    "Full-screen cost details preserve the original deep URL and expose payment, valuation, evidence and before/after revision history",
+    "Complete cost detail and revision sections fit desktop/tablet/mobile without horizontal overflow",
+    "Same-currency USD payment asks once for an empty payment-date KRW valuation field, without a transfer-conversion or duplicate accounting rate",
+    "Finance prominently displays the native USD debit and labels its KRW accounting equivalent separately",
+    "Supplier profile shows management actions before verification and a translated visible lock after verification",
+    "Both statement buttons trigger actual completed browser downloads and restore their loading state",
+    "Shipment receiving closes successfully and refreshes the same import without blocking on automatic PDF generation",
+    "Complete cost valuation/evidence/revision sections render Korean while removed quote controls stay absent",
+    "October17 authenticated browser workflows produce no JavaScript errors"
+  ],
+  "timings": [
+    {
+      "operation": "sensitive_import_save_including_human_confirmation",
+      "ms": 407.2036269999444
+    },
+    {
+      "operation": "browser_statement_csv",
+      "ms": 67.45535400023073
+    },
+    {
+      "operation": "browser_statement_pdf",
+      "ms": 206.39426199977606
+    },
+    {
+      "operation": "browser_receive_confirmation_to_result",
+      "ms": 132.16441700024006
+    }
+  ],
+  "console_errors": [],
+  "production_data_used": false
+}

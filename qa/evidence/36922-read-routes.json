@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Approval history resolves registered Finance source without the legacy missing-helper failure",
+    "Approval history redacts credentials and performs no Finance, FX or journal writes",
+    "Approval source projection refuses a linked record from another business unit",
+    "Approval view permission does not bypass the sensitive Payroll permission",
+    "Approval read routes retain business-unit authorization",
+    "Deleted or missing approval ID returns a typed 404"
+  ],
+  "production_data_used": false,
+  "financial_writes_during_history_read": false
+}

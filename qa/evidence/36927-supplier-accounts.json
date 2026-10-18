@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Context returns saved supplier accounts with normalized currency while excluding other suppliers and archived records",
+    "Historical Bank Transfer label and spaced lowercase currency record the exact KRW-to-USD bank payment",
+    "Repeated bank submission retains one actual Finance movement",
+    "Bank rejects missing, foreign-supplier, archived and unsupported recipient-currency accounts atomically",
+    "Cash ignores a stale receiver ID, requires only the company Cash account and stores no supplier bank snapshot",
+    "Cash import supplier settlement succeeds with no recipient account and optional reference",
+    "Cash still rejects a missing company source account without partial financial writes"
+  ],
+  "production_data_used": false,
+  "financial_reconciliation": [
+    {
+      "id": 1,
+      "payment_account_id": 4,
+      "receiver_account_id": 2,
+      "receiver_currency_snapshot": "USD",
+      "original_amount": 140000,
+      "original_currency": "KRW",
+      "amount": 140000,
+      "source_type": "Pink Salt FX Payment",
+      "source_id": 1,
+      "cash_effect": -1
+    },
+    {
+      "id": 2,
+      "payment_account_id": 7,
+      "receiver_account_id": null,
+      "receiver_currency_snapshot": "",
+      "original_amount": 500,
+      "original_currency": "KRW",
+      "amount": 500,
+      "source_type": "Pink Salt FX Payment",
+      "source_id": 2,
+      "cash_effect": -1
+    },
+    {
+      "id": 3,
+      "payment_account_id": 7,
+      "receiver_account_id": null,
+      "receiver_currency_snapshot": "",
+      "original_amount": 500,
+      "original_currency": "KRW",
+      "amount": 500,
+      "source_type": "Pink Salt FX Payment",
+      "source_id": 3,
+      "cash_effect": -1
+    }
+  ]
+}

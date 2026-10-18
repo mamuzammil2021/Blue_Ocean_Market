@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "baseline": "30.69.31",
+  "checks": [
+    "Protected .31 real server reproduces an explicitly supplied identity KRW valuation and posts its balanced but economically incorrect proposal on synthetic data",
+    "V30.69.32 startup preserves every historical source/Finance/posted-journal field and Chart of Accounts code; no silent repair or revaluation",
+    "Read-only existing-data review identifies the posted valuation defect with a specific finding and preserves the current lock",
+    "Authorized posted-cost valuation correction retains one cost identity and old posted lines, creates an auditable linked reversal and re-verification proposal",
+    "Corrected posted cost cannot post before its reversal; both controlled postings succeed without another active money movement",
+    "Repeat startup is safe: original and corrected valuations, stable cost and audit revision remain durable"
+  ],
+  "production_data_used": false
+}

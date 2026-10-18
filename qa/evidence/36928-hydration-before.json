@@ -1,0 +1,4046 @@
+{
+  "status": "PASS",
+  "baseline": true,
+  "checks": [
+    "Baseline observed psSuppliers/supplier accounts",
+    "Baseline observed excavatorSuppliers/supplier accounts",
+    "Baseline observed excavatorBuyers/buyer accounts",
+    "Baseline observed payroll/employee accounts",
+    "Baseline observed finance/record ",
+    "Baseline observed accounting/account ",
+    "Baseline observed psImports/import ",
+    "Baseline observed psCustomers/customer prices",
+    "Baseline observed psSales/order ",
+    "Baseline observed excavator/machine ",
+    "Baseline observed excavatorBuyers/pakistan transfers",
+    "Baseline observed payroll/run ",
+    "Baseline observed tasks/task ",
+    "Baseline observed meetings/meeting ",
+    "Baseline observed reports/report ",
+    "Baseline observed approvals/approval ",
+    "Baseline observed finance/correction ",
+    "Baseline observed accounting/foreign-financing ",
+    "Baseline observed accounting/asset ",
+    "Baseline observed accounting/journal ",
+    "Baseline observed psImports/fx ",
+    "Baseline observed psProduction/batch ",
+    "Baseline observed accounting/financing ",
+    "Baseline observed accounting/control ",
+    "Baseline observed accounting/ledger ",
+    "Baseline observed users/access groups",
+    "Baseline observed users/profiles ",
+    "Baseline observed systemSettings/security audit",
+    "Baseline observed profile/ security",
+    "Baseline observed accounting/ workspace:v358:statements",
+    "Baseline observed psFinished/lots ",
+    "Baseline observed psFinished/families ",
+    "Baseline observed psSales/trace ",
+    "Baseline observed accounting/posting ",
+    "Baseline observed restaurant/menu ",
+    "Baseline observed restaurant/stock ",
+    "Baseline observed restaurant/weekly ",
+    "Baseline observed restaurant/buffet ",
+    "Baseline observed restaurant/open-orders ",
+    "Baseline observed dashboard/ ",
+    "Baseline observed psFinished/ ",
+    "Baseline observed psCommerce/ ",
+    "Baseline observed psRawStock/ ",
+    "Baseline observed psPackaging/ ",
+    "Baseline observed documents/ ",
+    "Baseline observed notifications/ ",
+    "Baseline observed systemSettings/ ",
+    "Baseline observed restaurantTables/ "
+  ],
+  "observations": [
+    {
+      "writes": [
+        {
+          "at": 114,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "Supplier Accounts"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 115,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "Supplier Accounts"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "ps315SupplierTable"
+        },
+        {
+          "at": 117,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "Supplier Accounts"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v3692-supplier-mode"
+        },
+        {
+          "at": 117,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "Supplier Accounts"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "ps315SupplierTable"
+        },
+        {
+          "at": 142,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 158,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [
+            "accounts"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "ps315SupplierPanel"
+        },
+        {
+          "at": 159,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [
+            "accounts"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "ps315SupplierPanel"
+        },
+        {
+          "at": 179,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [
+            "accounts"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "ps315SupplierPanel"
+        }
+      ],
+      "paint": [
+        {
+          "at": 72,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 121,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "Supplier Accounts"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 153,
+          "hash": "#psSuppliers/supplier/1?section=accounts&unit=4",
+          "headings": [
+            "QA FX Supplier \u00b7 Supplier Profile"
+          ],
+          "tabs": [
+            "accounts"
+          ],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/suppliers-v315",
+        "/api/pink-salt/suppliers/1/account-v315",
+        "/api/v330/payee-accounts?business_unit_id=4&entity_type=pink_salt_supplier&entity_id=1",
+        "/api/pink-salt/fx/records/supplier/1/transactions",
+        "/api/pink-salt/suppliers/1/account-v315",
+        "/api/v330/payee-accounts?business_unit_id=4&entity_type=pink_salt_supplier&entity_id=1"
+      ],
+      "start": 14.5,
+      "trace": [],
+      "route": "psSuppliers/supplier/1?section=accounts&unit=4",
+      "final_ms": 208,
+      "case": "psSuppliers/supplier",
+      "record_id": 1,
+      "section": "accounts"
+    },
+    {
+      "writes": [
+        {
+          "at": 91,
+          "hash": "#excavatorSuppliers/supplier/1?section=accounts&unit=2",
+          "headings": [
+            "Excavator Suppliers",
+            "Supplier Management"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 114,
+          "hash": "#excavatorSuppliers/supplier/1?section=accounts&unit=2",
+          "headings": [
+            "Supplier"
+          ],
+          "tabs": [
+            "v337SupplierSection(1,'overview')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 120,
+          "hash": "#excavatorSuppliers/supplier/1?section=accounts&unit=2",
+          "headings": [
+            "Supplier"
+          ],
+          "tabs": [
+            "v337SupplierSection(1,'accounts')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v337SupplierSectionBody"
+        },
+        {
+          "at": 128,
+          "hash": "#excavatorSuppliers/supplier/1?section=accounts&unit=2",
+          "headings": [
+            "Supplier"
+          ],
+          "tabs": [
+            "v337SupplierSection(1,'accounts')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v337SupplierSectionBody"
+        },
+        {
+          "at": 130,
+          "hash": "#excavatorSuppliers/supplier/1?section=accounts&unit=2",
+          "headings": [
+            "Synthetic Routing Supplier"
+          ],
+          "tabs": [
+            "v337SupplierSection(1,'accounts')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v337SupplierSectionBody"
+        },
+        {
+          "at": 135,
+          "hash": "#excavatorSuppliers/supplier/1?section=accounts&unit=2",
+          "headings": [
+            "Synthetic Routing Supplier"
+          ],
+          "tabs": [
+            "v337SupplierSection(1,'accounts')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v337SupplierSectionBody"
+        }
+      ],
+      "paint": [
+        {
+          "at": 63,
+          "hash": "#excavatorSuppliers/supplier/1?section=accounts&unit=2",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 122,
+          "hash": "#excavatorSuppliers/supplier/1?section=accounts&unit=2",
+          "headings": [
+            "Supplier"
+          ],
+          "tabs": [
+            "v337SupplierSection(1,'accounts')"
+          ],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 132,
+          "hash": "#excavatorSuppliers/supplier/1?section=accounts&unit=2",
+          "headings": [
+            "Synthetic Routing Supplier"
+          ],
+          "tabs": [
+            "v337SupplierSection(1,'accounts')"
+          ],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/excavator/suppliers?paged=1&page=1&pageSize=25&search=",
+        "/api/excavator/suppliers/1/machines",
+        "/api/excavator/suppliers/1/statement",
+        "/api/v330/payee-accounts?business_unit_id=2&entity_type=excavator_supplier&entity_id=1"
+      ],
+      "start": 11.299999999813735,
+      "trace": [],
+      "route": "excavatorSuppliers/supplier/1?section=accounts&unit=2",
+      "final_ms": 167,
+      "case": "excavatorSuppliers/supplier",
+      "record_id": 1,
+      "section": "accounts"
+    },
+    {
+      "writes": [
+        {
+          "at": 96,
+          "hash": "#excavatorBuyers/buyer/1?section=accounts&unit=2",
+          "headings": [
+            "Excavator Buyers",
+            "Buyer Management"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 127,
+          "hash": "#excavatorBuyers/buyer/1?section=accounts&unit=2",
+          "headings": [
+            "Loading data\u2026"
+          ],
+          "tabs": [
+            "v337BuyerSection(1,'payments')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 143,
+          "hash": "#excavatorBuyers/buyer/1?section=accounts&unit=2",
+          "headings": [
+            "Synthetic Routing Buyer"
+          ],
+          "tabs": [
+            "v337BuyerSection(1,'payments')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 144,
+          "hash": "#excavatorBuyers/buyer/1?section=accounts&unit=2",
+          "headings": [
+            "Synthetic Routing Buyer"
+          ],
+          "tabs": [
+            "v337BuyerSection(1,'accounts')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v337BuyerSectionBody"
+        },
+        {
+          "at": 151,
+          "hash": "#excavatorBuyers/buyer/1?section=accounts&unit=2",
+          "headings": [
+            "Synthetic Routing Buyer"
+          ],
+          "tabs": [
+            "v337BuyerSection(1,'accounts')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v337BuyerSectionBody"
+        }
+      ],
+      "paint": [
+        {
+          "at": 62,
+          "hash": "#excavatorBuyers/buyer/1?section=accounts&unit=2",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 135,
+          "hash": "#excavatorBuyers/buyer/1?section=accounts&unit=2",
+          "headings": [
+            "Loading data\u2026"
+          ],
+          "tabs": [
+            "v337BuyerSection(1,'payments')"
+          ],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 153,
+          "hash": "#excavatorBuyers/buyer/1?section=accounts&unit=2",
+          "headings": [
+            "Synthetic Routing Buyer"
+          ],
+          "tabs": [
+            "v337BuyerSection(1,'accounts')"
+          ],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/excavator/buyers?paged=1&page=1&pageSize=25&search=",
+        "/api/excavator/buyers/1",
+        "/api/v330/payee-accounts?business_unit_id=2&entity_type=excavator_buyer&entity_id=1"
+      ],
+      "start": 12.899999999441206,
+      "trace": [],
+      "route": "excavatorBuyers/buyer/1?section=accounts&unit=2",
+      "final_ms": 184,
+      "case": "excavatorBuyers/buyer",
+      "record_id": 1,
+      "section": "accounts"
+    },
+    {
+      "writes": [
+        {
+          "at": 98,
+          "hash": "#payroll/employee/1?section=accounts&unit=4",
+          "headings": [
+            "Employees & Payroll"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 135,
+          "hash": "#payroll/employee/1?section=accounts&unit=4",
+          "headings": [
+            "Synthetic Route Employee"
+          ],
+          "tabs": [
+            "employeeSectionV3592(1,'overview')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 137,
+          "hash": "#payroll/employee/1?section=accounts&unit=4",
+          "headings": [
+            "Synthetic Route Employee"
+          ],
+          "tabs": [
+            "employeeSectionV3592(1,'accounts')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v3592EmployeeSection"
+        },
+        {
+          "at": 139,
+          "hash": "#payroll/employee/1?section=accounts&unit=4",
+          "headings": [
+            "Synthetic Route Employee"
+          ],
+          "tabs": [
+            "employeeSectionV3592(1,'accounts')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v3592EmployeeSection"
+        }
+      ],
+      "paint": [
+        {
+          "at": 69,
+          "hash": "#payroll/employee/1?section=accounts&unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 105,
+          "hash": "#payroll/employee/1?section=accounts&unit=4",
+          "headings": [
+            "Employees & Payroll"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 139,
+          "hash": "#payroll/employee/1?section=accounts&unit=4",
+          "headings": [
+            "Synthetic Route Employee"
+          ],
+          "tabs": [
+            "employeeSectionV3592(1,'accounts')"
+          ],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/payroll/summary",
+        "/api/payroll/employees",
+        "/api/payroll/runs",
+        "/api/payroll/account-change-summary",
+        "/api/payroll/employees/1",
+        "/api/payroll/employees/1/recovery-terms",
+        "/api/v338/payee-accounts?business_unit_id=4&entity_type=employee&entity_id=1&include_archived=1",
+        "/api/payroll/account-change-requests"
+      ],
+      "start": 12.800000000745058,
+      "trace": [],
+      "route": "payroll/employee/1?section=accounts&unit=4",
+      "final_ms": 173,
+      "case": "payroll/employee",
+      "record_id": 1,
+      "section": "accounts"
+    },
+    {
+      "writes": [
+        {
+          "at": 94,
+          "hash": "#finance/record/1?unit=4",
+          "headings": [
+            "Finance Control Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 98,
+          "hash": "#finance/record/1?unit=4",
+          "headings": [
+            "Finance Control Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "financeTypeFilter"
+        },
+        {
+          "at": 144,
+          "hash": "#finance/record/1?unit=4",
+          "headings": [
+            "Finance Verification #1"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 57,
+          "hash": "#finance/record/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 104,
+          "hash": "#finance/record/1?unit=4",
+          "headings": [
+            "Finance Control Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 160,
+          "hash": "#finance/record/1?unit=4",
+          "headings": [
+            "Finance Verification #1"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/finance/corrections",
+        "/api/finance/v3392-page?page=1&pageSize=25&search=&status=&type=&evidence=&special=&from=&to=",
+        "/api/finance/1/detail",
+        "/api/finance/1/detail",
+        "/api/finance/1/detail",
+        "/api/v331/finance/1/action-policy",
+        "/api/v331/lifecycle/history?entity_type=finance_entry&entity_id=1",
+        "/api/notifications/finance/1/read-related",
+        "/api/action-counts",
+        "/api/notifications/unread-count",
+        "/api/finance/1/detail"
+      ],
+      "start": 14.400000000372529,
+      "trace": [],
+      "route": "finance/record/1?unit=4",
+      "final_ms": 252,
+      "case": "finance/record",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 73,
+          "hash": "#accounting/account/4?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 130,
+          "hash": "#accounting/account/4?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 169,
+          "hash": "#accounting/account/4?unit=4&mode=simple",
+          "headings": [
+            "QA krw"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 76,
+          "hash": "#accounting/account/4?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 148,
+          "hash": "#accounting/account/4?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 185,
+          "hash": "#accounting/account/4?unit=4&mode=simple",
+          "headings": [
+            "QA krw"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/accounting/overview",
+        "/api/accounting/integrity",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/exceptions",
+        "/api/accounting/posting-control/summary",
+        "/api/v343/accounting/payment-accounts/4/detail?from=2026-10-01&to=2026-10-15"
+      ],
+      "start": 15.099999999627471,
+      "trace": [],
+      "route": "accounting/account/4?unit=4&mode=simple",
+      "final_ms": 224,
+      "case": "accounting/account",
+      "record_id": 4,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 88,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Shipments"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 118,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Shipments"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": ""
+        },
+        {
+          "at": 118,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Shipments"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": ""
+        },
+        {
+          "at": 134,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Detail \u00b7 QA-IMP-1f9f833f6a"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 54,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 91,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Shipments"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 148,
+          "hash": "#psImports/import/1?unit=4",
+          "headings": [
+            "Import Detail \u00b7 QA-IMP-1f9f833f6a"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/v350/pink-salt/imports/page?page=1&pageSize=25&search=&status=",
+        "/api/pink-salt/imports/1",
+        "/api/pink-salt/imports/1/receive-eligibility",
+        "/api/pink-salt/imports/1",
+        "/api/pink-salt/imports/1",
+        "/api/pink-salt/imports/1/manage-v310",
+        "/api/pink-salt/imports/1",
+        "/api/pink-salt/imports/1/cost-locks-v3692",
+        "/api/pink-salt/imports/1/correction-status",
+        "/api/pink-salt/imports/1",
+        "/api/pink-salt/imports/1",
+        "/api/pink-salt/fx/records/import/1/transactions",
+        "/api/pink-salt/imports/1/receive-eligibility"
+      ],
+      "start": 11.5,
+      "trace": [],
+      "route": "psImports/import/1?unit=4",
+      "final_ms": 241,
+      "case": "psImports/import",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 96,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "Customers / Stores"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 122,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "QA Customer \u00b7 Account"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 69,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 100,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "Customers / Stores"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 140,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "QA Customer \u00b7 Account"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 150,
+          "hash": "#psCustomers/customer/1?section=prices&unit=4",
+          "headings": [
+            "QA Customer \u00b7 Account"
+          ],
+          "tabs": [
+            "prices"
+          ],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/v349/pink-salt/customers/page?page=1&pageSize=25&search=&channel=&type=&activity=Active",
+        "/api/pink-salt/customers/1/account-v313",
+        "/api/pink-salt/fx/records/customer/1/transactions"
+      ],
+      "start": 21.799999999813735,
+      "trace": [],
+      "route": "psCustomers/customer/1?section=prices&unit=4",
+      "final_ms": 176,
+      "case": "psCustomers/customer",
+      "record_id": 1,
+      "section": "prices"
+    },
+    {
+      "writes": [
+        {
+          "at": 109,
+          "hash": "#psSales/order/1?unit=4",
+          "headings": [
+            "Sales / Orders"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 133,
+          "hash": "#psSales/order/1?unit=4",
+          "headings": [
+            "QA-ORDER"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 78,
+          "hash": "#psSales/order/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 113,
+          "hash": "#psSales/order/1?unit=4",
+          "headings": [
+            "Sales / Orders"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 149,
+          "hash": "#psSales/order/1?unit=4",
+          "headings": [
+            "QA-ORDER"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/v349/pink-salt/orders/page?page=1&pageSize=25&search=&channel=&status=&payment=",
+        "/api/pink-salt/orders/1/detail-v313",
+        "/api/pink-salt/orders/1"
+      ],
+      "start": 22.600000000558794,
+      "trace": [],
+      "route": "psSales/order/1?unit=4",
+      "final_ms": 181,
+      "case": "psSales/order",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 55,
+          "hash": "#excavator/machine/1?unit=2",
+          "headings": [
+            "Excavator Operations",
+            "Machines / Deals"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 97,
+          "hash": "#excavator/machine/1?unit=2",
+          "headings": [
+            "Excavator Operations",
+            "Machines / Deals"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "excavatorMachineList"
+        },
+        {
+          "at": 97,
+          "hash": "#excavator/machine/1?unit=2",
+          "headings": [
+            "Excavator Operations",
+            "Machines / Deals"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v3391MachinePager"
+        },
+        {
+          "at": 99,
+          "hash": "#excavator/machine/1?unit=2",
+          "headings": [
+            "Excavator Operations",
+            "Machines / Deals"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v3391MachineStats"
+        },
+        {
+          "at": 129,
+          "hash": "#excavator/machine/1?unit=2",
+          "headings": [
+            "QA-ROUTE-MACHINE"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 62,
+          "hash": "#excavator/machine/1?unit=2",
+          "headings": [
+            "Excavator Operations",
+            "Machines / Deals"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 143,
+          "hash": "#excavator/machine/1?unit=2",
+          "headings": [
+            "QA-ROUTE-MACHINE"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/excavator/assets?paged=1&page=1&pageSize=25&search=&filter=All&sort=newest",
+        "/api/excavator/overview?include_assets=0",
+        "/api/excavator/assets",
+        "/api/excavator/assets/1/transactions",
+        "/api/excavator/assets/1/documents",
+        "/api/excavator/assets/1/history",
+        "/api/excavator/assets/1/payments",
+        "/api/v326/excavator/assets/1/status-actions",
+        "/api/excavator/assets",
+        "/api/v343/excavator/assets/1/edit-policy"
+      ],
+      "start": 11.299999999813735,
+      "trace": [],
+      "route": "excavator/machine/1?unit=2",
+      "final_ms": 201,
+      "case": "excavator/machine",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 95,
+          "hash": "#excavatorBuyers/pakistan/2?section=transfers&unit=2",
+          "headings": [
+            "Excavator Buyers",
+            "Buyer Management"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 140,
+          "hash": "#excavatorBuyers/pakistan/2?section=transfers&unit=2",
+          "headings": [
+            "Synthetic Pakistan Buyer"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        },
+        {
+          "at": 147,
+          "hash": "#excavatorBuyers/pakistan/2?section=transfers&unit=2",
+          "headings": [
+            "Synthetic Pakistan Buyer"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v338PakistanResaleBody"
+        }
+      ],
+      "paint": [
+        {
+          "at": 66,
+          "hash": "#excavatorBuyers/pakistan/2?section=transfers&unit=2",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 100,
+          "hash": "#excavatorBuyers/pakistan/2?section=transfers&unit=2",
+          "headings": [
+            "Excavator Buyers",
+            "Buyer Management"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 149,
+          "hash": "#excavatorBuyers/pakistan/2?section=transfers&unit=2",
+          "headings": [
+            "Synthetic Pakistan Buyer"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/excavator/buyers?paged=1&page=1&pageSize=25&search=",
+        "/api/v327/excavator/buyers/2/pakistan-resales",
+        "/api/v330/excavator/buyers/2/resale-credit-summary",
+        "/api/v338/excavator/buyers/2/resale-refunds",
+        "/api/excavator/buyers/2"
+      ],
+      "start": 19.40000000037253,
+      "trace": [],
+      "route": "excavatorBuyers/pakistan/2?section=transfers&unit=2",
+      "final_ms": 171,
+      "case": "excavatorBuyers/pakistan",
+      "record_id": 2,
+      "section": "transfers"
+    },
+    {
+      "writes": [
+        {
+          "at": 95,
+          "hash": "#payroll/run/1?unit=4",
+          "headings": [
+            "Employees & Payroll"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 124,
+          "hash": "#payroll/run/1?unit=4",
+          "headings": [
+            "Payroll Run",
+            "QA-ROUTE-PAYROLL"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 66,
+          "hash": "#payroll/run/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 96,
+          "hash": "#payroll/run/1?unit=4",
+          "headings": [
+            "Employees & Payroll"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 129,
+          "hash": "#payroll/run/1?unit=4",
+          "headings": [
+            "Payroll Run",
+            "QA-ROUTE-PAYROLL"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/payroll/summary",
+        "/api/payroll/employees",
+        "/api/payroll/runs",
+        "/api/payroll/account-change-summary",
+        "/api/payroll/runs/1"
+      ],
+      "start": 20.700000000186265,
+      "trace": [],
+      "route": "payroll/run/1?unit=4",
+      "final_ms": 150,
+      "case": "payroll/run",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 67,
+          "hash": "#tasks/task/1?unit=4",
+          "headings": [
+            "Tasks & Work Queue"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 67,
+          "hash": "#tasks/task/1?unit=4",
+          "headings": [
+            "Tasks & Work Queue"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v347-tasks-body"
+        },
+        {
+          "at": 100,
+          "hash": "#tasks/task/1?unit=4",
+          "headings": [
+            "Tasks & Work Queue"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v347-tasks-kpis"
+        },
+        {
+          "at": 101,
+          "hash": "#tasks/task/1?unit=4",
+          "headings": [
+            "Tasks & Work Queue"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v347-tasks-body"
+        }
+      ],
+      "paint": [
+        {
+          "at": 68,
+          "hash": "#tasks/task/1?unit=4",
+          "headings": [
+            "Tasks & Work Queue"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/v347/tasks/page?page=1&pageSize=25&search=&status=",
+        "/api/tasks/1/detail",
+        "/api/v320/attachment-policy?business_unit_id=4"
+      ],
+      "start": 13.799999999813735,
+      "trace": [],
+      "route": "tasks/task/1?unit=4",
+      "final_ms": 183,
+      "case": "tasks/task",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 87,
+          "hash": "#meetings/meeting/1?unit=4",
+          "headings": [
+            "Meetings"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 113,
+          "hash": "#meetings/meeting/1?unit=4",
+          "headings": [
+            "Synthetic Route Meeting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 58,
+          "hash": "#meetings/meeting/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 91,
+          "hash": "#meetings/meeting/1?unit=4",
+          "headings": [
+            "Meetings"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 123,
+          "hash": "#meetings/meeting/1?unit=4",
+          "headings": [
+            "Synthetic Route Meeting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/meetings",
+        "/api/meetings/1/detail",
+        "/api/v362/meetings/1/collaboration"
+      ],
+      "start": 13.799999999813735,
+      "trace": [],
+      "route": "meetings/meeting/1?unit=4",
+      "final_ms": 147,
+      "case": "meetings/meeting",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 93,
+          "hash": "#reports/report/1?unit=4",
+          "headings": [
+            "Daily \u00b7 Weekly \u00b7 Monthly Reports"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 61,
+          "hash": "#reports/report/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 96,
+          "hash": "#reports/report/1?unit=4",
+          "headings": [
+            "Daily \u00b7 Weekly \u00b7 Monthly Reports"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/work-reports",
+        "/api/work-report-rules",
+        "/api/work-reports/1"
+      ],
+      "start": 14.599999999627471,
+      "trace": [],
+      "route": "reports/report/1?unit=4",
+      "final_ms": 165,
+      "case": "reports/report",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 62,
+          "hash": "#approvals/approval/1?unit=4",
+          "headings": [
+            "Approval Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 62,
+          "hash": "#approvals/approval/1?unit=4",
+          "headings": [
+            "Approval Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v347-approvals-body"
+        },
+        {
+          "at": 97,
+          "hash": "#approvals/approval/1?unit=4",
+          "headings": [
+            "Approval Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v347-approvals-kpis"
+        },
+        {
+          "at": 98,
+          "hash": "#approvals/approval/1?unit=4",
+          "headings": [
+            "Approval Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v347-approvals-body"
+        },
+        {
+          "at": 101,
+          "hash": "#approvals/approval/1?unit=4",
+          "headings": [
+            "Approval Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v347-approval-rules"
+        }
+      ],
+      "paint": [
+        {
+          "at": 65,
+          "hash": "#approvals/approval/1?unit=4",
+          "headings": [
+            "Approval Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/approval-rules",
+        "/api/v347/approvals/page?page=1&pageSize=25&search=&status=",
+        "/api/approvals/1/history"
+      ],
+      "start": 15.299999999813735,
+      "trace": [],
+      "route": "approvals/approval/1?unit=4",
+      "final_ms": 196,
+      "case": "approvals/approval",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 112,
+          "hash": "#finance/correction/1?unit=4",
+          "headings": [
+            "Finance Control Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 140,
+          "hash": "#finance/correction/1?unit=4",
+          "headings": [
+            "Finance Control Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "financeTypeFilter"
+        },
+        {
+          "at": 156,
+          "hash": "#finance/correction/1?unit=4",
+          "headings": [
+            "Finance Correction Request"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 80,
+          "hash": "#finance/correction/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 120,
+          "hash": "#finance/correction/1?unit=4",
+          "headings": [
+            "Finance Control Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 192,
+          "hash": "#finance/correction/1?unit=4",
+          "headings": [
+            "Finance Correction Request"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/finance/corrections",
+        "/api/finance/v3392-page?page=1&pageSize=25&search=&status=&type=&evidence=&special=&from=&to=",
+        "/api/finance/corrections/1/view",
+        "/api/finance/corrections/1"
+      ],
+      "start": 21.5,
+      "trace": [],
+      "route": "finance/correction/1?unit=4",
+      "final_ms": 217,
+      "case": "finance/correction",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 62,
+          "hash": "#accounting/foreign-financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 106,
+          "hash": "#accounting/foreign-financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 108,
+          "hash": "#accounting/foreign-financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 125,
+          "hash": "#accounting/foreign-financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        }
+      ],
+      "paint": [
+        {
+          "at": 65,
+          "hash": "#accounting/foreign-financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 118,
+          "hash": "#accounting/foreign-financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/accounting/overview",
+        "/api/accounting/integrity",
+        "/api/accounting/exceptions",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/foreign-financing-v356/1",
+        "/api/accounting/foreign-financing-v356/options"
+      ],
+      "start": 24.09999999962747,
+      "trace": [],
+      "route": "accounting/foreign-financing/1?unit=4&mode=simple",
+      "final_ms": 168,
+      "case": "accounting/foreign-financing",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 53,
+          "hash": "#accounting/asset/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 106,
+          "hash": "#accounting/asset/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 131,
+          "hash": "#accounting/asset/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 138,
+          "hash": "#accounting/asset/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 146,
+          "hash": "#accounting/asset/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v357fa-improvement-source"
+        }
+      ],
+      "paint": [
+        {
+          "at": 56,
+          "hash": "#accounting/asset/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 124,
+          "hash": "#accounting/asset/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/accounting/overview",
+        "/api/accounting/integrity",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/exceptions",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/fixed-assets-v357/1",
+        "/api/accounting/fixed-assets-v357/1/improvement-sources"
+      ],
+      "start": 10.599999999627471,
+      "trace": [],
+      "route": "accounting/asset/1?unit=4&mode=simple",
+      "final_ms": 186,
+      "case": "accounting/asset",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 60,
+          "hash": "#accounting/journal/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 124,
+          "hash": "#accounting/journal/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        }
+      ],
+      "paint": [
+        {
+          "at": 62,
+          "hash": "#accounting/journal/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 126,
+          "hash": "#accounting/journal/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/accounting/overview",
+        "/api/accounting/integrity",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/exceptions",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/journal/1"
+      ],
+      "start": 16.5,
+      "trace": [],
+      "route": "accounting/journal/1?unit=4&mode=simple",
+      "final_ms": 212,
+      "case": "accounting/journal",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 90,
+          "hash": "#psImports/fx/1?unit=4",
+          "headings": [
+            "Import Shipments"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 93,
+          "hash": "#psImports/fx/1?unit=4",
+          "headings": [
+            "Import Shipments"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": ""
+        },
+        {
+          "at": 95,
+          "hash": "#psImports/fx/1?unit=4",
+          "headings": [
+            "Import Shipments"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": ""
+        },
+        {
+          "at": 122,
+          "hash": "#psImports/fx/1?unit=4",
+          "headings": [
+            "Currency settlement #1"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 60,
+          "hash": "#psImports/fx/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 97,
+          "hash": "#psImports/fx/1?unit=4",
+          "headings": [
+            "Import Shipments"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 136,
+          "hash": "#psImports/fx/1?unit=4",
+          "headings": [
+            "Currency settlement #1"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/v350/pink-salt/imports/page?page=1&pageSize=25&search=&status=",
+        "/api/pink-salt/fx/transactions/1"
+      ],
+      "start": 14.100000000558794,
+      "trace": [],
+      "route": "psImports/fx/1?unit=4",
+      "final_ms": 191,
+      "case": "psImports/fx",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 86,
+          "hash": "#psProduction/batch/1?unit=4",
+          "headings": [
+            "Production Batches"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 103,
+          "hash": "#psProduction/batch/1?unit=4",
+          "headings": [
+            "Production Batches"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": ""
+        },
+        {
+          "at": 104,
+          "hash": "#psProduction/batch/1?unit=4",
+          "headings": [
+            "Production Batches"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": ""
+        },
+        {
+          "at": 108,
+          "hash": "#psProduction/batch/1?unit=4",
+          "headings": [
+            "Production Batch \u00b7 QA-ROUTE-BATCH"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 51,
+          "hash": "#psProduction/batch/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 88,
+          "hash": "#psProduction/batch/1?unit=4",
+          "headings": [
+            "Production Batches"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 119,
+          "hash": "#psProduction/batch/1?unit=4",
+          "headings": [
+            "Production Batch \u00b7 QA-ROUTE-BATCH"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/production",
+        "/api/pink-salt/production/1",
+        "/api/pink-salt/production/1"
+      ],
+      "start": 11.5,
+      "trace": [],
+      "route": "psProduction/batch/1?unit=4",
+      "final_ms": 154,
+      "case": "psProduction/batch",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 55,
+          "hash": "#accounting/financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 102,
+          "hash": "#accounting/financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 104,
+          "hash": "#accounting/financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 118,
+          "hash": "#accounting/financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 146,
+          "hash": "#accounting/financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v356-finance-recon"
+        },
+        {
+          "at": 146,
+          "hash": "#accounting/financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "input"
+        },
+        {
+          "at": 147,
+          "hash": "#accounting/financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v356-final-recon"
+        }
+      ],
+      "paint": [
+        {
+          "at": 59,
+          "hash": "#accounting/financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 112,
+          "hash": "#accounting/financing/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/accounting/overview",
+        "/api/accounting/integrity",
+        "/api/accounting/exceptions",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/financing-v356/1",
+        "/api/accounting/financing-v356/1/finalization-accounts",
+        "/api/accounting/financing-v356/1/liability-reconciliation",
+        "/api/accounting/financing-v356/1/reconciliation"
+      ],
+      "start": 28.700000000186265,
+      "trace": [],
+      "route": "accounting/financing/1?unit=4&mode=simple",
+      "final_ms": 164,
+      "case": "accounting/financing",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 55,
+          "hash": "#accounting/control?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 98,
+          "hash": "#accounting/control?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 128,
+          "hash": "#accounting/control?unit=4&mode=simple",
+          "headings": [
+            "Accounting Posting Control"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 150,
+          "hash": "#accounting/control?unit=4&mode=simple",
+          "headings": [
+            "Accounting Posting Control"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 150,
+          "hash": "#accounting/control?unit=4&mode=simple",
+          "headings": [
+            "Accounting Posting Control"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v360Body"
+        },
+        {
+          "at": 151,
+          "hash": "#accounting/control?unit=4&mode=simple",
+          "headings": [
+            "Accounting Posting Control"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v360Selection"
+        }
+      ],
+      "paint": [
+        {
+          "at": 59,
+          "hash": "#accounting/control?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 139,
+          "hash": "#accounting/control?unit=4&mode=simple",
+          "headings": [
+            "Accounting Posting Control"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/accounting/overview",
+        "/api/accounting/integrity",
+        "/api/accounting/exceptions",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/posting-control?status=Pending",
+        "/api/accounting/posting-control-v360/summary",
+        "/api/accounting/posting-control?status=Pending"
+      ],
+      "start": 14.800000000745058,
+      "trace": [],
+      "route": "accounting/control?unit=4&mode=simple",
+      "final_ms": 175,
+      "case": "accounting/control",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 54,
+          "hash": "#accounting/ledger/43?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 104,
+          "hash": "#accounting/ledger/43?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 135,
+          "hash": "#accounting/ledger/43?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 150,
+          "hash": "#accounting/ledger/43?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v358Body"
+        }
+      ],
+      "paint": [
+        {
+          "at": 58,
+          "hash": "#accounting/ledger/43?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 106,
+          "hash": "#accounting/ledger/43?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/accounting/overview",
+        "/api/accounting/integrity",
+        "/api/accounting/exceptions",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/v358/ledger/43?from=2026-10-01&to=2026-10-15&page=1"
+      ],
+      "start": 14.200000000186265,
+      "trace": [],
+      "route": "accounting/ledger/43?unit=4&mode=simple",
+      "final_ms": 178,
+      "case": "accounting/ledger",
+      "record_id": 43,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 99,
+          "hash": "#users/access/2?section=groups&unit=4",
+          "headings": [
+            "People & Access"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 127,
+          "hash": "#users/access/2?section=groups&unit=4",
+          "headings": [
+            "Synthetic Restricted Reader"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 68,
+          "hash": "#users/access/2?section=groups&unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 103,
+          "hash": "#users/access/2?section=groups&unit=4",
+          "headings": [
+            "People & Access"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 139,
+          "hash": "#users/access/2?section=groups&unit=4",
+          "headings": [
+            "Synthetic Restricted Reader"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/users",
+        "/api/access/users/2",
+        "/api/access/catalog",
+        "/api/access/profiles",
+        "/api/access/permission-groups",
+        "/api/business-units",
+        "/api/users"
+      ],
+      "start": 14.5,
+      "trace": [],
+      "route": "users/access/2?section=groups&unit=4",
+      "final_ms": 156,
+      "case": "users/access",
+      "record_id": 2,
+      "section": "groups"
+    },
+    {
+      "writes": [
+        {
+          "at": 105,
+          "hash": "#users/profiles?unit=4",
+          "headings": [
+            "People & Access"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 128,
+          "hash": "#users/profiles?unit=4",
+          "headings": [
+            "Profile Library"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v324WorkflowSurface"
+        }
+      ],
+      "paint": [
+        {
+          "at": 70,
+          "hash": "#users/profiles?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 109,
+          "hash": "#users/profiles?unit=4",
+          "headings": [
+            "People & Access"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 142,
+          "hash": "#users/profiles?unit=4",
+          "headings": [
+            "Profile Library"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/users",
+        "/api/access/profiles",
+        "/api/access/catalog"
+      ],
+      "start": 13.900000000372529,
+      "trace": [],
+      "route": "users/profiles?unit=4",
+      "final_ms": 175,
+      "case": "users/profiles",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 98,
+          "hash": "#systemSettings/security?section=audit&unit=4",
+          "headings": [
+            "System Settings"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 123,
+          "hash": "#systemSettings/security?section=audit&unit=4",
+          "headings": [
+            "System Settings",
+            "System Overview"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v319SettingsPanel"
+        },
+        {
+          "at": 124,
+          "hash": "#systemSettings/security?section=audit&unit=4",
+          "headings": [
+            "System Settings"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v319SettingsPanel"
+        },
+        {
+          "at": 132,
+          "hash": "#systemSettings/security?section=audit&unit=4",
+          "headings": [
+            "System Settings",
+            "Access Control Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v319SettingsPanel"
+        },
+        {
+          "at": 132,
+          "hash": "#systemSettings/security?section=audit&unit=4",
+          "headings": [
+            "System Settings"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v319SettingsPanel"
+        },
+        {
+          "at": 145,
+          "hash": "#systemSettings/security?section=audit&unit=4",
+          "headings": [
+            "System Settings",
+            "Access Control Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v319SettingsPanel"
+        }
+      ],
+      "paint": [
+        {
+          "at": 61,
+          "hash": "#systemSettings/security?section=audit&unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 104,
+          "hash": "#systemSettings/security?section=audit&unit=4",
+          "headings": [
+            "System Settings"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 154,
+          "hash": "#systemSettings/security?section=audit&unit=4",
+          "headings": [
+            "System Settings",
+            "Access Control Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/system-settings-v319/catalog",
+        "/api/users",
+        "/api/system-settings-v319?scope_type=company&scope_id=0&business_unit_id=4",
+        "/api/system-settings-v319/overview",
+        "/api/access/admin-v341/overview",
+        "/api/access/admin-v341/overview",
+        "/api/access/audit-v341?limit=250"
+      ],
+      "start": 15.299999999813735,
+      "trace": [],
+      "route": "systemSettings/security?section=audit&unit=4",
+      "final_ms": 193,
+      "case": "systemSettings/security",
+      "record_id": 0,
+      "section": "audit"
+    },
+    {
+      "writes": [
+        {
+          "at": 114,
+          "hash": "#profile?section=security&unit=4",
+          "headings": [
+            "Synthetic QA CEO"
+          ],
+          "tabs": [
+            "setMyAccountSectionV3592('overview')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 114,
+          "hash": "#profile?section=security&unit=4",
+          "headings": [
+            "Synthetic QA CEO"
+          ],
+          "tabs": [
+            "setMyAccountSectionV3592('security')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v3592MySection"
+        },
+        {
+          "at": 116,
+          "hash": "#profile?section=security&unit=4",
+          "headings": [
+            "Synthetic QA CEO"
+          ],
+          "tabs": [
+            "setMyAccountSectionV3592('security')"
+          ],
+          "state": "",
+          "visible": true,
+          "target": "v3592MySection"
+        }
+      ],
+      "paint": [
+        {
+          "at": 74,
+          "hash": "#profile?section=security&unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 121,
+          "hash": "#profile?section=security&unit=4",
+          "headings": [
+            "Synthetic QA CEO"
+          ],
+          "tabs": [
+            "setMyAccountSectionV3592('security')"
+          ],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/me",
+        "/api/me/employee-portal",
+        "/api/access/me"
+      ],
+      "start": 26.200000000186265,
+      "trace": [],
+      "route": "profile?section=security&unit=4",
+      "final_ms": 160,
+      "case": "profile/",
+      "record_id": 0,
+      "section": "security"
+    },
+    {
+      "writes": [
+        {
+          "at": 64,
+          "hash": "#accounting?section=workspace%3Av358%3Astatements&unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 116,
+          "hash": "#accounting?section=workspace%3Av358%3Astatements&unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 147,
+          "hash": "#accounting?section=workspace%3Av358%3Astatements&unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        },
+        {
+          "at": 158,
+          "hash": "#accounting?section=workspace%3Av358%3Astatements&unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v358Body"
+        }
+      ],
+      "paint": [
+        {
+          "at": 67,
+          "hash": "#accounting?section=workspace%3Av358%3Astatements&unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 140,
+          "hash": "#accounting?section=workspace%3Av358%3Astatements&unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/accounting/overview",
+        "/api/accounting/integrity",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/exceptions",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/v358/statements?from=2026-10-01&to=2026-10-15"
+      ],
+      "start": 13.5,
+      "trace": [],
+      "route": "accounting?section=workspace%3Av358%3Astatements&unit=4&mode=simple",
+      "final_ms": 196,
+      "case": "accounting/",
+      "record_id": 0,
+      "section": "workspace:v358:statements"
+    },
+    {
+      "writes": [
+        {
+          "at": 65,
+          "hash": "#psFinished/lots?unit=4",
+          "headings": [
+            "Product Master"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 120,
+          "hash": "#psFinished/lots?unit=4",
+          "headings": [
+            "Product Master"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": ""
+        }
+      ],
+      "paint": [
+        {
+          "at": 73,
+          "hash": "#psFinished/lots?unit=4",
+          "headings": [
+            "Product Master"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/products",
+        "/api/v367/pink-salt/lots",
+        "/api/v366/pink-salt/locations"
+      ],
+      "start": 18.40000000037253,
+      "trace": [],
+      "route": "psFinished/lots?unit=4",
+      "final_ms": 173,
+      "case": "psFinished/lots",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 93,
+          "hash": "#psFinished/families?unit=4",
+          "headings": [
+            "Product Master"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 96,
+          "hash": "#psFinished/families?unit=4",
+          "headings": [
+            "Product Master"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": ""
+        }
+      ],
+      "paint": [
+        {
+          "at": 61,
+          "hash": "#psFinished/families?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 99,
+          "hash": "#psFinished/families?unit=4",
+          "headings": [
+            "Product Master"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/products",
+        "/api/v367/pink-salt/families"
+      ],
+      "start": 22,
+      "trace": [],
+      "route": "psFinished/families?unit=4",
+      "final_ms": 150,
+      "case": "psFinished/families",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 83,
+          "hash": "#psSales/trace/1?unit=4",
+          "headings": [
+            "Sales / Orders"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 58,
+          "hash": "#psSales/trace/1?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 85,
+          "hash": "#psSales/trace/1?unit=4",
+          "headings": [
+            "Sales / Orders"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/v349/pink-salt/orders/page?page=1&pageSize=25&search=&channel=&status=&payment=",
+        "/api/v367/pink-salt/orders/1/trace"
+      ],
+      "start": 16.800000000745058,
+      "trace": [],
+      "route": "psSales/trace/1?unit=4",
+      "final_ms": 173,
+      "case": "psSales/trace",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 58,
+          "hash": "#accounting/posting/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 105,
+          "hash": "#accounting/posting/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "accountingSimpleBodyV291"
+        }
+      ],
+      "paint": [
+        {
+          "at": 61,
+          "hash": "#accounting/posting/1?unit=4&mode=simple",
+          "headings": [
+            "Accounts & Finance"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 127,
+          "hash": "#accounting/posting/1?unit=4&mode=simple",
+          "headings": [
+            "Accounting"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/accounting/overview",
+        "/api/accounting/integrity",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/exceptions",
+        "/api/accounting/posting-control/summary",
+        "/api/accounting/posting-control/1",
+        "/api/accounting/posting-control/1"
+      ],
+      "start": 14.200000000186265,
+      "trace": [],
+      "route": "accounting/posting/1?unit=4&mode=simple",
+      "final_ms": 209,
+      "case": "accounting/posting",
+      "record_id": 1,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 129,
+          "hash": "#restaurant/menu?unit=1",
+          "headings": [
+            "MIMI Resturant \u00b7 Business Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 80,
+          "hash": "#restaurant/menu?unit=1",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 130,
+          "hash": "#restaurant/menu?unit=1",
+          "headings": [
+            "MIMI Resturant \u00b7 Business Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/restaurant/dashboard",
+        "/api/restaurant/tables",
+        "/api/restaurant/orders",
+        "/api/restaurant/menu",
+        "/api/restaurant/weekly-menu",
+        "/api/restaurant/buffets",
+        "/api/restaurant/menu"
+      ],
+      "start": 24.200000000186265,
+      "trace": [],
+      "route": "restaurant/menu?unit=1",
+      "final_ms": 200,
+      "case": "restaurant/menu",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 94,
+          "hash": "#restaurant/stock?unit=1",
+          "headings": [
+            "MIMI Resturant \u00b7 Business Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 61,
+          "hash": "#restaurant/stock?unit=1",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 96,
+          "hash": "#restaurant/stock?unit=1",
+          "headings": [
+            "MIMI Resturant \u00b7 Business Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/restaurant/dashboard",
+        "/api/restaurant/tables",
+        "/api/restaurant/orders",
+        "/api/restaurant/menu",
+        "/api/restaurant/weekly-menu",
+        "/api/restaurant/buffets",
+        "/api/products"
+      ],
+      "start": 15.200000000186265,
+      "trace": [],
+      "route": "restaurant/stock?unit=1",
+      "final_ms": 163,
+      "case": "restaurant/stock",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 110,
+          "hash": "#restaurant/weekly?unit=1",
+          "headings": [
+            "MIMI Resturant \u00b7 Business Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 70,
+          "hash": "#restaurant/weekly?unit=1",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 129,
+          "hash": "#restaurant/weekly?unit=1",
+          "headings": [
+            "MIMI Resturant \u00b7 Business Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/restaurant/dashboard",
+        "/api/restaurant/tables",
+        "/api/restaurant/orders",
+        "/api/restaurant/menu",
+        "/api/restaurant/weekly-menu",
+        "/api/restaurant/buffets",
+        "/api/restaurant/weekly-menu"
+      ],
+      "start": 17.5,
+      "trace": [],
+      "route": "restaurant/weekly?unit=1",
+      "final_ms": 157,
+      "case": "restaurant/weekly",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 100,
+          "hash": "#restaurant/buffet?unit=1",
+          "headings": [
+            "MIMI Resturant \u00b7 Business Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 64,
+          "hash": "#restaurant/buffet?unit=1",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 105,
+          "hash": "#restaurant/buffet?unit=1",
+          "headings": [
+            "MIMI Resturant \u00b7 Business Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/restaurant/dashboard",
+        "/api/restaurant/tables",
+        "/api/restaurant/orders",
+        "/api/restaurant/menu",
+        "/api/restaurant/weekly-menu",
+        "/api/restaurant/buffets",
+        "/api/restaurant/buffets"
+      ],
+      "start": 16.59999999962747,
+      "trace": [],
+      "route": "restaurant/buffet?unit=1",
+      "final_ms": 159,
+      "case": "restaurant/buffet",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 99,
+          "hash": "#restaurant/open-orders?unit=1",
+          "headings": [
+            "MIMI Resturant \u00b7 Business Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 63,
+          "hash": "#restaurant/open-orders?unit=1",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 110,
+          "hash": "#restaurant/open-orders?unit=1",
+          "headings": [
+            "MIMI Resturant \u00b7 Business Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/restaurant/dashboard",
+        "/api/restaurant/tables",
+        "/api/restaurant/orders",
+        "/api/restaurant/menu",
+        "/api/restaurant/weekly-menu",
+        "/api/restaurant/buffets",
+        "/api/restaurant/orders"
+      ],
+      "start": 13.299999999813735,
+      "trace": [],
+      "route": "restaurant/open-orders?unit=1",
+      "final_ms": 147,
+      "case": "restaurant/open-orders",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 86,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 54,
+          "hash": "#dashboard?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 88,
+          "hash": "#dashboard?unit=4",
+          "headings": [
+            "Pink Salt Dashboard"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/dashboard",
+        "/api/pink-salt/dashboard-v313"
+      ],
+      "start": 28.700000000186265,
+      "trace": [],
+      "route": "dashboard?unit=4",
+      "final_ms": 133,
+      "case": "dashboard/",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 85,
+          "hash": "#psFinished?unit=4",
+          "headings": [
+            "Product Master"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 87,
+          "hash": "#psFinished?unit=4",
+          "headings": [
+            "Product Master"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": ""
+        }
+      ],
+      "paint": [
+        {
+          "at": 55,
+          "hash": "#psFinished?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 90,
+          "hash": "#psFinished?unit=4",
+          "headings": [
+            "Product Master"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/products"
+      ],
+      "start": 28.300000000745058,
+      "trace": [],
+      "route": "psFinished?unit=4",
+      "final_ms": 128,
+      "case": "psFinished/",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 85,
+          "hash": "#psCommerce?unit=4",
+          "headings": [
+            "Commerce / Channels"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 55,
+          "hash": "#psCommerce?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 88,
+          "hash": "#psCommerce?unit=4",
+          "headings": [
+            "Commerce / Channels"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/commerce/foundation-v365"
+      ],
+      "start": 13.200000000186265,
+      "trace": [],
+      "route": "psCommerce?unit=4",
+      "final_ms": 125,
+      "case": "psCommerce/",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 95,
+          "hash": "#psRawStock?unit=4",
+          "headings": [
+            "Raw Salt Stock"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 98,
+          "hash": "#psRawStock?unit=4",
+          "headings": [
+            "Raw Salt Stock"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": ""
+        }
+      ],
+      "paint": [
+        {
+          "at": 63,
+          "hash": "#psRawStock?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 100,
+          "hash": "#psRawStock?unit=4",
+          "headings": [
+            "Raw Salt Stock"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/v350/pink-salt/raw-stock/page?page=1&pageSize=25&search="
+      ],
+      "start": 19.40000000037253,
+      "trace": [],
+      "route": "psRawStock?unit=4",
+      "final_ms": 139,
+      "case": "psRawStock/",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 83,
+          "hash": "#psPackaging?unit=4",
+          "headings": [
+            "Packaging Materials"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 54,
+          "hash": "#psPackaging?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 90,
+          "hash": "#psPackaging?unit=4",
+          "headings": [
+            "Packaging Materials"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/pink-salt/packaging"
+      ],
+      "start": 14,
+      "trace": [],
+      "route": "psPackaging?unit=4",
+      "final_ms": 124,
+      "case": "psPackaging/",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 72,
+          "hash": "#documents?unit=4",
+          "headings": [
+            "Documents & SOP Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 73,
+          "hash": "#documents?unit=4",
+          "headings": [
+            "Documents & SOP Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v347-documents-body"
+        },
+        {
+          "at": 111,
+          "hash": "#documents?unit=4",
+          "headings": [
+            "Documents & SOP Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v347-doc-sections"
+        },
+        {
+          "at": 111,
+          "hash": "#documents?unit=4",
+          "headings": [
+            "Documents & SOP Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v347-documents-body"
+        }
+      ],
+      "paint": [
+        {
+          "at": 74,
+          "hash": "#documents?unit=4",
+          "headings": [
+            "Documents & SOP Center"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/v347/documents/page?page=1&pageSize=25&search=&status=&section=active"
+      ],
+      "start": 17.200000000186265,
+      "trace": [],
+      "route": "documents?unit=4",
+      "final_ms": 153,
+      "case": "documents/",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 64,
+          "hash": "#notifications?unit=4",
+          "headings": [
+            "Notifications & Alerts"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 64,
+          "hash": "#notifications?unit=4",
+          "headings": [
+            "Notifications & Alerts"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v348-status"
+        },
+        {
+          "at": 106,
+          "hash": "#notifications?unit=4",
+          "headings": [
+            "Notifications & Alerts"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v348-controls"
+        },
+        {
+          "at": 107,
+          "hash": "#notifications?unit=4",
+          "headings": [
+            "Notifications & Alerts"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v348-status"
+        }
+      ],
+      "paint": [
+        {
+          "at": 67,
+          "hash": "#notifications?unit=4",
+          "headings": [
+            "Notifications & Alerts"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/v348/notifications/feed?pageSize=25&search=&status=all"
+      ],
+      "start": 17.799999999813735,
+      "trace": [],
+      "route": "notifications?unit=4",
+      "final_ms": 154,
+      "case": "notifications/",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 104,
+          "hash": "#systemSettings?unit=4",
+          "headings": [
+            "System Settings"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        },
+        {
+          "at": 134,
+          "hash": "#systemSettings?unit=4",
+          "headings": [
+            "System Settings",
+            "System Overview"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "v319SettingsPanel"
+        }
+      ],
+      "paint": [
+        {
+          "at": 70,
+          "hash": "#systemSettings?unit=4",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 110,
+          "hash": "#systemSettings?unit=4",
+          "headings": [
+            "System Settings"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 143,
+          "hash": "#systemSettings?unit=4",
+          "headings": [
+            "System Settings",
+            "System Overview"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/system-settings-v319/catalog",
+        "/api/users",
+        "/api/system-settings-v319?scope_type=company&scope_id=0&business_unit_id=4",
+        "/api/system-settings-v319/overview"
+      ],
+      "start": 14.099999999627471,
+      "trace": [],
+      "route": "systemSettings?unit=4",
+      "final_ms": 184,
+      "case": "systemSettings/",
+      "record_id": 0,
+      "section": ""
+    },
+    {
+      "writes": [
+        {
+          "at": 99,
+          "hash": "#restaurantTables?unit=1",
+          "headings": [
+            "MIMI \u00b7 Restaurant Tables"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true,
+          "target": "content"
+        }
+      ],
+      "paint": [
+        {
+          "at": 70,
+          "hash": "#restaurantTables?unit=1",
+          "headings": [],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        },
+        {
+          "at": 102,
+          "hash": "#restaurantTables?unit=1",
+          "headings": [
+            "MIMI \u00b7 Restaurant Tables"
+          ],
+          "tabs": [],
+          "state": "",
+          "visible": true
+        }
+      ],
+      "history": [],
+      "reads": [
+        "/api/me",
+        "/api/context",
+        "/api/access/me",
+        "/api/access/me",
+        "/api/notifications/unread-count",
+        "/api/action-counts",
+        "/api/restaurant/tables"
+      ],
+      "start": 15,
+      "trace": [],
+      "route": "restaurantTables?unit=1",
+      "final_ms": 157,
+      "case": "restaurantTables/",
+      "record_id": 0,
+      "section": ""
+    }
+  ],
+  "production_data_used": false
+}
