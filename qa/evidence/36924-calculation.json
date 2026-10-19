@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Strict calculation accepts rates without quote metadata and still reconciles the exact debit",
+    "UI arithmetic preview calculates fees and debit without fabricating a quote or confirmation",
+    "UI preview never invents a missing bank conversion rate",
+    "Missing foreign KRW accounting rate remains unknown while same-currency amounts can be calculated",
+    "Strict financial calculation continues to require the foreign-account accounting rate",
+    "Real API ignores a caller-supplied previewOnly flag and preserves strict debit reconciliation",
+    "Real record endpoint cannot use UI preview mode to bypass exact-debit financial controls"
+  ],
+  "production_data_used": false
+}

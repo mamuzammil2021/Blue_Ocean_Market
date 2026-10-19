@@ -1,0 +1,76 @@
+{
+  "source_version": "30.69.25",
+  "conditions": {
+    "supplier_advances": 1500,
+    "imports": 102,
+    "language": "en",
+    "range": "2026-01-01 through 2026-12-31",
+    "database": "Disposable generated records",
+    "chromium": "Same executable and launch flags"
+  },
+  "runs": [
+    {
+      "format": "json",
+      "run": 1,
+      "elapsed_ms": 34.26,
+      "bytes": 301309,
+      "opening": 1500000,
+      "closing": 1350000,
+      "transactions": 1500
+    },
+    {
+      "format": "json",
+      "run": 2,
+      "elapsed_ms": 13.79,
+      "bytes": 301309,
+      "opening": 1500000,
+      "closing": 1350000,
+      "transactions": 1500
+    },
+    {
+      "format": "json",
+      "run": 3,
+      "elapsed_ms": 14.7,
+      "bytes": 301309,
+      "opening": 1500000,
+      "closing": 1350000,
+      "transactions": 1500
+    },
+    {
+      "format": "csv",
+      "run": 1,
+      "elapsed_ms": 12.45,
+      "bytes": 131084
+    },
+    {
+      "format": "csv",
+      "run": 2,
+      "elapsed_ms": 9.79,
+      "bytes": 131084
+    },
+    {
+      "format": "csv",
+      "run": 3,
+      "elapsed_ms": 8.39,
+      "bytes": 131084
+    },
+    {
+      "format": "pdf",
+      "run": 1,
+      "elapsed_ms": 1110.71,
+      "bytes": 3654954
+    },
+    {
+      "format": "pdf",
+      "run": 2,
+      "elapsed_ms": 20.08,
+      "bytes": 3654954
+    },
+    {
+      "format": "pdf",
+      "run": 3,
+      "elapsed_ms": 17.06,
+      "bytes": 3654954
+    }
+  ]
+}

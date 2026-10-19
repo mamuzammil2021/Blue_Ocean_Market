@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Quote reference, source, timestamp and entire marked section are absent across supplier, import-cost, refund and customer forms",
+    "PKR supplier advance from KRW uses one entered rate, hides duplicate Payment accounting rate and stores exact KRW equivalent",
+    "Import Cost path reproducing the screenshot now has no quote section and no second entry of the same PKR/KRW rate",
+    "USD-to-USD cost asks once for its distinct KRW reporting rate without a bank-conversion duplicate",
+    "USD/PKR plus KRW reporting shows only two genuinely distinct rate inputs and derives the third",
+    "Account/currency switching clears stale rates and KRW-to-KRW shows no unnecessary rate fields",
+    "Single payment rate does not overwrite the original invoice basis or hide realized FX differences",
+    "Historical correction retains its separate original basis as read-only context instead of silently replacing it with today\u2019s bank rate",
+    "Consolidated rates and quote-free controls behave consistently in Korean"
+  ],
+  "production_data_used": false,
+  "console_errors": []
+}

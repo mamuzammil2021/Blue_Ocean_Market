@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Latest protected V30.69.32 archive and SHA256 verified before development",
+    "Unrelated server controllers remain byte-identical to protected .32",
+    "Deep-route hydration, current cost identity, simplified forms, single rates and operational inventory flows remain protected",
+    "Excavator mutation handlers and shared Finance monetary SQL/calculation are unchanged; only explicit approval-link hooks are added",
+    "Durable settlement debit/credit engine and existing migrations/Chart-of-Accounts definitions are preserved; approval HTTP responses now wait for transaction completion"
+  ],
+  "baseline": "30.69.32",
+  "baseline_sha256": "327f6f3316ca40d3da77299750e2c85e2aad7039585b0278853a338d9256c6a0",
+  "production_data_used": false
+}

@@ -1,0 +1,9 @@
+{
+  "baseline": "30.69.31",
+  "checks": [
+    "Protected V30.69.31 reproduces a processing surface covering the pending CEO authorization input"
+  ],
+  "authorization_observation_ms": 4003.7109119998604,
+  "completion": "Blocked by processing surface; authorization input cannot receive the click",
+  "production_data_used": false
+}

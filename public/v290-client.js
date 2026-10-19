@@ -29,12 +29,7 @@
   const perfIndex=nav.findIndex(x=>x[0]==='performance');
   if(!nav.some(x=>x[0]==='payroll'))nav.splice(perfIndex>=0?perfIndex+1:nav.length,0,['payroll','Employees & Payroll','🧑‍💼']);
 
-  const _allowed=allowed;
-  allowed=function(key){
-    if(key==='accounting')return !!me&&(me.role==='CEO / Owner'||['Finance / Admin','Operations Manager','Business Unit Manager'].includes(me.role));
-    if(key==='payroll')return !!me&&['CEO / Owner','Finance / Admin'].includes(me.role);
-    return _allowed(key);
-  };
+  // Effective module access is owned by BOMRouter.
   const _loadView=loadView;
   loadView=async function(){
     if(view==='accounting'){const c=document.getElementById('content');c.innerHTML='<div class="card">Loading…</div>';try{return await accountingV29(c)}catch(e){c.innerHTML='<div class="card"><b>Error</b><p class="muted">'+esc(e.message)+'</p></div>'}return;}
@@ -58,12 +53,15 @@
   function statusBadge(s){const x=String(s||'');const cls=['Paid','Posted','Approved','Active','Reconciled','Open'].includes(x)?'good':['Error','Reversed','Critical'].includes(x)?'bad':['Draft','Pending','Unreconciled','Skipped','Closed'].includes(x)?'warn':'';return `<span class="v290-badge ${cls}">${esc(t(x||'—'))}</span>`}
   function tabsHtml(items,active,handler){return `<div class="v290-tabs">${items.map(x=>`<button class="btn small ${active===x[0]?'active':''}" onclick="${handler}('${x[0]}')">${esc(t(x[1]))}</button>`).join('')}</div>`}
 
-  async function accountingV29(c){
+  async function accountingV29(c,shellOnly=false){
+    if(shellOnly)accountingTab=window.BOMRouter?.parse().section||'journal';
     const tabs=[['overview','Financial Control Center'],['journal','General Ledger'],['accounts','Chart of Accounts'],['cash','Cash & Bank Accounts'],['reports','Reports'],['reconciliation','Bank Reconciliation'],['periods','Accounting Periods'],['budgets','Budgets'],['transfers','Inter-BU Transfers']];
     const head=title('Accounting','Operational entry once — accounting proposal prepared automatically; final posting is controlled.',canWriteAccounting()?`<div class="v285-page-actions"><button class="btn" onclick="accountingResyncV29()">↻ ${esc(t('Resync Finance'))}</button><button class="btn primary" onclick="manualJournalV29()">+ ${esc(t('Manual Journal'))}</button></div>`:'');
     c.innerHTML=head+`<div class="v290-accounting-nav-note">V${V} · ${esc(t('Double-entry accounting automatically generated from operational Finance records.'))}</div>`+tabsHtml(tabs,accountingTab,'accountingTabV29')+`<div id="accountingV29Body"><div class="card">Loading…</div></div>`;
-    await loadAccountingTabV29();
+    if(!shellOnly)await loadAccountingTabV29();
+    else window.BOMAccountingWorkspace?.initialize();
   }
+  window.BOMAccountingShellV29=c=>accountingV29(c,true);
   window.accountingTabV29=async x=>{accountingTab=x;await loadAccountingTabV29()};
   async function loadAccountingTabV29(){const b=document.getElementById('accountingV29Body');if(!b)return;b.innerHTML='<div class="card">Loading…</div>';if(accountingTab==='overview')return accountingOverviewV29(b);if(accountingTab==='journal')return accountingJournalV29(b);if(accountingTab==='accounts')return accountingAccountsV29(b);if(accountingTab==='cash')return accountingCashV29(b);if(accountingTab==='reports')return accountingReportsV29(b);if(accountingTab==='reconciliation')return reconciliationV29(b);if(accountingTab==='periods')return periodsV29(b);if(accountingTab==='budgets')return budgetsV29(b);if(accountingTab==='transfers')return interBuTransfersV29(b)}
 

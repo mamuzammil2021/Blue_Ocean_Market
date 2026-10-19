@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Baseline synthetic screenshots captured"
+  ],
+  "authenticated": true,
+  "production_data_used": false
+}

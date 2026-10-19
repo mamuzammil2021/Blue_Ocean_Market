@@ -24,3 +24,10 @@ uploads/**
 # Local IDE / OS
 .vscode/
 .idea/
+
+# Disposable Python/browser QA dependencies and scratch probes.
+.qa-venv/
+.venv/
+__pycache__/
+*.pyc
+qa/debug_*.py

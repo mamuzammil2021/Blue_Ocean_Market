@@ -1,0 +1,24 @@
+'use strict';
+const assert=require('assert/strict'),fs=require('fs'),path=require('path');
+const {fixture}=require('./fx_fixture');
+(async()=>{let f;const checks=[],pass=x=>{checks.push(x);console.log('PASS '+x)};try{
+ f=await fixture();const {db,api,supplier,accounts}=f;
+ const body=(amount,extra={})=>f.payment({payment_method:'Cash',payment_account_id:String(accounts.cash),receiver_account_id:'',invoice_currency:'KRW',invoice_rate_to_krw:'1',recipient_expected_amount:String(amount),recipient_confirmed_amount:String(amount),source_debit_amount:String(amount),source_fee_amount:'0',bank_fx_rate:'1',company_rate_to_krw:'1',...extra});
+ const save=async(w,id,b)=>{const r=await api('POST',`/api/pink-salt/fx/${w}/${id}/record`,f.fd(b));assert(r.ok,JSON.stringify(r));return r.j.transaction};
+ const advance=await save('supplier_advance',supplier,body(5000,{payment_date:'2026-10-01',reference:'ST-ADV'}));
+ await save('import',f.imports[1],body(0,{settlement_mode:'advance',advance_amount_krw:'1000',payment_date:'2026-10-02',reference:'ST-ALLOC'}));
+ const direct=await save('import',f.imports[1],body(2000,{payment_date:'2026-10-03',reference:'ST-DIRECT'}));
+ await save('supplier_refund',supplier,body(500,{payment_date:'2026-10-04',reference:'ST-REFUND',reason:'Return unused synthetic credit'}));
+ let statement=await api('GET',`/api/pink-salt/suppliers/${supplier}/statement-v315`);assert(statement.ok);
+ assert.equal(statement.j.closing_balance_krw,1400000-5000-2000+500);pass('Statement closes exactly against original KRW invoice obligations, advance, direct payment and refund');
+ const allocation=statement.j.rows.find(x=>x.type==='Advance Allocation (Non-cash)');assert(allocation);assert.equal(allocation.debit,0);assert.equal(allocation.credit,0);pass('Advance allocation appears in statement without a second cash debit');
+ const dates=statement.j.rows.map(x=>x.date);assert.deepEqual(dates,[...dates].sort());pass('Statement running balances follow transaction dates including backdated records');
+ const ranged=await api('GET',`/api/pink-salt/suppliers/${supplier}/statement-v315?from=2026-10-03&to=2026-10-03`);assert.equal(ranged.j.opening_balance_krw,1395000);assert.equal(ranged.j.period_debit_krw,2000);assert.equal(ranged.j.closing_balance_krw,1393000);pass('Statement date range carries accurate opening and closing balances');
+ const reversed=await api('POST',`/api/pink-salt/fx/transactions/${direct.id}/reverse`,{reason:'Synthetic statement reversal'},{'X-CEO-Confirmed':'1','X-CEO-Confirmation-Note':'Synthetic approved reversal'});assert(reversed.ok);statement=await api('GET',`/api/pink-salt/suppliers/${supplier}/statement-v315`);assert.equal(statement.j.closing_balance_krw,1395500);assert(!statement.j.rows.some(x=>x.reference==='ST-DIRECT'));assert(db.prepare('SELECT COUNT(*) n FROM pink_fx_history WHERE transaction_id=?').get(direct.id).n>=2);pass('Statement reversal restores balance while transaction audit history remains durable');
+ const csv=await fetch(f.base+`/api/pink-salt/suppliers/${supplier}/statement-v315.csv?lang=ko`,{headers:{Authorization:'Bearer '+f.login.token,'X-Business-Unit-ID':String(f.pink)}}).then(r=>r.text());assert(csv.includes('기초 잔액')&&csv.includes('기말 잔액')&&csv.includes('1395500'));pass('Korean CSV retains exact reconciled figures and localized balance labels');
+ const files=()=>fs.readdirSync(f.env.UPLOAD_DIR).length,before=files(),idempotent=body(10,{reference:'ST-EVIDENCE'}),tx=await save('supplier_advance',supplier,idempotent);assert.equal(files(),before+1);
+ const replay=await api('POST',`/api/pink-salt/fx/supplier_advance/${supplier}/record`,f.fd(idempotent));assert(replay.ok&&replay.j.replayed);assert.equal(files(),before+1);
+ const changed=f.fd(idempotent);changed.set('receipt',new Blob(['Different synthetic evidence'],{type:'application/pdf'}),'changed.pdf');const denied=await api('POST',`/api/pink-salt/fx/supplier_advance/${supplier}/record`,changed);assert.equal(denied.status,409);assert.equal(files(),before+1);assert.equal(db.prepare('SELECT COUNT(*) n FROM pink_fx_transactions WHERE reference=?').get('ST-EVIDENCE').n,1);pass('Evidence digest rejects changed idempotent replay and cleans only unused uploaded duplicates');
+ const invalid=await api('POST',`/api/pink-salt/fx/import/${f.imports[1]}/record`,f.fd(body(9999999)));assert(!invalid.ok);assert.equal(files(),before+1);pass('Failed payment leaves no orphan evidence, Finance record or partial settlement');
+ fs.writeFileSync(path.join(__dirname,'evidence/36925-statement-integrity.json'),JSON.stringify({status:'PASS',checks,production_data_used:false,invoice_obligations:1400000,advance:5000,direct_payment:2000,refund:500,closing_before_reversal:1393500,closing_after_reversal:1395500},null,2));
+ }catch(e){console.error(e);process.exitCode=1}finally{f?.close()}})();

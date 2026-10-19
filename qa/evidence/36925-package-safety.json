@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "application_version": "30.69.25",
+  "file_count": 778,
+  "excluded": [
+    "production databases and WAL/SHM",
+    "data/",
+    "uploads/",
+    "credentials/.env",
+    "node_modules/",
+    "local environments",
+    "temporary/debug files"
+  ],
+  "screenshots_and_statement_samples": "Generated synthetic QA records only",
+  "archive_prefix": "Blue_Ocean_Market_V30_69_25"
+}

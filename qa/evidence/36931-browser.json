@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Desktop/tablet/mobile category additions keep the button below all blocks, focus and scroll to new fields, preserve values and survive removal",
+    "Authenticated Customs import cost stores the exact company debit and refreshes the same import",
+    "Reference blur detects normalized duplicates with top alert and inline field explanation without losing values",
+    "Resolved reference clears stale errors; missing required reference gets its precise message",
+    "Obsolete duplicate-validation responses cannot restore an error for a newer reference",
+    "Cost row shows authoritative Correction Requested, Finance reason, requester/date and the original-user action",
+    "Original-reference correction prefills Paid From/Paid To and evidence, resubmits once, retains header and remains awaiting Finance",
+    "Finance verification updates the visible cost lock and removes ordinary editing",
+    "Desktop/tablet/mobile cost cards, transaction amounts, KRW totals, statuses and actions fit without horizontal clipping",
+    "New cost layout preserves exact deep URL, browser refresh and Back/Forward",
+    "Slow superseded import navigation never commits the old record over the current destination",
+    "An invalidated in-flight cache response cannot repopulate old data or delete the newer cached result",
+    "A held old server snapshot arriving after a Finance mutation and newer refresh cannot overwrite confirmed correction state",
+    "A mismatched business-unit destination shows only its access state and never the previous import data",
+    "Korean cost statuses/reference errors are translated and removed quote controls stay absent",
+    "Legacy cost details preserve their exact URL and show original account, authorized correction action and Finance reason in Korean",
+    "Historical legacy cost detail exposes complete payment, valuation, evidence and audit sections without changing its URL"
+  ],
+  "console_errors": [],
+  "production_data_used": false,
+  "visuals_inspected_separately": true
+}

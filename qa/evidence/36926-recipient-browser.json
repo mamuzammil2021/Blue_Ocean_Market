@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Cost form has typed recipient, one company source selector and no saved-payee/account controls",
+    "Missing recipient scrolls and focuses the typed name field",
+    "Bank identifier validation highlights its exact field and clears after typing",
+    "Review displays typed payee and account before authenticated save returns to same Import Detail",
+    "Stored bank debit and Finance recipient snapshot match browser entry without master-list growth",
+    "Correction restores typed details and atomically preserves original/replacement recipient history",
+    "Repeated Cash/Bank switches preserve payee name, clear stale accounts and do not duplicate controls/errors",
+    "Authenticated cash Import Cost saves recipient name without bank fields",
+    "Cancel closes without saving or changing Import Detail route",
+    "Typed recipient cross-currency payment recalculates actual debit on rate/fee blur with initially blank FX",
+    "Authenticated USD recipient / KRW source records the shared rate, exact debit, fee and KRW equivalent accurately",
+    "Settlement detail shows stored recipient with masked account number",
+    "Historical registered cost with archived account opens and corrects in typed form without adding a new recipient",
+    "Recipient fields and field-level validation render Korean",
+    "Authenticated recipient workflows have no JavaScript errors"
+  ],
+  "authenticated": true,
+  "production_data_used": false
+}

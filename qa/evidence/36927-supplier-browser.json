@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Supplier advance lists active saved banks across currencies, including historical Bank Transfer labels",
+    "Selecting saved USD receiver sets advance currency, retains eligible KRW source and requires explicit FX",
+    "Authenticated bank supplier advance records exact saved receiver, KRW debit, USD receipt and one Finance movement",
+    "USD invoice shows all saved banks but disables unsupported recipient-currency routes with clear explanation",
+    "Repeated Bank/Cash switching clears supplier selection and errors; Cash hides and disables recipient validation",
+    "Authenticated cash supplier advance succeeds without supplier account or cash reference",
+    "Saved supplier banks render before a delayed company-source account request completes",
+    "Company-source failure leaves supplier bank list usable and still blocks recording without an authorized source",
+    "Reopening payment after Add fetches authoritative current supplier accounts immediately",
+    "Shared receiver-account refresh removes archived banks without duplicate selectors",
+    "Account-currency guidance is Korean and Cash keeps the supplier-account section hidden",
+    "Supplier account loading, Bank/Cash switching and payments produce no JavaScript errors"
+  ],
+  "authenticated": true,
+  "production_data_used": false
+}
