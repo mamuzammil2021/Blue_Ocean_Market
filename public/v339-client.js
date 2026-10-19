@@ -27,19 +27,19 @@ function beginRequest(){active++;if(active===1){clearTimeout(showTimer);showTime
 function endRequest(btn){if(btn)busyButton(btn,false);active=Math.max(0,active-1);if(active===0)hideHost()}
 
 // Covers direct downloads/fetches as well as the shared api() helper.
-const baseFetch=window.fetch.bind(window);window.fetch=async function(){const btn=beginRequest();try{return await baseFetch(...arguments)}finally{endRequest(btn)}};
+const baseFetch=window.fetch.bind(window);window.fetch=async function(){const input=arguments[0],url=typeof input==='string'?input:input?.url||'',quiet=typeof isQuietApiRequest==='function'&&isQuietApiRequest(url),btn=quiet?null:beginRequest();try{return await baseFetch(...arguments)}finally{if(!quiet)endRequest(btn)}};
 
 // Reuse identical in-flight GETs system-wide. This prevents duplicate account/config/list requests
 // when several UI components mount at the same time without introducing stale financial caching.
-const inFlight=new Map(),apiBefore=window.api;
+const inFlight=new Map(),apiBefore=window.api;let readGeneration=0;
 if(typeof apiBefore==='function'){
   const wrappedApi=function(url,opt={}){
     const method=safeText(opt?.method||'GET').toUpperCase();
-    if(method!=='GET'&&method!=='HEAD')return apiBefore.apply(this,arguments);
+    if(!isReadOnlyApiRequest(url,method))return Promise.resolve(apiBefore.apply(this,arguments)).then(v=>{readGeneration++;inFlight.clear();return v});if(method!=='GET'&&method!=='HEAD'||opt.signal)return apiBefore.apply(this,arguments);
     const bu=safeText((typeof selectedUnitId!=='undefined'?selectedUnitId:'')||(typeof me!=='undefined'?me?.business_unit_id:'')),lang=safeText((typeof currentLanguage!=='undefined'?currentLanguage:'ko'));
-    const key=`${method}|${url}|${bu}|${lang}`;
+    const actor=typeof me!=='undefined'?String(me?.id||'')+'|'+String(me?.auth_version||''):'';const routeEpoch=window.BOMRouter?.diagnostics().epoch||0;const key=`${method}|${url}|${bu}|${lang}|${actor}|${routeEpoch}|${readGeneration}`;
     if(inFlight.has(key))return inFlight.get(key);
-    const p=Promise.resolve(apiBefore.apply(this,arguments)).finally(()=>inFlight.delete(key));inFlight.set(key,p);return p;
+    const p=Promise.resolve(apiBefore.apply(this,arguments)).finally(()=>{if(inFlight.get(key)===p)inFlight.delete(key)});inFlight.set(key,p);return p;
   };
   window.api=wrappedApi;try{api=wrappedApi}catch(_){}
 }

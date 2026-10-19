@@ -1,0 +1,23 @@
+{
+  "observed_at_utc": "2026-10-13",
+  "origin": "https://blue-ocean-market.onrender.com",
+  "html_asset_version": "30.69.22",
+  "authenticated_production_transaction_performed": false,
+  "production_database_modified_by_development": false,
+  "finding": "Live client and runtime bytes exactly match obsolete precompressed gzip artifacts. Server prefers any gzip file without source validation; old boot renders Dashboard and replaces the route.",
+  "assets": {
+    "client.js": {
+      "served_sha256": "9dcef9fd62f0116d034d97cff7309e65a30de94f99a3b21e134bfa31db364b1b",
+      "gzip_decoded_sha256": "9dcef9fd62f0116d034d97cff7309e65a30de94f99a3b21e134bfa31db364b1b",
+      "exact_match": true,
+      "matches_v30_69_22_canonical_source": false
+    },
+    "runtime-v30392.js": {
+      "served_sha256": "5b709494c89b25bab98776dc97d77639780a0ef6d353e8794de04f4aaba06ecc",
+      "gzip_decoded_sha256": "5b709494c89b25bab98776dc97d77639780a0ef6d353e8794de04f4aaba06ecc",
+      "exact_match": true,
+      "matches_v30_69_22_canonical_source": false
+    }
+  },
+  "baseline_reproduction": "V30.69.22 static delivery module fails real HTTP stale-gzip assertion; V30.69.23 ignores it and serves canonical bytes."
+}

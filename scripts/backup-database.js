@@ -1,0 +1,4 @@
+'use strict';
+const Database=require('better-sqlite3'),fs=require('fs'),path=require('path');
+const source=process.argv[2]||path.join(process.env.DATA_DIR||path.resolve(__dirname,'../data'),'blue-ocean.sqlite'),destination=process.argv[3];
+if(!destination)throw Error('Usage: node scripts/backup-database.js /absolute/source.sqlite /absolute/backup.sqlite');if(fs.existsSync(destination))throw Error('Backup destination already exists; choose a new filename.');fs.mkdirSync(path.dirname(path.resolve(destination)),{recursive:true});const db=new Database(source,{readonly:true,fileMustExist:true});db.backup(destination).then(()=>{db.close();const check=new Database(destination,{readonly:true,fileMustExist:true});if(check.pragma('integrity_check',{simple:true})!=='ok')throw Error('Backup integrity check failed');check.close();console.log('SQLite backup completed and integrity checked: '+destination)}).catch(e=>{console.error(e.message);process.exitCode=1});

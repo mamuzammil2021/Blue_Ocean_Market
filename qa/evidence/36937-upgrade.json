@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Original .36 application creates an existing purchase, partial/rejected receipt and cash settlement",
+    "Upgrade to .37 preserves 12 complete tables and derives correct statuses without rewriting records",
+    "Repeated .37 startup leaves all existing rows and balances unchanged"
+  ],
+  "baseline": "30.69.36",
+  "tables": [
+    "pink_pack_purchases",
+    "pink_pack_purchase_lines",
+    "pink_pack_receipts",
+    "pink_pack_receipt_lines",
+    "pink_pack_operations",
+    "pink_salt_packaging_items",
+    "pink_salt_packaging_movements",
+    "pink_fx_transactions",
+    "finance_entries",
+    "accounting_journal_entries",
+    "accounting_journal_lines",
+    "approval_rules"
+  ],
+  "production_data_used": false
+}

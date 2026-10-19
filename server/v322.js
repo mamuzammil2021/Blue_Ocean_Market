@@ -86,7 +86,7 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,uploads,secret,acces
     const u=email?db.prepare("SELECT * FROM users WHERE lower(email)=lower(?) AND active=1").get(email):null;
     if(!u||!bcrypt.compareSync(password,u.password_hash)){logLogin(fp.emailHash,fp.ipHash,false,u?.id||null);try{audit(u||null,'auth',u?.id||null,'login_failed',JSON.stringify({email_hash:fp.emailHash.slice(0,16)}))}catch(_){ }return res.status(401).json({error:'Invalid email or password'})}
     logLogin(fp.emailHash,fp.ipHash,true,u.id);
-    const cfg=securitySettings(),mins=Math.max(15,Math.min(Number(cfg.session_timeout_minutes||720),10080)),payload={...publicUser(u),auth_version:Number(u.auth_version||1)},token=jwt.sign(payload,secret,{expiresIn:Math.round(mins*60)});
+    const cfg=securitySettings(),mins=Math.max(15,Math.min(Number(cfg.session_timeout_minutes||720),10080)),payload={...publicUser(u),auth_version:Number(u.auth_version||1),jti:crypto.randomUUID()},token=jwt.sign(payload,secret,{expiresIn:Math.round(mins*60)});
     try{audit(u,'auth',u.id,'login')}catch(_){ }
     res.json({token,user:publicUser(u),session_timeout_minutes:mins});
   });

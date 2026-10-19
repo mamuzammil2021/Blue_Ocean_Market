@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Staff cannot record procurement payment",
+    "User assigned only to another BU cannot access Pink Salt",
+    "Configured approval gate defers all money and settlement writes",
+    "Final independent approval executes exact stored request atomically",
+    "Repeated approval execution is idempotent",
+    "CEO cannot silently correct another original user’s payment",
+    "Original-user correction respects configured approval gate"
+  ]
+}

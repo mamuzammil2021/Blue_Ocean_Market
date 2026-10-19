@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "version": "30.69.32",
+  "mode": "after",
+  "production_data_used": false,
+  "fixture": "Same three supplier invoices and one USD 49,950 bank payment; .31 explicitly supplied valuation 1, .32 confirmed valuation 1000. No production rate inferred.",
+  "statement_rows": 4,
+  "native_amount": 49950,
+  "bank_krw": 49950000,
+  "allocation_krw": 49950000,
+  "fx_difference_krw": 0,
+  "finance_records": 1,
+  "timings": [
+    {
+      "operation": "supplier_statement_json",
+      "ms": 11.702706000000035,
+      "status": 200,
+      "bytes": 1505
+    },
+    {
+      "operation": "supplier_statement_csv",
+      "ms": 4.301368999999795,
+      "status": 200,
+      "bytes": 709
+    },
+    {
+      "operation": "supplier_statement_pdf",
+      "ms": 174.1559659999998,
+      "status": 200,
+      "bytes": 41837
+    },
+    {
+      "operation": "import_metadata_save",
+      "ms": 7.3519280000000435,
+      "status": 200
+    }
+  ]
+}

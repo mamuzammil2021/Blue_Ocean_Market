@@ -1,0 +1,169 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Payment notifications reach assigned Finance verifier and exclude foreign BU / unprivileged staff",
+    "Separate real bank fee has exactly linked verification notification",
+    "Separate fee correction links parent settlement, task and operational record flag",
+    "Fee correction atomically replaces two real debits without duplicating active cash",
+    "Fee correction resolves only when replacement fee passes Finance verification",
+    "Third-party USD Import Cost paid from KRW bank reconciles quote, source debit and realized FX basis",
+    "Shared payee Add/Edit/Default/History preserves immutable historical Finance snapshot",
+    "Shared provider-account Archive preserves existing transactions and audit",
+    "Extreme amounts beyond supported financial precision are rejected",
+    "Historical legacy import costs also expose exact correction flags",
+    "Authorized cost reversal restores unreceived landed valuation and reverses its linked cash movement",
+    "Repeating identical correction request retains one task and notification event"
+  ],
+  "production_data_used": false,
+  "financial_reconciliation": {
+    "transactions": [
+      {
+        "id": 1,
+        "workflow": "import",
+        "record_id": 2,
+        "company_account_id": 4,
+        "company_currency": "KRW",
+        "company_amount": 1000,
+        "invoice_currency": "KRW",
+        "invoice_amount": 1000,
+        "allocation_krw": 1000,
+        "fx_difference_krw": 0,
+        "fee_krw": 0,
+        "finance_entry_id": 1,
+        "correction_of_id": null,
+        "status": "Reversed"
+      },
+      {
+        "id": 2,
+        "workflow": "import",
+        "record_id": 2,
+        "company_account_id": 4,
+        "company_currency": "KRW",
+        "company_amount": 1000,
+        "invoice_currency": "KRW",
+        "invoice_amount": 1000,
+        "allocation_krw": 1000,
+        "fx_difference_krw": 0,
+        "fee_krw": 0,
+        "finance_entry_id": 3,
+        "correction_of_id": 1,
+        "status": "Active"
+      },
+      {
+        "id": 3,
+        "workflow": "import_cost",
+        "record_id": 2,
+        "company_account_id": 4,
+        "company_currency": "KRW",
+        "company_amount": 14000,
+        "invoice_currency": "USD",
+        "invoice_amount": 10,
+        "allocation_krw": 13000,
+        "fx_difference_krw": 1000,
+        "fee_krw": 0,
+        "finance_entry_id": 5,
+        "correction_of_id": null,
+        "status": "Reversed"
+      }
+    ],
+    "finance": [
+      {
+        "id": 1,
+        "source_type": "Pink Salt FX Payment",
+        "source_id": 1,
+        "payment_account_id": 4,
+        "original_currency": "KRW",
+        "original_amount": 1000,
+        "amount": 1000,
+        "status": "Voided",
+        "verification_status": "Pending Verification"
+      },
+      {
+        "id": 2,
+        "source_type": "Pink Salt FX Fee",
+        "source_id": 1,
+        "payment_account_id": 4,
+        "original_currency": "KRW",
+        "original_amount": 100,
+        "amount": 100,
+        "status": "Voided",
+        "verification_status": "Correction Required"
+      },
+      {
+        "id": 3,
+        "source_type": "Pink Salt FX Payment",
+        "source_id": 2,
+        "payment_account_id": 4,
+        "original_currency": "KRW",
+        "original_amount": 1000,
+        "amount": 1000,
+        "status": "Recorded",
+        "verification_status": "Pending Verification"
+      },
+      {
+        "id": 4,
+        "source_type": "Pink Salt FX Fee",
+        "source_id": 2,
+        "payment_account_id": 4,
+        "original_currency": "KRW",
+        "original_amount": 120,
+        "amount": 120,
+        "status": "Recorded",
+        "verification_status": "Verified / Correct"
+      },
+      {
+        "id": 5,
+        "source_type": "Pink Salt FX Payment",
+        "source_id": 3,
+        "payment_account_id": 4,
+        "original_currency": "KRW",
+        "original_amount": 14000,
+        "amount": 14000,
+        "status": "Voided",
+        "verification_status": "Pending Verification"
+      }
+    ],
+    "journals": [
+      {
+        "id": 1,
+        "status": "Cancelled",
+        "source_type": "Finance Entry",
+        "source_id": 1,
+        "debit_krw": 1000,
+        "credit_krw": 1000
+      },
+      {
+        "id": 2,
+        "status": "Cancelled",
+        "source_type": "Finance Entry",
+        "source_id": 2,
+        "debit_krw": 100,
+        "credit_krw": 100
+      },
+      {
+        "id": 3,
+        "status": "Pending Review",
+        "source_type": "Finance Entry",
+        "source_id": 3,
+        "debit_krw": 1000,
+        "credit_krw": 1000
+      },
+      {
+        "id": 4,
+        "status": "Pending Review",
+        "source_type": "Finance Entry",
+        "source_id": 4,
+        "debit_krw": 120,
+        "credit_krw": 120
+      },
+      {
+        "id": 5,
+        "status": "Cancelled",
+        "source_type": "Finance Entry",
+        "source_id": 5,
+        "debit_krw": 14000,
+        "credit_krw": 14000
+      }
+    ]
+  }
+}

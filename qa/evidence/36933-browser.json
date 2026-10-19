@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Finance visibly explains the missing approval and prevents verification while offering the actual approval workflow",
+    "The assigned approval task opens the exact review with native amount, valuation, accounts and full protected source details",
+    "Actual browser approval completes its task, then permits a separate real Finance verification",
+    "Exact company-account details show the native USD debit separately from KRW and survive direct browser refresh",
+    "Native movement summary remains responsive on desktop/tablet/mobile and renders Korean labels",
+    "New authenticated approval and account workflows produce no JavaScript errors"
+  ],
+  "production_data_used": false,
+  "external_emails_sent": false
+}

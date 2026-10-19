@@ -1,0 +1,12 @@
+'use strict';
+// Resume only the affected acceptance suites after a full gate run. Never invent skipped results.
+const fs=require('fs'),path=require('path'),cp=require('child_process'),root=path.resolve(__dirname,'..'),file=path.join(root,'qa/evidence/36931-release.json'),report=JSON.parse(fs.readFileSync(file));
+const reruns=[
+ ['Protected source and Excavator financial-handler integrity',process.env.BOM_PYTHON||'python3',['qa/qa_v36931_source_integrity.py']],
+ ['Pink Salt reference normalization, corrections, concurrency and rollback',process.execPath,['qa/qa_v36931_reference.js']],
+ ['Pink Salt category, cost state, runtime reference and stale-read browser acceptance',process.env.BOM_PYTHON||'python3',['qa/browser_v36931_qa.py']],
+ ['Protected V30.69.30 defect reproduction, migration and restart',process.execPath,['qa/qa_v36931_upgrade.js']]
+];
+if(report.results.length!==40||report.results.some(x=>x.status!=='PASS'&&!reruns.some(y=>y[0]===x.name)))throw Error('A complete prior gate run with only affected-suite failures is required. Run npm run qa:release.');
+for(const [name,cmd,args] of reruns){console.log('RUN '+name);const start=Date.now(),r=cp.spawnSync(cmd,args,{cwd:root,env:{...process.env,BOM_NODE:process.execPath},encoding:'utf8',timeout:180000,maxBuffer:8*1024*1024}),output=(r.stdout||'')+(r.stderr||''),checks=output.split('\n').filter(x=>x.startsWith('PASS ')),item={name,status:r.status===0?'PASS':'FAIL',checks,elapsed_ms:Date.now()-start,final_targeted_rerun:true};const i=report.results.findIndex(x=>x.name===name);if(i<0)throw Error('Missing prior suite: '+name);report.results[i]=item;for(const check of checks)console.log(check);report.status=report.results.every(x=>x.status==='PASS')?'PASS':'FAIL';delete report.error;fs.writeFileSync(file,JSON.stringify(report,null,2));if(r.status!==0){console.error(output);process.exit(1)}}
+report.version=require('../package.json').version;report.production_data_used=false;report.verification_method='Full current gate plus final focused source, financial, browser and upgrade reruns after legacy compatibility and historical lookup refinements.';report.functional_check_count=report.results.reduce((n,x)=>n+(x.checks||[]).length,0);report.suite_count=report.results.length;fs.writeFileSync(file,JSON.stringify(report,null,2));console.log('RELEASE GATE PASS — '+report.functional_check_count+' checks in '+report.suite_count+' suites');

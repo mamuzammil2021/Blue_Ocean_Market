@@ -1,0 +1,6 @@
+'use strict';
+const fs=require('fs'),path=require('path'),crypto=require('crypto'),cp=require('child_process'),assert=require('assert/strict'),root=path.resolve(__dirname,'..'),manifest=require('../server/frontend-manifest.json');
+assert.equal(manifest.version,require('../package.json').version);for(const [file,entry] of Object.entries(manifest.files)){const filename=path.join(root,file.replace(/^\//,''));assert.equal(crypto.createHash('sha256').update(fs.readFileSync(filename)).digest('hex'),typeof entry==='string'?entry:entry.sha256,'Frontend asset hash: '+file)}console.log('PASS Exact frontend release manifest');
+for(const file of ['server/packaging-materials.js','server/packaging-decimal.js','server/pink-fx-engine.js','server/v315.js','server/v300.js','public/packaging-materials.js','public/pink-fx-payment.js','public/runtime-v30392.js','public/route-registry.js']){const r=cp.spawnSync(process.execPath,['--check',file],{cwd:root,encoding:'utf8'});assert.equal(r.status,0,r.stderr)}console.log('PASS Changed source parses');
+for(const file of ['qa/qa_v36936_packaging.js','qa/qa_v36936_regressions.js']){const r=cp.spawnSync(process.execPath,[file],{cwd:root,stdio:'inherit'});if(r.status!==0)process.exit(r.status||1)}
+console.log('PASS V30.69.36 backend and protected regression gate. Run qa:packaging:browser and qa:packaging:upgrade separately.');

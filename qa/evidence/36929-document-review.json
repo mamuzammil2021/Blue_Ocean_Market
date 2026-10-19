@@ -1,0 +1,13 @@
+{
+  "document": "QA POINTS 15 oct.docx",
+  "sha256": "ee2633ab9e7f9cbe5672ac1f410a3a10935a290fa7f3443e3933898054cc653b",
+  "pages_read": 2,
+  "embedded_screenshots_reviewed": 4,
+  "observations": [
+    "Verified FX cost row shows Open without the Finance lock indicator",
+    "Cost uses generic Currency settlement title and unnecessary Correct & Resubmit",
+    "Cash/currency warning appears at bottom rather than the form-wide top alert",
+    "Supplier conversion requires quote reference/source/time and expands those mandatory fields"
+  ],
+  "source_screenshots_included": false
+}

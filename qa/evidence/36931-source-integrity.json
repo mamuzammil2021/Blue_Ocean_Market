@@ -1,0 +1,443 @@
+{
+  "status": "PASS",
+  "baseline": "30.69.30",
+  "baseline_zip_sha256": "613297ef39ed523d7024c90d3267153144bf63c8581571f7b3100ef8881e22eb",
+  "checks": [
+    "Server business logic outside the focused reference validation/import read integration and existing migration source files remain byte-identical to V30.69.30",
+    "Direct deep-route hydration controller and protected native UI modules remain byte-identical to protected V30.69.30",
+    "All six native Excavator money-mutation handler definitions remain byte-identical",
+    "Excavator native financial definitions and shared Finance normalization/write handlers are unchanged; route catalogue adds only legacy cost details"
+  ],
+  "protected_files": [
+    {
+      "file": "server/approval-detail.js",
+      "sha256": "187046cd67e3fcda087ece7a7d269dc565c4364c5a23e103280780bdcca1fa9a"
+    },
+    {
+      "file": "server/async-pdf-v339.js",
+      "sha256": "e003e85537d79a401099529a05680c49c6c39222254b058899228599f9a87cb0"
+    },
+    {
+      "file": "server/cost-lock.js",
+      "sha256": "cfcb804c96718df422ea8feb18d726ffa827ec023695148160e0fe318163065a"
+    },
+    {
+      "file": "server/db.js",
+      "sha256": "cd9e34922aa9d597620c23adaa3d1e9b498026e1f57efbe4cce9a17cfd5c66a5"
+    },
+    {
+      "file": "server/frontend-integrity.js",
+      "sha256": "aa934de9e307e7f0436c46c9da316d30995ba5f9967456d1bddafaa80504cc37"
+    },
+    {
+      "file": "server/numbering-service.js",
+      "sha256": "73114a432f07e40552fb892005b672e70f57d47a3b56645e2c975c6a6dba7af5"
+    },
+    {
+      "file": "server/pagination-v339.js",
+      "sha256": "fe138af8fdc4c1dff0c7959a069d5c1062a94acb84affd28eabd4e021d543ccd"
+    },
+    {
+      "file": "server/pink-cost-recipient.js",
+      "sha256": "51ba7a5be528452873c3722030b36cbf4672399679e0bf73a29cdd8018f30f91"
+    },
+    {
+      "file": "server/pink-cross-currency-contract.js",
+      "sha256": "338389cff6bf3c14fedeac472f78f336fbfbbcd4ba8d5b3adefea48fba0038fb"
+    },
+    {
+      "file": "server/pink-fx-calculation.js",
+      "sha256": "bbb80fe284da0b1997cb31b2c11ce6d3febd71aa3c8cc1bbe7875cc0724c3de4"
+    },
+    {
+      "file": "server/pink-qa21.js",
+      "sha256": "a0a9eeb4de8b5751e70398152fb26e2255ca2fbec7530f274f62961c21b41cb5"
+    },
+    {
+      "file": "server/runtime-storage.js",
+      "sha256": "571d714235df2ecc26be8415117e5d149b9f3a229afcd19c259b9382f0809321"
+    },
+    {
+      "file": "server/upload-integrity.js",
+      "sha256": "fa5ae6f9d81a95bc9807d3df665d369120a5405e4c96bac0efccf12e51184607"
+    },
+    {
+      "file": "server/v290.js",
+      "sha256": "8f4025692e651b79c9d97f50df221136f70fc946373c23c114defe642b06dfe5"
+    },
+    {
+      "file": "server/v302.js",
+      "sha256": "6c8a89d25bc5eca3a776640e78dcbbeb0ef3a959c835bfe4921106b422632b2c"
+    },
+    {
+      "file": "server/v307.js",
+      "sha256": "8961390b21b8b6fe1c930bb6aa9b35b6d69e3302303d637ef7bdc98d4338709d"
+    },
+    {
+      "file": "server/v308.js",
+      "sha256": "4b182fc271615f5857dc6e4ec1fa9dedbae75f771c1c6f65568166cc039ef71e"
+    },
+    {
+      "file": "server/v309-calculations.js",
+      "sha256": "1c9d4eace379e7517c5fa467370c0d013befc91e9b19fa29010a600c0528d590"
+    },
+    {
+      "file": "server/v315.js",
+      "sha256": "3213506cede90a9aef31252c16346448a2a9ee8608b21228d80cde37f1bcc1f0"
+    },
+    {
+      "file": "server/v316.js",
+      "sha256": "01a2e0f42e360f376ef0b31f8ff76d360d3c1c261567cfb727e7202ea08bfbeb"
+    },
+    {
+      "file": "server/v318.js",
+      "sha256": "8a8adc12097a518233ec6f360f3da3189bb96798b2f0c9c8493279d5658200ec"
+    },
+    {
+      "file": "server/v319.js",
+      "sha256": "206c2f8c90a85d8f306737b26ec6c52e7955a6896576d1a992cc753307d7141b"
+    },
+    {
+      "file": "server/v320.js",
+      "sha256": "a69f1b0b62fb773650f6870469533155e5e9fc367e4380f86eed48385c26840e"
+    },
+    {
+      "file": "server/v321.js",
+      "sha256": "c7f1b2656b5402fbb4c4b0c637a5ac5371c185147d672c44eb42054b6a24382b"
+    },
+    {
+      "file": "server/v322.js",
+      "sha256": "eb785f7c5c84340352b6a0bb47a196cd79b264c6a6a75b44caaeb380bd187b3d"
+    },
+    {
+      "file": "server/v3221.js",
+      "sha256": "5190bb9d58ff846e5e4c105983aeb2f598ec70a999a27b07af7c4ddb89df2ebb"
+    },
+    {
+      "file": "server/v3241.js",
+      "sha256": "34b83b476c8334499966efdaa5395142f4c7f93234300357ddb673cd0e254b70"
+    },
+    {
+      "file": "server/v3242.js",
+      "sha256": "0ceb5d4fe05c5a1bd073f21a425b337626eb4a6f4165fc98a796424733278cba"
+    },
+    {
+      "file": "server/v3243.js",
+      "sha256": "47bd1039da0e12cdec4c2c8bbc7458820af72a1347e77e7f1587c7de5b4b2608"
+    },
+    {
+      "file": "server/v325.js",
+      "sha256": "f1e16cfd0609007f872626b1779ae0d43ac5fb3312d7bf99f75ad0e01b2fca2a"
+    },
+    {
+      "file": "server/v3252.js",
+      "sha256": "6745d27c6a17988b2834273231cca164cc0b2fae89392132bdaeb05795ef07c0"
+    },
+    {
+      "file": "server/v326.js",
+      "sha256": "ac2445201f0d9dfae8a6e0005fa0adb3a7a15948528d13907524c75b4ee8ed69"
+    },
+    {
+      "file": "server/v327.js",
+      "sha256": "de5b2a4e031a419845c73e909fc09a6eb315d2ce221c973c43a5e89c87b257a2"
+    },
+    {
+      "file": "server/v330.js",
+      "sha256": "2791adb4437c0ecc9c9610d5f0558d3375197a28eb2afd9f63a5dd0c68f01130"
+    },
+    {
+      "file": "server/v331.js",
+      "sha256": "56d4134dc1e6feee39737ef616f87043e6f8f0e4d037f5bd5c4a860415c58c25"
+    },
+    {
+      "file": "server/v332.js",
+      "sha256": "a70bcbdd259e28af468d00bf4bcc9c502c7aead8f868048e2c8ab2c8dd614fbc"
+    },
+    {
+      "file": "server/v333.js",
+      "sha256": "a5a1ddf1cbad1cdd74af4fa34d30a1087b75ced35e9e0b47578afda1be4b7cc9"
+    },
+    {
+      "file": "server/v334.js",
+      "sha256": "00b08706478e1731f4d3320b37ac1d38f7e92f4897803fd7340749ad76726961"
+    },
+    {
+      "file": "server/v335.js",
+      "sha256": "7346887eb138b8a0676c49a2b63c877181c357fd992e04b1a7cc2e6079ec7e52"
+    },
+    {
+      "file": "server/v336.js",
+      "sha256": "f1046e3a51094b115d9848a22c826d6abfa0728994b48169cb70ee9cd268c034"
+    },
+    {
+      "file": "server/v337.js",
+      "sha256": "3d9aa57c3474b47b04d9dc3d9e6a9e142439fd389c4d4aa48acca83927822e83"
+    },
+    {
+      "file": "server/v338.js",
+      "sha256": "95f7c03175bee5ff61436b9c79e43f013234b8148987d63fb02f14e41a92011e"
+    },
+    {
+      "file": "server/v339-performance.js",
+      "sha256": "af737c34a3d18da03cb5f4ec33f8263963bd81ae05042e0ff71b034c0bbcd592"
+    },
+    {
+      "file": "server/v3391-progressive.js",
+      "sha256": "3a93b7e7fbd62279bcb59b43e5044feda85b81295d3dccd896c0db4884594d13"
+    },
+    {
+      "file": "server/v3392-core.js",
+      "sha256": "c8f654dd19113ceb39cf14d48a52ca75ce288c347f253cd50e81efce92dfae71"
+    },
+    {
+      "file": "server/v341.js",
+      "sha256": "69a41130dd3b934e24919ce68f04ec9efef6c8f2aea03407e0c273ed9c88423a"
+    },
+    {
+      "file": "server/v342.js",
+      "sha256": "9be1b8396a77fcfbb19ae8f1abdac54de4be4f97a761a83f0fd329e9812cbac0"
+    },
+    {
+      "file": "server/v343.js",
+      "sha256": "3aa7eb38a78f8f8840f5db518134671d3291841bbb1d558f397187d03647dbb3"
+    },
+    {
+      "file": "server/v346-performance.js",
+      "sha256": "2dc5b85adc74aa33f6a6337de86b2732d5cce2c1995b8d5cb45b4583c7cf4194"
+    },
+    {
+      "file": "server/v348-notification-feed.js",
+      "sha256": "22057e824978ae2db9cbae275978b6fbab942216749df182bf9b37fb4e214221"
+    },
+    {
+      "file": "server/v348-pink-salt-bulk.js",
+      "sha256": "7f40c64816b3484f81b72f2b16fe9ce4b43e031e1f47755cbd8035d600a7b23e"
+    },
+    {
+      "file": "server/v349-pink-pages.js",
+      "sha256": "9ae6dcaaf5861a90d1f351d96ef2ff27efbe2bfc45a09541e8bc6a6ea69342a9"
+    },
+    {
+      "file": "server/v350-import-pages.js",
+      "sha256": "d328fbb4499bb7356286b8ff8e105f588c06c28e3e6c2cf993ff04ec07591e8f"
+    },
+    {
+      "file": "server/v350-raw-pages.js",
+      "sha256": "29df8ec045a21977d08215f41f33b9924e1020268f5460c13647c0e152b083db"
+    },
+    {
+      "file": "server/v354-finance-integrity.js",
+      "sha256": "761edd60dfb402ea3ad537357a48ee5bcd5c6479dd7deb9829b37ab4d1c6e1ba"
+    },
+    {
+      "file": "server/v356-final-foreign.js",
+      "sha256": "2402404ab1ee262afb5401ceb23cbabc07ed6642a6c27749056825e53b7ead83"
+    },
+    {
+      "file": "server/v356-final-lease.js",
+      "sha256": "352010cf5df9afc35e0895e3c3896e2831bfa044d20837790b7e29d4613ce05f"
+    },
+    {
+      "file": "server/v356-finalization.js",
+      "sha256": "5c609f730302163ae1d8fe83700c64e498534c68dfe8de4db1403ab5608f56ab"
+    },
+    {
+      "file": "server/v356-financing.js",
+      "sha256": "ee2dd6ac3f3875615f05df325558bd741a8c882d4f8d1c17fafadddcac3e7bea"
+    },
+    {
+      "file": "server/v3566-financing-audit.js",
+      "sha256": "b145171772f47a454bdb0fda211fb2ef3f0e74bba94cd9c2db4d53863fb1db54"
+    },
+    {
+      "file": "server/v357-completion.js",
+      "sha256": "408e826f9ff26931c2327da4f048ee92ba3774e5f333aecb69eeeea487f42a26"
+    },
+    {
+      "file": "server/v357-inventory-review.js",
+      "sha256": "77da33c1fe181452146cb89001982db31c3803646be2848a0ac3f9a271000fb1"
+    },
+    {
+      "file": "server/v357-payroll-link.js",
+      "sha256": "488b7d522b14d7a30a37fa7a6b95c3c45f71ced46c95b41876894fcb70cbf26f"
+    },
+    {
+      "file": "server/v357-realworld.js",
+      "sha256": "b3c0425948048bd14b849b90696578cb19e60523e1032f75c2c764dadff8b589"
+    },
+    {
+      "file": "server/v358-control.js",
+      "sha256": "6cfc9249664c516afb2a4a5c67b444666029ad286b168c1ab2a40bb5fc805339"
+    },
+    {
+      "file": "server/v358-management-detail.js",
+      "sha256": "e0cdee486c032227bbb8172242e92bff9d6bd2ebed56d6345e36e9de3c259f5b"
+    },
+    {
+      "file": "server/v358-migration.js",
+      "sha256": "e93e30c216a05c5940a37c558246d89a53c795523b4ab6ced57f398509a3e5a0"
+    },
+    {
+      "file": "server/v358-reports.js",
+      "sha256": "4f649fbe2e6532fa73c087480a453e62c541582a01fe5b56c916524969746754"
+    },
+    {
+      "file": "server/v358-source-reconciliation.js",
+      "sha256": "5ecccabb1d5802982ebac4df1a46da7dd46730f25daf3837e50ebc7a71297001"
+    },
+    {
+      "file": "server/v359-payroll.js",
+      "sha256": "009b544b5b466abfdf4a35c160cc5ccbd92c2d3fd5e211cca040f9d70cdcadd2"
+    },
+    {
+      "file": "server/v360-accounting-controls.js",
+      "sha256": "b18fc187e53c3c5de7b1ae06c9295c7515eab643a8020c231b0153caa6467af6"
+    },
+    {
+      "file": "server/v361-platform-registry.js",
+      "sha256": "96dd6d92065553a1a0dd5b2402de67866dd61397e057eb2aaf817a86f09bbd56"
+    },
+    {
+      "file": "server/v362-collaboration-platform.js",
+      "sha256": "03be51eb4d4a08c830eab9df93c41ed113395e26c08b77c638f2840669e6719c"
+    },
+    {
+      "file": "server/v365-pink-commerce-foundation.js",
+      "sha256": "1c94d665e77017a20e48b9c83437949d835ef00302a4d6091876c0f937cb2626"
+    },
+    {
+      "file": "server/v366-pink-product-master.js",
+      "sha256": "ea86406e7462288bda9ed343c03dae718426f7993184df37504a69dd6c3a9004"
+    },
+    {
+      "file": "server/v367-pink-operational-completion.js",
+      "sha256": "5b38c530f5663ade1eca663080d516e9e29944cd7c55ebb56089da71341a9b8d"
+    },
+    {
+      "file": "server/v368-critical-email.js",
+      "sha256": "4aabf293163195d90c06814e2fed9a1d73c00f401e53e3a945f0ee3c49de0737"
+    },
+    {
+      "file": "server/v369-pink-shared-workflows.js",
+      "sha256": "ed3efcc4c92dfaf7f72b71e4dbc9599074b60d5e4f4ae2d8ad798e2b7c5e46f5"
+    },
+    {
+      "file": "server/v3692-pink-qa.js",
+      "sha256": "1d0df2e329c4c239d85a1af9addef5efe7c7ac13c886121f37b9eb0b5add116c"
+    },
+    {
+      "file": "public/v3693-persistent-routing.js",
+      "sha256": "2d342545efce0208acfbc5f2d29bf702c4e60870ec140750c6e0012988f07045"
+    },
+    {
+      "file": "public/v337-client.js",
+      "sha256": "f286538f3fcc583e34d97235d8dacdb528344b80b3ff50b7211faa8a645839f7"
+    },
+    {
+      "file": "public/v338-client.js",
+      "sha256": "d6100261f9fe0052a430f63bda7f0ac9d792e4351a83f0f4eafcf8c8b78cce09"
+    },
+    {
+      "file": "public/v357-accounting-workspace.js",
+      "sha256": "ee044a8a917d4fbdb9569f84b1024e86f3e8cf21f0ac1ffe338d8cab8147cb47"
+    },
+    {
+      "file": "public/v3591-payroll-ui.js",
+      "sha256": "361e1db4a61a6e513feb8ab9f0ccc93371f5bc6e43712461159ce120fbafcf41"
+    },
+    {
+      "file": "public/v3592-payroll-ui.js",
+      "sha256": "8e423a53df647ac2af323bb0026d67fc2408f4a7474d2255ed1f40dbc950edaa"
+    }
+  ],
+  "excavator_handlers": [
+    {
+      "handler": "saveSimpleExcavatorMachine",
+      "all_native_definitions_identical": true,
+      "sha256": [
+        "454e8a4d23109aa9cd1fda137e949f26494b4076473d744afdea99479e51790f",
+        "befc2a4c07b4274a86ea2c2e6e6d5d2569140fe3a67c0df622bee7d2a659425a"
+      ]
+    },
+    {
+      "handler": "saveExcavatorBuyerPayment",
+      "all_native_definitions_identical": true,
+      "sha256": [
+        "1e655e80bd4b69a284807bf30f37184bcc63cd6d4b964aa48e52705f0b29cce7"
+      ]
+    },
+    {
+      "handler": "saveExcavatorBuyerRefund",
+      "all_native_definitions_identical": true,
+      "sha256": [
+        "49773c78de79e7d4733e9e6216d7d065fb898f0b5dd111751d6976115f9e899a"
+      ]
+    },
+    {
+      "handler": "saveSimpleExcavatorCost",
+      "all_native_definitions_identical": true,
+      "sha256": [
+        "3417d31a621adfd7eaa56d7f6425a620ddd30494b5410f11e911eab6299867c3",
+        "408691fbd36f611503ec8ce08088094cec6f19af74569fcb640de60f654b44b9"
+      ]
+    },
+    {
+      "handler": "completeExcavatorSale",
+      "all_native_definitions_identical": true,
+      "sha256": [
+        "bb72935393b0b4a72b4dc6def71a3e81cc38be935e7191680f02c4784d45e246",
+        "bb72935393b0b4a72b4dc6def71a3e81cc38be935e7191680f02c4784d45e246"
+      ]
+    },
+    {
+      "handler": "saveExcavatorPayment",
+      "all_native_definitions_identical": true,
+      "sha256": [
+        "f403354c1ceba3af6617cd6180be688096f4cf61c64013c09ccc5890a7428222",
+        "d34048d62fa014203eb6f0cb55d0731185a1d41a804e5b85079c9b62ae34149c"
+      ]
+    }
+  ],
+  "changed_baseline_files": [
+    "CHANGELOG.md",
+    "GIT_READY_README.md",
+    "package-lock.json",
+    "package.json",
+    "public/bom-payment-rules.js",
+    "public/client.js",
+    "public/index.html",
+    "public/pink-fx-payment.js",
+    "public/route-registry.js",
+    "public/runtime-v30392.js",
+    "public/v314-client.js",
+    "public/v333-client.js",
+    "public/v3382-client.js",
+    "public/v339-client.js",
+    "public/v3391-client.js",
+    "public/v363-dialog-processing.js",
+    "qa/browser_v36926_qa14.py",
+    "qa/browser_v36929_qa15.py",
+    "qa/browser_v36930_shared_rate.py",
+    "qa/evidence/36920-fx-integration.json",
+    "qa/evidence/36921-receive-locked.png",
+    "qa/evidence/36922-routing-browser.json",
+    "qa/evidence/36928-hydration-browser.json",
+    "qa/evidence/36928-lifecycle-browser.json",
+    "qa/evidence/statement-samples/supplier-en-after.pdf",
+    "qa/evidence/statement-samples/supplier-en-before.pdf",
+    "qa/evidence/statement-samples/supplier-en-cached.pdf",
+    "qa/evidence/statement-samples/supplier-ko-before.pdf",
+    "qa/fx_fixture.js",
+    "qa/qa_v36920_workflows.js",
+    "server/frontend-manifest.json",
+    "server/pink-fx-engine.js",
+    "server/pink-fx-errors.js",
+    "server/server.js",
+    "server/v284.js",
+    "server/v300.js",
+    "server/v305.js",
+    "server/v310.js",
+    "server/v313.js"
+  ],
+  "production_data_used": false
+}

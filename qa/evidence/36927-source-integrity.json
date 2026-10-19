@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "version": "30.69.27",
+  "baseline": "30.69.26",
+  "application_source_sha256": "2b414ee58f939b8056d5e6e2303a5ddcb487662bf87fe7df7cbdde59ea77dda1",
+  "changed_application_files": [
+    "public/pink-fx-payment.js",
+    "server/frontend-manifest.json",
+    "server/pink-fx-engine.js"
+  ],
+  "unchanged_native_and_excavator_files": {
+    "server/server.js": "45bd5101d6bc323d7f70a5c90d1a0fd9acb55bf6a27cdd8f0046cf781d9be0f9",
+    "public/runtime-v30392.js": "ed88a4f6d1d9b5e48455063e6a913845bac6aaeaf97cd0406d0986b0ffc67c2e",
+    "public/client.js": "0bf54d6d17ffd7dfdad36d8e177ab4d72005abb31a3b2b25035dac55e4ed7ca9"
+  },
+  "frontend_manifest_entries": 105,
+  "functional_checks": 508,
+  "suites": 28,
+  "javascript_syntax_checks": 190
+}

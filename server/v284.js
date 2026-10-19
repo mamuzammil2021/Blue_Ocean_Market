@@ -57,6 +57,10 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer}){
   function mutationIdempotency(req,res,next){
     const method=String(req.method||'GET').toUpperCase();
     if(!['POST','PUT','PATCH','DELETE'].includes(method) || String(req.originalUrl||'').startsWith('/api/auth/'))return next();
+    // These payment controllers own payload/evidence-aware durable idempotency after multipart parsing.
+    if(method==='PUT'&&/^\/api\/pink-salt\/suppliers\/\d+\/advances\/\d+\/edit-v307$/.test(String(req.originalUrl||'').split('?')[0]))return next();
+    if(/^(POST|PUT)$/.test(method)&&/^\/api\/pink-salt\/imports\/\d+\/(?:receive|manage-v310)$/.test(String(req.originalUrl||'').split('?')[0]))return next();
+    if(method==='POST'&&/^\/api\/pink-salt\/(?:fx\/[^/]+\/\d+\/record|imports\/\d+\/(?:payments|costs)|orders\/\d+\/(?:payments|refunds)|suppliers\/\d+\/(?:advances|advance-refunds)|customers\/\d+\/receipts-v313)$/.test(String(req.originalUrl||'').split('?')[0]))return next();
     const key=String(req.headers['x-idempotency-key']||'').trim().slice(0,180);
     const fingerprint=String(req.headers['x-request-fingerprint']||'').trim().slice(0,180);
     if(!key&&!fingerprint)return next();
