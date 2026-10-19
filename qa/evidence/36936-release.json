@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "version": "30.69.36",
+  "baseline": "30.69.33",
+  "baseline_sha256": "a15de0392ca38fe0f920796453e48dccc4781c77cfe8fb37b0d9e8e17d6fa0c3",
+  "release_command": "node qa/qa_v36936_release_gate.js",
+  "release_exit_code": 0,
+  "results": {
+    "packaging-server": {
+      "status": "PASS",
+      "groups": 25
+    },
+    "packaging-browser": {
+      "status": "PASS",
+      "groups": 16
+    },
+    "upgrade": {
+      "status": "PASS",
+      "groups": 4
+    },
+    "regressions": {
+      "status": "PASS",
+      "groups": 19
+    }
+  },
+  "source_sha256": {
+    "server/packaging-materials.js": "0547611ff8ce53c517ec7e2570e20670c8749174af886da21b78f0ce61dd9fe8",
+    "server/pink-fx-engine.js": "d95daf569b99be5204663ba2d4cfb3aacc2fcbf4f32e9599be7dbb00d91e8d2b",
+    "server/pink-fx-calculation.js": "f9447969a68f51fd2fb0e925a7e9fa6d597f670868ee2fe1630fc5aa23c338cc",
+    "server/v300.js": "b1b280fde732853e5c2837e818b0eef59a5491e1fabf35d89bda019132729dae",
+    "server/v315.js": "9ca47403de7305886cfc586f525c5ee2808c822ff44962b119d6dd62fe585119",
+    "public/packaging-materials.js": "b9274d233d568dd17e15050c043cd8ca679bacdb04e3652b3160e517f81e026a",
+    "public/pink-fx-payment.js": "ae2f3cc1ec5694bff336a0f41b4905c18c568410b96755f786eeb198d619e684",
+    "public/pink-fx-calculation.js": "796d4cc6de4605ccc3728ea2b6d21e6fd3f3a8208c65532ec8b1a5712cdb3695",
+    "public/runtime-v30392.js": "8e23ca59ca01140da64f51d71e81d22fc641deae9c56cc525404320f1cd5d7fe",
+    "public/route-registry.js": "b34b689f6ce3e2522d4bb83bc9d1d3427e08be63843cff6ab3458cb17d7bfc44"
+  },
+  "production_data_used": false,
+  "live_render_deployment": false,
+  "smtp_delivery": "Isolated spy; no external emails",
+  "pdf_runtime": "Playwright Chromium print adapter",
+  "cjk_glyph_review": "Required on staging; local QA host has no CJK fonts"
+}

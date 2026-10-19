@@ -1,0 +1,10 @@
+{
+  "version": "30.69.24",
+  "status": "STAGING_CANDIDATE",
+  "automated_gate": "PASS",
+  "automated_behavioral_assertions": 364,
+  "syntax_gate": "PASS",
+  "production_deployment_performed": false,
+  "production_data_used": false,
+  "remaining": "Production/staging acceptance and inherited exhaustive workflow/PDF/role-policy checks documented in release notes."
+}

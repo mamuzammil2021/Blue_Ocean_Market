@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "baseline_commit": "c1138fc",
+  "tables_compared": [
+    "pink_salt_suppliers",
+    "counterparty_payment_accounts",
+    "pink_salt_packaging_items",
+    "pink_salt_packaging_movements",
+    "pink_salt_supplier_advances",
+    "pink_salt_supplier_packaging_allocations",
+    "pink_salt_supplier_advance_allocations",
+    "pink_salt_import_payments",
+    "pink_salt_production_packaging",
+    "pink_salt_bom_lines",
+    "pink_fx_transactions",
+    "finance_entries",
+    "accounting_journal_entries",
+    "accounting_journal_lines"
+  ],
+  "original_stock_quantity": 100,
+  "legacy_payable_krw": 500,
+  "legacy_advance_allocation_krw": 40,
+  "protected_native_usd_debit": 10,
+  "checks": [
+    "SQLite online backup passes integrity check and read-only reconciliation tooling runs on the original .33 database",
+    "Original V30.69.33 server seeds legacy supplier receipt/allocation and a verified, posted USD bank payment",
+    "Additive .36 upgrade preserves all original IDs, fields, allocations, posted journals, stock, supplier balances and statement totals",
+    "Repeated .36 startup preserves all original financial/stock fields and supplier balances without duplicate documents"
+  ],
+  "production_data_used": false
+}

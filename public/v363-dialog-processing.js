@@ -86,6 +86,7 @@
   }
   enhanceDialogs(document);
 
+  const authStyle=document.createElement('style');authStyle.textContent='body.bom-awaiting-authorization #processingRoot{visibility:hidden!important;pointer-events:none!important}';document.head.appendChild(authStyle);
   let recentAction=null,active=0,ownOverlay=null,suppressed=[];const inertState=new Map();
   function eligibleAction(btn){
     if(!btn||btn.disabled)return null;const text=String(btn.dataset?.processingLabel||btn.dataset?.bomActionLabel||btn.textContent||'').replace(/\s+/g,' ').trim();
@@ -97,6 +98,7 @@
   function isSeriousMutation(url,opt={}){
     const method=String(opt.method||url?.method||'GET').toUpperCase();if(['GET','HEAD','OPTIONS'].includes(method))return false;
     const u=String(typeof url==='string'?url:url?.url||'');
+    if(typeof isReadOnlyApiRequest==='function'&&isReadOnlyApiRequest(u,method))return false;
     if(/\/api\/auth\//i.test(u)||/\/api\/notifications(?:\/|$)/i.test(u)||/\/api\/me\/language(?:\?|$)/i.test(u))return false;
     return /\/api\//i.test(u)||method==='DELETE';
   }

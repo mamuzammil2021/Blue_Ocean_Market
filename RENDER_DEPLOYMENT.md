@@ -1,3 +1,19 @@
+# Current release: V30.69.36 — Simple Packaging Materials
+
+Read [START_HERE_V30_69_36.md](START_HERE_V30_69_36.md). Baseline: protected V30.69.33. Source, QA, new-branch Git steps and additive migration/rollback notes are included. Earlier release notes below are historical.
+
+---
+
+# Current V30.69.29 deployment instructions
+
+Use docs/releases/v30.69.29/RENDER_DEPLOYMENT_ROLLBACK.md. Keep the existing production database, persistent disk and uploads. The older deployment notes below are historical.
+
+---
+
+# Current V30.69.28 deployment instructions
+
+Use docs/releases/v30.69.28/RENDER_DEPLOYMENT_ROLLBACK.md. Keep the existing persistent storage and production records. Historical deployment notes below may refer to older identities.
+
 ## V30.51.0 — Safe read-view code splitting
 
 Do not reset or overwrite existing Render persistent disk `/var/data`. Use Node 22; `npm ci`; `npm run qa:release`; `npm run qa:v351:browser`; confirm health `30.51.0`. Verify direct first-use Pink Salt list, shipment, raw-stock access and fallback, same-unit and cross-unit navigation, EN/KO, business permissions, cash/advance/stock workflows, and accounting journal tab. Measure 1/3/5/10 real users on staging before production acceptance; existing static tests are not live acceptance. Retain V30.50.0 rollback source.

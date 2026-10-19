@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "version": "30.69.26",
+  "production_data_included": false,
+  "excluded": [
+    "secrets/.env",
+    "runtime databases and WAL/SHM",
+    "private uploads",
+    "node_modules",
+    "virtualenvs",
+    "temporary inspection screenshots",
+    "debug scripts/logs"
+  ],
+  "files_before_package_report": 799,
+  "functional_checks": 484,
+  "application_source_sha256": "d5870bcbc9121beed5aa68373b0a0eec2080add9b24c670b2595c47e20100a6a"
+}

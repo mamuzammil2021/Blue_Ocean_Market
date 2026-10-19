@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "version": "30.69.29",
+  "protected_baseline": "30.69.28",
+  "production_database_included": false,
+  "credentials_or_env_included": false,
+  "node_modules_included": false,
+  "private_uploads_included": false,
+  "provided_qa_screenshots_included": false,
+  "excluded_files": [
+    "qa/__pycache__/browser_v36920_fx.cpython-312.pyc",
+    "qa/__pycache__/browser_v36927_supplier_accounts.cpython-312.pyc"
+  ]
+}

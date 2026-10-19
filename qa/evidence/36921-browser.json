@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Missing customer/product highlighted beside specific fields and form data retained",
+    "Multi-product quantities, discount, delivery and expense fee produce correct live totals before settlement",
+    "Responsive order lines and footer remain within workspace at four desktop/compact widths",
+    "Partial receipt continuation labels actual company receiving account correctly",
+    "Actual partial receipt creates one exact-account Finance movement and leaves correct outstanding balance",
+    "Subsequent receipt fully settles order with exactly two real movements",
+    "Blue selected customer-account tab is readable and survives nested detail refresh",
+    "Unpaid shipment visibly locked with one contextual reason",
+    "Browser receiving lock changes only after full settlement and Finance verification",
+    "Payment reversal visibly restores receiving lock",
+    "Authenticated customer Archive and Restore actions preserve historical orders and balances",
+    "Authenticated production metadata edit records reason and preserves quantities",
+    "Authenticated production Void reviews consequences and creates durable reversal",
+    "New summary, settlement choices and validation interface render Korean"
+  ],
+  "authenticated": true,
+  "production_data_used": false
+}
