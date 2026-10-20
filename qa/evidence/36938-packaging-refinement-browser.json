@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Desktop toolbar search/filter/primary controls are compact and aligned instead of stretched",
+    "Material list exposes Open/Edit/Archive/Delete and archive/reactivation works directly on the filtered list",
+    "Normal purchase completes in one Review & Confirm with no second purchase-approval step",
+    "Purchase list displays live receiving/payment/outstanding information and visible allowed actions without an unnecessary approval label",
+    "Receiving checkbox stays beside its label, line balances are clear, and an unpaid partial receipt updates the list accurately",
+    "Used material hides Delete; unused material deletes through review while preserving used history",
+    "Compact toolbar/material actions remain responsive at 390px and render Korean labels",
+    "No uncaught browser JavaScript errors"
+  ],
+  "errors": [],
+  "toolbar_dimensions": [
+    {
+      "width": 397.890625,
+      "height": 38,
+      "bottom": 412.203125
+    },
+    {
+      "width": 74.109375,
+      "height": 38,
+      "bottom": 412.203125
+    },
+    {
+      "width": 114.4375,
+      "height": 38,
+      "bottom": 412.203125
+    }
+  ],
+  "checkbox_alignment": {
+    "width": 18,
+    "height": 18,
+    "gap": 8,
+    "dy": 0
+  },
+  "browser": "153.0.8010.0",
+  "production_data_used": false,
+  "run_version": "30.69.38"
+}

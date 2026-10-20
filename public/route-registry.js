@@ -20,7 +20,8 @@ record('psImports','fx',['psFxTransactionDetail']);record('psSales','fx',['psFxT
 record('psSales','order',['psOrderDetail313','psOrderDetail']);
 record('psSales','new',['psSaleForm313'],null,{noId:true,temporary:true});
 record('psCustomers','customer',['psCustomerAccount313'],{open:['psAccountTab313'],dom:true,defaults:'orders',values:['orders','receipts','prices','adjust']},{handlesSection:true});
-record('psProduction','batch',['psProductionDetail']);
+record('psProduction','batch',['psProductionDetail'],null,{parent:{view:'psProduction'}});
+record('psProduction','new',['psProductionForm'],null,{noId:true,parent:{view:'psProduction'}});
 record('finance','record',['financeOpen']);record('finance','correction',['financeCorrectionOpen']);
 const userAccessNative340=window.userAccessOpen;window.BOMUserRoutes340={open:id=>userAccessNative340(id,window.BOMRouter.parse().section||'summary',Number(window.BOMRouter.parse().params.get('scope')||0)),section:(id,key)=>userAccessNative340(id,key,Number(window.BOMRouter.parse().params.get('scope')||0))};
 record('users','access',['BOMUserRoutes340.open'],{open:['BOMUserRoutes340.section'],arg:1,defaults:'summary',values:['summary','profiles','groups','scope','authority','advanced','history']},{legacy:['userAccessOpen'],handlesSection:true,scopeArgument:2});
@@ -33,9 +34,11 @@ record('profile','',[],{open:['setMyAccountSectionV3592'],arg:0,defaults:'overvi
 record('payroll','',[],{open:['payrollWorkspaceSectionV3591'],arg:0,defaults:'employees',values:['overview','employees','runs','advances']},{handlesSection:true});
 record('accounting','',[],{open:['accountingV305Tab','accountingSimpleTabV291','accountingTabV29','v357AccountingOpen'],arg:0,accounting:true});
 record('accounting','account',['v343OpenAccount'],null,{mode:'simple'});
-record('psFinished','lots',['psLotsV367'],null,{noId:true});
+record('psFinished','lots',['psLotsV367'],null,{noId:true,parent:{view:'psFinished'}});
+record('psFinished','lot',['psLotDetail38'],null,{parent:{view:'psFinished',kind:'lots'}});
 record('psSales','trace',['psOrderLotTraceV367']);
-record('psFinished','families',['psFamiliesV367'],null,{noId:true});
+record('psFinished','families',['psFamiliesV367'],null,{noId:true,parent:{view:'psFinished'}});
+record('psFinished','family',['psFamilyDetail38'],null,{parent:{view:'psFinished',kind:'families'}});
 record('accounting','journal',['journalDetailV29'],null,{temporary:true});
 record('accounting','posting',['postingOpenV318'],null,{temporary:true});
 // Bank statement upload is a temporary mutation modal, never an addressable read route.

@@ -1,0 +1,1295 @@
+diff --git a/GIT_READY_README.md b/GIT_READY_README.md
+index 11fdf71..4694cf0 100644
+--- a/GIT_READY_README.md
++++ b/GIT_READY_README.md
+@@ -1,3 +1,9 @@
++# Current release: V30.69.38
++
++See [START_HERE_V30_69_38.md](START_HERE_V30_69_38.md) for the current build, QA, Git and deployment instructions. Earlier release sections below are historical.
++
++---
++
+ # Current release: V30.69.37 — Packaging UI refinement
+ 
+ Read [START_HERE_V30_69_37.md](START_HERE_V30_69_37.md). Built on verified V30.69.36; compact controls, visible actions, live summaries and simplified normal purchase creation. Earlier releases below are historical.
+diff --git a/README.md b/README.md
+index 1b6b627..edfbaa5 100644
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,9 @@
++# Current release: V30.69.38
++
++See [START_HERE_V30_69_38.md](START_HERE_V30_69_38.md) for the current build, QA, Git and deployment instructions. Earlier release sections below are historical.
++
++---
++
+ # Current release: V30.69.37 — Packaging UI refinement
+ 
+ Read [START_HERE_V30_69_37.md](START_HERE_V30_69_37.md). Built on verified V30.69.36; compact controls, visible actions, live summaries and simplified normal purchase creation. Earlier releases below are historical.
+diff --git a/RELEASE_MANIFEST.md b/RELEASE_MANIFEST.md
+index 855ab65..2d92920 100644
+--- a/RELEASE_MANIFEST.md
++++ b/RELEASE_MANIFEST.md
+@@ -1,3 +1,9 @@
++# Current release: V30.69.38
++
++See [START_HERE_V30_69_38.md](START_HERE_V30_69_38.md) for the current build, QA, Git and deployment instructions. Earlier release sections below are historical.
++
++---
++
+ # Current release: V30.69.37 — Packaging UI refinement
+ 
+ Read [START_HERE_V30_69_37.md](START_HERE_V30_69_37.md). Built on verified V30.69.36; compact controls, visible actions, live summaries and simplified normal purchase creation. Earlier releases below are historical.
+diff --git a/RENDER_DEPLOYMENT.md b/RENDER_DEPLOYMENT.md
+index 91e0981..6cd5963 100644
+--- a/RENDER_DEPLOYMENT.md
++++ b/RENDER_DEPLOYMENT.md
+@@ -1,3 +1,9 @@
++# Current release: V30.69.38
++
++See [START_HERE_V30_69_38.md](START_HERE_V30_69_38.md) for the current build, QA, Git and deployment instructions. Earlier release sections below are historical.
++
++---
++
+ # Current release: V30.69.37 — Packaging UI refinement
+ 
+ Read [START_HERE_V30_69_37.md](START_HERE_V30_69_37.md). Built on verified V30.69.36; compact controls, visible actions, live summaries and simplified normal purchase creation. Earlier releases below are historical.
+diff --git a/START_HERE_V30_69_38.md b/START_HERE_V30_69_38.md
+new file mode 100644
+index 0000000..ce35f1a
+--- /dev/null
++++ b/START_HERE_V30_69_38.md
+@@ -0,0 +1,10 @@
++# Blue Ocean Market V30.69.38
++
++Complete source based on protected V30.69.37, with Packaging sidebar polish, Production navigation, visible actions, product content language preferences and full-screen Families/Lots pages.
++
++- Read `V30_69_38_IMPLEMENTATION_AND_QA.md` for changes, executed evidence and limitations.
++- Follow `V30_69_38_MAC_GIT_NEW_BRANCH.md` to push a new branch without changing main.
++- Follow `V30_69_38_DEPLOYMENT_NOTES.md` before Render testing.
++- `package.json` must report `30.69.38`.
++- Keep database/uploads/persistent disk and back them up before upgrade.
++- The optional .37-to-.38 patch applies only to a matching .37 checkout. Use the complete ZIP for an older main; do not apply the patch after copying the full source.
+diff --git a/V30_69_38_DEPLOYMENT_NOTES.md b/V30_69_38_DEPLOYMENT_NOTES.md
+new file mode 100644
+index 0000000..969277b
+--- /dev/null
++++ b/V30_69_38_DEPLOYMENT_NOTES.md
+@@ -0,0 +1,42 @@
++# V30.69.38 deployment and rollback
++
++Use the complete source ZIP. Prerequisites: Node 22, locked dependencies (`npm ci`), current environment configuration, existing SQLite database path and persistent uploads. Keep all existing financial/SMTP/JWT settings. Do not change or reset the Render persistent disk.
++
++1. Pause business writes and back up the actual database and uploads. Use the existing backup script, not a raw copy of an actively written SQLite database:
++
++```bash
++node scripts/backup-database.js /absolute/data/blue-ocean.sqlite /absolute/backups/before-v306938.sqlite
++node scripts/packaging-reconcile.js /absolute/data/blue-ocean.sqlite > /absolute/backups/before-v306938.json
++```
++
++2. Deploy the new feature branch to your testing service. Keep the existing DATA_DIR, UPLOAD_DIR, database path, secrets, build/start commands and disk mount. Install with `npm ci`; run the existing `npm start` command.
++3. Startup adds `content_language` and `commerce_language` to the existing product table if absent. This uses the established schema-check/ALTER mechanism; do not run a separate destructive migration. Restart is safe.
++4. Confirm `/api/health` reports `30.69.38`. Before allowing writes, take another packaging reconciliation snapshot; compare quantities, supplier advances, original record-field hashes and foreign keys. The migration adds product preferences; it must not change money or stock balances.
++5. Test the sidebar arrow/alignment; New Production Cancel/Back/Save; batch detail refresh and browser history; visible list actions; English/Korean/Both product creation and switching; preferred commerce fallback; Families/Lots list/detail/short edits, filters, paging and mobile/EN/KR behavior. Confirm existing supplier payments, Imports, receiving, Finance and Posting Control remain operational.
++
++QA on disposable fixtures:
++
++```bash
++npm run qa:release
++npm run qa:product:ux
++```
++
++Browser QA needs Playwright plus Chromium:
++
++```bash
++npm install --no-save --package-lock=false playwright
++BOM_CHROMIUM=/absolute/path/to/chromium npm run qa:product:browser
++BOM_CHROMIUM=/absolute/path/to/chromium npm run qa:packaging:browser
++```
++
++Upgrade QA needs the original complete .37 source in a separate folder:
++
++```bash
++BOM_BASELINE_DIR=/absolute/path/to/Blue_Ocean_Market_V30_69_37 npm run qa:upgrade
++```
++
++PDF regression QA uses the existing CHROME_PATH runtime. Browser QA is not part of the backend release gate and must be run separately.
++
++Rollback: stop writes and preserve the current database/uploads first. Before any new business activity, the pre-upgrade database, uploads/configuration and .37 source are the verified rollback point. After new activity, do not restore an old backup and lose records; reconcile subsequent operations and prefer a forward correction. Leave the additive columns in place; no destructive down-migration is supplied. Running .37 code against the upgraded database can overwrite missing English content during its old startup backfill, so use the consistent pre-upgrade backup for a full rollback or an authorized forward fix.
++
++No live Render deployment or production reconciliation was performed during development.
+diff --git a/V30_69_38_IMPLEMENTATION_AND_QA.md b/V30_69_38_IMPLEMENTATION_AND_QA.md
+new file mode 100644
+index 0000000..f6ad552
+--- /dev/null
++++ b/V30_69_38_IMPLEMENTATION_AND_QA.md
+@@ -0,0 +1,64 @@
++# Blue Ocean Market V30.69.38 — Production and Product Master refinement
++
++## Baseline
++
++Built on the latest complete protected source found in Library: `Blue_Ocean_Market_V30_69_37_PACKAGING_UI_REFINEMENT_GIT_READY.zip`, SHA256 `cfe029c182ea44890d7e801618dcc7b67d5bda7babc69080c0f0db9c6b49b2fd`. Source commit `391922d` was clean. Work is isolated on `feature/v30.69.38-production-product-ui`. The protected .37 source and ZIP are preserved. No remote branch, main branch or Render service was changed.
++
++## Implemented
++
++- Packaging Materials sidebar now follows the platform icon/label/hover/active styling. The disclosure arrow sits after the label at the far right. Keyboard focus, expand/collapse and the existing three submenu destinations remain supported.
++- New Repacking Batch has its own persistent `#psProduction/new` route. Explicit page Back, application Back, Cancel and successful completion return to Production, preserving safe generic list filters where available. Batch detail Back uses the same explicit parent. Browser Back/Forward and refresh use the existing sole route controller. Dirty Production/Product pages prompt before discarding; validation errors retain inputs.
++- Production Batch and Product Master list actions are always visible, with a sticky right-hand action column on desktop and wrapped record cards on phones. Actions respect permissions; voided batch actions are disabled with a localized reason. Existing stock-dependent product archive/delete controls remain intact.
++- Finished product creation/editing offers English only, Korean only, or Both. Only relevant language fields show; SKU, packaging, prices, stock settings and other shared fields remain visible. Switching never erases hidden language values. Existing products infer their initial choice until explicitly saved.
++- Each product stores an independent preferred commerce content language: automatic available content, English or Korean. Existing commerce APIs supply `display_content`, using the preferred language per field and falling back to the other language. Commerce screens consume the resolved name. This does not change the app interface language or introduce a storefront/channel connector.
++- Product Families and Lots & Expiry are populated full-screen pages with compact search/filter controls, default-25 server paging, useful empty states and visible actions. Neither opens a modal on entry. Family/lot details have their own routes; details and lists restore directly on refresh.
++- Family details show linked variants and retained EN/KR descriptions. Families support short add/edit dialogs, archive/reactivate, and deletion only without linked products or image records. Historical product-family relationships survive archiving.
++- Lot details show quantities, allocation/available balance, expiry, quality, location and linked Production batch where present. Short metadata edits preserve stock quantities and validate the location in the same BU. Closing/cancelling a short dialog leaves its backing page visible.
++
++## Reused services and corrections
++
++Inspected the shared platform/entity registry and route catalogue before editing. Reused `BOMRoutes`, `BOMRouter`, the Imports filter/table/pager conventions, existing modal/Review & Confirm and root processing layer, native product/BOM transactions, family and lot services, and existing Production execution/Accounting/stock services.
++
++The routing defect was caused by New Production having no registered child destination and a generic workflow close falling back to `history.state.previousRoute`. Explicit parent metadata now resolves the return destination. Existing unrelated route-close behavior is preserved.
++
++The blank Families/Lots backing page was caused by addressable read routes calling `modal()`. Their renderers now populate the page directly. Only short editors use dialogs; successful edits refresh the active list/detail. Saving a linked product variant retains its Family Details context. Read-only filters opt out of dirty-form tracking, and full-screen read pages retain the existing workflow marker so background synchronization cannot replace them with a parent list.
++
++Product family/variant selections now persist inside the existing product transaction. An invalid family rolls back the entire product/BOM save. Content preferences and their before/after values are included in the existing product audit. The shared action-permission gate now recognizes the touched versioned family/lot endpoints, preventing view-only users from mutating records.
++
++New source components: `public/pink-product-ux.js`, its scoped stylesheet, and `server/product-content.js` (normalization/fallback integrated into existing services). No separate supplier, payment, approval, inventory, production or accounting engine was created.
++
++## Database upgrade
++
++Two additive nullable/defaulted product columns are installed through the existing retry-safe `addCol` mechanism:
++
++- `pink_salt_products.content_language TEXT DEFAULT NULL`: null preserves the legacy/inferred preference until a user saves a choice.
++- `pink_salt_products.commerce_language TEXT DEFAULT 'auto'`.
++
++Existing IDs, names and translated content are retained. Korean-only products are excluded from the older startup routine that fills a missing English name from the generic operational name. Generic `name` remains a compatibility display name derived from the selected content; absent translations are not fabricated.
++
++No stock movements, supplier allocations, Finance payments or Accounting journals are generated by this new migration. The .37-to-.38 fixture upgrade compares all original columns in 15 protected tables across two startups, plus a Korean-only product restart check. See the machine-readable evidence and deployment notes.
++
++## Executed QA
++
++Final results and exact counts are recorded below at packaging time. All execution uses authenticated real application servers and isolated fixture databases; browser tests use Chromium/Playwright. No production records are used.
++
++| Suite | Executed result | Evidence |
++| --- | --- | --- |
++| New Product/Production API | PASS — 11 groups | `qa/evidence/36938-product-api.json` |
++| New Product/Production browser | PASS — 17 groups | `qa/evidence/36938-product-browser.json` |
++| Packaging API | PASS — 25 groups | `qa/evidence/36938-core-api.json` |
++| Packaging refinement API | PASS — 8 groups | `qa/evidence/36938-packaging-refinement-api.json` |
++| Packaging refinement browser | PASS — 8 groups | `qa/evidence/36938-packaging-refinement-browser.json` |
++| Packaging/production/supplier settlement browser | PASS — 16 groups | `qa/evidence/36938-packaging-workflow-browser.json` |
++| .37 → .38 upgrade and restart | PASS — 4 groups | `qa/evidence/36938-upgrade.json` |
++| Protected regressions | PASS — 19 suites / 282 PASS log entries | `qa/evidence/36938-regressions.json` |
++
++The backend release gate completed with exit code 0. Exact-hash frontend integrity and changed-source syntax checks passed. The upgrade compares original columns in 15 protected tables, existing payment/stock balances, preferences and foreign keys. The new browser suite reports no uncaught JavaScript errors and includes desktop and 390px mobile layouts. Protected suites cover Excavator, Imports, supplier accounts/advances/statements, all-currency settlement, approval-before-verification, Accounting corrections/posting, notifications, permissions and runtime.
++
++Browser screenshots were inspected internally for layout; private screenshots are not included in this deliverable.
++
++## Limits
++
++Ready for Render testing/staging review. No live Render deployment, production database reconciliation, external SMTP delivery or fresh Docker/network dependency installation was performed. Protected email-policy tests use controlled mail spies. The installed Node 22 dependencies and Chromium were used; PDF regression checks use the existing Playwright Chromium print adapter. Korean text assertions pass, but this QA host lacks CJK fonts, so final glyph appearance must be reviewed in the deployed browser; the existing Dockerfile includes CJK fonts.
++
++The build preserves the .37 payment/receiving workflows. Back up the actual database and uploads, retain the persistent disk and current secrets, and test the supplied branch before merging. See the deployment and Mac Git guides included with the full source.
+diff --git a/V30_69_38_MAC_GIT_NEW_BRANCH.md b/V30_69_38_MAC_GIT_NEW_BRANCH.md
+new file mode 100644
+index 0000000..2fbd563
+--- /dev/null
++++ b/V30_69_38_MAC_GIT_NEW_BRANCH.md
+@@ -0,0 +1,100 @@
++# Push V30.69.38 as a new branch
++
++Download `Blue_Ocean_Market_V30_69_38_PRODUCTION_PRODUCT_UI_GIT_READY.zip` to your Mac Downloads folder, then open Terminal.
++
++## 1. Extract the build
++
++```bash
++cd ~/Downloads
++mkdir -p BlueOceanV306938
++unzip Blue_Ocean_Market_V30_69_38_PRODUCTION_PRODUCT_UI_GIT_READY.zip \
++  -d BlueOceanV306938
++```
++
++## 2. Clone a fresh copy of GitHub
++
++```bash
++cd ~/Documents
++git clone https://github.com/mamuzammil2021/Blue_Ocean_Market.git Blue_Ocean_Market_V306938
++cd Blue_Ocean_Market_V306938
++```
++
++## 3. Update main and check the working tree
++
++```bash
++git switch main
++git pull --ff-only origin main
++git status --short
++```
++
++The working tree should be clean. These steps put the complete build on a new branch; they do not merge or push main.
++
++## 4. Create the new branch
++
++```bash
++git switch -c v30.69.38-production-product-ui
++```
++
++## 5. Copy the complete source
++
++```bash
++rsync -av \
++  --exclude='.git/' \
++  --exclude='.env' \
++  --include='.env.example' \
++  --exclude='.env.*' \
++  --exclude='data/' \
++  --exclude='uploads/' \
++  --exclude='backups/' \
++  --exclude='node_modules/' \
++  --exclude='*.sqlite*' \
++  --exclude='*.db' \
++  ~/Downloads/BlueOceanV306938/Blue_Ocean_Market_V30_69_38/ ./
++```
++
++This ZIP contains the full application, including the previous .37 functionality. Do not use `--delete`; review the changes before committing, particularly if the repository contains unrelated development. The optional .37→.38 patch is for review/applying to a matching .37 checkout, not an older main branch. Do not both copy the build and apply its patch.
++
++## 6. Check version and changes
++
++```bash
++node -p "require('./package.json').version"
++git status --short
++git diff --stat
++```
++
++The version should be `30.69.37`.
++
++## 7. Stage and review
++
++```bash
++git add -A
++git status --short
++git diff --cached --stat
++```
++
++Make sure no `.env`, runtime data, uploads, backups, dependencies or database files are staged. `.env.example` is safe.
++
++## 8. Commit
++
++```bash
++git commit -m "Add V30.69.38 Production and Product Master refinement"
++```
++
++## 9. Push the new branch
++
++```bash
++git push -u origin v30.69.38-production-product-ui
++```
++
++Test this branch on the existing Render testing service first. Keep its persistent disk/database/uploads and follow `V30_69_38_DEPLOYMENT_NOTES.md`.
++
++## 10. Merge only after testing and accepting the result
++
++```bash
++git switch main
++git pull --ff-only origin main
++git merge v30.69.38-production-product-ui
++git push origin main
++```
++
++No Git branch was pushed, main merged or Render service deployed during this build.
+diff --git a/package-lock.json b/package-lock.json
+index b7338bc..557b647 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "blue-ocean-market-os",
+-  "version": "30.69.37",
++  "version": "30.69.38",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "blue-ocean-market-os",
+-      "version": "30.69.37",
++      "version": "30.69.38",
+       "dependencies": {
+         "bcryptjs": "^2.4.3",
+         "better-sqlite3": "^13.0.3",
+diff --git a/package.json b/package.json
+index 621dc0a..0a29bbe 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "blue-ocean-market-os",
+-  "version": "30.69.37",
++  "version": "30.69.38",
+   "private": true,
+   "description": "Blue Ocean Market full-stack management operating system",
+   "main": "server/server.js",
+@@ -42,7 +42,7 @@
+     "qa:v344": "node qa/qa_v344_cash_accounts.js",
+     "qa:v345": "node qa/qa_v345_feedback.js",
+     "qa:v346": "node qa/qa_v346_performance.js",
+-    "qa:release": "node qa/qa_v36937_release_gate.js",
++    "qa:release": "node qa/qa_v36938_release_gate.js",
+     "qa:v346:browser": "python3 qa/browser_v346_static.py",
+     "qa:v347": "node qa/qa_v347_performance.js",
+     "qa:v347:browser": "python3 qa/browser_v347_paged_lazy.py",
+@@ -112,7 +112,10 @@
+     "qa:packaging:upgrade": "node qa/qa_v36937_upgrade.js",
+     "qa:packaging:regression": "node qa/qa_v36937_regressions.js",
+     "qa:packaging:refinement": "node qa/qa_v36937_refinement.js",
+-    "qa:packaging:refinement:browser": "node qa/browser_v36937_refinement.js"
++    "qa:packaging:refinement:browser": "node qa/browser_v36937_refinement.js",
++    "qa:product:ux": "node qa/qa_v36938_product_ux.js",
++    "qa:product:browser": "node qa/browser_v36938_product_ux.js",
++    "qa:upgrade": "node qa/qa_v36938_upgrade.js"
+   },
+   "dependencies": {
+     "bcryptjs": "^2.4.3",
+diff --git a/public/client.js b/public/client.js
+index dfd4b9e..1dad030 100644
+--- a/public/client.js
++++ b/public/client.js
+@@ -157,7 +157,7 @@ function closeModalAfterSave(){markFormSaved();return closeModal(true)}
+ function toast(m){const e=document.createElement('div');e.className='toast';e.textContent=t(m);document.getElementById('toastRoot').appendChild(e);setTimeout(()=>e.remove(),2800)}
+ function modal(html,cls=''){formDirty=false;document.getElementById('modalRoot').innerHTML='<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal '+esc(cls)+'">'+html+'</div></div>';translateElement(document.getElementById('modalRoot'));setTimeout(()=>{enhanceMandatoryEvidenceFields();enhanceBuyerRequirementActions();enhanceBuyerApprovalAndRefundActions()},0)}
+ function closeModal(force=false){const perform=()=>{formDirty=false;document.getElementById('modalRoot').innerHTML=''};if(!force&&formDirty){guardDirty('You have unsaved changes in this form. Close it and discard the changes?',perform);return false}perform();return true}
+-document.addEventListener('input',e=>{if(e.isTrusted&&e.target.closest('form'))formDirty=true});document.addEventListener('change',e=>{if(e.isTrusted&&e.target.closest('form'))formDirty=true});
++document.addEventListener('input',e=>{if(e.isTrusted&&e.target.closest('form:not([data-bom-no-dirty="1"])'))formDirty=true});document.addEventListener('change',e=>{if(e.isTrusted&&e.target.closest('form:not([data-bom-no-dirty="1"])'))formDirty=true});
+ window.addEventListener('beforeunload',e=>{if(formDirty){e.preventDefault();e.returnValue=''}});
+ 
+ async function refreshNotifCount(){try{const d=await api('/api/notifications/unread-count');unreadNotifCount=Number(d.count||0);const b=document.getElementById('notifBadge');if(b){b.textContent=unreadNotifCount;b.style.display=unreadNotifCount?'inline-flex':'none'}}catch(e){console.warn('Notification count:',e.message)}}
+diff --git a/public/index.html b/public/index.html
+index 4cbd288..0ece7f4 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -58,9 +58,10 @@ button,.btn,select,input,textarea{font:inherit}.btn,.nav button,.notif-btn,.mobi
+ @media(max-width:900px){.notification-group-title{top:-1px}.approval-action-row .btn{min-height:40px}.approval-source-grid{grid-template-columns:minmax(0,1fr)!important}.notif-panel{max-height:calc(100dvh - 86px);overflow:auto}}
+ @media(max-width:560px){.notification-card-head{align-items:flex-start}.notification-unread{box-shadow:inset 3px 0 0 var(--brand)}.approval-action-row td{white-space:normal}.approval-action-row .btn{display:block;width:100%;margin:5px 0}.token-payment-fields{padding:12px}}
+ </style>
+-<link rel="stylesheet" href="/packaging-materials.css?v=30.69.37">
+-</head><body><div id="root"></div><div id="modalRoot"></div><div id="confirmRoot"></div><div id="toastRoot"></div><script src="/i18n-ko.js?v=30.69.37"></script><script src="/v364-i18n-quality.js?v=30.69.37"></script><script src="/client.js?v=30.69.37"></script><script src="/bom-mutation-hub.js?v=30.69.37"></script><script src="/runtime-v30392.js?v=30.69.37"></script><script src="/v340-client.js?v=30.69.37"></script><script src="/v341-client.js?v=30.69.37"></script><script src="/v342-client.js?v=30.69.37"></script><script src="/v343-client.js?v=30.69.37"></script><script src="/v344-client.js?v=30.69.37"></script><script src="/v345-client.js?v=30.69.37"></script><script src="/v346-client.js?v=30.69.37"></script><script src="/v347-loader.js?v=30.69.37"></script><script src="/v348-bell.js?v=30.69.37"></script><script src="/v348-loader.js?v=30.69.37"></script><script src="/v349-accounting-pages.js?v=30.69.37"></script><script src="/v351-loader.js?v=30.69.37"></script><script src="/v352-client.js?v=30.69.37"></script><script src="/v353-client.js?v=30.69.37"></script><script src="/v355-client.js?v=30.69.37"></script><script src="/v356-accounting.js?v=30.69.37"></script><script src="/v356-final-ui.js?v=30.69.37"></script><script src="/v357-fixed-assets.js?v=30.69.37"></script><script src="/v357-expenses.js?v=30.69.37"></script><script src="/v357-interbu.js?v=30.69.37"></script><script src="/v357-integrity-review.js?v=30.69.37"></script><script src="/v357-inventory-review.js?v=30.69.37"></script><script src="/v357-policy-review.js?v=30.69.37"></script><script src="/v358-accounting.js?v=30.69.37"></script><script src="/v357-accounting-workspace.js?v=30.69.37"></script><script src="/v359-payroll.js?v=30.69.37"></script><script src="/v3591-payroll-ui.js?v=30.69.37"></script><script src="/v3592-payroll-ui.js?v=30.69.37"></script><script src="/v360-accounting-controls.js?v=30.69.37"></script><script src="/v362-collaboration.js?v=30.69.37"></script><script src="/v363-dialog-processing.js?v=30.69.37"></script><script src="/v365-pink-commerce.js?v=30.69.37"></script><script src="/v366-pink-product-master.js?v=30.69.37"></script><script src="/v367-pink-operational-completion.js?v=30.69.37"></script><script src="/pink-fx-calculation.js?v=30.69.37"></script><script src="/pink-operation.js?v=30.69.37"></script><script src="/pink-advance-ui.js?v=30.69.37"></script><script src="/pink-fx-payment.js?v=30.69.37"></script><script src="/v369-pink-shared-workflows.js?v=30.69.37"></script><script src="/v3692-pink-qa.js?v=30.69.37"></script>
+-<script src="/bom-payment-rules.js?v=30.69.37"></script><script src="/v3694-pink-qa.js?v=30.69.37"></script><script src="/v3695-repacking-inputs.js?v=30.69.37"></script><script src="/v3699-pink-payment-stabilization.js?v=30.69.37"></script><script src="/v36910-pink-import-actions.js?v=30.69.37"></script><script src="/pink-qa21.js?v=30.69.37"></script>
+-<script src="/pink-import-detail.js?v=30.69.37"></script>
+-<script src="/packaging-decimal.js?v=30.69.37"></script><script src="/packaging-materials.js?v=30.69.37"></script>
+-<script src="/route-registry.js?v=30.69.37"></script><script src="/v3693-persistent-routing.js?v=30.69.37"></script></body></html>
++<link rel="stylesheet" href="/packaging-materials.css?v=30.69.38">
++<link rel="stylesheet" href="/pink-product-ux.css?v=30.69.38">
++</head><body><div id="root"></div><div id="modalRoot"></div><div id="confirmRoot"></div><div id="toastRoot"></div><script src="/i18n-ko.js?v=30.69.38"></script><script src="/v364-i18n-quality.js?v=30.69.38"></script><script src="/client.js?v=30.69.38"></script><script src="/bom-mutation-hub.js?v=30.69.38"></script><script src="/runtime-v30392.js?v=30.69.38"></script><script src="/v340-client.js?v=30.69.38"></script><script src="/v341-client.js?v=30.69.38"></script><script src="/v342-client.js?v=30.69.38"></script><script src="/v343-client.js?v=30.69.38"></script><script src="/v344-client.js?v=30.69.38"></script><script src="/v345-client.js?v=30.69.38"></script><script src="/v346-client.js?v=30.69.38"></script><script src="/v347-loader.js?v=30.69.38"></script><script src="/v348-bell.js?v=30.69.38"></script><script src="/v348-loader.js?v=30.69.38"></script><script src="/v349-accounting-pages.js?v=30.69.38"></script><script src="/v351-loader.js?v=30.69.38"></script><script src="/v352-client.js?v=30.69.38"></script><script src="/v353-client.js?v=30.69.38"></script><script src="/v355-client.js?v=30.69.38"></script><script src="/v356-accounting.js?v=30.69.38"></script><script src="/v356-final-ui.js?v=30.69.38"></script><script src="/v357-fixed-assets.js?v=30.69.38"></script><script src="/v357-expenses.js?v=30.69.38"></script><script src="/v357-interbu.js?v=30.69.38"></script><script src="/v357-integrity-review.js?v=30.69.38"></script><script src="/v357-inventory-review.js?v=30.69.38"></script><script src="/v357-policy-review.js?v=30.69.38"></script><script src="/v358-accounting.js?v=30.69.38"></script><script src="/v357-accounting-workspace.js?v=30.69.38"></script><script src="/v359-payroll.js?v=30.69.38"></script><script src="/v3591-payroll-ui.js?v=30.69.38"></script><script src="/v3592-payroll-ui.js?v=30.69.38"></script><script src="/v360-accounting-controls.js?v=30.69.38"></script><script src="/v362-collaboration.js?v=30.69.38"></script><script src="/v363-dialog-processing.js?v=30.69.38"></script><script src="/v365-pink-commerce.js?v=30.69.38"></script><script src="/v366-pink-product-master.js?v=30.69.38"></script><script src="/v367-pink-operational-completion.js?v=30.69.38"></script><script src="/pink-fx-calculation.js?v=30.69.38"></script><script src="/pink-operation.js?v=30.69.38"></script><script src="/pink-advance-ui.js?v=30.69.38"></script><script src="/pink-fx-payment.js?v=30.69.38"></script><script src="/v369-pink-shared-workflows.js?v=30.69.38"></script><script src="/v3692-pink-qa.js?v=30.69.38"></script>
++<script src="/bom-payment-rules.js?v=30.69.38"></script><script src="/v3694-pink-qa.js?v=30.69.38"></script><script src="/v3695-repacking-inputs.js?v=30.69.38"></script><script src="/v3699-pink-payment-stabilization.js?v=30.69.38"></script><script src="/v36910-pink-import-actions.js?v=30.69.38"></script><script src="/pink-qa21.js?v=30.69.38"></script>
++<script src="/pink-import-detail.js?v=30.69.38"></script>
++<script src="/packaging-decimal.js?v=30.69.38"></script><script src="/packaging-materials.js?v=30.69.38"></script>
++<script src="/pink-product-ux.js?v=30.69.38"></script><script src="/route-registry.js?v=30.69.38"></script><script src="/v3693-persistent-routing.js?v=30.69.38"></script></body></html>
+diff --git a/public/packaging-materials.js b/public/packaging-materials.js
+index d153bb8..45992ad 100644
+--- a/public/packaging-materials.js
++++ b/public/packaging-materials.js
+@@ -90,7 +90,7 @@ window.psPackSaveHeader=async(ev,id)=>{ev.preventDefault();if(await mutation('/p
+ const refreshPurchase=window.psPackPurchase,refreshMaterial=window.psPackMaterial,refreshHome=window.psPackHome;
+ // Extend the established central supplier panel, with the same Open / Pay actions as Imports.
+ const supplierTab=window.psSupplierTab315;window.psSupplierTab315=async function(section){await supplierTab(section);if(section!=='packaging')return;const d=window.__ps315SupplierAccount,host=document.getElementById('ps315SupplierPanel');if(!d||!host)return;const rows=d.packaging||[];host.innerHTML=panel(T('Packaging Purchases','포장재 구매'),tables([T('Purchase','구매'),T('Date','날짜'),T('Total KRW','합계 원화'),T('Outstanding KRW','미결제액 원화'),T('Actions','작업')],rows.map(p=>`<tr><td>${E(p.reference)}</td><td>${E(p.date)}</td><td>${N(p.amount_krw)}</td><td>${N(p.outstanding_krw)}</td><td>${btn(T('Open','열기'),`psPackNavigate('${p.obligation_type==='Packaging Purchase'?'purchase':'legacy'}',${p.id})`)}${p.outstanding_krw>.005?btn(T('Pay','지급'),`BOMPinkFX.open('${p.obligation_type==='Packaging Purchase'?'packaging_purchase':'packaging'}',${p.id})`):''}</td></tr>`)))};
+-function packNav(){const original=document.querySelector('.nav [data-nav-key="psPackaging"]');if(!original)return;let group=document.getElementById('packSidebar');if(!group){group=document.createElement('details');group.id='packSidebar';group.className='pack-sidebar';original.replaceWith(group)}else original.remove();const r=window.BOMRouter?.parse(),active=r?.view==='psPackaging';group.innerHTML=`<summary>${E(T('Packaging Materials','포장재'))}</summary>${Object.entries(tabNames()).map(([k,n])=>`<button data-pack-nav="${k}" class="${active&&(r.kind===k||k==='materials'&&r.kind==='material'||k==='purchases'&&['purchase','legacy','fx'].includes(r.kind)||k==='stock'&&r.kind==='movement')?'active':''}" onclick="closeMobileSidebar();psPackNavigate('${k}')">${E(n)}</button>`).join('')}`;group.open=active||sessionStorage.getItem('packSidebarOpen')==='1';group.ontoggle=()=>sessionStorage.setItem('packSidebarOpen',group.open?'1':'0')}
++function packNav(){const original=document.querySelector('.nav [data-nav-key="psPackaging"]');if(!original)return;let group=document.getElementById('packSidebar');if(!group){group=document.createElement('details');group.id='packSidebar';group.className='pack-sidebar';original.replaceWith(group)}else original.remove();const r=window.BOMRouter?.parse(),active=r?.view==='psPackaging';group.innerHTML=`<summary class="ps-nav-mark ${active?'active':''}" title="${E(T('Packaging Materials','포장재'))}"><span class="nav-icon" aria-hidden="true">📦</span><span class="nav-label">${E(T('Packaging Materials','포장재'))}</span><span class="pack-nav-arrow" aria-hidden="true">⌄</span></summary>${Object.entries(tabNames()).map(([k,n])=>`<button data-pack-nav="${k}" class="${active&&(r.kind===k||k==='materials'&&r.kind==='material'||k==='purchases'&&['purchase','legacy','fx'].includes(r.kind)||k==='stock'&&r.kind==='movement')?'active':''}" onclick="closeMobileSidebar();psPackNavigate('${k}')">${E(n)}</button>`).join('')}`;group.open=active||sessionStorage.getItem('packSidebarOpen')==='1';group.ontoggle=()=>sessionStorage.setItem('packSidebarOpen',group.open?'1':'0')}
+ const navObserver=new MutationObserver(()=>{if(document.querySelector('.nav [data-nav-key="psPackaging"]'))packNav()});navObserver.observe(document.getElementById('root'),{subtree:true,childList:true});
+ const nativeRender=render;render=async function(...args){const out=await nativeRender.apply(this,args);packNav();return out};
+ const originalPackaging=window.psPackaging;window.psPackaging=()=>psPackHome();
+diff --git a/public/pink-product-ux.css b/public/pink-product-ux.css
+new file mode 100644
+index 0000000..1f60d98
+--- /dev/null
++++ b/public/pink-product-ux.css
+@@ -0,0 +1,21 @@
++/* V30.69.38 — scoped Pink Salt navigation and catalog page layout. */
++.nav .pack-sidebar{margin:0;padding:0;border:0;color:inherit}
++.nav .pack-sidebar>summary{display:flex;align-items:center;gap:10px;list-style:none;border-radius:10px;padding:11px 12px;font:inherit;font-weight:500;color:#aebbd0;cursor:pointer;min-height:44px}
++.nav .pack-sidebar>summary::-webkit-details-marker{display:none}.nav .pack-sidebar>summary::marker{content:''}
++.nav .pack-sidebar>summary:hover{background:#1b2d4d;color:#fff}.nav .pack-sidebar>summary.active{background:#1b2d4d;color:#fff}
++.nav .pack-sidebar .nav-label{flex:1;min-width:0;white-space:normal;overflow:visible;line-height:1.3}.nav .pack-nav-arrow{margin-left:auto;flex:0 0 18px;text-align:center;transition:transform .15s;line-height:1}
++.nav .pack-sidebar[open] .pack-nav-arrow{transform:rotate(180deg)}
++.nav .pack-sidebar>button{display:flex;align-items:center;text-align:left;width:100%;min-height:40px;padding:9px 12px 9px 44px!important;font:inherit;font-size:13px;border-left:2px solid transparent}
++.nav .pack-sidebar>button.active{border-left-color:#9ec5ff}.nav .pack-sidebar>summary:focus-visible{outline:2px solid #9ec5ff;outline-offset:2px}
++.side.collapsed .pack-sidebar>summary{justify-content:center;padding:11px 5px}.side.collapsed .pack-sidebar .pack-nav-arrow{display:none}.side.collapsed .pack-sidebar>button{padding:8px 3px!important;font-size:10px;text-align:center;justify-content:center;overflow-wrap:anywhere}
++.ps-ux-page{min-width:0}.ps-ux-page .section-title{gap:12px;flex-wrap:wrap}.ps-ux-page .ps313-filter{align-items:flex-end;gap:12px;flex-wrap:wrap}.ps-ux-page .ps313-filter .field{flex:0 1 180px;min-width:140px;margin:0}.ps-ux-page .ps313-filter .field.search{flex:1 1 260px;max-width:420px}.ps-ux-page .ps313-filter input,.ps-ux-page .ps313-filter select{min-height:38px;height:38px}.ps-ux-page .ps313-filter .btn{min-height:38px;width:auto;align-self:flex-end}
++.ps-ux-page .bom-server-pager{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:12px}.ps-ux-page .bom-server-pager .muted{margin-right:auto}
++.ps-ux-table{width:100%;border-collapse:separate;border-spacing:0}.ps-ux-table td{vertical-align:top}.ps-ux-table th:last-child,.ps-ux-table td:last-child{position:sticky;right:0;background:var(--card,#fff);z-index:2;box-shadow:-5px 0 8px rgba(20,40,80,.04);min-width:180px;max-width:280px;white-space:normal!important;text-align:left!important}
++.ps-ux-table th:last-child{background:#f8fafc;z-index:3}.ps-ux-actions{display:flex!important;flex-wrap:wrap;gap:6px;align-items:center;opacity:1!important;visibility:visible!important;min-width:174px}
++.ps-ux-actions .btn{display:inline-flex!important;position:static!important;opacity:1!important;visibility:visible!important;width:auto!important;min-height:30px;padding:5px 9px;font-size:12px;line-height:18px;white-space:nowrap}
++.ps-ux-page [hidden],.ps-product-language [hidden]{display:none!important}.ps-product-language .grid:has(>[hidden]){grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
++.ps-ux-detail{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0}.ps-ux-detail>div{padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card,#fff)}.ps-ux-detail b{display:block;overflow-wrap:anywhere}
++.ps-product-language .ps-language-options{margin:0 0 14px}.ps-ux-page .ps-ux-actions button:disabled{opacity:.55!important}
++@media(max-width:700px){.ps-ux-page .ps313-filter .field{flex:1 1 140px}.ps-ux-table{min-width:0!important}.ps-ux-table thead,.ps-ux-table>tbody>tr:first-child:has(th){display:none}.ps-ux-table tr:has(td){display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:10px;margin:10px 0;padding:8px;background:#fff}.ps-ux-table td{display:block;border:0!important;white-space:normal;min-width:0;overflow-wrap:anywhere;padding:8px!important}.ps-ux-table td:before{content:attr(data-label);display:block;font-size:11px;color:var(--muted);margin-bottom:4px}.ps-ux-table td:last-child{position:static;grid-column:1/-1;max-width:none;box-shadow:none}.ps-ux-actions{min-width:0}.ps-ux-actions .btn{min-height:38px}.ps-ux-table td[colspan]{grid-column:1/-1}.ps-ux-page .table-wrap{overflow:visible}.ps-ux-page .section-title .actions{flex-wrap:wrap}}
++
++.ps-ux-page .bom-server-pager select{font:inherit;border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:#fff}
+diff --git a/public/pink-product-ux.js b/public/pink-product-ux.js
+new file mode 100644
+index 0000000..68a4381
+--- /dev/null
++++ b/public/pink-product-ux.js
+@@ -0,0 +1,55 @@
++/* V30.69.38 — Product Master pages and explicit Production parent navigation.
++ * Uses existing catalog, family, lot, routing, dialogs and mutation services. */
++(()=>{'use strict';
++const E=s=>esc(String(s??'')),T=s=>t(s),N=v=>Number(v||0).toLocaleString(currentLanguage==='ko'?'ko-KR':'en-US'),can=(op='edit')=>me?.role==='CEO / Owner'||canDo('inventory',op);
++Object.assign(KO,{'Product content language':'제품 콘텐츠 언어','English only':'영어만','Korean only':'한국어만','Both languages':'두 언어 모두','Preferred commerce language':'커머스 기본 언어','Use available product language':'사용 가능한 제품 언어 사용','English':'영어','Korean':'한국어','Missing preferred content uses the available language.':'기본 언어의 콘텐츠가 없으면 사용 가능한 언어를 사용합니다.','English product name is required.':'영어 제품명이 필요합니다.','Korean product name is required.':'한국어 제품명이 필요합니다.','Select English, Korean or Both for product content.':'제품 콘텐츠 언어로 영어, 한국어 또는 둘 다를 선택하세요.','Invalid preferred commerce language.':'커머스 기본 언어가 올바르지 않습니다.','This family has linked records. Archive it instead.':'이 제품군에 연결된 기록이 있습니다. 대신 보관하세요.','Invalid best before date.':'품질 유지기한이 올바르지 않습니다.','Product family not found.':'제품군을 찾을 수 없습니다.','No product families yet. Add a family to group finished-product variants.':'제품군이 없습니다. 완제품 옵션을 묶을 제품군을 추가하세요.','No finished lots match these filters.':'필터에 맞는 완제품 로트가 없습니다.','All expiry dates':'전체 유통기한','No expiry date':'유통기한 없음','Linked Variants':'연결된 옵션','Reactivate':'재활성화','Family Details':'제품군 상세','Lot Details':'로트 상세','Recorded quantities cannot be edited here.':'기록된 수량은 여기서 수정할 수 없습니다.','Voided batches cannot be edited or voided again.':'무효 처리된 배치는 수정하거나 다시 무효 처리할 수 없습니다.','Product content preferences are separate from the application language.':'제품 콘텐츠 설정은 앱 언어와 별개입니다.'});
++const route=()=>window.BOMRouter?.parse(),opts=(values,current)=>values.map(([v,label])=>`<option value="${E(v)}" ${String(v)===String(current)?'selected':''}>${E(T(label))}</option>`).join('');
++const button=(label,action,cls='')=>`<button type="button" class="btn small ${cls}" onclick="${action}">${E(T(label))}</button>`;
++const table=(headers,rows)=>`<div class="table-wrap"><table class="table ps-ux-table"><thead><tr>${headers.map(h=>`<th>${E(T(h))}</th>`).join('')}</tr></thead><tbody>${rows||`<tr><td colspan="${headers.length}"><div class="empty">${E(T('No records.'))}</div></td></tr>`}</tbody></table></div>`;
++const cells=(headers,values)=>values.map((v,i)=>`<td data-label="${E(T(headers[i]))}">${v}</td>`).join('');
++function rememberKey(view,kind=''){return 'bom38-parent:'+String(me?.id)+':'+selectedUnitId+':'+view+'/'+kind}
++function storeState(v,kind,params){try{sessionStorage.setItem(rememberKey(v,kind),JSON.stringify(params))}catch(_){}}
++function parentState(parent){try{return JSON.parse(sessionStorage.getItem(rememberKey(parent.view,parent.kind||''))||'{}')}catch(_){return {}}}
++function screen(title,body,kind){const c=document.getElementById('content');c.innerHTML=`<section id="v324WorkflowSurface" class="ps-ux-page" data-product-page="${kind}"><div class="section-title"><h2>${E(T(title))}</h2>${button('Back','closeWorkflowPageV324()')}</div>${body}</section>`;translateElement(c)}
++function params(){const p=route()?.params;return {page:Math.max(1,Number(p?.get('page'))||1),pageSize:[25,50,100].includes(Number(p?.get('pageSize')))?Number(p.get('pageSize')):25,search:p?.get('search')||'',status:p?.get('status')||'',filter:p?.get('filter')||''}}
++function pager(p){return `<nav class="bom-server-pager" aria-label="${E(T('Pagination'))}"><span class="muted">${p.from}–${p.to} ${E(T('of'))} ${p.total}</span><label>${E(T('Rows per page'))} <select onchange="BOMProductUX38.change('pageSize',this.value)">${opts([[25,'25'],[50,'50'],[100,'100']],p.pageSize)}</select></label><button class="btn small" ${p.page<=1?'disabled':''} onclick="BOMProductUX38.change('page',${p.page-1})">${E(T('Previous'))}</button><span>${p.page} / ${p.pages}</span><button class="btn small" ${p.page>=p.pages?'disabled':''} onclick="BOMProductUX38.change('page',${p.page+1})">${E(T('Next'))}</button></nav>`}
++function filters(kind,s){return `<form class="ps313-filter" data-bom-no-review="1" data-bom-no-dirty="1" onsubmit="BOMProductUX38.search(event)"><div class="field search"><label>${E(T('Search'))}</label><input name="search" value="${E(s.search)}" type="search"></div><div class="field"><label>${E(T(kind==='lots'?'Quality Status':'Status'))}</label><select name="status" onchange="BOMProductUX38.change('status',this.value)">${opts([['','All'],...(kind==='lots'?['Released','Hold','Rejected','Legacy / Untracked']:['Active','Archived']).map(x=>[x,x])],s.status)}</select></div>${kind==='lots'?`<div class="field"><label>${E(T('Expiry Status'))}</label><select onchange="BOMProductUX38.change('filter',this.value)">${opts([['','All expiry dates'],['expired','Expired'],['soon','Expiring Soon']],s.filter)}</select></div>`:''}<button class="btn small">${E(T('Search'))}</button></form>`}
++async function renderFamilies(){const s=params(),d=await api('/api/v367/pink-salt/families?'+new URLSearchParams(s));window.__psFamiliesV367=d.rows;storeState('psFinished','families',s);const headers=['Family Code','Product Family','Product Category','Variants','Status','Actions'];screen('Product Families',`<div class="section-title"><div class="muted">${E(T('One product family can contain multiple sellable SKU variants.'))}</div>${can('create')?button('Add Product Family','psFamilyFormV367()','primary'):''}</div><div class="card">${filters('families',s)}${table(headers,d.rows.map(f=>`<tr data-family="${f.id}">${cells(headers,[E(f.family_code||'—'),`<b>${E(currentLanguage==='ko'?f.name_ko||f.name_en:f.name_en||f.name_ko)}</b>`,E(f.category),N(f.variant_count),E(T(f.active?'Active':'Archived')),`<div class="ps-ux-actions">${button('Open',`BOMRouter.navigate('psFinished','family',${f.id})`)}${can()?button('Edit',`psFamilyFormV367(${f.id})`)+button(f.active?'Archive':'Reactivate',`BOMProductUX38.familyState(${f.id},${f.active?0:1})`):''}${!f.dependency_count&&!f.image_dependencies&&can('delete')?button('Delete',`BOMProductUX38.deleteFamily(${f.id})`,'danger'):''}</div>`])}</tr>`).join(''))}${!d.rows.length?`<p class="muted">${E(T('No product families yet. Add a family to group finished-product variants.'))}</p>`:''}${pager(d.pagination)}</div>`,'families')}
++function expiry(x){if(!x.best_before_date)return T('No expiry date');const today=new Date().toISOString().slice(0,10),soon=new Date(Date.now()+60*86400000).toISOString().slice(0,10);return T(x.best_before_date<today?'Expired':x.best_before_date<=soon?'Expiring Soon':'Released')}
++async function renderLots(){const s=params(),[d,locs]=await Promise.all([api('/api/v367/pink-salt/lots?'+new URLSearchParams(s)),api('/api/v366/pink-salt/locations')]);window.__psLotsV367=d.rows;window.__psLocationsV367=locs;storeState('psFinished','lots',s);const h=['Product SKU','Lot No.','Produced','Allocated','Available','Best Before Date','Quality Status','Warehouse','Actions'];screen('Lots & Expiry',`<div class="muted">${E(T('Finished-stock lots are allocated to completed orders using FEFO.'))}</div><div class="card">${filters('lots',s)}${table(h,d.rows.map(l=>`<tr data-lot="${l.id}">${cells(h,[`<b>${E(l.sku)}</b><div>${E(l.variant_label||l.name)}</div>`,E(l.lot_no),N(l.produced_units),N(l.allocated_units),`<b>${N(l.available_units)}</b>`,`${E(l.best_before_date||'—')}<div class="muted">${E(expiry(l))}</div>`,E(T(l.quality_status)),E([l.warehouse,l.zone,l.rack_bin].filter(Boolean).join(' · ')||'—'),`<div class="ps-ux-actions">${button('Open',`BOMRouter.navigate('psFinished','lot',${l.id})`)}${can()?button('Edit',`psLotEditV367(${l.id})`):''}</div>`])}</tr>`).join(''))}${!d.rows.length?`<p class="muted">${E(T('No finished lots match these filters.'))}</p>`:''}${pager(d.pagination)}</div>`,'lots')}
++window.psFamiliesV367=renderFamilies;window.psLotsV367=renderLots;
++window.psFamilyDetail38=async id=>{const rows=await api('/api/v367/pink-salt/families?id='+id),f=rows.find(f=>f.id===Number(id));if(!f)throw Object.assign(new Error(T('Product family not found.')),{status:404});window.__psFamiliesV367=rows;const h=['Product SKU','Variant','Status','Actions'];screen('Family Details',`<div class="section-title"><div><h3>${E(f.name_en||f.name_ko)}</h3><p>${E(f.name_ko||'')} · ${E(f.family_code||'—')}</p></div><div class="ps-ux-actions">${can()?button('Edit',`psFamilyFormV367(${f.id})`)+button(f.active?'Archive':'Reactivate',`BOMProductUX38.familyState(${f.id},${f.active?0:1})`):''}</div></div><div class="ps-ux-detail"><div>${E(T('Product Category'))}<b>${E(f.category)}</b></div><div>${E(T('Status'))}<b>${E(T(f.active?'Active':'Archived'))}</b></div><div>${E(T('Short Description (English)'))}<b>${E(f.short_description_en||'—')}</b></div><div>${E(T('Short Description (Korean)'))}<b>${E(f.short_description_ko||'—')}</b></div></div><h3>${E(T('Linked Variants'))}</h3>${table(h,f.variants.map(v=>`<tr>${cells(h,[E(v.sku),E(v.variant_label||v.name),E(T(v.active?'Active':'Archived')),`<div class="ps-ux-actions">${button('Open',`psProductForm(${v.id})`)}</div>`])}</tr>`).join(''))}`,'family')};
++window.psLotDetail38=async id=>{const [rows,locs]=await Promise.all([api('/api/v367/pink-salt/lots?id='+id),api('/api/v366/pink-salt/locations')]),l=rows.find(l=>l.id===Number(id));if(!l)throw Object.assign(new Error(T('Record not found')),{status:404});window.__psLotsV367=rows;window.__psLocationsV367=locs;screen('Lot Details',`<div class="section-title"><h3>${E(l.lot_no)} · ${E(l.sku)}</h3>${can()?button('Edit',`psLotEditV367(${l.id})`):''}</div><div class="ps-ux-detail">${[['Variant',l.variant_label||l.name],['Produced',N(l.produced_units)],['Allocated',N(l.allocated_units)],['Available',N(l.available_units)],['Best Before Date',l.best_before_date||'—'],['Expiry Status',expiry(l)],['Quality Status',T(l.quality_status)],['Warehouse',[l.warehouse,l.zone,l.rack_bin].filter(Boolean).join(' · ')||'—']].map(([k,v])=>`<div>${E(T(k))}<b>${E(v)}</b></div>`).join('')}</div><p class="muted">${E(T('Recorded quantities cannot be edited here.'))}</p>${l.production_batch_id?button('Production Batch',`BOMRouter.navigate('psProduction','batch',${l.production_batch_id})`):''}`,'lot')};
++// Short edits stay in shared dialogs; their backing list/detail is never replaced.
++const nativeFamilyForm=window.psFamilyFormV367,nativeLotForm=window.psLotEditV367;
++function shortDialog(){const f=document.querySelector('#modalRoot form');f?.querySelectorAll('button[onclick="psFamiliesV367()"],button[onclick="psLotsV367()"]')?.forEach(b=>b.setAttribute('onclick','closeModal()'))}
++window.psFamilyFormV367=function(id){nativeFamilyForm(id);shortDialog()};window.psLotEditV367=function(id){nativeLotForm(id);shortDialog()};
++let saving=false;
++async function refreshPage(){const r=route();if(r.kind==='family')return psFamilyDetail38(r.id);if(r.kind==='lot')return psLotDetail38(r.id);return r.kind==='families'?renderFamilies():renderLots()}
++async function write(url,method,body){if(saving)return false;saving=true;try{await api(url,{method,...(body?{headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{})});formDirty=false;closeModalAfterSave();await refreshPage();return true}catch(e){toast(T(e.message));return false}finally{saving=false}}
++window.psSaveFamilyV367=async function(e,id){e.preventDefault();const o=Object.fromEntries(new FormData(e.target));o.active=e.target.active.checked;if(await write('/api/v367/pink-salt/families'+(id?'/'+id:''),id?'PUT':'POST',o))toast(T('Product family saved'))};
++window.psLotSaveV367=async function(e,id){e.preventDefault();if(await write('/api/v367/pink-salt/lots/'+id,'PUT',Object.fromEntries(new FormData(e.target))))toast(T('Lot updated'))};
++// Extend existing product form instead of introducing another product editor.
++const nativeProductForm=window.psProductForm;
++window.psProductForm=async function(id){await nativeProductForm(id);const f=document.querySelector('#modalRoot form');if(!f)return;const p=id?(await api('/api/v366/pink-salt/catalog')).products.find(p=>p.id===Number(id)):null;
++ if(p?.content_language==='ko')f.elements.namedItem('name_en').value=p.name_en||'';
++ f.classList.add('ps-product-language');const base=f.querySelector('[name=name]');if(base){base.required=false;base.closest('.field').hidden=true}
++ const mode=p?.content_language||((p?.name_en||p?.name)&&p?.name_ko?'both':p?.name_ko?'ko':'en'),block=document.createElement('div');block.className='grid g2 ps-language-options';block.innerHTML=`<div class="field"><label>${E(T('Product content language'))}</label><select name="content_language" onchange="BOMProductUX38.language(this.form)">${opts([['en','English only'],['ko','Korean only'],['both','Both languages']],mode)}</select></div><div class="field"><label>${E(T('Preferred commerce language'))}</label><select name="commerce_language">${opts([['auto','Use available product language'],['en','English'],['ko','Korean']],p?.commerce_language||'auto')}</select><small class="muted">${E(T('Missing preferred content uses the available language.'))}</small></div>`;f.prepend(block);const note=document.createElement('p');note.className='muted';note.textContent=T('Product content preferences are separate from the application language.');block.after(note);language(f);translateElement(f)};
++function language(f){const mode=f.content_language.value;for(const field of ['name','short_description','ingredients','storage_instructions'])for(const lang of ['en','ko']){const el=f.elements.namedItem(field+'_'+lang);if(!el)continue;el.closest('.field').hidden=mode!=='both'&&mode!==lang;el.required=field==='name'&&(mode==='both'||mode===lang)}if(f.elements.namedItem('name'))f.elements.namedItem('name').value=mode==='ko'?f.name_ko.value:f.name_en.value;}
++const nativeSaveProduct=window.psSaveProduct;
++window.psSaveProduct=async function(e,id){language(e.target);return nativeSaveProduct(e,id)};
++// Native Production remains the sole execution workflow. Ensure all return controls use the route parent.
++const nativeProductionForm=window.psProductionForm;
++window.psProductionForm=async function(){await nativeProductionForm();const surface=document.getElementById('v324WorkflowSurface'),f=surface?.querySelector('form');if(!f)return;surface.dataset.productionForm='1';f.querySelectorAll('[onclick="closeModal()"],[onclick="closeWorkflowPageV324()"]')?.forEach(b=>b.setAttribute('onclick','closeWorkflowPageV324()'));const toolbar=document.querySelector('.v324-workflow-heading small');if(toolbar)toolbar.textContent=T('Repacking / Production');};
++// Both important lists keep visible action columns, including while horizontally scrolled.
++function decorate(){if(!['psProduction','psFinished'].includes(view)||route()?.kind)return;const c=document.getElementById('content'),tbl=c?.querySelector('table');if(!tbl)return;c.classList.add('ps-ux-page');tbl.classList.add('ps-ux-table');const heads=[...tbl.querySelectorAll('tr:first-child th')].map(th=>th.textContent.trim());const last=tbl.querySelector('tr:first-child th:last-child');if(last&&!last.textContent.trim())last.textContent=T('Actions');for(const row of tbl.querySelectorAll('tr:has(td)')){[...row.children].forEach((td,i)=>td.dataset.label=heads[i]||T('Actions'));const td=row.lastElementChild;if(!td?.querySelector('button')||td.querySelector('.ps-ux-actions'))continue;const wrap=document.createElement('div');wrap.className='ps-ux-actions';while(td.firstChild)wrap.appendChild(td.firstChild);td.appendChild(wrap);
++ for(const b of [...wrap.querySelectorAll('button')]){const action=b.getAttribute('onclick')||'';const op=/Delete/.test(action)?'delete':/batchAction/.test(action)?'void':/Form|Images|Archive|editBatch/.test(action)?'edit':null;if(op&&!can(op))b.remove()}
++ if(view==='psProduction'&&/Voided|무효/.test(row.children[6]?.textContent||''))wrap.querySelectorAll('[onclick*="editBatch"],[onclick*="batchAction"]').forEach(b=>{b.disabled=true;b.title=T('Voided batches cannot be edited or voided again.')});}
++ // Retain safe generic filter state when returning from children, including after refresh.
++ const filter=c.querySelector('[data-ps313-generic]');if(filter&&!filter.dataset.parentState38){filter.dataset.parentState38='1';const st=Object.fromEntries(route()?.params||[]),controls=[...filter.querySelectorAll('input,select')];controls.forEach((x,i)=>{const key=i===0?'search':i===1?'status':i===2?'sort':'direction';if(st[key]!==undefined){x.value=st[key];x.dispatchEvent(new Event(x.tagName==='SELECT'?'change':'input',{bubbles:true}))}x.addEventListener(x.tagName==='SELECT'?'change':'input',()=>{const p={};controls.forEach((el,j)=>p[j===0?'search':j===1?'status':j===2?'sort':'direction']=el.value);BOMRouter.state(p);storeState(view,'',p)})});filter.querySelector('[data-f-clear]')?.addEventListener('click',()=>{const p={};controls.forEach((el,j)=>p[j===0?'search':j===1?'status':j===2?'sort':'direction']=el.value);BOMRouter.state(p);storeState(view,'',p)});storeState(view,'',Object.fromEntries(route()?.params||[]));}}
++window.BOMProductUX38={parentState,language,async productSaved(){formDirty=false;if(route()?.kind)await BOMRouter.refreshRecord();else await loadView();closeModalAfterSave()},search(e){e.preventDefault();const data=Object.fromEntries(new FormData(e.target));return this.navigate({...params(),...data,page:1})},change(key,value){return this.navigate({...params(),[key]:value,...(key!=='page'?{page:1}:{})})},navigate(p){const r=route();return BOMRouter.navigate('psFinished',r.kind,0,'',{params:p})},
++ async familyState(id,active){if(!await confirmAction({title:T(active?'Reactivate':'Archive'),message:T('Historical records will be preserved.'),confirmLabel:T('Confirm')}))return;await write('/api/v367/pink-salt/families/'+id,'PUT',{active:!!active})},
++ async deleteFamily(id){if(!await confirmAction({title:T('Delete'),message:T('Delete')+'?',confirmLabel:T('Delete'),tone:'danger'}))return;await write('/api/v367/pink-salt/families/'+id,'DELETE')},decorate};
++const nativeAppBack=window.appBack;window.appBack=function(){const r=route();if(['psProduction','psFinished'].includes(r?.view)&&r.kind&&window.BOMRoutes?.find(r)?.parent)return closeWorkflowPageV324();return nativeAppBack?.()};
++window.BOMMutationHub?.register('pink-product-ux38',decorate);setTimeout(decorate,0);
++})();
+diff --git a/public/route-registry.js b/public/route-registry.js
+index b5ddb9a..e08b220 100644
+--- a/public/route-registry.js
++++ b/public/route-registry.js
+@@ -20,7 +20,8 @@ record('psImports','fx',['psFxTransactionDetail']);record('psSales','fx',['psFxT
+ record('psSales','order',['psOrderDetail313','psOrderDetail']);
+ record('psSales','new',['psSaleForm313'],null,{noId:true,temporary:true});
+ record('psCustomers','customer',['psCustomerAccount313'],{open:['psAccountTab313'],dom:true,defaults:'orders',values:['orders','receipts','prices','adjust']},{handlesSection:true});
+-record('psProduction','batch',['psProductionDetail']);
++record('psProduction','batch',['psProductionDetail'],null,{parent:{view:'psProduction'}});
++record('psProduction','new',['psProductionForm'],null,{noId:true,parent:{view:'psProduction'}});
+ record('finance','record',['financeOpen']);record('finance','correction',['financeCorrectionOpen']);
+ const userAccessNative340=window.userAccessOpen;window.BOMUserRoutes340={open:id=>userAccessNative340(id,window.BOMRouter.parse().section||'summary',Number(window.BOMRouter.parse().params.get('scope')||0)),section:(id,key)=>userAccessNative340(id,key,Number(window.BOMRouter.parse().params.get('scope')||0))};
+ record('users','access',['BOMUserRoutes340.open'],{open:['BOMUserRoutes340.section'],arg:1,defaults:'summary',values:['summary','profiles','groups','scope','authority','advanced','history']},{legacy:['userAccessOpen'],handlesSection:true,scopeArgument:2});
+@@ -33,9 +34,11 @@ record('profile','',[],{open:['setMyAccountSectionV3592'],arg:0,defaults:'overvi
+ record('payroll','',[],{open:['payrollWorkspaceSectionV3591'],arg:0,defaults:'employees',values:['overview','employees','runs','advances']},{handlesSection:true});
+ record('accounting','',[],{open:['accountingV305Tab','accountingSimpleTabV291','accountingTabV29','v357AccountingOpen'],arg:0,accounting:true});
+ record('accounting','account',['v343OpenAccount'],null,{mode:'simple'});
+-record('psFinished','lots',['psLotsV367'],null,{noId:true});
++record('psFinished','lots',['psLotsV367'],null,{noId:true,parent:{view:'psFinished'}});
++record('psFinished','lot',['psLotDetail38'],null,{parent:{view:'psFinished',kind:'lots'}});
+ record('psSales','trace',['psOrderLotTraceV367']);
+-record('psFinished','families',['psFamiliesV367'],null,{noId:true});
++record('psFinished','families',['psFamiliesV367'],null,{noId:true,parent:{view:'psFinished'}});
++record('psFinished','family',['psFamilyDetail38'],null,{parent:{view:'psFinished',kind:'families'}});
+ record('accounting','journal',['journalDetailV29'],null,{temporary:true});
+ record('accounting','posting',['postingOpenV318'],null,{temporary:true});
+ // Bank statement upload is a temporary mutation modal, never an addressable read route.
+diff --git a/public/runtime-v30392.js b/public/runtime-v30392.js
+index 828827d..3ce79cd 100644
+--- a/public/runtime-v30392.js
++++ b/public/runtime-v30392.js
+@@ -1177,7 +1177,7 @@ window.psImportNewPaymentForm=async function(id){return window.BOMPinkFX.open('i
+       closeModalAfterSave();
+       toast(`${t('Production completed')} · ${(d.salt_categories||[]).join(' + ')} · ${t('Waste Weight')} ${qty(d.waste_weight_kg)} kg`);
+       if(d.accounting_sync_warning)setTimeout(()=>toast(t('Production completed, but accounting synchronization needs review.')),350);
+-      loadView();
++      formDirty=false;await BOMRouter.navigate('psProduction','',0,'',{params:window.BOMProductUX38?.parentState({view:'psProduction'})||{}});
+     }catch(err){toast(err.message||t('Request failed'))}
+     finally{if(button&&document.body.contains(button)){button.disabled=false;button.textContent=oldText}}
+   };
+@@ -1281,7 +1281,7 @@ window.psImportNewPaymentForm=async function(id){return window.BOMPinkFX.open('i
+         o.gift_components=clean;
+       }
+       await api(id?'/api/pink-salt/products/'+id:'/api/pink-salt/products',{method:id?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});
+-      closeModalAfterSave();toast(t('Finished product saved'));loadView();
++      if(window.BOMProductUX38?.productSaved)await BOMProductUX38.productSaved();else{closeModalAfterSave();await loadView()}toast(t('Finished product saved'));
+     }catch(err){toast(err.message||t('Request failed'))}
+   };
+ 
+diff --git a/public/v365-pink-commerce.js b/public/v365-pink-commerce.js
+index fc31cb3..21e39ca 100644
+--- a/public/v365-pink-commerce.js
++++ b/public/v365-pink-commerce.js
+@@ -13,7 +13,7 @@
+     `<div class="ps-banner"><div><b>${E(T('Commerce Foundation'))}</b><div><span>${E(T('Configure where Pink Salt products may be sold without duplicating operational product records.'))}</span></div></div><span>${E(T('Manual now · API / file / webhook connectors later'))}</span></div>`+
+     `<div class="ps-kpis"><div class="ps-kpi pink"><div class="label">${E(T('Products'))}</div><div class="value">${d.products.length}</div></div><div class="ps-kpi"><div class="label">${E(T('Active Channels'))}</div><div class="value">${activeChannels.length}</div></div><div class="ps-kpi"><div class="label">${E(T('Channel-enabled Products'))}</div><div class="value">${d.products.filter(p=>N(p.enabled_channels)>0).length}</div></div><div class="ps-kpi"><div class="label">${E(T('Available to Sell'))}</div><div class="value">${Math.round(d.products.reduce((a,p)=>a+N(p.available_to_sell_units),0)).toLocaleString()}</div></div></div>`+
+     `<div class="card" style="margin-top:14px"><div class="section-title"><div><h3>${E(T('Commerce Channels'))}</h3><div class="muted">${E(T('Channels are generic. Add website, marketplace, social commerce, B2B or future channels as needed.'))}</div></div></div><div class="table-wrap"><table class="table"><tr><th>${E(T('Channel'))}</th><th>${E(T('Type'))}</th><th>${E(T('Integration'))}</th><th>${E(T('Currency'))}</th><th>${E(T('Status'))}</th><th></th></tr>${d.channels.map(x=>`<tr><td><b>${E(x.name)}</b>${x.system_key==='internal'?`<div class="muted">${E(T('Protected system channel'))}</div>`:''}</td><td>${E(T(x.channel_type))}</td><td>${E(T(x.integration_mode))}</td><td>${E(x.currency)}</td><td>${badge(!!x.active)}</td><td><button class="btn small" onclick="psCommerceEditChannelV365(${x.id})">${E(T('Edit'))}</button></td></tr>`).join('')||`<tr><td colspan="6"><div class="empty">${E(T('No records.'))}</div></td></tr>`}</table></div></div>`+
+-    `<div class="card" style="margin-top:14px"><div class="section-title"><div><h3>${E(T('Product Channel Availability'))}</h3><div class="muted">${E(T('Control each product independently for each sales channel. Inventory remains authoritative in Pink Salt.'))}</div></div></div><div class="table-wrap"><table class="table"><tr><th>${E(T('Product SKU'))}</th><th>${E(T('Finished Product'))}</th><th>${E(T('On Hand'))}</th><th>${E(T('Reserved Stock'))}</th><th>${E(T('Available to Sell'))}</th><th>${E(T('Enabled Channels'))}</th><th></th></tr>${d.products.map(p=>`<tr><td><b>${E(p.sku)}</b></td><td>${E(p.name_en||p.name)}${p.variant_label?`<div class="muted">${E(p.variant_label)}</div>`:''}</td><td>${Math.round(N(p.on_hand_units)).toLocaleString()}</td><td>${Math.round(N(p.reserved_units)).toLocaleString()}</td><td><b>${Math.round(N(p.available_to_sell_units)).toLocaleString()}</b></td><td>${N(p.enabled_channels)} / ${activeChannels.length}</td><td><button class="btn small primary" onclick="psCommerceProductV365(${p.id})">${E(T('Manage Channels'))}</button></td></tr>`).join('')||`<tr><td colspan="7"><div class="empty">${E(T('No records.'))}</div></td></tr>`}</table></div></div>`;
++    `<div class="card" style="margin-top:14px"><div class="section-title"><div><h3>${E(T('Product Channel Availability'))}</h3><div class="muted">${E(T('Control each product independently for each sales channel. Inventory remains authoritative in Pink Salt.'))}</div></div></div><div class="table-wrap"><table class="table"><tr><th>${E(T('Product SKU'))}</th><th>${E(T('Finished Product'))}</th><th>${E(T('On Hand'))}</th><th>${E(T('Reserved Stock'))}</th><th>${E(T('Available to Sell'))}</th><th>${E(T('Enabled Channels'))}</th><th></th></tr>${d.products.map(p=>`<tr><td><b>${E(p.sku)}</b></td><td>${E(p.display_content?.name||p.name_en||p.name)}${p.variant_label?`<div class="muted">${E(p.variant_label)}</div>`:''}</td><td>${Math.round(N(p.on_hand_units)).toLocaleString()}</td><td>${Math.round(N(p.reserved_units)).toLocaleString()}</td><td><b>${Math.round(N(p.available_to_sell_units)).toLocaleString()}</b></td><td>${N(p.enabled_channels)} / ${activeChannels.length}</td><td><button class="btn small primary" onclick="psCommerceProductV365(${p.id})">${E(T('Manage Channels'))}</button></td></tr>`).join('')||`<tr><td colspan="7"><div class="empty">${E(T('No records.'))}</div></td></tr>`}</table></div></div>`;
+     translateElement(c);
+   };
+ 
+@@ -23,7 +23,7 @@
+   window.psCommerceEditChannelV365=function(id){const x=(window.psCommerce365?.channels||[]).find(z=>Number(z.id)===Number(id));if(!x)return;modal(`<div class="section-title"><div><h2>${E(T('Edit Commerce Channel'))}</h2><div class="muted">${E(x.name)}</div></div><button class="btn" onclick="closeModal()">✕</button></div><form onsubmit="psCommerceSaveChannelV365(event,${id})"><div class="grid g2"><div class="field"><label>${E(T('Channel Name'))} *</label><input name="name" required value="${E(x.name)}"></div><div class="field"><label>${E(T('Channel Type'))}</label><select name="channel_type">${['Internal','Own Website','Marketplace','Social Commerce','B2B Portal','Other'].map(v=>`<option ${v===x.channel_type?'selected':''}>${E(T(v))}</option>`).join('')}</select></div></div><div class="grid g2"><div class="field"><label>${E(T('Integration Mode'))}</label><select name="integration_mode">${['Manual','API','File Import / Export','Webhook','Connector Pending'].map(v=>`<option ${v===x.integration_mode?'selected':''}>${E(T(v))}</option>`).join('')}</select></div><div class="field"><label>${E(T('Currency'))}</label><input name="currency" value="${E(x.currency||'KRW')}" maxlength="3"></div></div><div class="field"><label><input type="checkbox" name="active" ${x.active?'checked':''} ${x.system_key==='internal'?'disabled':''}> ${E(T('Active'))}</label></div><div class="field"><label>${E(T('Notes'))}</label><textarea name="notes">${E(x.notes||'')}</textarea></div><div class="actions"><button type="button" class="btn" onclick="closeModal()">${E(T('Cancel'))}</button><button class="btn primary">${E(T('Review & Save'))}</button></div></form>`);translateElement(document.getElementById('modalRoot'))};
+   window.psCommerceSaveChannelV365=async function(e,id){e.preventDefault();const o=Object.fromEntries(new FormData(e.target));o.active=e.target.active?!!e.target.active.checked:true;await api(id?`/api/commerce/channels-v365/${id}`:'/api/commerce/channels-v365',{method:id?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});closeModalAfterSave();toast(T('Commerce channel saved'));window.psCommerceV365(document.getElementById('content'))};
+ 
+-  window.psCommerceProductV365=async function(productId){const [d,base]=await Promise.all([api(`/api/commerce/products-v365/${productId}`),api('/api/commerce/foundation-v365')]);const p=d.product;modal(`<div class="section-title"><div><h2>${E(T('Manage Product Channels'))}</h2><div class="muted"><b>${E(p.sku)}</b> · ${E(p.name_en||p.name)}</div></div><button class="btn" onclick="closeModal()">✕</button></div><div class="ps-detail-grid"><div class="ps-detail-box"><small>${E(T('On Hand'))}</small><b>${Math.round(N(p.on_hand_units)).toLocaleString()}</b></div><div class="ps-detail-box"><small>${E(T('Reserved Stock'))}</small><b>${Math.round(N(p.reserved_units)).toLocaleString()}</b></div><div class="ps-detail-box"><small>${E(T('Available to Sell'))}</small><b>${Math.round(N(p.available_to_sell_units)).toLocaleString()}</b></div><div class="ps-detail-box"><small>${E(T('Operational Owner'))}</small><b>${E(T('Pink Salt BU'))}</b></div></div><div class="card" style="margin-top:12px"><div class="table-wrap"><table class="table"><tr><th>${E(T('Channel'))}</th><th>${E(T('Enabled'))}</th><th>${E(T('Inventory Policy'))}</th><th>${E(T('Safety Stock'))}</th><th>${E(T('External SKU / ID'))}</th><th></th></tr>${d.mappings.map(m=>`<tr><td><b>${E(m.channel_name)}</b><div class="muted">${E(T(m.channel_type))} · ${E(T(m.integration_mode))}</div></td><td>${badge(!!m.enabled)}</td><td>${E(T(m.inventory_mode||'Shared'))}</td><td>${N(m.safety_stock_units||0)}</td><td>${E(m.external_seller_sku||m.external_product_id||'—')}</td><td><button class="btn small" onclick="psCommerceConfigureMappingV365(${productId},${m.channel_id})">${E(T('Configure'))}</button></td></tr>`).join('')}</table></div></div><div class="actions"><button class="btn" onclick="closeModal()">${E(T('Close'))}</button></div>`,'wide');window.psCommerce365=base;translateElement(document.getElementById('modalRoot'))};
++  window.psCommerceProductV365=async function(productId){const [d,base]=await Promise.all([api(`/api/commerce/products-v365/${productId}`),api('/api/commerce/foundation-v365')]);const p=d.product;modal(`<div class="section-title"><div><h2>${E(T('Manage Product Channels'))}</h2><div class="muted"><b>${E(p.sku)}</b> · ${E(p.display_content?.name||p.name_en||p.name)}</div></div><button class="btn" onclick="closeModal()">✕</button></div><div class="ps-detail-grid"><div class="ps-detail-box"><small>${E(T('On Hand'))}</small><b>${Math.round(N(p.on_hand_units)).toLocaleString()}</b></div><div class="ps-detail-box"><small>${E(T('Reserved Stock'))}</small><b>${Math.round(N(p.reserved_units)).toLocaleString()}</b></div><div class="ps-detail-box"><small>${E(T('Available to Sell'))}</small><b>${Math.round(N(p.available_to_sell_units)).toLocaleString()}</b></div><div class="ps-detail-box"><small>${E(T('Operational Owner'))}</small><b>${E(T('Pink Salt BU'))}</b></div></div><div class="card" style="margin-top:12px"><div class="table-wrap"><table class="table"><tr><th>${E(T('Channel'))}</th><th>${E(T('Enabled'))}</th><th>${E(T('Inventory Policy'))}</th><th>${E(T('Safety Stock'))}</th><th>${E(T('External SKU / ID'))}</th><th></th></tr>${d.mappings.map(m=>`<tr><td><b>${E(m.channel_name)}</b><div class="muted">${E(T(m.channel_type))} · ${E(T(m.integration_mode))}</div></td><td>${badge(!!m.enabled)}</td><td>${E(T(m.inventory_mode||'Shared'))}</td><td>${N(m.safety_stock_units||0)}</td><td>${E(m.external_seller_sku||m.external_product_id||'—')}</td><td><button class="btn small" onclick="psCommerceConfigureMappingV365(${productId},${m.channel_id})">${E(T('Configure'))}</button></td></tr>`).join('')}</table></div></div><div class="actions"><button class="btn" onclick="closeModal()">${E(T('Close'))}</button></div>`,'wide');window.psCommerce365=base;translateElement(document.getElementById('modalRoot'))};
+ 
+   window.psCommerceConfigureMappingV365=function(productId,channelId){const d=window.psCommerce365,c=(d.channels||[]).find(x=>Number(x.id)===Number(channelId)),m=mapFor(d,productId,channelId);if(!c)return;modal(`<div class="section-title"><div><h2>${E(T('Configure Product Channel'))}</h2><div class="muted">${E(c.name)}</div></div><button class="btn" onclick="closeModal()">✕</button></div><form onsubmit="psCommerceSaveMappingV365(event,${productId},${channelId})"><div class="field"><label><input type="checkbox" name="enabled" ${m.enabled?'checked':''}> ${E(T('Available on this channel'))}</label></div><div class="grid g3"><div class="field"><label>${E(T('Price List'))}</label><select name="price_list_id"><option value="">—</option>${(d.price_lists||[]).filter(x=>x.active).map(x=>`<option value="${x.id}" ${Number(m.price_list_id)===Number(x.id)?'selected':''}>${E(x.name)} · ${E(x.currency)}</option>`).join('')}</select></div><div class="field"><label>${E(T('Inventory Policy'))}</label><select name="inventory_mode">${['Shared','Allocated','Maximum Quantity'].map(v=>`<option ${v===(m.inventory_mode||'Shared')?'selected':''}>${E(T(v))}</option>`).join('')}</select></div><div class="field"><label>${E(T('Safety Stock'))}</label><input name="safety_stock_units" type="number" min="0" step="1" value="${N(m.safety_stock_units)}"></div></div><div class="grid g2"><div class="field"><label>${E(T('Allocated Quantity'))}</label><input name="allocated_units" type="number" min="0" step="1" value="${N(m.allocated_units)}"></div><div class="field"><label>${E(T('Maximum Sellable Quantity'))}</label><input name="max_sellable_units" type="number" min="0" step="1" value="${m.max_sellable_units??''}"></div></div><div class="grid g3"><div class="field"><label>${E(T('External Product ID'))}</label><input name="external_product_id" value="${E(m.external_product_id||'')}"></div><div class="field"><label>${E(T('External Variant ID'))}</label><input name="external_variant_id" value="${E(m.external_variant_id||'')}"></div><div class="field"><label>${E(T('Seller SKU'))}</label><input name="external_seller_sku" value="${E(m.external_seller_sku||'')}"></div></div><div class="field"><label><input type="checkbox" name="sync_enabled" ${m.sync_enabled?'checked':''}> ${E(T('Enable synchronization when a connector is configured'))}</label></div><div class="ps-info-note">${E(T('No external API calls are made in this foundation build. Connector-specific automation will be added later.'))}</div><div class="actions"><button type="button" class="btn" onclick="psCommerceProductV365(${productId})">${E(T('Cancel'))}</button><button class="btn primary">${E(T('Review & Save'))}</button></div></form>`);translateElement(document.getElementById('modalRoot'))};
+   window.psCommerceSaveMappingV365=async function(e,pid,cid){e.preventDefault();const o=Object.fromEntries(new FormData(e.target));o.enabled=!!e.target.enabled.checked;o.sync_enabled=!!e.target.sync_enabled.checked;await api(`/api/commerce/products-v365/${pid}/channel/${cid}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});toast(T('Product channel configuration saved'));await window.psCommerceV365(document.getElementById('content'));psCommerceProductV365(pid)};
+diff --git a/public/v366-pink-product-master.js b/public/v366-pink-product-master.js
+index 70367d6..b2ec976 100644
+--- a/public/v366-pink-product-master.js
++++ b/public/v366-pink-product-master.js
+@@ -20,7 +20,7 @@ window.psUploadProductImagesV366=async function(e,id){e.preventDefault();await a
+ window.psUpdateProductImageV366=async function(e,pid,iid){e.preventDefault();const o=Object.fromEntries(new FormData(e.target));o.is_primary=!!e.target.is_primary.checked;await api(`/api/v366/pink-salt/products/${pid}/images/${iid}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});toast(T('Product image updated'));psProductImagesV366(pid)};
+ window.psArchiveProductImageV366=async function(pid,iid){if(!confirm(T('Archive Image')+'?'))return;await api(`/api/v366/pink-salt/products/${pid}/images/${iid}`,{method:'DELETE'});psProductImagesV366(pid)};
+ 
+-const oldProductionForm=window.psProductionForm;if(oldProductionForm)window.psProductionForm=async function(){await oldProductionForm();const form=document.querySelector('#modalRoot form');if(!form)return;const dateField=form.querySelector('input[name="production_date"]')?.closest('.field');if(!dateField)return;const row=document.createElement('div');row.className='grid g3';row.innerHTML=`<div class="field"><label>${E(T('Lot No.'))}</label><input name="lot_no" placeholder="Auto = production batch no."></div><div class="field"><label>${E(T('Best Before Date'))}</label><input name="best_before_date" type="date"></div><div class="field"><label>${E(T('Traceability'))}</label><div class="ps-info-note">${E(T('Lot and best-before details will follow the production batch into finished-stock traceability.'))}</div></div>`;dateField.parentNode.insertBefore(row,dateField.nextSibling);translateElement(row)};
++const oldProductionForm=window.psProductionForm;if(oldProductionForm)window.psProductionForm=async function(){await oldProductionForm();const form=document.querySelector('#v324WorkflowSurface form,#modalRoot form');if(!form)return;const dateField=form.querySelector('input[name="production_date"]')?.closest('.field');if(!dateField)return;const row=document.createElement('div');row.className='grid g3';row.innerHTML=`<div class="field"><label>${E(T('Lot No.'))}</label><input name="lot_no" placeholder="Auto = production batch no."></div><div class="field"><label>${E(T('Best Before Date'))}</label><input name="best_before_date" type="date"></div><div class="field"><label>${E(T('Traceability'))}</label><div class="ps-info-note">${E(T('Lot and best-before details will follow the production batch into finished-stock traceability.'))}</div></div>`;dateField.parentNode.insertBefore(row,dateField.nextSibling);translateElement(row)};
+ const oldProductionDetail=window.psProductionDetail;if(oldProductionDetail)window.psProductionDetail=async function(id){await oldProductionDetail(id);const d=await api('/api/pink-salt/production/'+id),root=document.getElementById('modalRoot'),h=root?.querySelector('h2');if(!root||!h)return;const info=document.createElement('div');info.className='ps-detail-grid';info.style.margin='10px 0';info.innerHTML=`<div class="ps-detail-box"><small>${E(T('Lot No.'))}</small><b>${E(d.lot_no||d.batch_no||'—')}</b></div><div class="ps-detail-box"><small>${E(T('Best Before Date'))}</small><b>${E(d.best_before_date||'—')}</b></div>`;h.insertAdjacentElement('afterend',info);translateElement(info)};
+ 
+ window.psLocationsV366=async function(){const rows=await api('/api/v366/pink-salt/locations');modal(`<div class="section-title"><div><h2>${E(T('Storage Locations'))}</h2><div class="muted">${E(T('Warehouse'))} → ${E(T('Zone'))} → ${E(T('Rack / Bin'))}</div></div><button class="btn primary" onclick="psLocationFormV366()">+ ${E(T('Add Location'))}</button></div><div class="card"><div class="table-wrap"><table class="table"><tr><th>${E(T('Warehouse'))}</th><th>${E(T('Zone'))}</th><th>${E(T('Rack / Bin'))}</th><th>${E(T('Location Code'))}</th><th>${E(T('Status'))}</th><th></th></tr>${rows.map(x=>`<tr><td><b>${E(x.warehouse)}</b></td><td>${E(x.zone||'—')}</td><td>${E(x.rack_bin||'—')}</td><td>${E(x.location_code||'—')}</td><td><span class="pill ${x.active?'good':''}">${E(T(x.active?'Active':'Inactive'))}</span></td><td><button class="btn small" onclick="psLocationFormV366(${x.id})">${E(T('Edit'))}</button></td></tr>`).join('')}</table></div></div><div class="actions"><button class="btn" onclick="closeModal()">${E(T('Close'))}</button></div>`,'wide');window.psLocationsRowsV366=rows;translateElement(document.getElementById('modalRoot'))};
+diff --git a/public/v3693-persistent-routing.js b/public/v3693-persistent-routing.js
+index 2d91cc9..3ecffd5 100644
+--- a/public/v3693-persistent-routing.js
++++ b/public/v3693-persistent-routing.js
+@@ -50,7 +50,7 @@ function transition(r,{replace=false,historyEvent=false,discardConfirmed=false}=
+ function navigate(v,kind='',id=0,sectionName='',options={}){const r=parse(hash(v,kind,id,sectionName,options.unit??selectedUnitId,options.params||{}));return transition(r,options)}
+ function adapter(name,entry,isSection){if(name.includes('.'))return;const fn=(entry.legacy||entry.section?.legacy)?(isSection?fnFor(entry.section.open):fnFor(entry.open)):window[name];if(typeof fn!=='function'||bound.has(fn)||fn.__bomRouteBound||fn.__v333Original?.__bomRouteBound)return;originals.set(name,fn);const wrapped=function(...args){if(entry.temporary&&name==='postingOpenV318'&&loaded?.view==='accounting'&&loaded.kind==='control')return fn.apply(this,args);if((active&&!userEvent())||(name==='v357AccountingOpen'&&args[0]==='manual'))return fn.apply(this,args);let id=isSection?(entry.section.arg===1?Number(args[0]):(loaded?.id||0)):Number(args[0]||0),sectionName=isSection?(entry.section.dom?args[1]:entry.section.arg===1?args[1]:args[0]):entry.section?(String(args[1]||entry.section.defaults||'')):'';if(name==='v357AccountingOpen')sectionName='workspace:'+sectionName;if(entry.noId)id=0;return navigate(entry.view,entry.kind||'',id,sectionName,entry.view==='accounting'?{params:{mode:name==='accountingTabV29'?'advanced':'simple'}}:entry.scopeArgument!==undefined?{params:{scope:Number(args[entry.scopeArgument]||0)}}:{})};wrapped.__bomRouteBound=true;bound.add(wrapped);window[name]=wrapped;}
+ function bind(){for(const entry of registry.entries.values()){for(const name of entry.legacy||entry.open||[])adapter(name,entry,false);for(const name of entry.section?.legacy||entry.section?.open||[])adapter(name,entry,true)}}
+-function historyEvent(){if(location.hash===lastEventHash)return;lastEventHash=location.hash;transition(parse(),{historyEvent:true})}
++function historyEvent(){if(location.hash===lastEventHash)return;const target=parse();if(formDirty&&loaded&&!active&&['psProduction','psFinished'].includes(loaded.view)){const current=url(loaded);history.replaceState({...history.state,route:current},'',current);lastEventHash=current;confirmAction({title:T('Unsaved changes','저장하지 않은 변경'),message:T('Discard unsaved changes and navigate?','저장하지 않은 변경을 취소하고 이동할까요?'),confirmLabel:T('Discard Changes','변경 취소'),cancelLabel:T('Keep Editing','계속 편집'),tone:'danger'}).then(ok=>{if(ok){formDirty=false;transition(target,{replace:true,discardConfirmed:true})}});return;}lastEventHash=location.hash;transition(target,{historyEvent:true})}
+ function set(v,kind='',id=0,sectionName='',replace=false){if(active)return;return navigate(v,kind,id,sectionName,{replace})}
+ function authFailure(){resetSessionData();loaded=null;loadedUnit='';if(phase==='authentication')return;epoch++;active?.controller.abort();token=null;me=null;formDirty=false;localStorage.removeItem('bo_token');clearDialogs();phase='authentication';login()}
+ function refreshRecord(){ready=queue=queue.catch(()=>{}).then(async()=>{if(!loaded?.kind||!me)return;const r=loaded,entry=registry.find(r),my=epoch;active={my,controller:new AbortController()};phase='refreshing';try{await fnFor(entry.open)?.(...(entry.noId?[]:[r.id,...(entry.initialSection?[r.section||entry.section?.defaults]:[])]));if(!entry.handlesSection)await section(entry,r)}finally{if(active?.my===my)active=null;phase='ready'}});return ready}
+@@ -69,7 +69,7 @@ window.addEventListener('storage',e=>{if(e.key!=='bo_token'||e.newValue===token)
+ window.addEventListener('popstate',historyEvent);window.addEventListener('hashchange',historyEvent);
+ window.go=(v,opts={})=>{closeMobileSidebar();if(formDirty)return guardDirty(T('Discard unsaved changes and navigate?','저장하지 않은 변경을 취소하고 이동할까요?'),()=>navigate(v,'',0,'',{replace:!!opts.replace}));return navigate(v,'',0,'',{replace:!!opts.replace})};go=window.go;
+ window.switchUnit=id=>navigate(view,'',0,'',{unit:id||''});switchUnit=window.switchUnit;
+-allowed=allowedView;window.closeWorkflowPageV324=function(force=false){const finish=()=>{formDirty=false;if(history.state?.previousRoute)history.back();else navigate(view,'',0,'',{replace:true})};if(!force&&formDirty)return guardDirty(T('Discard unsaved changes and return?','저장하지 않은 변경을 취소하고 돌아갈까요?'),finish);return finish()};
++allowed=allowedView;window.closeWorkflowPageV324=function(force=false){const finish=()=>{formDirty=false;const r=parse(),parent=registry.find(r)?.parent;if(parent)return navigate(parent.view,parent.kind||'',0,'',{params:window.BOMProductUX38?.parentState(parent)||{}});if(history.state?.previousRoute)history.back();else navigate(view,'',0,'',{replace:true})};if(!force&&formDirty)return guardDirty(T('Discard unsaved changes and return?','저장하지 않은 변경을 취소하고 돌아갈까요?'),finish);return finish()};
+ // All eager module initialization is now complete before authentication starts.
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>boot(),{once:true});else boot();
+ })();
+diff --git a/qa/browser_v36938_product_ux.js b/qa/browser_v36938_product_ux.js
+new file mode 100644
+index 0000000..023582e
+--- /dev/null
++++ b/qa/browser_v36938_product_ux.js
+@@ -0,0 +1,23 @@
++'use strict';
++const assert=require('assert/strict'),fs=require('fs'),{fixture}=require('./fx_fixture'),{chromium}=require(process.env.BOM_PLAYWRIGHT||'playwright');
++(async()=>{let f,browser;const checks=[],errors=[],pass=x=>{checks.push(x);console.log('PASS '+x)};try{f=await fixture();f.db.prepare("UPDATE users SET preferred_language='en' WHERE id=1").run();const today=new Date().toISOString().slice(0,10),raw=f.db.prepare('SELECT * FROM pink_salt_import_items WHERE import_id=?').get(f.imports[0]);f.db.prepare("UPDATE pink_salt_imports SET status='Received' WHERE id=?").run(f.imports[0]);f.db.prepare('UPDATE pink_salt_import_items SET received_weight_kg=250,landed_cost_krw=2500 WHERE id=?').run(raw.id);f.ins('pink_salt_raw_stock_movements',{business_unit_id:f.pink,import_item_id:raw.id,movement_date:today,movement_type:'Receipt',quantity_kg:250,reference:'Synthetic raw opening'});
++ browser=await chromium.launch({executablePath:process.env.BOM_CHROMIUM||'/usr/bin/chromium',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});const page=await browser.newPage({viewport:{width:1440,height:1000}});page.on('pageerror',e=>errors.push(e.message));await page.addInitScript(token=>{localStorage.setItem('bo_token',token);localStorage.setItem('bo_language','en')},f.login.token);
++ const goto=async(hash,sel)=>{await page.goto(f.base+'/'+hash+(hash.includes('?')?'&':'?')+'unit='+f.pink);await page.locator(sel).first().waitFor()};
++ const confirm=async()=>{const d=page.locator('.confirm-dialog');await d.waitFor();await d.locator('button.primary').last().click()};
++ await goto('#psFinished','button[onclick="psProductForm()"]');await page.locator('.ps-ux-actions').first().waitFor();const buttons=page.locator('.ps-ux-actions').first().locator('button');assert(await buttons.count()>=5);for(const b of await buttons.all())assert(await b.isVisible());const fixed=await page.locator('.ps-ux-table td:last-child').first().evaluate(el=>getComputedStyle(el).position);assert.equal(fixed,'sticky');pass('Product Master actions are visible without hover and stay in a sticky right column');
++ await page.locator('button[onclick="psProductForm()"]').click();let pf=page.locator('form[onsubmit*="psSaveProduct"]');await pf.locator('[name=content_language]').waitFor();assert(await pf.locator('[name=name_en]').isVisible());assert(!await pf.locator('[name=name_ko]').isVisible());await pf.locator('[name=name_en]').fill('English retained');await pf.locator('[name=content_language]').selectOption('both');assert(await pf.locator('[name=name_en]').isVisible()&&await pf.locator('[name=name_ko]').isVisible());await pf.locator('[name=name_ko]').fill('한국 전용 제품');await pf.locator('[name=content_language]').selectOption('ko');assert(!await pf.locator('[name=name_en]').isVisible());assert.equal(await pf.locator('[name=name_en]').inputValue(),'English retained');assert(await pf.locator('[name=pack_weight_g]').isVisible());pass('English/Korean/Both toggles only language fields, retains content and keeps shared SKU/weight fields');
++ await pf.locator('[name=content_language]').selectOption('both');await pf.locator('[name=name_en]').fill('');await pf.locator('[name=content_language]').selectOption('ko');await pf.locator('[name=sku]').fill('BROWSER-KO-38');await pf.locator('[name=commerce_language]').selectOption('en');await pf.locator('[name=pack_weight_g]').fill('500');await pf.locator('button.primary').last().click();await confirm();await page.waitForFunction(()=>!document.querySelector('form[onsubmit*="psSaveProduct"]'));const product=f.db.prepare("SELECT * FROM pink_salt_products WHERE sku='BROWSER-KO-38'").get();assert(product);assert.equal(product.name_en,'');assert.equal(product.name,'한국 전용 제품');assert.equal(product.content_language,'ko');pass('Real browser saves Korean-only product and preferred commerce language through shared Review & Confirm');
++ await page.locator('.ps-ux-table').waitFor();await page.waitForFunction(()=>!BOMDialogProcessingV363.isActive());await page.evaluate(id=>psProductForm(id),product.id);pf=page.locator('form[onsubmit*="psSaveProduct"]');await pf.locator('[name=content_language]').waitFor();assert.equal(await pf.locator('[name=content_language]').inputValue(),'ko');assert.equal(await pf.locator('[name=name_en]').inputValue(),'');await page.locator('#modalRoot .v322-modal-close').first().click();if(await page.locator('.confirm-dialog').count())await confirm();
++ await page.getByRole('button',{name:'Product Families',exact:true}).click();await page.locator('[data-product-page=families]').waitFor();await page.screenshot({path:'/tmp/bom38-families-desktop.png',fullPage:true});assert.equal(await page.locator('#modalRoot .modal').count(),0);await page.reload();await page.locator('[data-product-page=families]').waitFor();assert.equal(await page.locator('#modalRoot .modal').count(),0);await page.evaluate(()=>scheduleDataSync(0));await page.waitForTimeout(400);assert.equal(await page.locator('[data-product-page=families]').count(),1);pass('Product Families opens directly as a populated full-screen page; refresh and background synchronization preserve it');
++ await page.getByRole('button',{name:'Add Product Family',exact:true}).click();const ff=page.locator('form[onsubmit*="psSaveFamilyV367"]');await ff.locator('[name=name_en]').fill('Browser Family');await ff.locator('[name=name_ko]').fill('브라우저 제품군');await ff.locator('[name=family_code]').fill('BROWSER-F38');await ff.locator('button.primary').click();await confirm();await page.locator('[data-family]').first().waitFor();assert.equal(await page.locator('#modalRoot .modal').count(),0);const fam=f.db.prepare("SELECT * FROM pink_salt_product_families WHERE family_code='BROWSER-F38'").get();assert(fam);await page.locator(`[data-family="${fam.id}"]`).getByRole('button',{name:'Edit',exact:true}).click();await page.locator('form[onsubmit*="psSaveFamilyV367"]').getByRole('button',{name:'Cancel',exact:true}).click();await page.locator('[data-product-page=families]').waitFor();assert.equal(await page.locator('#modalRoot .modal').count(),0);pass('Family add/save/edit/cancel uses short dialogs over the retained populated page');
++ await page.locator('[data-product-page=families] [name=search]').fill('Browser Family');await page.locator('form.ps313-filter').getByRole('button',{name:'Search',exact:true}).click();await page.waitForURL(/search=Browser/);await page.locator('[data-family]').waitFor();assert.equal(await page.locator('.confirm-dialog').count(),0);assert.equal(await page.locator('[data-product-page=families] [name=search]').inputValue(),'Browser Family');pass('Family search is a direct read action without a confirmation dialog and persists in the URL');
++ await page.locator(`[data-family="${fam.id}"]`).getByRole('button',{name:'Open',exact:true}).click();await page.locator('[data-product-page=family]').waitFor();assert(page.url().includes('/family/'+fam.id));await page.reload();await page.locator('[data-product-page=family]').waitFor();f.db.prepare('UPDATE pink_salt_products SET family_id=?,product_family=? WHERE id=?').run(fam.id,fam.name_en,product.id);await page.reload();await page.locator('[data-product-page=family]').waitFor();await page.locator('[data-product-page=family] table').getByRole('button',{name:'Open',exact:true}).click();pf=page.locator('form[onsubmit*="psSaveProduct"]');await pf.locator('[name=content_language]').waitFor();await pf.locator('[name=notes]').fill('Variant stays in its family');await pf.locator('button.primary').last().click();await confirm();await page.waitForFunction(()=>!document.querySelector('form[onsubmit*="psSaveProduct"]'));await page.locator('[data-product-page=family]').waitFor();assert(page.url().includes('/family/'+fam.id));pass('Editing a linked variant returns to its family detail without replacing it with Product Master');await page.getByRole('button',{name:'Back',exact:true}).click();await page.locator('[data-product-page=families]').waitFor();await page.getByRole('button',{name:'Back',exact:true}).click();await page.locator('button[onclick="psProductForm()"]');await page.waitForURL(/#psFinished\?unit=/);pass('Family detail deep link, refresh and explicit parent Back work without unrelated screens');
++ const lot=f.ins('pink_salt_finished_lots',{business_unit_id:f.pink,product_id:f.product,lot_no:'BROWSER-LOT-38',produced_units:10,best_before_date:'2030-01-01',quality_status:'Released'});await page.getByRole('button',{name:'Lots & Expiry',exact:true}).click();await page.locator(`[data-lot="${lot}"]`).waitFor();assert.equal(await page.locator('#modalRoot .modal').count(),0);await page.locator(`[data-lot="${lot}"]`).getByRole('button',{name:'Edit',exact:true}).click();let lf=page.locator('form[onsubmit*="psLotSaveV367"]');await lf.getByRole('button',{name:'Cancel',exact:true}).click();await page.locator(`[data-lot="${lot}"]`).getByRole('button',{name:'Open',exact:true}).click();await page.locator('[data-product-page=lot]').waitFor();await page.reload();await page.locator('[data-product-page=lot]').waitFor();await page.getByRole('button',{name:'Edit',exact:true}).click();lf=page.locator('form[onsubmit*="psLotSaveV367"]');await lf.locator('[name=quality_status]').selectOption({label:'Hold'});await lf.locator('button.primary').click();await confirm();await page.waitForFunction(()=>!document.querySelector('form[onsubmit*="psLotSaveV367"]'));assert.equal(f.db.prepare('SELECT quality_status FROM pink_salt_finished_lots WHERE id=?').get(lot).quality_status,'Hold');await page.getByRole('button',{name:'Back',exact:true}).click();await page.locator('[data-product-page=lots]').waitFor();await page.reload();await page.locator('[data-product-page=lots]').waitFor();pass('Lots list/detail/edit/save/cancel and refresh retain the correct page and immutable quantities');
++ await goto('#psProduction','button[onclick="psProductionForm()"]');await page.locator('button[onclick="psProductionForm()"]').click();let prod=page.locator('form[onsubmit*="psSaveProduction"]');await prod.waitFor();assert(page.url().includes('#psProduction/new?'));await page.getByRole('button',{name:'Cancel',exact:true}).click();await page.waitForFunction(()=>BOMRouter.parse().view==='psProduction'&&!BOMRouter.parse().kind&&BOMRouter.diagnostics().phase==='ready');await page.locator('button[onclick="psProductionForm()"]').waitFor();await page.locator('button[onclick="psProductionForm()"]').click();await prod.waitFor();await page.reload();await prod.waitFor();assert(page.url().includes('#psProduction/new?'));await page.evaluate(()=>appBack());await page.waitForFunction(()=>BOMRouter.parse().view==='psProduction'&&!BOMRouter.parse().kind&&BOMRouter.diagnostics().phase==='ready');pass('New Production has its own URL; Cancel, full-screen Back and refresh return to Production');
++ await page.locator('button[onclick="psProductionForm()"]').click();await prod.waitFor();await prod.locator('[name=notes]').fill('Keep this unsaved value');await page.goBack();await page.locator('.confirm-dialog').waitFor();await page.locator('.confirm-dialog').getByRole('button',{name:'Keep Editing',exact:true}).click();assert.equal(await prod.locator('[name=notes]').inputValue(),'Keep this unsaved value');await page.locator('.v324-workflow-back').click();await page.locator('.confirm-dialog').waitFor();await page.locator('.confirm-dialog').getByRole('button',{name:/Discard|Leave/}).click();await page.waitForFunction(()=>BOMRouter.parse().view==='psProduction'&&!BOMRouter.parse().kind&&BOMRouter.diagnostics().phase==='ready');pass('Browser Back and page Back protect unsaved Production inputs and discard returns to the correct parent');
++ await page.locator('button[onclick="psProductionForm()"]').click();await prod.waitFor();await prod.locator('[name=notes]').fill('Validation keeps this input');await prod.getByRole('button',{name:'Complete Repacking',exact:true}).click();await page.waitForTimeout(250);if(await page.locator('.confirm-dialog').count())await confirm();assert.equal(await prod.locator('[name=notes]').inputValue(),'Validation keeps this input');assert.equal(f.db.prepare('SELECT COUNT(*) n FROM pink_salt_production_batches').get().n,0);pass('Invalid Production submission retains the form and entered values without creating a batch');await prod.locator('.ps-output-line select').selectOption(String(f.product));await prod.locator('.ps-output-line input[type=number]').fill('5');await prod.locator('.ps-output-line input[type=number]').press('Tab');await prod.locator('.ps-raw-input select').selectOption(String(raw.id));await prod.locator('.ps-raw-input input[type=number]').fill('2.5');await prod.locator('.ps-raw-input input[type=number]').press('Tab');await prod.getByRole('button',{name:'Complete Repacking',exact:true}).click();await confirm();await page.waitForFunction(()=>BOMRouter.parse().view==='psProduction'&&!BOMRouter.parse().kind&&BOMRouter.diagnostics().phase==='ready');await page.locator('.ps-ux-actions').first().waitFor();const batch=f.db.prepare('SELECT * FROM pink_salt_production_batches ORDER BY id DESC').get();assert(batch);assert.equal(batch.status,'Completed');pass('Actual Production completion saves once and returns to Production list, preserving existing stock/lot service');
++ await page.locator('[data-f-search]').fill(batch.batch_no);await page.locator('.ps-ux-actions').first().getByRole('button',{name:'Open',exact:true}).click();await page.waitForURL(/#psProduction\/batch\//);await page.reload();await page.locator('#v324WorkflowSurface').waitFor();await page.locator('.v324-workflow-back').click();await page.waitForFunction(()=>BOMRouter.parse().view==='psProduction'&&!BOMRouter.parse().kind&&BOMRouter.diagnostics().phase==='ready');await page.locator('[data-f-search]').waitFor();assert.equal(await page.locator('[data-f-search]').inputValue(),batch.batch_no);await page.screenshot({path:'/tmp/bom38-production-desktop.png',fullPage:true});await page.goBack();await page.waitForURL(/#psProduction\/batch\//);await page.locator('#v324WorkflowSurface').waitFor();await page.goForward();await page.waitForFunction(()=>BOMRouter.parse().view==='psProduction'&&!BOMRouter.parse().kind&&BOMRouter.diagnostics().phase==='ready');pass('Production details restore directly and browser Back/Forward respects record/list routes');
++ await goto('#psFinished','button[onclick="psProductForm()"]');await page.setViewportSize({width:390,height:844});await page.evaluate(()=>closeMobileSidebar());await page.locator('.ps-ux-actions').first().waitFor();for(const b of await page.locator('.ps-ux-actions').first().locator('button').all())assert(await b.isVisible());assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:'/tmp/bom38-products-mobile.png',fullPage:true});await page.evaluate(async()=>{currentLanguage='ko';await BOMRouter.retranslate()});await page.locator('button[onclick="psFamiliesV367()"]').click();await page.locator('[data-product-page=families]').waitFor();assert((await page.locator('#content').innerText()).includes('제품군'));assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:'/tmp/bom38-families-ko.png',fullPage:true});pass('Mobile390px Product Master actions wrap visibly; Korean full-screen families have no document overflow');
++ await goto('#psPackaging/materials','summary .pack-nav-arrow');await page.setViewportSize({width:1440,height:1000});const arrow=await page.locator('#packSidebar summary').evaluate(el=>{const a=el.querySelector('.pack-nav-arrow').getBoundingClientRect(),l=el.querySelector('.nav-label').getBoundingClientRect(),r=el.getBoundingClientRect();return {right:r.right-a.right,after:a.left>=l.right-1,icon:!!el.querySelector('.nav-icon')}});assert(arrow.icon&&arrow.after&&arrow.right<=16);await page.screenshot({path:'/tmp/bom38-sidebar-desktop.png',fullPage:true});await page.locator('#packSidebar summary').click();assert(!await page.locator('#packSidebar').evaluate(el=>el.open));await page.locator('#packSidebar summary').click();assert(await page.locator('#packSidebar').evaluate(el=>el.open));pass('Packaging sidebar uses shared icon/label styling and far-right arrow with functional expand/collapse');
++ assert.deepEqual(errors,[]);pass('No uncaught JavaScript errors across tested workflows');fs.writeFileSync('qa/evidence/36938-product-browser.json',JSON.stringify({status:'PASS',checks,errors,browser:await browser.version(),production_data_used:false},null,2));
++ }catch(e){console.error(e);if(browser){const p=browser.contexts()[0]?.pages()[0];if(p){console.log((await p.locator('body').innerText()).slice(-3500));await p.screenshot({path:'/tmp/bom38-browser-failure.png',fullPage:true})}}fs.writeFileSync('qa/evidence/36938-product-browser.json',JSON.stringify({status:'FAIL',checks,errors,error:e.message},null,2));process.exitCode=1}finally{await browser?.close();f?.close()}})();
+diff --git a/qa/evidence/36938-core-api.json b/qa/evidence/36938-core-api.json
+new file mode 100644
+index 0000000..1360f69
+--- /dev/null
++++ b/qa/evidence/36938-core-api.json
+@@ -0,0 +1,34 @@
++{
++  "status": "PASS",
++  "checks": [
++    "Material master creates bilingual variants, unit conversions and supplier mappings; duplicate code/specification rejected",
++    "Identical duplicate submissions replay one durable result",
++    "One eligible supplier and multiple materials; exact discount/tax/expense totals; purchase creates no stock",
++    "Confirmed purchase follows Imports commitment policy; no cash or physical stock is created",
++    "Partial and full receipts are durable, reject over-receipt and keep damaged goods outside usable stock",
++    "Receipt failures roll back all lines and stock atomically",
++    "Rejected-item return clears quarantine without reducing usable stock or creating inventory value",
++    "Supplier return links the original receipt, reopens replacement balance and creates no cash movement",
++    "Historical line snapshots survive edits; used units/deletion locked; archive and unused deletion work",
++    "Packaging invoice context uses the shared FX engine and original carrying basis",
++    "USD\u2192USD payment debits USD 10 on the exact bank account, values KRW 14000 and settles KRW 13000 without changing stock",
++    "Advance-only settlement uses the central supplier advance ledger and creates no bank or stock movement",
++    "Combined advance and PKR\u2192USD bank payment retain separate non-cash allocation and actual PKR debit",
++    "Central supplier profile, payment history, allocations and statement reconcile exactly to the supplier net balance",
++    "Existing account/reference duplicate guard applies to packaging purchase payments",
++    "Packaging BOM reuses existing product recipes, supports proportional cartons and preserves revisions",
++    "Additive migration is retry-safe; stock quantity, movement count, Finance count and foreign keys reconcile",
++    "Backend KPI counts and paginated material reads use actual records",
++    "Final foreign settlement clears the six-KRW residual through disclosed FX, then passes approval, Finance verification, balanced Accounting posting and supplier reconciliation",
++    "Fully prepaid cash purchase receives independently; cash has no supplier bank requirement and payment never changes stock",
++    "Partially paid purchase receives all ordered units without forcing the remaining balance to be paid",
++    "Safe header edits, stale edit rejection, return-to-draft amendment and unused cancellation preserve Accounting reversal history",
++    "Archived or reclassified suppliers cannot be selected for new purchases but historical purchase, payment and supplier profile links remain valid",
++    "Backend rejects wrong-unit and unauthenticated Packaging access",
++    "Configured L4 purchase approval creates a complete actionable task, blocks premature receiving and executes once after independent approval"
++  ],
++  "production_data_used": false,
++  "node": "v22.23.3",
++  "baseline": "30.69.33",
++  "run_version": "30.69.38"
++}
+diff --git a/qa/evidence/36938-packaging-refinement-api.json b/qa/evidence/36938-packaging-refinement-api.json
+new file mode 100644
+index 0000000..d93c660
+--- /dev/null
++++ b/qa/evidence/36938-packaging-refinement-api.json
+@@ -0,0 +1,16 @@
++{
++  "status": "PASS",
++  "checks": [
++    "Material list exposes actual history dependencies for archive/delete row controls",
++    "Normal purchase confirms in the single create/review flow, with no approval request or stock creation",
++    "List summaries start unpaid/not received and used materials are no longer deletable",
++    "Partial receipt/payment summaries reconcile live quantities, paid/outstanding values and pending Finance verification",
++    "Completed receipt/settlement enables Close, hides Receive and keeps Finance verification separate",
++    "Optional drafts and server-side pagination remain supported",
++    "Cancelled purchases do not display a supplier amount still due",
++    "Configured exceptional purchase authorization remains active on auto-confirm creation"
++  ],
++  "baseline": "30.69.36",
++  "production_data_used": false,
++  "run_version": "30.69.38"
++}
+diff --git a/qa/evidence/36938-packaging-refinement-browser.json b/qa/evidence/36938-packaging-refinement-browser.json
+new file mode 100644
+index 0000000..f272ce3
+--- /dev/null
++++ b/qa/evidence/36938-packaging-refinement-browser.json
+@@ -0,0 +1,40 @@
++{
++  "status": "PASS",
++  "checks": [
++    "Desktop toolbar search/filter/primary controls are compact and aligned instead of stretched",
++    "Material list exposes Open/Edit/Archive/Delete and archive/reactivation works directly on the filtered list",
++    "Normal purchase completes in one Review & Confirm with no second purchase-approval step",
++    "Purchase list displays live receiving/payment/outstanding information and visible allowed actions without an unnecessary approval label",
++    "Receiving checkbox stays beside its label, line balances are clear, and an unpaid partial receipt updates the list accurately",
++    "Used material hides Delete; unused material deletes through review while preserving used history",
++    "Compact toolbar/material actions remain responsive at 390px and render Korean labels",
++    "No uncaught browser JavaScript errors"
++  ],
++  "errors": [],
++  "toolbar_dimensions": [
++    {
++      "width": 397.890625,
++      "height": 38,
++      "bottom": 412.203125
++    },
++    {
++      "width": 74.109375,
++      "height": 38,
++      "bottom": 412.203125
++    },
++    {
++      "width": 114.4375,
++      "height": 38,
++      "bottom": 412.203125
++    }
++  ],
++  "checkbox_alignment": {
++    "width": 18,
++    "height": 18,
++    "gap": 8,
++    "dy": 0
++  },
++  "browser": "153.0.8010.0",
++  "production_data_used": false,
++  "run_version": "30.69.38"
++}
+diff --git a/qa/evidence/36938-packaging-workflow-browser.json b/qa/evidence/36938-packaging-workflow-browser.json
+new file mode 100644
+index 0000000..658211f
+--- /dev/null
++++ b/qa/evidence/36938-packaging-workflow-browser.json
+@@ -0,0 +1,29 @@
++{
++  "status": "PASS",
++  "checks": [
++    "Authenticated Packaging Materials landing renders three sidebar submenus, separate screen and four live KPI cards without duplicate primary tabs",
++    "A catalog save uses one root-level processing overlay and locks the modal and conflicting navigation",
++    "Real browser creates a bilingual material with purchase conversion and central supplier mapping using Review & Confirm",
++    "Material detail restores directly on browser refresh",
++    "Browser creates a purchase in box units, reaches full-screen detail and adds no stock",
++    "CEO authorizes the reviewed purchase through the real UI with an explicit reason and audited execution",
++    "Purchase internal tabs persist in URLs and survive refresh and browser Back",
++    "Unpaid purchase receives its first 600 units through the real browser without a payment gate",
++    "Receive All Now receives only the remaining 400 units; two durable receipts total exactly 1000",
++    "Purchase payment opens the existing shared form; advance-only hides fresh company-account fields",
++    "Browser advance-only settlement allocates centrally and creates no second Finance debit",
++    "Supplier Account and Pay Outstanding link the packaging purchase to the shared payment engine and back to full purchase details",
++    "Native production consumes five packaging units from the existing BOM only after confirmation and preserves lot/cost links",
++    "Purchase details fit a 390px mobile viewport without document overflow",
++    "Korean purchase view renders Korean headings, tabs and actions",
++    "No uncaught browser JavaScript errors"
++  ],
++  "errors": [],
++  "browser": "153.0.8010.0",
++  "viewports": [
++    1360,
++    390
++  ],
++  "production_data_used": false,
++  "run_version": "30.69.38"
++}
+diff --git a/qa/evidence/36938-product-api.json b/qa/evidence/36938-product-api.json
+new file mode 100644
+index 0000000..0ba3a39
+--- /dev/null
++++ b/qa/evidence/36938-product-api.json
+@@ -0,0 +1,17 @@
++{
++  "status": "PASS",
++  "checks": [
++    "Korean-only product creates through existing atomic API without English content",
++    "Commerce preferred English falls back per field to actual Korean content",
++    "Both/English preferences retain inactive-language content",
++    "Required selected language and preference values enforced on backend with no partial product",
++    "Family linkage saves atomically, used deletion blocked, archive preserves relationships",
++    "Unused family deletion and audit work through guarded existing family service",
++    "Family default25 server pagination, search, archived records and legacy array API coexist",
++    "Lots server filters/paging, location validation and metadata edits preserve quantities and omitted fields",
++    "Invalid family causes atomic product rollback",
++    "View-only users cannot create/edit/delete family or lot records and wrong-unit access is rejected",
++    "Foreign-key integrity after product/family/lot operations"
++  ],
++  "production_data_used": false
++}
+\ No newline at end of file
+diff --git a/qa/evidence/36938-product-browser.json b/qa/evidence/36938-product-browser.json
+new file mode 100644
+index 0000000..674b3d2
+--- /dev/null
++++ b/qa/evidence/36938-product-browser.json
+@@ -0,0 +1,25 @@
++{
++  "status": "PASS",
++  "checks": [
++    "Product Master actions are visible without hover and stay in a sticky right column",
++    "English/Korean/Both toggles only language fields, retains content and keeps shared SKU/weight fields",
++    "Real browser saves Korean-only product and preferred commerce language through shared Review & Confirm",
++    "Product Families opens directly as a populated full-screen page; refresh and background synchronization preserve it",
++    "Family add/save/edit/cancel uses short dialogs over the retained populated page",
++    "Family search is a direct read action without a confirmation dialog and persists in the URL",
++    "Editing a linked variant returns to its family detail without replacing it with Product Master",
++    "Family detail deep link, refresh and explicit parent Back work without unrelated screens",
++    "Lots list/detail/edit/save/cancel and refresh retain the correct page and immutable quantities",
++    "New Production has its own URL; Cancel, full-screen Back and refresh return to Production",
++    "Browser Back and page Back protect unsaved Production inputs and discard returns to the correct parent",
++    "Invalid Production submission retains the form and entered values without creating a batch",
++    "Actual Production completion saves once and returns to Production list, preserving existing stock/lot service",
++    "Production details restore directly and browser Back/Forward respects record/list routes",
++    "Mobile390px Product Master actions wrap visibly; Korean full-screen families have no document overflow",
++    "Packaging sidebar uses shared icon/label styling and far-right arrow with functional expand/collapse",
++    "No uncaught JavaScript errors across tested workflows"
++  ],
++  "errors": [],
++  "browser": "153.0.8010.0",
++  "production_data_used": false
++}
+\ No newline at end of file
+diff --git a/qa/evidence/36938-regressions.json b/qa/evidence/36938-regressions.json
+new file mode 100644
+index 0000000..21dfdd9
+--- /dev/null
++++ b/qa/evidence/36938-regressions.json
+@@ -0,0 +1,140 @@
++{
++  "status": "PASS",
++  "node": "v22.23.3",
++  "results": [
++    {
++      "suite": "qa_v36933_payment_approvals.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 17,
++      "duration_ms": 2943
++    },
++    {
++      "suite": "qa_v36932_server.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 16,
++      "duration_ms": 3507
++    },
++    {
++      "suite": "qa_v36932_legacy_advances.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 5,
++      "duration_ms": 2333
++    },
++    {
++      "suite": "qa_v36931_reference.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 24,
++      "duration_ms": 2768
++    },
++    {
++      "suite": "qa_v36930_shared_rate.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 11,
++      "duration_ms": 2559
++    },
++    {
++      "suite": "qa_v36929_qa15.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 20,
++      "duration_ms": 2937
++    },
++    {
++      "suite": "qa_v36927_supplier_accounts.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 7,
++      "duration_ms": 2417
++    },
++    {
++      "suite": "qa_v36926_recipient.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 10,
++      "duration_ms": 2500
++    },
++    {
++      "suite": "qa_v36925_server.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 23,
++      "duration_ms": 2737
++    },
++    {
++      "suite": "qa_v36925_extended.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 12,
++      "duration_ms": 2634
++    },
++    {
++      "suite": "qa_v36925_statement_integrity.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 8,
++      "duration_ms": 2463
++    },
++    {
++      "suite": "qa_v36924_calculation.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 7,
++      "duration_ms": 2364
++    },
++    {
++      "suite": "qa_v36923_static_assets.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 12,
++      "duration_ms": 138
++    },
++    {
++      "suite": "runtime_smoke.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 22,
++      "duration_ms": 2666
++    },
++    {
++      "suite": "qa_v36920_fx_e2e.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 19,
++      "duration_ms": 2470
++    },
++    {
++      "suite": "qa_v36920_workflows.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 25,
++      "duration_ms": 2677
++    },
++    {
++      "suite": "qa_v36920_permissions.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 7,
++      "duration_ms": 2922
++    },
++    {
++      "suite": "qa_v36920_excavator.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 13,
++      "duration_ms": 2930
++    },
++    {
++      "suite": "qa_v36921_controls.js",
++      "status": "PASS",
++      "exit_code": 0,
++      "passed_log_lines": 24,
++      "duration_ms": 2664
++    }
++  ],
++  "production_data_used": false
++}
+\ No newline at end of file
+diff --git a/qa/evidence/36938-upgrade.json b/qa/evidence/36938-upgrade.json
+new file mode 100644
+index 0000000..9b4c942
+--- /dev/null
++++ b/qa/evidence/36938-upgrade.json
+@@ -0,0 +1,28 @@
++{
++  "status": "PASS",
++  "checks": [
++    "Original .37 application creates legacy purchase, receipt, cash settlement, bilingual product and linked family",
++    "Upgrade to .38 preserves original columns in 15 protected tables and derives correct statuses without rewriting records",
++    "Repeated .38 startup leaves all existing rows and balances unchanged",
++    "Korean-only product and preferences survive restart without fabricating English content"
++  ],
++  "baseline": "30.69.37",
++  "tables": [
++    "pink_pack_purchases",
++    "pink_pack_purchase_lines",
++    "pink_pack_receipts",
++    "pink_pack_receipt_lines",
++    "pink_pack_operations",
++    "pink_salt_packaging_items",
++    "pink_salt_packaging_movements",
++    "pink_fx_transactions",
++    "finance_entries",
++    "accounting_journal_entries",
++    "accounting_journal_lines",
++    "approval_rules",
++    "pink_salt_products",
++    "pink_salt_product_families",
++    "pink_salt_finished_lots"
++  ],
++  "production_data_used": false
++}
+\ No newline at end of file
+diff --git a/qa/qa_v36938_product_ux.js b/qa/qa_v36938_product_ux.js
+new file mode 100644
+index 0000000..9ed6884
+--- /dev/null
++++ b/qa/qa_v36938_product_ux.js
+@@ -0,0 +1,15 @@
++'use strict';
++const assert=require('assert/strict'),fs=require('fs'),bcrypt=require('bcryptjs'),crypto=require('crypto'),{fixture}=require('./fx_fixture');
++(async()=>{let f;const checks=[],pass=x=>{checks.push(x);console.log('PASS '+x)};try{f=await fixture();const api=async(m,u,b)=>{const r=await f.api(m,u,b,{'x-ceo-confirmed':'1','x-ceo-confirmation-note':'Synthetic QA'});assert(r.ok,JSON.stringify({m,u,...r}));return r.j},body={sku:'LANG-KO',name_ko:'한국 소금',name_en:'',content_language:'ko',commerce_language:'en',packaging_style:'Retail Pack',salt_grade:'Fine',pack_weight_g:500,bom:[],ingredients_ko:'소금'};
++ const p=await api('POST','/api/pink-salt/products',body);let row=f.db.prepare('SELECT * FROM pink_salt_products WHERE id=?').get(p.id);assert.equal(row.name,'한국 소금');assert.equal(row.name_en,'');assert.equal(row.content_language,'ko');pass('Korean-only product creates through existing atomic API without English content');
++ let c=(await api('GET','/api/commerce/products-v365/'+p.id)).product;assert.equal(c.display_content.name,'한국 소금');assert.equal(c.display_content.name_language,'ko');assert.equal(c.display_content.ingredients,'소금');pass('Commerce preferred English falls back per field to actual Korean content');
++ await api('PUT','/api/pink-salt/products/'+p.id,{...body,content_language:'both',name_en:'Korean Salt',ingredients_en:'Salt'});await api('PUT','/api/pink-salt/products/'+p.id,{...body,content_language:'en',name_en:'Korean Salt',name_ko:'한국 소금',ingredients_en:'Salt'});row=f.db.prepare('SELECT * FROM pink_salt_products WHERE id=?').get(p.id);assert.equal(row.name_ko,'한국 소금');assert.equal(row.ingredients_ko,'소금');pass('Both/English preferences retain inactive-language content');
++ let bad=await f.api('POST','/api/pink-salt/products',{...body,sku:'BAD',content_language:'both'});assert(!bad.ok);bad=await f.api('POST','/api/pink-salt/products',{...body,sku:'BAD',commerce_language:'xx'});assert(!bad.ok);assert(!f.db.prepare("SELECT 1 FROM pink_salt_products WHERE sku='BAD'").get());pass('Required selected language and preference values enforced on backend with no partial product');
++ const fam=await api('POST','/api/v367/pink-salt/families',{name_en:'Language Family',name_ko:'언어 제품군',family_code:'F-38'});await api('PUT','/api/pink-salt/products/'+p.id,{...body,family_id:fam.id,variant_code:'KO'});assert.equal(f.db.prepare('SELECT family_id FROM pink_salt_products WHERE id=?').get(p.id).family_id,fam.id);bad=await f.api('DELETE','/api/v367/pink-salt/families/'+fam.id);assert.equal(bad.status,409);await api('PUT','/api/v367/pink-salt/families/'+fam.id,{active:false});assert.equal(f.db.prepare('SELECT family_id FROM pink_salt_products WHERE id=?').get(p.id).family_id,fam.id);pass('Family linkage saves atomically, used deletion blocked, archive preserves relationships');
++ const unused=await api('POST','/api/v367/pink-salt/families',{name_en:'Unused Family'});await api('DELETE','/api/v367/pink-salt/families/'+unused.id);assert(!f.db.prepare('SELECT 1 FROM pink_salt_product_families WHERE id=?').get(unused.id));pass('Unused family deletion and audit work through guarded existing family service');
++ for(let i=0;i<27;i++)f.ins('pink_salt_product_families',{business_unit_id:f.pink,name_en:'Paged Family '+i,family_code:'P-'+i});const pg=await api('GET','/api/v367/pink-salt/families?page=1');assert.equal(pg.rows.length,25);assert(pg.pagination.total>=28);const searched=await api('GET','/api/v367/pink-salt/families?page=1&search=Language');assert.equal(searched.rows.length,1);pass('Family default25 server pagination, search, archived records and legacy array API coexist');
++ const loc=f.db.prepare('SELECT id FROM pink_salt_storage_locations WHERE business_unit_id=? LIMIT 1').get(f.pink).id,lid=f.ins('pink_salt_finished_lots',{business_unit_id:f.pink,product_id:p.id,lot_no:'LOT-38',produced_units:12,quality_status:'Released',best_before_date:'2020-01-01',location_id:loc});const lots=await api('GET','/api/v367/pink-salt/lots?page=1&filter=expired&search=LOT-38');assert.equal(lots.rows.length,1);assert.equal(lots.rows[0].available_units,12);bad=await f.api('PUT','/api/v367/pink-salt/lots/'+lid,{location_id:987654});assert.equal(bad.status,400);await api('PUT','/api/v367/pink-salt/lots/'+lid,{quality_status:'Hold'});assert.equal(f.db.prepare('SELECT produced_units FROM pink_salt_finished_lots WHERE id=?').get(lid).produced_units,12);assert.equal(f.db.prepare('SELECT best_before_date FROM pink_salt_finished_lots WHERE id=?').get(lid).best_before_date,'2020-01-01');pass('Lots server filters/paging, location validation and metadata edits preserve quantities and omitted fields');
++ bad=await f.api('PUT','/api/pink-salt/products/'+p.id,{...body,family_id:987654,name_ko:'Must roll back'});assert(!bad.ok);assert.equal(f.db.prepare('SELECT name FROM pink_salt_products WHERE id=?').get(p.id).name,'한국 소금');pass('Invalid family causes atomic product rollback');
++ const pw='QA!'+crypto.randomBytes(15).toString('hex'),uid=f.ins('users',{name:'QA view-only',email:'viewer38@qa.local',password_hash:bcrypt.hashSync(pw,10),role:'Staff Member',business_unit_id:f.pink,active:1});f.ins('user_business_units',{user_id:uid,business_unit_id:f.pink,is_primary:1});for(const action of ['view','create','edit','delete'])f.ins('user_access_overrides',{user_id:uid,business_unit_id:f.pink,permission_key:'module.inventory.'+action,effect:action==='view'?'Allow':'Deny'});const login=await fetch(f.base+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:'viewer38@qa.local',password:pw})}).then(r=>r.json());assert(login.token);for(const [method,url,data] of [['POST','/api/v367/pink-salt/families',{name_en:'Forbidden'}],['PUT','/api/v367/pink-salt/lots/'+lid,{quality_status:'Released'}],['DELETE','/api/v367/pink-salt/families/'+fam.id]]){const r=await fetch(f.base+url,{method,headers:{Authorization:'Bearer '+login.token,'x-business-unit-id':String(f.pink),'Content-Type':'application/json'},...(data?{body:JSON.stringify(data)}:{})});assert.equal(r.status,403,method+url)}const wrong=await fetch(f.base+'/api/v367/pink-salt/families?page=1',{headers:{Authorization:'Bearer '+f.login.token,'x-business-unit-id':String(f.excavator)}});assert.equal(wrong.status,403);pass('View-only users cannot create/edit/delete family or lot records and wrong-unit access is rejected');
++ assert.equal(f.db.prepare('PRAGMA foreign_key_check').all().length,0);pass('Foreign-key integrity after product/family/lot operations');
++ fs.writeFileSync('qa/evidence/36938-product-api.json',JSON.stringify({status:'PASS',checks,production_data_used:false},null,2));}catch(e){console.error(e);fs.writeFileSync('qa/evidence/36938-product-api.json',JSON.stringify({status:'FAIL',checks,error:e.message},null,2));process.exitCode=1}finally{f?.close()}})();
+diff --git a/qa/qa_v36938_regressions.js b/qa/qa_v36938_regressions.js
+new file mode 100644
+index 0000000..2263420
+--- /dev/null
++++ b/qa/qa_v36938_regressions.js
+@@ -0,0 +1,5 @@
++'use strict';
++const fs=require('fs'),cp=require('child_process'),path=require('path');
++const suites=['qa_v36933_payment_approvals.js','qa_v36932_server.js','qa_v36932_legacy_advances.js','qa_v36931_reference.js','qa_v36930_shared_rate.js','qa_v36929_qa15.js','qa_v36927_supplier_accounts.js','qa_v36926_recipient.js','qa_v36925_server.js','qa_v36925_extended.js','qa_v36925_statement_integrity.js','qa_v36924_calculation.js','qa_v36923_static_assets.js','runtime_smoke.js','qa_v36920_fx_e2e.js','qa_v36920_workflows.js','qa_v36920_permissions.js','qa_v36920_excavator.js','qa_v36921_controls.js'];
++const requested=process.argv.slice(2),prior=requested.length&&fs.existsSync('qa/evidence/36938-regressions.json')?JSON.parse(fs.readFileSync('qa/evidence/36938-regressions.json','utf8')):null,results=prior?.results||[];fs.mkdirSync('/tmp/bom-regression38',{recursive:true});for(const name of (requested.length?suites.filter(x=>requested.includes(x)):suites)){const at=Date.now(),r=cp.spawnSync(process.execPath,[path.join('qa',name)],{encoding:'utf8',timeout:120000,env:process.env}),output=(r.stdout||'')+(r.stderr||'');fs.writeFileSync('/tmp/bom-regression38/'+name+'.log',output);const passed=output.split('\n').filter(x=>/^PASS\b|^✓/.test(x)).length;const result={suite:name,status:r.status===0?'PASS':'FAIL',exit_code:r.status,passed_log_lines:passed,duration_ms:Date.now()-at,...(r.status===0?{}:{error:(r.error?.message||output.slice(-3000))})};const i=results.findIndex(x=>x.suite===name);if(i>=0)results[i]=result;else results.push(result);console.log(result.status+' '+name+' ('+passed+' passed lines)');if(r.status!==0)console.log(output.slice(-1800))}
++fs.writeFileSync('qa/evidence/36938-regressions.json',JSON.stringify({status:results.every(x=>x.status==='PASS')?'PASS':'FAIL',node:process.version,results,...(requested.length?{targeted_rerun:requested,pdf_runtime:process.env.BOM_PDF_RUNTIME||'Configured Chromium'}:{}),production_data_used:false},null,2));if(results.some(x=>x.status!=='PASS'))process.exitCode=1;
+diff --git a/qa/qa_v36938_release_gate.js b/qa/qa_v36938_release_gate.js
+new file mode 100644
+index 0000000..38b709e
+--- /dev/null
++++ b/qa/qa_v36938_release_gate.js
+@@ -0,0 +1,6 @@
++'use strict';
++const fs=require('fs'),path=require('path'),crypto=require('crypto'),cp=require('child_process'),assert=require('assert/strict'),root=path.resolve(__dirname,'..'),manifest=require('../server/frontend-manifest.json');
++assert.equal(manifest.version,require('../package.json').version);for(const [file,entry] of Object.entries(manifest.files)){const filename=path.join(root,file.replace(/^\//,''));assert.equal(crypto.createHash('sha256').update(fs.readFileSync(filename)).digest('hex'),typeof entry==='string'?entry:entry.sha256,'Frontend asset hash: '+file)}console.log('PASS Exact frontend release manifest');
++for(const file of ['server/packaging-materials.js','server/packaging-decimal.js','server/pink-fx-engine.js','server/v315.js','server/v300.js','public/packaging-materials.js','public/pink-fx-payment.js','public/runtime-v30392.js','public/route-registry.js','public/pink-product-ux.js','server/product-content.js','server/v367-pink-operational-completion.js']){const r=cp.spawnSync(process.execPath,['--check',file],{cwd:root,encoding:'utf8'});assert.equal(r.status,0,r.stderr)}console.log('PASS Changed source parses');
++for(const file of ['qa/qa_v36936_packaging.js','qa/qa_v36937_refinement.js','qa/qa_v36938_product_ux.js','qa/qa_v36938_regressions.js']){const r=cp.spawnSync(process.execPath,[file],{cwd:root,stdio:'inherit'});if(r.status!==0)process.exit(r.status||1)}
++console.log('PASS V30.69.38 backend and protected regression gate. Run qa:product:browser, qa:packaging:browser and qa:upgrade separately.');
+diff --git a/qa/qa_v36938_upgrade.js b/qa/qa_v36938_upgrade.js
+new file mode 100644
+index 0000000..631cd38
+--- /dev/null
++++ b/qa/qa_v36938_upgrade.js
+@@ -0,0 +1,9 @@
++'use strict';
++const assert=require('assert/strict'),fs=require('fs'),os=require('os'),path=require('path'),cp=require('child_process'),crypto=require('crypto');
++(async()=>{let f,child;const checks=[],pass=x=>{checks.push(x);console.log('PASS '+x)},root=path.resolve(__dirname,'..'),temp=fs.mkdtempSync(path.join(os.tmpdir(),'bom38-upgrade-'));try{const baseline=path.join(temp,'source37');fs.mkdirSync(baseline);if(process.env.BOM_BASELINE_DIR){fs.cpSync(process.env.BOM_BASELINE_DIR,baseline,{recursive:true,filter:p=>!['node_modules','.git','data','uploads'].includes(path.basename(p))})}else{const a=cp.spawnSync('git',['archive','391922d'],{cwd:root,maxBuffer:64*1024*1024});assert.equal(a.status,0,'Set BOM_BASELINE_DIR to the extracted V30.69.37 source');assert.equal(cp.spawnSync('tar',['-x','-C',baseline],{input:a.stdout}).status,0)}fs.symlinkSync(fs.realpathSync(path.join(root,'node_modules')),path.join(baseline,'node_modules'));f=await require(path.join(baseline,'qa/fx_fixture')).fixture();child=f.child;const db=f.db,B='/api/pink-salt/packaging-v36';db.prepare('UPDATE pink_salt_suppliers SET supplier_categories_json=? WHERE id=?').run('["Packaging Material Supplier"]',f.supplier);const api=async(method,url,b)=>{const r=await f.api(method,url.startsWith('/api/')?url:B+url,b?{...b,idempotency_key:crypto.randomUUID()}:undefined,{'x-ceo-confirmed':'1','x-ceo-confirmation-note':'Synthetic source37 setup'});assert(r.ok,JSON.stringify(r));return r.j},m=await api('POST','/materials',{sku:'EXISTING-36',name:'Existing .36 material',unit:'pcs'}),p=await api('POST','/purchases',{supplier_id:f.supplier,currency:'KRW',purchase_date:new Date().toISOString().slice(0,10),lines:[{material_id:m.id,quantity:10,purchase_unit:'pcs',unit_price:100}],costs:[]});await api('POST','/purchases/'+p.id+'/submit',{});let d=await api('GET','/purchases/'+p.id);const loc=db.prepare('SELECT id FROM pink_salt_storage_locations WHERE business_unit_id=? LIMIT 1').get(f.pink).id;await api('POST','/purchases/'+p.id+'/receive',{location_id:loc,lines:[{line_id:d.lines[0].id,accepted:4,rejected:1}]});const r=await f.api('POST',`/api/pink-salt/fx/packaging_purchase/${p.id}/record`,f.fd(f.payment({invoice_currency:'KRW',invoice_rate_to_krw:'1',payment_method:'Cash',payment_account_id:String(f.accounts.cash),receiver_account_id:'',source_account_currency:'KRW',source_debit_amount:'100',recipient_expected_amount:'100',recipient_confirmed_amount:'100',bank_fx_rate:'1',fx_rate_pair:'KRW/KRW',company_rate_to_krw:'1',source_fee_amount:'0',reference:''})));assert(r.ok,JSON.stringify(r));
++ db.prepare("UPDATE pink_salt_products SET name_en=name,name_ko='기존 제품' WHERE id=?").run(f.product);const originalFamily=await api('POST','/api/v367/pink-salt/families',{name_en:'Protected .37 Family',name_ko:'기존 제품군'});await api('PUT','/api/v367/pink-salt/products/'+f.product+'/variant',{family_id:originalFamily.id,variant_label:'Existing variant'});
++ const tables=['pink_pack_purchases','pink_pack_purchase_lines','pink_pack_receipts','pink_pack_receipt_lines','pink_pack_operations','pink_salt_packaging_items','pink_salt_packaging_movements','pink_fx_transactions','finance_entries','accounting_journal_entries','accounting_journal_lines','approval_rules','pink_salt_products','pink_salt_product_families','pink_salt_finished_lots'],snapshot=()=>Object.fromEntries(tables.map(t=>[t,db.prepare('SELECT * FROM '+t+' ORDER BY rowid').all().map(row=>{if(t==='pink_salt_products'){delete row.content_language;delete row.commerce_language}return row})])),before=snapshot();pass('Original .37 application creates legacy purchase, receipt, cash settlement, bilingual product and linked family');const stop=()=>new Promise(r=>{child.once('exit',r);child.kill('SIGTERM')});await stop();const start=async()=>{child=cp.spawn(process.execPath,['server/server.js'],{cwd:root,env:f.env,stdio:['ignore','pipe','pipe']});let logs='';child.stdout.on('data',x=>logs+=x);child.stderr.on('data',x=>logs+=x);for(let i=0;i<300;i++){if(child.exitCode!==null)throw Error(logs);try{if((await fetch(f.base+'/api/health')).ok)return}catch(_){}await new Promise(r=>setTimeout(r,100))}throw Error('Startup timeout '+logs)};
++ for(let i=0;i<2;i++){await start();assert.deepEqual(snapshot(),before);assert.equal(db.prepare('SELECT content_language FROM pink_salt_products WHERE id=?').get(f.product).content_language,null);assert.equal(db.prepare('SELECT commerce_language FROM pink_salt_products WHERE id=?').get(f.product).commerce_language,'auto');const rows=await api('GET','/purchases'),row=rows.rows.find(x=>x.id===p.id);assert.equal(row.receiving_status,'Partially Received');assert.equal(row.receiving_lines[0].received,4);assert.equal(row.payment_status,'Partially Paid');assert.equal(row.outstanding_invoice,900);assert.equal(db.pragma('foreign_key_check').length,0);pass(i?'Repeated .38 startup leaves all existing rows and balances unchanged':'Upgrade to .38 preserves original columns in 15 protected tables and derives correct statuses without rewriting records');await stop()}
++ await start();const kp=await api('POST','/api/pink-salt/products',{sku:'KO-AFTER-UPGRADE',name_ko:'재시작 유지',name_en:'',content_language:'ko',commerce_language:'en',packaging_style:'Retail Pack',salt_grade:'Fine',pack_weight_g:500,bom:[]});const saved=db.prepare('SELECT * FROM pink_salt_products WHERE id=?').get(kp.id);await stop();await start();assert.deepEqual(db.prepare('SELECT * FROM pink_salt_products WHERE id=?').get(kp.id),saved);assert.equal(saved.name_en,'');pass('Korean-only product and preferences survive restart without fabricating English content');await stop();
++ fs.writeFileSync('qa/evidence/36938-upgrade.json',JSON.stringify({status:'PASS',checks,baseline:'30.69.37',tables,production_data_used:false},null,2));
++}catch(e){console.error(e);fs.writeFileSync('qa/evidence/36938-upgrade.json',JSON.stringify({status:'FAIL',checks,error:e.message},null,2));process.exitCode=1}finally{if(child?.exitCode===null)await new Promise(r=>{child.once('exit',r);child.kill('SIGTERM')});f?.db.close()}})();
+diff --git a/server/frontend-manifest.json b/server/frontend-manifest.json
+index 1e2a9d5..1b2e953 100644
+--- a/server/frontend-manifest.json
++++ b/server/frontend-manifest.json
+@@ -1,24 +1,26 @@
+ {
+-  "version": "30.69.37",
++  "version": "30.69.38",
+   "files": {
+     "public/bom-mutation-hub.js": "b0001c3010f0104f5bdcbeac531e10b8a8d54583d8e07ce344c909fa46b2c12b",
+     "public/bom-payment-rules.js": "fbc6bd3f42a5f9d16938a19dbbf11f4caea60a2e7f1f7c4d140dcfb0b6cc5ec2",
+-    "public/client.js": "4d7b6f3c6aabe6fc4a0d3f1a1b4c9e71bfcb1d4423f9f7496b7993a25f4d961d",
++    "public/client.js": "91a67169e8fc14974984278f1e166d40713a9c43bf26d70b0b27cd943da67c2c",
+     "public/i18n-ko.js": "3cccdef583ebfcb280a18fad0ba2361e8a387cd76ddd2b54413a764d1c39c7f8",
+-    "public/index.html": "5a6ff107f485f62aa9f733e9a9ac590aac2589de41436d89f3f9d17ee9665302",
++    "public/index.html": "66c7d137f9063712c8870ea220a0e22ad2d21f140b582c29390d07ff07eb36aa",
+     "public/packaging-decimal.js": "ad4c6ccc4c1f4f038f75eacc92ea515c2b1f1c35f3126de4013015a7ef953c85",
+     "public/packaging-materials.css": "eae323011b808a200479fffbbb2bd11dc27b1449f77739f74497a145b20da5a1",
+-    "public/packaging-materials.js": "0e6e9cd0b810b51ab57f7049ccb4359eabdd55e85e4248377c412a92dd8f207b",
++    "public/packaging-materials.js": "12bef227a8dcd2e58ee2cdfb63154fc434010ddfaa4e8951a2eaafc468a6ebff",
+     "public/pink-advance-ui.js": "40942428894b05a5dea23a226a18b0ab38f7ffe59903ba4615a40b688930f2ac",
+     "public/pink-fx-calculation.js": "796d4cc6de4605ccc3728ea2b6d21e6fd3f3a8208c65532ec8b1a5712cdb3695",
+     "public/pink-fx-payment.js": "ae2f3cc1ec5694bff336a0f41b4905c18c568410b96755f786eeb198d619e684",
+     "public/pink-import-detail.js": "581f611f7ba3eb637209c9530319a29fef41b4b2cba3b87bd60ae06774015c39",
+     "public/pink-operation.js": "be564d70f4fc8c3a1b3b129fc1769edfe50d6068136cd98007f6a3f5e2eabb03",
++    "public/pink-product-ux.css": "93456681284649f0a09486934eca7753f54b9e02eb627cf2b4d9df5ad9115943",
++    "public/pink-product-ux.js": "aa0410e4d23d454411243617b988b3a5bfd84eac41a114d4db50e9eedd1a71d9",
+     "public/pink-qa21.js": "0ba4c0b78a826e5d873f4ca58241f15f19ca3dde0532ad577562c2baaf161c32",
+-    "public/route-registry.js": "b34b689f6ce3e2522d4bb83bc9d1d3427e08be63843cff6ab3458cb17d7bfc44",
++    "public/route-registry.js": "11371bb1d2af3ffec2dba17e7cf17e675856ac288427f22dc93e6dc4230523e4",
+     "public/runtime-v3039.js": "38faba7f3518b28dcd1bc7dbc8ddeb1ae76aeb8502663c20359788f34c83cf32",
+     "public/runtime-v30391.js": "1ab894cc2d9d12a962552cc6ef557aafecb52f9fa408db64862e56fa4cec03b2",
+-    "public/runtime-v30392.js": "8e23ca59ca01140da64f51d71e81d22fc641deae9c56cc525404320f1cd5d7fe",
++    "public/runtime-v30392.js": "7d2a169d741d84d7561eb3532d5c459994d68f3acff7862978eb6886af1a5ced",
+     "public/settlement-v338.js": "fa157a4639c2a5efba32c914b53c077341e7daa318edca86896ba0f157cd33ef",
+     "public/v284-client.js": "21b55b05820433f97ffe198a13780cc3fd9533982bb3cf6683b91e6161253cca",
+     "public/v285-client.js": "5f87eb1db36feab695805c2911c3aedcd6fca468a362053ce362550270c01425",
+@@ -102,13 +104,13 @@
+     "public/v362-collaboration.js": "617c1657d5fe35548453986bd8cc4e5bc3a4b10f845f219ef9591faf576a1473",
+     "public/v363-dialog-processing.js": "2976fbff3ef244d5d88aa27ef52b11e0ac5fa17c9c379c5313a6a17ec6bf81b1",
+     "public/v364-i18n-quality.js": "095c123dfada591ce2d2b92456b8234c99146024d85ed6827d731c3240ef0f37",
+-    "public/v365-pink-commerce.js": "7af9f431dc969585d0d7b8c7708cd9151b05a2368bbabb782695dfd05dae85de",
+-    "public/v366-pink-product-master.js": "1b29096425d100366bb3bc01ba15125fcf9cba90cc34e4d9375577d2753bfd66",
++    "public/v365-pink-commerce.js": "92255382ea711c0df53ec95188746aa3e297686db3fe839869aab8dd01720c7e",
++    "public/v366-pink-product-master.js": "6ced5aed5fef4f23b9965d8ea543b065cd89e3134aa35d77ef86bf81f00a65fa",
+     "public/v367-pink-operational-completion.js": "3c8a650c15e15508b206fa8af1034c8ddfda8f1b67d8798274fce3f6738faa81",
+     "public/v369-pink-shared-workflows.js": "78287685520468e589fbcf3838097b9092c59df531ee2a61f545da2e2376138e",
+     "public/v36910-pink-import-actions.js": "5e369a414ce5f2eebb9b5af32018d8a7b25f3b0ea054cd6417882f91368708eb",
+     "public/v3692-pink-qa.js": "8325c3d3c0ca03f76e2e4aa3ce88100e82559918ebc749331d92264c163fbb97",
+-    "public/v3693-persistent-routing.js": "2d342545efce0208acfbc5f2d29bf702c4e60870ec140750c6e0012988f07045",
++    "public/v3693-persistent-routing.js": "ecdd0f259fc197ac08032a3b0621f90445e5f9e5b47ba25a0cc8a5a07f59bef7",
+     "public/v3694-pink-qa.js": "92e8dc32faa3ed65654f3e5165638bb6e940db8d687ffdc49f67a170aec7dc33",
+     "public/v3695-repacking-inputs.js": "970b792a1dbdc0623ad145b9a325e0be38a43123efd8cae987c254b231080f98",
+     "public/v3699-pink-payment-stabilization.js": "f82c3acde5270527e799757a2d7d72bb18adbbc756cc7dd3c13bac4f9448d542"
+diff --git a/server/product-content.js b/server/product-content.js
+new file mode 100644
+index 0000000..8aaac24
+--- /dev/null
++++ b/server/product-content.js
+@@ -0,0 +1,37 @@
++'use strict';
++// Content preferences are independent of the application's interface language.
++const text=v=>String(v??'').trim();
++function normalize(body,current={}){
++ const b={...body},mode=b.content_language??current.content_language;
++ if(mode==null||mode==='')return b; // Legacy clients retain their existing contract.
++ if(!['en','ko','both'].includes(mode))throw new Error('Select English, Korean or Both for product content.');
++ const preferred=b.commerce_language??current.commerce_language??'auto';
++ if(!['auto','en','ko'].includes(preferred))throw new Error('Invalid preferred commerce language.');
++ const en=text(b.name_en??current.name_en),ko=text(b.name_ko??current.name_ko);
++ if((mode==='en'||mode==='both')&&!en)throw new Error('English product name is required.');
++ if((mode==='ko'||mode==='both')&&!ko)throw new Error('Korean product name is required.');
++ b.content_language=mode;b.commerce_language=preferred;b.name_en=en;b.name_ko=ko;
++ // Generic operational name is a compatibility fallback; never manufacture translated content.
++ b.name=mode==='ko'?ko:en||ko;
++ return b;
++}
++function savePreferences(db,b,bu,id){
++ if(b.content_language)db.prepare('UPDATE pink_salt_products SET content_language=?,commerce_language=? WHERE id=? AND business_unit_id=?').run(b.content_language,b.commerce_language||'auto',id,bu);
++ if(Object.hasOwn(b,'family_id')){
++  const fid=Number(b.family_id)||null;
++  const f=fid?db.prepare('SELECT id,name_en FROM pink_salt_product_families WHERE id=? AND business_unit_id=?').get(fid,bu):null;
++  if(fid&&!f)throw new Error('Invalid product family.');
++  db.prepare('UPDATE pink_salt_products SET family_id=?,product_family=?,variant_code=?,variant_sort_order=? WHERE id=? AND business_unit_id=?').run(fid,f?.name_en||'',text(b.variant_code),Math.max(0,Math.trunc(Number(b.variant_sort_order)||0)),id,bu);
++ }
++}
++function resolveContent(p,requested){
++ const preferred=['en','ko'].includes(requested)?requested:['en','ko'].includes(p.commerce_language)?p.commerce_language:p.content_language==='ko'?'ko':'en';
++ const other=preferred==='en'?'ko':'en',out={preferred_language:preferred};
++ for(const field of ['name','short_description','ingredients','storage_instructions']){
++  const first=text(p[field+'_'+preferred]),fallback=text(p[field+'_'+other]);
++  out[field]=first||fallback||(field==='name'?text(p.name):'');
++  out[field+'_language']=first?preferred:fallback?other:field==='name'&&text(p.name)?'legacy':null;
++ }
++ return out;
++}
++module.exports={normalize,savePreferences,resolveContent};
+diff --git a/server/server.js b/server/server.js
+index 2a50b18..370526a 100644
+--- a/server/server.js
++++ b/server/server.js
+@@ -91,6 +91,7 @@ function accessPathModule(p=''){
+   if(p.startsWith('/excavator/buyers'))return'excavatorBuyers';
+   if(p.startsWith('/excavator'))return'excavator';
+   if(p.startsWith('/pink-salt/fx/')){if(/\/fx\/(order|customer_)/.test(p))return'sales';if(/\/fx\/(import|supplier_|packaging|expense)/.test(p))return'purchases';return'finance'}
++  if(/^\/v367\/pink-salt\/(families|lots)(?:\/|$)/.test(p))return'inventory';
+   if(p.startsWith('/pink-salt/dashboard'))return'dashboard';
+   if(p.startsWith('/pink-salt/orders')||p.startsWith('/pink-salt/customers')||p.startsWith('/pink-salt/price'))return'sales';
+   if(p.startsWith('/pink-salt/import')||p.startsWith('/pink-salt/supplier'))return'purchases';
+diff --git a/server/v300.js b/server/v300.js
+index 70cb94d..6bc62f0 100644
+--- a/server/v300.js
++++ b/server/v300.js
+@@ -1,6 +1,7 @@
+ const {createIntegrityUpload}=require('./upload-integrity');
+ const numbering=require('./numbering-service');
+ const path=require('path');
++const productContent=require('./product-content');
+ const {calculateSaltRequirements}=require('./v309-calculations');
+ 
+ const VERSION='30.10.0';
+@@ -698,8 +699,8 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,uploads
+   });
+ 
+   app.get('/api/pink-salt/products',auth,allow('inventory','sales','purchases','dashboard'),(req,res)=>{const bu=guard(req,res);if(!bu)return;const rows=db.prepare(`SELECT p.*,COALESCE(SUM(m.quantity_units),0) on_hand_units FROM pink_salt_products p LEFT JOIN pink_salt_finished_stock_movements m ON m.product_id=p.id WHERE p.business_unit_id=? GROUP BY p.id ORDER BY p.active DESC,p.name`).all(bu);for(const x of rows){x.reserved_units=finishedReserved(x.id);x.available_units=Math.max(0,Number(x.on_hand_units||0)-Number(x.reserved_units||0));x.unit_cost_krw=weightedProductCost(x.id);try{x.image_count=Number(db.prepare('SELECT COUNT(*) c FROM pink_salt_product_images WHERE product_id=? AND active=1').get(x.id)?.c||0);x.primary_image_id=db.prepare('SELECT id FROM pink_salt_product_images WHERE product_id=? AND active=1 ORDER BY is_primary DESC,sort_order,id LIMIT 1').get(x.id)?.id||null}catch(_){x.image_count=0;x.primary_image_id=null}x.bom=db.prepare('SELECT b.*,p.sku packaging_sku,p.name packaging_name,p.unit packaging_unit,p.category packaging_category FROM pink_salt_bom_lines b JOIN pink_salt_packaging_items p ON p.id=b.packaging_item_id WHERE b.product_id=? ORDER BY p.name').all(x.id);x.gift_components=giftComponents(x.id);x.gift_total_pouches=x.gift_components.reduce((n,c)=>n+num(c.pouches_per_box),0)}res.json(rows)});
+-  app.post('/api/pink-salt/products',auth,allow('inventory','sales','purchases'),(req,res)=>{const bu=guard(req,res);if(!bu)return;const sku=text(req.body.sku),name=text(req.body.name);if(!sku||!name)return res.status(400).json({error:'SKU and product name are required.'});try{const def=validateProductDefinition(bu,req.body),tx=db.transaction(()=>{const r=db.prepare('INSERT INTO pink_salt_products(business_unit_id,sku,name,salt_grade,pack_weight_g,gift_pouch_weight_g,packaging_style,selling_price_krw,reorder_level_units,notes,created_by,name_en,name_ko,product_family,variant_label,product_category,grind_mesh,unit_of_measure,barcode,sellable,shelf_life_days,origin_country,ingredients_en,ingredients_ko,storage_instructions_en,storage_instructions_ko,short_description_en,short_description_ko,default_location_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').run(bu,sku,name,def.grade,def.packWeight,def.pouchWeight,def.style,num(req.body.selling_price_krw),num(req.body.reorder_level_units),text(req.body.notes),req.user.id,text(req.body.name_en)||name,text(req.body.name_ko),text(req.body.product_family),text(req.body.variant_label),text(req.body.product_category)||'Pink Salt',text(req.body.grind_mesh),text(req.body.unit_of_measure)||'unit',text(req.body.barcode),req.body.sellable===false||String(req.body.sellable)==='0'?0:1,Math.max(0,Math.round(num(req.body.shelf_life_days))),text(req.body.origin_country),text(req.body.ingredients_en),text(req.body.ingredients_ko),text(req.body.storage_instructions_en),text(req.body.storage_instructions_ko),text(req.body.short_description_en),text(req.body.short_description_ko),num(req.body.default_location_id)||null),id=Number(r.lastInsertRowid),bomIns=db.prepare('INSERT INTO pink_salt_bom_lines(product_id,packaging_item_id,quantity_per_unit,notes) VALUES(?,?,?,?)'),giftIns=db.prepare('INSERT INTO pink_salt_gift_box_components(product_id,salt_grade,pouches_per_box) VALUES(?,?,?)');for(const b of def.bom)bomIns.run(id,b.packaging_item_id,b.quantity_per_unit,b.notes);for(const c of def.components)giftIns.run(id,c.salt_grade,c.pouches_per_box);audit(req.user,'pink_salt_product',id,'create',JSON.stringify({sku,mixed_gift_box:def.components.length>0,pouch_weight_g:def.pouchWeight,total_pouches:def.totalPouches}));return id});res.json({id:tx()})}catch(e){res.status(409).json({error:e.message.includes('UNIQUE')?'Finished product SKU or gift-box salt category already exists.':e.message})}});
+-  app.put('/api/pink-salt/products/:id',auth,allow('inventory','sales','purchases'),(req,res)=>{const bu=guard(req,res);if(!bu)return;const x=db.prepare('SELECT * FROM pink_salt_products WHERE id=? AND business_unit_id=?').get(req.params.id,bu);if(!x)return res.status(404).json({error:'Finished product not found.'});try{const def=validateProductDefinition(bu,req.body,x),tx=db.transaction(()=>{db.prepare('UPDATE pink_salt_products SET name=?,salt_grade=?,pack_weight_g=?,gift_pouch_weight_g=?,packaging_style=?,selling_price_krw=?,reorder_level_units=?,notes=?,active=?,name_en=?,name_ko=?,product_family=?,variant_label=?,product_category=?,grind_mesh=?,unit_of_measure=?,barcode=?,sellable=?,shelf_life_days=?,origin_country=?,ingredients_en=?,ingredients_ko=?,storage_instructions_en=?,storage_instructions_ko=?,short_description_en=?,short_description_ko=?,default_location_id=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(req.body.name??x.name,def.grade,def.packWeight,def.pouchWeight,def.style,num(req.body.selling_price_krw??x.selling_price_krw),num(req.body.reorder_level_units??x.reorder_level_units),req.body.notes??x.notes,req.body.active===undefined?x.active:bool(req.body.active),text(req.body.name_en??x.name_en)||text(req.body.name??x.name),text(req.body.name_ko??x.name_ko),text(req.body.product_family??x.product_family),text(req.body.variant_label??x.variant_label),text(req.body.product_category??x.product_category)||'Pink Salt',text(req.body.grind_mesh??x.grind_mesh),text(req.body.unit_of_measure??x.unit_of_measure)||'unit',text(req.body.barcode??x.barcode),req.body.sellable===undefined?x.sellable:bool(req.body.sellable),Math.max(0,Math.round(num(req.body.shelf_life_days??x.shelf_life_days))),text(req.body.origin_country??x.origin_country),text(req.body.ingredients_en??x.ingredients_en),text(req.body.ingredients_ko??x.ingredients_ko),text(req.body.storage_instructions_en??x.storage_instructions_en),text(req.body.storage_instructions_ko??x.storage_instructions_ko),text(req.body.short_description_en??x.short_description_en),text(req.body.short_description_ko??x.short_description_ko),num(req.body.default_location_id??x.default_location_id)||null,x.id);db.prepare('DELETE FROM pink_salt_bom_lines WHERE product_id=?').run(x.id);db.prepare('DELETE FROM pink_salt_gift_box_components WHERE product_id=?').run(x.id);const bomIns=db.prepare('INSERT INTO pink_salt_bom_lines(product_id,packaging_item_id,quantity_per_unit,notes) VALUES(?,?,?,?)'),giftIns=db.prepare('INSERT INTO pink_salt_gift_box_components(product_id,salt_grade,pouches_per_box) VALUES(?,?,?)');for(const b of def.bom)bomIns.run(x.id,b.packaging_item_id,b.quantity_per_unit,b.notes);for(const c of def.components)giftIns.run(x.id,c.salt_grade,c.pouches_per_box);audit(req.user,'pink_salt_product',x.id,'update',JSON.stringify({mixed_gift_box:def.components.length>0,pouch_weight_g:def.pouchWeight,total_pouches:def.totalPouches}))});tx();res.json({ok:true,pack_weight_g:def.packWeight})}catch(e){res.status(409).json({error:e.message})}});
++  app.post('/api/pink-salt/products',auth,allow('inventory','sales','purchases'),(req,res)=>{const bu=guard(req,res);if(!bu)return;try{req.body=productContent.normalize(req.body)}catch(e){return res.status(400).json({error:e.message})}const sku=text(req.body.sku),name=text(req.body.name);if(!sku||!name)return res.status(400).json({error:'SKU and product name are required.'});try{const def=validateProductDefinition(bu,req.body),tx=db.transaction(()=>{const r=db.prepare('INSERT INTO pink_salt_products(business_unit_id,sku,name,salt_grade,pack_weight_g,gift_pouch_weight_g,packaging_style,selling_price_krw,reorder_level_units,notes,created_by,name_en,name_ko,product_family,variant_label,product_category,grind_mesh,unit_of_measure,barcode,sellable,shelf_life_days,origin_country,ingredients_en,ingredients_ko,storage_instructions_en,storage_instructions_ko,short_description_en,short_description_ko,default_location_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').run(bu,sku,name,def.grade,def.packWeight,def.pouchWeight,def.style,num(req.body.selling_price_krw),num(req.body.reorder_level_units),text(req.body.notes),req.user.id,req.body.content_language==='ko'?text(req.body.name_en):text(req.body.name_en)||name,text(req.body.name_ko),text(req.body.product_family),text(req.body.variant_label),text(req.body.product_category)||'Pink Salt',text(req.body.grind_mesh),text(req.body.unit_of_measure)||'unit',text(req.body.barcode),req.body.sellable===false||String(req.body.sellable)==='0'?0:1,Math.max(0,Math.round(num(req.body.shelf_life_days))),text(req.body.origin_country),text(req.body.ingredients_en),text(req.body.ingredients_ko),text(req.body.storage_instructions_en),text(req.body.storage_instructions_ko),text(req.body.short_description_en),text(req.body.short_description_ko),num(req.body.default_location_id)||null),id=Number(r.lastInsertRowid),bomIns=db.prepare('INSERT INTO pink_salt_bom_lines(product_id,packaging_item_id,quantity_per_unit,notes) VALUES(?,?,?,?)'),giftIns=db.prepare('INSERT INTO pink_salt_gift_box_components(product_id,salt_grade,pouches_per_box) VALUES(?,?,?)');for(const b of def.bom)bomIns.run(id,b.packaging_item_id,b.quantity_per_unit,b.notes);for(const c of def.components)giftIns.run(id,c.salt_grade,c.pouches_per_box);productContent.savePreferences(db,req.body,bu,id);audit(req.user,'pink_salt_product',id,'create',JSON.stringify({sku,content_language:req.body.content_language||null,commerce_language:req.body.commerce_language||'auto',mixed_gift_box:def.components.length>0,pouch_weight_g:def.pouchWeight,total_pouches:def.totalPouches}));return id});res.json({id:tx()})}catch(e){res.status(409).json({error:e.message.includes('UNIQUE')?'Finished product SKU or gift-box salt category already exists.':e.message})}});
++  app.put('/api/pink-salt/products/:id',auth,allow('inventory','sales','purchases'),(req,res)=>{const bu=guard(req,res);if(!bu)return;const x=db.prepare('SELECT * FROM pink_salt_products WHERE id=? AND business_unit_id=?').get(req.params.id,bu);if(!x)return res.status(404).json({error:'Finished product not found.'});try{req.body=productContent.normalize(req.body,x);const def=validateProductDefinition(bu,req.body,x),tx=db.transaction(()=>{db.prepare('UPDATE pink_salt_products SET name=?,salt_grade=?,pack_weight_g=?,gift_pouch_weight_g=?,packaging_style=?,selling_price_krw=?,reorder_level_units=?,notes=?,active=?,name_en=?,name_ko=?,product_family=?,variant_label=?,product_category=?,grind_mesh=?,unit_of_measure=?,barcode=?,sellable=?,shelf_life_days=?,origin_country=?,ingredients_en=?,ingredients_ko=?,storage_instructions_en=?,storage_instructions_ko=?,short_description_en=?,short_description_ko=?,default_location_id=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(req.body.name??x.name,def.grade,def.packWeight,def.pouchWeight,def.style,num(req.body.selling_price_krw??x.selling_price_krw),num(req.body.reorder_level_units??x.reorder_level_units),req.body.notes??x.notes,req.body.active===undefined?x.active:bool(req.body.active),req.body.content_language==='ko'?text(req.body.name_en??x.name_en):text(req.body.name_en??x.name_en)||text(req.body.name??x.name),text(req.body.name_ko??x.name_ko),text(req.body.product_family??x.product_family),text(req.body.variant_label??x.variant_label),text(req.body.product_category??x.product_category)||'Pink Salt',text(req.body.grind_mesh??x.grind_mesh),text(req.body.unit_of_measure??x.unit_of_measure)||'unit',text(req.body.barcode??x.barcode),req.body.sellable===undefined?x.sellable:bool(req.body.sellable),Math.max(0,Math.round(num(req.body.shelf_life_days??x.shelf_life_days))),text(req.body.origin_country??x.origin_country),text(req.body.ingredients_en??x.ingredients_en),text(req.body.ingredients_ko??x.ingredients_ko),text(req.body.storage_instructions_en??x.storage_instructions_en),text(req.body.storage_instructions_ko??x.storage_instructions_ko),text(req.body.short_description_en??x.short_description_en),text(req.body.short_description_ko??x.short_description_ko),num(req.body.default_location_id??x.default_location_id)||null,x.id);db.prepare('DELETE FROM pink_salt_bom_lines WHERE product_id=?').run(x.id);db.prepare('DELETE FROM pink_salt_gift_box_components WHERE product_id=?').run(x.id);const bomIns=db.prepare('INSERT INTO pink_salt_bom_lines(product_id,packaging_item_id,quantity_per_unit,notes) VALUES(?,?,?,?)'),giftIns=db.prepare('INSERT INTO pink_salt_gift_box_components(product_id,salt_grade,pouches_per_box) VALUES(?,?,?)');for(const b of def.bom)bomIns.run(x.id,b.packaging_item_id,b.quantity_per_unit,b.notes);for(const c of def.components)giftIns.run(x.id,c.salt_grade,c.pouches_per_box);productContent.savePreferences(db,req.body,bu,x.id);audit(req.user,'pink_salt_product',x.id,'update',JSON.stringify({content_preferences_before:{content_language:x.content_language,commerce_language:x.commerce_language},content_preferences_after:{content_language:req.body.content_language??x.content_language,commerce_language:req.body.commerce_language??x.commerce_language},mixed_gift_box:def.components.length>0,pouch_weight_g:def.pouchWeight,total_pouches:def.totalPouches}))});tx();res.json({ok:true,pack_weight_g:def.packWeight})}catch(e){res.status(409).json({error:e.message})}});
+ 
+   app.get('/api/pink-salt/production',auth,allow('inventory','purchases','dashboard'),(req,res)=>{const bu=guard(req,res);if(!bu)return;res.json(db.prepare(`SELECT b.*,(SELECT GROUP_CONCAT(z.label,' + ') FROM (SELECT DISTINCT i.import_no||' · '||pi.salt_grade label FROM pink_salt_production_inputs pi JOIN pink_salt_import_items x ON x.id=pi.import_item_id JOIN pink_salt_imports i ON i.id=x.import_id WHERE pi.production_batch_id=b.id) z) raw_sources,(SELECT GROUP_CONCAT(p.sku||' × '||o.quantity_units,', ') FROM pink_salt_production_outputs o JOIN pink_salt_products p ON p.id=o.product_id WHERE o.production_batch_id=b.id) outputs FROM pink_salt_production_batches b WHERE b.business_unit_id=? ORDER BY b.id DESC`).all(bu))});
+   app.get('/api/pink-salt/production/:id',auth,allow('inventory','purchases','dashboard'),(req,res)=>{const bu=guard(req,res);if(!bu)return;const b=db.prepare('SELECT * FROM pink_salt_production_batches WHERE id=? AND business_unit_id=?').get(req.params.id,bu);if(!b)return res.status(404).json({error:'Production batch not found.'});const inputs=db.prepare(`SELECT pi.*,i.import_no,i.container_no FROM pink_salt_production_inputs pi JOIN pink_salt_import_items x ON x.id=pi.import_item_id JOIN pink_salt_imports i ON i.id=x.import_id WHERE pi.production_batch_id=? ORDER BY pi.id`).all(b.id);res.json({...b,inputs,raw_sources:inputs.map(x=>`${x.import_no} · ${x.salt_grade}`).join(' + '),outputs:db.prepare('SELECT o.*,p.sku,p.name,p.packaging_style,p.gift_pouch_weight_g FROM pink_salt_production_outputs o JOIN pink_salt_products p ON p.id=o.product_id WHERE o.production_batch_id=?').all(b.id),packaging:db.prepare('SELECT x.*,p.sku,p.name,p.category FROM pink_salt_production_packaging x JOIN pink_salt_packaging_items p ON p.id=x.packaging_item_id WHERE x.production_batch_id=?').all(b.id),attachments:attachments('Production',b.id)})});
+diff --git a/server/v365-pink-commerce-foundation.js b/server/v365-pink-commerce-foundation.js
+index be1427b..a80eafc 100644
+--- a/server/v365-pink-commerce-foundation.js
++++ b/server/v365-pink-commerce-foundation.js
+@@ -8,6 +8,8 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit}){
+   function guard(req,res){const bu=Number(pinkUnit()||0),selected=Number(currentUnit(req)||0);if(!bu){res.status(409).json({error:'Pink Salt business unit is not available.'});return null}if(!selected||selected!==bu||!enforceUnit(req,bu)){res.status(403).json({error:'Select the Pink Salt business unit to use this workspace.'});return null}return bu}
+ 
+   // Extend, never replace, the proven Pink Salt product/order/customer model.
++  addCol('pink_salt_products','content_language',"TEXT DEFAULT NULL");
++  addCol('pink_salt_products','commerce_language',"TEXT DEFAULT 'auto'");
+   addCol('pink_salt_products','name_en',"TEXT DEFAULT ''");
+   addCol('pink_salt_products','name_ko',"TEXT DEFAULT ''");
+   addCol('pink_salt_products','product_family',"TEXT DEFAULT ''");
+@@ -156,7 +158,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit}){
+ 
+   const bu=Number(pinkUnit()||0);
+   if(bu){
+-    db.prepare("UPDATE pink_salt_products SET name_en=CASE WHEN trim(COALESCE(name_en,''))='' THEN name ELSE name_en END, product_category=CASE WHEN trim(COALESCE(product_category,''))='' THEN 'Pink Salt' ELSE product_category END WHERE business_unit_id=?").run(bu);
++    db.prepare("UPDATE pink_salt_products SET name_en=CASE WHEN trim(COALESCE(name_en,''))='' THEN name ELSE name_en END, product_category=CASE WHEN trim(COALESCE(product_category,''))='' THEN 'Pink Salt' ELSE product_category END WHERE business_unit_id=? AND COALESCE(content_language,'')<>'ko'").run(bu);
+     const internal=db.prepare("SELECT id FROM commerce_channels WHERE business_unit_id=? AND system_key='internal'").get(bu);
+     if(!internal)db.prepare("INSERT INTO commerce_channels(business_unit_id,name,channel_type,integration_mode,currency,active,system_key,notes) VALUES(?,?,'Internal','Manual','KRW',1,'internal',?)").run(bu,'Internal Sales','Built-in Blue Ocean operational sales channel.');
+     const retail=db.prepare("SELECT id FROM commerce_price_lists WHERE business_unit_id=? AND name='Retail'").get(bu);
+@@ -176,7 +178,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit}){
+     const products=db.prepare(`SELECT p.*,
+       (SELECT COUNT(*) FROM commerce_product_channels pc WHERE pc.product_id=p.id AND pc.enabled=1) enabled_channels,
+       (SELECT COUNT(*) FROM commerce_product_channels pc WHERE pc.product_id=p.id) configured_channels
+-      FROM pink_salt_products p WHERE p.business_unit_id=? ORDER BY p.active DESC,p.name,p.sku`).all(b).map(p=>({...p,...stock(p.id)}));
++      FROM pink_salt_products p WHERE p.business_unit_id=? ORDER BY p.active DESC,p.name,p.sku`).all(b).map(p=>({...p,...stock(p.id),display_content:require('./product-content').resolveContent(p)}));
+     const mappings=db.prepare(`SELECT pc.*,c.name channel_name,c.channel_type,c.integration_mode,pl.name price_list_name
+       FROM commerce_product_channels pc JOIN commerce_channels c ON c.id=pc.channel_id
+       LEFT JOIN commerce_price_lists pl ON pl.id=pc.price_list_id
+@@ -211,7 +213,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit}){
+   });
+ 
+   app.get('/api/commerce/products-v365/:productId',auth,allow('sales','inventory','dashboard'),(req,res)=>{
+-    const b=guard(req,res);if(!b)return;const p=db.prepare('SELECT * FROM pink_salt_products WHERE id=? AND business_unit_id=?').get(req.params.productId,b);if(!p)return res.status(404).json({error:'Product not found.'});const mappings=db.prepare(`SELECT pc.*,c.name channel_name,c.channel_type,c.integration_mode,pl.name price_list_name FROM commerce_channels c LEFT JOIN commerce_product_channels pc ON pc.channel_id=c.id AND pc.product_id=? LEFT JOIN commerce_price_lists pl ON pl.id=pc.price_list_id WHERE c.business_unit_id=? ORDER BY c.active DESC,c.name`).all(p.id,b);res.json({product:{...p,...stock(p.id)},mappings});
++    const b=guard(req,res);if(!b)return;const p=db.prepare('SELECT * FROM pink_salt_products WHERE id=? AND business_unit_id=?').get(req.params.productId,b);if(!p)return res.status(404).json({error:'Product not found.'});const mappings=db.prepare(`SELECT pc.*,c.name channel_name,c.channel_type,c.integration_mode,pl.name price_list_name FROM commerce_channels c LEFT JOIN commerce_product_channels pc ON pc.channel_id=c.id AND pc.product_id=? LEFT JOIN commerce_price_lists pl ON pl.id=pc.price_list_id WHERE c.business_unit_id=? ORDER BY c.active DESC,c.name`).all(p.id,b);res.json({product:{...p,...stock(p.id),display_content:require('./product-content').resolveContent(p)},mappings});
+   });
+ }
+ module.exports={install,VERSION};
+diff --git a/server/v366-pink-product-master.js b/server/v366-pink-product-master.js
+index 42192a5..aec6646 100644
+--- a/server/v366-pink-product-master.js
++++ b/server/v366-pink-product-master.js
+@@ -48,7 +48,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,upload}){
+     (SELECT COUNT(*) FROM commerce_product_channels pc WHERE pc.product_id=p.id AND pc.enabled=1) enabled_channels
+     FROM pink_salt_products p LEFT JOIN pink_salt_storage_locations l ON l.id=p.default_location_id WHERE p.business_unit_id=? ORDER BY p.active DESC,p.name,p.sku`).all(b);res.json({version:VERSION,products:rows,locations:db.prepare('SELECT * FROM pink_salt_storage_locations WHERE business_unit_id=? ORDER BY active DESC,warehouse,zone,rack_bin').all(b),price_lists:db.prepare('SELECT * FROM commerce_price_lists WHERE business_unit_id=? ORDER BY active DESC,name').all(b)})});
+ 
+-  app.put('/api/v366/pink-salt/products/:id/catalog',auth,allow('inventory','sales','purchases'),(req,res)=>{const b=guard(req,res);if(!b)return;const p=product(b,req.params.id);if(!p)return res.status(404).json({error:'Finished product not found.'});const locationId=num(req.body.default_location_id)||null;if(locationId&&!db.prepare('SELECT id FROM pink_salt_storage_locations WHERE id=? AND business_unit_id=? AND active=1').get(locationId,b))return res.status(400).json({error:'Invalid Pink Salt storage location.'});const shelf=Math.max(0,Math.round(num(req.body.shelf_life_days)));db.prepare(`UPDATE pink_salt_products SET name_en=?,name_ko=?,product_family=?,variant_label=?,product_category=?,grind_mesh=?,unit_of_measure=?,barcode=?,sellable=?,shelf_life_days=?,origin_country=?,ingredients_en=?,ingredients_ko=?,storage_instructions_en=?,storage_instructions_ko=?,short_description_en=?,short_description_ko=?,default_location_id=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).run(text(req.body.name_en)||text(req.body.name)||p.name,text(req.body.name_ko),text(req.body.product_family),text(req.body.variant_label),text(req.body.product_category)||'Pink Salt',text(req.body.grind_mesh),text(req.body.unit_of_measure)||'unit',text(req.body.barcode),bool(req.body.sellable)?1:0,shelf,text(req.body.origin_country),text(req.body.ingredients_en),text(req.body.ingredients_ko),text(req.body.storage_instructions_en),text(req.body.storage_instructions_ko),text(req.body.short_description_en),text(req.body.short_description_ko),locationId,p.id);audit(req.user,'pink_salt_product',p.id,'catalog-update-v366',JSON.stringify({sku:p.sku,variant_label:text(req.body.variant_label),barcode:text(req.body.barcode),shelf_life_days:shelf,default_location_id:locationId}));res.json({ok:true})});
++  app.put('/api/v366/pink-salt/products/:id/catalog',auth,allow('inventory','sales','purchases'),(req,res)=>{const b=guard(req,res);if(!b)return;const p=product(b,req.params.id);if(!p)return res.status(404).json({error:'Finished product not found.'});const locationId=num(req.body.default_location_id)||null;if(locationId&&!db.prepare('SELECT id FROM pink_salt_storage_locations WHERE id=? AND business_unit_id=? AND active=1').get(locationId,b))return res.status(400).json({error:'Invalid Pink Salt storage location.'});const shelf=Math.max(0,Math.round(num(req.body.shelf_life_days)));db.prepare(`UPDATE pink_salt_products SET name_en=?,name_ko=?,product_family=?,variant_label=?,product_category=?,grind_mesh=?,unit_of_measure=?,barcode=?,sellable=?,shelf_life_days=?,origin_country=?,ingredients_en=?,ingredients_ko=?,storage_instructions_en=?,storage_instructions_ko=?,short_description_en=?,short_description_ko=?,default_location_id=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).run((p.content_language==='ko'?text(req.body.name_en??p.name_en):text(req.body.name_en)||text(req.body.name)||p.name),text(req.body.name_ko),text(req.body.product_family),text(req.body.variant_label),text(req.body.product_category)||'Pink Salt',text(req.body.grind_mesh),text(req.body.unit_of_measure)||'unit',text(req.body.barcode),bool(req.body.sellable)?1:0,shelf,text(req.body.origin_country),text(req.body.ingredients_en),text(req.body.ingredients_ko),text(req.body.storage_instructions_en),text(req.body.storage_instructions_ko),text(req.body.short_description_en),text(req.body.short_description_ko),locationId,p.id);audit(req.user,'pink_salt_product',p.id,'catalog-update-v366',JSON.stringify({sku:p.sku,variant_label:text(req.body.variant_label),barcode:text(req.body.barcode),shelf_life_days:shelf,default_location_id:locationId}));res.json({ok:true})});
+ 
+   app.get('/api/v366/pink-salt/products/:id/images',auth,allow('inventory','sales','dashboard','purchases'),(req,res)=>{const b=guard(req,res);if(!b)return;if(!product(b,req.params.id))return res.status(404).json({error:'Product not found.'});res.json(images(req.params.id))});
+   app.get('/api/v366/pink-salt/product-images/:imageId/content',auth,allow('inventory','sales','dashboard','purchases'),(req,res)=>{const b=guard(req,res);if(!b)return;const x=db.prepare(`SELECT i.* FROM pink_salt_product_images i JOIN pink_salt_products p ON p.id=i.product_id WHERE i.id=? AND p.business_unit_id=? AND i.active=1`).get(req.params.imageId,b);if(!x)return res.status(404).json({error:'Product image not found.'});const stored=path.basename(String(x.file_path||'')),file=path.join(storage.uploadDir,stored);if(!fs.existsSync(file))return res.status(404).json({error:'Image file is missing from persistent storage.'});res.set('Content-Type',x.mime_type||'application/octet-stream');res.set('Cache-Control','private, max-age=300');res.sendFile(file)});
+diff --git a/server/v367-pink-operational-completion.js b/server/v367-pink-operational-completion.js
+index 32b2f2b..13bde60 100644
+--- a/server/v367-pink-operational-completion.js
++++ b/server/v367-pink-operational-completion.js
+@@ -82,13 +82,42 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,upload}){
+   const bu=Number(pinkUnit()||0);if(bu){ensureFamilies(bu);syncLots(bu);for(const o of db.prepare("SELECT id FROM pink_salt_orders WHERE business_unit_id=? AND status='Completed' ORDER BY id").all(bu))try{reconcileOrderLots(o.id)}catch(_){}}
+   global.__bomV367PinkLots={reconcileOrderLots,syncLots};
+ 
+-  app.get('/api/v367/pink-salt/families',auth,allow('inventory','sales','dashboard'),(req,res)=>{const b=guard(req,res);if(!b)return;ensureFamilies(b);const rows=db.prepare(`SELECT f.*,(SELECT COUNT(*) FROM pink_salt_products p WHERE p.family_id=f.id AND p.active=1) variant_count,(SELECT COUNT(*) FROM pink_salt_product_family_images i WHERE i.family_id=f.id AND i.active=1) image_count FROM pink_salt_product_families f WHERE f.business_unit_id=? ORDER BY f.active DESC,f.name_en`).all(b);for(const f of rows)f.variants=db.prepare('SELECT id,sku,name,name_en,name_ko,variant_label,variant_code,pack_weight_g,barcode,active FROM pink_salt_products WHERE family_id=? ORDER BY variant_sort_order,name,sku').all(f.id);res.json(rows)});
++  // Optional server paging keeps legacy collection callers compatible.
++  function pageQuery(req,alias,fields){
++    const paged=req.query.page!==undefined, page=Math.max(1,Math.floor(Number(req.query.page)||1)),size=[25,50,100].includes(Number(req.query.pageSize))?Number(req.query.pageSize):25;
++    const filters=[],args=[],search=text(req.query.search).slice(0,100);
++    if(search){filters.push('('+fields.map(f=>`COALESCE(${f},'') LIKE ?`).join(' OR ')+')');args.push(...fields.map(()=>'%'+search+'%'))}
++    if(req.query.id){filters.push(alias+'.id=?');args.push(Number(req.query.id))}
++    return {paged,page,size,filters,args};
++  }
++  function pagedResult(rows,total,q){const pages=Math.max(1,Math.ceil(total/q.size));return {rows,pagination:{page:q.page,pageSize:q.size,pages,total,from:total?(q.page-1)*q.size+1:0,to:Math.min(q.page*q.size,total)}}}
++  app.get('/api/v367/pink-salt/families',auth,allow('inventory','sales','dashboard'),(req,res)=>{const b=guard(req,res);if(!b)return;ensureFamilies(b);
++    const q=pageQuery(req,'f',['f.family_code','f.name_en','f.name_ko','f.category']);
++    if(['Active','Archived'].includes(req.query.status)){q.filters.push('f.active=?');q.args.push(req.query.status==='Active'?1:0)}
++    const where='f.business_unit_id=?'+q.filters.map(f=>' AND '+f).join(''),args=[b,...q.args],total=db.prepare('SELECT COUNT(*) n FROM pink_salt_product_families f WHERE '+where).get(...args).n;
++    if(q.paged)q.page=Math.min(q.page,Math.max(1,Math.ceil(total/q.size)));
++    const rows=db.prepare(`SELECT f.*,(SELECT COUNT(*) FROM pink_salt_products p WHERE p.family_id=f.id AND p.active=1) variant_count,(SELECT COUNT(*) FROM pink_salt_products p WHERE p.family_id=f.id) dependency_count,(SELECT COUNT(*) FROM pink_salt_product_family_images i WHERE i.family_id=f.id) image_dependencies FROM pink_salt_product_families f WHERE ${where} ORDER BY f.active DESC,f.name_en,f.id${q.paged?' LIMIT ? OFFSET ?':''}`).all(...args,...(q.paged?[q.size,(q.page-1)*q.size]:[]));
++    for(const f of rows)f.variants=db.prepare('SELECT id,sku,name,name_en,name_ko,variant_label,variant_code,pack_weight_g,barcode,active FROM pink_salt_products WHERE family_id=? ORDER BY variant_sort_order,name,sku').all(f.id);
++    res.json(q.paged?pagedResult(rows,total,q):rows);
++  });
++  app.delete('/api/v367/pink-salt/families/:id',auth,allow('inventory','sales'),(req,res)=>{const b=guard(req,res);if(!b)return;const f=db.prepare('SELECT * FROM pink_salt_product_families WHERE id=? AND business_unit_id=?').get(req.params.id,b);if(!f)return res.status(404).json({error:'Product family not found.'});
++    try{db.transaction(()=>{if(db.prepare('SELECT 1 FROM pink_salt_products WHERE family_id=? LIMIT 1').get(f.id)||db.prepare('SELECT 1 FROM pink_salt_product_family_images WHERE family_id=? LIMIT 1').get(f.id))throw new Error('This family has linked records. Archive it instead.');db.prepare('DELETE FROM pink_salt_product_families WHERE id=?').run(f.id);audit(req.user,'pink_salt_product_family',f.id,'delete-unused-v36938',JSON.stringify(f))})();res.json({ok:true})}catch(e){res.status(409).json({error:e.message})}
++  });
+   app.post('/api/v367/pink-salt/families',auth,allow('inventory','sales'),(req,res)=>{const b=guard(req,res);if(!b)return;const name=text(req.body.name_en);if(!name)return res.status(400).json({error:'Product family English name is required.'});try{const r=db.prepare('INSERT INTO pink_salt_product_families(business_unit_id,family_code,name_en,name_ko,category,short_description_en,short_description_ko,active,created_by) VALUES(?,?,?,?,?,?,?,?,?)').run(b,text(req.body.family_code),name,text(req.body.name_ko),text(req.body.category)||'Pink Salt',text(req.body.short_description_en),text(req.body.short_description_ko),req.body.active===false?0:1,req.user.id);audit(req.user,'pink_salt_product_family',r.lastInsertRowid,'create-v367',name);res.json({id:Number(r.lastInsertRowid)})}catch(e){res.status(409).json({error:'A product family with this name already exists.'})}});
+-  app.put('/api/v367/pink-salt/families/:id',auth,allow('inventory','sales'),(req,res)=>{const b=guard(req,res);if(!b)return;const f=db.prepare('SELECT * FROM pink_salt_product_families WHERE id=? AND business_unit_id=?').get(req.params.id,b);if(!f)return res.status(404).json({error:'Product family not found.'});db.prepare('UPDATE pink_salt_product_families SET family_code=?,name_en=?,name_ko=?,category=?,short_description_en=?,short_description_ko=?,active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(text(req.body.family_code??f.family_code),text(req.body.name_en)||f.name_en,text(req.body.name_ko??f.name_ko),text(req.body.category??f.category)||'Pink Salt',text(req.body.short_description_en??f.short_description_en),text(req.body.short_description_ko??f.short_description_ko),req.body.active===undefined?f.active:(bool(req.body.active)?1:0),f.id);res.json({ok:true})});
++  app.put('/api/v367/pink-salt/families/:id',auth,allow('inventory','sales'),(req,res)=>{const b=guard(req,res);if(!b)return;const f=db.prepare('SELECT * FROM pink_salt_product_families WHERE id=? AND business_unit_id=?').get(req.params.id,b);if(!f)return res.status(404).json({error:'Product family not found.'});db.prepare('UPDATE pink_salt_product_families SET family_code=?,name_en=?,name_ko=?,category=?,short_description_en=?,short_description_ko=?,active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(text(req.body.family_code??f.family_code),text(req.body.name_en)||f.name_en,text(req.body.name_ko??f.name_ko),text(req.body.category??f.category)||'Pink Salt',text(req.body.short_description_en??f.short_description_en),text(req.body.short_description_ko??f.short_description_ko),req.body.active===undefined?f.active:(bool(req.body.active)?1:0),f.id);audit(req.user,'pink_salt_product_family',f.id,'update-v36938',JSON.stringify({before:f,after:db.prepare('SELECT * FROM pink_salt_product_families WHERE id=?').get(f.id)}));res.json({ok:true})});
+   app.put('/api/v367/pink-salt/products/:id/variant',auth,allow('inventory','sales'),(req,res)=>{const b=guard(req,res);if(!b)return;const p=db.prepare('SELECT * FROM pink_salt_products WHERE id=? AND business_unit_id=?').get(req.params.id,b);if(!p)return res.status(404).json({error:'Product variant not found.'});const fid=Number(req.body.family_id||0)||null;if(fid&&!db.prepare('SELECT id FROM pink_salt_product_families WHERE id=? AND business_unit_id=?').get(fid,b))return res.status(400).json({error:'Invalid product family.'});const familyName=fid?db.prepare('SELECT name_en FROM pink_salt_product_families WHERE id=?').get(fid)?.name_en||'':'';db.prepare('UPDATE pink_salt_products SET family_id=?,product_family=?,variant_label=?,variant_code=?,variant_sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(fid,familyName,text(req.body.variant_label),text(req.body.variant_code),Math.max(0,Math.trunc(num(req.body.variant_sort_order))),p.id);audit(req.user,'pink_salt_product',p.id,'variant-update-v367',JSON.stringify({family_id:fid,variant_label:text(req.body.variant_label)}));res.json({ok:true})});
+ 
+-  app.get('/api/v367/pink-salt/lots',auth,allow('inventory','sales','dashboard'),(req,res)=>{const b=guard(req,res);if(!b)return;syncLots(b);const rows=db.prepare(`SELECT l.*,p.sku,p.name,p.variant_label,sl.warehouse,sl.zone,sl.rack_bin,COALESCE((SELECT SUM(a.quantity_units) FROM pink_salt_finished_lot_allocations a WHERE a.lot_id=l.id),0) allocated_units FROM pink_salt_finished_lots l JOIN pink_salt_products p ON p.id=l.product_id LEFT JOIN pink_salt_storage_locations sl ON sl.id=l.location_id WHERE l.business_unit_id=? AND l.active=1 ORDER BY CASE WHEN l.best_before_date IS NULL OR l.best_before_date='' THEN 1 ELSE 0 END,l.best_before_date,l.production_date,l.id`).all(b).map(x=>({...x,available_units:Math.max(0,num(x.produced_units)-num(x.allocated_units))}));res.json(rows)});
+-  app.put('/api/v367/pink-salt/lots/:id',auth,allow('inventory'),(req,res)=>{const b=guard(req,res);if(!b)return;const l=db.prepare('SELECT * FROM pink_salt_finished_lots WHERE id=? AND business_unit_id=?').get(req.params.id,b);if(!l)return res.status(404).json({error:'Finished lot not found.'});const q=text(req.body.quality_status||l.quality_status);if(!['Released','Hold','Rejected','Legacy / Untracked'].includes(q))return res.status(400).json({error:'Invalid quality status.'});db.prepare('UPDATE pink_salt_finished_lots SET best_before_date=?,location_id=?,quality_status=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(text(req.body.best_before_date)||null,Number(req.body.location_id||0)||null,q,l.id);audit(req.user,'pink_salt_finished_lot',l.id,'update-v367',JSON.stringify({quality_status:q}));res.json({ok:true})});
++  app.get('/api/v367/pink-salt/lots',auth,allow('inventory','sales','dashboard'),(req,res)=>{const b=guard(req,res);if(!b)return;syncLots(b);const q=pageQuery(req,'l',['p.sku','p.name','l.lot_no','p.variant_label']);
++    if(['Released','Hold','Rejected','Legacy / Untracked'].includes(req.query.status)){q.filters.push('l.quality_status=?');q.args.push(req.query.status)}
++    if(req.query.product_id){q.filters.push('l.product_id=?');q.args.push(Number(req.query.product_id))}
++    const today=new Date().toISOString().slice(0,10),soon=new Date(Date.now()+60*86400000).toISOString().slice(0,10);
++    if(req.query.filter==='expired'){q.filters.push("l.best_before_date<>'' AND l.best_before_date<?");q.args.push(today)}
++    if(req.query.filter==='soon'){q.filters.push('l.best_before_date BETWEEN ? AND ?');q.args.push(today,soon)}
++    const where='l.business_unit_id=? AND l.active=1'+q.filters.map(f=>' AND '+f).join(''),args=[b,...q.args],join=' FROM pink_salt_finished_lots l JOIN pink_salt_products p ON p.id=l.product_id LEFT JOIN pink_salt_storage_locations sl ON sl.id=l.location_id',total=db.prepare('SELECT COUNT(*) n'+join+' WHERE '+where).get(...args).n;
++    if(q.paged)q.page=Math.min(q.page,Math.max(1,Math.ceil(total/q.size)));
++    const rows=db.prepare(`SELECT l.*,p.sku,p.name,p.name_en,p.name_ko,p.variant_label,sl.warehouse,sl.zone,sl.rack_bin,pb.batch_no,COALESCE((SELECT SUM(a.quantity_units) FROM pink_salt_finished_lot_allocations a WHERE a.lot_id=l.id),0) allocated_units${join} LEFT JOIN pink_salt_production_batches pb ON pb.id=l.production_batch_id WHERE ${where} ORDER BY CASE WHEN l.best_before_date IS NULL OR l.best_before_date='' THEN 1 ELSE 0 END,l.best_before_date,l.production_date,l.id${q.paged?' LIMIT ? OFFSET ?':''}`).all(...args,...(q.paged?[q.size,(q.page-1)*q.size]:[])).map(x=>({...x,available_units:Math.max(0,num(x.produced_units)-num(x.allocated_units))}));res.json(q.paged?pagedResult(rows,total,q):rows);
++  });
++  app.put('/api/v367/pink-salt/lots/:id',auth,allow('inventory'),(req,res)=>{const b=guard(req,res);if(!b)return;const l=db.prepare('SELECT * FROM pink_salt_finished_lots WHERE id=? AND business_unit_id=?').get(req.params.id,b);if(!l)return res.status(404).json({error:'Finished lot not found.'});const q=text(req.body.quality_status||l.quality_status);if(!['Released','Hold','Rejected','Legacy / Untracked'].includes(q))return res.status(400).json({error:'Invalid quality status.'});const loc=req.body.location_id===undefined?l.location_id:Number(req.body.location_id)||null;if(loc&&!db.prepare('SELECT 1 FROM pink_salt_storage_locations WHERE id=? AND business_unit_id=? AND active=1').get(loc,b))return res.status(400).json({error:'Invalid Pink Salt storage location.'});const expiry=req.body.best_before_date===undefined?l.best_before_date:text(req.body.best_before_date)||null;if(expiry&&!/^\d{4}-\d{2}-\d{2}$/.test(expiry))return res.status(400).json({error:'Invalid best before date.'});db.prepare('UPDATE pink_salt_finished_lots SET best_before_date=?,location_id=?,quality_status=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').run(expiry,loc,q,l.id);audit(req.user,'pink_salt_finished_lot',l.id,'update-v367',JSON.stringify({quality_status:q}));res.json({ok:true})});
+   app.post('/api/v367/pink-salt/orders/:id/reconcile-lots',auth,allow('sales','inventory'),(req,res)=>{const b=guard(req,res);if(!b)return;const o=db.prepare('SELECT id FROM pink_salt_orders WHERE id=? AND business_unit_id=?').get(req.params.id,b);if(!o)return res.status(404).json({error:'Order not found.'});res.json(reconcileOrderLots(o.id))});
+   app.get('/api/v367/pink-salt/orders/:id/trace',auth,allow('sales','inventory','dashboard'),(req,res)=>{const b=guard(req,res);if(!b)return;const o=db.prepare('SELECT * FROM pink_salt_orders WHERE id=? AND business_unit_id=?').get(req.params.id,b);if(!o)return res.status(404).json({error:'Order not found.'});reconcileOrderLots(o.id);const rows=db.prepare(`SELECT a.quantity_units,a.allocation_method,p.sku,p.name,p.variant_label,l.lot_no,l.production_date,l.best_before_date,l.quality_status,pb.batch_no,
+       (SELECT GROUP_CONCAT(DISTINCT im.import_no||' / '||ii.salt_grade) FROM pink_salt_production_inputs pi JOIN pink_salt_import_items ii ON ii.id=pi.import_item_id JOIN pink_salt_imports im ON im.id=ii.import_id WHERE pi.production_batch_id=l.production_batch_id) raw_sources

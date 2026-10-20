@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Original .37 application creates legacy purchase, receipt, cash settlement, bilingual product and linked family",
+    "Upgrade to .38 preserves original columns in 15 protected tables and derives correct statuses without rewriting records",
+    "Repeated .38 startup leaves all existing rows and balances unchanged",
+    "Korean-only product and preferences survive restart without fabricating English content"
+  ],
+  "baseline": "30.69.37",
+  "tables": [
+    "pink_pack_purchases",
+    "pink_pack_purchase_lines",
+    "pink_pack_receipts",
+    "pink_pack_receipt_lines",
+    "pink_pack_operations",
+    "pink_salt_packaging_items",
+    "pink_salt_packaging_movements",
+    "pink_fx_transactions",
+    "finance_entries",
+    "accounting_journal_entries",
+    "accounting_journal_lines",
+    "approval_rules",
+    "pink_salt_products",
+    "pink_salt_product_families",
+    "pink_salt_finished_lots"
+  ],
+  "production_data_used": false
+}

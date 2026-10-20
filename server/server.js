@@ -91,6 +91,7 @@ function accessPathModule(p=''){
   if(p.startsWith('/excavator/buyers'))return'excavatorBuyers';
   if(p.startsWith('/excavator'))return'excavator';
   if(p.startsWith('/pink-salt/fx/')){if(/\/fx\/(order|customer_)/.test(p))return'sales';if(/\/fx\/(import|supplier_|packaging|expense)/.test(p))return'purchases';return'finance'}
+  if(/^\/v367\/pink-salt\/(families|lots)(?:\/|$)/.test(p))return'inventory';
   if(p.startsWith('/pink-salt/dashboard'))return'dashboard';
   if(p.startsWith('/pink-salt/orders')||p.startsWith('/pink-salt/customers')||p.startsWith('/pink-salt/price'))return'sales';
   if(p.startsWith('/pink-salt/import')||p.startsWith('/pink-salt/supplier'))return'purchases';
