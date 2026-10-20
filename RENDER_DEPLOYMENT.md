@@ -1,3 +1,9 @@
+# Current release: V30.69.38
+
+See [START_HERE_V30_69_38.md](START_HERE_V30_69_38.md) for the current build, QA, Git and deployment instructions. Earlier release sections below are historical.
+
+---
+
 # Current release: V30.69.37 — Packaging UI refinement
 
 Read [START_HERE_V30_69_37.md](START_HERE_V30_69_37.md). Built on verified V30.69.36; compact controls, visible actions, live summaries and simplified normal purchase creation. Earlier releases below are historical.

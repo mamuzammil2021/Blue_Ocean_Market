@@ -8,6 +8,8 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit}){
   function guard(req,res){const bu=Number(pinkUnit()||0),selected=Number(currentUnit(req)||0);if(!bu){res.status(409).json({error:'Pink Salt business unit is not available.'});return null}if(!selected||selected!==bu||!enforceUnit(req,bu)){res.status(403).json({error:'Select the Pink Salt business unit to use this workspace.'});return null}return bu}
 
   // Extend, never replace, the proven Pink Salt product/order/customer model.
+  addCol('pink_salt_products','content_language',"TEXT DEFAULT NULL");
+  addCol('pink_salt_products','commerce_language',"TEXT DEFAULT 'auto'");
   addCol('pink_salt_products','name_en',"TEXT DEFAULT ''");
   addCol('pink_salt_products','name_ko',"TEXT DEFAULT ''");
   addCol('pink_salt_products','product_family',"TEXT DEFAULT ''");
@@ -156,7 +158,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit}){
 
   const bu=Number(pinkUnit()||0);
   if(bu){
-    db.prepare("UPDATE pink_salt_products SET name_en=CASE WHEN trim(COALESCE(name_en,''))='' THEN name ELSE name_en END, product_category=CASE WHEN trim(COALESCE(product_category,''))='' THEN 'Pink Salt' ELSE product_category END WHERE business_unit_id=?").run(bu);
+    db.prepare("UPDATE pink_salt_products SET name_en=CASE WHEN trim(COALESCE(name_en,''))='' THEN name ELSE name_en END, product_category=CASE WHEN trim(COALESCE(product_category,''))='' THEN 'Pink Salt' ELSE product_category END WHERE business_unit_id=? AND COALESCE(content_language,'')<>'ko'").run(bu);
     const internal=db.prepare("SELECT id FROM commerce_channels WHERE business_unit_id=? AND system_key='internal'").get(bu);
     if(!internal)db.prepare("INSERT INTO commerce_channels(business_unit_id,name,channel_type,integration_mode,currency,active,system_key,notes) VALUES(?,?,'Internal','Manual','KRW',1,'internal',?)").run(bu,'Internal Sales','Built-in Blue Ocean operational sales channel.');
     const retail=db.prepare("SELECT id FROM commerce_price_lists WHERE business_unit_id=? AND name='Retail'").get(bu);
@@ -176,7 +178,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit}){
     const products=db.prepare(`SELECT p.*,
       (SELECT COUNT(*) FROM commerce_product_channels pc WHERE pc.product_id=p.id AND pc.enabled=1) enabled_channels,
       (SELECT COUNT(*) FROM commerce_product_channels pc WHERE pc.product_id=p.id) configured_channels
-      FROM pink_salt_products p WHERE p.business_unit_id=? ORDER BY p.active DESC,p.name,p.sku`).all(b).map(p=>({...p,...stock(p.id)}));
+      FROM pink_salt_products p WHERE p.business_unit_id=? ORDER BY p.active DESC,p.name,p.sku`).all(b).map(p=>({...p,...stock(p.id),display_content:require('./product-content').resolveContent(p)}));
     const mappings=db.prepare(`SELECT pc.*,c.name channel_name,c.channel_type,c.integration_mode,pl.name price_list_name
       FROM commerce_product_channels pc JOIN commerce_channels c ON c.id=pc.channel_id
       LEFT JOIN commerce_price_lists pl ON pl.id=pc.price_list_id
@@ -211,7 +213,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit}){
   });
 
   app.get('/api/commerce/products-v365/:productId',auth,allow('sales','inventory','dashboard'),(req,res)=>{
-    const b=guard(req,res);if(!b)return;const p=db.prepare('SELECT * FROM pink_salt_products WHERE id=? AND business_unit_id=?').get(req.params.productId,b);if(!p)return res.status(404).json({error:'Product not found.'});const mappings=db.prepare(`SELECT pc.*,c.name channel_name,c.channel_type,c.integration_mode,pl.name price_list_name FROM commerce_channels c LEFT JOIN commerce_product_channels pc ON pc.channel_id=c.id AND pc.product_id=? LEFT JOIN commerce_price_lists pl ON pl.id=pc.price_list_id WHERE c.business_unit_id=? ORDER BY c.active DESC,c.name`).all(p.id,b);res.json({product:{...p,...stock(p.id)},mappings});
+    const b=guard(req,res);if(!b)return;const p=db.prepare('SELECT * FROM pink_salt_products WHERE id=? AND business_unit_id=?').get(req.params.productId,b);if(!p)return res.status(404).json({error:'Product not found.'});const mappings=db.prepare(`SELECT pc.*,c.name channel_name,c.channel_type,c.integration_mode,pl.name price_list_name FROM commerce_channels c LEFT JOIN commerce_product_channels pc ON pc.channel_id=c.id AND pc.product_id=? LEFT JOIN commerce_price_lists pl ON pl.id=pc.price_list_id WHERE c.business_unit_id=? ORDER BY c.active DESC,c.name`).all(p.id,b);res.json({product:{...p,...stock(p.id),display_content:require('./product-content').resolveContent(p)},mappings});
   });
 }
 module.exports={install,VERSION};

@@ -1177,7 +1177,7 @@ window.psImportNewPaymentForm=async function(id){return window.BOMPinkFX.open('i
       closeModalAfterSave();
       toast(`${t('Production completed')} · ${(d.salt_categories||[]).join(' + ')} · ${t('Waste Weight')} ${qty(d.waste_weight_kg)} kg`);
       if(d.accounting_sync_warning)setTimeout(()=>toast(t('Production completed, but accounting synchronization needs review.')),350);
-      loadView();
+      formDirty=false;await BOMRouter.navigate('psProduction','',0,'',{params:window.BOMProductUX38?.parentState({view:'psProduction'})||{}});
     }catch(err){toast(err.message||t('Request failed'))}
     finally{if(button&&document.body.contains(button)){button.disabled=false;button.textContent=oldText}}
   };
@@ -1281,7 +1281,7 @@ window.psImportNewPaymentForm=async function(id){return window.BOMPinkFX.open('i
         o.gift_components=clean;
       }
       await api(id?'/api/pink-salt/products/'+id:'/api/pink-salt/products',{method:id?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});
-      closeModalAfterSave();toast(t('Finished product saved'));loadView();
+      if(window.BOMProductUX38?.productSaved)await BOMProductUX38.productSaved();else{closeModalAfterSave();await loadView()}toast(t('Finished product saved'));
     }catch(err){toast(err.message||t('Request failed'))}
   };
 

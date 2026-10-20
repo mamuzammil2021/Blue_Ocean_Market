@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Material list exposes actual history dependencies for archive/delete row controls",
+    "Normal purchase confirms in the single create/review flow, with no approval request or stock creation",
+    "List summaries start unpaid/not received and used materials are no longer deletable",
+    "Partial receipt/payment summaries reconcile live quantities, paid/outstanding values and pending Finance verification",
+    "Completed receipt/settlement enables Close, hides Receive and keeps Finance verification separate",
+    "Optional drafts and server-side pagination remain supported",
+    "Cancelled purchases do not display a supplier amount still due",
+    "Configured exceptional purchase authorization remains active on auto-confirm creation"
+  ],
+  "baseline": "30.69.36",
+  "production_data_used": false,
+  "run_version": "30.69.38"
+}

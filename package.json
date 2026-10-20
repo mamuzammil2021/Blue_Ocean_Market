@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.69.37",
+  "version": "30.69.38",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -42,7 +42,7 @@
     "qa:v344": "node qa/qa_v344_cash_accounts.js",
     "qa:v345": "node qa/qa_v345_feedback.js",
     "qa:v346": "node qa/qa_v346_performance.js",
-    "qa:release": "node qa/qa_v36937_release_gate.js",
+    "qa:release": "node qa/qa_v36938_release_gate.js",
     "qa:v346:browser": "python3 qa/browser_v346_static.py",
     "qa:v347": "node qa/qa_v347_performance.js",
     "qa:v347:browser": "python3 qa/browser_v347_paged_lazy.py",
@@ -112,7 +112,10 @@
     "qa:packaging:upgrade": "node qa/qa_v36937_upgrade.js",
     "qa:packaging:regression": "node qa/qa_v36937_regressions.js",
     "qa:packaging:refinement": "node qa/qa_v36937_refinement.js",
-    "qa:packaging:refinement:browser": "node qa/browser_v36937_refinement.js"
+    "qa:packaging:refinement:browser": "node qa/browser_v36937_refinement.js",
+    "qa:product:ux": "node qa/qa_v36938_product_ux.js",
+    "qa:product:browser": "node qa/browser_v36938_product_ux.js",
+    "qa:upgrade": "node qa/qa_v36938_upgrade.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
