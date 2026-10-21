@@ -42,8 +42,8 @@ record('psFinished','lot',['psLotDetail38'],null,{parent:{view:'psFinished',kind
 record('psSales','trace',['psOrderLotTraceV367']);
 record('psFinished','families',['psFamiliesV367'],null,{noId:true,parent:{view:'psFinished'}});
 record('psFinished','family',['psFamilyDetail38'],null,{parent:{view:'psFinished',kind:'families'}});
-record('accounting','journal',['journalDetailV29'],null,{temporary:true});
-record('accounting','posting',['postingOpenV318'],null,{temporary:true});
+record('accounting','journal',['journalDetailV29'],null,{parent:{view:'accounting'}});
+record('accounting','posting',['postingOpenV318'],null,{parent:{view:'accounting',kind:'control'}});
 // Bank statement upload is a temporary mutation modal, never an addressable read route.
 record('accounting','control',['accountingPostingControlV318'],null,{noId:true});
 record('accounting','financing',['v356FinancingDetail'],null,{mode:'simple',prepare:()=>window.BOMAccountingShell291(document.getElementById('content'))});

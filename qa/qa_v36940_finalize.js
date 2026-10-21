@@ -1,0 +1,12 @@
+'use strict';
+// Resume only failed executable entries from a completed full gate, preserving provenance.
+const fs=require('fs'),path=require('path'),cp=require('child_process'),assert=require('assert/strict'),crypto=require('crypto');
+const file='qa/evidence/36940-release.json',raw=fs.readFileSync(file),prior=JSON.parse(raw);assert.equal(prior.version,'30.69.40');assert.equal(prior.checks.length,15);assert(prior.browser_requested&&prior.upgrade_requested);fs.mkdirSync('../completion-evidence',{recursive:true});fs.writeFileSync('../completion-evidence/release-prior.json',raw);
+const runs=[];
+for(const entry of prior.checks.filter(x=>x.status!=='PASS')){
+ assert(/^[a-zA-Z0-9_/-]+\.(js|cjs)$/.test(entry.suite)&&!entry.suite.includes('..'),'Only executable QA suites can be resumed');const start=Date.now(),r=cp.spawnSync(process.execPath,[path.join('qa',entry.suite)],{encoding:'utf8',timeout:360000,env:process.env}),output=(r.stdout||'')+(r.stderr||'');process.stdout.write(output);const next={suite:entry.suite,status:r.status===0?'PASS':'FAIL',passed_log_lines:output.split('\n').filter(x=>/^PASS\b|^✓/.test(x)).length,duration_ms:Date.now()-start};Object.assign(entry,next);runs.push(next);
+}
+// Verify current identity, syntax and protected frontend bytes again after a harness-only correction.
+const pkg=require('../package.json'),lock=require('../package-lock.json');assert.equal(pkg.version,'30.69.40');assert.equal(lock.version,pkg.version);require('../server/frontend-integrity').assertFrontendIntegrity();for(const dir of ['server','public'])for(const name of fs.readdirSync(dir).filter(x=>x.endsWith('.js')))assert.equal(cp.spawnSync(process.execPath,['--check',path.join(dir,name)]).status,0,name);
+const contract=cp.spawnSync(process.execPath,['qa/qa_v36940_ui_contract.js'],{encoding:'utf8'});process.stdout.write(contract.stdout||'');assert.equal(contract.status,0,contract.stderr);
+const result={...prior,status:prior.checks.every(x=>x.status==='PASS')?'PASS':'FAIL',resumed_failed_entries:runs,prior_full_gate_sha256:crypto.createHash('sha256').update(raw).digest('hex'),resumption_reason:'Authority harness now waits for final requested view and ready/access phase, avoiding inspection during asynchronous session restoration.'};fs.writeFileSync(file,JSON.stringify(result,null,2));if(result.status!=='PASS')process.exitCode=1;else console.log('PASS Consolidated release: all 15 entries, with failed-entry rerun provenance retained');

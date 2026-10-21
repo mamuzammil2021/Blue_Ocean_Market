@@ -1,0 +1,172 @@
+/* Application adapter for the scoped Tabler subset. Domain layout stays in its module. */
+html.bom-ui {
+  --bom-space-1:4px; --bom-space-2:8px; --bom-space-3:12px; --bom-space-4:16px; --bom-space-5:24px;
+  --bom-radius:6px; --bom-radius-lg:10px; --bom-sidebar:244px; --bom-header:64px;
+  --bom-control:36px; --bom-touch:44px; --bom-page-width:1600px;
+  --bom-font:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic","Noto Sans CJK KR",sans-serif;
+  --bom-blue:#066fd1; --bom-blue-dark:#0559a7; --bom-surface:#fff; --bom-canvas:#f5f7fb;
+  --bom-ink:#182433; --bom-muted:#5d6b7d; --bom-border:#dce1e7; --bom-sidebar-bg:#182433;
+  --bom-focus:0 0 0 3px rgb(6 111 209 / 18%); --bom-elevation:0 1px 3px rgb(24 36 51 / 5%);
+  --bg:var(--bom-canvas); --panel:var(--bom-surface); --card:var(--bom-surface); --ink:var(--bom-ink);
+  --muted:var(--bom-muted); --line:var(--bom-border); --brand:var(--bom-blue); --brand2:var(--bom-blue-dark);
+  --good:#087443; --warn:#925600; --bad:#c02828; --shadow:var(--bom-elevation); --touch:var(--bom-control);
+  --body-font-family:var(--bom-font); --body-font-size:.875rem; --body-color:var(--bom-ink); --body-bg:var(--bom-canvas);
+}
+.bom-ui body {font-family:var(--bom-font);font-size:14px;line-height:1.45;color:var(--ink);background:var(--bg);}
+.bom-ui :where(button,input,select,textarea) {font:inherit;}
+.bom-ui :where(button,a,input,select,textarea,summary,[tabindex]):focus-visible {outline:2px solid var(--brand);outline-offset:3px;}
+.bom-ui :where(h1,h2,h3,h4,p) {overflow-wrap:anywhere;}
+.bom-ui h2 {font-size:18px;font-weight:600;line-height:1.35;}
+.bom-ui h3 {font-size:16px;font-weight:600;}
+.bom-ui .shell {grid-template-columns:var(--bom-sidebar) minmax(0,1fr);background:var(--bg);}
+.bom-ui .side {background:var(--bom-sidebar-bg);padding:16px 12px;color:#c3cfdd;}
+.bom-ui .side .brand {font-size:16px;letter-spacing:.035em;line-height:1.5;padding:6px 8px 20px;}
+.bom-ui .side .brand span {display:block;color:#8fbcf0;font-size:11px;font-weight:500;letter-spacing:.16em;}
+.bom-ui .side .nav {gap:3px;}
+.bom-ui .side .nav :where(button,summary) {border-radius:var(--bom-radius);min-height:38px;font-size:13px;font-weight:500;line-height:1.4;padding:9px 10px;color:#c3cfdd;gap:10px;}
+.bom-ui .side .nav :where(button,summary):hover {background:#23364c;color:#fff;}
+.bom-ui .side .nav :where(button,summary).active {background:#284467;color:#fff;box-shadow:inset 3px 0 var(--brand);}
+.bom-ui .side .nav-section-title {font-size:10px;font-weight:600;letter-spacing:.09em;color:#9aaec4;padding:16px 10px 6px;}
+.bom-ui .side .nav-label {line-height:1.4;white-space:normal;}
+.bom-ui .side .nav-icon {width:20px;min-width:20px;margin:0;font-size:16px;}
+.bom-ui .side .nav-separator {background:#304357;margin:14px 8px 6px;}
+.bom-ui .side .sidebar-toggle {margin-bottom:12px;background:transparent;border-color:#395067;border-radius:var(--bom-radius);min-height:32px;}
+.bom-ui .top {height:var(--bom-header);min-height:var(--bom-header);padding:12px 24px;gap:12px;background:var(--panel);border-bottom:1px solid var(--line);box-shadow:none;}
+.bom-ui .top-user {min-width:0;gap:10px;}
+.bom-ui .top-user b {font-size:13px;font-weight:600;}
+.bom-ui .top-right {gap:8px;min-width:0;}
+.bom-ui .avatar {height:32px;width:32px;border-radius:var(--bom-radius);font-size:13px;background:#e8f2fd;}
+.bom-ui :where(.unit-switch,.language-switch,.scope-badge) {border:1px solid var(--line);border-radius:var(--bom-radius);font-size:12px;min-height:var(--bom-control);max-width:300px;padding:6px 10px;background:var(--panel);color:var(--ink);}
+.bom-ui .app-crumbs {max-width:var(--bom-page-width);padding:0 24px;margin:14px auto 0;font-size:12px;gap:8px;min-width:0;}
+.bom-ui .app-crumbs .btn {min-height:28px;padding:3px 8px;font-size:12px;background:transparent;}
+.bom-ui .content {padding:20px 24px 40px;max-width:var(--bom-page-width);min-width:0;width:100%;}
+.bom-ui .titlebar {gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+.bom-ui .titlebar h1 {font-size:24px;line-height:1.3;font-weight:600;letter-spacing:-.025em;margin:0;}
+.bom-ui .titlebar :where(p,.sub,.muted) {font-size:13px;max-width:80ch;margin-top:6px;}
+.bom-ui .titlebar :where(.actions,.simple-actions) {margin:0;justify-content:flex-start;}
+.bom-ui .grid {gap:16px;min-width:0;}
+.bom-ui :where(.card,.machine-card,.pack-kpi) {border:1px solid var(--line);border-radius:var(--bom-radius-lg);background:var(--panel);padding:18px;box-shadow:var(--bom-elevation);min-width:0;}
+.bom-ui .card {display:block;}
+.bom-ui .section-title {display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+.bom-ui .section-title h2 {margin:0;}
+.bom-ui :where(.stat .value,.big-number,.pack-kpi b) {font-size:28px;font-weight:600;line-height:1.25;letter-spacing:-.03em;font-variant-numeric:tabular-nums;}
+.bom-ui .stat :where(.label,small) {font-size:12px;color:var(--muted);font-weight:500;}
+.bom-ui .btn {display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:var(--bom-control);padding:7px 12px;border:1px solid var(--line);border-radius:var(--bom-radius);background:#fff;color:var(--ink);font-size:13px;font-weight:500;line-height:20px;box-shadow:0 1px 1px rgb(24 36 51 / 3%);text-decoration:none;white-space:normal;}
+.bom-ui .btn:hover {border-color:#9caabb;background:#f4f6fa;color:var(--ink);}
+.bom-ui .btn.primary {background:var(--brand);border-color:var(--brand);color:#fff;}
+.bom-ui .btn.primary:hover {background:var(--brand2);border-color:var(--brand2);}
+.bom-ui .btn.danger {background:var(--bad);border-color:var(--bad);color:#fff;}
+.bom-ui .btn.small {min-height:30px;font-size:12px;padding:4px 9px;line-height:20px;}
+.bom-ui .btn:disabled {opacity:.5;cursor:not-allowed;}
+.bom-ui .link-btn {color:var(--brand);min-height:30px;}
+.bom-ui :where(.actions,.simple-actions) {gap:8px;flex-wrap:wrap;align-items:center;}
+.bom-ui :where(.field,.form-group) {min-width:0;gap:6px;margin:12px 0;}
+.bom-ui .field label {color:#3b495b;font-size:12px;line-height:1.4;font-weight:600;}
+.bom-ui .field :where(input:not([type=checkbox]):not([type=radio]):not([type=hidden]),select,textarea),
+.bom-ui :where(.finance-filterbar,.bom-filterbar) :where(input,select) {width:100%;min-width:0;min-height:var(--bom-control);padding:7px 10px;border:1px solid var(--line);border-radius:var(--bom-radius);background:var(--panel);color:var(--ink);font-size:13px;line-height:20px;}
+.bom-ui .field :where(input,select,textarea):focus {border-color:#6fa9df;box-shadow:var(--bom-focus);outline:none;}
+.bom-ui .field textarea {min-height:88px;resize:vertical;}
+.bom-ui input:where([type=checkbox],[type=radio]) {accent-color:var(--brand);flex:0 0 auto;}
+.bom-ui :where(.finance-filterbar,.ps313-filter,.filterbar,.pack-toolbar) {gap:10px;align-items:flex-end;flex-wrap:wrap;}
+.bom-ui :where(.finance-filterbar,.ps313-filter,.filterbar) .field {flex:0 1 180px;min-width:140px;margin:0;}
+.bom-ui :where(.finance-filterbar,.ps313-filter,.filterbar) input:where([type=search],[placeholder*=Search]) {max-width:360px;}
+.bom-ui .table {width:100%;border-collapse:separate;border-spacing:0;font-size:13px;margin:0;line-height:1.45;}
+.bom-ui .table :where(th,td) {padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle;box-shadow:none;}
+.bom-ui .table th {background:#f7f9fc;color:#536276;font-size:11px;font-weight:600;letter-spacing:.025em;white-space:nowrap;text-transform:none;}
+.bom-ui .table tbody tr:last-child td {border-bottom:0;}
+.bom-ui .table tbody tr:hover td {background-color:#f7faff;}
+.bom-ui .table :where(.num,.money,.amount,[data-numeric]) {text-align:right;font-variant-numeric:tabular-nums;}
+.bom-ui :where(.table-wrap,.bom-table-scroll) {overflow-x:auto;max-width:100%;min-width:0;overscroll-behavior-x:contain;scrollbar-width:thin;}
+.bom-ui .table .bom-actions-cell {position:sticky;right:0;z-index:2;min-width:150px;max-width:280px;background:var(--panel);white-space:normal;box-shadow:-3px 0 6px rgb(24 36 51 / 4%);}
+.bom-ui .table th.bom-actions-cell {background:#f7f9fc;z-index:3;}
+.bom-ui .bom-actions-cell :where(.actions,.ps-ux-actions,.pack-row-actions) {justify-content:flex-start;gap:5px;margin:0;min-width:0;}
+.bom-ui .table .bom-actions-cell .btn:not(.hidden):not([hidden]) {opacity:1;visibility:visible;}
+.bom-ui :where(.badge,.pill,.status-chip) {display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:4px;font-size:11px;font-weight:600;line-height:1.4;white-space:normal;}
+.bom-ui .badge {color:#34485f;background:#edf1f6;}
+.bom-ui :where(.badge.good,.badge.success,.pill.good) {color:#06613a;background:#e5f5ed;}
+.bom-ui :where(.badge.warn,.pill.warn) {color:#7a4800;background:#fff1d9;}
+.bom-ui :where(.badge.bad,.badge.danger,.pill.bad) {color:#a01d24;background:#fdebed;}
+.bom-ui :where(.notice,.alert,.review-warning,.empty) {border-radius:var(--bom-radius);font-size:13px;line-height:1.5;}
+.bom-ui .empty {padding:32px 16px;color:var(--muted);text-align:center;}
+.bom-ui :where(.finance-tabs,.ex17-tabs,.ps-tabs,.profile-tabs) {gap:6px;margin:14px 0;}
+.bom-ui :where(.finance-tabs,.ex17-tabs,.ps-tabs,.profile-tabs) .btn.active {color:var(--brand);background:#e9f2fc;border-color:#b9d5ee;}
+.bom-ui :where(.detail-list,.correction-record-grid,.requirement-summary-grid,.ps-ux-detail) {gap:12px;}
+.bom-ui :where(.modal-bg,.confirm-layer) {background:rgb(24 36 51 / 48%);backdrop-filter:blur(2px);padding:24px;}
+.bom-ui .modal {width:min(680px,calc(100vw - 48px));max-width:100%;padding:24px;border-radius:var(--bom-radius-lg);border:1px solid var(--line);background:var(--panel);box-shadow:0 16px 48px rgb(24 36 51 / 18%);min-width:0;}
+.bom-ui .modal.wide {width:min(1100px,calc(100vw - 48px));}
+.bom-ui .modal :where(h2,h3):first-child {margin-top:0;}
+.bom-ui .modal :where(.grid,.field,form) {min-width:0;}
+.bom-ui .confirm-dialog {max-width:min(640px,calc(100vw - 48px));border-radius:var(--bom-radius-lg);border:1px solid var(--line);}
+.bom-ui .notif-panel {border:1px solid var(--line);border-radius:var(--bom-radius-lg);box-shadow:0 8px 32px rgb(24 36 51 / 15%);}
+.bom-ui .login {background:radial-gradient(ellipse at top,#e9f2fd,transparent 55%),var(--bg);}
+.bom-ui .login-card {border-radius:var(--bom-radius-lg);box-shadow:0 6px 24px rgb(24 36 51 / 7%);padding:32px;}
+.bom-ui .login h1 {font-size:26px;font-weight:600;}
+.bom-ui .bom-skip-link {position:fixed;left:12px;top:-100px;z-index:1000;padding:10px 14px;background:var(--brand);color:#fff;border-radius:var(--bom-radius);}
+.bom-ui .bom-skip-link:focus {top:12px;}
+@media (min-width:901px) {
+ .bom-ui.sidebar-collapsed .shell,.bom-ui .sidebar-collapsed .shell {grid-template-columns:78px minmax(0,1fr);}
+ .bom-ui .sidebar-collapsed .side .brand,.bom-ui .side.collapsed .brand {font-size:0;}
+ .bom-ui .sidebar-collapsed .side .brand span,.bom-ui .side.collapsed .brand span {display:none;}
+ .bom-ui .sidebar-collapsed .side .nav-label,.bom-ui .side.collapsed .nav-label {display:none;}
+}
+@media (min-width:901px) and (max-width:1100px) {
+ .bom-ui .shell {grid-template-columns:78px minmax(0,1fr);}
+ .bom-ui .side .brand {font-size:0;}
+ .bom-ui .side .brand span,.bom-ui .side .nav-label {display:none;}
+ .bom-ui .side .nav button {justify-content:center;}
+ .bom-ui .side .nav-section-title {font-size:0;}
+ .bom-ui .top {padding:10px 16px;}
+}
+@media (max-width:900px) {
+ .bom-ui {--bom-control:40px;}
+ .bom-ui .shell {display:block;}
+ .bom-ui .side {width:min(292px,88vw);}
+ .bom-ui .side .nav-label {display:inline;}
+ .bom-ui .top {height:auto;min-height:64px;padding:10px 16px;}
+ .bom-ui .top-right {max-width:70%;}
+ .bom-ui .top :where(.unit-switch,.scope-badge) {max-width:100%;min-width:0;width:100%;}
+ .bom-ui .app-crumbs {padding:0 16px;}
+ .bom-ui .content {padding:18px 16px 32px;}
+ .bom-ui .titlebar h1 {font-size:22px;}
+ .bom-ui .card {padding:16px;}
+ .bom-ui .btn {min-height:40px;}
+ .bom-ui .btn.small {min-height:36px;}
+ .bom-ui .bom-actions-cell {max-width:210px;}
+}
+@media (max-width:560px) {
+ .bom-ui {--bom-control:44px;}
+ .bom-ui .top {gap:8px;padding:10px 12px;align-items:flex-start;}
+ .bom-ui .top-right {max-width:68%;gap:6px;}
+ .bom-ui .top-user b {max-width:24vw;font-size:12px;}
+ .bom-ui .content {padding:16px 12px 28px;}
+ .bom-ui .app-crumbs {padding:0 12px;max-width:100%;overflow:auto;}
+ .bom-ui .titlebar {align-items:flex-start;margin-bottom:16px;}
+ .bom-ui .titlebar h1 {font-size:21px;}
+ .bom-ui .titlebar>.actions {width:100%;}
+ .bom-ui .btn {min-height:44px;}
+ .bom-ui .btn.small {min-height:40px;}
+ .bom-ui :where(.grid.g2,.grid.g3,.grid.g4,.machine-sections,.requirement-form-grid,.correction-form-grid) {grid-template-columns:minmax(0,1fr);}
+ .bom-ui .table {min-width:640px;}
+ .bom-ui .table :where(th,td) {padding:10px;}
+ .bom-ui .table .bom-actions-cell {min-width:142px;max-width:160px;}
+ .bom-ui .table .bom-actions-cell .btn {font-size:12px;}
+ .bom-ui :where(.modal-bg,.confirm-layer) {padding:0;align-items:end;}
+ .bom-ui .modal,.bom-ui .modal.wide {width:100%;max-height:94dvh;padding:18px 16px;border-radius:12px 12px 0 0;}
+ .bom-ui .confirm-dialog {width:100%;max-width:100%;border-radius:12px 12px 0 0;}
+ .bom-ui :where(.finance-filterbar,.ps313-filter,.filterbar)>.field {flex:1 1 140px;min-width:0;}
+ .bom-ui :where(.stat .value,.big-number) {font-size:24px;}
+}
+@media (prefers-reduced-motion:reduce) {
+ .bom-ui *,.bom-ui *::before,.bom-ui *::after {scroll-behavior:auto;animation-duration:.01ms;animation-iteration-count:1;transition-duration:.01ms;}
+}
+.bom-ui .nav-icon svg {width:20px;height:20px;display:block;stroke-width:1.6;}
+/* Shared visibility contracts: HTML hidden and desktop-only mobile controls. */
+.bom-ui [hidden] {display:none!important;}
+.bom-ui .card {background:var(--panel);border:1px solid var(--line);border-radius:var(--bom-radius-lg);box-shadow:var(--bom-elevation);}
+.bom-ui .side .sidebar-toggle {color:#c3cfdd;}
+@media (min-width:901px) {.bom-ui .mobile-menu,.bom-ui .mobile-side-close {display:none;}}
+.bom-ui .table thead th {text-transform:none;background:#f7f9fc;color:#536276;font-size:11px;font-weight:600;letter-spacing:.025em;line-height:1.45;}
+
+/* A page toolbar belongs in normal flow; variable-height mobile headers must not overlap it. */
+.bom-ui .v324-workflow-toolbar {position:relative;top:auto;background:var(--bom-surface);border-radius:var(--bom-radius-lg);box-shadow:none;}
+.bom-ui :where(.mobile-menu,.mobile-side-close,.top button[onclick*=logout]) svg {width:20px;height:20px;display:block;}

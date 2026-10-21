@@ -1,3 +1,22 @@
+# V30.69.40 — Tabler UI engineering staging candidate
+
+- Add scoped Tabler core subset, shared design tokens/adapters and 33 selected SVG icons across all primary views.
+- Improve compact controls, responsive shell/cards/tables, action visibility, labels, focus and reduced motion.
+- Extract legacy head CSS; remove 31 exact superseded duplicate rules with evidence.
+- Prevent stale mutation completion timer from closing a fresh form sharing the same submit handler.
+- Stabilize rollback QA snapshots by waiting for prior Accounting queue work; retain all business/Accounting logic.
+- Add reproducible builds, audit/mapping/cleanup documentation, browser evidence and staging/rollback/Git instructions.
+- Preserve Packaging FX detail context and restore focus after short-dialog close.
+- Complete the follow-up Korean system-label audit (238 catalogue labels, contextual credit heading and dynamic text patterns).
+- Route Accounting journal/posting review as full pages; extract their presentation into one module without changing mutation handlers.
+- Remove the invalid sales-list allocation fragment; test caught errors/loading destinations in route sweeps.
+- Add five-role/L0–L4 browser coverage, protected L5 checks, forced failures/retry, keyboard/accessibility-tree and 200% reflow tests.
+- Verify bounded 25-row paging with 2,501 orders and 1,001 customers.
+- Fix the rapid keyboard dialog focus race and replace remaining shell glyphs with SVGs.
+- Retain target-host install/PDF and deployment acceptance as explicit release prerequisites.
+
+---
+
 # V30.69.33 — payment settlement and approvals
 
 Native account inflows/outflows are distinct from KRW; exact-account postings are verified end to end. Required approvals now precede individual/bulk Finance verification. One actionable approval task follows stages; notifications and important-task email reuse shared controls. Exact-payment policy approval gives valid FX/fee settlements a controlled completion path. Protected source: V30.69.32. See current release reports for actual verification and limits.

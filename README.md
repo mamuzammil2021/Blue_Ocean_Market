@@ -1,3 +1,9 @@
+# Current engineering candidate: V30.69.40
+
+Read RELEASE_NOTES.md, QA_RESULTS_AND_SCREENSHOT_INDEX.md and DEPLOYMENT_ROLLBACK_AND_GIT.md before installing or pushing this candidate. Current feature branch: feature/v30.69.40-tabler-ui-completion. No production deployment or main-branch push is included. The inherited documentation below describes earlier protected builds.
+
+---
+
 > **Current build: V30.69.39** — see [Start here](START_HERE_V30_69_39.md), [implementation and QA](V30_69_39_IMPLEMENTATION_AND_QA.md), [Git branch steps](V30_69_39_MAC_GIT_NEW_BRANCH.md) and [deployment notes](V30_69_39_DEPLOYMENT_NOTES.md). Earlier release notes below are retained for reference.
 
 # Current release: V30.69.38

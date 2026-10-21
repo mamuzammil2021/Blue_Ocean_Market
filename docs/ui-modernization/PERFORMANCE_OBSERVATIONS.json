@@ -1,0 +1,16 @@
+{
+  "before": {
+    "entry_js_css_assets": 59,
+    "raw_entry_bytes_including_index": 2994937,
+    "gzip_estimate": 786123,
+    "matched_dcl_median_ms": 63.34999999997672
+  },
+  "after": {
+    "entry_js_css_assets": 65,
+    "raw_entry_bytes_including_index": 3193934,
+    "gzip_estimate": 823865,
+    "matched_dcl_median_ms": 79.30000000004657
+  },
+  "matched_navigation_samples": 74,
+  "notes": "Local synthetic fixture reloads under concurrent QA load; not production benchmarks. Offline per-file gzip estimates, not observed HTTP compression."
+}

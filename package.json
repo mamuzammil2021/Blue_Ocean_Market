@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.69.39",
+  "version": "30.69.40",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -12,7 +12,7 @@
     "dev": "node --env-file-if-exists=.env --watch scripts/start-server.js",
     "start:local": "node --env-file-if-exists=.env scripts/start-server.js",
     "dev:local": "node --env-file-if-exists=.env --watch scripts/start-server.js",
-    "qa:current": "node qa/qa_v36939_release.js",
+    "qa:current": "node qa/qa_v36940_release.js",
     "qa:runtime": "node qa/runtime_smoke.js",
     "render:storage-check": "node scripts/render-storage-check.js",
     "render:migrate-storage": "node scripts/migrate-render-storage.js",
@@ -42,7 +42,7 @@
     "qa:v344": "node qa/qa_v344_cash_accounts.js",
     "qa:v345": "node qa/qa_v345_feedback.js",
     "qa:v346": "node qa/qa_v346_performance.js",
-    "qa:release": "node qa/qa_v36939_release.js",
+    "qa:release": "node qa/qa_v36940_release.js",
     "qa:v346:browser": "python3 qa/browser_v346_static.py",
     "qa:v347": "node qa/qa_v347_performance.js",
     "qa:v347:browser": "python3 qa/browser_v347_paged_lazy.py",
@@ -118,7 +118,13 @@
     "qa:upgrade": "node qa/qa_v36939_upgrade.js",
     "qa:cart:browser": "node qa/browser_v36939_cart_history.js",
     "qa:history": "node qa/qa_v36939_history.js",
-    "qa:financial-guards": "node qa/qa_v36939_financial_guards.js"
+    "qa:financial-guards": "node qa/qa_v36939_financial_guards.js",
+    "build:ui": "node scripts/build-ui-icons.js && node scripts/build-tabler.js && node scripts/build-frontend-manifest.js",
+    "qa:ui:browser": "node qa/modernization/browser-matrix.cjs after",
+    "qa:ui:details": "node qa/modernization/detail-matrix.cjs",
+    "qa:ui:records": "node qa/modernization/remaining-records.cjs",
+    "qa:ui:roles": "node qa/modernization/roles.cjs",
+    "qa:ui:completion": "node qa/modernization/completion.cjs && node qa/modernization/authority.cjs"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -126,5 +132,10 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "playwright": "1.56.1",
+    "postcss": "8.5.6",
+    "sass": "1.103.1"
   }
 }

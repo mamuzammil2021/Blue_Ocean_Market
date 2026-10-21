@@ -1,0 +1,218 @@
+[
+  {
+    "selector": ".nav-section-title",
+    "line": 5,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-separator",
+    "line": 5,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section",
+    "line": 5,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section .nav-section-title:first-child",
+    "line": 5,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section-title",
+    "line": 5,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-separator",
+    "line": 5,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section-title:after",
+    "line": 5,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section-title",
+    "line": 7,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-separator",
+    "line": 7,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section",
+    "line": 7,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section .nav-section-title:first-child",
+    "line": 7,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section-title",
+    "line": 7,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-separator",
+    "line": 7,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section-title:after",
+    "line": 7,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section-title",
+    "line": 11,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-separator",
+    "line": 11,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section",
+    "line": 11,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section .nav-section-title:first-child",
+    "line": 11,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section-title",
+    "line": 11,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-separator",
+    "line": 11,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section-title:after",
+    "line": 11,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section-title",
+    "line": 13,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-separator",
+    "line": 13,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section",
+    "line": 13,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section .nav-section-title:first-child",
+    "line": 13,
+    "ancestry": [],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section-title",
+    "line": 13,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-separator",
+    "line": 13,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".nav-section-title:after",
+    "line": 13,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".shell",
+    "line": 4,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".side .brand",
+    "line": 4,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  },
+  {
+    "selector": ".side .brand:after",
+    "line": 4,
+    "ancestry": [
+      "media:(max-width:1100px)"
+    ],
+    "proof": "Identical selector, declarations and at-rule context occur later in the same stylesheet"
+  }
+]

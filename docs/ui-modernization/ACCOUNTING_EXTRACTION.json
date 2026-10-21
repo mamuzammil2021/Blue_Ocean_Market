@@ -1,0 +1,28 @@
+[
+  {
+    "source": "v290-client.js",
+    "function": "journalDetailV29",
+    "bytes": 1534,
+    "sha256": "0ffec2d815ef7905bf99f369aa4891b83fb0ddd5847bdf2dca08cba63c3e24af",
+    "destination": "public/bom-accounting-details.js",
+    "interface": "BOMAccountingDetails.journal"
+  },
+  {
+    "source": "v318-client.js",
+    "function": "postingOpenV318",
+    "bytes": 6154,
+    "sha256": "c18726f3545ed8f5e68d2587437e2f73bad82096afea5499d66df9741be806b4",
+    "destination": "public/bom-accounting-details.js",
+    "interface": "BOMAccountingDetails.posting"
+  },
+  {
+    "preserved_closure_helpers": [
+      "krw",
+      "statusBadge",
+      "statusClass318"
+    ],
+    "source_stubs_preserve_wrappers": true,
+    "removed_invalid_sales_fragment": "runtime sales313 referenced undefined d.allocations, while maintained v313 source had no such fragment",
+    "source_script_order": "All original 57 scripts preserved; dedicated renderer loads before registry/router startup"
+  }
+]

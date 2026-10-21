@@ -1,0 +1,2 @@
+# Historical generated QA captures belong in an evidence package, not source exports.
+qa/evidence/v306939/*.png export-ignore
