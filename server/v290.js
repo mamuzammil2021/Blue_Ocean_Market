@@ -840,11 +840,15 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
     return {lines,context:ctx,source_hash:hash({finance:{id:finance.id,type:finance.type,category:finance.category,amount,transaction_date:dateOnly(finance.transaction_date||finance.created_at),payment_method:finance.payment_method,reference:finance.reference,status:finance.status,source_type:finance.source_type,source_id:finance.source_id},ctx,lines:lines.map(l=>({a:l.account_id,d:l.debit_krw,c:l.credit_krw,e:l.entity_id,m:l.memo}))})};
   }
 
-  function reverseJournal(entry,reason='Source changed or voided',userId=null){
+  function reverseJournal(entry,reason='',userId=null,explicitSourceAction=false){
     if(!entry||entry.status==='Reversed'||entry.status==='Cancelled')return null;
+    const actor=require('./financial-action-context').actor();
+    if(!userId||!String(reason||'').trim()||(!actor&&!explicitSourceAction))throw new Error('User-initiated financial action and reason required.');
+    userId=actor?.id||userId;
     // A proposal that has not reached the official ledger can be cancelled without
     // creating a financial reversal. Only a Posted journal has a ledger effect to reverse.
-    if(['Pending Review','Correction Required'].includes(entry.status)){db.prepare("UPDATE accounting_journal_entries SET status='Cancelled',finance_entry_id=NULL,description=COALESCE(description,'')||?,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(` | Cancelled before posting: ${reason}`,entry.id);return null;}
+    if(['Pending Review','Correction Required'].includes(entry.status)){db.prepare("INSERT INTO audit_log(user_id,entity,entity_id,action,details) VALUES(?,'accounting_journal',?,'cancel-proposal',?)").run(userId,entry.id,JSON.stringify({reason,before_status:entry.status,after_status:'Cancelled'}));db.prepare("UPDATE accounting_journal_entries SET status='Cancelled',finance_entry_id=NULL,description=COALESCE(description,'')||?,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(` | Cancelled before posting: ${reason}`,entry.id);return null;}
+    const priorReversal=db.prepare("SELECT id FROM accounting_journal_entries WHERE reversal_of_id=? AND status IN ('Pending Review','Correction Required','Posted') ORDER BY id DESC LIMIT 1").get(entry.id);if(priorReversal)return priorReversal.id;
     const lines=db.prepare('SELECT * FROM accounting_journal_lines WHERE journal_entry_id=? ORDER BY id').all(entry.id),jNo=numbering.next('accounting.reversal',{businessUnitId:entry.business_unit_id});
     // V30.18: reversing an official Posted journal is itself a controlled accounting mutation.
     // Create a reversal proposal and keep the original Posted until an authorized reviewer
@@ -858,27 +862,13 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
     db.prepare("UPDATE accounting_journal_entries SET finance_entry_id=NULL,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(entry.id);
     try{db.prepare("UPDATE accounting_journal_entries SET submitted_for_review_at=CURRENT_TIMESTAMP WHERE id=?").run(rid)}catch(_){ }
     try{db.prepare("INSERT INTO accounting_posting_history(journal_entry_id,business_unit_id,user_id,action,note,before_status,after_status) VALUES(?,?,?,?,?,'Posted','Pending Review')").run(rid,entry.business_unit_id||null,userId||entry.created_by||null,'Reversal Submitted for Review',reason||'Source changed or voided')}catch(_){ }
+    db.prepare("INSERT INTO audit_log(user_id,entity,entity_id,action,details) VALUES(?,'accounting_journal',?,'reversal-requested',?)").run(userId,entry.id,JSON.stringify({reason,before_status:entry.status,after_status:entry.status,reversal_journal_id:rid,posting_required:true}));
     return rid;
   }
   function resolvedFinanceCorrection(financeId){
     try{return db.prepare("SELECT * FROM finance_correction_requests WHERE finance_entry_id=? AND status='Resolved' AND outcome='Verified / Correct' ORDER BY resolved_at DESC,id DESC LIMIT 1").get(Number(financeId))||null}catch(_){return null}
   }
   function reversalRowsForOriginal(originalId){return db.prepare("SELECT * FROM accounting_journal_entries WHERE reversal_of_id=? AND source_type='Accounting Reversal' AND status IN ('Pending Review','Correction Required','Posted') ORDER BY id").all(Number(originalId))}
-  function autoPostCorrectionReversal(original,reversalId,userId,reason='Verified Finance correction'){
-    const reversal=db.prepare('SELECT * FROM accounting_journal_entries WHERE id=?').get(Number(reversalId));if(!original||!reversal)return null;
-    if(reversal.status==='Posted'){if(original.status==='Posted')db.prepare("UPDATE accounting_journal_entries SET status='Reversed',reversed_by_id=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(reversal.id,original.id);return reversal.id}
-    if(!['Pending Review','Correction Required'].includes(reversal.status))return null;
-    const all=reversalRowsForOriginal(original.id);if(all.length!==1){const f=original.source_type==='Finance Entry'&&original.source_id?db.prepare('SELECT * FROM finance_entries WHERE id=?').get(original.source_id):null;if(f)addException(f,'DUPLICATE_CORRECTION_REVERSAL','Multiple effective reversal records exist for the same posted journal. Automatic reversal posting is blocked until reviewed.','Critical');return null}
-    if(original.status!=='Posted')return null;
-    const postDate=nowDate();if(isPeriodClosed(original.business_unit_id,postDate)){const f=original.source_type==='Finance Entry'&&original.source_id?db.prepare('SELECT * FROM finance_entries WHERE id=?').get(original.source_id):null;if(f)addException(f,'CORRECTION_REVERSAL_PERIOD_CLOSED','Verified correction needs an automatic reversal, but the current accounting period is closed.','Critical');return null}
-    const note=`System - Correction Workflow: ${reason}`;
-    db.prepare("UPDATE accounting_journal_entries SET status='Posted',transaction_date=?,reviewed_by=?,reviewed_at=CURRENT_TIMESTAMP,review_note=?,posted_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(postDate,userId||original.created_by||null,note,reversal.id);
-    db.prepare("UPDATE accounting_journal_entries SET status='Reversed',reversed_by_id=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(reversal.id,original.id);
-    db.prepare("UPDATE accounting_bank_statement_lines SET status='Unreconciled',matched_journal_entry_id=NULL WHERE matched_journal_entry_id=?").run(original.id);
-    try{db.prepare("INSERT INTO accounting_posting_history(journal_entry_id,business_unit_id,user_id,action,note,before_status,after_status) VALUES(?,?,?,?,?,'Pending Review','Posted')").run(reversal.id,original.business_unit_id||null,userId||null,'Automatic Correction Reversal Posted',note)}catch(_){ }
-    return reversal.id;
-  }
-
   function postJournal({businessUnitId,transactionDate,sourceType,sourceId,sourceLabel,description,financeEntryId=null,sourceHash='',createdBy=null,lines,postingStatus='Pending Review'}){
     const dr=lines.reduce((n,l)=>n+Number(l.debit_krw||0),0),cr=lines.reduce((n,l)=>n+Number(l.credit_krw||0),0);if(Math.abs(dr-cr)>0.005)throw new Error(`Journal not balanced: debit ${dr} / credit ${cr}`);
     const status=postingStatus==='Posted'?'Posted':'Pending Review';
@@ -900,14 +890,11 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
       db.prepare('DELETE FROM accounting_sync_queue WHERE finance_entry_id=?').run(finance.id);return {blocked:true,integrity_hold:true};
     }
     const correction=resolvedFinanceCorrection(finance.id);
-    if(correction&&['Verified','Verified / Correct'].includes(text(finance.verification_status))){
-      const pending=db.prepare(`SELECT r.*,o.id original_id,o.status original_status,o.business_unit_id original_bu,o.created_by original_created_by FROM accounting_journal_entries r JOIN accounting_journal_entries o ON o.id=r.reversal_of_id WHERE r.source_type='Accounting Reversal' AND r.status IN ('Pending Review','Correction Required') AND o.source_type='Finance Entry' AND o.source_id=? ORDER BY r.id`).all(finance.id);
-      if(pending.length===1){const original=db.prepare('SELECT * FROM accounting_journal_entries WHERE id=?').get(pending[0].original_id);autoPostCorrectionReversal(original,pending[0].id,finance.verified_by||finance.created_by,correction.reason||finance.correction_reason||'Corrected Finance transaction verified')}
-      else if(pending.length>1)addException(finance,'DUPLICATE_CORRECTION_REVERSAL','Multiple pending reversal records exist for the same corrected Finance transaction. Review Posting Control before continuing.','Critical');
-    }
-    const existing=db.prepare('SELECT * FROM accounting_journal_entries WHERE finance_entry_id=? ORDER BY id DESC LIMIT 1').get(finance.id);
+    let existing=db.prepare('SELECT * FROM accounting_journal_entries WHERE finance_entry_id=? ORDER BY id DESC LIMIT 1').get(finance.id);
+    if(text(finance.status)==='Voided'&&!existing)existing=db.prepare("SELECT * FROM accounting_journal_entries WHERE source_type='Finance Entry' AND source_id=? ORDER BY id DESC LIMIT 1").get(finance.id);
     if(text(finance.status)==='Voided'){
-      let reversalId=null;if(existing){if(isPeriodClosed(existing.business_unit_id,existing.transaction_date)){addException(finance,'CLOSED_PERIOD_VOID','A Finance record was voided in a closed accounting period. Reopen the period or post an authorized adjustment.','Critical');return {blocked:true}}reversalId=reverseJournal(existing,finance.void_reason||'Finance source voided',finance.voided_by||finance.created_by)}
+      if(!finance.voided_by||!String(finance.void_reason||'').trim()){addException(finance,'VOID_REQUIRES_USER_REVIEW','Historical void has no recorded user/reason. Review explicitly; no automatic reversal.','Critical');db.prepare('DELETE FROM accounting_sync_queue WHERE finance_entry_id=?').run(finance.id);return {blocked:true,review_required:true}}
+      let reversalId=null;if(existing){if(isPeriodClosed(existing.business_unit_id,existing.transaction_date)){addException(finance,'CLOSED_PERIOD_VOID','A Finance record was voided in a closed accounting period. Reopen the period or post an authorized adjustment.','Critical');return {blocked:true}}reversalId=reverseJournal(existing,finance.void_reason,finance.voided_by,true)}
       if(reversalId)db.prepare("UPDATE finance_entries SET accounting_status='Pending Review',accounting_journal_id=? WHERE id=?").run(reversalId,finance.id);else db.prepare("UPDATE finance_entries SET accounting_status='Reversed',accounting_journal_id=NULL WHERE id=?").run(finance.id);
       db.prepare('DELETE FROM accounting_sync_queue WHERE finance_entry_id=?').run(finance.id);return reversalId?{reversal_pending:true,journal_id:reversalId}:{reversed:true};
     }
@@ -918,11 +905,13 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
     if(existing){
       if(existing.status==='Posted'&&correction&&['Verified','Verified / Correct'].includes(text(finance.verification_status))){
         const reversals=reversalRowsForOriginal(existing.id);if(reversals.length>1){addException(finance,'DUPLICATE_CORRECTION_REVERSAL','Multiple effective reversal records exist for the original journal. Automatic posting is blocked.','Critical');return {blocked:true}}
-        let rid=reversals[0]?.id||reverseJournal(existing,'Verified Finance correction; previous posted journal superseded.',finance.verified_by||finance.created_by);
-        if(rid&&!autoPostCorrectionReversal(existing,rid,finance.verified_by||finance.created_by,correction.reason||finance.correction_reason||'Corrected Finance transaction verified'))return {blocked:true,reversal_review_required:true};
+        let rid=reversals[0]?.id||reverseJournal(existing,'Verified Finance correction; previous posted journal superseded.',finance.verified_by,true);
+        if(rid&&db.prepare('SELECT status FROM accounting_journal_entries WHERE id=?').get(rid)?.status!=='Posted')return {blocked:true,reversal_review_required:true,journal_id:rid};
       }else{
         if(existing.status==='Posted'&&isPeriodClosed(existing.business_unit_id,existing.transaction_date)){addException(finance,'CLOSED_PERIOD_CHANGE','A source transaction changed after its accounting period was closed. Reopen the period or post an authorized adjustment.','Critical');return {blocked:true}}
-        reverseJournal(existing,'Source record changed; previous accounting proposal/review result superseded.',finance.created_by);
+        const actor=require('./financial-action-context').actor();
+        if(!actor){addException(finance,'SOURCE_CHANGE_REQUIRES_REVIEW','Source differs from its accounting record. An authorized correction is required; no automatic cancellation or reversal.','Critical');db.prepare('DELETE FROM accounting_sync_queue WHERE finance_entry_id=?').run(finance.id);return {blocked:true,review_required:true}}
+        reverseJournal(existing,'User source amendment; previous accounting proposal superseded.',actor.id);
       }
     }
     if(isPeriodClosed(finance.business_unit_id,txDate)){addException(finance,'CLOSED_PERIOD_POST','This transaction belongs to a closed accounting period and cannot create a new accounting proposal until the period is reopened or an authorized adjustment is used.','Critical');return {blocked:true}}

@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Upgrade startup neither consolidates duplicates nor cancels/reverses legacy journals",
+    "User diagnostic request reports duplicate groups without bulk financial mutation",
+    "Repeated startup preserves duplicates, legacy void and both journal statuses",
+    "User diagnostic request reports duplicate groups without bulk financial mutation",
+    "Legacy review fixtures retain valid foreign keys"
+  ],
+  "production_data_used": false,
+  "finance_ids": [
+    1,
+    2
+  ],
+  "legacy_journal_ids": [
+    1,
+    2
+  ]
+}

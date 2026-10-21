@@ -12,8 +12,11 @@ record('excavatorBuyers','pakistan',['openPakistanResalesV327'],{open:['v338Paki
 record('psSuppliers','supplier',['psSupplierAccount315'],{open:['psSupplierTab315'],arg:0,defaults:'account',values:['overview','account','payments','accounts','imports','packaging','documents','history']},{handlesSection:true});
 record('psPackaging','',['psPackHome'],null,{direct:true,noId:true});
 for(const kind of ['materials','purchases','stock'])record('psPackaging',kind,['psPackHome'],null,{noId:true});
+record('psPackaging','new',['psPackNewPurchase'],null,{noId:true,parent:{view:'psPackaging',kind:'purchases'}});
+record('psPackaging','edit',['psPackEditPurchase'],null,{parent:{view:'psPackaging',kind:'purchases'}});
 record('psPackaging','material',['psPackMaterial']);record('psPackaging','legacy',['psPackLegacy']);record('psPackaging','movement',['psPackMovement']);record('psPackaging','fx',['psFxTransactionDetail']);
 record('psPackaging','purchase',['psPackPurchase'],{open:['psPackPurchaseSection'],arg:1,defaults:'overview',values:['overview','receiving','payments','history']},{initialSection:true,handlesSection:true});
+record('psImports','history',['psImportHistory39'],null,{parent:{view:'psImports'}});
 record('psImports','import',['psImportDetail']);
 record('psImports','cost',['BOMPinkImportDetailQA.openCost']);
 record('psImports','fx',['psFxTransactionDetail']);record('psSales','fx',['psFxTransactionDetail']);

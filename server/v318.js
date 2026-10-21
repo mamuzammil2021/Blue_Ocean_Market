@@ -121,7 +121,7 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
     const op=operational?operationControl(f):null;
     if(f.status==='Voided')warnings.push('Linked source record is voided.');
     const integrityHold=require('./v354-finance-integrity').isLegacyMirrorFinance(db,f)||!!require('./v354-finance-integrity').caseFor(db,f.id);
-    if(integrityHold)warnings.push('Duplicate sale-settlement mirror on integrity hold; cannot final-post this record.');
+    if(integrityHold)warnings.push('Finance integrity review is required; review the source and recorded case before final posting.');
     if(operational&&op?.warnings?.length)warnings.push(...op.warnings);
     if(!operational&&!verified)warnings.push(`Finance verification is ${verification||'not complete'}.`);
     if(!operational&&Number(f.open_corrections||0)>0)warnings.push('A Finance correction request is still open.');

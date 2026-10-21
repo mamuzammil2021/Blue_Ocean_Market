@@ -92,7 +92,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,notify,voidFin
     const bu=guard(req,res);if(!bu)return;const imp=importRow(req.params.id,bu);if(!imp)return res.status(404).json({error:'Import not found.'});const a=activity(imp.id);res.json({import:imp,items:items(imp.id),activity:a,capabilities:capabilities(imp,a),purchase_krw:purchaseKrw(imp.id),purchase_original:purchaseOriginal(imp.id)});
   });
   app.get('/api/pink-salt/imports/:id/history-v310',auth,allow('purchases','inventory','finance','dashboard'),(req,res)=>{
-    const bu=guard(req,res);if(!bu)return;const imp=importRow(req.params.id,bu);if(!imp)return res.status(404).json({error:'Import not found.'});res.json(db.prepare(`SELECT h.*,u.name user_name FROM pink_salt_import_change_history h LEFT JOIN users u ON u.id=h.user_id WHERE h.business_unit_id=? AND (h.import_id=? OR h.import_no=?) ORDER BY h.id DESC`).all(bu,imp.id,imp.import_no));
+    const bu=guard(req,res);if(!bu)return;const imp=importRow(req.params.id,bu);if(!imp)return res.status(404).json({error:'Import not found.'});const rows=require('./import-history').timeline(db,imp);if(req.query.page){const page=Math.max(1,Number(req.query.page)||1),size=25;return res.json({rows:rows.slice((page-1)*size,page*size),total:rows.length,page,page_size:size,import_no:imp.import_no})}res.json(rows);
   });
 
   function applyImportEdit(req,res,trustedApproval=null,executor=null){
