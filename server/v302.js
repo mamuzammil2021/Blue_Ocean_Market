@@ -60,18 +60,12 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting}){
     const up=db.prepare('UPDATE finance_entries SET finance_role=?,cash_effect=?,source_key=? WHERE id=?');
     const tx=db.transaction(()=>{for(const r of rows){const c=classify(r);up.run(c.finance_role,c.cash_effect,keyFor(r),r.id)}});tx();
   }
-  function consolidateDuplicates(){
-    const groups=db.prepare("SELECT business_unit_id,source_type,source_id,COUNT(*) c FROM finance_entries WHERE status!='Voided' AND source_type IS NOT NULL AND source_type!='' AND source_type!='Manual' AND source_id IS NOT NULL GROUP BY business_unit_id,source_type,source_id HAVING COUNT(*)>1").all();
-    let voided=0;
-    for(const g of groups){
-      const rows=db.prepare("SELECT * FROM finance_entries WHERE business_unit_id=? AND source_type=? AND source_id=? AND status!='Voided' ORDER BY id").all(g.business_unit_id,g.source_type,g.source_id);if(rows.length<2)continue;
-      const keep=rows[0],latest=rows[rows.length-1];
-      db.prepare(`UPDATE finance_entries SET type=?,category=?,amount=?,krw_amount=?,original_amount=?,original_currency=?,fx_rate=?,transaction_date=COALESCE(?,transaction_date),description=?,receipt_file=CASE WHEN ?!='' THEN ? ELSE receipt_file END,payment_method=?,reference=?,source_label=?,source_record_id=COALESCE(?,source_record_id),source_payment_id=COALESCE(?,source_payment_id),updated_at=CURRENT_TIMESTAMP WHERE id=?`).run(latest.type,latest.category,latest.amount,latest.krw_amount,latest.original_amount,latest.original_currency,latest.fx_rate,latest.transaction_date,latest.description,latest.receipt_file||'',latest.receipt_file||'',latest.payment_method,latest.reference,latest.source_label,latest.source_record_id,latest.source_payment_id,keep.id);
-      for(const d of rows.slice(1)){db.prepare("UPDATE finance_entries SET status='Voided',void_reason='Duplicate Finance source consolidated automatically in V30.2',voided_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(d.id);try{db.prepare("INSERT INTO audit_log(user_id,entity,entity_id,action,details) VALUES(NULL,'finance',?,'duplicate-consolidated',?)").run(d.id,JSON.stringify({kept_finance_id:keep.id,source_type:g.source_type,source_id:g.source_id}))}catch(_){}voided++}
-    }
-    try{accounting?.scheduleQueue?.(0)}catch(_){}
-    return {groups:groups.length,voided};
+  function consolidateDuplicates(unit=null){
+    const groups=db.prepare("SELECT business_unit_id,source_type,source_id,COUNT(*) c FROM finance_entries WHERE status!='Voided' AND source_type IS NOT NULL AND source_type!='' AND source_type!='Manual' AND source_id IS NOT NULL AND (? IS NULL OR business_unit_id=?) GROUP BY business_unit_id,source_type,source_id HAVING COUNT(*)>1").all(unit,unit);
+    // Detection only. Never consolidate or rewrite financial history at startup.
+    return {groups:groups.length,voided:0,review_required:groups.length>0,duplicates:groups};
   }
+
   try{
     db.exec(`CREATE TABLE IF NOT EXISTS system_migrations(migration_key TEXT PRIMARY KEY,applied_at TEXT DEFAULT CURRENT_TIMESTAMP,details TEXT DEFAULT '')`);
     const startupKey='v30.39.2-v302-finance-integrity-bootstrap';
@@ -91,7 +85,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting}){
     const suspected=db.prepare(`SELECT COUNT(*) c FROM (SELECT business_unit_id,date(COALESCE(transaction_date,created_at)) d,lower(trim(reference)) ref,ROUND(COALESCE(krw_amount,amount),2) amt,COUNT(*) n FROM finance_entries WHERE ${where} AND status!='Voided' AND cash_effect!=0 AND trim(COALESCE(reference,''))!='' GROUP BY business_unit_id,d,ref,amt HAVING n>1)`).get(...args)?.c||0;
     res.json({ok:Number(dup)===0,duplicate_active_sources:Number(dup),suspected_duplicate_payments:Number(suspected),manual_entries:Number(manual),cash_movement_rows:Number(paymentRows),obligation_rows:Number(obligations),version:VERSION});
   });
-  app.post('/api/finance/integrity-v302/repair',auth,allow('finance'),(req,res)=>{if(!['CEO / Owner','Finance / Admin'].includes(req.user.role))return res.status(403).json({error:'Only CEO or Finance can run Finance integrity repair.'});const result=consolidateDuplicates();refreshClassifications();audit(req.user,'finance_integrity',0,'repair',JSON.stringify(result));res.json({ok:true,...result})});
+  app.post('/api/finance/integrity-v302/repair',auth,allow('finance'),(req,res)=>{if(!['CEO / Owner','Finance / Admin'].includes(req.user.role))return res.status(403).json({error:'Only CEO or Finance can run Finance integrity repair.'});const unit=Number(currentUnit(req)||(req.user.role==='CEO / Owner'?0:req.user.business_unit_id))||null,result=consolidateDuplicates(unit);audit(req.user,'finance_integrity',0,'review-requested',JSON.stringify(result));res.json({ok:true,...result})});
   console.info('Blue Ocean Market V30.7.0 Finance integrity backend loaded');
   return {VERSION,classify,refreshClassifications,consolidateDuplicates};
 }

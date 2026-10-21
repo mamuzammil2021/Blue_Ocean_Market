@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Two real advance allocations settle KRW55000 with zero new Finance rows and KRW45000 outstanding",
+    "Central supplier account retains both allocation dates/amounts, target links and zero remaining credit",
+    "Import timeline includes creation, both allocations, shared FX detail links and Accounting proposals with server paging",
+    "Timeline rejects unauthenticated and wrong-business-unit reads",
+    "Legacy Finance repair endpoint is detection-only and cannot silently void records",
+    "Foreign keys remain valid after real allocations and read-only history projection"
+  ],
+  "production_data_used": false
+}

@@ -1,3 +1,5 @@
+> **Current build: V30.69.39** — see [Start here](START_HERE_V30_69_39.md), [implementation and QA](V30_69_39_IMPLEMENTATION_AND_QA.md), [Git branch steps](V30_69_39_MAC_GIT_NEW_BRANCH.md) and [deployment notes](V30_69_39_DEPLOYMENT_NOTES.md). Earlier release notes below are retained for reference.
+
 # Current release: V30.69.38
 
 See [START_HERE_V30_69_38.md](START_HERE_V30_69_38.md) for the current build, QA, Git and deployment instructions. Earlier release sections below are historical.
