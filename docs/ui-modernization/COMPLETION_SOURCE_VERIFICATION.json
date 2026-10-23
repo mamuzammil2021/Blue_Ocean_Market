@@ -1,0 +1,8 @@
+{
+  "checked_at_utc": "2026-10-21",
+  "latest_protected_source": "Blue_Ocean_Market_V30_69_39_OCT20_QA_PURCHASE_CART_GIT_READY.zip",
+  "sha256": "4bfbd4101c96f5ae16a5b143688f0692a1ed167b8e4c6eaa8e11486a64776f9b",
+  "newer_library_files": "V30.69.40 staging candidate/evidence generated in prior pass; no newer protected baseline found",
+  "branch": "feature/v30.69.40-tabler-ui-completion",
+  "main_modified": false
+}

@@ -504,6 +504,7 @@ function executeApprovedAction(approval,user){
     if(source==='pink_pack_action')return app.locals.bomExecutePackaging(a,user);
   if(source==='finance_payment_policy')return paymentPolicy.execute(a,user);
     if(source==='pink_salt_import'&&a.action_key==='pink_salt.import_sensitive_edit')return app.locals.bomExecuteImportEdit(a,user);
+    if(source==='pink_salt_import'&&a.action_key==='pink_salt.import_void')return app.locals.bomExecuteImportVoid(a,user);
     if(source==='pink_salt_supplier_advance_void'||source==='pink_salt_supplier_advance'&&a.action_key==='pink_salt.supplier_advance.edit')return pinkFxEngine.executeAdvanceApproval(a,user);
     if(['pink_fx_request','pink_fx_reversal'].includes(source))return pinkFxEngine.executeApproval(a,user);
     if(a.action_key==='payment.void'){
@@ -1858,6 +1859,7 @@ require('./v369-pink-shared-workflows').install({app,db,auth,allow,currentUnit,e
 require('./v3692-pink-qa').install({app,db,auth,allow,currentUnit,enforceUnit,audit});
 pinkFxEngine=require('./pink-fx-engine').install({app,db,auth,allow,currentUnit,enforceUnit,audit,upload,financeSync,configuredPaymentAccount,payeeAccount:v330.payeeAccount,accounting:accountingV29,maybeCreateApproval,stopForApproval,markApprovalExecuted,access:accessV316,notify,normalizePaymentReference,financeLogicalPaymentIds});
 require('./packaging-materials').install({app,db,auth,allow,currentUnit,enforceUnit,audit,upload,accounting:accountingV29,access:accessV316,maybeCreateApproval,markApprovalExecuted});
+require('./qa43').install({app,db,auth,allow,currentUnit,enforceUnit,audit,access:accessV316});
 require('./pink-qa21').install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting:accountingV29});
 // V30.46 opt-in paged endpoints; preserve legacy array APIs for compatible callers.
 function page346(query){const raw=Number(query.pageSize||25);return {page:Math.max(1,Math.min(100000,Math.floor(Number(query.page)||1))),size:[25,50,100].includes(raw)?raw:25}}

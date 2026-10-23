@@ -1,0 +1,12 @@
+{
+  "checked_date": "2026-10-22",
+  "protected_business_source": "Blue_Ocean_Market_V30_69_39_OCT20_QA_PURCHASE_CART_GIT_READY.zip",
+  "protected_sha256": "4bfbd4101c96f5ae16a5b143688f0692a1ed167b8e4c6eaa8e11486a64776f9b",
+  "latest_generated_source": "Blue_Ocean_Market_V30_69_40_TABLER_UI_COMPLETION_GIT_READY.zip",
+  "starting_commit": "c094e3561121c387398ef4451077696f23b7cc77",
+  "branch": "feature/v30.69.41-tabler-screen-gaps",
+  "main_modified": false,
+  "remote_push": false,
+  "production_deploy": false,
+  "server_js_unchanged": true
+}

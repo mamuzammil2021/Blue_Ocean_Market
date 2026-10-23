@@ -1,0 +1,10 @@
+# Historical generated QA captures belong in an evidence package, not source exports.
+qa/evidence/v306939/*.png export-ignore
+
+# Runtime placeholders and generated captures are not source delivery.
+data/ export-ignore
+uploads/ export-ignore
+backups/ export-ignore
+qa/**/*.png export-ignore
+# Generated PDF QA captures accompany the evidence archive, not application source.
+qa/**/*.pdf export-ignore

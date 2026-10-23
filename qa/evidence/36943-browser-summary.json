@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "version": "30.69.43",
+  "destination_sweep": {
+    "destinations": 94,
+    "width_language_cases": 564,
+    "errors": [],
+    "failures": []
+  },
+  "oct22_browser": {
+    "checks": [
+      "Supplier category validation, readable placeholders, slim modals, simplified material forms, Settings, receipt locations, PDF actions and import wheel scrolling pass six width/language combinations",
+      "Real material edit saves while retaining existing purchase-unit conversions and supplier mappings",
+      "Settings creates a real BU-scoped location; receiving refresh discovers it while retaining entered receipt values",
+      "PDF outage preserves the saved purchase and exposes a retry without creating duplicate purchases",
+      "Actual purchase cart saves once, automatically prepares its invoice and downloads a valid PDF from Purchase Detail",
+      "Delayed route uses a visual loader and visually hidden accessible status label",
+      "Non-CEO manager cannot see received-import Edit/Void actions on mobile",
+      "No uncaught browser errors or foreign-key violations"
+    ],
+    "width_language_cases": 48,
+    "errors": []
+  },
+  "production_data_used": false
+}

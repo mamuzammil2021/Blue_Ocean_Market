@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Korean-only product creates through existing atomic API without English content",
+    "Commerce preferred English falls back per field to actual Korean content",
+    "Both/English preferences retain inactive-language content",
+    "Required selected language and preference values enforced on backend with no partial product",
+    "Family linkage saves atomically, used deletion blocked, archive preserves relationships",
+    "Unused family deletion and audit work through guarded existing family service",
+    "Family default25 server pagination, search, archived records and legacy array API coexist",
+    "Lots server filters/paging, location validation and metadata edits preserve quantities and omitted fields",
+    "Invalid family causes atomic product rollback",
+    "View-only users cannot create/edit/delete family or lot records and wrong-unit access is rejected",
+    "Foreign-key integrity after product/family/lot operations"
+  ],
+  "production_data_used": false
+}

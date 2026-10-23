@@ -1,0 +1,68 @@
+{
+  "status": "FAIL",
+  "version": "30.69.43",
+  "node": "v22.23.2",
+  "checks": [
+    {
+      "suite": "Release identity, frontend manifest and all server/public JS syntax",
+      "status": "PASS"
+    },
+    {
+      "suite": "qa_v36943_ui_contract.js",
+      "status": "PASS",
+      "passed_log_lines": 9,
+      "duration_ms": 1813
+    },
+    {
+      "suite": "qa_v36943_oct22.js",
+      "status": "FAIL",
+      "passed_log_lines": 9,
+      "duration_ms": 35988
+    },
+    {
+      "suite": "qa_v36943_approval.js",
+      "status": "PASS",
+      "passed_log_lines": 2,
+      "duration_ms": 5568
+    },
+    {
+      "suite": "qa_v36936_packaging.js",
+      "status": "PASS",
+      "passed_log_lines": 25,
+      "duration_ms": 4922
+    },
+    {
+      "suite": "qa_v36937_refinement.js",
+      "status": "PASS",
+      "passed_log_lines": 8,
+      "duration_ms": 4051
+    },
+    {
+      "suite": "qa_v36938_product_ux.js",
+      "status": "PASS",
+      "passed_log_lines": 11,
+      "duration_ms": 4145
+    },
+    {
+      "suite": "qa_v36939_history.js",
+      "status": "PASS",
+      "passed_log_lines": 6,
+      "duration_ms": 3916
+    },
+    {
+      "suite": "qa_v36939_financial_guards.js",
+      "status": "PASS",
+      "passed_log_lines": 5,
+      "duration_ms": 7164
+    },
+    {
+      "suite": "qa_v36939_regressions.js",
+      "status": "FAIL",
+      "passed_log_lines": 27,
+      "duration_ms": 120329
+    }
+  ],
+  "browser_requested": false,
+  "upgrade_requested": false,
+  "production_data_used": false
+}

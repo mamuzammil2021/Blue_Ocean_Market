@@ -1,0 +1,13 @@
+{
+  "V30.69.40": {
+    "entry_assets": 65,
+    "raw_entry_bytes_including_index": 3193934,
+    "gzip_estimate_bytes": 823865
+  },
+  "V30.69.41": {
+    "entry_assets": 66,
+    "raw_entry_bytes_including_index": 3202086,
+    "gzip_estimate_bytes": 825939
+  },
+  "notes": "Static per-file transfer-size estimates; no fabricated load-time improvement. Existing local .40 timings are historical only. The new CSS adds coverage and bytes."
+}

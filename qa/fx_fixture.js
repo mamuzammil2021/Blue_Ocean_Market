@@ -5,7 +5,8 @@ async function fixture(){
  const env={...process.env,PORT:String(port),JWT_SECRET:crypto.randomBytes(48).toString('hex'),ADMIN_EMAIL:'qa@blueocean.local',ADMIN_PASSWORD:password,LOCAL_TEST_MODE:'true',LOCAL_TEST_ADMIN_EMAIL:'qa@blueocean.local',LOCAL_TEST_ADMIN_PASSWORD:password,NODE_ENV:'development',DATA_DIR:path.join(temp,'data'),UPLOAD_DIR:path.join(temp,'uploads'),SEED_DEMO_USERS:'false',SEED_DEMO_DATA:'false'};
  const child=cp.spawn(process.execPath,['server/server.js'],{cwd:root,env,stdio:['ignore','pipe','pipe']});let logs='';child.stdout.on('data',x=>logs+=x);child.stderr.on('data',x=>logs+=x);
  const base=`http://127.0.0.1:${port}`;let ready=false;
- for(let i=0;i<180;i++){if(child.exitCode!==null)throw new Error('Startup failed: '+logs);try{const r=await fetch(base+'/api/health');if(r.ok){ready=true;break}}catch(_){}await new Promise(r=>setTimeout(r,100))}
+ // Managed QA hosts can take longer to cold-start; this changes no production timeout.
+ for(let i=0;i<600;i++){if(child.exitCode!==null)throw new Error('Startup failed: '+logs);try{const r=await fetch(base+'/api/health',{signal:AbortSignal.timeout(1000)});if(r.ok){ready=true;break}}catch(_){}await new Promise(r=>setTimeout(r,100))}
  if(!ready){child.kill();throw new Error('Startup timeout: '+logs)}
  const login=await fetch(base+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:env.ADMIN_EMAIL,password})}).then(r=>r.json());if(!login.token)throw new Error('Authentication failed '+JSON.stringify(login));
  const db=new Database(path.join(env.DATA_DIR,'blue-ocean.sqlite')); // authoritative runtime filename detected below

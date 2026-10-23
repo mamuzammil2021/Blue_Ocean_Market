@@ -15,19 +15,19 @@
   "errors": [],
   "toolbar_dimensions": [
     {
-      "width": 397.890625,
-      "height": 38,
-      "bottom": 366.203125
+      "width": 413,
+      "height": 36,
+      "bottom": 318.671875
     },
     {
-      "width": 74.109375,
-      "height": 38,
-      "bottom": 366.203125
+      "width": 59,
+      "height": 36,
+      "bottom": 318.671875
     },
     {
-      "width": 114.4375,
-      "height": 38,
-      "bottom": 366.203125
+      "width": 94,
+      "height": 36,
+      "bottom": 318.671875
     }
   ],
   "checkbox_alignment": {
@@ -36,6 +36,6 @@
     "gap": 8,
     "dy": 0
   },
-  "browser": "136.0.7103.25",
+  "browser": "141.0.7390.0",
   "production_data_used": false
 }

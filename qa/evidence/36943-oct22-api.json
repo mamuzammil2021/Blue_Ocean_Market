@@ -1,0 +1,16 @@
+{
+  "status": "FAIL",
+  "checks": [
+    "State/owner/manager/admin/CEO policy matrix enforces stricter CEO-only received-import Edit/Void",
+    "Existing location master supports scoped create/edit/archive, duplicate/required validation, denied non-admin/cross-BU access and active-only receiving options",
+    "Real manager API caps hide received Edit/Void and direct HTTP attempts are denied without mutation",
+    "Received posted FX cost does not advertise an unavailable Correct Posted Cost action",
+    "Closed-period failure rolls back FX, fee, Finance, allocation, journal and stock changes atomically",
+    "Consumed/adjusted import stock blocks void without any partial reversal",
+    "CEO void reverses real FX/payment/cost/fee/allocation and per-location stock, preserves supplier advance and creates a balanced posted-journal reversal proposal",
+    "Durable duplicate void returns one result; altered payload cannot reuse its operation key",
+    "Voided import remains visible with reason; supplier available advance is restored exactly without a fake cash refund"
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(r.ok)\n\n    at /Users/bom/Documents/Blue_Ocean_Market_V306943/qa/qa_v36943_oct22.js:29:191\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)",
+  "production_data_used": false
+}

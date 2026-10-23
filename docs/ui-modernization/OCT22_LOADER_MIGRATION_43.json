@@ -1,0 +1,128 @@
+{
+  "version": "30.69.43",
+  "description": "Exact page/section text-loader owners converted to shared CSS visual status. Runtime copies retained because legacy bundles and source owners are supported. Native account-select loading options and disabled action-button status text retain their semantics.",
+  "owners": [
+    {
+      "file": "public/v347-loader.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v347-client.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v357-policy-review.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/client.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v3592-payroll-ui.js",
+      "visual_loading_markup_instances": 2
+    },
+    {
+      "file": "public/v320-client.js",
+      "visual_loading_markup_instances": 2
+    },
+    {
+      "file": "public/v313-client.js",
+      "visual_loading_markup_instances": 2
+    },
+    {
+      "file": "public/v310-client.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/runtime-v3039.js",
+      "visual_loading_markup_instances": 20
+    },
+    {
+      "file": "public/v351-loader.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v357-inventory-review.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v357-interbu.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v291-client.js",
+      "visual_loading_markup_instances": 4
+    },
+    {
+      "file": "public/v357-expenses.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v355-client.js",
+      "visual_loading_markup_instances": 2
+    },
+    {
+      "file": "public/v305-client.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v357-fixed-assets.js",
+      "visual_loading_markup_instances": 2
+    },
+    {
+      "file": "public/runtime-v30392.js",
+      "visual_loading_markup_instances": 22
+    },
+    {
+      "file": "public/runtime-v30391.js",
+      "visual_loading_markup_instances": 20
+    },
+    {
+      "file": "public/v356-final-ui.js",
+      "visual_loading_markup_instances": 2
+    },
+    {
+      "file": "public/v356-accounting.js",
+      "visual_loading_markup_instances": 6
+    },
+    {
+      "file": "public/v3693-persistent-routing.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v338-client.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v341-client.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v319-client.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v3392-client.js",
+      "visual_loading_markup_instances": 2
+    },
+    {
+      "file": "public/v357-integrity-review.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v348-loader.js",
+      "visual_loading_markup_instances": 1
+    },
+    {
+      "file": "public/v290-client.js",
+      "visual_loading_markup_instances": 8
+    }
+  ],
+  "total_markup_instances": 110,
+  "shared_progressive_section_owners": [
+    "public/v3391-client.js",
+    "public/runtime-v30391.js",
+    "public/runtime-v30392.js"
+  ]
+}

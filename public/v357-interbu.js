@@ -7,7 +7,7 @@ try{Object.assign(window.KO||{}, {'Matched transfer pairs':'일치하는 사업�
 try{Object.assign(window.KO||{}, {'Inter-BU Reconciliation':'사업부 간 대사','Compare posted Due From and Due To balances. No cash entry or journal is created.':'전기된 사업부 간 미수금 및 미지급금을 비교합니다. 현금 거래나 분개는 생성되지 않습니다.','As-of date':'기준일','Due From':'사업부 간 미수금','Due To':'사업부 간 미지급금','Difference':'차액','Company total':'회사 전체','Balanced':'일치','Needs review':'검토 필요','Company totals are restricted to authorized company-wide scope.':'회사 전체 합계는 회사 전체 권한이 있는 사용자에게만 표시됩니다.','No posted clearing balances':'전기된 사업부 간 정산 잔액 없음'});}catch(_){}
 const root=()=>document.getElementById('accountingSimpleBodyV291')||document.getElementById('accountingV29Body');
 let requestNo=0;
-async function render(asOf){const el=root();if(!el)return;const seq=++requestNo;el.innerHTML='<section class="card">'+esc(tr('Loading…'))+'</section>';
+async function render(asOf){const el=root();if(!el)return;const seq=++requestNo;el.innerHTML='<span class="bom43-loader" role="status" aria-live="polite"><span class="bom-loading-ring" aria-hidden="true"></span><span class="bom-loading-label">Loading…</span></span>';
  try{const params=asOf?'?as_of='+encodeURIComponent(asOf):'';const data=await api('/api/accounting/inter-bu-reconciliation-v357'+params);const preview=data.company_totals?await api('/api/accounting/inter-bu-elimination-preview-v357?as_of='+encodeURIComponent(data.as_of)):null;if(seq!==requestNo||!root())return;
  const row=(data.rows||[]).map(x=>`<tr><td>${Number(x.business_unit_id)}</td><td style="text-align:right">${krw(x.due_from_krw)}</td><td style="text-align:right">${krw(x.due_to_krw)}</td></tr>`).join('');
  const totals=data.company_totals;

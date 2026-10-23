@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Product Master actions are visible without hover and stay in a sticky right column",
+    "English/Korean/Both toggles only language fields, retains content and keeps shared SKU/weight fields",
+    "Real browser saves Korean-only product and preferred commerce language through shared Review & Confirm",
+    "Product Families opens directly as a populated full-screen page; refresh and background synchronization preserve it",
+    "Family add/save/edit/cancel uses short dialogs over the retained populated page",
+    "Family search is a direct read action without a confirmation dialog and persists in the URL",
+    "Editing a linked variant returns to its family detail without replacing it with Product Master",
+    "Family detail deep link, refresh and explicit parent Back work without unrelated screens",
+    "Lots list/detail/edit/save/cancel and refresh retain the correct page and immutable quantities",
+    "New Production has its own URL; Cancel, full-screen Back and refresh return to Production",
+    "Browser Back and page Back protect unsaved Production inputs and discard returns to the correct parent",
+    "Invalid Production submission retains the form and entered values without creating a batch",
+    "Actual Production completion saves once and returns to Production list, preserving existing stock/lot service",
+    "Production details restore directly and browser Back/Forward respects record/list routes",
+    "Mobile390px Product Master actions wrap visibly; Korean full-screen families have no document overflow",
+    "Packaging sidebar uses shared icon/label styling and far-right arrow with functional expand/collapse",
+    "No uncaught JavaScript errors across tested workflows"
+  ],
+  "errors": [],
+  "browser": "141.0.7390.0",
+  "production_data_used": false
+}

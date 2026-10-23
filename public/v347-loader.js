@@ -12,7 +12,7 @@ const base=window.loadView;
 if(typeof base==='function')window.loadView=async function(){
   const screen=typeof view!=='undefined'?view:'',started=performance.now();
   if(['tasks','approvals','documents'].includes(screen)){
-    if(!window.BOMPagedWorkspaces347){const host=document.getElementById('content');if(host)host.innerHTML=window.BOMProgressive?.viewShell?.(view)||'<div class="card">Loading…</div>';await ensure()}
+    if(!window.BOMPagedWorkspaces347){const host=document.getElementById('content');if(host)host.innerHTML=window.BOMProgressive?.viewShell?.(view)||'<div class="bom43-loader card" role="status" aria-live="polite"><span class="bom-loading-ring" aria-hidden="true"></span><span class="bom-loading-label">Loading…</span></div>';await ensure()}
   }
   const out=await base.apply(this,arguments);
   // Render may settle later for legacy async sub-sections; record first useful visible section only.
