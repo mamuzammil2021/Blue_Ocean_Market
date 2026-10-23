@@ -1,139 +1,140 @@
 {
-  "status": "PASS",
-  "node": "v22.23.3",
+  "status": "FAIL",
+  "node": "v22.23.2",
   "results": [
     {
       "suite": "qa_v36933_payment_approvals.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 17,
-      "duration_ms": 2795
+      "duration_ms": 5020
     },
     {
       "suite": "qa_v36932_server.js",
-      "status": "PASS",
-      "exit_code": 0,
-      "passed_log_lines": 16,
-      "duration_ms": 2987
+      "status": "FAIL",
+      "exit_code": 1,
+      "passed_log_lines": 15,
+      "duration_ms": 35593,
+      "error": "PASS Cost correction retains one operational row, original URL/reference, exact revision values and one active Finance version\nPASS Cost detail provides current payment, source/recipient, evidence, rates, user and full financial revision history\nPASS Unverified supplier advance edits through shared review engine without changing its operational identity\nPASS Finance verification locks advances in UI metadata and both shared/legacy direct edit APIs\nPASS Allocated advance cannot be edited or reversed even when another advance could cover the supplier pool\nPASS Only an uncommitted, dependency-free owned draft can be deleted; recorded advance history remains protected\nPASS All six configured same-currency combinations (USD, PKR, KRW, EUR, JPY, CNY) with combined settlements keep native debit, KRW value and one real Finance movement consistent and eligible after verification\nPASS Missing foreign valuation, mistaken transfer identity rate and arbitrary KRW valuation are rejected without inventing FX gain/loss\nPASS Existing suspect mapping remains unchanged, explicitly blocked with a specific valuation reason while Finance verification is displayed separately\nPASS Original-user unposted valuation repair preserves the incorrect historical snapshot, rebuilds correct linked Finance/proposal values and requires re-verification\nPASS Import edits commit once with durable result lookup; concurrent retry and lost-response recovery do not duplicate audit/work\nPASS Sensitive import authorization preserves edit/CEO reasons, saves atomically once and completes the approval handshake\nPASS Ordinary non-CEO sensitive import approval executes its exact stored snapshot once, with current permissions and stale-record checks\nPASS Receiving failure rolls back stock/status/Accounting/audit; concurrent keyed retries create one stock receipt and one receipt journal\nPASS Supplier statement uses current valid settlements, explicit KRW basis and non-cash allocations without duplicate cash\nAssertionError [ERR_ASSERTION]: {\"error\":\"PDF generation timed out. Please retry or download CSV.\"}\n    at /Users/bom/Documents/Blue_Ocean_Market_V306942/qa/qa_v36932_server.js:20:228\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n"
     },
     {
       "suite": "qa_v36932_legacy_advances.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 5,
-      "duration_ms": 2563
+      "duration_ms": 3868
     },
     {
       "suite": "qa_v36931_reference.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 24,
-      "duration_ms": 2504
+      "duration_ms": 6970
     },
     {
       "suite": "qa_v36930_shared_rate.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 11,
-      "duration_ms": 2338
+      "duration_ms": 3909
     },
     {
       "suite": "qa_v36929_qa15.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 20,
-      "duration_ms": 2698
+      "duration_ms": 4510
     },
     {
       "suite": "qa_v36927_supplier_accounts.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 7,
-      "duration_ms": 2282
+      "duration_ms": 3892
     },
     {
       "suite": "qa_v36926_recipient.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 10,
-      "duration_ms": 2422
+      "duration_ms": 4228
     },
     {
       "suite": "qa_v36925_server.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 23,
-      "duration_ms": 2726
+      "duration_ms": 4441
     },
     {
       "suite": "qa_v36925_extended.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 12,
-      "duration_ms": 2629
+      "duration_ms": 4373
     },
     {
       "suite": "qa_v36925_statement_integrity.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 8,
-      "duration_ms": 2319
+      "duration_ms": 3932
     },
     {
       "suite": "qa_v36924_calculation.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 7,
-      "duration_ms": 2203
+      "duration_ms": 3774
     },
     {
       "suite": "qa_v36923_static_assets.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 12,
-      "duration_ms": 123
+      "duration_ms": 228
     },
     {
       "suite": "runtime_smoke.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 22,
-      "duration_ms": 2651
+      "duration_ms": 4383
     },
     {
       "suite": "qa_v36920_fx_e2e.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 19,
-      "duration_ms": 2469
+      "duration_ms": 4005
     },
     {
       "suite": "qa_v36920_workflows.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 25,
-      "duration_ms": 2761
+      "duration_ms": 4180
     },
     {
       "suite": "qa_v36920_permissions.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 7,
-      "duration_ms": 2768
+      "duration_ms": 4497
     },
     {
       "suite": "qa_v36920_excavator.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 13,
-      "duration_ms": 2665
+      "duration_ms": 4341
     },
     {
       "suite": "qa_v36921_controls.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 24,
-      "duration_ms": 2438
+      "duration_ms": 4194
     }
   ],
   "production_data_used": false

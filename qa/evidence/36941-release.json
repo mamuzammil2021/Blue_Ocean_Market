@@ -1,0 +1,130 @@
+{
+  "status": "PASS",
+  "version": "30.69.41",
+  "node": "v22.21.0",
+  "checks": [
+    {
+      "suite": "Release identity, frontend manifest and all server/public JS syntax",
+      "status": "PASS"
+    },
+    {
+      "suite": "qa_v36941_ui_contract.js",
+      "status": "PASS",
+      "passed_log_lines": 8,
+      "duration_ms": 1513,
+      "previous_status": "PASS",
+      "rerun_after_fix": true
+    },
+    {
+      "suite": "qa_v36936_packaging.js",
+      "status": "PASS",
+      "passed_log_lines": 25,
+      "duration_ms": 4449
+    },
+    {
+      "suite": "qa_v36937_refinement.js",
+      "status": "PASS",
+      "passed_log_lines": 8,
+      "duration_ms": 4020
+    },
+    {
+      "suite": "qa_v36938_product_ux.js",
+      "status": "PASS",
+      "passed_log_lines": 11,
+      "duration_ms": 4791
+    },
+    {
+      "suite": "qa_v36939_history.js",
+      "status": "PASS",
+      "passed_log_lines": 6,
+      "duration_ms": 4762
+    },
+    {
+      "suite": "qa_v36939_financial_guards.js",
+      "status": "PASS",
+      "passed_log_lines": 5,
+      "duration_ms": 8766
+    },
+    {
+      "suite": "qa_v36939_regressions.js",
+      "status": "PASS",
+      "passed_log_lines": 19,
+      "duration_ms": 79606
+    },
+    {
+      "suite": "browser_v36939_qa.js",
+      "status": "PASS",
+      "passed_log_lines": 10,
+      "duration_ms": 8802,
+      "previous_status": "FAIL",
+      "rerun_after_fix": true
+    },
+    {
+      "suite": "browser_v36939_cart_history.js",
+      "status": "PASS",
+      "passed_log_lines": 7,
+      "duration_ms": 5911,
+      "previous_status": "FAIL",
+      "rerun_after_fix": true
+    },
+    {
+      "suite": "browser_v36938_product_ux.js",
+      "status": "PASS",
+      "passed_log_lines": 17,
+      "duration_ms": 13777,
+      "previous_status": "FAIL",
+      "rerun_after_fix": true
+    },
+    {
+      "suite": "modernization/interaction.cjs",
+      "status": "PASS",
+      "passed_log_lines": 9,
+      "duration_ms": 5730,
+      "previous_status": "FAIL",
+      "rerun_after_fix": true
+    },
+    {
+      "suite": "modernization/completion.cjs",
+      "status": "PASS",
+      "passed_log_lines": 15,
+      "duration_ms": 19709,
+      "previous_status": "FAIL",
+      "rerun_after_fix": true
+    },
+    {
+      "suite": "modernization/editors41.cjs",
+      "status": "PASS",
+      "passed_log_lines": 17,
+      "duration_ms": 41505,
+      "previous_status": "FAIL",
+      "rerun_after_fix": true
+    },
+    {
+      "suite": "modernization/journal41.cjs",
+      "status": "PASS",
+      "passed_log_lines": 3,
+      "duration_ms": 13820,
+      "previous_status": "FAIL",
+      "rerun_after_fix": true
+    },
+    {
+      "suite": "modernization/authority.cjs",
+      "status": "PASS",
+      "passed_log_lines": 5,
+      "duration_ms": 46182,
+      "previous_status": "FAIL",
+      "rerun_after_fix": true
+    },
+    {
+      "suite": "qa_v36941_upgrade.js",
+      "status": "PASS",
+      "passed_log_lines": 2,
+      "duration_ms": 6818
+    }
+  ],
+  "browser_requested": true,
+  "upgrade_requested": true,
+  "production_data_used": false,
+  "resumed_from_sha256": "b87b896477d8162436e77c3480e8cde9cb985d492fa81d876fe46341f79ae20a",
+  "resume_reason": "Append attachment translation pattern by copying the frozen catalogue; await report review response in browser test. Final frontend syntax and integrity checked again."
+}

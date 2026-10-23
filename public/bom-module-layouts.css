@@ -1,0 +1,104 @@
+/* V30.69.41: domain layouts omitted by the original shared Tabler adapter.
+   All original data IDs, action handlers and authorization controllers are retained. */
+html.bom-ui .side .nav a.v340-nav-link {
+  display:flex;align-items:center;gap:10px;min-height:38px;padding:9px 10px;
+  border-radius:var(--bom-radius);font-size:13px;font-weight:500;line-height:1.4;color:#c3cfdd;
+}
+html.bom-ui .side .nav a.v340-nav-link:hover {background:#23364c;color:#fff;}
+html.bom-ui .side .nav a.v340-nav-link.active {background:#284467;color:#fff;box-shadow:inset 3px 0 var(--brand);}
+
+/* Standalone filters, settings fields and cart quantities were outside .field. */
+html.bom-ui #content :is(.form-control,.form-select),
+html.bom-ui #modalRoot :is(.form-control,.form-select) {
+  box-sizing:border-box;max-width:100%;min-width:0;min-height:var(--bom-control);
+  border:1px solid var(--line);border-radius:var(--bom-radius);background:var(--panel);
+  padding:7px 10px;color:var(--ink);font:inherit;font-size:13px;line-height:20px;
+}
+html.bom-ui #content textarea.form-control,html.bom-ui #modalRoot textarea.form-control {min-height:88px;resize:vertical;}
+html.bom-ui #content :is(.form-control,.form-select):focus,
+html.bom-ui #modalRoot :is(.form-control,.form-select):focus {border-color:#6fa9df;box-shadow:var(--bom-focus);outline:0;}
+html.bom-ui #content :is(.form-control,.form-select):disabled {background:#f5f7fa;color:var(--muted);}
+
+/* Accounting: two navigation levels above a full-width work surface. */
+html.bom-ui #content.v357-accounting .v357-layout {display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:16px;}
+html.bom-ui #content.v357-accounting .v357-sidebar {min-width:0;border:1px solid var(--line);border-radius:var(--bom-radius-lg);background:var(--panel);padding:12px;}
+html.bom-ui .bom-workspace-groups {display:flex;flex-wrap:wrap;gap:6px;}
+html.bom-ui .bom-workspace-groups .btn {border-color:transparent;background:transparent;box-shadow:none;}
+html.bom-ui .bom-workspace-groups .btn.active {color:var(--brand);background:#eaf3fd;border-color:#cfe2f8;}
+html.bom-ui #content .v357-sub {display:flex;flex-wrap:wrap;gap:6px;padding-top:12px;margin-top:10px;border-top:1px solid var(--line);}
+html.bom-ui #content .v357-sub[hidden] {display:none;}
+html.bom-ui #content .v357-sub [aria-current=page] {background:var(--brand);border-color:var(--brand);color:#fff;}
+html.bom-ui #content .v357-content {min-width:0;}
+html.bom-ui #content .v357-workspace-header {margin-bottom:16px;}
+html.bom-ui #content .v357-breadcrumb {font-size:18px;font-weight:600;}
+html.bom-ui #content .v357-workspace-header p {font-size:13px;color:var(--muted);margin:5px 0 0;}
+html.bom-ui #content.v357-accounting :is(.v291-simple-tabs,.v290-tabs,.v356-quick,.v290-accounting-nav-note,.v291-guide,.v291-advanced-return) {display:none!important;}
+html.bom-ui #content.v357-accounting .v356-grid {grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;}
+html.bom-ui #content.v357-accounting .v356-detail {grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px;}
+html.bom-ui #content.v357-accounting .card {margin-bottom:16px;}
+html.bom-ui .v357-journal-totals {display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding:12px;border:1px solid var(--line);border-radius:var(--bom-radius);background:var(--panel);margin:12px 0;font-variant-numeric:tabular-nums;}
+html.bom-ui .v357-journal-totals[data-balanced=true] {border-color:#76b995;}
+html.bom-ui .v290-journal-line {border:1px solid var(--line);border-radius:var(--bom-radius);padding:12px;margin:10px 0;background:var(--panel);}
+html.bom-ui .v290-journal-line .j-account {width:100%;min-width:0;}
+html.bom-ui .v357-chart-group {border-top:1px solid var(--line);margin-top:10px;}
+html.bom-ui .v357-chart-group>summary {cursor:pointer;padding:12px 4px;display:flex;justify-content:space-between;gap:10px;}
+html.bom-ui .v357-chart-group>summary span {color:var(--muted);font-size:12px;}
+
+/* Settings: scope stays above the section navigation, leaving the editor full width. */
+html.bom-ui #content :is(.v319-settings-layout,.v320-shell) {display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start;}
+html.bom-ui #content :is(.v319-settings-nav,.v320-nav) {position:static;display:flex;flex-direction:row;flex-wrap:wrap;gap:6px;max-height:none;overflow:visible;padding:12px;margin:0;min-width:0;}
+html.bom-ui #content :is(.v319-settings-nav,.v320-nav) .btn {flex:0 1 auto;width:auto;margin:0;gap:8px;min-width:0;text-align:left;justify-content:flex-start;}
+html.bom-ui #content :is(.v319-settings-nav,.v320-nav) .btn.active {background:#eaf3fd;color:var(--brand);border-color:#cfe2f8;}
+html.bom-ui #content .v319-settings-nav small {font-size:10px;padding:2px 5px;border-radius:4px;background:#f0f3f7;color:var(--muted);}
+html.bom-ui #content .v320-nav-group {flex-basis:100%;padding:8px 0 3px;font-weight:600;}
+html.bom-ui #content #v319SettingsPanel {min-width:0;}
+html.bom-ui #content .v319-setting-item {padding:14px;background:var(--panel);border-radius:var(--bom-radius);}
+html.bom-ui #content .v319-setting-item label {display:block;font-size:12px;font-weight:600;margin-bottom:6px;}
+html.bom-ui #content .v319-setting-item :is(input:not([type=checkbox]):not([type=radio]),select,textarea) {width:100%;}
+
+/* Named domain panels: payroll, profiles, access, accounting and financial accounts. */
+html.bom-ui #content :is(.v3591-hero,.v3591-card,.v3591-kpi,.v3591-data,.v3591-account,.v3591-payroll-row,
+ .v3592-card,.v3592-kpi,.v3592-details,.v340-profile-card,.v340-source-card,.v341-card,.v341-assignment-row,
+ .v320-account-card,.v320-policy-card,.v291-kpi,.v291-health-card,.v356-kpi,.v305-account-card) {
+  border:1px solid var(--line);border-radius:var(--bom-radius-lg);background:var(--panel);padding:16px;min-width:0;box-shadow:var(--bom-elevation);
+}
+html.bom-ui #content :is(.v3591-kpi,.v3592-kpi,.v356-kpi) {min-height:94px;}
+html.bom-ui #content :is(.v3591-kpi,.v3592-kpi,.v356-kpi,.v291-kpi) small {font-size:12px;font-weight:500;color:var(--muted);}
+html.bom-ui #content :is(.v3591-kpi,.v3592-kpi,.v356-kpi,.v291-kpi) b {font-size:24px;font-weight:600;font-variant-numeric:tabular-nums;}
+html.bom-ui #content .v3592-head h1 {font-size:24px;font-weight:600;}
+html.bom-ui #content .v3592-tab {min-height:var(--bom-control);border-radius:var(--bom-radius);padding:7px 12px;font-size:13px;font-weight:500;}
+html.bom-ui #content .v3591-payroll-metrics {grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;}
+html.bom-ui #content :is(.v3591-profile,.v3591-self) {grid-template-columns:minmax(0,1fr);}
+html.bom-ui #content :is(.v3591-profile-nav,.v3591-self-nav) {position:static;flex-direction:row;flex-wrap:wrap;}
+html.bom-ui #content :is(.v341-stat,.v340-access-summary b) {font-weight:600;}
+html.bom-ui #content :is(.v341-tabs,.v3591-nav,.v3592-tabs) {gap:6px;}
+html.bom-ui #content :is(.v341-permission-matrix,.v340-matrix) input[type=checkbox] {width:18px;height:18px;}
+
+@media(max-width:1000px) {
+ html.bom-ui #content :is(.v319-setting-grid,.v320-account-grid,.v3591-grid2,.v3591-data-grid,.v3592-grid2) {grid-template-columns:minmax(0,1fr);}
+}
+@media(max-width:600px) {
+ html.bom-ui #content .bom-workspace-groups {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
+ html.bom-ui #content .bom-workspace-groups .btn {justify-content:flex-start;text-align:left;}
+ html.bom-ui #content .v357-sub {display:grid;grid-template-columns:minmax(0,1fr);}
+ html.bom-ui #content .v357-sub .btn {justify-content:flex-start;text-align:left;}
+ html.bom-ui #content :is(.v319-settings-nav,.v320-nav) {display:grid;grid-template-columns:minmax(0,1fr);max-height:240px;overflow:auto;}
+ html.bom-ui #content :is(.v319-settings-nav,.v320-nav) .btn {justify-content:space-between;min-height:44px;}
+ html.bom-ui #content .v3591-payroll-metrics {grid-template-columns:repeat(2,minmax(0,1fr));}
+ html.bom-ui #content .v3592-tabs {flex-wrap:wrap;overflow:visible;}
+}
+/* Routed complex forms share the same surface, density and action pattern. */
+html.bom-ui #content .bom-editor-page {width:100%;max-width:none;min-width:0;}
+html.bom-ui #content .bom-editor-form {width:100%;max-width:1200px;min-width:0;}
+html.bom-ui #content .bom-editor-form .grid {gap:var(--bom-space-4,16px);}
+html.bom-ui #content .bom-editor-form .grid>.field {margin:0;}
+html.bom-ui #content .bom-editor-page :is(input,select,textarea) {max-width:100%;}
+html.bom-ui #content .bom-editor-page :is(input[type=checkbox],input[type=radio]) {width:18px;min-width:18px;max-width:18px;height:18px;min-height:18px;flex:0 0 18px;padding:0;}
+html.bom-ui #content .bom-editor-page label:has(> :is(input[type=checkbox],input[type=radio])) {min-height:var(--bom-touch);}
+html.bom-ui #content .bom-editor-page form>.actions {position:sticky;bottom:0;z-index:8;padding:12px;background:var(--bom-surface,#fff);border-top:1px solid var(--bom-border,#dce1e7);}
+html.bom-ui #content .bom-editor-page :is(#saleItems,#purItems) .order-row {display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+html.bom-ui #content .bom-editor-page .v341-preview {position:static;align-self:start;}
+html.bom-ui #content .bom-editor-page .v341-create-layout>div>.card {margin-bottom:16px;}
+html.bom-ui .pack-sidebar .pack-nav-arrow {font-size:0;display:inline-flex;align-items:center;justify-content:center;}
+html.bom-ui .pack-sidebar .pack-nav-arrow::after {content:'';width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);}
+@media(max-width:700px){html.bom-ui #content .bom-editor-page :is(.grid.g2,.grid.g3,.grid.g4,.v341-create-layout) {grid-template-columns:minmax(0,1fr);}html.bom-ui #content .bom-editor-page .actions {display:flex;flex-wrap:wrap;gap:8px;}}

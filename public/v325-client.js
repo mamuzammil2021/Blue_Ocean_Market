@@ -64,7 +64,7 @@
 
   // Accounting UI explains the new source-control rule.
   if(typeof window.postingOpenV318==='function'){
-    const old=window.postingOpenV318;window.postingOpenV318=async function(id){const r=await old.apply(this,arguments);try{const d=await api('/api/accounting/posting-control/'+id),root=document.getElementById('modalRoot');if(d.finance?.operational&&root&&!root.querySelector('[data-v325-source-control]')){const box=document.createElement('div');box.dataset.v325SourceControl='1';box.className='workspace-banner';box.innerHTML=`<b>${esc(t('Operational Source Control'))}</b><span>${esc(t('Finance Verification Not Required'))} · ${esc(d.finance.source_control||'Completed / Approved')}</span>`;root.querySelector('.modal')?.prepend(box)}}catch(_){}return r}
+    const old=window.postingOpenV318;window.postingOpenV318=async function(id){const r=await old.apply(this,arguments);try{const d=await api('/api/accounting/posting-control/'+id),root=document.getElementById('v324WorkflowSurface')||document.getElementById('modalRoot');if(d.finance?.operational&&root&&!root.querySelector('[data-v325-source-control]')){const box=document.createElement('div');box.dataset.v325SourceControl='1';box.className='workspace-banner';box.innerHTML=`<b>${esc(t('Operational Source Control'))}</b><span>${esc(t('Finance Verification Not Required'))} · ${esc(d.finance.source_control||'Completed / Approved')}</span>`;(root.querySelector('.modal')||root)?.prepend(box)}}catch(_){}return r}
   }
 
   function paymentReferenceV325(method){

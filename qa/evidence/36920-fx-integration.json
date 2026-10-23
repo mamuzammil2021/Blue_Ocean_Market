@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "version": "30.69.33",
+  "version": "30.69.42",
   "checks": [
     "Real application startup and additive schema migration",
     "KRW→USD live server preview",
@@ -35,5 +35,5 @@
     "finance_records": 1,
     "balanced_journal": true
   },
-  "runtime": "Node v22.16.0"
+  "runtime": "Node v22.23.2"
 }

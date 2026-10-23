@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "method": "sRGB relative luminance, static new-token pairs; not full app WCAG certification",
+  "results": [
+    {
+      "surface": "Body text",
+      "foreground": "#182433",
+      "background": "#ffffff",
+      "ratio": 15.68,
+      "passes_4_5": true
+    },
+    {
+      "surface": "Muted text",
+      "foreground": "#5d6b7d",
+      "background": "#ffffff",
+      "ratio": 5.43,
+      "passes_4_5": true
+    },
+    {
+      "surface": "Primary button",
+      "foreground": "#ffffff",
+      "background": "#066fd1",
+      "ratio": 5.0,
+      "passes_4_5": true
+    },
+    {
+      "surface": "Sidebar label",
+      "foreground": "#c3cfdd",
+      "background": "#182433",
+      "ratio": 9.93,
+      "passes_4_5": true
+    },
+    {
+      "surface": "Success badge",
+      "foreground": "#06613a",
+      "background": "#e5f5ed",
+      "ratio": 6.7,
+      "passes_4_5": true
+    },
+    {
+      "surface": "Warning badge",
+      "foreground": "#7a4800",
+      "background": "#fff1d9",
+      "ratio": 6.84,
+      "passes_4_5": true
+    },
+    {
+      "surface": "Danger badge",
+      "foreground": "#a01d24",
+      "background": "#fdebed",
+      "ratio": 6.78,
+      "passes_4_5": true
+    }
+  ]
+}
