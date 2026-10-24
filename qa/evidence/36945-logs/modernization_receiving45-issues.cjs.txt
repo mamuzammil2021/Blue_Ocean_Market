@@ -1,0 +1,8 @@
+PASS Ordinary receiving shows differences only when needed, saves real goods, creates one issue/task and hides receiving when the missing balance is held
+PASS The issue page and conditional 85/15 responsibility calculator work in EN/KR at 1440, 820 and 390 without overflow
+PASS The investigation task action opens its exact issue with purchase, supplier and invoice valuation context
+PASS A real credit decision completes the task, removes receiving actions on the purchase, and leaves receiving history available
+PASS The correction decision clearly reviews and authorizes reversing the original receipt, resolves the task, and allows correct re-entry
+PASS No uncaught JavaScript errors in receiving, issue, task or resolution navigation
+(node:3458) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

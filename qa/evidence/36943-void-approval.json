@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Financially active import requested by Admin stays unchanged until independent CEO approval following the Finance-initiated request, then executes its linked void automatically",
+    "Changed import invalidates the approved void snapshot and leaves linked financial records untouched"
+  ],
+  "production_data_used": false
+}

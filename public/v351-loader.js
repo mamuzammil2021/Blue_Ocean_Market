@@ -23,7 +23,7 @@ if(typeof previous==='function')window.loadView=async function(){
  const requested=String(typeof view!=='undefined'?view:'');const key=routes[requested];
  if(key&&!modules[key].ready()){
   const target=document.getElementById('content');
-  if(target)target.innerHTML=window.BOMProgressive?.viewShell?.(requested)||'<div class="card">Loading…</div>';
+  if(target)target.innerHTML=window.BOMProgressive?.viewShell?.(requested)||'<div class="bom43-loader card" role="status" aria-live="polite"><span class="bom-loading-ring" aria-hidden="true"></span><span class="bom-loading-label">Loading…</span></div>';
   await ensure(key);
   // Do not render the previous view after the user has navigated elsewhere during script loading.
   if(String(typeof view!=='undefined'?view:'')!==requested)return;

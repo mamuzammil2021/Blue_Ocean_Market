@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Buy Machine token payment with exact account and receiver",
+    "Excavator supplier balance payment",
+    "Buyer advance receipt",
+    "Buyer advance refund",
+    "Machine sale combined advance plus new payment",
+    "Sale recognizes one 500 KRW new receipt; 9000 KRW allocation is non-cash",
+    "Excavator Finance verification and Accounting posting",
+    "Machine sale using only new buyer payment",
+    "Machine sale using only advance allocation",
+    "Excavator correction request preserves original Finance and source snapshots",
+    "Excavator original-user Correct & Resubmit retains the single bank receipt and active allocation",
+    "Corrected Excavator receipt returns through Finance verification",
+    "Excavator controlled buyer-refund reversal remains functional"
+  ],
+  "scope": "Authenticated server transactions; browser Excavator workflows tested separately"
+}

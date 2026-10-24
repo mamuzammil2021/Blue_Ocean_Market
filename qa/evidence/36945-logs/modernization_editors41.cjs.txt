@@ -1,0 +1,19 @@
+PASS profile: validation, cancelled Review & Confirm, dirty Back guard and confirmed create preserve original controller
+PASS profile: confirmed edit persists and returns to the library
+PASS profile: unknown key returns the existing not-found route state
+PASS group: validation, cancelled Review & Confirm, dirty Back guard and confirmed create preserve original controller
+PASS group: confirmed edit persists and returns to the library
+PASS group: unknown key returns the existing not-found route state
+PASS policy: validation, cancelled Review & Confirm, dirty Back guard and confirmed create preserve original controller
+PASS policy: confirmed edit persists and returns to the library
+PASS policy: unknown key returns the existing not-found route state
+PASS Six editor routes directly refresh at three widths in EN/KR without modal-as-page layouts
+PASS Task progress and comment save refresh the routed page with retained persisted values
+PASS Report review retains the original reason/confirmation controller and persisted decision
+PASS Approval, task and report detail pages directly refresh in EN/KR at all three widths
+PASS Accounting grouped navigation clicks and refresh restore active group and section
+PASS Settings navigation retains original route handlers with a full-width editor
+PASS Previously native Audit filters receive the shared control dimensions
+PASS Access-editor presentation and navigation create no Finance, ledger or FX cash rows
+(node:4502) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

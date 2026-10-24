@@ -1,0 +1,13 @@
+{
+  "before41": {
+    "files": 120,
+    "bytes": 7004112,
+    "gzip_individual_bytes": 1792966
+  },
+  "after42": {
+    "files": 121,
+    "bytes": 7029894,
+    "gzip_individual_bytes": 1802550
+  },
+  "note": "All public JS/CSS/HTML, including lazy assets; not initial transfer."
+}

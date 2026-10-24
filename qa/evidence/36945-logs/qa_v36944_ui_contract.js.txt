@@ -1,0 +1,12 @@
+PASS Original frontend script order and public interfaces remain intact
+PASS Pinned Tabler subset rebuild is byte-for-byte reproducible
+PASS Every generated Tabler selector is scoped to the application namespace
+PASS Vendored source checksums and retained third-party licenses are valid
+PASS Legacy head styles have one owner with 31 documented superseded exact duplicates removed
+PASS Completed-dialog timer requires the original form identity
+PASS Release frontend integrity manifest matches all shipped frontend assets
+PASS Domain CSS is scoped and obsolete Accounting style owner removed
+PASS Earlier accessibility and Payroll locale entries survive the full catalog load
+PASS Shared receiving entry order and scoped Tabler styles
+(node:1781) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Packaging Stock & Usage shows quarantine separately from usable inventory at the receiving location",
+    "Quarantined raw salt cannot be consumed by production; failed production creates no batch",
+    "Accepted receipts feed raw-lot traceability, weighted packaging BOM consumption, finished-lot costing and balanced production Accounting",
+    "Receipt reversal cannot remove raw stock already consumed by production",
+    "Receipt correction uses current weighted inventory cost and an explicit variance; later quarantine release restores snapshot cost through the weighted pool",
+    "Two server restarts preserve new receiving facts, stock, production costs, claims, credits, refund balances and durable operation recovery exactly"
+  ],
+  "restarts": 2,
+  "synthetic_data_only": true
+}

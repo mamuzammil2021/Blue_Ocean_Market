@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Ordinary receiving shows differences only when needed, saves real goods, creates one issue/task and hides receiving when the missing balance is held",
+    "The issue page and conditional 85/15 responsibility calculator work in EN/KR at 1440, 820 and 390 without overflow",
+    "The investigation task action opens its exact issue with purchase, supplier and invoice valuation context",
+    "A real credit decision completes the task, removes receiving actions on the purchase, and leaves receiving history available",
+    "The correction decision clearly reviews and authorizes reversing the original receipt, resolves the task, and allows correct re-entry",
+    "No uncaught JavaScript errors in receiving, issue, task or resolution navigation"
+  ],
+  "errors": [],
+  "synthetic_data_only": true
+}

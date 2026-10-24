@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Required agreement approval creates a contextual review task and leaves Finance and supplier settlement records unchanged until approval",
+    "Independent CEO authorization executes the approved snapshot once and completes the existing review task",
+    "Approved claim links through actual refund → independent Finance verification → official Accounting posting",
+    "Source changes invalidate approval execution atomically and permit an audited return to investigation for a fresh proposal",
+    "Approval execution rechecks that the original requester is active and still authorized",
+    "Unposted credit remains unresolved and unspendable under Posted policy; final Posting Control makes it available"
+  ],
+  "synthetic_data_only": true
+}

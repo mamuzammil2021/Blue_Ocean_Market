@@ -33,7 +33,7 @@ if(oldSaveSupplier)window.psSaveSupplier315=async function(ev,id){
   if(!id)return oldSaveSupplier(ev,id);
   ev.preventDefault();const f=ev.target,categories=[...f.querySelectorAll('[name="supplier_category"]:checked')].map(x=>x.value);if(!categories.length)return toast(tr('Supplier category is required.'));
   const body=Object.fromEntries(new FormData(f));delete body.supplier_category;body.categories=categories;body.credit_terms_days=Math.max(0,Math.trunc(n(body.credit_terms_days)));body.credit_limit_krw=Math.max(0,n(body.credit_limit_krw));
-  try{await api(`/api/pink-salt/suppliers/${id}/profile-v315`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});toast(tr('Supplier profile saved'));closeModalAfterSave();if(supplierEditOrigin==='profile')return psSupplierAccount315(id);if(view==='psSuppliers')return loadView();go('psSuppliers')}catch(e){toast(tr(e.message||'Request failed'))}
+  try{await api(`/api/pink-salt/suppliers/${id}/profile-v315`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});toast(tr('Supplier profile saved'));closeModalAfterSave();if(supplierEditOrigin==='profile')return (BOMWorkflowPages42.committed(["ps-supplier"]),psSupplierAccount315(id));if(view==='psSuppliers')return (await BOMWorkflowPages42.finish(["ps-supplier"])||await loadView());go('psSuppliers')}catch(e){toast(tr(e.message||'Request failed'))}
 };
 
 // Active/Archived supplier separation + restore.

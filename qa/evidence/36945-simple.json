@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Exact receiving creates usable stock once, no issue/task, and no further receiving eligibility",
+    "Arriving-later choice saves delivered goods and leaves an ordinary pending balance without a claim",
+    "One multi-category investigation task contains purchase/supplier/receipt/prices and holds only the disputed missing quantities",
+    "Legacy/stale requests cannot receive held stock; split treatment and idempotent replay do not duplicate stock or tasks",
+    "Invoice line pricing and original FX automatically estimate claims without double counting bags plus weight or creating cash",
+    "Approved supplier credit closes missing quantities and completes one linked task without requiring credit use or permitting receiving again",
+    "Supplier and purchase list APIs expose consistent actionable pending indicators",
+    "New task details localize generated context without rewriting the immutable invoice estimate or original audit text",
+    "Refund agreement closes receiving but keeps the task pending until the actual cash receipt is recorded",
+    "Authorized replacement has a dedicated remaining allowance, fulfills the original shortage once, and hides further receiving",
+    "A negotiated valuation needs an explicit reason; invalid submissions create no partial work and foreign keys reconcile"
+  ],
+  "synthetic_data_only": true
+}

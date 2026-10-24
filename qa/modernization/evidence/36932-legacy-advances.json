@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Legacy unverified owned advance updates its existing Finance and operational records atomically",
+    "Legacy amendment retries replay once and changed evidence cannot reuse a committed operation key",
+    "Late Finance amendment failure rolls back advance, Finance, audit, authorization and operation receipt without swallowing the error",
+    "Recorded legacy advance uses idempotent audited Void, preserving the source and linked Finance history",
+    "Legacy payment APIs cannot silently default a missing foreign-currency valuation rate to 1"
+  ],
+  "production_data_used": false
+}

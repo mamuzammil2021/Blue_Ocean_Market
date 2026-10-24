@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Native payment form explicitly reviews supplier adjustment credit and clears the purchase without creating cash",
+    "Actual refund browser submission resolves a lost success response through durable operation status and creates exactly one Finance receipt",
+    "Claim reload reflects the settled refund balance with no uncaught browser errors"
+  ],
+  "errors": [],
+  "synthetic_data_only": true
+}

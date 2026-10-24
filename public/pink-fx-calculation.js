@@ -28,7 +28,7 @@ function calculate(b,c,options={}){
  const previewOnly=options.previewOnly===true; // UI arithmetic only; server validation calls the strict two-argument contract.
  const mode=b.settlement_mode||'new';if(!['advance','new','both'].includes(mode))fail('Invalid settlement option.');
  const advance=mode==='new'?0:round(positive(b.advance_amount_krw||0,'Advance allocation',true));
- if(mode!=='new'&&advance<=0)fail('No usable advance allocation. Select New Payment Only.');
+ if(mode!=='new'&&advance<=0&&!(c.adjustment_credit_krw>0))fail('No usable advance allocation. Select New Payment Only.');
  if(advance>c.available_advance_krw+.005)fail('Advance allocation exceeds available balance.',409);
  if(mode==='advance'){
   if(advance>c.outstanding_krw+.005)fail('Advance allocation exceeds outstanding.',409);

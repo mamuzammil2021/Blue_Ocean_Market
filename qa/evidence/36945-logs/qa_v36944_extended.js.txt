@@ -1,0 +1,16 @@
+PASS All purchased salt categories are received together in one exact multi-line session
+PASS Correct bag count and short net weight are independent; unexplained missing weight cannot silently become a delayed delivery
+PASS Replacement remains pending until quality acceptance, allows replacement of rejected goods and cannot exceed the approved usable quantity
+PASS Full credit plus unvalued full replacement is rejected atomically before issuing any compensation
+PASS Excess deliveries preserve explicit no-charge versus additional payable agreements and match stock valuation to the authorized price
+PASS Confirmed shortage can close the unfulfilled quantity and reduce an unpaid invoice without creating missing stock
+PASS Supplier, company, 50/50, carrier and three-party responsibility produce exactly reconciled obligations
+PASS Pending investigation remains provisional and creates no credit, refund or company loss
+PASS Partial agreement issues only its agreed amount and keeps a linked disputed remainder open
+PASS Controlled amendment reverses the prior obligation and preserves old responsibility and settlement history
+PASS Existing supplier financial statement and centralized profile reconcile after claims, credits and excess invoice adjustments
+PASS Closed-period failure rolls back receipt, case, movement and ledger changes as one transaction
+PASS PKR claim carrying valuation and actual refund valuation remain distinct, with a balanced FX difference
+PASS Injected downstream stock failure produces no silent partial receipt or case success
+(node:1817) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

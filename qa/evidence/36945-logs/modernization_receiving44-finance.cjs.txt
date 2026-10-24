@@ -1,0 +1,5 @@
+PASS Native payment form explicitly reviews supplier adjustment credit and clears the purchase without creating cash
+PASS Actual refund browser submission resolves a lost success response through durable operation status and creates exactly one Finance receipt
+PASS Claim reload reflects the settled refund balance with no uncaught browser errors
+(node:3548) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

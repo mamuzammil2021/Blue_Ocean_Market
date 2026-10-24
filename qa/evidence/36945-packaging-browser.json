@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Desktop toolbar search/filter/primary controls are compact and aligned instead of stretched",
+    "Material list exposes Open/Edit/Archive/Delete and archive/reactivation works directly on the filtered list",
+    "Normal purchase completes in one Review & Confirm with no second purchase-approval step",
+    "Purchase list displays live receiving/payment/outstanding information and visible allowed actions without an unnecessary approval label",
+    "Full-page receiving preserves compact physical confirmation, explicit prefill, unpaid partial receipt and accurate purchase-list quantities",
+    "Used material hides Delete; unused material deletes through review while preserving used history",
+    "Material category and unit selectors expose Other custom fields",
+    "Raw salt stock has one server-backed search bar",
+    "Compact toolbar/material actions remain responsive at 390px and render Korean labels",
+    "No uncaught browser JavaScript errors"
+  ],
+  "errors": [],
+  "toolbar_dimensions": [
+    {
+      "width": 413,
+      "height": 36,
+      "bottom": 318.671875
+    },
+    {
+      "width": 59,
+      "height": 36,
+      "bottom": 318.671875
+    },
+    {
+      "width": 92,
+      "height": 36,
+      "bottom": 318.671875
+    }
+  ],
+  "checkbox_alignment": {
+    "width": 13,
+    "height": 13,
+    "gap": 3,
+    "dy": 1
+  },
+  "browser": "141.0.7390.0",
+  "production_data_used": false
+}

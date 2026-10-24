@@ -1,0 +1,178 @@
+{
+  "status": "PASS",
+  "version": "30.69.44",
+  "node": "v22.21.0",
+  "tested_at": "2026-10-24T06:33:19.627Z",
+  "checks": [
+    {
+      "suite": "Node 22, release identity, frontend integrity and recursive JS syntax",
+      "status": "PASS",
+      "files": 235
+    },
+    {
+      "suite": "qa_v36944_ui_contract.js",
+      "status": "PASS",
+      "duration_ms": 839,
+      "passed_log_lines": 10
+    },
+    {
+      "suite": "qa_v36944_receiving.js",
+      "status": "PASS",
+      "duration_ms": 2346,
+      "passed_log_lines": 12
+    },
+    {
+      "suite": "qa_v36944_extended.js",
+      "status": "PASS",
+      "duration_ms": 2702,
+      "passed_log_lines": 14
+    },
+    {
+      "suite": "qa_v36944_approval.js",
+      "status": "PASS",
+      "duration_ms": 3485,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36944_assurance.js",
+      "status": "PASS",
+      "duration_ms": 5523,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36944_production_restart.js",
+      "status": "PASS",
+      "duration_ms": 3695,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36943_oct22.js",
+      "status": "PASS",
+      "duration_ms": 3164,
+      "passed_log_lines": 11
+    },
+    {
+      "suite": "qa_v36943_approval.js",
+      "status": "PASS",
+      "duration_ms": 3339,
+      "passed_log_lines": 2
+    },
+    {
+      "suite": "qa_v36936_packaging.js",
+      "status": "PASS",
+      "duration_ms": 2646,
+      "passed_log_lines": 25
+    },
+    {
+      "suite": "qa_v36937_refinement.js",
+      "status": "PASS",
+      "duration_ms": 2279,
+      "passed_log_lines": 8
+    },
+    {
+      "suite": "qa_v36938_product_ux.js",
+      "status": "PASS",
+      "duration_ms": 2323,
+      "passed_log_lines": 11
+    },
+    {
+      "suite": "qa_v36939_history.js",
+      "status": "PASS",
+      "duration_ms": 2258,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36939_financial_guards.js",
+      "status": "PASS",
+      "duration_ms": 4575,
+      "passed_log_lines": 5
+    },
+    {
+      "suite": "qa_v36939_regressions.js",
+      "status": "PASS",
+      "duration_ms": 46491,
+      "passed_log_lines": 19
+    },
+    {
+      "suite": "modernization/receiving44.cjs",
+      "status": "PASS",
+      "duration_ms": 6823,
+      "passed_log_lines": 4
+    },
+    {
+      "suite": "modernization/receiving44-submit.cjs",
+      "status": "PASS",
+      "duration_ms": 4315,
+      "passed_log_lines": 4
+    },
+    {
+      "suite": "modernization/receiving44-finance.cjs",
+      "status": "PASS",
+      "duration_ms": 3866,
+      "passed_log_lines": 3
+    },
+    {
+      "suite": "browser_v36944_packaging.js",
+      "status": "PASS",
+      "duration_ms": 5860,
+      "passed_log_lines": 10
+    },
+    {
+      "suite": "modernization/oct22-v44.cjs",
+      "status": "PASS",
+      "duration_ms": 34970,
+      "passed_log_lines": 14
+    },
+    {
+      "suite": "browser_v36939_cart_history.js",
+      "status": "PASS",
+      "duration_ms": 4200,
+      "passed_log_lines": 7
+    },
+    {
+      "suite": "browser_v36938_product_ux.js",
+      "status": "PASS",
+      "duration_ms": 8893,
+      "passed_log_lines": 17
+    },
+    {
+      "suite": "modernization/interaction.cjs",
+      "status": "PASS",
+      "duration_ms": 4076,
+      "passed_log_lines": 9
+    },
+    {
+      "suite": "modernization/completion.cjs",
+      "status": "PASS",
+      "duration_ms": 10585,
+      "passed_log_lines": 15
+    },
+    {
+      "suite": "modernization/editors41.cjs",
+      "status": "PASS",
+      "duration_ms": 20455,
+      "passed_log_lines": 17
+    },
+    {
+      "suite": "modernization/journal41.cjs",
+      "status": "PASS",
+      "duration_ms": 6335,
+      "passed_log_lines": 3
+    },
+    {
+      "suite": "modernization/authority.cjs",
+      "status": "PASS",
+      "duration_ms": 16249,
+      "passed_log_lines": 5
+    },
+    {
+      "suite": "qa_v36944_restart.js",
+      "status": "PASS",
+      "duration_ms": 5067,
+      "passed_log_lines": 2
+    }
+  ],
+  "browser_requested": true,
+  "upgrade_requested": true,
+  "synthetic_data_only": true
+}

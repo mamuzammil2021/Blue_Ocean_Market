@@ -31,3 +31,5 @@ uploads/**
 __pycache__/
 *.pyc
 qa/debug_*.py
+
+/node_modules

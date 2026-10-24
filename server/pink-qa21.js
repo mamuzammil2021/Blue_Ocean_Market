@@ -12,7 +12,7 @@ function receiveEligibility(db,id){
  let cash=0,advance=0,recorded=0;
  for(const p of db.prepare("SELECT * FROM pink_salt_import_payments WHERE import_id=? AND COALESCE(status,'Active')!='Voided'").all(id)){recorded+=Number(p.krw_amount);if(verified('pink_salt_import_payments',p))cash+=Number(p.krw_amount)}
  for(const a of (db.prepare("SELECT 1 FROM sqlite_master WHERE name='pink_salt_supplier_advance_allocations'").get()?db.prepare("SELECT a.*,s.id advance_id,s.krw_amount FROM pink_salt_supplier_advance_allocations a JOIN pink_salt_supplier_advances s ON s.id=a.advance_id WHERE a.import_id=? AND a.status='Active' AND COALESCE(s.status,'Active')!='Voided'").all(id):[])){recorded+=Number(a.amount_krw);if(verified('pink_salt_supplier_advances',{id:a.advance_id}))advance+=Number(a.amount_krw)}
- const outstanding=Math.max(0,purchase-cash-advance),recordedOutstanding=Math.max(0,purchase-recorded);
+ const adjustment=require('./receiving/ledger').effect(db,'import',id),outstanding=Math.max(0,purchase-cash-advance-adjustment),recordedOutstanding=Math.max(0,purchase-recorded-adjustment);
  return {import_id:id,invoice_currency:imp.invoice_currency,purchase_krw:purchase,verified_cash_krw:cash,verified_advance_krw:advance,outstanding_krw:outstanding,recorded_outstanding_krw:recordedOutstanding,unverified_krw:Math.max(0,recorded-cash-advance),historical_received:imp.status==='Received'||!!imp.received_at,ready_to_receive:purchase>0&&outstanding<=.01&&!['Received','Cancelled','Voided'].includes(imp.status)};
 }
 function install({app,db,auth,allow,currentUnit,enforceUnit,audit,accounting}){

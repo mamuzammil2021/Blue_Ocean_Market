@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "checks": [
+    "An entirely missing delivery records its investigation without inventing usable stock or marking goods physically received",
+    "Correct bag counts with short net weight and bag-only discrepancies use distinct invoice-based estimates without duplicate recovery",
+    "Company loss, precise 85/15 shared responsibility and carrier recovery preserve the existing balanced financial controls",
+    "A line with both missing and damaged goods values the combined affected quantity once while holding only undelivered stock",
+    "Packaging claims respect purchase-to-stock conversion, invoice discount and PKR carrying valuation; the purchase list hides receiving",
+    "A missing-balance decision is mandatory and receipt/task/stock writes roll back together on invalid input",
+    "Follow-up stays linked to the original task; controlled reversal reopens that task and restores its hold without creating another task",
+    "Two restarts preserve new issue/task identities, holds, receipt facts, balances and stock exactly"
+  ],
+  "synthetic_data_only": true
+}

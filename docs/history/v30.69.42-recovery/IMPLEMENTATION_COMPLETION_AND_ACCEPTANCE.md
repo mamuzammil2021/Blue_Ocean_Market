@@ -1,0 +1,3 @@
+# Current acceptance — recovered V30.69.42
+
+The current recovery report and QA report supersede the V30.69.40/41 acceptance wording. The 73-owner/90-variant workflow catalogue is migrated to the existing full-page routing surface, alongside earlier shared-shell, Accounting, Settings, access and journal migrations. Focused transaction/confirmation dialogs and uncertain compatibility code remain intentionally. This is a tested staging candidate, not production acceptance or an assertion that every real-data state was tested. See RECOVERY_AND_MIGRATION_REPORT_42.md and QA_RESULTS_AND_SCREENSHOT_INDEX.md for exact current counts and limits.

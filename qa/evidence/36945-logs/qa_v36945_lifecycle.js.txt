@@ -1,0 +1,10 @@
+PASS Later-delivery decisions use one authorized allowance; quarantined deliveries hide further receiving until inspection resolves the original task
+PASS Authorized measurement correction reverses original stock, resolves the same issue/task and restores receiving without reopening the obsolete claim
+PASS An entirely missing zero-stock receipt can also be corrected through the same controlled history without inventing a stock movement
+PASS A correction cannot remove consumed stock; failed correction preserves the hold, issue, receipt and task
+PASS A partial agreement preserves a disputed remainder under the same task and hold, then resolves both portions without duplicate compensation
+PASS Injected task failure rolls back receiving, stock, cases, holds and issue creation atomically
+PASS Concurrent conflicting submissions create one receipt, one investigation and one task
+PASS Final credit posting and task completion commit together; injected projection failure never reports an uncommitted or partial outcome
+(node:1671) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

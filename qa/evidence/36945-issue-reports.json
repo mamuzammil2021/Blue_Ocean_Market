@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "checks": 6,
+  "invoice_currency": "USD",
+  "invoice_estimate": 200,
+  "krw_estimate": 260000,
+  "formats": [
+    "html",
+    "csv",
+    "pdf"
+  ],
+  "languages": [
+    "en",
+    "ko"
+  ],
+  "synthetic_data_only": true
+}

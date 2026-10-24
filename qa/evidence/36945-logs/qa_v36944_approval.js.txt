@@ -1,0 +1,8 @@
+PASS Required agreement approval creates a contextual review task and leaves Finance and supplier settlement records unchanged until approval
+PASS Independent CEO authorization executes the approved snapshot once and completes the existing review task
+PASS Approved claim links through actual refund → independent Finance verification → official Accounting posting
+PASS Source changes invalidate approval execution atomically and permit an audited return to investigation for a fresh proposal
+PASS Approval execution rechecks that the original requester is active and still authorized
+PASS Unposted credit remains unresolved and unspendable under Posted policy; final Posting Control makes it available
+(node:1839) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

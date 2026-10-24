@@ -7,13 +7,14 @@ try{Object.assign(KO,{'Close preview':'미리보기 닫기'})}catch(_){ }
 
 const style=document.createElement('style');style.id='v3242-style';style.textContent=`
 #modalRoot .modal{box-sizing:border-box}
-#modalRoot .modal.v322-has-close{padding-right:76px!important}
+#modalRoot .modal.v322-has-close{padding-right:24px!important}
+#modalRoot .modal.v322-has-close>:is(h1,h2,h3,.section-title,.v3241-dialog-header,.v321-preview-toolbar):first-of-type,#modalRoot .modal.v322-has-close>.receiving44>h2:first-of-type{padding-right:48px;min-height:40px}
 #modalRoot .modal.v322-has-close>.v322-modal-close{position:absolute!important;top:12px!important;right:12px!important;z-index:30!important;flex:0 0 40px!important;width:40px!important;height:40px!important;margin:0!important}
 #modalRoot .modal .v3241-dialog-header,#modalRoot .modal .v321-preview-toolbar,#modalRoot .modal .section-title{min-width:0}
 #modalRoot .modal .v3241-dialog-main,#modalRoot .modal .v3241-dialog-title,#modalRoot .modal .v3241-dialog-subtitle,#modalRoot .modal .v321-preview-toolbar>div:first-child{min-width:0;overflow-wrap:anywhere;word-break:break-word}
 #modalRoot .modal .v3241-dialog-actions,#modalRoot .modal .v321-preview-toolbar .actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;min-width:0}
 #modalRoot .v3242-modal-layer{isolation:isolate}
-@media(max-width:700px){#modalRoot .modal.v322-has-close{padding-right:62px!important}#modalRoot .modal.v322-has-close>.v322-modal-close{top:8px!important;right:8px!important;width:40px!important;height:40px!important}.v3241-dialog-header,.v321-preview-toolbar{align-items:flex-start!important}.v3241-dialog-actions,.v321-preview-toolbar .actions{width:100%;justify-content:flex-start!important}}
+@media(max-width:700px){#modalRoot .modal.v322-has-close{padding-right:16px!important}#modalRoot .modal.v322-has-close>.v322-modal-close{top:8px!important;right:8px!important;width:40px!important;height:40px!important}.v3241-dialog-header,.v321-preview-toolbar{align-items:flex-start!important}.v3241-dialog-actions,.v321-preview-toolbar .actions{width:100%;justify-content:flex-start!important}}
 `;document.head.appendChild(style);
 
 const modalStack=[];

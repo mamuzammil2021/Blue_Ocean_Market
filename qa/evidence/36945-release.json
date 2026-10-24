@@ -1,0 +1,208 @@
+{
+  "status": "PASS",
+  "version": "30.69.45",
+  "node": "v22.21.0",
+  "tested_at": "2026-10-24T11:27:44.741Z",
+  "checks": [
+    {
+      "suite": "Node 22, release identity, frontend integrity and recursive JS syntax",
+      "status": "PASS",
+      "files": 237
+    },
+    {
+      "suite": "qa_v36945_lifecycle.js",
+      "status": "PASS",
+      "duration_ms": 2605,
+      "passed_log_lines": 8
+    },
+    {
+      "suite": "qa_v36945_simple.js",
+      "status": "PASS",
+      "duration_ms": 2642,
+      "passed_log_lines": 11
+    },
+    {
+      "suite": "qa_v36945_edges.js",
+      "status": "PASS",
+      "duration_ms": 3976,
+      "passed_log_lines": 8
+    },
+    {
+      "suite": "qa_v36945_approval.js",
+      "status": "PASS",
+      "duration_ms": 3431,
+      "passed_log_lines": 4
+    },
+    {
+      "suite": "qa_v36944_ui_contract.js",
+      "status": "PASS",
+      "duration_ms": 1023,
+      "passed_log_lines": 10
+    },
+    {
+      "suite": "qa_v36944_receiving.js",
+      "status": "PASS",
+      "duration_ms": 2467,
+      "passed_log_lines": 12
+    },
+    {
+      "suite": "qa_v36944_extended.js",
+      "status": "PASS",
+      "duration_ms": 3017,
+      "passed_log_lines": 14
+    },
+    {
+      "suite": "qa_v36944_approval.js",
+      "status": "PASS",
+      "duration_ms": 3663,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36944_assurance.js",
+      "status": "PASS",
+      "duration_ms": 5628,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36944_production_restart.js",
+      "status": "PASS",
+      "duration_ms": 3896,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36943_oct22.js",
+      "status": "PASS",
+      "duration_ms": 3225,
+      "passed_log_lines": 11
+    },
+    {
+      "suite": "qa_v36943_approval.js",
+      "status": "PASS",
+      "duration_ms": 3509,
+      "passed_log_lines": 2
+    },
+    {
+      "suite": "qa_v36936_packaging.js",
+      "status": "PASS",
+      "duration_ms": 2919,
+      "passed_log_lines": 25
+    },
+    {
+      "suite": "qa_v36937_refinement.js",
+      "status": "PASS",
+      "duration_ms": 2357,
+      "passed_log_lines": 8
+    },
+    {
+      "suite": "qa_v36938_product_ux.js",
+      "status": "PASS",
+      "duration_ms": 2301,
+      "passed_log_lines": 11
+    },
+    {
+      "suite": "qa_v36939_history.js",
+      "status": "PASS",
+      "duration_ms": 2353,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36939_financial_guards.js",
+      "status": "PASS",
+      "duration_ms": 5111,
+      "passed_log_lines": 5
+    },
+    {
+      "suite": "qa_v36939_regressions.js",
+      "status": "PASS",
+      "duration_ms": 48059,
+      "passed_log_lines": 19
+    },
+    {
+      "suite": "modernization/receiving45.cjs",
+      "status": "PASS",
+      "duration_ms": 7466,
+      "passed_log_lines": 4
+    },
+    {
+      "suite": "modernization/receiving45-submit.cjs",
+      "status": "PASS",
+      "duration_ms": 4430,
+      "passed_log_lines": 4
+    },
+    {
+      "suite": "modernization/receiving45-issues.cjs",
+      "status": "PASS",
+      "duration_ms": 9272,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "modernization/receiving44-finance.cjs",
+      "status": "PASS",
+      "duration_ms": 3939,
+      "passed_log_lines": 3
+    },
+    {
+      "suite": "browser_v36945_packaging.js",
+      "status": "PASS",
+      "duration_ms": 5987,
+      "passed_log_lines": 10
+    },
+    {
+      "suite": "modernization/oct22-v45.cjs",
+      "status": "PASS",
+      "duration_ms": 36223,
+      "passed_log_lines": 14
+    },
+    {
+      "suite": "browser_v36939_cart_history.js",
+      "status": "PASS",
+      "duration_ms": 4246,
+      "passed_log_lines": 7
+    },
+    {
+      "suite": "browser_v36938_product_ux.js",
+      "status": "PASS",
+      "duration_ms": 9633,
+      "passed_log_lines": 17
+    },
+    {
+      "suite": "modernization/interaction.cjs",
+      "status": "PASS",
+      "duration_ms": 4013,
+      "passed_log_lines": 9
+    },
+    {
+      "suite": "modernization/completion.cjs",
+      "status": "PASS",
+      "duration_ms": 10833,
+      "passed_log_lines": 15
+    },
+    {
+      "suite": "modernization/editors41.cjs",
+      "status": "PASS",
+      "duration_ms": 21297,
+      "passed_log_lines": 17
+    },
+    {
+      "suite": "modernization/journal41.cjs",
+      "status": "PASS",
+      "duration_ms": 6214,
+      "passed_log_lines": 3
+    },
+    {
+      "suite": "modernization/authority.cjs",
+      "status": "PASS",
+      "duration_ms": 17671,
+      "passed_log_lines": 5
+    },
+    {
+      "suite": "qa_v36945_restart.js",
+      "status": "PASS",
+      "duration_ms": 4929,
+      "passed_log_lines": 2
+    }
+  ],
+  "browser_requested": true,
+  "upgrade_requested": true,
+  "synthetic_data_only": true
+}

@@ -1,0 +1,4240 @@
+/*! Tabler 1.7.0 subset | MIT | See THIRD_PARTY_NOTICES.md. Generated; do not edit. */
+html.bom-ui {
+  --blue: oklch(54.6% 0.1724 254.2deg);
+  --azure: oklch(66.26% 0.1358 246.81deg);
+  --indigo: oklch(55.66% 0.2082 268.35deg);
+  --purple: oklch(57.83% 0.2186 319.15deg);
+  --pink: oklch(58.81% 0.201 5.25deg);
+  --red: oklch(58.29% 0.1941 25.59deg);
+  --orange: oklch(68.51% 0.1954 44.57deg);
+  --yellow: oklch(77.02% 0.1658 71.02deg);
+  --lime: oklch(70.99% 0.1897 131.53deg);
+  --green: oklch(67.38% 0.1885 145.43deg);
+  --teal: oklch(64.32% 0.1338 164.7deg);
+  --cyan: oklch(65.52% 0.1105 212.17deg);
+  --black: #000;
+  --white: #fff;
+  --gray: oklch(43.86% 0 0deg);
+  --gray-dark: oklch(26.86% 0 0deg);
+  --gray-100: oklch(97.02% 0 0deg);
+  --gray-200: oklch(92.19% 0 0deg);
+  --gray-300: oklch(86.99% 0 0deg);
+  --gray-400: oklch(71.55% 0 0deg);
+  --gray-500: oklch(55.55% 0 0deg);
+  --gray-600: oklch(43.86% 0 0deg);
+  --gray-700: oklch(37.15% 0 0deg);
+  --gray-800: oklch(26.86% 0 0deg);
+  --gray-900: oklch(20.46% 0 0deg);
+  --primary: oklch(54.6% 0.1724 254.2deg);
+  --secondary: oklch(55.55% 0 0deg);
+  --success: oklch(67.38% 0.1885 145.43deg);
+  --info: oklch(66.26% 0.1358 246.81deg);
+  --warning: oklch(77.02% 0.1658 71.02deg);
+  --danger: oklch(58.29% 0.1941 25.59deg);
+  --light: oklch(98.51% 0 0deg);
+  --dark: oklch(26.86% 0 0deg);
+  --muted: oklch(55.55% 0 0deg);
+  --blue: oklch(54.6% 0.1724 254.2deg);
+  --azure: oklch(66.26% 0.1358 246.81deg);
+  --indigo: oklch(55.66% 0.2082 268.35deg);
+  --purple: oklch(57.83% 0.2186 319.15deg);
+  --pink: oklch(58.81% 0.201 5.25deg);
+  --red: oklch(58.29% 0.1941 25.59deg);
+  --orange: oklch(68.51% 0.1954 44.57deg);
+  --yellow: oklch(77.02% 0.1658 71.02deg);
+  --lime: oklch(70.99% 0.1897 131.53deg);
+  --green: oklch(67.38% 0.1885 145.43deg);
+  --teal: oklch(64.32% 0.1338 164.7deg);
+  --cyan: oklch(65.52% 0.1105 212.17deg);
+  --primary-text-emphasis: light-dark(color-mix(in oklab, var(--black) 60%, var(--primary)), color-mix(in oklab, var(--white) 40%, var(--primary)));
+  --secondary-text-emphasis: light-dark(color-mix(in oklab, var(--black) 60%, var(--secondary)), color-mix(in oklab, var(--white) 40%, var(--secondary)));
+  --success-text-emphasis: light-dark(color-mix(in oklab, var(--black) 60%, var(--success)), color-mix(in oklab, var(--white) 40%, var(--success)));
+  --info-text-emphasis: light-dark(color-mix(in oklab, var(--black) 60%, var(--info)), color-mix(in oklab, var(--white) 40%, var(--info)));
+  --warning-text-emphasis: light-dark(color-mix(in oklab, var(--black) 60%, var(--warning)), color-mix(in oklab, var(--white) 40%, var(--warning)));
+  --danger-text-emphasis: light-dark(color-mix(in oklab, var(--black) 60%, var(--danger)), color-mix(in oklab, var(--white) 40%, var(--danger)));
+  --light-text-emphasis: light-dark(oklch(37.15% 0 0deg), oklch(97.02% 0 0deg));
+  --dark-text-emphasis: light-dark(oklch(37.15% 0 0deg), oklch(86.99% 0 0deg));
+  --primary-bg-subtle: light-dark(color-mix(in oklab, var(--white) 80%, var(--primary)), color-mix(in oklab, var(--black) 80%, var(--primary)));
+  --secondary-bg-subtle: light-dark(color-mix(in oklab, var(--white) 80%, var(--secondary)), color-mix(in oklab, var(--black) 80%, var(--secondary)));
+  --success-bg-subtle: light-dark(color-mix(in oklab, var(--white) 80%, var(--success)), color-mix(in oklab, var(--black) 80%, var(--success)));
+  --info-bg-subtle: light-dark(color-mix(in oklab, var(--white) 80%, var(--info)), color-mix(in oklab, var(--black) 80%, var(--info)));
+  --warning-bg-subtle: light-dark(color-mix(in oklab, var(--white) 80%, var(--warning)), color-mix(in oklab, var(--black) 80%, var(--warning)));
+  --danger-bg-subtle: light-dark(color-mix(in oklab, var(--white) 80%, var(--danger)), color-mix(in oklab, var(--black) 80%, var(--danger)));
+  --light-bg-subtle: light-dark(color-mix(in oklab, var(--gray-100) 50%, var(--white)), oklch(26.86% 0 0deg));
+  --dark-bg-subtle: light-dark(oklch(71.55% 0 0deg), color-mix(in oklab, var(--gray-800) 50%, var(--black)));
+  --primary-border-subtle: light-dark(color-mix(in oklab, var(--white) 60%, var(--primary)), color-mix(in oklab, var(--black) 40%, var(--primary)));
+  --secondary-border-subtle: light-dark(color-mix(in oklab, var(--white) 60%, var(--secondary)), color-mix(in oklab, var(--black) 40%, var(--secondary)));
+  --success-border-subtle: light-dark(color-mix(in oklab, var(--white) 60%, var(--success)), color-mix(in oklab, var(--black) 40%, var(--success)));
+  --info-border-subtle: light-dark(color-mix(in oklab, var(--white) 60%, var(--info)), color-mix(in oklab, var(--black) 40%, var(--info)));
+  --warning-border-subtle: light-dark(color-mix(in oklab, var(--white) 60%, var(--warning)), color-mix(in oklab, var(--black) 40%, var(--warning)));
+  --danger-border-subtle: light-dark(color-mix(in oklab, var(--white) 60%, var(--danger)), color-mix(in oklab, var(--black) 40%, var(--danger)));
+  --light-border-subtle: light-dark(oklch(92.19% 0 0deg), oklch(37.15% 0 0deg));
+  --dark-border-subtle: light-dark(oklch(55.55% 0 0deg), oklch(26.86% 0 0deg));
+  --font-sans-serif: system-ui, -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+  --font-monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
+  --gradient: linear-gradient(180deg, color-mix(in oklab, var(--white) 15%, transparent), color-mix(in oklab, var(--white) 0%, transparent));
+  --body-font-family: var(--font-sans-serif);
+  --body-font-size: 0.875rem;
+  --body-font-weight: 400;
+  --body-line-height: 1.4285714286;
+  --body-text-align: start;
+  --body-color: light-dark(oklch(26.86% 0 0deg), oklch(92.19% 0 0deg));
+  --body-bg: light-dark(oklch(98.51% 0 0deg), oklch(20.46% 0 0deg));
+  --emphasis-color: light-dark(oklch(37.15% 0 0deg), #fff);
+  --secondary-color: light-dark(color-mix(in oklab, var(--body-color) 75%, transparent), color-mix(in oklab, var(--body-color) 75%, transparent));
+  --secondary-bg: light-dark(oklch(92.19% 0 0deg), oklch(26.86% 0 0deg));
+  --tertiary-color: light-dark(color-mix(in oklab, var(--body-color) 50%, transparent), color-mix(in oklab, var(--body-color) 50%, transparent));
+  --tertiary-bg: light-dark(oklch(97.02% 0 0deg), oklch(23.66% 0 none));
+  --link-color: light-dark(oklch(54.6% 0.1724 254.2deg), rgb(47.4052909852%, 66.7127738619%, 90.5414538398%));
+  --link-decoration: none;
+  --link-hover-color: light-dark(rgb(1.1835786118%, 31.5951621282%, 60.6793151464%), rgb(57.8830881406%, 73.4266319259%, 92.771901261%));
+  --link-hover-decoration: underline;
+  --code-color: light-dark(var(--gray-600), var(--gray-400));
+  --highlight-color: light-dark(oklch(26.86% 0 0deg), oklch(92.19% 0 0deg));
+  --highlight-bg: light-dark(rgb(99.8214975272%, 92.8189925446%, 84.8431161065%), color-mix(in oklab, var(--black) 60%, var(--yellow)));
+  --border-width: 1px;
+  --border-style: solid;
+  --border-color: light-dark(var(--gray-200), oklch(from var(--dark) calc(l + 0.08) c h));
+  --border-color-translucent: light-dark(color-mix(in oklab, var(--gray-800) 11.9%, transparent), rgba(72, 110, 149, 0.14));
+  --border-radius: 6px;
+  --border-radius-sm: 4px;
+  --border-radius-lg: 8px;
+  --border-radius-xl: 1rem;
+  --border-radius-xxl: 2rem;
+  --border-radius-2xl: var(--border-radius-xxl);
+  --border-radius-pill: 100rem;
+  --box-shadow: 0px 2px 4px -1px color-mix(in oklab, var(--shadow-color) 15%, transparent), 0px 4px 6px -1px color-mix(in oklab, var(--shadow-color) 20%, transparent);
+  --box-shadow-sm: 0 1px 3px 0 color-mix(in oklab, var(--shadow-color) 25%, transparent), 0 1px 2px 0 color-mix(in oklab, var(--shadow-color) 15%, transparent);
+  --box-shadow-lg: 0px 4px 6px -2px color-mix(in oklab, var(--shadow-color) 12.5%, transparent), 0px 10px 15px -3px color-mix(in oklab, var(--shadow-color) 20%, transparent);
+  --box-shadow-inset: inset 0 1px 2px color-mix(in oklab, var(--shadow-color) 18.75%, transparent);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring-opacity: 0.5;
+  --focus-ring-opacity-dark: 0.75;
+  --focus-ring-color: light-dark(color-mix(in oklab, var(--primary) calc(var(--focus-ring-opacity) * 100%), var(--body-bg)), color-mix(in oklab, var(--primary) calc(var(--focus-ring-opacity-dark) * 100%), var(--body-bg)));
+  --form-valid-color: light-dark(oklch(67.38% 0.1885 145.43deg), color-mix(in oklab, var(--white) 40%, var(--green)));
+  --form-valid-border-color: light-dark(oklch(67.38% 0.1885 145.43deg), color-mix(in oklab, var(--white) 40%, var(--green)));
+  --form-invalid-color: light-dark(oklch(58.29% 0.1941 25.59deg), color-mix(in oklab, var(--white) 40%, var(--red)));
+  --form-invalid-border-color: light-dark(oklch(58.29% 0.1941 25.59deg), color-mix(in oklab, var(--white) 40%, var(--red)));
+}
+
+html.bom-ui,
+html.bom-ui,
+.bom-ui [data-theme=light] {
+  --heading-color: light-dark(var(--gray-900), var(--white));
+}
+
+.bom-ui .theme-dark,
+.bom-ui [data-bs-theme=dark],
+.bom-ui [data-theme=dark] {
+  --heading-color: inherit;
+}
+
+.bom-ui .btn {
+  --btn-padding-x: 1rem;
+  --btn-padding-y: 0.5625rem;
+  --btn-font-family: var(--body-font-family);
+  --btn-font-size: 0.875rem;
+  --btn-font-weight: var(--font-weight-medium);
+  --btn-line-height: 1.25rem;
+  --btn-color: var(--body-color);
+  --btn-bg: transparent;
+  --btn-border-width: var(--border-width);
+  --btn-border-color: transparent;
+  --btn-border-radius: var(--border-radius);
+  --btn-hover-color: var(--btn-color);
+  --btn-active-color: var(--btn-color);
+  --btn-hover-border-color: transparent;
+  --btn-box-shadow: var(--shadow-input);
+  --btn-disabled-opacity: 0.4;
+  --btn-disabled-color: var(--btn-color);
+  --btn-disabled-bg: var(--btn-bg);
+  --btn-disabled-border-color: var(--btn-border-color);
+  --btn-active-shadow: 0 0 0 #000;
+  display: inline-block;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  font-family: var(--btn-font-family);
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  line-height: var(--btn-line-height);
+  color: var(--btn-color);
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  border: var(--btn-border-width) solid var(--btn-border-color);
+  border-radius: var(--btn-border-radius);
+  background-color: var(--btn-bg);
+  box-shadow: var(--btn-box-shadow);
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, outline-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .btn {
+    transition: none;
+  }
+}
+.bom-ui .btn {
+  outline-color: transparent;
+}
+.bom-ui .btn:hover {
+  color: var(--btn-hover-color);
+  text-decoration: none;
+  background-color: var(--btn-hover-bg);
+  border-color: var(--btn-hover-border-color);
+}
+.bom-ui .btn-check + .btn:hover {
+  color: var(--btn-color);
+  background-color: var(--btn-bg);
+  border-color: var(--btn-border-color);
+}
+.bom-ui .btn:focus-visible {
+  color: var(--btn-hover-color);
+  background-color: var(--btn-hover-bg);
+  border-color: var(--btn-hover-border-color);
+  outline: var(--focus-ring, var(--focus-ring-width) solid var(--focus-ring-color));
+  outline-offset: var(--focus-ring-offset);
+}
+.bom-ui .btn-check:focus-visible + .btn {
+  border-color: var(--btn-hover-border-color);
+  outline: var(--focus-ring, var(--focus-ring-width) solid var(--focus-ring-color));
+  outline-offset: var(--focus-ring-offset);
+}
+.bom-ui .btn-check:checked + .btn,
+.bom-ui :not(.btn-check) + .btn:active,
+.bom-ui .btn:first-child:active,
+.bom-ui .btn.active,
+.bom-ui .btn.show {
+  color: var(--btn-active-color);
+  background-color: var(--btn-active-bg);
+  border-color: var(--btn-active-border-color);
+  box-shadow: var(--btn-active-shadow);
+}
+.bom-ui .btn:disabled,
+.bom-ui .btn.disabled,
+.bom-ui fieldset:disabled .btn {
+  color: var(--btn-disabled-color);
+  pointer-events: none;
+  background-color: var(--btn-disabled-bg);
+  border-color: var(--btn-disabled-border-color);
+  opacity: var(--btn-disabled-opacity);
+  box-shadow: none;
+}
+
+.bom-ui .btn-link {
+  --btn-font-weight: 400;
+  --btn-color: var(--link-color);
+  --btn-bg: transparent;
+  --btn-border-color: transparent;
+  --btn-hover-color: var(--link-hover-color);
+  --btn-hover-border-color: transparent;
+  --btn-active-color: var(--link-hover-color);
+  --btn-active-border-color: transparent;
+  --btn-disabled-color: light-dark(var(--gray-600), var(--gray-400));
+  --btn-disabled-border-color: transparent;
+  --btn-box-shadow: 0 0 0 #000;
+  text-decoration: none;
+}
+.bom-ui .btn-link:hover,
+.bom-ui .btn-link:focus-visible {
+  text-decoration: underline;
+}
+.bom-ui .btn-link:focus-visible {
+  color: var(--btn-color);
+}
+.bom-ui .btn-link:hover {
+  color: var(--btn-hover-color);
+}
+
+.bom-ui .btn-lg {
+  --btn-padding-y: 0.6875rem;
+  --btn-padding-x: 1.5rem;
+  --btn-font-size: 1rem;
+  --btn-border-radius: var(--border-radius-lg);
+}
+
+.bom-ui .btn-sm {
+  --btn-padding-y: 0.4375rem;
+  --btn-padding-x: 0.75rem;
+  --btn-font-size: 0.75rem;
+  --btn-border-radius: var(--border-radius-sm);
+}
+
+.bom-ui .card {
+  --card-spacer-y: 1.25rem;
+  --card-spacer-x: 1.25rem;
+  --card-title-spacer-y: 1.25rem;
+  --card-title-color: ;
+  --card-subtitle-color: ;
+  --card-border-width: var(--border-width);
+  --card-border-color: var(--border-color-translucent);
+  --card-border-radius: var(--border-radius-lg);
+  --card-box-shadow: var(--shadow-card);
+  --card-inner-border-radius: calc(var(--border-radius-lg) - (var(--border-width)));
+  --card-cap-padding-y: 1.25rem;
+  --card-cap-padding-x: 1.25rem;
+  --card-cap-bg: var(--bg-surface-tertiary);
+  --card-cap-color: inherit;
+  --card-height: ;
+  --card-color: inherit;
+  --card-bg: var(--bg-surface);
+  --card-img-overlay-padding: 1rem;
+  --card-group-margin: 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: var(--card-height);
+  color: var(--body-color);
+  word-wrap: break-word;
+  background-color: var(--card-bg);
+  background-clip: border-box;
+  border: var(--card-border-width) solid var(--card-border-color);
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-box-shadow);
+}
+.bom-ui .card > hr {
+  margin-inline-end: 0;
+  margin-inline-start: 0;
+}
+.bom-ui .card > .list-group {
+  border-top: inherit;
+  border-bottom: inherit;
+}
+.bom-ui .card > .list-group:first-child {
+  border-top-width: 0;
+  border-top-left-radius: var(--card-inner-border-radius);
+  border-top-right-radius: var(--card-inner-border-radius);
+}
+.bom-ui .card > .list-group:last-child {
+  border-bottom-width: 0;
+  border-bottom-right-radius: var(--card-inner-border-radius);
+  border-bottom-left-radius: var(--card-inner-border-radius);
+}
+.bom-ui .card > .card-header + .list-group,
+.bom-ui .card > .list-group + .card-footer {
+  border-top: 0;
+}
+
+.bom-ui .card-body {
+  flex: 1 1 auto;
+  padding: var(--card-spacer-y) var(--card-spacer-x);
+  color: var(--card-color);
+}
+
+.bom-ui .card-title {
+  margin-bottom: var(--card-title-spacer-y);
+  color: var(--card-title-color);
+}
+
+.bom-ui .card-subtitle {
+  margin-top: calc(-0.5 * var(--card-title-spacer-y));
+  margin-bottom: 0;
+  color: var(--card-subtitle-color);
+}
+
+.bom-ui .card-text:last-child {
+  margin-bottom: 0;
+}
+
+.bom-ui .card-link:hover {
+  text-decoration: none;
+}
+.bom-ui .card-link + .card-link {
+  margin-inline-start: var(--card-spacer-x);
+}
+
+.bom-ui .card-header {
+  --card-header-bg: transparent;
+  padding: var(--card-cap-padding-y) var(--card-cap-padding-x);
+  margin-bottom: 0;
+  color: var(--card-cap-color);
+  background-color: var(--card-header-bg, var(--card-cap-bg));
+  border-bottom: var(--card-border-width) solid var(--card-border-color);
+}
+.bom-ui .card-header:first-child {
+  border-radius: var(--card-inner-border-radius) var(--card-inner-border-radius) 0 0;
+}
+
+.bom-ui .card-footer {
+  padding: var(--card-cap-padding-y) var(--card-cap-padding-x);
+  color: var(--card-cap-color);
+  background-color: var(--card-footer-bg, var(--card-cap-bg));
+  border-top: var(--card-border-width) solid var(--card-border-color);
+}
+.bom-ui .card-footer:last-child {
+  border-radius: 0 0 var(--card-inner-border-radius) var(--card-inner-border-radius);
+}
+
+.bom-ui .card-header-tabs {
+  margin-inline-end: calc(-0.5 * var(--card-cap-padding-x));
+  margin-bottom: calc(-1 * var(--card-cap-padding-y));
+  margin-inline-start: calc(-0.5 * var(--card-cap-padding-x));
+  border-bottom: 0;
+}
+.bom-ui .card-header-tabs .nav-link.active {
+  background-color: var(--card-bg);
+  border-bottom-color: var(--card-bg);
+}
+
+.bom-ui .card-header-pills {
+  margin-inline-end: calc(-0.5 * var(--card-cap-padding-x));
+  margin-inline-start: calc(-0.5 * var(--card-cap-padding-x));
+}
+
+.bom-ui .card-img-overlay {
+  position: absolute;
+  inset: 0;
+  padding: var(--card-img-overlay-padding);
+  border-radius: var(--card-inner-border-radius);
+}
+
+.bom-ui .card-img,
+.bom-ui .card-img-top,
+.bom-ui .card-img-bottom {
+  width: 100%;
+}
+
+.bom-ui .card-img,
+.bom-ui .card-img-top {
+  border-top-left-radius: var(--card-inner-border-radius);
+  border-top-right-radius: var(--card-inner-border-radius);
+}
+
+.bom-ui .card-img,
+.bom-ui .card-img-bottom {
+  border-bottom-right-radius: var(--card-inner-border-radius);
+  border-bottom-left-radius: var(--card-inner-border-radius);
+}
+
+.bom-ui .card-group > .card {
+  margin-bottom: var(--card-group-margin);
+}
+@media (min-width: 576px) {
+  .bom-ui .card-group {
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .bom-ui .card-group > .card {
+    flex: 1 0 0;
+    margin-bottom: 0;
+  }
+  .bom-ui .card-group > .card + .card {
+    margin-inline-start: 0;
+    border-inline-start: 0;
+  }
+  .bom-ui .card-group > .card:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .bom-ui .card-group > .card:not(:last-child) > .card-img-top,
+.bom-ui .card-group > .card:not(:last-child) > .card-header {
+    border-top-right-radius: 0;
+  }
+  .bom-ui .card-group > .card:not(:last-child) > .card-img-bottom,
+.bom-ui .card-group > .card:not(:last-child) > .card-footer {
+    border-bottom-right-radius: 0;
+  }
+  .bom-ui .card-group > .card:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .bom-ui .card-group > .card:not(:first-child) > .card-img-top,
+.bom-ui .card-group > .card:not(:first-child) > .card-header {
+    border-top-left-radius: 0;
+  }
+  .bom-ui .card-group > .card:not(:first-child) > .card-img-bottom,
+.bom-ui .card-group > .card:not(:first-child) > .card-footer {
+    border-bottom-left-radius: 0;
+  }
+}
+
+.bom-ui .table {
+  --table-color-type: initial;
+  --table-bg-type: initial;
+  --table-color-state: initial;
+  --table-bg-state: initial;
+  --table-color: inherit;
+  --table-bg: transparent;
+  --table-border-color: var(--border-color-translucent);
+  --table-accent-bg: transparent;
+  --table-striped-color: inherit;
+  --table-striped-bg: var(--bg-surface-tertiary);
+  --table-active-color: inherit;
+  --table-active-bg: var(--active-bg);
+  --table-hover-color: inherit;
+  --table-hover-bg: var(--hover-bg);
+  width: 100%;
+  margin-bottom: 1rem;
+  vertical-align: top;
+  border-color: var(--table-border-color);
+}
+.bom-ui .table > :not(caption) > * > * {
+  padding: 0.75rem 0.75rem;
+  color: var(--table-color-state, var(--table-color-type, var(--table-color)));
+  background-color: var(--table-bg);
+  border-bottom-width: var(--border-width);
+  box-shadow: inset 0 0 0 9999px var(--table-bg-state, var(--table-bg-type, var(--table-accent-bg)));
+}
+.bom-ui .table > tbody {
+  vertical-align: inherit;
+}
+.bom-ui .table > thead {
+  vertical-align: bottom;
+}
+
+.bom-ui .table-group-divider {
+  border-top: calc(var(--border-width) * 2) solid var(--border-color-translucent);
+}
+
+.bom-ui .caption-top {
+  caption-side: top;
+}
+
+.bom-ui .table-sm > :not(caption) > * > * {
+  padding: 0.25rem 0.25rem;
+}
+
+.bom-ui .table-bordered > :not(caption) > * {
+  border-width: var(--border-width) 0;
+}
+.bom-ui .table-bordered > :not(caption) > * > * {
+  border-width: 0 var(--border-width);
+}
+
+.bom-ui .table-borderless > :not(caption) > * > * {
+  border-bottom-width: 0;
+}
+.bom-ui .table-borderless > :not(:first-child) {
+  border-top-width: 0;
+}
+
+.bom-ui .table-striped > tbody > tr:nth-of-type(even):not(:is([class^=bg-], [class*=" bg-"], [class^=table-], [class*=" table-"], [class^=text-bg-], [class*=" text-bg-"], [style*=background])) > *:not(:is([class^=bg-], [class*=" bg-"], [class^=table-], [class*=" table-"], [class^=text-bg-], [class*=" text-bg-"], [style*=background])) {
+  --table-color-type: var(--table-striped-color);
+  --table-bg-type: var(--table-striped-bg);
+}
+
+.bom-ui .table-striped-columns > :not(caption) > tr:not(:is([class^=bg-], [class*=" bg-"], [class^=table-], [class*=" table-"], [class^=text-bg-], [class*=" text-bg-"], [style*=background])) > :nth-child(even):not(:is([class^=bg-], [class*=" bg-"], [class^=table-], [class*=" table-"], [class^=text-bg-], [class*=" text-bg-"], [style*=background])) {
+  --table-color-type: var(--table-striped-color);
+  --table-bg-type: var(--table-striped-bg);
+}
+
+.bom-ui .table-active {
+  --table-color-state: var(--table-active-color);
+  --table-bg-state: var(--table-active-bg);
+}
+
+.bom-ui .table-hover > tbody > tr:hover > * {
+  --table-color-state: var(--table-hover-color);
+  --table-bg-state: var(--table-hover-bg);
+}
+
+.bom-ui .table-primary {
+  --table-color: #000;
+  --table-bg: rgb(82.2997388075%, 88.9509611714%, 97.328289008%);
+  --table-border-color: rgb(60.9286929999%, 65.9609631921%, 72.299193198%);
+  --table-striped-bg: rgb(76.8469902589%, 83.0851425661%, 90.9422016317%);
+  --table-striped-color: #000;
+  --table-active-bg: rgb(71.4655470803%, 77.296031031%, 84.6396248591%);
+  --table-active-color: #000;
+  --table-hover-bg: rgb(74.1471774599%, 80.1808068891%, 87.780265907%);
+  --table-hover-color: #000;
+  color: var(--table-color);
+  border-color: var(--table-border-color);
+}
+
+.bom-ui .table-secondary {
+  --table-color: #000;
+  --table-bg: rgb(88.4096058861%, 88.4096058861%, 88.4096058861%);
+  --table-border-color: rgb(65.5513774172%, 65.5513774172%, 65.5513774172%);
+  --table-striped-bg: rgb(82.5774078164%, 82.5774078164%, 82.5774078164%);
+  --table-striped-color: #000;
+  --table-active-bg: rgb(76.8214771625%, 76.8214771625%, 76.8214771625%);
+  --table-active-color: #000;
+  --table-hover-bg: rgb(79.6897186346%, 79.6897186346%, 79.6897186346%);
+  --table-hover-color: #000;
+  color: var(--table-color);
+  border-color: var(--table-border-color);
+}
+
+.bom-ui .table-success {
+  --table-color: #000;
+  --table-bg: rgb(85.6489966407%, 94.3792411457%, 85.7020295341%);
+  --table-border-color: rgb(63.4627189936%, 70.0679633817%, 63.5028433247%);
+  --table-striped-bg: rgb(79.9882445031%, 88.1763025654%, 80.0379838214%);
+  --table-striped-color: #000;
+  --table-active-bg: rgb(74.4015177899%, 82.0544795594%, 74.448006603%);
+  --table-active-color: #000;
+  --table-hover-bg: rgb(77.1854431385%, 85.1050490827%, 77.2335517129%);
+  --table-hover-color: #000;
+  color: var(--table-color);
+  border-color: var(--table-border-color);
+}
+
+.bom-ui .table-info {
+  --table-color: #000;
+  --table-bg: rgb(85.7945531769%, 92.1391293765%, 98.1861173159%);
+  --table-border-color: rgb(63.5728460918%, 68.3731098545%, 72.9482203373%);
+  --table-striped-bg: rgb(80.1247613405%, 86.075311554%, 91.7467550424%);
+  --table-striped-color: #000;
+  --table-active-bg: rgb(74.5291131403%, 80.0907900293%, 85.3916000462%);
+  --table-active-color: #000;
+  --table-hover-bg: rgb(77.3174841608%, 83.0729407639%, 88.5584413822%);
+  --table-hover-color: #000;
+  color: var(--table-color);
+  border-color: var(--table-border-color);
+}
+
+.bom-ui .table-warning {
+  --table-color: #000;
+  --table-bg: rgb(99.8214975272%, 92.8189925446%, 84.8431161065%);
+  --table-border-color: rgb(74.1855380272%, 68.8874897637%, 62.8529951911%);
+  --table-striped-bg: rgb(93.2805709758%, 86.7129522399%, 79.2324126817%);
+  --table-striped-color: #000;
+  --table-active-bg: rgb(86.8251798536%, 80.6867603748%, 73.6950801963%);
+  --table-active-color: #000;
+  --table-hover-bg: rgb(90.0419699174%, 83.6896758833%, 76.4543918758%);
+  --table-hover-color: #000;
+  color: var(--table-color);
+  border-color: var(--table-border-color);
+}
+
+.bom-ui .table-danger {
+  --table-color: #000;
+  --table-bg: rgb(99.0594214162%, 85.5708427954%, 84.0316175252%);
+  --table-border-color: rgb(73.6089563572%, 63.4035883189%, 62.2390208119%);
+  --table-striped-bg: rgb(92.5658231309%, 79.9149443541%, 78.4713117185%);
+  --table-striped-color: #000;
+  --table-active-bg: rgb(86.1571413651%, 74.3330078656%, 72.9837178037%);
+  --table-active-color: #000;
+  --table-hover-bg: rgb(89.3506556597%, 77.1145461943%, 75.7182442244%);
+  --table-hover-color: #000;
+  color: var(--table-color);
+  border-color: var(--table-border-color);
+}
+
+.bom-ui .table-light {
+  --table-color: #000;
+  --table-bg: oklch(98.51% 0 0deg);
+  --table-border-color: rgb(72.836712561%, 72.836712561%, 72.836712561%);
+  --table-striped-bg: rgb(91.6085266752%, 91.6085266752%, 91.6085266752%);
+  --table-striped-color: #000;
+  --table-active-bg: rgb(85.2624050159%, 85.2624050159%, 85.2624050159%);
+  --table-active-color: #000;
+  --table-hover-bg: rgb(88.424744944%, 88.424744944%, 88.424744944%);
+  --table-hover-color: #000;
+  color: var(--table-color);
+  border-color: var(--table-border-color);
+}
+
+.bom-ui .table-dark {
+  --table-color: #fff;
+  --table-bg: oklch(26.86% 0 0deg);
+  --table-border-color: rgb(29.6281746978%, 29.6281746978%, 29.6281746978%);
+  --table-striped-bg: rgb(18.4292869024%, 18.4292869024%, 18.4292869024%);
+  --table-striped-color: #fff;
+  --table-active-bg: rgb(22.0659033108%, 22.0659033108%, 22.0659033108%);
+  --table-active-color: #fff;
+  --table-hover-bg: rgb(20.2347406432%, 20.2347406432%, 20.2347406432%);
+  --table-hover-color: #fff;
+  color: var(--table-color);
+  border-color: var(--table-border-color);
+}
+
+.bom-ui .table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 575.98px) {
+  .bom-ui .table-responsive-sm {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+@media (max-width: 767.98px) {
+  .bom-ui .table-responsive-md {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+@media (max-width: 991.98px) {
+  .bom-ui .table-responsive-lg {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+@media (max-width: 1199.98px) {
+  .bom-ui .table-responsive-xl {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+@media (max-width: 1399.98px) {
+  .bom-ui .table-responsive-xxl {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+.bom-ui .form-label {
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+}
+
+.bom-ui .col-form-label {
+  padding-top: calc(var(--btn-input-padding-y) + var(--border-width));
+  padding-bottom: calc(var(--btn-input-padding-y) + var(--border-width));
+  margin-bottom: 0;
+  font-size: inherit;
+  font-weight: var(--font-weight-medium);
+  line-height: var(--btn-input-line-height);
+}
+
+.bom-ui .col-form-label-lg {
+  padding-top: calc(var(--btn-input-lg-padding-y) + var(--border-width));
+  padding-bottom: calc(var(--btn-input-lg-padding-y) + var(--border-width));
+  font-size: var(--btn-input-lg-font-size);
+}
+
+.bom-ui .col-form-label-sm {
+  padding-top: calc(var(--btn-input-sm-padding-y) + var(--border-width));
+  padding-bottom: calc(var(--btn-input-sm-padding-y) + var(--border-width));
+  font-size: var(--btn-input-sm-font-size);
+}
+
+.bom-ui .form-text {
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: var(--secondary-color);
+}
+
+.bom-ui .form-select,
+.bom-ui .form-control-plaintext,
+.bom-ui .form-control {
+  --control-min-height: calc(var(--control-line-height) + var(--control-padding-y) * 2 + var(--control-border-width) * 2);
+  --control-padding-y: var(--btn-input-padding-y);
+  --control-padding-x: var(--btn-input-padding-x);
+  --control-font-size: var(--btn-input-font-size);
+  --control-line-height: var(--btn-input-line-height);
+  --control-fg: var(--btn-input-fg);
+  --control-bg: var(--btn-input-bg);
+  --control-border-width: var(--border-width);
+  --control-border-color: var(--border-color);
+  --control-border-radius: var(--btn-input-border-radius);
+  --control-box-shadow: var(--shadow-input);
+  --control-focus-fg: var(--control-fg);
+  --control-focus-bg: var(--control-bg);
+  --control-focus-border-color: color-mix(in oklab, var(--white) 50%, var(--primary));
+  --control-placeholder-color: var(--tertiary);
+  --control-disabled-color: var(--secondary);
+  --control-disabled-bg: var(--bg-forms-disabled);
+  --control-disabled-border-color: var(--control-border-color);
+  --control-action-bg: var(--tertiary-bg);
+  --control-action-hover-bg: var(--secondary-bg);
+  --control-transition: border-color 0.15s ease-in-out, outline-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.bom-ui .form-control {
+  display: block;
+  width: 100%;
+  padding: var(--control-padding-y) var(--control-padding-x);
+  font-family: var(--body-font-family);
+  font-size: var(--control-font-size);
+  font-weight: 400;
+  line-height: var(--control-line-height);
+  color: var(--control-fg);
+  appearance: none;
+  background-color: var(--control-bg);
+  background-clip: padding-box;
+  border: var(--control-border-width) solid var(--control-border-color);
+  border-radius: var(--control-border-radius);
+  box-shadow: var(--control-box-shadow);
+  transition: var(--control-transition);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .form-control {
+    transition: none;
+  }
+}
+.bom-ui .form-control {
+  outline-color: transparent;
+}
+.bom-ui .form-control[type=file] {
+  overflow: hidden;
+}
+.bom-ui .form-control[type=file]:not(:disabled):not([readonly]) {
+  cursor: pointer;
+}
+.bom-ui .form-control:focus {
+  color: var(--control-focus-fg);
+  background-color: var(--control-focus-bg);
+  border-color: var(--control-focus-border-color);
+  --focus-ring-offset: -1px;
+  outline: var(--focus-ring, var(--focus-ring-width) solid var(--focus-ring-color));
+  outline-offset: var(--focus-ring-offset);
+}
+.bom-ui .form-control::-webkit-date-and-time-value {
+  min-width: 85px;
+  height: 1.25rem;
+  margin: 0;
+}
+.bom-ui .form-control::-webkit-datetime-edit {
+  display: block;
+  padding: 0;
+}
+.bom-ui .form-control::placeholder {
+  color: var(--control-placeholder-color);
+  opacity: 1;
+}
+.bom-ui .form-control:disabled {
+  color: var(--control-disabled-color);
+  background-color: var(--control-disabled-bg);
+  border-color: var(--control-disabled-border-color);
+  opacity: 1;
+}
+.bom-ui .form-control::file-selector-button {
+  padding: var(--control-padding-y) var(--control-padding-x);
+  margin: calc(var(--control-padding-y) * -1) calc(var(--control-padding-x) * -1);
+  margin-inline-end: var(--control-padding-x);
+  color: var(--body-color);
+  background-color: var(--control-action-bg);
+  pointer-events: none;
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+  border-inline-end-width: var(--control-border-width);
+  border-radius: 0;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, outline-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .form-control::file-selector-button {
+    transition: none;
+  }
+}
+.bom-ui .form-control:hover:not(:disabled):not([readonly])::file-selector-button {
+  background-color: var(--control-action-hover-bg);
+}
+
+.bom-ui .form-control-plaintext {
+  display: block;
+  width: 100%;
+  padding: var(--control-padding-y) 0;
+  margin-bottom: 0;
+  line-height: var(--control-line-height);
+  color: var(--control-fg);
+  background-color: transparent;
+  border: solid transparent;
+  border-width: var(--control-border-width) 0;
+}
+.bom-ui .form-control-plaintext:focus {
+  outline: 0;
+}
+.bom-ui .form-control-plaintext.form-control-sm,
+.bom-ui .form-control-plaintext.form-control-lg {
+  padding-inline-end: 0;
+  padding-inline-start: 0;
+}
+
+.bom-ui .form-control-sm {
+  min-height: var(--control-min-height);
+  font-size: var(--control-font-size);
+  --control-padding-y: var(--btn-input-sm-padding-y);
+  --control-padding-x: var(--btn-input-sm-padding-x);
+  --control-font-size: var(--btn-input-sm-font-size);
+  --control-line-height: var(--btn-input-sm-line-height);
+  --control-border-radius: var(--btn-input-sm-border-radius);
+}
+
+.bom-ui .form-control-lg {
+  min-height: var(--control-min-height);
+  font-size: var(--control-font-size);
+  --control-padding-y: var(--btn-input-lg-padding-y);
+  --control-padding-x: var(--btn-input-lg-padding-x);
+  --control-font-size: var(--btn-input-lg-font-size);
+  --control-line-height: var(--btn-input-lg-line-height);
+  --control-border-radius: var(--btn-input-lg-border-radius);
+}
+
+.bom-ui textarea.form-control {
+  min-height: var(--control-min-height);
+}
+
+.bom-ui .form-control-color {
+  width: 3rem;
+  height: var(--control-min-height);
+  padding: var(--control-padding-y);
+}
+.bom-ui .form-control-color:not(:disabled):not([readonly]) {
+  cursor: pointer;
+}
+.bom-ui .form-control-color::-moz-color-swatch {
+  border: 0 !important;
+  border-radius: var(--control-border-radius);
+}
+.bom-ui .form-control-color::-webkit-color-swatch {
+  border: 0 !important;
+  border-radius: var(--control-border-radius);
+}
+
+.bom-ui .form-select {
+  --control-select-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='oklch%2871.55%25 0 0deg%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  --control-select-bg-dark: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='oklch%2892.19%25 0 0deg%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  --control-select-bg-position: right 1rem center;
+  --control-select-bg-size: 16px 12px;
+  --control-select-indicator-padding: calc(var(--btn-input-padding-x) * 3);
+  display: block;
+  width: 100%;
+  padding: var(--control-padding-y) var(--control-padding-x);
+  padding-inline-end: var(--control-select-indicator-padding);
+  font-family: var(--body-font-family);
+  font-size: var(--control-font-size);
+  font-weight: 400;
+  line-height: var(--control-line-height);
+  color: var(--control-fg);
+  appearance: none;
+  background-color: var(--control-bg);
+  background-image: var(--form-select-bg-img, var(--control-select-bg)), var(--form-select-bg-icon, none);
+  background-repeat: no-repeat;
+  background-position: var(--control-select-bg-position);
+  background-size: var(--control-select-bg-size);
+  border: var(--control-border-width) solid var(--control-border-color);
+  border-radius: var(--control-border-radius);
+  box-shadow: var(--control-box-shadow);
+  transition: var(--control-transition);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .form-select {
+    transition: none;
+  }
+}
+.bom-ui .form-select {
+  outline-color: transparent;
+}
+.bom-ui .form-select:focus {
+  border-color: var(--control-focus-border-color);
+  --focus-ring-offset: -1px;
+  outline: var(--focus-ring, var(--focus-ring-width) solid var(--focus-ring-color));
+  outline-offset: var(--focus-ring-offset);
+}
+.bom-ui .form-select[multiple],
+.bom-ui .form-select[size]:not([size="1"]) {
+  padding-inline-end: var(--control-padding-x);
+  background-image: none;
+}
+.bom-ui .form-select:disabled {
+  color: var(--control-disabled-color);
+  background-color: var(--control-disabled-bg);
+  border-color: var(--control-disabled-border-color);
+}
+.bom-ui .form-select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 var(--control-fg);
+}
+
+.bom-ui .form-select-sm {
+  --control-padding-y: var(--btn-input-sm-padding-y);
+  --control-padding-x: var(--btn-input-sm-padding-x);
+  --control-font-size: var(--btn-input-sm-font-size);
+  --control-line-height: var(--btn-input-sm-line-height);
+  --control-border-radius: var(--btn-input-sm-border-radius);
+}
+
+.bom-ui .form-select-lg {
+  --control-padding-y: var(--btn-input-lg-padding-y);
+  --control-padding-x: var(--btn-input-lg-padding-x);
+  --control-font-size: var(--btn-input-lg-font-size);
+  --control-line-height: var(--btn-input-lg-line-height);
+  --control-border-radius: var(--btn-input-lg-border-radius);
+}
+
+.bom-ui .theme-dark .form-select,
+.bom-ui [data-bs-theme=dark] .form-select,
+.bom-ui [data-theme=dark] .form-select {
+  --control-select-bg: var(--control-select-bg-dark);
+}
+
+.bom-ui .form-check {
+  --form-check-min-height: 1.25rem;
+  --form-check-padding-start: 2rem;
+  --form-check-margin-bottom: 0.75rem;
+  display: block;
+  min-height: var(--form-check-min-height);
+  padding-inline-start: var(--form-check-padding-start);
+  margin-bottom: var(--form-check-margin-bottom);
+}
+.bom-ui .form-check .form-check-input {
+  float: inline-start;
+  margin-inline-start: calc(var(--form-check-padding-start) * -1);
+}
+
+.bom-ui .form-check-reverse {
+  padding-inline-end: var(--form-check-padding-start);
+  padding-inline-start: 0;
+  text-align: end;
+}
+.bom-ui .form-check-reverse .form-check-input {
+  float: inline-end;
+  margin-inline-end: calc(var(--form-check-padding-start) * -1);
+  margin-inline-start: 0;
+}
+
+.bom-ui .form-check-input {
+  --form-check-input-width: 1.25rem;
+  --form-check-bg: var(--bg-forms);
+  --form-check-border: var(--border-width) var(--border-style) var(--border-color);
+  --form-check-border-radius: var(--border-radius);
+  --form-check-box-shadow: var(--shadow-input);
+  --form-check-icon-color: #fff;
+  --form-check-focus-border-color: color-mix(in oklab, var(--white) 50%, var(--primary));
+  --form-check-active-filter: brightness(90%);
+  --form-check-checked-bg: var(--control-checked-bg);
+  --form-check-checked-border-color: var(--control-checked-border-color);
+  --form-check-indeterminate-bg: var(--control-checked-bg);
+  --form-check-indeterminate-border-color: var(--form-check-indeterminate-bg);
+  --form-check-disabled-opacity: var(--control-disabled-opacity);
+  --form-check-transition: outline-color 0.15s ease-in-out;
+  position: relative;
+  flex-shrink: 0;
+  width: var(--form-check-input-width);
+  height: var(--form-check-input-width);
+  margin-top: 0.0892857143rem;
+  vertical-align: top;
+  appearance: none;
+  background-color: var(--form-check-bg);
+  border: var(--form-check-border);
+  print-color-adjust: exact;
+  transition: var(--form-check-transition);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .form-check-input {
+    transition: none;
+  }
+}
+.bom-ui .form-check-input {
+  outline-color: transparent;
+}
+.bom-ui .form-check-input::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background-color: var(--form-check-icon-color);
+  opacity: 0;
+  mask-image: var(--form-check-icon);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+.bom-ui .form-check-input[type=checkbox] {
+  --form-check-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'%3e%3cpath fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 8.5l2.5 2.5l5.5 -5.5'/%3e%3c/svg%3e");
+  border-radius: var(--form-check-border-radius);
+}
+.bom-ui .form-check-input[type=radio] {
+  --form-check-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3ccircle r='3' fill='black' cx='8' cy='8' /%3e%3c/svg%3e");
+  border-radius: 50%;
+}
+.bom-ui .form-check-input:active {
+  filter: var(--form-check-active-filter);
+}
+.bom-ui .form-check-input:focus-visible {
+  border-color: var(--form-check-focus-border-color);
+  outline: var(--focus-ring, var(--focus-ring-width) solid var(--focus-ring-color));
+  outline-offset: var(--focus-ring-offset);
+}
+.bom-ui .form-check-input:checked {
+  background-color: var(--form-check-checked-bg);
+  border-color: var(--form-check-checked-border-color);
+}
+.bom-ui .form-check-input:checked::before {
+  opacity: 1;
+}
+.bom-ui .form-check-input[type=checkbox]:indeterminate {
+  --form-check-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
+  --form-check-icon-color: #fff;
+  background-color: var(--form-check-indeterminate-bg);
+  border-color: var(--form-check-indeterminate-border-color);
+}
+.bom-ui .form-check-input[type=checkbox]:indeterminate::before {
+  opacity: 1;
+}
+.bom-ui .form-check-input:disabled {
+  pointer-events: none;
+  filter: none;
+  opacity: var(--form-check-disabled-opacity);
+}
+.bom-ui .form-check-input[disabled] ~ .form-check-label,
+.bom-ui .form-check-input:disabled ~ .form-check-label {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.bom-ui .form-switch {
+  --form-switch-width: 2rem;
+  --form-switch-height: 1.25rem;
+  --form-switch-padding-start: calc(var(--form-switch-width) + 0.5rem);
+  --form-switch-border-radius: var(--form-switch-width);
+  --form-switch-bg: light-dark(var(--gray-300), color-mix(in oklab, var(--white) 25%, transparent));
+  --form-switch-focus-color: var(--white);
+  --form-switch-checked-color: var(--white);
+  --form-switch-disabled-bg: var(--control-disabled-bg);
+  --form-switch-disabled-color: light-dark(var(--gray-400), var(--gray-600));
+  padding-inline-start: var(--form-switch-padding-start);
+}
+.bom-ui .form-switch .form-check-input {
+  --form-switch-color: var(--white);
+  --form-switch-knob-offset: 0.125rem;
+  --form-switch-knob-size: calc(var(--form-switch-height) - var(--form-switch-knob-offset) * 2);
+  --form-switch-knob-inset: calc(var(--form-switch-knob-offset) - var(--border-width));
+  width: var(--form-switch-width);
+  margin-inline-start: calc(var(--form-switch-padding-start) * -1);
+  border-radius: var(--form-switch-border-radius);
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, outline-color 0.15s ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .form-switch .form-check-input {
+    transition: none;
+  }
+}
+.bom-ui .form-switch .form-check-input::before {
+  inset-block: 0;
+  inset-inline: var(--form-switch-knob-inset) auto;
+  width: var(--form-switch-knob-size);
+  height: var(--form-switch-knob-size);
+  margin-block: auto;
+  background-color: var(--form-switch-color);
+  border-radius: 50%;
+  opacity: 1;
+  mask-image: none;
+  transition: inset-inline-start 0.15s ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .form-switch .form-check-input::before {
+    transition: none;
+  }
+}
+.bom-ui .form-switch .form-check-input:not(:checked, :disabled) {
+  background-color: var(--form-switch-bg);
+  border-color: transparent;
+}
+.bom-ui .form-switch .form-check-input:focus {
+  --form-switch-color: var(--form-switch-focus-color);
+}
+.bom-ui .form-switch .form-check-input:checked {
+  --form-switch-color: var(--form-switch-checked-color);
+}
+.bom-ui .form-switch .form-check-input:checked::before {
+  inset-inline-start: calc(100% - var(--form-switch-knob-size) - var(--form-switch-knob-inset));
+}
+.bom-ui .form-switch.form-check-reverse {
+  padding-inline-end: var(--form-switch-padding-start);
+  padding-inline-start: 0;
+}
+.bom-ui .form-switch.form-check-reverse .form-check-input {
+  margin-inline-end: calc(var(--form-switch-padding-start) * -1);
+  margin-inline-start: 0;
+}
+
+.bom-ui .form-check-inline {
+  display: inline-block;
+  margin-inline-end: 1rem;
+}
+
+.bom-ui .btn-check {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}
+.bom-ui .btn-check[disabled] + .btn,
+.bom-ui .btn-check:disabled + .btn {
+  pointer-events: none;
+  filter: none;
+  opacity: 0.4;
+}
+
+.bom-ui .form-range {
+  --range-track-width: 100%;
+  --range-track-height: 0.25rem;
+  --range-track-cursor: pointer;
+  --range-track-bg: var(--fill-primary);
+  --range-track-border-radius: 1rem;
+  --range-track-box-shadow: var(--box-shadow-inset);
+  --range-thumb-width: 1rem;
+  --range-thumb-height: 1rem;
+  --range-thumb-bg: var(--primary);
+  --range-thumb-border: 2px var(--border-style) #fff;
+  --range-thumb-border-radius: 1rem;
+  --range-thumb-box-shadow: 0 0.1rem 0.25rem color-mix(in oklab, var(--black) 10%, transparent);
+  --range-thumb-active-bg: color-mix(in oklab, var(--white) 70%, var(--primary));
+  --range-thumb-disabled-bg: var(--secondary-color);
+  --range-thumb-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, outline-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  width: 100%;
+  height: calc(var(--range-thumb-height) + 0.25rem);
+  padding: 0;
+  appearance: none;
+  background-color: transparent;
+}
+.bom-ui .form-range:focus {
+  outline: 0;
+}
+.bom-ui .form-range:focus::-webkit-slider-thumb {
+  outline: var(--focus-ring, var(--focus-ring-width) solid var(--focus-ring-color));
+  outline-offset: var(--focus-ring-offset);
+}
+.bom-ui .form-range:focus::-moz-range-thumb {
+  outline: var(--focus-ring, var(--focus-ring-width) solid var(--focus-ring-color));
+  outline-offset: var(--focus-ring-offset);
+}
+.bom-ui .form-range::-moz-focus-outer {
+  border: 0;
+}
+.bom-ui .form-range::-webkit-slider-thumb {
+  width: var(--range-thumb-width);
+  height: var(--range-thumb-height);
+  margin-top: calc((var(--range-track-height) - var(--range-thumb-height)) / 2);
+  appearance: none;
+  background-color: var(--range-thumb-bg);
+  border: var(--range-thumb-border);
+  border-radius: var(--range-thumb-border-radius);
+  box-shadow: var(--range-thumb-box-shadow);
+  transition: var(--range-thumb-transition);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .form-range::-webkit-slider-thumb {
+    transition: none;
+  }
+}
+.bom-ui .form-range::-webkit-slider-thumb {
+  outline-color: transparent;
+}
+.bom-ui .form-range::-webkit-slider-thumb:active {
+  background-color: var(--range-thumb-active-bg);
+}
+.bom-ui .form-range::-webkit-slider-runnable-track {
+  width: var(--range-track-width);
+  height: var(--range-track-height);
+  color: transparent;
+  cursor: var(--range-track-cursor);
+  background-color: var(--range-track-bg);
+  border-color: transparent;
+  border-radius: var(--range-track-border-radius);
+  box-shadow: var(--range-track-box-shadow);
+}
+.bom-ui .form-range::-moz-range-thumb {
+  width: var(--range-thumb-width);
+  height: var(--range-thumb-height);
+  appearance: none;
+  background-color: var(--range-thumb-bg);
+  border: var(--range-thumb-border);
+  border-radius: var(--range-thumb-border-radius);
+  box-shadow: var(--range-thumb-box-shadow);
+  transition: var(--range-thumb-transition);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .form-range::-moz-range-thumb {
+    transition: none;
+  }
+}
+.bom-ui .form-range::-moz-range-thumb {
+  outline-color: transparent;
+}
+.bom-ui .form-range::-moz-range-thumb:active {
+  background-color: var(--range-thumb-active-bg);
+}
+.bom-ui .form-range::-moz-range-track {
+  width: var(--range-track-width);
+  height: var(--range-track-height);
+  color: transparent;
+  cursor: var(--range-track-cursor);
+  background-color: var(--range-track-bg);
+  border-color: transparent;
+  border-radius: var(--range-track-border-radius);
+  box-shadow: var(--range-track-box-shadow);
+}
+.bom-ui .form-range:disabled {
+  pointer-events: none;
+}
+.bom-ui .form-range:disabled::-webkit-slider-thumb {
+  background-color: var(--range-thumb-disabled-bg);
+}
+.bom-ui .form-range:disabled::-moz-range-thumb {
+  background-color: var(--range-thumb-disabled-bg);
+}
+
+.bom-ui .form-floating {
+  --form-floating-height: calc(3.5rem + calc(var(--border-width) * 2));
+  --form-floating-line-height: 1.25;
+  --form-floating-padding-x: var(--btn-input-padding-x);
+  --form-floating-padding-y: 1rem;
+  --form-floating-input-padding-t: 1.625rem;
+  --form-floating-input-padding-b: 0.625rem;
+  --form-floating-label-height: 1.5em;
+  --form-floating-label-bg: var(--btn-input-bg);
+  --form-floating-label-disabled-bg: var(--bg-forms-disabled);
+  --form-floating-label-border-radius: var(--btn-input-border-radius);
+  --form-floating-label-opacity: 0.65;
+  --form-floating-label-transform: scale(0.85) translateY(-0.5rem) translateX(calc(var(--dir) * 0.15rem)) /*rtl:ignore*/;
+  --form-floating-label-disabled-color: light-dark(var(--gray-600), var(--gray-400));
+  --form-floating-transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+  position: relative;
+}
+.bom-ui .form-floating > .form-control,
+.bom-ui .form-floating > .form-control-plaintext,
+.bom-ui .form-floating > .form-select {
+  height: var(--form-floating-height);
+  min-height: var(--form-floating-height);
+  line-height: var(--form-floating-line-height);
+}
+.bom-ui .form-floating > label {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  z-index: 2;
+  max-width: 100%;
+  height: 100%;
+  padding: var(--form-floating-padding-y) var(--form-floating-padding-x);
+  overflow: hidden;
+  color: color-mix(in oklab, var(--body-color) calc(var(--form-floating-label-opacity) * 100%), transparent);
+  text-align: start;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+  border: var(--border-width) solid transparent;
+  transform-origin: 0 0;
+  transition: var(--form-floating-transition);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .form-floating > label {
+    transition: none;
+  }
+}
+.bom-ui .form-floating > .form-control,
+.bom-ui .form-floating > .form-control-plaintext {
+  padding: var(--form-floating-padding-y) var(--form-floating-padding-x);
+}
+.bom-ui .form-floating > .form-control::placeholder,
+.bom-ui .form-floating > .form-control-plaintext::placeholder {
+  color: transparent;
+}
+.bom-ui .form-floating > .form-control:focus,
+.bom-ui .form-floating > .form-control:not(:placeholder-shown),
+.bom-ui .form-floating > .form-control-plaintext:focus,
+.bom-ui .form-floating > .form-control-plaintext:not(:placeholder-shown) {
+  padding-top: var(--form-floating-input-padding-t);
+  padding-bottom: var(--form-floating-input-padding-b);
+}
+.bom-ui .form-floating > .form-control:-webkit-autofill,
+.bom-ui .form-floating > .form-control-plaintext:-webkit-autofill {
+  padding-top: var(--form-floating-input-padding-t);
+  padding-bottom: var(--form-floating-input-padding-b);
+}
+.bom-ui .form-floating > .form-select {
+  padding-top: var(--form-floating-input-padding-t);
+  padding-bottom: var(--form-floating-input-padding-b);
+  padding-inline-start: var(--form-floating-padding-x);
+}
+.bom-ui .form-floating > .form-control:focus ~ label,
+.bom-ui .form-floating > .form-control:not(:placeholder-shown) ~ label,
+.bom-ui .form-floating > .form-control-plaintext ~ label,
+.bom-ui .form-floating > .form-select ~ label {
+  transform: var(--form-floating-label-transform);
+}
+.bom-ui .form-floating > .form-control:-webkit-autofill ~ label {
+  transform: var(--form-floating-label-transform);
+}
+.bom-ui .form-floating > textarea:focus ~ label::after,
+.bom-ui .form-floating > textarea:not(:placeholder-shown) ~ label::after {
+  position: absolute;
+  inset: var(--form-floating-padding-y) calc(var(--form-floating-padding-x) * 0.5);
+  z-index: -1;
+  height: var(--form-floating-label-height);
+  content: "";
+  background-color: var(--form-floating-label-bg);
+  border-radius: var(--form-floating-label-border-radius);
+}
+.bom-ui .form-floating > textarea:disabled ~ label::after {
+  background-color: var(--form-floating-label-disabled-bg);
+}
+.bom-ui .form-floating > .form-control-plaintext ~ label {
+  border-width: var(--border-width) 0;
+}
+.bom-ui .form-floating > :disabled ~ label,
+.bom-ui .form-floating > .form-control:disabled ~ label {
+  color: var(--form-floating-label-disabled-color);
+}
+
+.bom-ui .input-group {
+  --input-group-addon-padding-y: var(--btn-input-padding-y);
+  --input-group-addon-padding-x: var(--btn-input-padding-x);
+  --input-group-addon-font-size: var(--btn-input-font-size);
+  --input-group-addon-line-height: var(--btn-input-line-height);
+  --input-group-addon-color: var(--secondary-color);
+  --input-group-addon-bg: var(--bg-surface-tertiary);
+  --input-group-addon-border-color: var(--border-color);
+  --input-group-addon-border-radius: var(--btn-input-border-radius);
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+.bom-ui .input-group > .form-control,
+.bom-ui .input-group > .form-select,
+.bom-ui .input-group > .form-floating {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+}
+.bom-ui .input-group > .form-control:focus,
+.bom-ui .input-group > .form-select:focus,
+.bom-ui .input-group > .form-floating:focus-within {
+  z-index: 5;
+}
+.bom-ui .input-group .btn {
+  position: relative;
+  z-index: 2;
+}
+.bom-ui .input-group .btn:focus {
+  z-index: 5;
+}
+
+.bom-ui .input-group-text {
+  display: flex;
+  align-items: center;
+  padding: var(--input-group-addon-padding-y) var(--input-group-addon-padding-x);
+  font-size: var(--input-group-addon-font-size);
+  font-weight: 400;
+  line-height: var(--input-group-addon-line-height);
+  color: var(--input-group-addon-color);
+  text-align: center;
+  white-space: nowrap;
+  background-color: var(--input-group-addon-bg);
+  border: var(--border-width) solid var(--input-group-addon-border-color);
+  border-radius: var(--input-group-addon-border-radius);
+}
+
+.bom-ui .input-group-lg {
+  --input-group-addon-padding-y: var(--btn-input-lg-padding-y);
+  --input-group-addon-padding-x: var(--btn-input-lg-padding-x);
+  --input-group-addon-font-size: var(--btn-input-lg-font-size);
+  --input-group-addon-line-height: var(--btn-input-lg-line-height);
+  --input-group-addon-border-radius: var(--btn-input-lg-border-radius);
+}
+.bom-ui .input-group-lg > .form-control,
+.bom-ui .input-group-lg > .form-select {
+  --control-padding-y: var(--input-group-addon-padding-y);
+  --control-padding-x: var(--input-group-addon-padding-x);
+  --control-font-size: var(--input-group-addon-font-size);
+  --control-line-height: var(--input-group-addon-line-height);
+  --control-border-radius: var(--input-group-addon-border-radius);
+  min-height: var(--control-min-height);
+}
+.bom-ui .input-group-lg > .form-select {
+  padding-inline-end: calc(var(--btn-input-padding-x) + var(--control-select-indicator-padding));
+}
+.bom-ui .input-group-lg > .btn {
+  line-height: 1.5rem;
+  min-height: calc(1.5rem + 1.375rem + calc(var(--border-width) * 2));
+  padding: 0.6875rem 1.5rem;
+  font-size: 1rem;
+  border-radius: var(--border-radius-lg);
+}
+
+.bom-ui .input-group-sm {
+  --input-group-addon-padding-y: var(--btn-input-sm-padding-y);
+  --input-group-addon-padding-x: var(--btn-input-sm-padding-x);
+  --input-group-addon-font-size: var(--btn-input-sm-font-size);
+  --input-group-addon-line-height: var(--btn-input-sm-line-height);
+  --input-group-addon-border-radius: var(--btn-input-sm-border-radius);
+}
+.bom-ui .input-group-sm > .form-control,
+.bom-ui .input-group-sm > .form-select {
+  --control-padding-y: var(--input-group-addon-padding-y);
+  --control-padding-x: var(--input-group-addon-padding-x);
+  --control-font-size: var(--input-group-addon-font-size);
+  --control-line-height: var(--input-group-addon-line-height);
+  --control-border-radius: var(--input-group-addon-border-radius);
+  min-height: var(--control-min-height);
+}
+.bom-ui .input-group-sm > .form-select {
+  padding-inline-end: calc(var(--btn-input-padding-x) + var(--control-select-indicator-padding));
+}
+.bom-ui .input-group-sm > .btn {
+  line-height: 1rem;
+  min-height: calc(1rem + 0.875rem + calc(var(--border-width) * 2));
+  padding: 0.4375rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: var(--border-radius-sm);
+}
+
+.bom-ui .input-group:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
+.bom-ui .input-group:not(.has-validation) > .dropdown-toggle:nth-last-child(n+3),
+.bom-ui .input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-control,
+.bom-ui .input-group:not(.has-validation) > .form-floating:not(:last-child) > .form-select {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.bom-ui .input-group.has-validation > :nth-last-child(n+3):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating),
+.bom-ui .input-group.has-validation > .dropdown-toggle:nth-last-child(n+4),
+.bom-ui .input-group.has-validation > .form-floating:nth-last-child(n+3) > .form-control,
+.bom-ui .input-group.has-validation > .form-floating:nth-last-child(n+3) > .form-select {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.bom-ui .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+  margin-inline-start: calc(-1 * var(--border-width));
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.bom-ui .input-group > .form-floating:not(:first-child) > .form-control,
+.bom-ui .input-group > .form-floating:not(:first-child) > .form-select {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.bom-ui .valid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: var(--form-valid-color);
+}
+
+.bom-ui .valid-tooltip {
+  position: absolute;
+  top: 100%;
+  z-index: 5;
+  display: none;
+  max-width: 100%;
+  padding: var(--spacer-1) var(--spacer-2);
+  margin-top: 0.1rem;
+  font-size: 0.765625rem;
+  color: #fff;
+  background-color: var(--success);
+  border-radius: var(--border-radius);
+}
+
+.bom-ui .was-validated :valid ~ .valid-feedback,
+.bom-ui .was-validated :valid ~ .valid-tooltip,
+.bom-ui .is-valid ~ .valid-feedback,
+.bom-ui .is-valid ~ .valid-tooltip {
+  display: block;
+}
+
+.bom-ui .was-validated .form-control:valid,
+.bom-ui .form-control.is-valid {
+  border-color: var(--form-valid-border-color);
+  padding-inline-end: 2.375rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='oklch%2867.38%25 0.1885 145.43deg%29' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1.53125rem center;
+  background-size: 1.8125rem 1.8125rem;
+}
+.bom-ui .was-validated .form-control:valid:focus,
+.bom-ui .form-control.is-valid:focus {
+  border-color: var(--form-valid-border-color);
+  outline: var(--focus-ring-width) solid light-dark(color-mix(in oklab, var(--success) calc(var(--focus-ring-opacity) * 100%), var(--body-bg)), color-mix(in oklab, var(--success) calc(var(--focus-ring-opacity-dark) * 100%), var(--body-bg)));
+  outline-offset: var(--focus-ring-offset);
+}
+
+.bom-ui .was-validated textarea.form-control:valid,
+.bom-ui textarea.form-control.is-valid {
+  padding-inline-end: 2.375rem;
+  background-position: top 1.53125rem right 1.53125rem;
+}
+
+.bom-ui .was-validated .form-select:valid,
+.bom-ui .form-select.is-valid {
+  border-color: var(--form-valid-border-color);
+}
+.bom-ui .was-validated .form-select:valid:not([multiple]):not([size]),
+.bom-ui .was-validated .form-select:valid:not([multiple])[size="1"],
+.bom-ui .form-select.is-valid:not([multiple]):not([size]),
+.bom-ui .form-select.is-valid:not([multiple])[size="1"] {
+  --form-select-bg-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='oklch%2867.38%25 0.1885 145.43deg%29' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='20 6 9 17 4 12'%3e%3c/polyline%3e%3c/svg%3e");
+  padding-inline-end: 5.5rem;
+  background-position: right 1rem center, center right 3rem;
+  background-size: 16px 12px, 1.8125rem 1.8125rem;
+}
+.bom-ui .was-validated .form-select:valid:focus,
+.bom-ui .form-select.is-valid:focus {
+  border-color: var(--form-valid-border-color);
+  outline: var(--focus-ring-width) solid light-dark(color-mix(in oklab, var(--success) calc(var(--focus-ring-opacity) * 100%), var(--body-bg)), color-mix(in oklab, var(--success) calc(var(--focus-ring-opacity-dark) * 100%), var(--body-bg)));
+  outline-offset: var(--focus-ring-offset);
+}
+
+.bom-ui .was-validated .form-control-color:valid,
+.bom-ui .form-control-color.is-valid {
+  width: 5.375rem;
+}
+
+.bom-ui .was-validated .form-check-input:valid,
+.bom-ui .form-check-input.is-valid {
+  border-color: var(--form-valid-border-color);
+}
+.bom-ui .was-validated .form-check-input:valid:checked,
+.bom-ui .form-check-input.is-valid:checked {
+  background-color: var(--form-valid-color);
+}
+.bom-ui .was-validated .form-check-input:valid:focus,
+.bom-ui .form-check-input.is-valid:focus {
+  outline: var(--focus-ring-width) solid light-dark(color-mix(in oklab, var(--success) calc(var(--focus-ring-opacity) * 100%), var(--body-bg)), color-mix(in oklab, var(--success) calc(var(--focus-ring-opacity-dark) * 100%), var(--body-bg)));
+  outline-offset: var(--focus-ring-offset);
+}
+.bom-ui .was-validated .form-check-input:valid ~ .form-check-label,
+.bom-ui .form-check-input.is-valid ~ .form-check-label {
+  color: var(--form-valid-color);
+}
+
+.bom-ui .form-check-inline .form-check-input ~ .valid-feedback {
+  margin-inline-start: 0.5em;
+}
+
+.bom-ui .was-validated .input-group > .form-control:not(:focus):valid,
+.bom-ui .input-group > .form-control:not(:focus).is-valid,
+.bom-ui .was-validated .input-group > .form-select:not(:focus):valid,
+.bom-ui .input-group > .form-select:not(:focus).is-valid,
+.bom-ui .was-validated .input-group > .form-floating:not(:focus-within):valid,
+.bom-ui .input-group > .form-floating:not(:focus-within).is-valid {
+  z-index: 3;
+}
+
+.bom-ui .invalid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: var(--form-invalid-color);
+}
+
+.bom-ui .invalid-tooltip {
+  position: absolute;
+  top: 100%;
+  z-index: 5;
+  display: none;
+  max-width: 100%;
+  padding: var(--spacer-1) var(--spacer-2);
+  margin-top: 0.1rem;
+  font-size: 0.765625rem;
+  color: #fff;
+  background-color: var(--danger);
+  border-radius: var(--border-radius);
+}
+
+.bom-ui .was-validated :invalid ~ .invalid-feedback,
+.bom-ui .was-validated :invalid ~ .invalid-tooltip,
+.bom-ui .is-invalid ~ .invalid-feedback,
+.bom-ui .is-invalid ~ .invalid-tooltip {
+  display: block;
+}
+
+.bom-ui .was-validated .form-control:invalid,
+.bom-ui .form-control.is-invalid {
+  border-color: var(--form-invalid-border-color);
+  padding-inline-end: 2.375rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='oklch%2858.29%25 0.1941 25.59deg%29' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cline x1='18' y1='6' x2='6' y2='18'%3e%3c/line%3e%3cline x1='6' y1='6' x2='18' y2='18'%3e%3c/line%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1.53125rem center;
+  background-size: 1.8125rem 1.8125rem;
+}
+.bom-ui .was-validated .form-control:invalid:focus,
+.bom-ui .form-control.is-invalid:focus {
+  border-color: var(--form-invalid-border-color);
+  outline: var(--focus-ring-width) solid light-dark(color-mix(in oklab, var(--danger) calc(var(--focus-ring-opacity) * 100%), var(--body-bg)), color-mix(in oklab, var(--danger) calc(var(--focus-ring-opacity-dark) * 100%), var(--body-bg)));
+  outline-offset: var(--focus-ring-offset);
+}
+
+.bom-ui .was-validated textarea.form-control:invalid,
+.bom-ui textarea.form-control.is-invalid {
+  padding-inline-end: 2.375rem;
+  background-position: top 1.53125rem right 1.53125rem;
+}
+
+.bom-ui .was-validated .form-select:invalid,
+.bom-ui .form-select.is-invalid {
+  border-color: var(--form-invalid-border-color);
+}
+.bom-ui .was-validated .form-select:invalid:not([multiple]):not([size]),
+.bom-ui .was-validated .form-select:invalid:not([multiple])[size="1"],
+.bom-ui .form-select.is-invalid:not([multiple]):not([size]),
+.bom-ui .form-select.is-invalid:not([multiple])[size="1"] {
+  --form-select-bg-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='oklch%2858.29%25 0.1941 25.59deg%29' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cline x1='18' y1='6' x2='6' y2='18'%3e%3c/line%3e%3cline x1='6' y1='6' x2='18' y2='18'%3e%3c/line%3e%3c/svg%3e");
+  padding-inline-end: 5.5rem;
+  background-position: right 1rem center, center right 3rem;
+  background-size: 16px 12px, 1.8125rem 1.8125rem;
+}
+.bom-ui .was-validated .form-select:invalid:focus,
+.bom-ui .form-select.is-invalid:focus {
+  border-color: var(--form-invalid-border-color);
+  outline: var(--focus-ring-width) solid light-dark(color-mix(in oklab, var(--danger) calc(var(--focus-ring-opacity) * 100%), var(--body-bg)), color-mix(in oklab, var(--danger) calc(var(--focus-ring-opacity-dark) * 100%), var(--body-bg)));
+  outline-offset: var(--focus-ring-offset);
+}
+
+.bom-ui .was-validated .form-control-color:invalid,
+.bom-ui .form-control-color.is-invalid {
+  width: 5.375rem;
+}
+
+.bom-ui .was-validated .form-check-input:invalid,
+.bom-ui .form-check-input.is-invalid {
+  border-color: var(--form-invalid-border-color);
+}
+.bom-ui .was-validated .form-check-input:invalid:checked,
+.bom-ui .form-check-input.is-invalid:checked {
+  background-color: var(--form-invalid-color);
+}
+.bom-ui .was-validated .form-check-input:invalid:focus,
+.bom-ui .form-check-input.is-invalid:focus {
+  outline: var(--focus-ring-width) solid light-dark(color-mix(in oklab, var(--danger) calc(var(--focus-ring-opacity) * 100%), var(--body-bg)), color-mix(in oklab, var(--danger) calc(var(--focus-ring-opacity-dark) * 100%), var(--body-bg)));
+  outline-offset: var(--focus-ring-offset);
+}
+.bom-ui .was-validated .form-check-input:invalid ~ .form-check-label,
+.bom-ui .form-check-input.is-invalid ~ .form-check-label {
+  color: var(--form-invalid-color);
+}
+
+.bom-ui .form-check-inline .form-check-input ~ .invalid-feedback {
+  margin-inline-start: 0.5em;
+}
+
+.bom-ui .was-validated .input-group > .form-control:not(:focus):invalid,
+.bom-ui .input-group > .form-control:not(:focus).is-invalid,
+.bom-ui .was-validated .input-group > .form-select:not(:focus):invalid,
+.bom-ui .input-group > .form-select:not(:focus).is-invalid,
+.bom-ui .was-validated .input-group > .form-floating:not(:focus-within):invalid,
+.bom-ui .input-group > .form-floating:not(:focus-within).is-invalid {
+  z-index: 4;
+}
+
+.bom-ui .badge {
+  --badge-padding-x: 0.5em;
+  --badge-padding-y: 0.25em;
+  --badge-font-size: 0.85714285em;
+  --badge-font-weight: var(--font-weight-medium);
+  --badge-color: var(--secondary);
+  --badge-border-radius: var(--border-radius);
+  --badge-icon-size: 1em;
+  --badge-line-height: 1;
+  --badge-gap: 0.25rem;
+  display: inline-flex;
+  gap: var(--badge-gap);
+  align-items: center;
+  justify-content: center;
+  min-width: calc(1em + var(--badge-padding-y) * 2 + 2px);
+  padding: var(--badge-padding-y) var(--badge-padding-x);
+  overflow: hidden;
+  font-size: var(--badge-font-size);
+  font-weight: var(--badge-font-weight);
+  line-height: var(--badge-line-height);
+  color: var(--badge-color);
+  text-align: center;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  vertical-align: bottom;
+  user-select: none;
+  background: var(--fill-tertiary);
+  border: var(--border-width) var(--border-style) transparent;
+  border-radius: var(--badge-border-radius);
+}
+.bom-ui a.badge {
+  background: var(--fill-secondary);
+}
+
+.bom-ui .badge .icon {
+  width: 1em;
+  height: 1em;
+  font-size: var(--badge-icon-size);
+  stroke-width: 2;
+}
+
+.bom-ui .badge:empty,
+.bom-ui .badge-dot {
+  display: inline-block;
+  width: 0.5rem;
+  min-width: 0;
+  height: 0.5rem;
+  min-height: auto;
+  padding: 0;
+  vertical-align: baseline;
+  border-radius: var(--border-radius-pill);
+}
+
+.bom-ui .badge-outline {
+  background-color: transparent;
+  border: var(--border-width) var(--border-style) currentColor;
+}
+
+.bom-ui .badge-pill {
+  border-radius: var(--border-radius-pill);
+}
+
+.bom-ui .badge-list,
+.bom-ui .badges-list {
+  --list-gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--list-gap);
+}
+
+.bom-ui .badge-notification {
+  position: absolute !important;
+  inset-inline-end: 0 !important;
+  top: 0 !important;
+  z-index: 1;
+  /* rtl:ignore */
+  transform: translate(calc(var(--dir) * 50%), -50%);
+}
+
+.bom-ui .badge-blink {
+  animation: blink 2s infinite;
+}
+
+.bom-ui .badge-sm {
+  --badge-font-size: 0.71428571em;
+  --badge-icon-size: 1em;
+  --badge-padding-y: 2px;
+  --badge-padding-x: 0.25rem;
+}
+
+.bom-ui .badge-lg {
+  --badge-font-size: 1em;
+  --badge-icon-size: 1em;
+  --badge-padding-y: 0.25rem;
+  --badge-padding-x: 0.5rem;
+}
+
+.bom-ui .badge-icononly {
+  --badge-padding-x: 0;
+}
+
+.bom-ui .alert {
+  --alert-variant-color: var(--body-color);
+  --alert-color: var(--alert-variant-color);
+  --alert-bg: color-mix(in oklab, var(--alert-variant-color) 16%, var(--bg-surface));
+  --alert-padding-x: 1rem;
+  --alert-padding-y: 0.75rem;
+  --alert-margin-bottom: 1rem;
+  --alert-border-color: color-mix(in oklab, var(--alert-variant-color) 20%, var(--bg-surface));
+  --alert-border: var(--border-width) solid var(--alert-border-color);
+  --alert-border-radius: var(--border-radius);
+  --alert-link-color: inherit;
+  --alert-heading-font-weight: var(--font-weight-medium);
+  --alert-heading-margin-bottom: 0.25rem;
+  --alert-icon-size: 1.25rem;
+  --alert-padding-inline-end: 3rem;
+  --alert-gap: 1rem;
+  position: relative;
+  padding: var(--alert-padding-y) var(--alert-padding-x);
+  margin-bottom: var(--alert-margin-bottom);
+  color: var(--alert-color);
+  background-color: color-mix(in oklab, var(--alert-bg), var(--bg-surface));
+  border: var(--border-width) var(--border-style) var(--alert-border-color);
+  border-radius: var(--alert-border-radius);
+}
+.bom-ui .alert:has(> .alert-icon) {
+  padding-inline-start: calc(var(--alert-padding-x) + var(--alert-icon-size) + var(--alert-gap));
+}
+
+.bom-ui .alert-heading {
+  margin-bottom: var(--alert-heading-margin-bottom);
+  font-weight: var(--alert-heading-font-weight);
+  color: inherit;
+}
+
+.bom-ui .alert-description {
+  color: var(--secondary);
+}
+
+.bom-ui .alert-icon {
+  width: var(--alert-icon-size) !important;
+  height: var(--alert-icon-size) !important;
+  margin-inline-end: var(--alert-gap);
+  color: var(--alert-color);
+}
+
+.bom-ui .alert > .alert-icon {
+  position: absolute;
+  inset-inline-start: var(--alert-padding-x);
+  top: var(--alert-padding-y);
+  margin-inline-end: 0;
+}
+
+.bom-ui .alert-action,
+.bom-ui .alert-link {
+  margin-inline-start: 0.25rem;
+  white-space: nowrap;
+}
+
+.bom-ui .alert-action {
+  color: var(--alert-color);
+  text-decoration: underline;
+}
+.bom-ui .alert-action:hover {
+  text-decoration: none;
+}
+
+.bom-ui .alert-list {
+  margin: 0;
+}
+
+.bom-ui .alert > .alert-heading + div:has(+ .alert-action),
+.bom-ui .alert > .alert-heading + div:has(+ .alert-link) {
+  display: inline;
+}
+
+.bom-ui .alert-link {
+  font-weight: var(--font-weight-semibold);
+  color: var(--alert-link-color);
+}
+.bom-ui .alert-link:hover {
+  color: var(--alert-link-color);
+}
+
+.bom-ui .alert-dismissible {
+  padding-inline-end: var(--alert-padding-inline-end);
+}
+.bom-ui .alert-dismissible .btn-close {
+  position: absolute;
+  inset-inline-end: calc(var(--alert-padding-x) / 2 - 1px);
+  top: calc(var(--alert-padding-y) / 2 - 1px);
+  z-index: 1;
+  padding: calc(var(--alert-padding-y) * 1.25) var(--alert-padding-x);
+}
+
+.bom-ui .alert-important {
+  --alert-color: var(--white);
+  background-color: var(--alert-variant-color);
+}
+.bom-ui .alert-important .alert-description {
+  color: inherit;
+}
+
+.bom-ui .alert-minor {
+  background: transparent;
+  border-color: var(--border-color);
+}
+
+.bom-ui .alert-primary {
+  --alert-variant-color: var(--primary);
+}
+
+.bom-ui .alert-secondary {
+  --alert-variant-color: var(--secondary);
+}
+
+.bom-ui .alert-success {
+  --alert-variant-color: var(--success);
+}
+
+.bom-ui .alert-info {
+  --alert-variant-color: var(--info);
+}
+
+.bom-ui .alert-warning {
+  --alert-variant-color: var(--warning);
+}
+
+.bom-ui .alert-danger {
+  --alert-variant-color: var(--danger);
+}
+
+.bom-ui .alert-light {
+  --alert-variant-color: var(--light);
+}
+
+.bom-ui .alert-dark {
+  --alert-variant-color: var(--dark);
+}
+
+.bom-ui .alert-muted {
+  --alert-variant-color: var(--muted);
+}
+
+.bom-ui .alert-blue {
+  --alert-variant-color: var(--blue);
+}
+
+.bom-ui .alert-azure {
+  --alert-variant-color: var(--azure);
+}
+
+.bom-ui .alert-indigo {
+  --alert-variant-color: var(--indigo);
+}
+
+.bom-ui .alert-purple {
+  --alert-variant-color: var(--purple);
+}
+
+.bom-ui .alert-pink {
+  --alert-variant-color: var(--pink);
+}
+
+.bom-ui .alert-red {
+  --alert-variant-color: var(--red);
+}
+
+.bom-ui .alert-orange {
+  --alert-variant-color: var(--orange);
+}
+
+.bom-ui .alert-yellow {
+  --alert-variant-color: var(--yellow);
+}
+
+.bom-ui .alert-lime {
+  --alert-variant-color: var(--lime);
+}
+
+.bom-ui .alert-green {
+  --alert-variant-color: var(--green);
+}
+
+.bom-ui .alert-teal {
+  --alert-variant-color: var(--teal);
+}
+
+.bom-ui .alert-cyan {
+  --alert-variant-color: var(--cyan);
+}
+
+.bom-ui .pagination {
+  --pagination-padding-x: 0.25rem;
+  --pagination-padding-y: calc(0.25rem + 1px);
+  --pagination-font-size: 0.875rem;
+  --pagination-color: var(--body-color);
+  --pagination-bg: transparent;
+  --pagination-border-width: 1px;
+  --pagination-border-color: transparent;
+  --pagination-border-radius: var(--border-radius);
+  --pagination-hover-color: var(--link-hover-color);
+  --pagination-hover-bg: var(--hover-bg);
+  --pagination-hover-border-color: var(--pagination-border-color);
+  --pagination-focus-color: var(--link-hover-color);
+  --pagination-focus-bg: var(--secondary-bg);
+  --pagination-active-color: #fff;
+  --pagination-active-bg: var(--primary);
+  --pagination-active-border-color: var(--primary);
+  --pagination-disabled-color: var(--disabled-color);
+  --pagination-disabled-bg: transparent;
+  --pagination-disabled-border-color: var(--pagination-border-color);
+  display: flex;
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+.bom-ui .page-link {
+  position: relative;
+  display: block;
+  padding: var(--pagination-padding-y) var(--pagination-padding-x);
+  font-size: var(--pagination-font-size);
+  color: var(--pagination-color);
+  background-color: var(--pagination-bg);
+  border: var(--pagination-border-width) solid var(--pagination-border-color);
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, outline-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .page-link {
+    transition: none;
+  }
+}
+.bom-ui .page-link {
+  outline-color: transparent;
+}
+.bom-ui .page-link:hover {
+  z-index: 2;
+  color: var(--pagination-hover-color);
+  text-decoration: none;
+  background-color: var(--pagination-hover-bg);
+  border-color: var(--pagination-hover-border-color);
+}
+.bom-ui .page-link:focus {
+  z-index: 3;
+  color: var(--pagination-focus-color);
+  background-color: var(--pagination-focus-bg);
+  outline: 0;
+}
+.bom-ui .page-link:focus-visible {
+  outline: var(--focus-ring, var(--focus-ring-width) solid var(--focus-ring-color));
+  outline-offset: var(--focus-ring-offset);
+}
+.bom-ui .page-link.active,
+.bom-ui .active > .page-link {
+  z-index: 3;
+  color: var(--pagination-active-color);
+  background-color: var(--pagination-active-bg);
+  border-color: var(--pagination-active-border-color);
+}
+.bom-ui .page-link.disabled,
+.bom-ui .disabled > .page-link {
+  color: var(--pagination-disabled-color);
+  pointer-events: none;
+  background-color: var(--pagination-disabled-bg);
+  border-color: var(--pagination-disabled-border-color);
+}
+
+.bom-ui .page-item:not(:first-child) .page-link {
+  margin-inline-start: calc(-1 * 1px);
+}
+.bom-ui .page-item:first-child .page-link {
+  border-top-left-radius: var(--pagination-border-radius);
+  border-bottom-left-radius: var(--pagination-border-radius);
+}
+.bom-ui .page-item:last-child .page-link {
+  border-top-right-radius: var(--pagination-border-radius);
+  border-bottom-right-radius: var(--pagination-border-radius);
+}
+
+.bom-ui .pagination-lg {
+  --pagination-padding-x: 1.5rem;
+  --pagination-padding-y: 0.75rem;
+  --pagination-font-size: 1.09375rem;
+  --pagination-border-radius: var(--border-radius-lg);
+}
+
+.bom-ui .pagination-sm {
+  --pagination-padding-x: 0.5rem;
+  --pagination-padding-y: 0.25rem;
+  --pagination-font-size: 0.765625rem;
+  --pagination-border-radius: var(--border-radius-sm);
+}
+
+.bom-ui .btn {
+  --btn-icon-size: 1.25rem;
+  --btn-icon-color: inherit;
+  --btn-bg: var(--bg-surface);
+  --btn-color: var(--body-color);
+  --btn-border-color: var(--border-color);
+  --btn-hover-bg: light-dark(color-mix(in oklab, var(--body-color) 6%, var(--bg-surface)), color-mix(in oklab, var(--body-color) 8%, var(--bg-surface)));
+  --btn-hover-border-color: var(--border-active-color);
+  --btn-active-color: var(--primary);
+  --btn-active-bg: light-dark(color-mix(in oklab, var(--primary) 4%, var(--bg-surface)), color-mix(in oklab, var(--primary) 12%, var(--bg-surface)));
+  --btn-active-border-color: var(--primary);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(var(--btn-line-height) * 1 + var(--btn-padding-y) * 2 + var(--btn-border-width) * 2);
+  min-height: calc(var(--btn-line-height) * 1 + var(--btn-padding-y) * 2 + var(--btn-border-width) * 2);
+  white-space: nowrap;
+  box-shadow: var(--btn-box-shadow);
+  border-radius: var(--btn-border-radius);
+}
+.bom-ui .btn .icon {
+  width: var(--btn-icon-size);
+  min-width: var(--btn-icon-size);
+  height: var(--btn-icon-size);
+  margin: 0 calc(var(--btn-padding-x) / 2) 0 calc(var(--btn-padding-x) / -4);
+  font-size: var(--btn-icon-size);
+  color: var(--btn-icon-color);
+  vertical-align: bottom;
+}
+.bom-ui .btn .avatar {
+  width: var(--btn-icon-size);
+  height: var(--btn-icon-size);
+  margin: 0 calc(var(--btn-padding-x) / 2) 0 calc(var(--btn-padding-x) / -4);
+}
+.bom-ui .btn .icon-right,
+.bom-ui .btn .icon-end {
+  margin: 0 calc(var(--btn-padding-x) / -4) 0 calc(var(--btn-padding-x) / 2);
+}
+.bom-ui .btn .badge {
+  top: auto;
+}
+.bom-ui .btn-check + .btn:hover {
+  color: var(--btn-hover-color);
+  background-color: var(--btn-hover-bg);
+  border-color: var(--btn-hover-border-color);
+}
+
+.bom-ui .btn-link {
+  --btn-bg: transparent;
+  --btn-border-color: transparent;
+  color: oklch(from var(--primary) calc(l + 0.05) c h);
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+.bom-ui .btn-link .icon {
+  color: inherit;
+}
+.bom-ui .btn-link:hover {
+  color: var(--link-hover-color);
+  border-color: transparent;
+}
+
+.bom-ui .btn-ghost {
+  --btn-bg: transparent;
+  --btn-border-color: transparent;
+  --btn-box-shadow: none;
+  --btn-hover-bg: var(--hover-bg);
+  --btn-hover-border-color: transparent;
+  --btn-hover-color: var(--body-color);
+}
+
+.bom-ui .btn-primary,
+.bom-ui .btn-outline-primary,
+.bom-ui .btn-ghost-primary {
+  --btn-variant: var(--primary);
+  --btn-variant-fg: var(--primary-fg);
+  --btn-variant-darken: var(--primary-darken);
+}
+
+.bom-ui .btn-secondary,
+.bom-ui .btn-outline-secondary,
+.bom-ui .btn-ghost-secondary {
+  --btn-variant: var(--secondary);
+  --btn-variant-fg: var(--secondary-fg);
+  --btn-variant-darken: var(--secondary-darken);
+}
+
+.bom-ui .btn-success,
+.bom-ui .btn-outline-success,
+.bom-ui .btn-ghost-success {
+  --btn-variant: var(--success);
+  --btn-variant-fg: var(--success-fg);
+  --btn-variant-darken: var(--success-darken);
+}
+
+.bom-ui .btn-info,
+.bom-ui .btn-outline-info,
+.bom-ui .btn-ghost-info {
+  --btn-variant: var(--info);
+  --btn-variant-fg: var(--info-fg);
+  --btn-variant-darken: var(--info-darken);
+}
+
+.bom-ui .btn-warning,
+.bom-ui .btn-outline-warning,
+.bom-ui .btn-ghost-warning {
+  --btn-variant: var(--warning);
+  --btn-variant-fg: var(--warning-fg);
+  --btn-variant-darken: var(--warning-darken);
+}
+
+.bom-ui .btn-danger,
+.bom-ui .btn-outline-danger,
+.bom-ui .btn-ghost-danger {
+  --btn-variant: var(--danger);
+  --btn-variant-fg: var(--danger-fg);
+  --btn-variant-darken: var(--danger-darken);
+}
+
+.bom-ui .btn-light,
+.bom-ui .btn-outline-light,
+.bom-ui .btn-ghost-light {
+  --btn-variant: var(--light);
+  --btn-variant-fg: var(--light-fg);
+  --btn-variant-darken: var(--light-darken);
+}
+
+.bom-ui .btn-dark,
+.bom-ui .btn-outline-dark,
+.bom-ui .btn-ghost-dark {
+  --btn-variant: var(--dark);
+  --btn-variant-fg: var(--dark-fg);
+  --btn-variant-darken: var(--dark-darken);
+}
+
+.bom-ui .btn-muted,
+.bom-ui .btn-outline-muted,
+.bom-ui .btn-ghost-muted {
+  --btn-variant: var(--muted);
+  --btn-variant-fg: var(--muted-fg);
+  --btn-variant-darken: var(--muted-darken);
+}
+
+.bom-ui .btn-blue,
+.bom-ui .btn-outline-blue,
+.bom-ui .btn-ghost-blue {
+  --btn-variant: var(--blue);
+  --btn-variant-fg: var(--blue-fg);
+  --btn-variant-darken: var(--blue-darken);
+}
+
+.bom-ui .btn-azure,
+.bom-ui .btn-outline-azure,
+.bom-ui .btn-ghost-azure {
+  --btn-variant: var(--azure);
+  --btn-variant-fg: var(--azure-fg);
+  --btn-variant-darken: var(--azure-darken);
+}
+
+.bom-ui .btn-indigo,
+.bom-ui .btn-outline-indigo,
+.bom-ui .btn-ghost-indigo {
+  --btn-variant: var(--indigo);
+  --btn-variant-fg: var(--indigo-fg);
+  --btn-variant-darken: var(--indigo-darken);
+}
+
+.bom-ui .btn-purple,
+.bom-ui .btn-outline-purple,
+.bom-ui .btn-ghost-purple {
+  --btn-variant: var(--purple);
+  --btn-variant-fg: var(--purple-fg);
+  --btn-variant-darken: var(--purple-darken);
+}
+
+.bom-ui .btn-pink,
+.bom-ui .btn-outline-pink,
+.bom-ui .btn-ghost-pink {
+  --btn-variant: var(--pink);
+  --btn-variant-fg: var(--pink-fg);
+  --btn-variant-darken: var(--pink-darken);
+}
+
+.bom-ui .btn-red,
+.bom-ui .btn-outline-red,
+.bom-ui .btn-ghost-red {
+  --btn-variant: var(--red);
+  --btn-variant-fg: var(--red-fg);
+  --btn-variant-darken: var(--red-darken);
+}
+
+.bom-ui .btn-orange,
+.bom-ui .btn-outline-orange,
+.bom-ui .btn-ghost-orange {
+  --btn-variant: var(--orange);
+  --btn-variant-fg: var(--orange-fg);
+  --btn-variant-darken: var(--orange-darken);
+}
+
+.bom-ui .btn-yellow,
+.bom-ui .btn-outline-yellow,
+.bom-ui .btn-ghost-yellow {
+  --btn-variant: var(--yellow);
+  --btn-variant-fg: var(--yellow-fg);
+  --btn-variant-darken: var(--yellow-darken);
+}
+
+.bom-ui .btn-lime,
+.bom-ui .btn-outline-lime,
+.bom-ui .btn-ghost-lime {
+  --btn-variant: var(--lime);
+  --btn-variant-fg: var(--lime-fg);
+  --btn-variant-darken: var(--lime-darken);
+}
+
+.bom-ui .btn-green,
+.bom-ui .btn-outline-green,
+.bom-ui .btn-ghost-green {
+  --btn-variant: var(--green);
+  --btn-variant-fg: var(--green-fg);
+  --btn-variant-darken: var(--green-darken);
+}
+
+.bom-ui .btn-teal,
+.bom-ui .btn-outline-teal,
+.bom-ui .btn-ghost-teal {
+  --btn-variant: var(--teal);
+  --btn-variant-fg: var(--teal-fg);
+  --btn-variant-darken: var(--teal-darken);
+}
+
+.bom-ui .btn-cyan,
+.bom-ui .btn-outline-cyan,
+.bom-ui .btn-ghost-cyan {
+  --btn-variant: var(--cyan);
+  --btn-variant-fg: var(--cyan-fg);
+  --btn-variant-darken: var(--cyan-darken);
+}
+
+.bom-ui .btn-x,
+.bom-ui .btn-outline-x,
+.bom-ui .btn-ghost-x {
+  --btn-variant: var(--x);
+  --btn-variant-fg: var(--x-fg);
+  --btn-variant-darken: var(--x-darken);
+}
+
+.bom-ui .btn-facebook,
+.bom-ui .btn-outline-facebook,
+.bom-ui .btn-ghost-facebook {
+  --btn-variant: var(--facebook);
+  --btn-variant-fg: var(--facebook-fg);
+  --btn-variant-darken: var(--facebook-darken);
+}
+
+.bom-ui .btn-twitter,
+.bom-ui .btn-outline-twitter,
+.bom-ui .btn-ghost-twitter {
+  --btn-variant: var(--twitter);
+  --btn-variant-fg: var(--twitter-fg);
+  --btn-variant-darken: var(--twitter-darken);
+}
+
+.bom-ui .btn-linkedin,
+.bom-ui .btn-outline-linkedin,
+.bom-ui .btn-ghost-linkedin {
+  --btn-variant: var(--linkedin);
+  --btn-variant-fg: var(--linkedin-fg);
+  --btn-variant-darken: var(--linkedin-darken);
+}
+
+.bom-ui .btn-google,
+.bom-ui .btn-outline-google,
+.bom-ui .btn-ghost-google {
+  --btn-variant: var(--google);
+  --btn-variant-fg: var(--google-fg);
+  --btn-variant-darken: var(--google-darken);
+}
+
+.bom-ui .btn-youtube,
+.bom-ui .btn-outline-youtube,
+.bom-ui .btn-ghost-youtube {
+  --btn-variant: var(--youtube);
+  --btn-variant-fg: var(--youtube-fg);
+  --btn-variant-darken: var(--youtube-darken);
+}
+
+.bom-ui .btn-vimeo,
+.bom-ui .btn-outline-vimeo,
+.bom-ui .btn-ghost-vimeo {
+  --btn-variant: var(--vimeo);
+  --btn-variant-fg: var(--vimeo-fg);
+  --btn-variant-darken: var(--vimeo-darken);
+}
+
+.bom-ui .btn-dribbble,
+.bom-ui .btn-outline-dribbble,
+.bom-ui .btn-ghost-dribbble {
+  --btn-variant: var(--dribbble);
+  --btn-variant-fg: var(--dribbble-fg);
+  --btn-variant-darken: var(--dribbble-darken);
+}
+
+.bom-ui .btn-github,
+.bom-ui .btn-outline-github,
+.bom-ui .btn-ghost-github {
+  --btn-variant: var(--github);
+  --btn-variant-fg: var(--github-fg);
+  --btn-variant-darken: var(--github-darken);
+}
+
+.bom-ui .btn-instagram,
+.bom-ui .btn-outline-instagram,
+.bom-ui .btn-ghost-instagram {
+  --btn-variant: var(--instagram);
+  --btn-variant-fg: var(--instagram-fg);
+  --btn-variant-darken: var(--instagram-darken);
+}
+
+.bom-ui .btn-pinterest,
+.bom-ui .btn-outline-pinterest,
+.bom-ui .btn-ghost-pinterest {
+  --btn-variant: var(--pinterest);
+  --btn-variant-fg: var(--pinterest-fg);
+  --btn-variant-darken: var(--pinterest-darken);
+}
+
+.bom-ui .btn-vk,
+.bom-ui .btn-outline-vk,
+.bom-ui .btn-ghost-vk {
+  --btn-variant: var(--vk);
+  --btn-variant-fg: var(--vk-fg);
+  --btn-variant-darken: var(--vk-darken);
+}
+
+.bom-ui .btn-rss,
+.bom-ui .btn-outline-rss,
+.bom-ui .btn-ghost-rss {
+  --btn-variant: var(--rss);
+  --btn-variant-fg: var(--rss-fg);
+  --btn-variant-darken: var(--rss-darken);
+}
+
+.bom-ui .btn-flickr,
+.bom-ui .btn-outline-flickr,
+.bom-ui .btn-ghost-flickr {
+  --btn-variant: var(--flickr);
+  --btn-variant-fg: var(--flickr-fg);
+  --btn-variant-darken: var(--flickr-darken);
+}
+
+.bom-ui .btn-bitbucket,
+.bom-ui .btn-outline-bitbucket,
+.bom-ui .btn-ghost-bitbucket {
+  --btn-variant: var(--bitbucket);
+  --btn-variant-fg: var(--bitbucket-fg);
+  --btn-variant-darken: var(--bitbucket-darken);
+}
+
+.bom-ui .btn-tabler,
+.bom-ui .btn-outline-tabler,
+.bom-ui .btn-ghost-tabler {
+  --btn-variant: var(--tabler);
+  --btn-variant-fg: var(--tabler-fg);
+  --btn-variant-darken: var(--tabler-darken);
+}
+
+.bom-ui .btn-primary,
+.bom-ui .btn-secondary,
+.bom-ui .btn-success,
+.bom-ui .btn-info,
+.bom-ui .btn-warning,
+.bom-ui .btn-danger,
+.bom-ui .btn-light,
+.bom-ui .btn-dark,
+.bom-ui .btn-muted,
+.bom-ui .btn-blue,
+.bom-ui .btn-azure,
+.bom-ui .btn-indigo,
+.bom-ui .btn-purple,
+.bom-ui .btn-pink,
+.bom-ui .btn-red,
+.bom-ui .btn-orange,
+.bom-ui .btn-yellow,
+.bom-ui .btn-lime,
+.bom-ui .btn-green,
+.bom-ui .btn-teal,
+.bom-ui .btn-cyan,
+.bom-ui .btn-x,
+.bom-ui .btn-facebook,
+.bom-ui .btn-twitter,
+.bom-ui .btn-linkedin,
+.bom-ui .btn-google,
+.bom-ui .btn-youtube,
+.bom-ui .btn-vimeo,
+.bom-ui .btn-dribbble,
+.bom-ui .btn-github,
+.bom-ui .btn-instagram,
+.bom-ui .btn-pinterest,
+.bom-ui .btn-vk,
+.bom-ui .btn-rss,
+.bom-ui .btn-flickr,
+.bom-ui .btn-bitbucket,
+.bom-ui .btn-tabler {
+  --btn-border-color: color-mix(in oklab, var(--btn-variant), var(--black) 10%);
+  --btn-hover-border-color: color-mix(in oklab, var(--btn-variant), var(--black) 10%);
+  --btn-active-border-color: color-mix(in oklab, var(--btn-variant), var(--black) 10%);
+  --btn-color: var(--btn-variant-fg, #fff);
+  --btn-bg: var(--btn-variant);
+  --btn-hover-color: var(--btn-variant-fg);
+  --btn-hover-bg: var(--btn-variant-darken);
+  --btn-active-color: var(--btn-variant-fg);
+  --btn-active-bg: var(--btn-variant-darken);
+  --btn-disabled-bg: var(--btn-variant);
+  --btn-disabled-color: var(--btn-variant-fg);
+  --btn-box-shadow: inset 0 1px 0 0 color-mix(in oklab, var(--btn-variant), var(--white) 30%), inset 0 -1px 0 0 color-mix(in oklab, var(--btn-variant), var(--black) 4%), var(--shadow-input);
+  --btn-gradient: linear-gradient(180deg, color-mix(in oklab, var(--white) 12%, transparent), transparent);
+  background-image: var(--btn-gradient);
+}
+
+.bom-ui .btn-dark {
+  --btn-border-color: var(--dark-mode-border-color);
+  --btn-hover-border-color: var(--dark-mode-border-active-color);
+  --btn-active-border-color: var(--dark-mode-border-active-color);
+}
+
+.bom-ui .btn-outline-primary,
+.bom-ui .btn-outline-secondary,
+.bom-ui .btn-outline-success,
+.bom-ui .btn-outline-info,
+.bom-ui .btn-outline-warning,
+.bom-ui .btn-outline-danger,
+.bom-ui .btn-outline-light,
+.bom-ui .btn-outline-dark,
+.bom-ui .btn-outline-muted,
+.bom-ui .btn-outline-blue,
+.bom-ui .btn-outline-azure,
+.bom-ui .btn-outline-indigo,
+.bom-ui .btn-outline-purple,
+.bom-ui .btn-outline-pink,
+.bom-ui .btn-outline-red,
+.bom-ui .btn-outline-orange,
+.bom-ui .btn-outline-yellow,
+.bom-ui .btn-outline-lime,
+.bom-ui .btn-outline-green,
+.bom-ui .btn-outline-teal,
+.bom-ui .btn-outline-cyan,
+.bom-ui .btn-outline-x,
+.bom-ui .btn-outline-facebook,
+.bom-ui .btn-outline-twitter,
+.bom-ui .btn-outline-linkedin,
+.bom-ui .btn-outline-google,
+.bom-ui .btn-outline-youtube,
+.bom-ui .btn-outline-vimeo,
+.bom-ui .btn-outline-dribbble,
+.bom-ui .btn-outline-github,
+.bom-ui .btn-outline-instagram,
+.bom-ui .btn-outline-pinterest,
+.bom-ui .btn-outline-vk,
+.bom-ui .btn-outline-rss,
+.bom-ui .btn-outline-flickr,
+.bom-ui .btn-outline-bitbucket,
+.bom-ui .btn-outline-tabler,
+.bom-ui .btn-outline.btn-primary,
+.bom-ui .btn-outline.btn-secondary,
+.bom-ui .btn-outline.btn-success,
+.bom-ui .btn-outline.btn-info,
+.bom-ui .btn-outline.btn-warning,
+.bom-ui .btn-outline.btn-danger,
+.bom-ui .btn-outline.btn-light,
+.bom-ui .btn-outline.btn-dark,
+.bom-ui .btn-outline.btn-muted,
+.bom-ui .btn-outline.btn-blue,
+.bom-ui .btn-outline.btn-azure,
+.bom-ui .btn-outline.btn-indigo,
+.bom-ui .btn-outline.btn-purple,
+.bom-ui .btn-outline.btn-pink,
+.bom-ui .btn-outline.btn-red,
+.bom-ui .btn-outline.btn-orange,
+.bom-ui .btn-outline.btn-yellow,
+.bom-ui .btn-outline.btn-lime,
+.bom-ui .btn-outline.btn-green,
+.bom-ui .btn-outline.btn-teal,
+.bom-ui .btn-outline.btn-cyan,
+.bom-ui .btn-outline.btn-x,
+.bom-ui .btn-outline.btn-facebook,
+.bom-ui .btn-outline.btn-twitter,
+.bom-ui .btn-outline.btn-linkedin,
+.bom-ui .btn-outline.btn-google,
+.bom-ui .btn-outline.btn-youtube,
+.bom-ui .btn-outline.btn-vimeo,
+.bom-ui .btn-outline.btn-dribbble,
+.bom-ui .btn-outline.btn-github,
+.bom-ui .btn-outline.btn-instagram,
+.bom-ui .btn-outline.btn-pinterest,
+.bom-ui .btn-outline.btn-vk,
+.bom-ui .btn-outline.btn-rss,
+.bom-ui .btn-outline.btn-flickr,
+.bom-ui .btn-outline.btn-bitbucket,
+.bom-ui .btn-outline.btn-tabler {
+  --btn-color: var(--btn-variant);
+  --btn-bg: transparent;
+  --btn-border-color: var(--btn-variant);
+  --btn-hover-color: var(--btn-variant-fg);
+  --btn-hover-border-color: transparent;
+  --btn-hover-bg: var(--btn-variant);
+  --btn-active-color: var(--btn-variant-fg);
+  --btn-active-bg: var(--btn-variant);
+  --btn-active-border-color: var(--btn-variant);
+  --btn-disabled-color: var(--btn-variant);
+  --btn-disabled-border-color: var(--btn-variant);
+  --btn-gradient: none;
+  --btn-box-shadow: none;
+}
+
+.bom-ui .btn-ghost-primary,
+.bom-ui .btn-ghost-secondary,
+.bom-ui .btn-ghost-success,
+.bom-ui .btn-ghost-info,
+.bom-ui .btn-ghost-warning,
+.bom-ui .btn-ghost-danger,
+.bom-ui .btn-ghost-light,
+.bom-ui .btn-ghost-dark,
+.bom-ui .btn-ghost-muted,
+.bom-ui .btn-ghost-blue,
+.bom-ui .btn-ghost-azure,
+.bom-ui .btn-ghost-indigo,
+.bom-ui .btn-ghost-purple,
+.bom-ui .btn-ghost-pink,
+.bom-ui .btn-ghost-red,
+.bom-ui .btn-ghost-orange,
+.bom-ui .btn-ghost-yellow,
+.bom-ui .btn-ghost-lime,
+.bom-ui .btn-ghost-green,
+.bom-ui .btn-ghost-teal,
+.bom-ui .btn-ghost-cyan,
+.bom-ui .btn-ghost-x,
+.bom-ui .btn-ghost-facebook,
+.bom-ui .btn-ghost-twitter,
+.bom-ui .btn-ghost-linkedin,
+.bom-ui .btn-ghost-google,
+.bom-ui .btn-ghost-youtube,
+.bom-ui .btn-ghost-vimeo,
+.bom-ui .btn-ghost-dribbble,
+.bom-ui .btn-ghost-github,
+.bom-ui .btn-ghost-instagram,
+.bom-ui .btn-ghost-pinterest,
+.bom-ui .btn-ghost-vk,
+.bom-ui .btn-ghost-rss,
+.bom-ui .btn-ghost-flickr,
+.bom-ui .btn-ghost-bitbucket,
+.bom-ui .btn-ghost-tabler,
+.bom-ui .btn-ghost.btn-primary,
+.bom-ui .btn-ghost.btn-secondary,
+.bom-ui .btn-ghost.btn-success,
+.bom-ui .btn-ghost.btn-info,
+.bom-ui .btn-ghost.btn-warning,
+.bom-ui .btn-ghost.btn-danger,
+.bom-ui .btn-ghost.btn-light,
+.bom-ui .btn-ghost.btn-dark,
+.bom-ui .btn-ghost.btn-muted,
+.bom-ui .btn-ghost.btn-blue,
+.bom-ui .btn-ghost.btn-azure,
+.bom-ui .btn-ghost.btn-indigo,
+.bom-ui .btn-ghost.btn-purple,
+.bom-ui .btn-ghost.btn-pink,
+.bom-ui .btn-ghost.btn-red,
+.bom-ui .btn-ghost.btn-orange,
+.bom-ui .btn-ghost.btn-yellow,
+.bom-ui .btn-ghost.btn-lime,
+.bom-ui .btn-ghost.btn-green,
+.bom-ui .btn-ghost.btn-teal,
+.bom-ui .btn-ghost.btn-cyan,
+.bom-ui .btn-ghost.btn-x,
+.bom-ui .btn-ghost.btn-facebook,
+.bom-ui .btn-ghost.btn-twitter,
+.bom-ui .btn-ghost.btn-linkedin,
+.bom-ui .btn-ghost.btn-google,
+.bom-ui .btn-ghost.btn-youtube,
+.bom-ui .btn-ghost.btn-vimeo,
+.bom-ui .btn-ghost.btn-dribbble,
+.bom-ui .btn-ghost.btn-github,
+.bom-ui .btn-ghost.btn-instagram,
+.bom-ui .btn-ghost.btn-pinterest,
+.bom-ui .btn-ghost.btn-vk,
+.bom-ui .btn-ghost.btn-rss,
+.bom-ui .btn-ghost.btn-flickr,
+.bom-ui .btn-ghost.btn-bitbucket,
+.bom-ui .btn-ghost.btn-tabler {
+  --btn-color: var(--btn-variant);
+  --btn-bg: transparent;
+  --btn-border-color: transparent;
+  --btn-hover-color: var(--btn-variant-fg);
+  --btn-hover-bg: var(--btn-variant);
+  --btn-hover-border-color: var(--btn-variant);
+  --btn-active-color: var(--btn-variant-fg);
+  --btn-active-bg: var(--btn-variant);
+  --btn-active-border-color: transparent;
+  --btn-active-shadow: inset 0 3px 5px color-mix(in oklab, var(--black) 12.5%, transparent);
+  --btn-disabled-color: var(--btn-variant);
+  --btn-disabled-bg: transparent;
+  --btn-disabled-border-color: transparent;
+  --gradient: none;
+  --btn-gradient: none;
+  --btn-box-shadow: none;
+}
+
+.bom-ui .btn-sm,
+.bom-ui .btn-group-sm > .btn {
+  --btn-line-height: 1rem;
+  --btn-icon-size: 1rem;
+}
+
+.bom-ui .btn-lg,
+.bom-ui .btn-group-lg > .btn {
+  --btn-line-height: 1.5rem;
+  --btn-icon-size: 1.5rem;
+}
+
+.bom-ui .btn-xl,
+.bom-ui .btn-group-xl > .btn {
+  --btn-line-height: 2rem;
+  --btn-icon-size: 1.75rem;
+  --btn-padding-y: 0.6875rem;
+  --btn-padding-x: 1.75rem;
+  --btn-font-size: 1.25rem;
+  --btn-border-radius: var(--border-radius-lg);
+}
+
+.bom-ui .btn-pill {
+  padding-inline-start: 1.5em;
+  padding-inline-end: 1.5em;
+  border-radius: var(--border-radius-pill);
+}
+.bom-ui .btn-pill[class*=btn-icon] {
+  --btn-pill-icon-padding-y: 0.375rem;
+  --btn-pill-icon-padding-x: 15px;
+  padding: var(--btn-pill-icon-padding-y) var(--btn-pill-icon-padding-x);
+}
+
+.bom-ui .btn-square {
+  border-radius: 0;
+}
+
+.bom-ui .btn-icon,
+.bom-ui .btn-action {
+  outline-color: transparent;
+  transition: outline-color 0.15s ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .btn-icon,
+.bom-ui .btn-action {
+    transition: none;
+  }
+}
+.bom-ui .btn-icon,
+.bom-ui .btn-action {
+  min-width: calc(var(--btn-line-height) + var(--btn-padding-y) * 2 + var(--btn-border-width) * 2);
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+}
+.bom-ui .btn-icon .icon,
+.bom-ui .btn-action .icon {
+  margin: calc(-1 * var(--btn-padding-x));
+}
+
+.bom-ui .btn-list {
+  --list-gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--list-gap);
+}
+
+.bom-ui .btn-list-center {
+  justify-content: center;
+}
+
+.bom-ui .btn-floating {
+  --btn-floating-offset: 1rem;
+  position: fixed;
+  inset-inline-end: var(--btn-floating-offset);
+  bottom: var(--btn-floating-offset);
+  z-index: 1030;
+  box-shadow: var(--shadow-dropdown);
+}
+@media print {
+  .bom-ui .btn-floating {
+    display: none;
+  }
+}
+
+.bom-ui .btn-loading {
+  position: relative;
+  color: transparent !important;
+  text-shadow: none !important;
+  pointer-events: none;
+}
+.bom-ui .btn-loading > * {
+  opacity: 0;
+}
+.bom-ui .btn-loading::after {
+  position: absolute;
+  inset-inline-start: calc(50% - var(--btn-icon-size) / 2);
+  top: calc(50% - var(--btn-icon-size) / 2);
+  display: inline-block;
+  width: var(--btn-icon-size);
+  height: var(--btn-icon-size);
+  color: var(--btn-color);
+  vertical-align: text-bottom;
+  content: "";
+  border: 2px var(--border-style) currentColor;
+  border-inline-end-color: transparent;
+  animation: spinner-border 0.75s linear infinite;
+  border-radius: var(--border-radius-pill);
+}
+
+.bom-ui .btn-action {
+  --border-color: transparent;
+  --btn-bg: transparent;
+  --btn-disabled-color: var(--secondary);
+  color: var(--secondary);
+  border-radius: var(--border-radius);
+  background: transparent;
+  box-shadow: none;
+}
+.bom-ui .btn-action::after {
+  content: none;
+}
+.bom-ui .btn-action:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+.bom-ui .btn-action:focus-visible {
+  outline: var(--focus-ring, var(--focus-ring-width) solid var(--focus-ring-color));
+  outline-offset: calc(var(--focus-ring-width) * -1);
+  box-shadow: none;
+}
+.bom-ui .btn-action:hover,
+.bom-ui .btn-action.show {
+  color: var(--body-color);
+  background: var(--hover-bg);
+  border-color: transparent;
+}
+.bom-ui .btn-action.show {
+  color: var(--primary);
+  background: var(--active-bg);
+}
+@media print {
+  .bom-ui .btn-action {
+    display: none;
+  }
+}
+
+.bom-ui .btn-actions {
+  display: flex;
+}
+@media print {
+  .bom-ui .btn-actions {
+    display: none;
+  }
+}
+
+.bom-ui .btn-animate-icon .icon {
+  transition: transform 0.3s ease;
+}
+.bom-ui .btn-animate-icon:hover .icon,
+.bom-ui .btn-animate-icon:focus-visible .icon {
+  /* rtl:ignore */
+  transform: translateX(calc(var(--dir) * 4px));
+}
+.bom-ui .btn-animate-icon.btn-animate-icon-rotate:hover .icon,
+.bom-ui .btn-animate-icon.btn-animate-icon-rotate:focus-visible .icon {
+  transform: rotate(90deg);
+}
+.bom-ui .btn-animate-icon.btn-animate-icon-move-start:hover .icon,
+.bom-ui .btn-animate-icon.btn-animate-icon-move-start:focus-visible .icon {
+  /* rtl:ignore */
+  transform: translateX(calc(var(--dir) * -4px));
+}
+.bom-ui .btn-animate-icon.btn-animate-icon-pulse:hover .icon,
+.bom-ui .btn-animate-icon.btn-animate-icon-pulse:focus-visible .icon {
+  transform: none;
+  animation: pulse 0.9s;
+}
+.bom-ui .btn-animate-icon.btn-animate-icon-shake:hover .icon,
+.bom-ui .btn-animate-icon.btn-animate-icon-shake:focus-visible .icon {
+  transform: none;
+  animation: shake 0.9s;
+}
+.bom-ui .btn-animate-icon.btn-animate-icon-tada:hover .icon,
+.bom-ui .btn-animate-icon.btn-animate-icon-tada:focus-visible .icon {
+  transform: none;
+  animation: tada 0.9s;
+}
+
+@property --card-gradient-direction {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 180deg;
+}
+@keyframes gradient-animation {
+  0% {
+    --card-gradient-direction: 180deg;
+  }
+  100% {
+    --card-gradient-direction: 540deg;
+  }
+}
+.bom-ui .card {
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .card {
+    transition: none;
+  }
+}
+@media print {
+  .bom-ui .card {
+    border: none;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+}
+.bom-ui a.card {
+  color: inherit;
+}
+.bom-ui a.card:hover {
+  text-decoration: none;
+  box-shadow: var(--shadow-card-hover);
+}
+
+.bom-ui .card .card {
+  box-shadow: none;
+}
+
+.bom-ui .card-borderless,
+.bom-ui .card-borderless .card-header,
+.bom-ui .card-borderless .card-footer {
+  border-color: transparent;
+}
+
+.bom-ui .card-dashed {
+  border: var(--border-width) dashed var(--border-color);
+}
+
+.bom-ui .card-transparent {
+  background: transparent;
+  border: var(--border-width) dashed var(--border-color);
+  box-shadow: none;
+}
+
+.bom-ui .card-stamp {
+  --stamp-size: 7rem;
+  position: absolute;
+  inset-inline-end: 0;
+  top: 0;
+  width: calc(var(--stamp-size) * 1);
+  height: calc(var(--stamp-size) * 1);
+  max-height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  border-start-end-radius: 6px;
+  opacity: 0.2;
+}
+
+.bom-ui .card-stamp-lg {
+  --stamp-size: 13rem;
+}
+
+.bom-ui .card-stamp-icon {
+  position: relative;
+  inset-inline-end: calc(var(--stamp-size) * -0.25);
+  top: calc(var(--stamp-size) * -0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--stamp-size) * 1);
+  height: calc(var(--stamp-size) * 1);
+  font-size: calc(var(--stamp-size) * 0.75);
+  color: var(--card-bg, var(--bg-surface));
+  background: var(--secondary);
+  transform: rotate(10deg);
+  border-radius: var(--border-radius-pill);
+}
+.bom-ui .card-stamp-icon .icon {
+  width: calc(var(--stamp-size) * 0.75);
+  height: calc(var(--stamp-size) * 0.75);
+  stroke-width: 2;
+}
+
+.bom-ui .card-img,
+.bom-ui .card-img-start {
+  border-top-left-radius: calc(var(--border-radius-lg) - (var(--border-width)));
+  border-bottom-left-radius: calc(var(--border-radius-lg) - (var(--border-width)));
+}
+
+.bom-ui .card-img,
+.bom-ui .card-img-end {
+  border-top-right-radius: calc(var(--border-radius-lg) - (var(--border-width)));
+  border-bottom-right-radius: calc(var(--border-radius-lg) - (var(--border-width)));
+}
+
+.bom-ui .card-img-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.bom-ui .card-img-overlay-dark {
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+.bom-ui .card-inactive {
+  pointer-events: none;
+  box-shadow: none;
+}
+.bom-ui .card-inactive .card-body {
+  opacity: 0.64;
+}
+
+.bom-ui .card-active {
+  --card-border-color: var(--primary);
+  --card-bg: var(--active-bg);
+}
+
+.bom-ui .card-btn {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 1.25rem;
+  font-weight: var(--font-weight-medium);
+  color: inherit;
+  text-align: center;
+  border-top: var(--border-width) var(--border-style) var(--border-color);
+  transition: background 0.3s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .card-btn {
+    transition: none;
+  }
+}
+.bom-ui .card-btn:hover {
+  text-decoration: none;
+  background: var(--active-bg);
+}
+.bom-ui .card-btn + .card-btn {
+  border-inline-start: var(--border-width) var(--border-style) var(--border-color);
+}
+
+.bom-ui .card-stacked {
+  --card-stacked-offset: 0.25rem;
+  position: relative;
+}
+.bom-ui .card-stacked::after {
+  position: absolute;
+  inset-inline-start: var(--card-stacked-offset);
+  inset-inline-end: var(--card-stacked-offset);
+  top: calc(-1 * var(--card-stacked-offset));
+  height: var(--card-stacked-offset);
+  content: "";
+  background: var(--card-bg, var(--bg-surface));
+  border: var(--border-width) var(--border-style) var(--card-border-color);
+  border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+}
+
+.bom-ui .card-cover {
+  position: relative;
+  padding: 1.25rem 1.25rem;
+  background: #666 no-repeat center/cover;
+}
+.bom-ui .card-cover::before {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  top: 0;
+  bottom: 0;
+  content: "";
+  background: color-mix(in oklab, var(--dark) 48%, transparent);
+}
+.bom-ui .card-cover:first-child,
+.bom-ui .card-cover:first-child::before {
+  border-radius: 6px 6px 0 0;
+}
+
+.bom-ui .card-cover-blurred::before {
+  backdrop-filter: blur(2px);
+}
+
+.bom-ui .card-actions {
+  --card-actions-gutter: 0.5rem;
+  padding-inline-start: var(--card-actions-gutter);
+  margin-block: calc(-1 * var(--card-actions-gutter));
+  margin-inline: auto calc(-1 * var(--card-actions-gutter));
+}
+.bom-ui .card-actions a {
+  text-decoration: none;
+}
+
+.bom-ui .card-header {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  background-color: var(--card-header-bg, var(--card-cap-bg));
+}
+.bom-ui .card-header:first-child {
+  border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+}
+
+.bom-ui .card-header-light {
+  background: var(--bg-surface-tertiary);
+  border-bottom-color: transparent;
+}
+
+.bom-ui .card-header-tabs {
+  flex: 1;
+  padding: calc(var(--card-cap-padding-y) * 0.5) calc(var(--card-cap-padding-x) * 0.5) 0;
+  margin: calc(var(--card-cap-padding-y) * -1) calc(var(--card-cap-padding-x) * -1);
+  background: var(--bg-surface-tertiary);
+  border-radius: var(--card-border-radius) var(--card-border-radius) 0 0;
+}
+
+.bom-ui .card-header-pills {
+  --card-header-pills-margin: 0.5rem;
+  flex: 1;
+  margin-top: calc(-1 * var(--card-header-pills-margin));
+  margin-bottom: calc(-1 * var(--card-header-pills-margin));
+}
+
+.bom-ui .card-rotate-left,
+.bom-ui .card-rotate-start {
+  transform: rotate(-1.5deg);
+}
+
+.bom-ui .card-rotate-right,
+.bom-ui .card-rotate-end {
+  transform: rotate(1.5deg);
+}
+
+.bom-ui .card-link {
+  color: inherit;
+}
+.bom-ui .card-link:hover {
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.08);
+}
+
+.bom-ui .card-link-rotate:hover {
+  opacity: 1;
+  transform: rotate(1.5deg);
+}
+
+.bom-ui .card-link-pop:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.bom-ui .card-footer {
+  margin-top: auto;
+}
+.bom-ui .card-footer:last-child {
+  border-radius: 0 0 var(--card-border-radius) var(--card-border-radius);
+}
+
+.bom-ui .card-footer-transparent {
+  padding-top: 0;
+  background: transparent;
+  border-color: transparent;
+}
+
+.bom-ui .card-footer-borderless {
+  border-top: none;
+}
+
+.bom-ui .card-progress {
+  --card-progress-height: 0.25rem;
+  height: var(--card-progress-height);
+}
+.bom-ui .card-progress:last-child {
+  border-radius: 0 0 2px 2px;
+}
+.bom-ui .card-progress:first-child {
+  border-radius: 2px 2px 0 0;
+}
+
+.bom-ui .card > .card-progress {
+  --card-progress-offset: calc(-1 * var(--card-border-width));
+  position: absolute;
+  inset: var(--card-progress-offset);
+  width: auto;
+  height: auto;
+  pointer-events: none;
+  border-radius: var(--card-border-radius);
+}
+.bom-ui .card > .card-progress:last-child {
+  mask-image: linear-gradient(to top, #000 var(--card-progress-height), transparent var(--card-progress-height));
+}
+.bom-ui .card > .card-progress:first-child {
+  mask-image: linear-gradient(to bottom, #000 var(--card-progress-height), transparent var(--card-progress-height));
+}
+
+.bom-ui .card-meta {
+  color: var(--secondary);
+}
+
+.bom-ui .card-title {
+  --card-title-margin-bottom: 1rem;
+  --card-title-line-height: 1.5rem;
+  display: block;
+  margin: 0 0 var(--card-title-margin-bottom);
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+  line-height: var(--card-title-line-height);
+  color: var(--heading-color);
+}
+.bom-ui a.card-title:hover {
+  color: inherit;
+}
+
+.bom-ui .card-header .card-title {
+  margin: 0;
+}
+
+.bom-ui .card-subtitle {
+  --card-subtitle-margin-start: 0.25rem;
+  margin-bottom: 1.25rem;
+  font-weight: 400;
+  color: var(--secondary);
+}
+.bom-ui .card-header .card-subtitle {
+  margin: 0;
+}
+.bom-ui .card-title .card-subtitle {
+  margin-block: 0;
+  margin-inline: var(--card-subtitle-margin-start) 0;
+  font-size: 0.875rem;
+}
+
+.bom-ui .card-body {
+  --card-body-padding-sm: 1rem;
+  --card-body-padding-md: 2.5rem;
+  --card-body-padding-lg: 2rem;
+  --card-body-padding-lg-up: 4rem;
+  position: relative;
+}
+.bom-ui .card-body > :last-child {
+  margin-bottom: 0;
+}
+.bom-ui .card-sm > .card-body {
+  padding: var(--card-body-padding-sm);
+}
+@media (min-width: 768px) {
+  .bom-ui .card-md > .card-body {
+    padding: var(--card-body-padding-md);
+  }
+}
+@media (min-width: 768px) {
+  .bom-ui .card-lg > .card-body {
+    padding: var(--card-body-padding-lg);
+  }
+}
+@media (min-width: 992px) {
+  .bom-ui .card-lg > .card-body {
+    padding: var(--card-body-padding-lg-up);
+  }
+}
+@media print {
+  .bom-ui .card-body {
+    padding: 0;
+  }
+}
+.bom-ui .card-body + .card-body {
+  border-top: var(--border-width) var(--border-style) var(--border-color);
+}
+
+.bom-ui .card-body-scrollable {
+  overflow: auto;
+}
+
+.bom-ui .card-options {
+  --card-options-top: 1.5rem;
+  --card-options-inset: 0.75rem;
+  display: flex;
+  margin-inline-start: auto;
+}
+
+.bom-ui .card-options-link {
+  --card-options-link-min-width: 1rem;
+  --card-options-link-margin-start: 0.25rem;
+  display: inline-block;
+  min-width: var(--card-options-link-min-width);
+  margin-inline-start: var(--card-options-link-margin-start);
+  color: var(--secondary);
+}
+
+.bom-ui .card-status-top,
+.bom-ui .card-status-start,
+.bom-ui .card-status-bottom {
+  --card-status-size: 3px;
+  --card-status-offset: calc(-1 * var(--card-border-width));
+  position: absolute;
+  inset: var(--card-status-offset);
+  pointer-events: none;
+  border-radius: var(--card-border-radius);
+}
+
+.bom-ui .card-status-top {
+  mask-image: linear-gradient(to bottom, #000 var(--card-status-size), transparent var(--card-status-size));
+}
+
+.bom-ui .card-status-start {
+  mask-image: linear-gradient(to right, #000 var(--card-status-size), transparent var(--card-status-size));
+}
+.bom-ui [dir=rtl] .card-status-start {
+  mask-image: linear-gradient(to left, #000 var(--card-status-size), transparent var(--card-status-size));
+}
+
+.bom-ui .card-status-bottom {
+  mask-image: linear-gradient(to top, #000 var(--card-status-size), transparent var(--card-status-size));
+}
+
+.bom-ui .card-table {
+  --card-table-top-radius: 0;
+  --card-table-bottom-radius: 0;
+  margin-bottom: 0 !important;
+}
+.bom-ui .card-table tr td:first-child,
+.bom-ui .card-table tr th:first-child {
+  padding-inline-start: 1.25rem;
+  border-inline-start: 0;
+}
+.bom-ui .card-table tr td:last-child,
+.bom-ui .card-table tr th:last-child {
+  padding-inline-end: 1.25rem;
+  border-inline-end: 0;
+}
+.bom-ui .card-table thead:first-child tr:first-child > *:first-child,
+.bom-ui .card-table tbody:first-child tr:first-child > *:first-child,
+.bom-ui .card-table tfoot:first-child tr:first-child > *:first-child {
+  border-start-start-radius: var(--card-table-top-radius);
+}
+.bom-ui .card-table thead:first-child tr:first-child > *:last-child,
+.bom-ui .card-table tbody:first-child tr:first-child > *:last-child,
+.bom-ui .card-table tfoot:first-child tr:first-child > *:last-child {
+  border-start-end-radius: var(--card-table-top-radius);
+}
+.bom-ui .card-table thead:last-child tr:last-child > *:last-child,
+.bom-ui .card-table tbody:last-child tr:last-child > *:last-child,
+.bom-ui .card-table tfoot:last-child tr:last-child > *:last-child {
+  border-end-end-radius: var(--card-table-bottom-radius);
+}
+.bom-ui .card-table thead:last-child tr:last-child > *:first-child,
+.bom-ui .card-table tbody:last-child tr:last-child > *:first-child,
+.bom-ui .card-table tfoot:last-child tr:last-child > *:first-child {
+  border-end-start-radius: var(--card-table-bottom-radius);
+}
+.bom-ui .card-table thead tr:first-child,
+.bom-ui .card-table tbody tr:first-child,
+.bom-ui .card-table tfoot tr:first-child {
+  border-top: 0;
+}
+.bom-ui .card-table thead tr:first-child td,
+.bom-ui .card-table thead tr:first-child th,
+.bom-ui .card-table tbody tr:first-child td,
+.bom-ui .card-table tbody tr:first-child th,
+.bom-ui .card-table tfoot tr:first-child td,
+.bom-ui .card-table tfoot tr:first-child th {
+  border-top: 0;
+}
+.bom-ui .card-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.bom-ui .card-table tfoot tr:last-child {
+  border-bottom: 0;
+}
+.bom-ui .card-body + .card-table {
+  border-top: var(--border-width) var(--border-style) var(--table-border-color);
+}
+
+.bom-ui .card > .card-table:first-child,
+.bom-ui .card > .table-responsive:first-child > .card-table {
+  --card-table-top-radius: var(--card-border-radius);
+}
+
+.bom-ui .card > .card-table:last-child,
+.bom-ui .card > .table-responsive:last-child > .card-table {
+  --card-table-bottom-radius: calc(var(--card-border-radius) - var(--card-border-width));
+}
+
+/*
+Card code
+ */
+.bom-ui .card-code {
+  padding: 0;
+  overflow: hidden;
+}
+.bom-ui .card-code:first-child {
+  border-top-left-radius: var(--card-border-radius);
+  border-top-right-radius: var(--card-border-radius);
+}
+.bom-ui .card-code:last-child {
+  border-bottom-right-radius: var(--card-border-radius);
+  border-bottom-left-radius: var(--card-border-radius);
+}
+.bom-ui .card-code .highlight {
+  margin: 0;
+  border: 0;
+}
+.bom-ui .card-code pre {
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0;
+}
+
+/*
+Card chart
+ */
+.bom-ui .card-chart {
+  --card-avatar-height: 3.5rem;
+  position: relative;
+  z-index: 1;
+  height: var(--card-avatar-height);
+}
+
+.bom-ui .card-avatar {
+  --card-avatar-ring-width: 0.25rem;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+  margin-top: calc(-1 * var(--avatar-size) * 0.5);
+  box-shadow: 0 0 0 var(--card-avatar-ring-width) var(--card-bg, var(--bg-surface));
+}
+
+/*
+Card list group
+ */
+.bom-ui .card-body + .card-list-group {
+  border-top: var(--border-width) var(--border-style) var(--border-color);
+}
+.bom-ui .card-list-group .list-group-item {
+  padding-inline-start: 1.25rem;
+  padding-inline-end: 1.25rem;
+  border-inline-start: 0;
+  border-inline-end: 0;
+  border-radius: 0;
+}
+.bom-ui .card-list-group .list-group-item:last-child {
+  border-bottom: 0;
+}
+.bom-ui .card-list-group .list-group-item:first-child {
+  border-top: 0;
+}
+
+.bom-ui .card-tabs .nav-tabs {
+  position: relative;
+  z-index: 1;
+  border-bottom: 0;
+}
+.bom-ui .card-tabs .nav-tabs .nav-link {
+  background: var(--bg-surface-tertiary);
+  border: var(--border-width) var(--border-style) var(--border-color-translucent);
+}
+.bom-ui .card-tabs .nav-tabs .nav-link.active,
+.bom-ui .card-tabs .nav-tabs .nav-link:active,
+.bom-ui .card-tabs .nav-tabs .nav-link:hover {
+  color: var(--body-color);
+  border-color: var(--border-color-translucent);
+}
+.bom-ui .card-tabs .nav-tabs .nav-link.active {
+  color: var(--heading-color, var(--emphasis-color));
+  background: var(--card-bg, var(--bg-surface));
+  border-bottom-color: transparent;
+}
+.bom-ui .card-tabs .nav-tabs .nav-item:not(:first-child) .nav-link {
+  border-start-start-radius: 0;
+}
+.bom-ui .card-tabs .nav-tabs .nav-item:not(:last-child) .nav-link {
+  border-start-end-radius: 0;
+}
+.bom-ui .card-tabs .nav-tabs .nav-item + .nav-item {
+  margin-inline-start: calc(-1 * var(--border-width));
+}
+.bom-ui .card-tabs .nav-tabs-bottom {
+  margin-bottom: 0;
+}
+.bom-ui .card-tabs .nav-tabs-bottom .nav-link {
+  margin-bottom: 0;
+}
+.bom-ui .card-tabs .nav-tabs-bottom .nav-link.active {
+  border-top-color: transparent;
+}
+.bom-ui .card-tabs .nav-tabs-bottom .nav-item {
+  margin-top: calc(-1 * var(--border-width));
+  margin-bottom: 0;
+}
+.bom-ui .card-tabs .nav-tabs-bottom .nav-item .nav-link {
+  border-bottom: var(--border-width) var(--border-style) var(--border-color-translucent);
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+}
+.bom-ui .card-tabs .nav-tabs-bottom .nav-item:not(:first-child) .nav-link {
+  border-end-start-radius: 0;
+}
+.bom-ui .card-tabs .nav-tabs-bottom .nav-item:not(:last-child) .nav-link {
+  border-end-end-radius: 0;
+}
+.bom-ui .card-tabs .card {
+  border-end-start-radius: 0;
+}
+.bom-ui .card-tabs .nav-tabs + .tab-content .card {
+  border-start-start-radius: 0 !important;
+  border-end-start-radius: var(--card-border-radius);
+}
+.bom-ui .card-tabs .tab-content:has(+ .nav-tabs) .card {
+  border-start-start-radius: var(--card-border-radius);
+  border-end-start-radius: 0 !important;
+}
+
+.bom-ui .card-note {
+  --card-bg: color-mix(in oklab, var(--yellow) 12%, var(--bg-surface));
+  --card-border-color: color-mix(in oklab, var(--yellow) 20%, var(--bg-surface));
+}
+
+.bom-ui .card-gradient {
+  --card-gradient-direction: 180deg;
+  --card-gradient-opacity: 86%;
+  --card-gradient: var(--primary), var(--primary);
+  background: radial-gradient(ellipse at center, var(--card-bg) 0%, color-mix(in oklab, var(--card-bg) 0%, transparent) 80%) border-box, linear-gradient(var(--card-gradient-direction), color-mix(in oklab, var(--card-bg) var(--card-gradient-opacity), transparent) 0%, var(--card-bg) 40%) border-box, linear-gradient(calc(270deg + var(--card-gradient-direction)), var(--card-gradient)) border-box;
+}
+
+.bom-ui .card-gradient-blue {
+  --card-gradient: var(--blue), var(--blue);
+}
+
+.bom-ui .card-gradient-azure {
+  --card-gradient: var(--azure), var(--azure);
+}
+
+.bom-ui .card-gradient-indigo {
+  --card-gradient: var(--indigo), var(--indigo);
+}
+
+.bom-ui .card-gradient-purple {
+  --card-gradient: var(--purple), var(--purple);
+}
+
+.bom-ui .card-gradient-pink {
+  --card-gradient: var(--pink), var(--pink);
+}
+
+.bom-ui .card-gradient-red {
+  --card-gradient: var(--red), var(--red);
+}
+
+.bom-ui .card-gradient-orange {
+  --card-gradient: var(--orange), var(--orange);
+}
+
+.bom-ui .card-gradient-yellow {
+  --card-gradient: var(--yellow), var(--yellow);
+}
+
+.bom-ui .card-gradient-lime {
+  --card-gradient: var(--lime), var(--lime);
+}
+
+.bom-ui .card-gradient-green {
+  --card-gradient: var(--green), var(--green);
+}
+
+.bom-ui .card-gradient-teal {
+  --card-gradient: var(--teal), var(--teal);
+}
+
+.bom-ui .card-gradient-cyan {
+  --card-gradient: var(--cyan), var(--cyan);
+}
+
+.bom-ui .card-gradient-black {
+  --card-gradient: var(--black), var(--black);
+}
+
+.bom-ui .card-gradient-white {
+  --card-gradient: var(--white), var(--white);
+}
+
+.bom-ui .card-gradient-gray {
+  --card-gradient: var(--gray), var(--gray);
+}
+
+.bom-ui .card-gradient-gray-dark {
+  --card-gradient: var(--gray-dark), var(--gray-dark);
+}
+
+.bom-ui .card-gradient-primary {
+  --card-gradient: var(--primary), var(--primary);
+}
+
+.bom-ui .card-gradient-secondary {
+  --card-gradient: var(--secondary), var(--secondary);
+}
+
+.bom-ui .card-gradient-success {
+  --card-gradient: var(--success), var(--success);
+}
+
+.bom-ui .card-gradient-info {
+  --card-gradient: var(--info), var(--info);
+}
+
+.bom-ui .card-gradient-warning {
+  --card-gradient: var(--warning), var(--warning);
+}
+
+.bom-ui .card-gradient-danger {
+  --card-gradient: var(--danger), var(--danger);
+}
+
+.bom-ui .card-gradient-light {
+  --card-gradient: var(--light), var(--light);
+}
+
+.bom-ui .card-gradient-dark {
+  --card-gradient: var(--dark), var(--dark);
+}
+
+.bom-ui .card-gradient-muted {
+  --card-gradient: var(--muted), var(--muted);
+}
+
+.bom-ui .card-gradient-rainbow {
+  --card-gradient: #78c5d6, #459ba8, #79c267, #c5d647, #f5d63d, #f08b33, #e868a2, #be61a5;
+}
+
+.bom-ui .card-gradient-sun {
+  --card-gradient: #fd1d1d, #fcb045;
+}
+
+.bom-ui .card-gradient-snow {
+  --card-gradient: #333, #e9ecef;
+}
+
+.bom-ui .card-gradient-ocean {
+  --card-gradient: #1cb5e0, #000851;
+}
+
+.bom-ui .card-gradient-mellow {
+  --card-gradient: #f8ff00, #3ad59f;
+}
+
+.bom-ui .card-gradient-disco {
+  --card-gradient: #fc466b, #3f5efb;
+}
+
+.bom-ui .card-gradient-psychedelic {
+  --card-gradient: #fcc5e4, #fda34b, #ff7882, #c8699e, #7046aa, #0c1db8, #020f75;
+}
+
+.bom-ui .card-gradient-love {
+  --card-gradient: #f235e6, #bc0707;
+}
+
+.bom-ui .card-gradient-gold {
+  --card-gradient: #9d4100, #bf7122, #f59f00, #ffd700;
+}
+
+.bom-ui .card-gradient-animated {
+  animation: gradient-animation 15s linear infinite;
+}
+
+.bom-ui .card-gradient-bottom {
+  --card-gradient-direction: 0deg;
+}
+
+.bom-ui .card-gradient-end {
+  --card-gradient-direction: 270deg;
+}
+
+.bom-ui .card-gradient-start {
+  --card-gradient-direction: 90deg;
+}
+
+.bom-ui .table {
+  font: inherit;
+}
+@media print {
+  .bom-ui .table thead {
+    display: table-header-group;
+  }
+  .bom-ui .table tr {
+    break-inside: avoid;
+  }
+}
+.bom-ui .table thead th {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  white-space: nowrap;
+  background: var(--bg-surface-tertiary);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1rem;
+  color: var(--secondary);
+}
+@media print {
+  .bom-ui .table thead th {
+    background: transparent;
+  }
+}
+
+.bom-ui .table-responsive .table {
+  margin-bottom: 0;
+}
+
+.bom-ui .table-transparent thead th {
+  background: transparent;
+}
+
+.bom-ui .table-nowrap > :not(caption) > * > * {
+  white-space: nowrap;
+}
+
+.bom-ui .table-vcenter > :not(caption) > * > * {
+  vertical-align: middle;
+}
+
+.bom-ui .table-center > :not(caption) > * > * {
+  text-align: center;
+}
+
+.bom-ui .td-truncate {
+  width: 100%;
+  max-width: 1px;
+}
+
+.bom-ui .table-mobile {
+  display: block;
+}
+.bom-ui .table-mobile thead {
+  display: none;
+}
+.bom-ui .table-mobile tbody,
+.bom-ui .table-mobile tr {
+  display: flex;
+  flex-direction: column;
+}
+.bom-ui .table-mobile td {
+  display: block;
+  padding: 0.75rem 0.75rem !important;
+  color: var(--body-color) !important;
+  border: none;
+}
+.bom-ui .table-mobile td[data-label]::before {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1rem;
+  color: var(--secondary);
+  display: block;
+  content: attr(data-label);
+}
+.bom-ui .table-mobile tr {
+  border-bottom: var(--border-width) var(--border-style) var(--border-color-translucent);
+}
+.bom-ui .table-mobile .btn {
+  display: block;
+}
+@media (max-width: 575.98px) {
+  .bom-ui .table-mobile-sm {
+    display: block;
+  }
+  .bom-ui .table-mobile-sm thead {
+    display: none;
+  }
+  .bom-ui .table-mobile-sm tbody,
+.bom-ui .table-mobile-sm tr {
+    display: flex;
+    flex-direction: column;
+  }
+  .bom-ui .table-mobile-sm td {
+    display: block;
+    padding: 0.75rem 0.75rem !important;
+    color: var(--body-color) !important;
+    border: none;
+  }
+  .bom-ui .table-mobile-sm td[data-label]::before {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1rem;
+    color: var(--secondary);
+    display: block;
+    content: attr(data-label);
+  }
+  .bom-ui .table-mobile-sm tr {
+    border-bottom: var(--border-width) var(--border-style) var(--border-color-translucent);
+  }
+  .bom-ui .table-mobile-sm .btn {
+    display: block;
+  }
+}
+@media (max-width: 767.98px) {
+  .bom-ui .table-mobile-md {
+    display: block;
+  }
+  .bom-ui .table-mobile-md thead {
+    display: none;
+  }
+  .bom-ui .table-mobile-md tbody,
+.bom-ui .table-mobile-md tr {
+    display: flex;
+    flex-direction: column;
+  }
+  .bom-ui .table-mobile-md td {
+    display: block;
+    padding: 0.75rem 0.75rem !important;
+    color: var(--body-color) !important;
+    border: none;
+  }
+  .bom-ui .table-mobile-md td[data-label]::before {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1rem;
+    color: var(--secondary);
+    display: block;
+    content: attr(data-label);
+  }
+  .bom-ui .table-mobile-md tr {
+    border-bottom: var(--border-width) var(--border-style) var(--border-color-translucent);
+  }
+  .bom-ui .table-mobile-md .btn {
+    display: block;
+  }
+}
+@media (max-width: 991.98px) {
+  .bom-ui .table-mobile-lg {
+    display: block;
+  }
+  .bom-ui .table-mobile-lg thead {
+    display: none;
+  }
+  .bom-ui .table-mobile-lg tbody,
+.bom-ui .table-mobile-lg tr {
+    display: flex;
+    flex-direction: column;
+  }
+  .bom-ui .table-mobile-lg td {
+    display: block;
+    padding: 0.75rem 0.75rem !important;
+    color: var(--body-color) !important;
+    border: none;
+  }
+  .bom-ui .table-mobile-lg td[data-label]::before {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1rem;
+    color: var(--secondary);
+    display: block;
+    content: attr(data-label);
+  }
+  .bom-ui .table-mobile-lg tr {
+    border-bottom: var(--border-width) var(--border-style) var(--border-color-translucent);
+  }
+  .bom-ui .table-mobile-lg .btn {
+    display: block;
+  }
+}
+@media (max-width: 1199.98px) {
+  .bom-ui .table-mobile-xl {
+    display: block;
+  }
+  .bom-ui .table-mobile-xl thead {
+    display: none;
+  }
+  .bom-ui .table-mobile-xl tbody,
+.bom-ui .table-mobile-xl tr {
+    display: flex;
+    flex-direction: column;
+  }
+  .bom-ui .table-mobile-xl td {
+    display: block;
+    padding: 0.75rem 0.75rem !important;
+    color: var(--body-color) !important;
+    border: none;
+  }
+  .bom-ui .table-mobile-xl td[data-label]::before {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1rem;
+    color: var(--secondary);
+    display: block;
+    content: attr(data-label);
+  }
+  .bom-ui .table-mobile-xl tr {
+    border-bottom: var(--border-width) var(--border-style) var(--border-color-translucent);
+  }
+  .bom-ui .table-mobile-xl .btn {
+    display: block;
+  }
+}
+@media (max-width: 1399.98px) {
+  .bom-ui .table-mobile-xxl {
+    display: block;
+  }
+  .bom-ui .table-mobile-xxl thead {
+    display: none;
+  }
+  .bom-ui .table-mobile-xxl tbody,
+.bom-ui .table-mobile-xxl tr {
+    display: flex;
+    flex-direction: column;
+  }
+  .bom-ui .table-mobile-xxl td {
+    display: block;
+    padding: 0.75rem 0.75rem !important;
+    color: var(--body-color) !important;
+    border: none;
+  }
+  .bom-ui .table-mobile-xxl td[data-label]::before {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1rem;
+    color: var(--secondary);
+    display: block;
+    content: attr(data-label);
+  }
+  .bom-ui .table-mobile-xxl tr {
+    border-bottom: var(--border-width) var(--border-style) var(--border-color-translucent);
+  }
+  .bom-ui .table-mobile-xxl .btn {
+    display: block;
+  }
+}
+
+.bom-ui .table-sort {
+  --table-sort-icon-size: 1rem;
+  --table-sort-icon-margin-start: 0.25rem;
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin: -0.5rem -0.75rem;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  background: inherit;
+  border: 0;
+  transition: color 0.3s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .table-sort {
+    transition: none;
+  }
+}
+.bom-ui .table-sort:hover,
+.bom-ui .table-sort.asc,
+.bom-ui .table-sort.desc {
+  color: var(--body-color);
+}
+.bom-ui .table-sort::after {
+  display: inline-flex;
+  width: var(--table-sort-icon-size);
+  height: var(--table-sort-icon-size);
+  margin-inline-start: var(--table-sort-icon-margin-start);
+  vertical-align: bottom;
+  content: "";
+  background: currentColor;
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1'><path d='M5 7l3 -3l3 3'/><path d='M5 10l3 3l3 -3'/></svg>");
+}
+.bom-ui .table-sort.asc::after {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M5 10l3 -3l3 3'/></svg>");
+}
+.bom-ui .table-sort.desc::after {
+  mask-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16'><path fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='M5 7l3 3l3 -3'/></svg>");
+}
+
+.bom-ui .table-borderless thead th {
+  background: transparent;
+}
+
+.bom-ui .table-selectable tbody tr .on-checked {
+  display: none;
+}
+.bom-ui .table-selectable tbody tr .on-unchecked {
+  display: initial;
+}
+.bom-ui .table-selectable tbody tr:has(.table-selectable-check:checked) {
+  background-color: var(--active-bg);
+}
+.bom-ui .table-selectable tbody tr:has(.table-selectable-check:checked) .on-checked {
+  display: initial;
+}
+.bom-ui .table-selectable tbody tr:has(.table-selectable-check:checked) .on-unchecked {
+  display: none;
+}
+
+.bom-ui textarea[cols] {
+  height: auto;
+}
+
+.bom-ui .col-form-label,
+.bom-ui .form-label {
+  --form-label-required-gap: 0.25rem;
+  display: block;
+  font-weight: var(--font-weight-medium);
+}
+.bom-ui .col-form-label.required::after,
+.bom-ui .form-label.required::after {
+  margin-inline-start: var(--form-label-required-gap);
+  color: oklch(58.29% 0.1941 25.59deg);
+  content: "*";
+}
+
+.bom-ui .form-label-description {
+  float: inline-end;
+  font-weight: var(--font-weight-normal);
+  color: var(--secondary);
+}
+
+.bom-ui .form-select:-moz-focusring {
+  color: var(--body-color);
+}
+
+.bom-ui .form-control:-webkit-autofill {
+  color: var(--body-color);
+  box-shadow: 0 0 0 1000px var(--bg-surface-secondary) inset;
+  -webkit-text-fill-color: var(--body-color);
+}
+.bom-ui .form-control:disabled,
+.bom-ui .form-control.disabled {
+  color: var(--control-disabled-color);
+  user-select: none;
+}
+.bom-ui .form-control[size] {
+  width: auto;
+}
+
+.bom-ui .form-control-light {
+  background-color: var(--bg-surface-secondary);
+  border-color: transparent;
+}
+
+.bom-ui .form-control-dark {
+  color: #fff;
+  background-color: color-mix(in oklab, var(--black) 10%, transparent);
+  border-color: transparent;
+}
+.bom-ui .form-control-dark:focus {
+  background-color: color-mix(in oklab, var(--black) 10%, transparent);
+  border-color: color-mix(in oklab, var(--white) 24%, transparent);
+  box-shadow: none;
+}
+.bom-ui .form-control-dark::placeholder {
+  color: color-mix(in oklab, var(--white) 60%, transparent);
+}
+
+.bom-ui .form-control-rounded {
+  border-radius: var(--border-radius-pill);
+}
+
+.bom-ui .form-control-flush {
+  padding: 0;
+  line-height: inherit;
+  resize: none;
+  background: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.bom-ui .form-footer {
+  --form-footer-margin-top: 2rem;
+  margin-top: var(--form-footer-margin-top);
+}
+
+.bom-ui .form-fieldset {
+  --form-fieldset-padding: 1rem;
+  --form-fieldset-margin-bottom: 1rem;
+  padding: var(--form-fieldset-padding);
+  margin-bottom: var(--form-fieldset-margin-bottom);
+  background: var(--bg-surface-secondary);
+  border: var(--border-width) var(--border-style) var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.bom-ui fieldset:empty {
+  display: none;
+}
+
+.bom-ui .form-help {
+  --form-help-size: 1.125rem;
+  --form-help-font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--form-help-size);
+  height: var(--form-help-size);
+  padding: 0;
+  font-size: var(--form-help-font-size);
+  font-weight: var(--font-weight-semibold);
+  color: var(--secondary);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  background: var(--bg-surface-tertiary);
+  border: 0;
+  border-radius: var(--border-radius-pill);
+  transition: background-color 0.3s, color 0.3s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .form-help {
+    transition: none;
+  }
+}
+.bom-ui .form-help:hover,
+.bom-ui .form-help[aria-describedby] {
+  color: #fff;
+  background: var(--primary);
+}
+
+.bom-ui .input-group {
+  box-shadow: var(--shadow-input);
+  border-radius: var(--input-group-addon-border-radius);
+}
+.bom-ui .input-group .form-control,
+.bom-ui .input-group .form-select,
+.bom-ui .input-group .btn {
+  box-shadow: none;
+}
+
+.bom-ui .input-group-link {
+  font-size: 0.75rem;
+}
+
+.bom-ui .input-group-flat {
+  outline-color: transparent;
+  transition: outline-color 0.15s ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .input-group-flat {
+    transition: none;
+  }
+}
+.bom-ui .input-group-flat:focus-within {
+  --focus-ring-offset: -1px;
+  outline: var(--focus-ring, var(--focus-ring-width) solid var(--focus-ring-color));
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--input-group-addon-border-radius);
+}
+.bom-ui .input-group-flat:focus-within .form-control,
+.bom-ui .input-group-flat:focus-within .input-group-text {
+  border-color: color-mix(in oklab, var(--white) 50%, var(--primary)) !important;
+}
+.bom-ui .input-group-flat .form-control:focus {
+  border-color: var(--control-border-color);
+  outline: 0;
+  box-shadow: none;
+}
+.bom-ui .input-group-flat .form-control:not(:last-child) {
+  border-inline-end: 0;
+}
+.bom-ui .input-group-flat .form-control:not(:first-child) {
+  border-inline-start: 0;
+}
+.bom-ui .input-group-flat .input-group-text {
+  z-index: 10;
+  background: var(--btn-input-bg);
+  transition: border-color 0.15s ease-in-out, outline-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bom-ui .input-group-flat .input-group-text {
+    transition: none;
+  }
+}
+.bom-ui .input-group-flat .input-group-text:first-child {
+  padding-inline-end: 0;
+  border-inline-end: 0;
+}
+.bom-ui .input-group-flat .input-group-text:last-child {
+  padding-inline-start: 0;
+  border-inline-start: 0;
+}
+.bom-ui .input-group-flat:has(.form-control.is-valid) .input-group-text,
+.bom-ui .was-validated .input-group-flat:has(.form-control:valid) .input-group-text {
+  border-color: var(--form-valid-border-color);
+}
+.bom-ui .input-group-flat:has(.form-control.is-valid):focus-within,
+.bom-ui .was-validated .input-group-flat:has(.form-control:valid):focus-within {
+  outline-color: light-dark(color-mix(in oklab, var(--success) calc(var(--focus-ring-opacity) * 100%), var(--body-bg)), color-mix(in oklab, var(--success) calc(var(--focus-ring-opacity-dark) * 100%), var(--body-bg)));
+}
+.bom-ui .input-group-flat:has(.form-control.is-valid):focus-within .form-control,
+.bom-ui .input-group-flat:has(.form-control.is-valid):focus-within .input-group-text,
+.bom-ui .was-validated .input-group-flat:has(.form-control:valid):focus-within .form-control,
+.bom-ui .was-validated .input-group-flat:has(.form-control:valid):focus-within .input-group-text {
+  border-color: var(--form-valid-border-color) !important;
+}
+.bom-ui .input-group-flat:has(.form-control.is-invalid) .input-group-text,
+.bom-ui .was-validated .input-group-flat:has(.form-control:invalid) .input-group-text {
+  border-color: var(--form-invalid-border-color);
+}
+.bom-ui .input-group-flat:has(.form-control.is-invalid):focus-within,
+.bom-ui .was-validated .input-group-flat:has(.form-control:invalid):focus-within {
+  outline-color: light-dark(color-mix(in oklab, var(--danger) calc(var(--focus-ring-opacity) * 100%), var(--body-bg)), color-mix(in oklab, var(--danger) calc(var(--focus-ring-opacity-dark) * 100%), var(--body-bg)));
+}
+.bom-ui .input-group-flat:has(.form-control.is-invalid):focus-within .form-control,
+.bom-ui .input-group-flat:has(.form-control.is-invalid):focus-within .input-group-text,
+.bom-ui .was-validated .input-group-flat:has(.form-control:invalid):focus-within .form-control,
+.bom-ui .was-validated .input-group-flat:has(.form-control:invalid):focus-within .input-group-text {
+  border-color: var(--form-invalid-border-color) !important;
+}
+
+.bom-ui .form-file-button {
+  margin-inline-start: 0;
+  border-inline-start: 0;
+}
+
+.bom-ui .form-control,
+.bom-ui .form-select {
+  --form-control-mobile-font-size: 1rem;
+}
+@media (max-width: 575.98px) {
+  .bom-ui .form-control,
+.bom-ui .form-select {
+    font-size: var(--form-control-mobile-font-size);
+  }
+}

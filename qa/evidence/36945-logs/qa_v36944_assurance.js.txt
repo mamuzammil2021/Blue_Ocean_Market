@@ -1,0 +1,8 @@
+PASS Repeated acceptance/quarantine cycles preserve immutable receipt facts and exact usable inventory
+PASS Concurrent credit allocations lock one approved balance and prevent reuse
+PASS Concurrent full refunds produce exactly one Finance cash event
+PASS Injected Finance failure rolls back actual refund, receivable reduction and cash creation
+PASS Excess invoice reversal preserves dated statement entries and reconciles current supplier position
+PASS EN/KR Import, Packaging, Claim and Supplier HTML/CSV/PDF reports render with extractable text and separate original currencies
+(node:1861) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

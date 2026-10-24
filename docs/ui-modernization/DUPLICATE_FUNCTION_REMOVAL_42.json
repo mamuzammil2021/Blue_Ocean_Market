@@ -1,0 +1,330 @@
+[
+  {
+    "file": "public/client.js",
+    "name": "scheduleDataSync",
+    "removed_bytes": 122,
+    "removed_sha256": "7c0eb85e9bfad89e626e79e60b70408762d7fe12a152a690f2e78025710c7bc1",
+    "retained_sha256": "5b4848099bacc615ec1521b4359e77ae15af713b0b66dd6d29f2e18d7b0d2c65",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "finance",
+    "removed_bytes": 6507,
+    "removed_sha256": "2f6148e570f743267a8423d0f02c25882889904fbce3d1ee03aa725c9f374a37",
+    "retained_sha256": "4db4f24b9f27d818be116c4b431af2f818d04be1f146bcd9c7cc9029d7d2f6c1",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "financeOpen",
+    "removed_bytes": 5531,
+    "removed_sha256": "a6671efb4d7fdb7b96f6b2f1e20df6bb08944f7dc9c5453d97f116dd6c118b58",
+    "retained_sha256": "38e6853a495d0a79c1547b8facc064fad465a80d2a9dcaa3d0b34c3b19188792",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "restaurant",
+    "removed_bytes": 1910,
+    "removed_sha256": "df9d4b836996fdf98c59828c96aa48a28f6df425304fc771de712e5a9a33876d",
+    "retained_sha256": "5b55bb965f670314bcd2eb75cda84162d2506a4d25198510d0274b298e0dac83",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "manageRestaurantTables",
+    "removed_bytes": 909,
+    "removed_sha256": "e50db49261193851b564ec8537bc2e356348e7f3291b2e81473fc3e63eb28ae2",
+    "retained_sha256": "e50db49261193851b564ec8537bc2e356348e7f3291b2e81473fc3e63eb28ae2",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "manageRestaurantTables",
+    "removed_bytes": 1037,
+    "removed_sha256": "73221caadca154d59390463d73a88e4ec03188337ea15001f12c7dee9ff52ffa",
+    "retained_sha256": "e50db49261193851b564ec8537bc2e356348e7f3291b2e81473fc3e63eb28ae2",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "deleteRestaurantTable",
+    "removed_bytes": 413,
+    "removed_sha256": "9132fa37862d0628d3ed434021d60dd3c10c756fd088523f275bde270fcb63a9",
+    "retained_sha256": "9132fa37862d0628d3ed434021d60dd3c10c756fd088523f275bde270fcb63a9",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "excavatorSupplierRequirements",
+    "removed_bytes": 690,
+    "removed_sha256": "c59cb94a2b5498e8739dfe5d8af831c3ae0047346a5d33f59bf1aec1bdca7267",
+    "retained_sha256": "08ad09c6f888e2ac496694f2192d00800618f682b56f9c17584e250db94e7897",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "excavatorRequirementForm",
+    "removed_bytes": 1216,
+    "removed_sha256": "819ab70ee6d7c3dd48788d53da0cfc9456bc81b13667ac5e62630508388325d9",
+    "retained_sha256": "daac41270377d64d00409857a54781fdc4c3b38898f3293da4dbd189464c810e",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveExcavatorRequirement",
+    "removed_bytes": 339,
+    "removed_sha256": "c435b91a7b0a5b9a2b1d817c7142ffd27998270528d62fdb7e50fb949f6648b9",
+    "retained_sha256": "73c53bbe9d4abaa7daf64a9ea2ae639dfc83007a2201dd9d1fdb440036c363e1",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveExcavatorBuyerResale",
+    "removed_bytes": 643,
+    "removed_sha256": "dce8336ea66dca9ef521080412a3ab387753beb9393b68f3e5a91cfb0d046ba7",
+    "retained_sha256": "841446cc18ddde758339ba16d08aa1a8a2303783f0ac2698a3a7cbdd2dbdf02f",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "excavatorBuyerRequirementForm",
+    "removed_bytes": 1034,
+    "removed_sha256": "ff6fc4dfb32375d4daa134b79cbbf29b522ecb6a19aa86f946bf836e7ff90b0b",
+    "retained_sha256": "b5fbef6dd44454c48081f7b03bf32244a553f013e090599ae1af5125760bf924",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "excavatorBuyerRequirementForm",
+    "removed_bytes": 2562,
+    "removed_sha256": "fc359e6ee0e87c45e247acc2c27447f603e303366c3f7a0426585b5671cdf433",
+    "retained_sha256": "b5fbef6dd44454c48081f7b03bf32244a553f013e090599ae1af5125760bf924",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveExcavatorBuyerRequirement",
+    "removed_bytes": 351,
+    "removed_sha256": "936bf9242d7c8e092db82447c6760077c5692bc0329457cf9bcebed524483b1e",
+    "retained_sha256": "5acbdb1f20113e45b25b51f099bc4466efd260cf503275c89b5e80d5a87f6b72",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveExcavatorBuyerRequirement",
+    "removed_bytes": 446,
+    "removed_sha256": "25bd610ca11673989abe5b6b2fded98bd99c7bf0b245014190f107f46b28fd4c",
+    "retained_sha256": "5acbdb1f20113e45b25b51f099bc4466efd260cf503275c89b5e80d5a87f6b72",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveSimpleExcavatorMachine",
+    "removed_bytes": 1329,
+    "removed_sha256": "454e8a4d23109aa9cd1fda137e949f26494b4076473d744afdea99479e51790f",
+    "retained_sha256": "befc2a4c07b4274a86ea2c2e6e6d5d2569140fe3a67c0df622bee7d2a659425a",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveSimpleExcavatorCost",
+    "removed_bytes": 528,
+    "removed_sha256": "3417d31a621adfd7eaa56d7f6425a620ddd30494b5410f11e911eab6299867c3",
+    "retained_sha256": "408691fbd36f611503ec8ce08088094cec6f19af74569fcb640de60f654b44b9",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "completeExcavatorSale",
+    "removed_bytes": 3038,
+    "removed_sha256": "bb72935393b0b4a72b4dc6def71a3e81cc38be935e7191680f02c4784d45e246",
+    "retained_sha256": "bb72935393b0b4a72b4dc6def71a3e81cc38be935e7191680f02c4784d45e246",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveExcavatorPayment",
+    "removed_bytes": 575,
+    "removed_sha256": "d8402b740461361b973373967a6da1378fce7822d023a994c054772213f7d0e9",
+    "retained_sha256": "d34048d62fa014203eb6f0cb55d0731185a1d41a804e5b85079c9b62ae34149c",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "uploadExcavatorDocuments",
+    "removed_bytes": 269,
+    "removed_sha256": "536eb4bfad8741eff14dc560391f87f35e9ccfea27a860115efb60c67b66f6ec",
+    "retained_sha256": "7a95bb7c7d5b3c755f9bc8a6d73a7cf727a70827adc3310eea3b3011beb86772",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "restaurantPOS",
+    "removed_bytes": 1500,
+    "removed_sha256": "0ae75fb01d4b0b055b5b8ebfa59e040c9fea8468ce3336621d69e3de64a36ecd",
+    "retained_sha256": "8fcc913b9eb145c19ab82228c5586853c4a6a66aa49df7ffb4b735aeee7bdc73",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "addRItem",
+    "removed_bytes": 229,
+    "removed_sha256": "c9884df653289c645c7698b393756f8cd5eb7bfd3d49686b179802389c85fb3e",
+    "retained_sha256": "2ee9a520ec594d7dfb92a5945cf2cecf46224c446e6bcb866d6fee6a395f0739",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "drawR",
+    "removed_bytes": 693,
+    "removed_sha256": "a63bf4d304ec51d60727e1c31c929a82f38822b47e0e76e87673a02d6c13ab46",
+    "retained_sha256": "72e3a07a299586c5ab531d695a98e37a7e6fc6dfc890b46a01ffadc4a649d732",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveROrder",
+    "removed_bytes": 733,
+    "removed_sha256": "f6bbdeda8e115c834082dbccfa744a739a86c692e9ab86946f5a73bea854297e",
+    "retained_sha256": "2a40bd8aaf6ddb74f87672ea6c2c913a5fb526a04ec72c562bb7f02118bc2608",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "financeEdit",
+    "removed_bytes": 1110,
+    "removed_sha256": "4becf2f7a655331ea3e91cd4e0aba321f66e74b95f8aa6d2ebc0cc9d87ae5392",
+    "retained_sha256": "63622dbf706034acd05b72314793a09f3296a2b8db0e2ad2c706781970fe427f",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "financeEdit",
+    "removed_bytes": 2212,
+    "removed_sha256": "efc1373127a8cbe54f52c09340c0de74d067316f407f00bfdc5746299198d523",
+    "retained_sha256": "63622dbf706034acd05b72314793a09f3296a2b8db0e2ad2c706781970fe427f",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveFinanceEdit",
+    "removed_bytes": 751,
+    "removed_sha256": "b0fb31ea9c36c95d07ca9be511ca8c1e54ac2f2d7f794e09fbe5fab04287c65b",
+    "retained_sha256": "91e849cda46c50514551241b33242f9a440eecca12e8c56db817b8fed4c23bfc",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveFinanceEdit",
+    "removed_bytes": 749,
+    "removed_sha256": "261ad8aa5df75030ac2ed25dc5ab978eecc70ed245f1c75575c6ebf8fe64bef2",
+    "retained_sha256": "91e849cda46c50514551241b33242f9a440eecca12e8c56db817b8fed4c23bfc",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "weeklyForm",
+    "removed_bytes": 1140,
+    "removed_sha256": "2e4f35dfef754e91cf3f7fe801283bce046e2b8cd9dae9cd569d388c1ae1d3fb",
+    "retained_sha256": "8532a5b3867cd21667aa39f47c20293d77979d2b3ca3ee395d8315bc383e8cbd",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveWeekly",
+    "removed_bytes": 333,
+    "removed_sha256": "9885ae6dbf9cfa845ecdae07ede97df21f298e7ee9c5af29583cd079f05fa555",
+    "retained_sha256": "9d99ae93be3c5a0cd6c14eecb59fbb1eb2b8cac9e8451716f73735c19df7e109",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "editOpenOrder",
+    "removed_bytes": 1597,
+    "removed_sha256": "5e118df9fd0ae211ab84f523ba24f4a68d4ee44c7e1c851f6e9635976fde7395",
+    "retained_sha256": "e6dafce9409a13133dd3801f6fa01edc7ffb580ce082647abd6b0eb4c85d9532",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "addEditRItem",
+    "removed_bytes": 245,
+    "removed_sha256": "b2e030950a59fd6854de21148d38c34967d9e8771121a8bc02696b030bcefb1c",
+    "retained_sha256": "d17ddcb44297351c241dbf57ef78f861683bb5853281f349545d55c81813b9e0",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "drawEditR",
+    "removed_bytes": 699,
+    "removed_sha256": "69020692ef358829b8004fd3a6cf7576a84a1e9e7e975a67913f7e3c6ac50d40",
+    "retained_sha256": "5fd32726887183d4c5074307ba048b465a2ed74b6ff95ff811207cbec00abe6b",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveOpenOrder",
+    "removed_bytes": 363,
+    "removed_sha256": "cd90731b524080f4143372bdab3826327cc87c31e7dd5a07dfc14a4257a2b38a",
+    "retained_sha256": "7f9089b5ebe2b30ba5576a0ece582109c36c976ebadd7dd85c5758e3490acfc8",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "closeOpenOrder",
+    "removed_bytes": 840,
+    "removed_sha256": "7ce50cbad277954decf60a279368f303fe098bb0ecdfea5479d45fc037e9473a",
+    "retained_sha256": "b9ed2c066e980c39cb73ddfe8e60620fc8223b1aae491b0deba80558c0a32150",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveExcavatorRepair",
+    "removed_bytes": 327,
+    "removed_sha256": "9973fd66826bf0e16687333c99d196e77a68e79ce91a28744a30343f5f22ad61",
+    "retained_sha256": "47971a2ecff1ce7720170fd73e5161bbfcca5a649bbc03cbeb49b11780b502be",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "saveExcavatorLogistics",
+    "removed_bytes": 335,
+    "removed_sha256": "50f824500c6528ca847aac1427fdb7ea89b0e85a47acd4dbb922d835a0bf68f1",
+    "retained_sha256": "afd6fbe127b54c5779fbcb30d08db9ce16d97ec6b6829530271e600f4c82092f",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "excavatorBuyerRequirementView",
+    "removed_bytes": 1571,
+    "removed_sha256": "3d8a0aa9b81b5e1fa173e1b71e89c5b34d7f8280fc538ed403e4d0bc638db242",
+    "retained_sha256": "9c7aca33c67c35eeae6a10b3fe92fa5495f900f05fad152b04644459da78e2f3",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "excavatorBuyerRequirementMatches",
+    "removed_bytes": 1334,
+    "removed_sha256": "2c6a668aabfd3ed484321461bb954d25e30fc9b08fff1d7e6d570b7b603aa5c2",
+    "retained_sha256": "66564a04476eae5d6ad3a38c22b99d1846719bb7aeb0fb0b2ddf73830d259ffc",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "financeCorrectionOpen",
+    "removed_bytes": 1630,
+    "removed_sha256": "9399122c706cb6f3e2f13b1497c601d812e24fef495114bded2cb526d27cbe1b",
+    "retained_sha256": "0bd7ab280ab64648d939d628a0c53aeaf1e5ff535b1219ed9e49285cfcf31a74",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  },
+  {
+    "file": "public/client.js",
+    "name": "financeCorrectionRespond",
+    "removed_bytes": 289,
+    "removed_sha256": "e281e70f2cf2aa856fec9a83947ac2709539c8a6c105e8c4bdf1ea6ff70a7194",
+    "retained_sha256": "1474655d2bad63f36e42eac53049c740647cbacb908bfca9231d2b7293c1677f",
+    "proof": "Earlier same-name top-level declaration in one classic script; last declaration is bound before script execution. Public name and final declaration retained; route sweeps and release regressions validate the retained behavior."
+  }
+]

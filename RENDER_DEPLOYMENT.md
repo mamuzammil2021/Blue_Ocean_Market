@@ -1,3 +1,15 @@
+# Current release: V30.69.45
+
+Read `V30_69_45_MIGRATION_DEPLOYMENT_AND_GIT.md` first. V45 adds issue/task integration tables; preserve existing persistent storage. Older release sections below are historical.
+
+---
+
+# Current release: V30.69.44
+
+Read [V30_69_44_MIGRATION_DEPLOYMENT_AND_GIT.md](V30_69_44_MIGRATION_DEPLOYMENT_AND_GIT.md) first. V44 has additive receiving migrations. Earlier release summaries below are historical; preserve the existing persistent-storage configuration.
+
+---
+
 # Current release: V30.69.38
 
 See [START_HERE_V30_69_38.md](START_HERE_V30_69_38.md) for the current build, QA, Git and deployment instructions. Earlier release sections below are historical.

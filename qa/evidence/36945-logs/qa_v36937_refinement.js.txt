@@ -1,0 +1,10 @@
+PASS Material list exposes actual history dependencies for archive/delete row controls
+PASS Normal purchase confirms in the single create/review flow, with no approval request or stock creation
+PASS List summaries start unpaid/not received and used materials are no longer deletable
+PASS Partial receipt/payment summaries reconcile live quantities, paid/outstanding values and pending Finance verification
+PASS Completed receipt/settlement enables Close, hides Receive and keeps Finance verification separate
+PASS Optional drafts and server-side pagination remain supported
+PASS Cancelled purchases do not display a supplier amount still due
+PASS Configured exceptional purchase authorization remains active on auto-confirm creation
+(node:2708) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

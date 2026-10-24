@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "checks": [
+    "All purchased salt categories are received together in one exact multi-line session",
+    "Correct bag count and short net weight are independent; unexplained missing weight cannot silently become a delayed delivery",
+    "Replacement remains pending until quality acceptance, allows replacement of rejected goods and cannot exceed the approved usable quantity",
+    "Full credit plus unvalued full replacement is rejected atomically before issuing any compensation",
+    "Excess deliveries preserve explicit no-charge versus additional payable agreements and match stock valuation to the authorized price",
+    "Confirmed shortage can close the unfulfilled quantity and reduce an unpaid invoice without creating missing stock",
+    "Supplier, company, 50/50, carrier and three-party responsibility produce exactly reconciled obligations",
+    "Pending investigation remains provisional and creates no credit, refund or company loss",
+    "Partial agreement issues only its agreed amount and keeps a linked disputed remainder open",
+    "Controlled amendment reverses the prior obligation and preserves old responsibility and settlement history",
+    "Existing supplier financial statement and centralized profile reconcile after claims, credits and excess invoice adjustments",
+    "Closed-period failure rolls back receipt, case, movement and ledger changes as one transaction",
+    "PKR claim carrying valuation and actual refund valuation remain distinct, with a balanced FX difference",
+    "Injected downstream stock failure produces no silent partial receipt or case success"
+  ],
+  "synthetic_data_only": true
+}

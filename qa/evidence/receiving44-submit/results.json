@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Real Import submit survives a lost success response; retry replays the saved operation without duplicate stock",
+    "Refresh after server commit recovers the durable operation and displays saved receiving history",
+    "Real Packaging full-page submit converts cartons, posts usable stock once and returns to purchase detail",
+    "Browser Back/Forward restores receiving and packaging purchase deep routes"
+  ],
+  "errors": [],
+  "synthetic_data_only": true
+}

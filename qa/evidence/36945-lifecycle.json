@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Later-delivery decisions use one authorized allowance; quarantined deliveries hide further receiving until inspection resolves the original task",
+    "Authorized measurement correction reverses original stock, resolves the same issue/task and restores receiving without reopening the obsolete claim",
+    "An entirely missing zero-stock receipt can also be corrected through the same controlled history without inventing a stock movement",
+    "A correction cannot remove consumed stock; failed correction preserves the hold, issue, receipt and task",
+    "A partial agreement preserves a disputed remainder under the same task and hold, then resolves both portions without duplicate compensation",
+    "Injected task failure rolls back receiving, stock, cases, holds and issue creation atomically",
+    "Concurrent conflicting submissions create one receipt, one investigation and one task",
+    "Final credit posting and task completion commit together; injected projection failure never reports an uncommitted or partial outcome"
+  ],
+  "synthetic_data_only": true
+}

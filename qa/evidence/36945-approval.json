@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Required approval leaves receiving holds and the original investigation task intact, with no premature credit",
+    "Independent approval executes the decision once, closes the compensated quantity and completes the same investigation task",
+    "Posted-only credit remains pending until Posting Control, then updates the linked task and removes the pending indicator automatically",
+    "Business-unit and system-task guards prevent unauthorized access or manual workflow completion"
+  ],
+  "synthetic_data_only": true
+}

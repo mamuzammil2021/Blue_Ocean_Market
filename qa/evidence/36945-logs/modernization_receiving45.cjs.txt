@@ -1,0 +1,6 @@
+PASS EN/KR receiving and responsibility pages reload directly at 1440/820/390 without dialogs or document overflow
+PASS Receive-all prefills net weight and bags independently without checking the physical inspection confirmation
+PASS Exact percentage input recalculates 85/15 liability to cents
+PASS No uncaught browser errors
+(node:3279) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

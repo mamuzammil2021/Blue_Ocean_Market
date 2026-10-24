@@ -270,7 +270,7 @@ function install({app,db,auth,currentUnit,enforceUnit,audit,notify,upload,accoun
         db.prepare("UPDATE accounting_bank_statement_lines SET status='Unreconciled',matched_journal_entry_id=NULL WHERE matched_journal_entry_id=?").run(original.id);
         if(original.source_type==='Finance Entry'&&original.source_id){const f=db.prepare('SELECT * FROM finance_entries WHERE id=?').get(original.source_id);if(f&&f.status==='Voided'&&Number(f.accounting_journal_id||0)===Number(j.id))db.prepare("UPDATE finance_entries SET accounting_status='Reversed',accounting_journal_id=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(j.id,f.id)}
       }else if(j.finance_entry_id){db.prepare("UPDATE finance_entries SET accounting_status='Posted',accounting_journal_id=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").run(j.id,j.finance_entry_id)}
-      history(j,req.user,j.source_type==='Accounting Reversal'?'Reversal Final Posted':'Final Posted',note,j.status,'Posted');
+      history(j,req.user,j.source_type==='Accounting Reversal'?'Reversal Final Posted':'Final Posted',note,j.status,'Posted');app.locals.bomSyncReceiving45?.(req,j.business_unit_id);
     });
     try{tx()}catch(e){return res.status(409).json({error:e.message})}res.json({ok:true,id:j.id,status:'Posted'});
   });
