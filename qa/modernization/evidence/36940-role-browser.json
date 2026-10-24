@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Authorized Operations Manager retains import list access in the modernized shell",
+    "Staff mobile UI does not expose a procurement payment action and server rejects the mutation",
+    "Other-BU operator sees no Pink Salt import record data and server rejects cross-BU context",
+    "No uncaught browser errors across tested role variants"
+  ],
+  "errors": [],
+  "production_data_used": false
+}

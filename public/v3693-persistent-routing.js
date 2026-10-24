@@ -6,7 +6,7 @@ let epoch=0,active=null,queue=Promise.resolve(),phase='idle',loaded=null,loadedU
 const originals=new Map(),bound=new WeakSet(),safeState=['search','page','pageSize','status','type','activity','payment','channel','sort','direction','mode','from','to','evidence','special','filter','scope'];
 const T=(en,ko)=>currentLanguage==='ko'?ko:en;
 const trace=[];function note(stage,r){if(window.BOM_ROUTE_DEBUG===true){trace.push({stage,route:url(r),epoch,time:Math.round(performance.now())});if(trace.length>256)trace.shift();}}
-function loading(){const host=document.getElementById('content')||root;if(!host||host.querySelector('[data-bom-route-loading]'))return;host.innerHTML=`<div data-bom-route-loading role="status" aria-live="polite">${window.BOMProgressive?.sectionHtml?.({label:T('Loading destination…','목적지를 불러오는 중…'),rows:5,minHeight:180})||`<div class="card">${esc(T('Loading destination…','목적지를 불러오는 중…'))}</div>`}</div>`;host.removeAttribute('data-bom-route');}
+function loading(){const host=document.getElementById('content')||root;if(!host||host.querySelector('[data-bom-route-loading]'))return;host.innerHTML=`<div data-bom-route-loading role="status" aria-live="polite">${window.BOMProgressive?.sectionHtml?.({label:T('Loading destination…','목적지를 불러오는 중…'),rows:5,minHeight:180})||`<span class="bom43-loader" role="status" aria-live="polite"><span class="bom-loading-ring" aria-hidden="true"></span><span class="bom-loading-label">Loading…</span></span>`}</div>`;host.removeAttribute('data-bom-route');}
 async function destination(entry,r){
  const host=document.getElementById('content');
  if(entry?.prepare)await entry.prepare(r);
@@ -69,7 +69,7 @@ window.addEventListener('storage',e=>{if(e.key!=='bo_token'||e.newValue===token)
 window.addEventListener('popstate',historyEvent);window.addEventListener('hashchange',historyEvent);
 window.go=(v,opts={})=>{closeMobileSidebar();if(formDirty)return guardDirty(T('Discard unsaved changes and navigate?','저장하지 않은 변경을 취소하고 이동할까요?'),()=>navigate(v,'',0,'',{replace:!!opts.replace}));return navigate(v,'',0,'',{replace:!!opts.replace})};go=window.go;
 window.switchUnit=id=>navigate(view,'',0,'',{unit:id||''});switchUnit=window.switchUnit;
-allowed=allowedView;window.closeWorkflowPageV324=function(force=false){const finish=()=>{formDirty=false;const r=parse(),parent=registry.find(r)?.parent;if(parent)return navigate(parent.view,parent.kind||'',0,'',{params:window.BOMProductUX38?.parentState(parent)||{}});if(history.state?.previousRoute)history.back();else navigate(view,'',0,'',{replace:true})};if(!force&&formDirty)return guardDirty(T('Discard unsaved changes and return?','저장하지 않은 변경을 취소하고 돌아갈까요?'),finish);return finish()};
+allowed=allowedView;window.closeWorkflowPageV324=function(force=false){const finish=()=>{formDirty=false;const r=parse(),entry=registry.find(r);if(entry?.workflowPage)return BOMWorkflowPages42.returnToOrigin();const parent=entry?.parent;if(parent)return navigate(parent.view,parent.kind||'',0,parent.section||'',{params:window.BOMProductUX38?.parentState(parent)||{}});if(history.state?.previousRoute)history.back();else navigate(view,'',0,'',{replace:true})};if(!force&&formDirty)return guardDirty(T('Discard unsaved changes and return?','저장하지 않은 변경을 취소하고 돌아갈까요?'),finish);return finish()};
 // All eager module initialization is now complete before authentication starts.
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>boot(),{once:true});else boot();
 })();

@@ -1,3 +1,43 @@
+# V30.69.44 — 24 October 2026
+
+Completed shared receiving, discrepancy responsibility and supplier settlements; fixed durable save recovery, refund response-loss recovery, explicit non-cash credit review, location-aware raw consumption, stock reversal guards, quality stock projections and receiving report metadata. Added current release gate, browser financial execution, production/restart coverage and migration/Git handoff. See V44 reports for executed validation.
+
+# V30.69.42 recovery release
+
+Recovered the saved 73-owner workflow migration and restored missing Korean commerce enum and placeholder fixes. The migrated 90 seeded variants use stable full-screen routes, original domain validators/save controllers and exact return destinations. Kept protected server/business source, approvals, FX accounting, stock and audit behavior unchanged. Removed 41 proven shadowed frontend declarations, retained uncertain compatibility code, and reran recovery acceptance against isolated fixtures. See RECOVERY_AND_MIGRATION_REPORT_42.md for actual scope and QA_RESULTS_AND_SCREENSHOT_INDEX.md for current results and remaining target-host acceptance. No main changes, push or deployment.
+
+## Historical release notes
+
+# V30.69.41 — corrective screen modernization
+
+- Replace Accounting’s secondary sidebar with grouped top navigation; make Settings section editors full width.
+- Add explicit payroll/profile/access/accounting domain panel and standalone-control adaptations; fix anchor navigation styling.
+- Add six canonical access-editor pages and manual journal create/correct pages with existing confirmations, evidence and dirty guards.
+- Move approval/task/report record details to explicit full pages; retain task progress/comment refresh and report review.
+- Fix All Units loan navigation with an explicit scope prompt; preserve BU-specific API policy.
+- Fix manual journal’s out-of-scope return callback; proposals stay unposted and corrections preserve identity.
+- Add Korean editor/attachment messages, permission-cell names, scoped module stylesheet and verified Accounting style cleanup.
+- Correct completion claims; publish actual screen status and limitations.
+
+# V30.69.40 — Tabler UI engineering staging candidate
+
+- Add scoped Tabler core subset, shared design tokens/adapters and 33 selected SVG icons across all primary views.
+- Improve compact controls, responsive shell/cards/tables, action visibility, labels, focus and reduced motion.
+- Extract legacy head CSS; remove 31 exact superseded duplicate rules with evidence.
+- Prevent stale mutation completion timer from closing a fresh form sharing the same submit handler.
+- Stabilize rollback QA snapshots by waiting for prior Accounting queue work; retain all business/Accounting logic.
+- Add reproducible builds, audit/mapping/cleanup documentation, browser evidence and staging/rollback/Git instructions.
+- Preserve Packaging FX detail context and restore focus after short-dialog close.
+- Complete the follow-up Korean system-label audit (238 catalogue labels, contextual credit heading and dynamic text patterns).
+- Route Accounting journal/posting review as full pages; extract their presentation into one module without changing mutation handlers.
+- Remove the invalid sales-list allocation fragment; test caught errors/loading destinations in route sweeps.
+- Add five-role/L0–L4 browser coverage, protected L5 checks, forced failures/retry, keyboard/accessibility-tree and 200% reflow tests.
+- Verify bounded 25-row paging with 2,501 orders and 1,001 customers.
+- Fix the rapid keyboard dialog focus race and replace remaining shell glyphs with SVGs.
+- Retain target-host install/PDF and deployment acceptance as explicit release prerequisites.
+
+---
+
 # V30.69.33 — payment settlement and approvals
 
 Native account inflows/outflows are distinct from KRW; exact-account postings are verified end to end. Required approvals now precede individual/bulk Finance verification. One actionable approval task follows stages; notifications and important-task email reuse shared controls. Exact-payment policy approval gives valid FX/fee settlements a controlled completion path. Protected source: V30.69.32. See current release reports for actual verification and limits.

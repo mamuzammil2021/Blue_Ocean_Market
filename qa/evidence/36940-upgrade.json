@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "tables": 254,
+  "baseline": "30.69.39",
+  "version": "30.69.40",
+  "restarts": 2,
+  "baseline_normalization_restart": true,
+  "ignored_registry_refresh_timestamps": {
+    "numbering_reference_definitions": [
+      "updated_at"
+    ],
+    "platform_entities": [
+      "updated_at"
+    ],
+    "platform_modules": [
+      "updated_at"
+    ]
+  },
+  "server_js_byte_identical": true,
+  "production_data_used": false
+}

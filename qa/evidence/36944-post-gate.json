@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "tested_at": "2026-10-24T06:36:29.835320+00:00",
+  "reason": "Final report table sizing and automatic Korean audit-reason localization after the complete gate; reran affected report, UI and responsive suites.",
+  "checks": [
+    {
+      "suite": "qa_v36944_ui_contract.js",
+      "status": "PASS",
+      "passed_log_lines": 10
+    },
+    {
+      "suite": "qa_v36944_assurance.js",
+      "status": "PASS",
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "modernization/receiving44.cjs",
+      "status": "PASS",
+      "passed_log_lines": 4
+    }
+  ],
+  "source_hashes": {
+    "public/receiving44.js": "01623f66f2880a0822793feaab18ec5c3dddf9cef02cdfdacf28978bca033182",
+    "server/receiving/reports.js": "fea46fca4aa6f735369d7211d33ff7ff610250e493f8d238642bf4685ef358f2",
+    "public/index.html": "4b05e73ced5f27e2d18d653268c79dd3a2434396876b619baa0262b95d5f1150",
+    "server/frontend-manifest.json": "d8fd76bd1b130d6ee401633f37e36af38a8f03e2b7761ff8eac21d2b587faa2e"
+  },
+  "synthetic_data_only": true
+}

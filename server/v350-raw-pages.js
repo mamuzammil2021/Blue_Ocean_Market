@@ -9,12 +9,12 @@ const STOCK_SUMMARY_SQL=`WITH balances AS (SELECT x.id,x.salt_grade,COALESCE(SUM
  COALESCE(SUM(CASE WHEN lower(salt_grade) LIKE '%mesh%' THEN available_kg ELSE 0 END),0) mesh_kg,
  COALESCE(SUM(CASE WHEN instr(salt_grade,'2-3')>0 OR instr(salt_grade,'2–3')>0 THEN available_kg ELSE 0 END),0) mm_2_3_kg,
  COALESCE(SUM(CASE WHEN instr(salt_grade,'3-5')>0 OR instr(salt_grade,'3–5')>0 THEN available_kg ELSE 0 END),0) mm_3_5_kg FROM balances`;
-const STOCK_PAGE_SQL=`WITH chosen AS MATERIALIZED (SELECT x.id,x.salt_grade,x.specification,x.bag_size_kg,x.bag_count,x.total_weight_kg,x.received_weight_kg,x.storage_location,x.landed_cost_krw,
+const STOCK_PAGE_SQL=`WITH chosen AS MATERIALIZED (SELECT x.id,x.salt_grade,x.specification,x.bag_size_kg,x.bag_count,x.total_weight_kg,x.received_weight_kg,x.storage_location,x.landed_cost_krw,x.receiving_unit_cost_krw,
  i.id import_id,i.import_no,i.container_no,i.actual_arrival,i.invoice_currency,s.name supplier FROM pink_salt_import_items x
  JOIN pink_salt_imports i ON i.id=x.import_id LEFT JOIN pink_salt_suppliers s ON s.id=i.supplier_id AND s.business_unit_id=i.business_unit_id
  WHERE %WHERE% ORDER BY i.id DESC,x.id LIMIT ? OFFSET ?)
  SELECT c.*,COALESCE(SUM(m.quantity_kg),0) available_kg,
- CASE WHEN c.received_weight_kg>0 THEN c.landed_cost_krw/c.received_weight_kg ELSE 0 END landed_cost_per_kg
+ COALESCE(c.receiving_unit_cost_krw,CASE WHEN c.received_weight_kg>0 THEN c.landed_cost_krw/c.received_weight_kg ELSE 0 END) landed_cost_per_kg
  FROM chosen c LEFT JOIN pink_salt_raw_stock_movements m ON m.import_item_id=c.id GROUP BY c.id ORDER BY c.import_id DESC,c.id`;
 function stockPage(db,bu,query={}){const search=String(query.search||'').trim().slice(0,100),where=["i.business_unit_id=?","i.status='Received'"],a=[bu];
  if(search){where.push('(x.salt_grade LIKE ? OR x.specification LIKE ? OR x.storage_location LIKE ? OR i.import_no LIKE ? OR i.container_no LIKE ?)');a.push(...Array(5).fill('%'+search+'%'));}

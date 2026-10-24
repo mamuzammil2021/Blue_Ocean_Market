@@ -1,0 +1,20 @@
+/* Shared Tabler components: no separate modal or routing framework. */
+html.bom-ui .receiving44{display:grid;gap:16px;min-width:0}
+html.bom-ui .receiving44 .rc-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}
+html.bom-ui .receiving44 .rc-summary .card{padding:14px;min-width:0}
+html.bom-ui .receiving44 .rc-summary strong{display:block;font-size:21px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+html.bom-ui .receiving44 .rc-quantities{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+html.bom-ui .receiving44 label{min-width:0}
+html.bom-ui .receiving44 .rc-line{display:grid;gap:12px}
+html.bom-ui .receiving44 .rc-line.is-discrepant{border-left:3px solid var(--tblr-warning,#f59f00)}
+html.bom-ui .receiving44 .rc-discrepancy,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:end;margin:12px 0}
+html.bom-ui .receiving44 .rc-footer{position:sticky;bottom:0;z-index:12;background:var(--panel);padding:12px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+html.bom-ui .receiving44 .rc-error{color:var(--tblr-danger,#b42318);overflow-wrap:anywhere}
+html.bom-ui .receiving44 .rc-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--tblr-border-color,#e5eaf1);margin:16px 0}
+html.bom-ui .receiving44 .rc-bar>span{height:100%;min-width:0}
+html.bom-ui .receiving44 input[type=range]{width:100%;accent-color:var(--brand)}
+html.bom-ui .receiving44 details>summary{cursor:pointer;padding:8px 0}
+html.bom-ui .receiving44 .card h3{margin-top:0}
+html.bom-ui .receiving44 .rc-evidence{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:900px){html.bom-ui .receiving44 .rc-quantities,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:550px){html.bom-ui .receiving44 .rc-discrepancy{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-summary{grid-template-columns:repeat(2,minmax(0,1fr))}html.bom-ui .receiving44 .rc-footer .btn{flex:1;min-height:44px}}

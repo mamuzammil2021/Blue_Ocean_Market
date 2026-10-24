@@ -28,6 +28,6 @@
     "Configured L4 purchase approval creates a complete actionable task, blocks premature receiving and executes once after independent approval"
   ],
   "production_data_used": false,
-  "node": "v22.23.3",
+  "node": "v22.21.0",
   "baseline": "30.69.33"
 }

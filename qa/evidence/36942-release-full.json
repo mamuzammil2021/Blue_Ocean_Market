@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "version": "30.69.42",
+  "node": "v22.21.0",
+  "checks": [
+    {
+      "suite": "Release identity, frontend manifest and all server/public JS syntax",
+      "status": "PASS"
+    },
+    {
+      "suite": "qa_v36942_ui_contract.js",
+      "status": "PASS",
+      "passed_log_lines": 8,
+      "duration_ms": 2153
+    },
+    {
+      "suite": "qa_v36936_packaging.js",
+      "status": "PASS",
+      "passed_log_lines": 25,
+      "duration_ms": 4856
+    },
+    {
+      "suite": "qa_v36937_refinement.js",
+      "status": "PASS",
+      "passed_log_lines": 8,
+      "duration_ms": 3793
+    },
+    {
+      "suite": "qa_v36938_product_ux.js",
+      "status": "PASS",
+      "passed_log_lines": 11,
+      "duration_ms": 4069
+    },
+    {
+      "suite": "qa_v36939_history.js",
+      "status": "PASS",
+      "passed_log_lines": 6,
+      "duration_ms": 3753
+    },
+    {
+      "suite": "qa_v36939_financial_guards.js",
+      "status": "PASS",
+      "passed_log_lines": 5,
+      "duration_ms": 16821
+    },
+    {
+      "suite": "qa_v36939_regressions.js",
+      "status": "PASS",
+      "passed_log_lines": 19,
+      "duration_ms": 83048
+    },
+    {
+      "suite": "browser_v36939_qa.js",
+      "status": "PASS",
+      "passed_log_lines": 10,
+      "duration_ms": 10067
+    },
+    {
+      "suite": "browser_v36939_cart_history.js",
+      "status": "PASS",
+      "passed_log_lines": 7,
+      "duration_ms": 6488
+    },
+    {
+      "suite": "browser_v36938_product_ux.js",
+      "status": "PASS",
+      "passed_log_lines": 17,
+      "duration_ms": 15273
+    },
+    {
+      "suite": "modernization/interaction.cjs",
+      "status": "PASS",
+      "passed_log_lines": 9,
+      "duration_ms": 6542
+    },
+    {
+      "suite": "modernization/completion.cjs",
+      "status": "PASS",
+      "passed_log_lines": 15,
+      "duration_ms": 19158
+    },
+    {
+      "suite": "modernization/editors41.cjs",
+      "status": "PASS",
+      "passed_log_lines": 17,
+      "duration_ms": 34039
+    },
+    {
+      "suite": "modernization/journal41.cjs",
+      "status": "PASS",
+      "passed_log_lines": 3,
+      "duration_ms": 10041
+    },
+    {
+      "suite": "modernization/authority.cjs",
+      "status": "PASS",
+      "passed_log_lines": 5,
+      "duration_ms": 31979
+    },
+    {
+      "suite": "qa_v36942_upgrade.js",
+      "status": "PASS",
+      "passed_log_lines": 2,
+      "duration_ms": 6729
+    }
+  ],
+  "browser_requested": true,
+  "upgrade_requested": true,
+  "production_data_used": false
+}

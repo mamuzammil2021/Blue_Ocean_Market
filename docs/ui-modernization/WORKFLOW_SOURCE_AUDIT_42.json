@@ -1,0 +1,1318 @@
+[
+  {
+    "file": "client.js",
+    "fn": "showIntegrity",
+    "key": "system-integrity",
+    "original_sha256": "0367f61a9fcaf9f440b05af9705448e275f865a91d28f048bb91771182113af5",
+    "api_literals": [
+      "/api/system/integrity"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "saleForm",
+    "key": "sale",
+    "original_sha256": "77d60b840c89713ddb9459133255c6cdf9d825ba0d7305b015bb1aa9652e6c41",
+    "api_literals": [
+      "/api/business-units",
+      "/api/products"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "purchaseForm",
+    "key": "purchase",
+    "original_sha256": "e48694db5ed9ced95c9eff2ed8c08d7db4f3c08efac872ea9488d72733e5b62a",
+    "api_literals": [
+      "/api/business-units",
+      "/api/products"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "productForm",
+    "key": "product",
+    "original_sha256": "27ce15a5dbb18852bf934999f3720c59951bd187672c3808cca7b8afff318c1f",
+    "api_literals": [
+      "/api/products",
+      "/api/business-units"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "approvalRuleForm",
+    "key": "approval-rule",
+    "original_sha256": "f9e53d1865f0d20e6bc936899465e9bc3480ef8a758295171e96d4f1c09377af",
+    "api_literals": [
+      "/api/approval-rules",
+      "/api/business-units"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "approvalForm",
+    "key": "approval-request",
+    "original_sha256": "fe21b0d9fefdae82a807de7749255aa655a581de410b210a1ceb66d84c0ae128",
+    "api_literals": [
+      "/api/business-units"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "approvalResubmitForm",
+    "key": "approval-resubmit",
+    "original_sha256": "c3bf9232072e2784f4e3680e3d6d360c22363bf7644528d5931987bb5d432077",
+    "api_literals": [
+      "/api/approvals/"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "taskForm",
+    "key": "task",
+    "original_sha256": "55724772d682253468a470be951a531b25436dd6cd445b3402e7d288164351f5",
+    "api_literals": [
+      "/api/users",
+      "/api/business-units",
+      "/api/tasks/"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "crmForm",
+    "key": "crm-new",
+    "original_sha256": "5370cb222ed3ac604529458609d015bcb8436cce74e9789be6258cd4a64a3e6b",
+    "api_literals": [
+      "/api/business-units"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "reportForm",
+    "key": "report",
+    "original_sha256": "5a4e6e0f14e6a1512e341e7f286e72b3d4f7ca6e374173d4fbe3ebcfa61d71e7",
+    "api_literals": []
+  },
+  {
+    "file": "client.js",
+    "fn": "reportActionForm",
+    "key": "report-action",
+    "original_sha256": "ec554288667f29f1e77a006e635bd70d187602b9c6409a318776e4ac62ef5d06",
+    "api_literals": [
+      "/api/users"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "reportRuleForm",
+    "key": "report-rule",
+    "original_sha256": "706fedf317ef1c8042cd98a68bf0ac17e35b22e24c14332a3898ffb2a02d7e9c",
+    "api_literals": [
+      "/api/work-report-rules",
+      "/api/business-units"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "performanceUser",
+    "key": "performance",
+    "original_sha256": "642a984e89d66fade8e540bc2c9af44fc7ad5a445cbf813684e4b8a875b06ac5",
+    "api_literals": [
+      "/api/performance/users/"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "performanceReviewForm",
+    "key": "review",
+    "original_sha256": "59d05aac37b0cb75d8d32ea12a0effad422f3ee3fdf60fd5c2c3e02b1ce26bdb",
+    "api_literals": []
+  },
+  {
+    "file": "client.js",
+    "fn": "performanceRuleForm",
+    "key": "performance-rule",
+    "original_sha256": "b21692baffd9364d87dbae3f1ce36f54f8f28db7c1a61ed9d9924d6e5af06ba4",
+    "api_literals": [
+      "/api/performance/kpi-rules",
+      "/api/business-units"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "kpiForm",
+    "key": "kpi-new",
+    "original_sha256": "a429ab3ee5bbbf7331b5a86b1aeb63116fd14c422b94ff49cc639e533b86132c",
+    "api_literals": [
+      "/api/users",
+      "/api/business-units"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "docForm",
+    "key": "document-upload",
+    "original_sha256": "b881be3339ab419e78eb64327eb6ac938c8dbfa9fb572b51c02db2c16a9396ed",
+    "api_literals": [
+      "/api/business-units"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "meetingCalendarView",
+    "key": "calendar",
+    "original_sha256": "1a9055e4ffa5cbc2a711048ce065b096e75f5e1b673e606cc5393beae67094e9",
+    "api_literals": []
+  },
+  {
+    "file": "client.js",
+    "fn": "meetingForm",
+    "key": "meeting",
+    "original_sha256": "e12cee38ea1bec56487d1ca91904ba7652be972bd99378601b6cf54793ddc941",
+    "api_literals": [
+      "/api/meetings/people",
+      "/api/business-units",
+      "/api/meetings/"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "meetingAction",
+    "key": "meeting-action",
+    "original_sha256": "b0e515b95db453d7b4af76c6cb987007c0bcb232e8a5bb5b81603842b366365e",
+    "api_literals": [
+      "/api/meetings/people"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "userForm",
+    "key": "user",
+    "original_sha256": "6694bfd7fb4ca48489b37a06a6077c432b986a368e67d890d0119e3fd23d9cb6",
+    "api_literals": [
+      "/api/business-units"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "manageRestaurantTables",
+    "key": "tables",
+    "original_sha256": "7f8260fb2bae7bd9e41e6264147f9c0395bc4fae8e23489892efb83936532c2a",
+    "api_literals": [
+      "/api/restaurant/tables"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "excavatorSupplierForm",
+    "key": "ex-supplier",
+    "original_sha256": "7d76c864ca6c5bbda639436cebd35a4e750e9427cf8f0f8ed7d28a1e085870aa",
+    "api_literals": [
+      "/api/excavator/suppliers"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "excavatorSupplierMachineForm",
+    "key": "supplier-machine",
+    "original_sha256": "d9d96d37a91eda23268dacc45a0b5bdae3592d644386cd0ed4102d39b172f7f1",
+    "api_literals": [
+      "/api/excavator/suppliers/"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "excavatorBuyerForm",
+    "key": "ex-buyer",
+    "original_sha256": "8351de7e1198c948b3dd17ce000acf0997e152aa276d231239e6ab43ea432f95",
+    "api_literals": [
+      "/api/excavator/buyers"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "excavatorEditMachine",
+    "key": "machine-edit",
+    "original_sha256": "90586f01c4caac45c6d0ec5f1a4f35da424009dd9864810794206a1bbbf2d27e",
+    "api_literals": [
+      "/api/excavator/assets"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "restaurantPOS",
+    "key": "pos",
+    "original_sha256": "a0a294f9f9d484bc67872b9fea47d91b0125620293426fd6ebc364f7b479b627",
+    "api_literals": [
+      "/api/products",
+      "/api/restaurant/tables"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "manageRestaurantTables",
+    "key": "tables",
+    "original_sha256": "bc0d18e33728809ac636ecdb5d1f92008ab5958ac5a47958a97743e669173835",
+    "api_literals": [
+      "/api/restaurant/tables"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "crmEdit",
+    "key": "crm-edit",
+    "original_sha256": "b376f8ebe820b4ac5080c076548d2a18e6ba51a36df12bebad9f81d2a395a6f1",
+    "api_literals": [
+      "/api/crm",
+      "/api/business-units"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "kpiEdit",
+    "key": "kpi-edit",
+    "original_sha256": "cb0194dc6eeef288089646773dd0784e8e649c24a62d3c1442d096a28354ff34",
+    "api_literals": [
+      "/api/kpis",
+      "/api/users",
+      "/api/business-units"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "userEdit",
+    "key": "user-edit",
+    "original_sha256": "4ee4edc43f22e607c727ef8cbd4377ad2d783c57b9119474e41959b6df13864c",
+    "api_literals": [
+      "/api/users",
+      "/api/business-units"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "restaurantMenu",
+    "key": "restaurant-menu",
+    "original_sha256": "b91c9a1c6da1df01f7430729f3cccf3515f156c6ff5702b90f42e28fe5abc6e9",
+    "api_literals": [
+      "/api/restaurant/menu"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "menuForm",
+    "key": "menu-item",
+    "original_sha256": "19f48ed42ebc3d9d23b99c002c4a9fec34581b9264027d76e142ca1e7f381aeb",
+    "api_literals": [
+      "/api/restaurant/menu",
+      "/api/products"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "restaurantStock",
+    "key": "restaurant-stock",
+    "original_sha256": "fab66cb46d53d4e08581a27918e60404841fddd2362f2d85c33d17d13dc08ae2",
+    "api_literals": [
+      "/api/products"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "restaurantWeekly",
+    "key": "restaurant-weekly",
+    "original_sha256": "fa81c9f33ced9f1ca4093d90bffcef436e091adbbd7f65aef38b6ad87c72ec67",
+    "api_literals": [
+      "/api/restaurant/weekly-menu"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "weeklyForm",
+    "key": "weekly-edit",
+    "original_sha256": "d839d10fb74c86dd28e4cd64218e7c89826ab6761fcbdf75d9265c822649f766",
+    "api_literals": [
+      "/api/restaurant/menu"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "restaurantBuffet",
+    "key": "restaurant-buffets",
+    "original_sha256": "b7135746e5683fc863bbbeb9ebcac39b16c202aae107afe11033658a28556f31",
+    "api_literals": [
+      "/api/restaurant/buffets"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "buffetForm",
+    "key": "buffet",
+    "original_sha256": "17c2c45090dde619cd901f0bff96cf0df5603114fefb5a8b071bff8236866555",
+    "api_literals": [
+      "/api/restaurant/buffets",
+      "/api/restaurant/menu"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "restaurantOpenOrders",
+    "key": "restaurant-open-orders",
+    "original_sha256": "850fcd0bb75aefcdb6c8a39246aaf5f42b49beccd26803da56b71a6102ee675e",
+    "api_literals": [
+      "/api/restaurant/orders"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "editOpenOrder",
+    "key": "order-edit",
+    "original_sha256": "4a140a889f28998b24b8bb858177085ff74bd71ba5c514f7415800e0012503e7",
+    "api_literals": [
+      "/api/restaurant/orders",
+      "/api/restaurant/orders/",
+      "/api/products",
+      "/api/restaurant/tables"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "manageRestaurantTables",
+    "key": "tables",
+    "original_sha256": "7f8260fb2bae7bd9e41e6264147f9c0395bc4fae8e23489892efb83936532c2a",
+    "api_literals": [
+      "/api/restaurant/tables"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "excavatorAssetForm",
+    "key": "equipment",
+    "original_sha256": "57d16f8711e0501877dbd41215bbf171e591a64e82138b36fd675c9f288d8b83",
+    "api_literals": [
+      "/api/excavator/assets",
+      "/api/crm"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "excavatorCosts",
+    "key": "cost-register",
+    "original_sha256": "912d00e5232f3e8593af605c47c6d5b139554ccc9d681f440f7d9c36f4e086f1",
+    "api_literals": [
+      "/api/excavator/assets/",
+      "/api/excavator/assets/"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "excavatorRepairForm",
+    "key": "repair",
+    "original_sha256": "b6749e86e3bed1d2f0e01ee16a7a8c8521a688fab84af53b76c396ee1fd377a1",
+    "api_literals": []
+  },
+  {
+    "file": "client.js",
+    "fn": "excavatorLogisticsForm",
+    "key": "logistics",
+    "original_sha256": "5d776ec47bf1703a3865192b9bd5c071f111d01cdc87260e53258d111197b3d8",
+    "api_literals": []
+  },
+  {
+    "file": "client.js",
+    "fn": "restaurantPOS",
+    "key": "pos",
+    "original_sha256": "69ce65231a4ed194a9b57c6fcdfe3bf051388882d9f251acc9ae76f7743718a1",
+    "api_literals": [
+      "/api/restaurant/menu",
+      "/api/restaurant/tables",
+      "/api/restaurant/buffets"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "recipeForm",
+    "key": "recipe",
+    "original_sha256": "4fefde50502fa4ebb80ee623749377d290735ba34bf8c07e2b4f1db02aa0bead",
+    "api_literals": [
+      "/api/restaurant/menu",
+      "/api/products",
+      "/api/restaurant/menu/"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "weeklyForm",
+    "key": "weekly-edit",
+    "original_sha256": "17591404ee8cc9490ec6637c858ba54c88a5418c6e86875c79056dfa02db6da6",
+    "api_literals": [
+      "/api/restaurant/weekly-menu",
+      "/api/restaurant/menu"
+    ]
+  },
+  {
+    "file": "client.js",
+    "fn": "editOpenOrder",
+    "key": "order-edit",
+    "original_sha256": "22a60d7bc91dca467a7dec5c97ba03b32ba22f7bc57b22fcca8825a8a131883a",
+    "api_literals": [
+      "/api/restaurant/orders/",
+      "/api/restaurant/tables",
+      "/api/restaurant/menu"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "accountingIntegrityV29",
+    "key": "accounting-integrity",
+    "original_sha256": "5aaf08322214851ad3f16c721fd55aaadc7760b8e10c2bf2789d8c30d78886b5",
+    "api_literals": [
+      "/api/accounting/integrity"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "addEmployeeV29",
+    "key": "employee",
+    "original_sha256": "707ce5fecbe6acfcecf9930d55fd7e6a7013e655e307b6a25452a8bc35badae5",
+    "api_literals": [
+      "/api/accounting/payment-accounts"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "addEmployeeV29",
+    "key": "employee",
+    "original_sha256": "87d532808094df13128f93cb3515d3732409160ad2be72a315f0115b27ccecd5",
+    "api_literals": [
+      "/api/accounting/payment-accounts",
+      "/api/payroll/users"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "editEmployeeV29",
+    "key": "employee-edit-legacy",
+    "original_sha256": "901538903891de6607164cbcaac21e4bf33cb782efd42db07d63f4fc37dbbcce",
+    "api_literals": [
+      "/api/payroll/employees/",
+      "/api/accounting/payment-accounts",
+      "/api/payroll/users"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "editEmployeeAllocationsV29",
+    "key": "allocation",
+    "original_sha256": "9f80e4ca1f58717c8d2a3864653cf17a6cd47d2d8fd3dd7c5de13d6ba263c81d",
+    "api_literals": [
+      "/api/payroll/employees/"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "psSupplierForm",
+    "key": "ps-supplier",
+    "original_sha256": "b24b17fbfad61dafd5fe0d99a093aada2c9eb3bca020c5de14de013a53f03a70",
+    "api_literals": [
+      "/api/pink-salt/suppliers"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "psTraceRaw",
+    "key": "trace-raw",
+    "original_sha256": "b88997d2b91ad2ad48b89ee114981b88a5ee473a30241d658518bbc0a36b8a11",
+    "api_literals": [
+      "/api/pink-salt/trace/import-item/"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "psTraceProduct",
+    "key": "trace-product",
+    "original_sha256": "57629b761f37e2a0aa4cf1d644880f7c9871bdc698c5e3df5dfdbb23fb359c16",
+    "api_literals": [
+      "/api/pink-salt/trace/product/"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "psWasteForm",
+    "key": "waste",
+    "original_sha256": "469b41a2d8dcd05e312a53f88b9c51b9c92bfb9f2a1f866db39aec1b4b05b0db",
+    "api_literals": [
+      "/api/pink-salt/raw-stock",
+      "/api/pink-salt/packaging",
+      "/api/pink-salt/products"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "psPriceTiers313",
+    "key": "price-tiers",
+    "original_sha256": "e4bca8c2a0ee9c13ddcd493704239aabb4f0e7757cfcf3fada3d5a711df010c3",
+    "api_literals": [
+      "/api/pink-salt/price-tiers-v313",
+      "/api/pink-salt/products"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "psStatement313",
+    "key": "customer-statement",
+    "original_sha256": "12147914147fa62898cb5025545d8490b66e7e7ebe7aa0911ffc7b1b033fa796",
+    "api_literals": [
+      "/api/pink-salt/customers/${id}/statement-v313?from=${encodeURIComponent(f)}&to=${encodeURIComponent(tt)}"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "psSupplierForm315",
+    "key": "ps-supplier",
+    "original_sha256": "49a69dde87f3f397f5e1335812feb30c9435d44db99baf37e6c5b8fba8dcb6c5",
+    "api_literals": [
+      "/api/pink-salt/suppliers/${id}/account-v315"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "psSupplierStatement315",
+    "key": "supplier-statement",
+    "original_sha256": "6793ad2ce9af3691021581ebd653b9774b8198388790bd607d2c906ee4efcf7e",
+    "api_literals": []
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "userForm",
+    "key": "user",
+    "original_sha256": "b34e95c485c3d85796e467088241cd68e0fc663a245e92089ba8c95ed03d701f",
+    "api_literals": [
+      "/api/business-units",
+      "/api/access/templates"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "userEdit",
+    "key": "user-edit",
+    "original_sha256": "b5a5bd5ae547096836479708ad0884a31081cbbc1cb9d08016398014896c83ad",
+    "api_literals": [
+      "/api/users",
+      "/api/access/templates"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "v319BusinessUnitForm",
+    "key": "business-unit",
+    "original_sha256": "23787997b919ce4526e85c8367b7cbc0853fd9e8e98af53882f9075bb03adf4b",
+    "api_literals": [
+      "/api/users"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "financialAccountFormV320",
+    "key": "financial-account",
+    "original_sha256": "5cd745a235100c9d258605bcf517d15b66b71eb7c18e42a40e3be52bc1eb8b2e",
+    "api_literals": [
+      "/api/v320/financial-accounts?",
+      "/api/v320/financial-accounts/ledger-options"
+    ]
+  },
+  {
+    "file": "runtime-v3039.js",
+    "fn": "documentHistoryV3241",
+    "key": "document-history",
+    "original_sha256": "1ff42c0ddf9a6cbb1e9b491ee666e9b65494ba054416622e71ac2d813cc20f70",
+    "api_literals": [
+      "/api/documents/"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "accountingIntegrityV29",
+    "key": "accounting-integrity",
+    "original_sha256": "5aaf08322214851ad3f16c721fd55aaadc7760b8e10c2bf2789d8c30d78886b5",
+    "api_literals": [
+      "/api/accounting/integrity"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "addEmployeeV29",
+    "key": "employee",
+    "original_sha256": "707ce5fecbe6acfcecf9930d55fd7e6a7013e655e307b6a25452a8bc35badae5",
+    "api_literals": [
+      "/api/accounting/payment-accounts"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "addEmployeeV29",
+    "key": "employee",
+    "original_sha256": "87d532808094df13128f93cb3515d3732409160ad2be72a315f0115b27ccecd5",
+    "api_literals": [
+      "/api/accounting/payment-accounts",
+      "/api/payroll/users"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "editEmployeeV29",
+    "key": "employee-edit-legacy",
+    "original_sha256": "901538903891de6607164cbcaac21e4bf33cb782efd42db07d63f4fc37dbbcce",
+    "api_literals": [
+      "/api/payroll/employees/",
+      "/api/accounting/payment-accounts",
+      "/api/payroll/users"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "editEmployeeAllocationsV29",
+    "key": "allocation",
+    "original_sha256": "9f80e4ca1f58717c8d2a3864653cf17a6cd47d2d8fd3dd7c5de13d6ba263c81d",
+    "api_literals": [
+      "/api/payroll/employees/"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "psSupplierForm",
+    "key": "ps-supplier",
+    "original_sha256": "b24b17fbfad61dafd5fe0d99a093aada2c9eb3bca020c5de14de013a53f03a70",
+    "api_literals": [
+      "/api/pink-salt/suppliers"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "psTraceRaw",
+    "key": "trace-raw",
+    "original_sha256": "b88997d2b91ad2ad48b89ee114981b88a5ee473a30241d658518bbc0a36b8a11",
+    "api_literals": [
+      "/api/pink-salt/trace/import-item/"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "psTraceProduct",
+    "key": "trace-product",
+    "original_sha256": "57629b761f37e2a0aa4cf1d644880f7c9871bdc698c5e3df5dfdbb23fb359c16",
+    "api_literals": [
+      "/api/pink-salt/trace/product/"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "psWasteForm",
+    "key": "waste",
+    "original_sha256": "469b41a2d8dcd05e312a53f88b9c51b9c92bfb9f2a1f866db39aec1b4b05b0db",
+    "api_literals": [
+      "/api/pink-salt/raw-stock",
+      "/api/pink-salt/packaging",
+      "/api/pink-salt/products"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "psPriceTiers313",
+    "key": "price-tiers",
+    "original_sha256": "e4bca8c2a0ee9c13ddcd493704239aabb4f0e7757cfcf3fada3d5a711df010c3",
+    "api_literals": [
+      "/api/pink-salt/price-tiers-v313",
+      "/api/pink-salt/products"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "psStatement313",
+    "key": "customer-statement",
+    "original_sha256": "12147914147fa62898cb5025545d8490b66e7e7ebe7aa0911ffc7b1b033fa796",
+    "api_literals": [
+      "/api/pink-salt/customers/${id}/statement-v313?from=${encodeURIComponent(f)}&to=${encodeURIComponent(tt)}"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "psSupplierForm315",
+    "key": "ps-supplier",
+    "original_sha256": "49a69dde87f3f397f5e1335812feb30c9435d44db99baf37e6c5b8fba8dcb6c5",
+    "api_literals": [
+      "/api/pink-salt/suppliers/${id}/account-v315"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "psSupplierStatement315",
+    "key": "supplier-statement",
+    "original_sha256": "6793ad2ce9af3691021581ebd653b9774b8198388790bd607d2c906ee4efcf7e",
+    "api_literals": []
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "userForm",
+    "key": "user",
+    "original_sha256": "b34e95c485c3d85796e467088241cd68e0fc663a245e92089ba8c95ed03d701f",
+    "api_literals": [
+      "/api/business-units",
+      "/api/access/templates"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "userEdit",
+    "key": "user-edit",
+    "original_sha256": "b5a5bd5ae547096836479708ad0884a31081cbbc1cb9d08016398014896c83ad",
+    "api_literals": [
+      "/api/users",
+      "/api/access/templates"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "v319BusinessUnitForm",
+    "key": "business-unit",
+    "original_sha256": "23787997b919ce4526e85c8367b7cbc0853fd9e8e98af53882f9075bb03adf4b",
+    "api_literals": [
+      "/api/users"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "financialAccountFormV320",
+    "key": "financial-account",
+    "original_sha256": "5cd745a235100c9d258605bcf517d15b66b71eb7c18e42a40e3be52bc1eb8b2e",
+    "api_literals": [
+      "/api/v320/financial-accounts?",
+      "/api/v320/financial-accounts/ledger-options"
+    ]
+  },
+  {
+    "file": "runtime-v30391.js",
+    "fn": "documentHistoryV3241",
+    "key": "document-history",
+    "original_sha256": "1ff42c0ddf9a6cbb1e9b491ee666e9b65494ba054416622e71ac2d813cc20f70",
+    "api_literals": [
+      "/api/documents/"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "accountingIntegrityV29",
+    "key": "accounting-integrity",
+    "original_sha256": "5aaf08322214851ad3f16c721fd55aaadc7760b8e10c2bf2789d8c30d78886b5",
+    "api_literals": [
+      "/api/accounting/integrity"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "addEmployeeV29",
+    "key": "employee",
+    "original_sha256": "707ce5fecbe6acfcecf9930d55fd7e6a7013e655e307b6a25452a8bc35badae5",
+    "api_literals": [
+      "/api/accounting/payment-accounts"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "addEmployeeV29",
+    "key": "employee",
+    "original_sha256": "87d532808094df13128f93cb3515d3732409160ad2be72a315f0115b27ccecd5",
+    "api_literals": [
+      "/api/accounting/payment-accounts",
+      "/api/payroll/users"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "editEmployeeV29",
+    "key": "employee-edit-legacy",
+    "original_sha256": "901538903891de6607164cbcaac21e4bf33cb782efd42db07d63f4fc37dbbcce",
+    "api_literals": [
+      "/api/payroll/employees/",
+      "/api/accounting/payment-accounts",
+      "/api/payroll/users"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "editEmployeeAllocationsV29",
+    "key": "allocation",
+    "original_sha256": "9f80e4ca1f58717c8d2a3864653cf17a6cd47d2d8fd3dd7c5de13d6ba263c81d",
+    "api_literals": [
+      "/api/payroll/employees/"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "psSupplierForm",
+    "key": "ps-supplier",
+    "original_sha256": "b24b17fbfad61dafd5fe0d99a093aada2c9eb3bca020c5de14de013a53f03a70",
+    "api_literals": [
+      "/api/pink-salt/suppliers"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "psTraceRaw",
+    "key": "trace-raw",
+    "original_sha256": "b88997d2b91ad2ad48b89ee114981b88a5ee473a30241d658518bbc0a36b8a11",
+    "api_literals": [
+      "/api/pink-salt/trace/import-item/"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "psTraceProduct",
+    "key": "trace-product",
+    "original_sha256": "57629b761f37e2a0aa4cf1d644880f7c9871bdc698c5e3df5dfdbb23fb359c16",
+    "api_literals": [
+      "/api/pink-salt/trace/product/"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "psWasteForm",
+    "key": "waste",
+    "original_sha256": "469b41a2d8dcd05e312a53f88b9c51b9c92bfb9f2a1f866db39aec1b4b05b0db",
+    "api_literals": [
+      "/api/pink-salt/raw-stock",
+      "/api/pink-salt/packaging",
+      "/api/pink-salt/products"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "psPriceTiers313",
+    "key": "price-tiers",
+    "original_sha256": "e4bca8c2a0ee9c13ddcd493704239aabb4f0e7757cfcf3fada3d5a711df010c3",
+    "api_literals": [
+      "/api/pink-salt/price-tiers-v313",
+      "/api/pink-salt/products"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "psStatement313",
+    "key": "customer-statement",
+    "original_sha256": "12147914147fa62898cb5025545d8490b66e7e7ebe7aa0911ffc7b1b033fa796",
+    "api_literals": [
+      "/api/pink-salt/customers/${id}/statement-v313?from=${encodeURIComponent(f)}&to=${encodeURIComponent(tt)}"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "psSupplierForm315",
+    "key": "ps-supplier",
+    "original_sha256": "49a69dde87f3f397f5e1335812feb30c9435d44db99baf37e6c5b8fba8dcb6c5",
+    "api_literals": [
+      "/api/pink-salt/suppliers/${id}/account-v315"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "psSupplierStatement315",
+    "key": "supplier-statement",
+    "original_sha256": "8d17e06267c387e6102fefbd656f20de716f099e60aecd968de181330345e88f",
+    "api_literals": []
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "userForm",
+    "key": "user",
+    "original_sha256": "b34e95c485c3d85796e467088241cd68e0fc663a245e92089ba8c95ed03d701f",
+    "api_literals": [
+      "/api/business-units",
+      "/api/access/templates"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "userEdit",
+    "key": "user-edit",
+    "original_sha256": "b5a5bd5ae547096836479708ad0884a31081cbbc1cb9d08016398014896c83ad",
+    "api_literals": [
+      "/api/users",
+      "/api/access/templates"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "v319BusinessUnitForm",
+    "key": "business-unit",
+    "original_sha256": "23787997b919ce4526e85c8367b7cbc0853fd9e8e98af53882f9075bb03adf4b",
+    "api_literals": [
+      "/api/users"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "financialAccountFormV320",
+    "key": "financial-account",
+    "original_sha256": "5cd745a235100c9d258605bcf517d15b66b71eb7c18e42a40e3be52bc1eb8b2e",
+    "api_literals": [
+      "/api/v320/financial-accounts?",
+      "/api/v320/financial-accounts/ledger-options"
+    ]
+  },
+  {
+    "file": "runtime-v30392.js",
+    "fn": "documentHistoryV3241",
+    "key": "document-history",
+    "original_sha256": "1ff42c0ddf9a6cbb1e9b491ee666e9b65494ba054416622e71ac2d813cc20f70",
+    "api_literals": [
+      "/api/documents/"
+    ]
+  },
+  {
+    "file": "v290-client.js",
+    "fn": "accountingIntegrityV29",
+    "key": "accounting-integrity",
+    "original_sha256": "5aaf08322214851ad3f16c721fd55aaadc7760b8e10c2bf2789d8c30d78886b5",
+    "api_literals": [
+      "/api/accounting/integrity"
+    ]
+  },
+  {
+    "file": "v290-client.js",
+    "fn": "addEmployeeV29",
+    "key": "employee",
+    "original_sha256": "707ce5fecbe6acfcecf9930d55fd7e6a7013e655e307b6a25452a8bc35badae5",
+    "api_literals": [
+      "/api/accounting/payment-accounts"
+    ]
+  },
+  {
+    "file": "v290-client.js",
+    "fn": "addEmployeeV29",
+    "key": "employee",
+    "original_sha256": "87d532808094df13128f93cb3515d3732409160ad2be72a315f0115b27ccecd5",
+    "api_literals": [
+      "/api/accounting/payment-accounts",
+      "/api/payroll/users"
+    ]
+  },
+  {
+    "file": "v290-client.js",
+    "fn": "editEmployeeV29",
+    "key": "employee-edit-legacy",
+    "original_sha256": "901538903891de6607164cbcaac21e4bf33cb782efd42db07d63f4fc37dbbcce",
+    "api_literals": [
+      "/api/payroll/employees/",
+      "/api/accounting/payment-accounts",
+      "/api/payroll/users"
+    ]
+  },
+  {
+    "file": "v290-client.js",
+    "fn": "editEmployeeAllocationsV29",
+    "key": "allocation",
+    "original_sha256": "9f80e4ca1f58717c8d2a3864653cf17a6cd47d2d8fd3dd7c5de13d6ba263c81d",
+    "api_literals": [
+      "/api/payroll/employees/"
+    ]
+  },
+  {
+    "file": "v300-client.js",
+    "fn": "psSupplierForm",
+    "key": "ps-supplier",
+    "original_sha256": "b24b17fbfad61dafd5fe0d99a093aada2c9eb3bca020c5de14de013a53f03a70",
+    "api_literals": [
+      "/api/pink-salt/suppliers"
+    ]
+  },
+  {
+    "file": "v300-client.js",
+    "fn": "psTraceRaw",
+    "key": "trace-raw",
+    "original_sha256": "b88997d2b91ad2ad48b89ee114981b88a5ee473a30241d658518bbc0a36b8a11",
+    "api_literals": [
+      "/api/pink-salt/trace/import-item/"
+    ]
+  },
+  {
+    "file": "v300-client.js",
+    "fn": "psTraceProduct",
+    "key": "trace-product",
+    "original_sha256": "57629b761f37e2a0aa4cf1d644880f7c9871bdc698c5e3df5dfdbb23fb359c16",
+    "api_literals": [
+      "/api/pink-salt/trace/product/"
+    ]
+  },
+  {
+    "file": "v300-client.js",
+    "fn": "psWasteForm",
+    "key": "waste",
+    "original_sha256": "469b41a2d8dcd05e312a53f88b9c51b9c92bfb9f2a1f866db39aec1b4b05b0db",
+    "api_literals": [
+      "/api/pink-salt/raw-stock",
+      "/api/pink-salt/packaging",
+      "/api/pink-salt/products"
+    ]
+  },
+  {
+    "file": "v313-client.js",
+    "fn": "psPriceTiers313",
+    "key": "price-tiers",
+    "original_sha256": "e4bca8c2a0ee9c13ddcd493704239aabb4f0e7757cfcf3fada3d5a711df010c3",
+    "api_literals": [
+      "/api/pink-salt/price-tiers-v313",
+      "/api/pink-salt/products"
+    ]
+  },
+  {
+    "file": "v313-client.js",
+    "fn": "psStatement313",
+    "key": "customer-statement",
+    "original_sha256": "12147914147fa62898cb5025545d8490b66e7e7ebe7aa0911ffc7b1b033fa796",
+    "api_literals": [
+      "/api/pink-salt/customers/${id}/statement-v313?from=${encodeURIComponent(f)}&to=${encodeURIComponent(tt)}"
+    ]
+  },
+  {
+    "file": "v315-client.js",
+    "fn": "psSupplierForm315",
+    "key": "ps-supplier",
+    "original_sha256": "49a69dde87f3f397f5e1335812feb30c9435d44db99baf37e6c5b8fba8dcb6c5",
+    "api_literals": [
+      "/api/pink-salt/suppliers/${id}/account-v315"
+    ]
+  },
+  {
+    "file": "v315-client.js",
+    "fn": "psSupplierStatement315",
+    "key": "supplier-statement",
+    "original_sha256": "8d17e06267c387e6102fefbd656f20de716f099e60aecd968de181330345e88f",
+    "api_literals": []
+  },
+  {
+    "file": "v317-client.js",
+    "fn": "userForm",
+    "key": "user",
+    "original_sha256": "b34e95c485c3d85796e467088241cd68e0fc663a245e92089ba8c95ed03d701f",
+    "api_literals": [
+      "/api/business-units",
+      "/api/access/templates"
+    ]
+  },
+  {
+    "file": "v317-client.js",
+    "fn": "userEdit",
+    "key": "user-edit",
+    "original_sha256": "b5a5bd5ae547096836479708ad0884a31081cbbc1cb9d08016398014896c83ad",
+    "api_literals": [
+      "/api/users",
+      "/api/access/templates"
+    ]
+  },
+  {
+    "file": "v319-client.js",
+    "fn": "v319BusinessUnitForm",
+    "key": "business-unit",
+    "original_sha256": "23787997b919ce4526e85c8367b7cbc0853fd9e8e98af53882f9075bb03adf4b",
+    "api_literals": [
+      "/api/users"
+    ]
+  },
+  {
+    "file": "v320-client.js",
+    "fn": "financialAccountFormV320",
+    "key": "financial-account",
+    "original_sha256": "5cd745a235100c9d258605bcf517d15b66b71eb7c18e42a40e3be52bc1eb8b2e",
+    "api_literals": [
+      "/api/v320/financial-accounts?",
+      "/api/v320/financial-accounts/ledger-options"
+    ]
+  },
+  {
+    "file": "v3241-client.js",
+    "fn": "documentHistoryV3241",
+    "key": "document-history",
+    "original_sha256": "1ff42c0ddf9a6cbb1e9b491ee666e9b65494ba054416622e71ac2d813cc20f70",
+    "api_literals": [
+      "/api/documents/"
+    ]
+  },
+  {
+    "file": "v340-client.js",
+    "fn": "userForm",
+    "key": "user",
+    "original_sha256": "379ad35760b2fe3e69ebed083d13fa0837a4b3deb71ff2edff2ec31a2363bec2",
+    "api_literals": [
+      "/api/business-units",
+      "/api/access/profiles"
+    ]
+  },
+  {
+    "file": "v340-client.js",
+    "fn": "userEdit",
+    "key": "user-edit",
+    "original_sha256": "925b5a2ba8ecdd942a128fcab9ec07a5c65ac8bd19ef7356bebaa9109d3b4267",
+    "api_literals": [
+      "/api/users"
+    ]
+  },
+  {
+    "file": "v340-client.js",
+    "fn": "v340EditProfile",
+    "key": "legacy-profile",
+    "original_sha256": "5e0d49be31e0049b67c86dfb96d8d82f3402fe528c8f6d2f16e3e2f4c6de9265",
+    "api_literals": [
+      "/api/access/profiles",
+      "/api/access/catalog"
+    ]
+  },
+  {
+    "file": "v341-client.js",
+    "fn": "userForm",
+    "key": "user",
+    "original_sha256": "5220abed523be4c3dae4655e5c24f826574e6acaba3bef6329b38c08816bab9f",
+    "api_literals": [
+      "/api/business-units",
+      "/api/access/profiles",
+      "/api/access/permission-groups-v341",
+      "/api/access/approval-levels-v341"
+    ]
+  },
+  {
+    "file": "v341-client.js",
+    "fn": "userEdit",
+    "key": "user-edit",
+    "original_sha256": "151af6c53760a2955e72e110fcf4afcaa5dc806a4542dfbb42c98a4ab94ebed8",
+    "api_literals": [
+      "/api/users"
+    ]
+  },
+  {
+    "file": "v359-payroll.js",
+    "fn": "editEmployeeV359",
+    "key": "employee-edit",
+    "original_sha256": "a735efda530ed4c53dac4b948cbf348c3b2ba8ae781bc521ce2c04a399469511",
+    "api_literals": [
+      "/api/payroll/employees/",
+      "/api/payroll/users"
+    ]
+  },
+  {
+    "file": "v359-payroll.js",
+    "fn": "editPayrollItemV359",
+    "key": "payroll-item",
+    "original_sha256": "382e549f100f8cdb135314050686df4dd5ea1fc1afc1223025cd31c9217d84d0",
+    "api_literals": []
+  },
+  {
+    "file": "v362-collaboration.js",
+    "fn": "v362AgendaForm",
+    "key": "meeting-agenda",
+    "original_sha256": "05eae0fd5753eff3c8529207dd7ffdab5d9f766bb9878ad04e6c695ecff182b4",
+    "api_literals": [
+      "/api/meetings/people"
+    ]
+  },
+  {
+    "file": "v365-pink-commerce.js",
+    "fn": "psCommerceAddChannelV365",
+    "key": "channel-new",
+    "original_sha256": "1da065f2ef86e9992679181b43337889f4c9bf33cbbb747425e54ed0ffce6af2",
+    "api_literals": []
+  },
+  {
+    "file": "v365-pink-commerce.js",
+    "fn": "psCommerceEditChannelV365",
+    "key": "channel-edit",
+    "original_sha256": "c4b5fdc4ffbc3e34a25426018843197e1570fa55ccdb5cfbdfd7e718c2a319f7",
+    "api_literals": []
+  },
+  {
+    "file": "v365-pink-commerce.js",
+    "fn": "psCommerceProductV365",
+    "key": "commerce-product",
+    "original_sha256": "221ae3fc6b7cdb42b3f2afa8a3b0fb9aa62fd53a1d59c80865277fd932fd15ba",
+    "api_literals": [
+      "/api/commerce/products-v365/${productId}",
+      "/api/commerce/foundation-v365"
+    ]
+  },
+  {
+    "file": "v365-pink-commerce.js",
+    "fn": "psCommerceConfigureMappingV365",
+    "key": "commerce-mapping",
+    "original_sha256": "d600620f96ca876c40a57fd578be0137a6eaf22cbd0b3da53da13a363bd71e0f",
+    "api_literals": []
+  },
+  {
+    "file": "v366-pink-product-master.js",
+    "fn": "psProductImagesV366",
+    "key": "images",
+    "original_sha256": "9c76f0a905846ebd17cafd3e80d2f2c548bcdf4fc7b5d36d20edc4a03f956247",
+    "api_literals": [
+      "/api/v366/pink-salt/products/${productId}/images",
+      "/api/pink-salt/products"
+    ]
+  },
+  {
+    "file": "v366-pink-product-master.js",
+    "fn": "psLocationsV366",
+    "key": "locations",
+    "original_sha256": "e2111c80abd76bcdd16adbaeb0c60dc1b28b6a0c93a0ec82d5a473707eabe6fa",
+    "api_literals": [
+      "/api/v366/pink-salt/locations"
+    ]
+  },
+  {
+    "file": "v366-pink-product-master.js",
+    "fn": "psLocationFormV366",
+    "key": "location-edit",
+    "original_sha256": "fcef3bd9c153a9ed296cde7adf83f00601b20ea524663f7729de2ebabd8ad8c6",
+    "api_literals": []
+  },
+  {
+    "file": "v366-pink-product-master.js",
+    "fn": "psPriceListsV366",
+    "key": "price-lists",
+    "original_sha256": "f8846ed7d1b89f904d6aed42f05c2900964f353d769b53542b7d73bda8944d86",
+    "api_literals": [
+      "/api/v366/pink-salt/price-lists",
+      "/api/pink-salt/products"
+    ]
+  },
+  {
+    "file": "v366-pink-product-master.js",
+    "fn": "psCustomerAddressesV366",
+    "key": "addresses",
+    "original_sha256": "0ae37987297446808ac893bbb6fce79964e637d07963885b790bf53d020a8b7d",
+    "api_literals": [
+      "/api/v366/pink-salt/customers/${customerId}/addresses",
+      "/api/pink-salt/customers"
+    ]
+  },
+  {
+    "file": "v367-pink-operational-completion.js",
+    "fn": "psPricingHierarchyV367",
+    "key": "pricing-hierarchy",
+    "original_sha256": "12997148a0e799468c0daac68893352ab538e1bc54858d15d5033148e76cdedc",
+    "api_literals": [
+      "/api/v367/pink-salt/pricing-hierarchy/${productId}"
+    ]
+  },
+  {
+    "file": "v367-pink-operational-completion.js",
+    "fn": "psCustomerAddressesV366",
+    "key": "addresses",
+    "original_sha256": "a5bb6da9b314844639af876ed94ece2d03f1a6f810f99c4977a2b358ef36b3a4",
+    "api_literals": [
+      "/api/v366/pink-salt/customers/${customerId}/addresses",
+      "/api/pink-salt/customers"
+    ]
+  },
+  {
+    "file": "v367-pink-operational-completion.js",
+    "fn": "psCustomerAddressFormV367",
+    "key": "customer-address",
+    "original_sha256": "6462bd489a772fba2926818a3a274921ba584194ee4e869b8c2f4a3879316766",
+    "api_literals": []
+  }
+]

@@ -665,7 +665,7 @@ function install({app,db,auth,allow,currentUnit,enforceUnit,isFinanceReviewer,au
   }
   function costIsBeforeSale(assetId,sourceDate){const sale=activeSale(assetId);if(!sale)return true;return !sourceDate||dateOnly(sourceDate)<=dateOnly(sale.transaction_date||sale.created_at)}
 
-  function buildFinancePosting(finance){
+  function buildFinancePosting(finance){if(finance.source_type==='Pink Claim Refund')return require('./receiving/ledger').posting(db,finance);
     const amount=Math.abs(Number(finance.krw_amount ?? finance.amount ?? 0)),lines=[],ctx={finance_id:finance.id,source_type:finance.source_type,source_id:finance.source_id};
     if(amount<=0)return {skip:true,reason:'Zero amount',lines:[],context:ctx};
     const cash=paymentLedgerAccount(finance),debit=(acct,amt=amount,meta={})=>lines.push({account_id:acct,debit_krw:amt,credit_krw:0,...meta}),credit=(acct,amt=amount,meta={})=>lines.push({account_id:acct,debit_krw:0,credit_krw:amt,...meta});

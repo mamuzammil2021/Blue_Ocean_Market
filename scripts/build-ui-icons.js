@@ -1,0 +1,4 @@
+'use strict';
+const fs=require('fs'),path=require('path'),crypto=require('crypto'),root=path.resolve(__dirname,'..'),manifest=require('../vendor/tabler-icons/manifest.json'),icons={};
+for(const [name,hash] of Object.entries(manifest.files)){const original=fs.readFileSync(path.join(root,'vendor/tabler-icons',name+'.svg'),'utf8');if(crypto.createHash('sha256').update(original).digest('hex')!==hash)throw Error('Unexpected icon source: '+name);icons[name]=original.replace(/width="24"/,'width="20"').replace(/height="24"/,'height="20"').replace('<svg ','<svg aria-hidden="true" focusable="false" ');}
+fs.writeFileSync(path.join(root,'public/bom-ui-icons.js'),'/*! Selected Tabler Icons 3.49.0 | MIT | See THIRD_PARTY_NOTICES.md */\nwindow.BOMUIIcons=Object.freeze('+JSON.stringify(icons)+');\n');console.log('Selected Tabler SVG icons built');

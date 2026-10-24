@@ -1,0 +1,108 @@
+{
+  "status": "PASS",
+  "version": "30.69.40",
+  "node": "v22.21.0",
+  "checks": [
+    {
+      "suite": "Release identity, frontend manifest and all server/public JS syntax",
+      "status": "PASS"
+    },
+    {
+      "suite": "qa_v36940_ui_contract.js",
+      "status": "PASS",
+      "passed_log_lines": 7,
+      "duration_ms": 4001
+    },
+    {
+      "suite": "qa_v36936_packaging.js",
+      "status": "PASS",
+      "passed_log_lines": 25,
+      "duration_ms": 13692
+    },
+    {
+      "suite": "qa_v36937_refinement.js",
+      "status": "PASS",
+      "passed_log_lines": 8,
+      "duration_ms": 67694
+    },
+    {
+      "suite": "qa_v36938_product_ux.js",
+      "status": "PASS",
+      "passed_log_lines": 11,
+      "duration_ms": 6841
+    },
+    {
+      "suite": "qa_v36939_history.js",
+      "status": "PASS",
+      "passed_log_lines": 6,
+      "duration_ms": 4443
+    },
+    {
+      "suite": "qa_v36939_financial_guards.js",
+      "status": "PASS",
+      "passed_log_lines": 5,
+      "duration_ms": 11122
+    },
+    {
+      "suite": "qa_v36939_regressions.js",
+      "status": "PASS",
+      "passed_log_lines": 19,
+      "duration_ms": 140777
+    },
+    {
+      "suite": "browser_v36939_qa.js",
+      "status": "PASS",
+      "passed_log_lines": 10,
+      "duration_ms": 21166
+    },
+    {
+      "suite": "browser_v36939_cart_history.js",
+      "status": "PASS",
+      "passed_log_lines": 7,
+      "duration_ms": 19133
+    },
+    {
+      "suite": "browser_v36938_product_ux.js",
+      "status": "PASS",
+      "passed_log_lines": 17,
+      "duration_ms": 53421
+    },
+    {
+      "suite": "modernization/interaction.cjs",
+      "status": "PASS",
+      "passed_log_lines": 9,
+      "duration_ms": 14809
+    },
+    {
+      "suite": "modernization/completion.cjs",
+      "status": "PASS",
+      "passed_log_lines": 15,
+      "duration_ms": 32068
+    },
+    {
+      "suite": "modernization/authority.cjs",
+      "status": "PASS",
+      "passed_log_lines": 5,
+      "duration_ms": 52091
+    },
+    {
+      "suite": "qa_v36940_upgrade.js",
+      "status": "PASS",
+      "passed_log_lines": 2,
+      "duration_ms": 17080
+    }
+  ],
+  "browser_requested": true,
+  "upgrade_requested": true,
+  "production_data_used": false,
+  "resumed_failed_entries": [
+    {
+      "suite": "modernization/authority.cjs",
+      "status": "PASS",
+      "passed_log_lines": 5,
+      "duration_ms": 52091
+    }
+  ],
+  "prior_full_gate_sha256": "c34839c9914cb3301e3cbfd3d64adde2d77933071974137995628d6e754880c5",
+  "resumption_reason": "Authority harness now waits for final requested view and ready/access phase, avoiding inspection during asynchronous session restoration."
+}

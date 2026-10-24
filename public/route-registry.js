@@ -9,7 +9,7 @@ record('excavator','machine',['excavatorOpenMachine']);
 record('excavatorSuppliers','supplier',['BOMProfileRoutes337.supplier'],{open:['BOMProfileRoutes337.supplierSection'],legacy:['v337SupplierSection'],arg:1,defaults:'overview',values:['overview','machines','requirements','payments','accounts']},{legacy:['v329SupplierOpen'],initialSection:true,handlesSection:true});
 record('excavatorBuyers','buyer',['BOMProfileRoutes337.buyer'],{open:['BOMProfileRoutes337.buyerSection'],legacy:['v337BuyerSection'],arg:1,defaults:'payments',values:['payments','refunds','machines','requirements','documents','accounts']},{legacy:['excavatorBuyerDetail'],initialSection:true,handlesSection:true});
 record('excavatorBuyers','pakistan',['openPakistanResalesV327'],{open:['v338PakistanSection'],arg:1,defaults:'overview',values:['overview','records','payments','credit','refunds','transfers','documents']},{initialSection:true,handlesSection:true});
-record('psSuppliers','supplier',['psSupplierAccount315'],{open:['psSupplierTab315'],arg:0,defaults:'account',values:['overview','account','payments','accounts','imports','packaging','documents','history']},{handlesSection:true});
+record('psSuppliers','supplier',['psSupplierAccount315'],{open:['psSupplierTab315'],arg:0,defaults:'account',values:['overview','account','payments','accounts','imports','packaging','claims','documents','history']},{handlesSection:true});
 record('psPackaging','',['psPackHome'],null,{direct:true,noId:true});
 for(const kind of ['materials','purchases','stock'])record('psPackaging',kind,['psPackHome'],null,{noId:true});
 record('psPackaging','new',['psPackNewPurchase'],null,{noId:true,parent:{view:'psPackaging',kind:'purchases'}});
@@ -42,8 +42,10 @@ record('psFinished','lot',['psLotDetail38'],null,{parent:{view:'psFinished',kind
 record('psSales','trace',['psOrderLotTraceV367']);
 record('psFinished','families',['psFamiliesV367'],null,{noId:true,parent:{view:'psFinished'}});
 record('psFinished','family',['psFamilyDetail38'],null,{parent:{view:'psFinished',kind:'families'}});
-record('accounting','journal',['journalDetailV29'],null,{temporary:true});
-record('accounting','posting',['postingOpenV318'],null,{temporary:true});
+record('accounting','new-journal',['manualJournalV29'],null,{noId:true,parent:{view:'accounting',kind:'control'}});
+record('accounting','edit-journal',['postingEditManualV318'],null,{parent:{view:'accounting',kind:'control'}});
+record('accounting','journal',['journalDetailV29'],null,{parent:{view:'accounting'}});
+record('accounting','posting',['postingOpenV318'],null,{parent:{view:'accounting',kind:'control'}});
 // Bank statement upload is a temporary mutation modal, never an addressable read route.
 record('accounting','control',['accountingPostingControlV318'],null,{noId:true});
 record('accounting','financing',['v356FinancingDetail'],null,{mode:'simple',prepare:()=>window.BOMAccountingShell291(document.getElementById('content'))});
@@ -52,6 +54,8 @@ record('accounting','ledger',['v358AccountLedger'],null,{mode:'simple',prepare:(
 record('accounting','foreign-financing',['v356ForeignDetail'],null,{mode:'simple',prepare:()=>window.BOMAccountingShell291(document.getElementById('content'))});
 window.BOMSecurityRoutes={open:()=>window.v341SecurityAccess(window.BOMRouter.parse().section||'overview')};
 record('systemSettings','security',['BOMSecurityRoutes.open'],{open:['v341SecurityAccess'],arg:0,defaults:'overview',values:['overview','profiles','groups','policies','approval','audit','defaults']},{noId:true,handlesSection:true,prepare:()=>window.BOMSettingsShell319(document.getElementById('content'),'security_access')});
+window.BOMSecurityEditors41={open:()=>{const r=window.BOMRouter.parse(),[type,action]=r.kind.split('-'),name='v341'+({profile:'Profile',group:'Group',policy:'Policy'}[type])+(action==='new'?'Create':'Edit');return window[name](r.params.get('filter')||'')}};
+for(const type of ['profile','group','policy'])for(const action of ['new','edit'])record('systemSettings',type+'-'+action,['BOMSecurityEditors41.open'],null,{noId:true,parent:{view:'systemSettings',kind:'security',section:({profile:'profiles',group:'groups',policy:'policies'})[type]}});
 record('systemSettings','',[],{open:['v319SettingsSection'],arg:0});
 const moduleMap={accounting:'accounting',payroll:'payroll',restaurantTables:'restaurant',excavatorSuppliers:'excavator',excavatorBuyers:'excavator',psSuppliers:'purchases',psImports:'purchases',psRawStock:'inventory',psProduction:'inventory',psFinished:'inventory',psPackaging:'inventory',psSales:'sales',psCustomers:'sales',psWaste:'inventory',psCommerce:'sales'};
 const units={excavator:'Excavator',excavatorBuyers:'Excavator',excavatorSuppliers:'Excavator',restaurant:'MIMI Resturant',restaurantTables:'MIMI Resturant'};

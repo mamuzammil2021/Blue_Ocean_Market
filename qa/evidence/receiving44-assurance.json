@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Repeated acceptance/quarantine cycles preserve immutable receipt facts and exact usable inventory",
+    "Concurrent credit allocations lock one approved balance and prevent reuse",
+    "Concurrent full refunds produce exactly one Finance cash event",
+    "Injected Finance failure rolls back actual refund, receivable reduction and cash creation",
+    "Excess invoice reversal preserves dated statement entries and reconciles current supplier position",
+    "EN/KR Import, Packaging, Claim and Supplier HTML/CSV/PDF reports render with extractable text and separate original currencies"
+  ],
+  "synthetic_data_only": true
+}
