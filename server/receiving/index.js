@@ -61,7 +61,7 @@ function install(deps){
  function errorResponse(req,res,e){const ko=req.headers['x-language']==='ko';res.status(e.status||409).json({error:M.messages[e.code]?.[ko?1:0]||e.message,code:e.code||'INVALID',...(e.code==='CONFIRM'?{ceo_confirmation_required:true,action:'Receiving / claim authorization'}:{})})}
  Object.assign(S,{recordReceipt,route,errorResponse});app.locals.bomReceiving44=S;require('./simple').install(deps,S);
  route('get','/:type/:id/context',['purchases','inventory','finance'],r=>context(r,r.params.type,r.params.id));route('post','/:type/:id/receipts',['inventory'],r=>recordReceipt(r,r.params.type,r.params.id,{...r.body,simple_receiving:false}));
- require('./claims').routes(deps,S);require('./inventory').routes(deps,S);require('./reports').install(deps,S);
+ require('./approved-policy').install(deps,S);require('./claims').routes(deps,S);require('./inventory').routes(deps,S);require('./reports').install(deps,S);
  app.post('/api/pink-salt/receiving-v44/evidence',auth,allow('purchases','inventory','finance'),upload.single('file'),(req,res)=>{try{permission(req,['purchases','inventory','finance']);const p=source(req,req.body.source_type,req.body.source_id);if(!req.file)fail('EVIDENCE',400);ins('pink_salt_attachments',{business_unit_id:p.business_unit_id,entity_type:p.source_type==='import'?'Import':'Packaging Purchase',entity_id:p.id,title:'Receiving / Claim evidence',original_name:req.file.originalname,file_path:'/uploads/'+req.file.filename,mime_type:req.file.mimetype,uploaded_by:req.user.id});res.json({file:req.file.filename,name:req.file.originalname,path:'/uploads/'+req.file.filename})}catch(e){if(req.file?.path)try{fs.unlinkSync(req.file.path)}catch(_){}errorResponse(req,res,e)}});
  return S;
 }

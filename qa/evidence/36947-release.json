@@ -1,0 +1,246 @@
+{
+  "status": "PASS",
+  "version": "30.69.47",
+  "node": "v22.21.0",
+  "tested_at": "2026-10-24T18:39:21.710Z",
+  "checks": [
+    {
+      "suite": "Node 22, release identity, frontend integrity and recursive JS syntax",
+      "status": "PASS",
+      "files": 238
+    },
+    {
+      "suite": "qa_v36947_policy.js",
+      "status": "PASS",
+      "duration_ms": 3372,
+      "passed_log_lines": 3
+    },
+    {
+      "suite": "qa_v36946_decisions.js",
+      "status": "PASS",
+      "duration_ms": 3288,
+      "passed_log_lines": 1
+    },
+    {
+      "suite": "qa_v36945_lifecycle.js",
+      "status": "PASS",
+      "duration_ms": 4469,
+      "passed_log_lines": 8
+    },
+    {
+      "suite": "qa_v36945_simple.js",
+      "status": "PASS",
+      "duration_ms": 4731,
+      "passed_log_lines": 11
+    },
+    {
+      "suite": "qa_v36945_edges.js",
+      "status": "PASS",
+      "duration_ms": 7017,
+      "passed_log_lines": 8
+    },
+    {
+      "suite": "qa_v36945_approval.js",
+      "status": "PASS",
+      "duration_ms": 5235,
+      "passed_log_lines": 4
+    },
+    {
+      "suite": "qa_v36944_ui_contract.js",
+      "status": "PASS",
+      "duration_ms": 1360,
+      "passed_log_lines": 10
+    },
+    {
+      "suite": "qa_v36944_receiving.js",
+      "status": "PASS",
+      "duration_ms": 3518,
+      "passed_log_lines": 12
+    },
+    {
+      "suite": "qa_v36944_extended.js",
+      "status": "PASS",
+      "duration_ms": 4463,
+      "passed_log_lines": 14
+    },
+    {
+      "suite": "qa_v36944_approval.js",
+      "status": "PASS",
+      "duration_ms": 5540,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36944_assurance.js",
+      "status": "PASS",
+      "duration_ms": 8957,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36944_production_restart.js",
+      "status": "PASS",
+      "duration_ms": 5895,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36943_oct22.js",
+      "status": "PASS",
+      "duration_ms": 5613,
+      "passed_log_lines": 14,
+      "rerun_log": "36947-logs/oct22-rerun.txt",
+      "rerun_reason": "Initial fixture startup timeout; isolated full browser suite passed."
+    },
+    {
+      "suite": "qa_v36943_approval.js",
+      "status": "PASS",
+      "duration_ms": 5649,
+      "passed_log_lines": 2
+    },
+    {
+      "suite": "qa_v36936_packaging.js",
+      "status": "PASS",
+      "duration_ms": 4312,
+      "passed_log_lines": 25
+    },
+    {
+      "suite": "qa_v36937_refinement.js",
+      "status": "PASS",
+      "duration_ms": 3582,
+      "passed_log_lines": 8
+    },
+    {
+      "suite": "qa_v36938_product_ux.js",
+      "status": "PASS",
+      "duration_ms": 3617,
+      "passed_log_lines": 11
+    },
+    {
+      "suite": "qa_v36939_history.js",
+      "status": "PASS",
+      "duration_ms": 3629,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36939_financial_guards.js",
+      "status": "PASS",
+      "duration_ms": 7084,
+      "passed_log_lines": 5
+    },
+    {
+      "suite": "qa_v36939_regressions.js",
+      "status": "PASS",
+      "duration_ms": 79760,
+      "passed_log_lines": 19
+    },
+    {
+      "suite": "modernization/receiving45.cjs",
+      "status": "PASS",
+      "duration_ms": 10878,
+      "passed_log_lines": 4
+    },
+    {
+      "suite": "modernization/receiving45-submit.cjs",
+      "status": "PASS",
+      "duration_ms": 6636,
+      "passed_log_lines": 4
+    },
+    {
+      "suite": "modernization/receiving47-issues.cjs",
+      "status": "PASS",
+      "duration_ms": 80386,
+      "passed_log_lines": 22,
+      "rerun_log": "36947-logs/browser47-accepted.txt"
+    },
+    {
+      "suite": "modernization/receiving44-finance.cjs",
+      "status": "PASS",
+      "duration_ms": 6728,
+      "passed_log_lines": 3
+    },
+    {
+      "suite": "browser_v36945_packaging.js",
+      "status": "PASS",
+      "duration_ms": 8674,
+      "passed_log_lines": 10
+    },
+    {
+      "suite": "modernization/oct22-v45.cjs",
+      "status": "PASS",
+      "duration_ms": 61237,
+      "passed_log_lines": 14,
+      "error": "(node:3886) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.\n(Use `node --trace-warnings ...` to show where the warning was created)\nError: Startup timeout: Disposable QA credentials redacted
+      "rerun_log": "36947-logs/oct22-rerun.txt",
+      "rerun_reason": "Initial fixture startup timeout; isolated full browser suite passed."
+    },
+    {
+      "suite": "browser_v36939_cart_history.js",
+      "status": "PASS",
+      "duration_ms": 6385,
+      "passed_log_lines": 7
+    },
+    {
+      "suite": "browser_v36938_product_ux.js",
+      "status": "PASS",
+      "duration_ms": 13649,
+      "passed_log_lines": 17
+    },
+    {
+      "suite": "modernization/interaction.cjs",
+      "status": "PASS",
+      "duration_ms": 5721,
+      "passed_log_lines": 9
+    },
+    {
+      "suite": "modernization/completion.cjs",
+      "status": "PASS",
+      "duration_ms": 27516,
+      "passed_log_lines": 15
+    },
+    {
+      "suite": "modernization/editors41.cjs",
+      "status": "PASS",
+      "duration_ms": 33259,
+      "passed_log_lines": 17
+    },
+    {
+      "suite": "modernization/journal41.cjs",
+      "status": "PASS",
+      "duration_ms": 10163,
+      "passed_log_lines": 3
+    },
+    {
+      "suite": "modernization/authority.cjs",
+      "status": "PASS",
+      "duration_ms": 28309,
+      "passed_log_lines": 5
+    },
+    {
+      "suite": "qa_v36945_restart.js",
+      "status": "PASS",
+      "duration_ms": 7265,
+      "passed_log_lines": 2
+    },
+    {
+      "suite": "modernization/receiving47-approval.cjs",
+      "status": "PASS",
+      "passed_log_lines": 3,
+      "log": "36947-logs/approval-browser.txt"
+    }
+  ],
+  "browser_requested": true,
+  "upgrade_requested": true,
+  "synthetic_data_only": true,
+  "initial_run_status": "FAIL",
+  "initial_failed_checks": [
+    {
+      "suite": "modernization/oct22-v45.cjs",
+      "status": "PASS",
+      "duration_ms": 61237,
+      "passed_log_lines": 14,
+      "error": "(node:3886) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.\n(Use `node --trace-warnings ...` to show where the warning was created)\nError: Startup timeout: Disposable QA credentials redacted
+      "rerun_log": "36947-logs/oct22-rerun.txt",
+      "rerun_reason": "Initial fixture startup timeout; isolated full browser suite passed."
+    }
+  ],
+  "acceptance_method": "Broad release gate plus isolated startup retry and final targeted API/receiving/independent-approval browser revalidation.",
+  "final_check_count": 36
+}

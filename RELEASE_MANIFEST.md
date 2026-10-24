@@ -1,3 +1,5 @@
+Current release: **V30.69.47**. See [Start Here](START_HERE_V30_69_47.md), [QA report](V30_69_47_QA_REPORT.md), and [deployment instructions](V30_69_47_DEPLOYMENT_AND_GIT.md). Content below records earlier releases.
+
 > Current release: **V30.69.46**. Read `START_HERE_V30_69_46.md` for the fixes and current verification. Earlier version-specific content below is historical.
 
 # V30.69.45 release manifest

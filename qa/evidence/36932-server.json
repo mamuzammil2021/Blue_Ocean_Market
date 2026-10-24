@@ -21,25 +21,25 @@
   "timings": [
     {
       "operation": "import_metadata_save_and_same_key_concurrent_retry",
-      "ms": 11.106525000000147
+      "ms": 14.424216999999771
     },
     {
       "operation": "sensitive_import_challenge_and_authorized_save",
-      "ms": 20.89978999999994
+      "ms": 25.473316999999952
     },
     {
       "operation": "receive_and_concurrent_same_key_retry_without_pdf",
-      "ms": 22.701118999999835
+      "ms": 40.204444999999396
     },
     {
       "operation": "supplier_statement_csv",
-      "ms": 5.719873000000007,
+      "ms": 5.806195000000116,
       "bytes": 3338
     },
     {
       "operation": "supplier_statement_pdf",
-      "ms": 387.62850100000014,
-      "bytes": 39880
+      "ms": 652.3067010000004,
+      "bytes": 40043
     }
   ],
   "financial": [

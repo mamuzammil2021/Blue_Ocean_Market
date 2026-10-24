@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "checks": [
+    "A real Finance requester decision creates an actionable approval task and holds goods without creating premature supplier credit",
+    "Independent CEO approval executes the original decision once while credit stays blocked until posting",
+    "Real Accounting posting completes the investigation and releases exactly the approved supplier credit"
+  ],
+  "synthetic_data_only": true
+}

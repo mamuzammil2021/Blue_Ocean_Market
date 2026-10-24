@@ -1,0 +1,43 @@
+{
+  "approval_reference": "owner-2026-10-24-v47",
+  "owner_approval_date": "2026-10-24",
+  "credit_available_stage": "Posted",
+  "apply_method": "Authenticated CEO authorization, recorded with actual actor and policy history; no startup financial mutation.",
+  "bindings": {
+    "credit_account_id": {
+      "system_key": "PINK_SALT_SUPPLIER_ADVANCES",
+      "live_code": "1300"
+    },
+    "receivable_account_id": {
+      "system_key": "OTHER_RECEIVABLES",
+      "code_if_unused": "1220"
+    },
+    "loss_account_id": {
+      "system_key": "PINK_SALT_WASTE_EXPENSE",
+      "live_code": "6610"
+    },
+    "recovery_account_id": {
+      "system_key": "PINK_SALT_IN_TRANSIT",
+      "live_code": "1260"
+    },
+    "loss_offset_account_id": {
+      "system_key": "PINK_SALT_IN_TRANSIT",
+      "live_code": "1260"
+    },
+    "fx_gain_account_id": {
+      "system_key": "FX_GAIN",
+      "live_code": "4300"
+    },
+    "fx_loss_account_id": {
+      "system_key": "FX_LOSS",
+      "live_code": "6600"
+    },
+    "inventory_variance_account_id": {
+      "system_key": "PINK_SALT_WASTE_EXPENSE",
+      "live_code": "6610"
+    }
+  },
+  "cross_currency_credit": true,
+  "cross_currency_refund": true,
+  "conflicts": "Preserve existing IDs/codes. Reject occupied 1220 with a different meaning; use reviewed mapping instead of overwriting."
+}

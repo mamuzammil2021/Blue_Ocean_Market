@@ -1,0 +1,215 @@
+{
+  "original_sheets_preserved": true,
+  "original_sheet_count": 16,
+  "final_sheet_count": 17,
+  "tables_before": 12,
+  "tables_after": 12,
+  "existing_cell_changes": [
+    {
+      "sheet": "Overview",
+      "cell": "A1",
+      "before": "Blue Ocean Market - Accounting Requirements Draft v3 (V30.58 Aligned)",
+      "after": "Blue Ocean Market - Accounting Requirements v4 (V30.69.47 Receiving & Claims)"
+    },
+    {
+      "sheet": "Overview",
+      "cell": "A2",
+      "before": "Updated against the actual V30.58 consolidated accounting engineering build on 28-Sep-2026. This near-final draft preserves the live ledger/history, separates Finance from Accounting, uses controlled Posting Control instead of silent auto-posting, and records remaining accountant/owner decisions.",
+      "after": "Receiving and supplier-claim policies approved by the owner on 24-Oct-2026 are recorded in Receiving & Claims V47. Preserve live account codes and historical journals. Other existing review items retain their prior status."
+    },
+    {
+      "sheet": "Proposed COA",
+      "cell": "M16",
+      "before": "Review",
+      "after": "Approved"
+    },
+    {
+      "sheet": "Proposed COA",
+      "cell": "O16",
+      "before": "REVIEW BEFORE ACTIVATION",
+      "after": "Use Other Receivables for supplier/carrier refund claims. Reuse the matching active account or create 1220 only when unused. Never overwrite a conflicting live code."
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "C4",
+      "before": "No duplicate GL account per supplier; one supplier subledger under 2112/1312",
+      "after": "Use existing live supplier-payable and Pink Salt Supplier Advances accounts; preserve codes/IDs. Claim credits are distinct from cash advances. See Receiving & Claims V47."
+    },
+    {
+      "sheet": "COA Compatibility",
+      "cell": "H16",
+      "before": "REVIEW BEFORE ACTIVATION",
+      "after": "APPROVED V47 CLAIMS ONLY: reuse matching Other Receivables or create 1220 if unused; conflict requires review."
+    }
+  ],
+  "appended_into_preformatted_blank_cells": [
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "A24",
+      "before": "",
+      "after": "Claim credit before posting"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "B24",
+      "before": "",
+      "after": "Authorized agreement creates a non-cash credit proposal"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "C24",
+      "before": "",
+      "after": "Dr Pink Salt Supplier Advances; Cr inventory in transit"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "D24",
+      "before": "",
+      "after": "Unavailable for allocation until journal status Posted"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "E24",
+      "before": "",
+      "after": "Supplier profile shows awaiting posting, original currency, purchase/claim"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "F24",
+      "before": "",
+      "after": "Approved 24-Oct-2026"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "G24",
+      "before": "",
+      "after": "Owner instruction in this conversation"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "A25",
+      "before": "",
+      "after": "Claim credit after posting"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "B25",
+      "before": "",
+      "after": "Available immediately after final Accounting posting"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "C25",
+      "before": "",
+      "after": "Allocation: Dr supplier payable; Cr supplier credit carrying value; evidenced FX difference if applicable"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "D25",
+      "before": "",
+      "after": "One remaining balance; no duplicate cash Finance record"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "E25",
+      "before": "",
+      "after": "Show available, used and remaining; allow eligible purchase allocation"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "F25",
+      "before": "",
+      "after": "Approved 24-Oct-2026"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "G25",
+      "before": "",
+      "after": "Credit and cash advances remain separately identified"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "A26",
+      "before": "",
+      "after": "Refund claim and actual cash"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "B26",
+      "before": "",
+      "after": "Track claim due separately from spendable credit"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "C26",
+      "before": "",
+      "after": "Claim: Dr Other Receivables; Cr inventory in transit. Actual receipt: Dr company bank/cash; Cr claim receivable"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "D26",
+      "before": "",
+      "after": "Evidence, source currency and bank valuation retained; Finance verification before cash GL posting"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "E26",
+      "before": "",
+      "after": "Refund due / received / remaining; never count as available purchase credit"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "F26",
+      "before": "",
+      "after": "Approved 24-Oct-2026"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "G26",
+      "before": "",
+      "after": "Supplier and carrier claims tracked separately"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "A27",
+      "before": "",
+      "after": "Later / replacement delivery"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "B27",
+      "before": "",
+      "after": "Authorize only the missing balance; keep the original investigation task"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "C27",
+      "before": "",
+      "after": "No new payable or duplicate claim for the approved replacement allowance"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "D27",
+      "before": "",
+      "after": "Receiving from Import Details consumes one authorized allowance; exhausted receiving removed"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "E27",
+      "before": "",
+      "after": "Receiving action or explicit investigation lock; payments remain independently accessible"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "F27",
+      "before": "",
+      "after": "Approved 24-Oct-2026"
+    },
+    {
+      "sheet": "Supplier Account Model",
+      "cell": "G27",
+      "before": "",
+      "after": "History, partial receipts and reversals retained"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+(node:27) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS A real Finance requester decision creates an actionable approval task and holds goods without creating premature supplier credit
+PASS Independent CEO approval executes the original decision once while credit stays blocked until posting
+PASS Real Accounting posting completes the investigation and releases exactly the approved supplier credit
