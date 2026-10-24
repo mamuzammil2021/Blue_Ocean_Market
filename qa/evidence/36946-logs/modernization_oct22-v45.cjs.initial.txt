@@ -1,0 +1,17 @@
+(node:3864) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'rgb(138, 150, 166)'
+- 'rgb(105, 117, 134)'
+        ^
+
+    at /workspace/scratch/41c43e0f528e/work46/qa/modernization/oct22-v45.cjs:15:399 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'rgb(138, 150, 166)',
+  expected: 'rgb(105, 117, 134)',
+  operator: 'strictEqual',
+  diff: 'simple'
+}

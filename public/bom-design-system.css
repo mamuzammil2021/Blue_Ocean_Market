@@ -172,7 +172,7 @@ html.bom-ui {
 .bom-ui :where(.mobile-menu,.mobile-side-close,.top button[onclick*=logout]) svg {width:20px;height:20px;display:block;}
 
 /* V30.69.43: global placeholders, slim dialog scrollbars and shared loading state. */
-html.bom-ui input::placeholder,html.bom-ui textarea::placeholder,html.bom-ui input.form-control::placeholder,html.bom-ui textarea.form-control::placeholder {color:#697586;opacity:1;font-weight:400;}
+html.bom-ui input::placeholder,html.bom-ui textarea::placeholder,html.bom-ui input.form-control::placeholder,html.bom-ui textarea.form-control::placeholder {color:#8a96a6;opacity:1;font-weight:400;}
 html.bom-ui :where(.modal,.modal *,.confirm-dialog,.confirm-dialog *,.modal-body,.bom363-scrollable,.pack-dialog) {scrollbar-width:thin;scrollbar-color:#aab6c5 transparent;}
 html.bom-ui :where(.modal,.modal *,.confirm-dialog,.confirm-dialog *,.modal-body,.bom363-scrollable,.pack-dialog)::-webkit-scrollbar {width:6px;height:6px;}
 html.bom-ui :where(.modal,.modal *,.confirm-dialog,.confirm-dialog *,.modal-body,.bom363-scrollable,.pack-dialog)::-webkit-scrollbar-thumb {background:#aab6c5;border-radius:6px;}
@@ -188,3 +188,8 @@ html.bom-ui .bom-invalid-group {border:1px solid #b42318;border-radius:var(--bom
 html.bom-ui :where(input,select,textarea):user-invalid {border-color:#b42318;}
 
 html.bom-ui .bom43-loader {display:flex;justify-content:center;align-items:center;min-height:100px;}
+
+/* V46: native hints remain distinct from entered values on every surface. */
+input::placeholder,textarea::placeholder{color:#8a96a6!important;opacity:1!important;font-weight:400!important;}
+select:has(>option[value=""]:checked){color:#8a96a6!important;}
+select option{color:#1e293b;}

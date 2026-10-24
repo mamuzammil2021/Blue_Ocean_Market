@@ -1,0 +1,227 @@
+{
+  "status": "PASS",
+  "version": "30.69.46",
+  "node": "v22.21.0",
+  "tested_at": "2026-10-24T15:55:41.106Z",
+  "checks": [
+    {
+      "suite": "Node 22, release identity, frontend integrity and recursive JS syntax",
+      "status": "PASS",
+      "files": 237
+    },
+    {
+      "suite": "qa_v36946_decisions.js",
+      "status": "PASS",
+      "duration_ms": 2536,
+      "passed_log_lines": 1
+    },
+    {
+      "suite": "qa_v36945_lifecycle.js",
+      "status": "PASS",
+      "duration_ms": 3124,
+      "passed_log_lines": 8
+    },
+    {
+      "suite": "qa_v36945_simple.js",
+      "status": "PASS",
+      "duration_ms": 3033,
+      "passed_log_lines": 11
+    },
+    {
+      "suite": "qa_v36945_edges.js",
+      "status": "PASS",
+      "duration_ms": 4805,
+      "passed_log_lines": 8
+    },
+    {
+      "suite": "qa_v36945_approval.js",
+      "status": "PASS",
+      "duration_ms": 4327,
+      "passed_log_lines": 4
+    },
+    {
+      "suite": "qa_v36944_ui_contract.js",
+      "status": "PASS",
+      "duration_ms": 1405,
+      "passed_log_lines": 10
+    },
+    {
+      "suite": "qa_v36944_receiving.js",
+      "status": "PASS",
+      "duration_ms": 2957,
+      "passed_log_lines": 12
+    },
+    {
+      "suite": "qa_v36944_extended.js",
+      "status": "PASS",
+      "duration_ms": 3739,
+      "passed_log_lines": 14
+    },
+    {
+      "suite": "qa_v36944_approval.js",
+      "status": "PASS",
+      "duration_ms": 3767,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36944_assurance.js",
+      "status": "PASS",
+      "duration_ms": 6582,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36944_production_restart.js",
+      "status": "PASS",
+      "duration_ms": 4233,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36943_oct22.js",
+      "status": "PASS",
+      "duration_ms": 3614,
+      "passed_log_lines": 11
+    },
+    {
+      "suite": "qa_v36943_approval.js",
+      "status": "PASS",
+      "duration_ms": 3756,
+      "passed_log_lines": 2
+    },
+    {
+      "suite": "qa_v36936_packaging.js",
+      "status": "PASS",
+      "duration_ms": 3550,
+      "passed_log_lines": 25
+    },
+    {
+      "suite": "qa_v36937_refinement.js",
+      "status": "PASS",
+      "duration_ms": 2982,
+      "passed_log_lines": 8
+    },
+    {
+      "suite": "qa_v36938_product_ux.js",
+      "status": "PASS",
+      "duration_ms": 2847,
+      "passed_log_lines": 11
+    },
+    {
+      "suite": "qa_v36939_history.js",
+      "status": "PASS",
+      "duration_ms": 2625,
+      "passed_log_lines": 6
+    },
+    {
+      "suite": "qa_v36939_financial_guards.js",
+      "status": "PASS",
+      "duration_ms": 5059,
+      "passed_log_lines": 5
+    },
+    {
+      "suite": "qa_v36939_regressions.js",
+      "status": "PASS",
+      "duration_ms": 51468,
+      "passed_log_lines": 19
+    },
+    {
+      "suite": "modernization/receiving45.cjs",
+      "status": "PASS",
+      "duration_ms": 7373,
+      "passed_log_lines": 4
+    },
+    {
+      "suite": "modernization/receiving45-submit.cjs",
+      "status": "PASS",
+      "duration_ms": 4899,
+      "passed_log_lines": 4
+    },
+    {
+      "suite": "modernization/receiving46-issues.cjs",
+      "status": "PASS",
+      "duration_ms": 20487,
+      "passed_log_lines": 14
+    },
+    {
+      "suite": "modernization/receiving44-finance.cjs",
+      "status": "PASS",
+      "duration_ms": 4441,
+      "passed_log_lines": 3
+    },
+    {
+      "suite": "browser_v36945_packaging.js",
+      "status": "PASS",
+      "duration_ms": 6470,
+      "passed_log_lines": 10
+    },
+    {
+      "suite": "modernization/oct22-v45.cjs",
+      "status": "PASS",
+      "duration_ms": 6082,
+      "passed_log_lines": 14,
+      "rerun_at": "2026-10-24T15:56:10.896942+00:00",
+      "rerun_reason": "Updated browser contract from old placeholder color to the intentional V46 lighter color; application code unchanged after full run."
+    },
+    {
+      "suite": "browser_v36939_cart_history.js",
+      "status": "PASS",
+      "duration_ms": 4484,
+      "passed_log_lines": 7
+    },
+    {
+      "suite": "browser_v36938_product_ux.js",
+      "status": "PASS",
+      "duration_ms": 9786,
+      "passed_log_lines": 17
+    },
+    {
+      "suite": "modernization/interaction.cjs",
+      "status": "PASS",
+      "duration_ms": 4216,
+      "passed_log_lines": 9
+    },
+    {
+      "suite": "modernization/completion.cjs",
+      "status": "PASS",
+      "duration_ms": 11592,
+      "passed_log_lines": 15
+    },
+    {
+      "suite": "modernization/editors41.cjs",
+      "status": "PASS",
+      "duration_ms": 24427,
+      "passed_log_lines": 17
+    },
+    {
+      "suite": "modernization/journal41.cjs",
+      "status": "PASS",
+      "duration_ms": 7396,
+      "passed_log_lines": 3
+    },
+    {
+      "suite": "modernization/authority.cjs",
+      "status": "PASS",
+      "duration_ms": 19153,
+      "passed_log_lines": 5
+    },
+    {
+      "suite": "qa_v36945_restart.js",
+      "status": "PASS",
+      "duration_ms": 4949,
+      "passed_log_lines": 2
+    }
+  ],
+  "browser_requested": true,
+  "upgrade_requested": true,
+  "synthetic_data_only": true,
+  "initial_run_status": "FAIL",
+  "initial_failed_checks": [
+    {
+      "suite": "modernization/oct22-v45.cjs",
+      "status": "FAIL",
+      "duration_ms": 6082,
+      "passed_log_lines": 0,
+      "error": "(node:3864) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.\n(Use `node --trace-warnings ...` to show where the warning was created)\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'rgb(138, 150, 166)'\n- 'rgb(105, 117, 134)'\n        ^\n\n    at /workspace/scratch/41c43e0f528e/work46/qa/modernization/oct22-v45.cjs:15:399 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: 'rgb(138, 150, 166)',\n  expected: 'rgb(105, 117, 134)',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n"
+    }
+  ],
+  "acceptance_method": "Full run plus targeted rerun of the only failed check; initial failure retained."
+}

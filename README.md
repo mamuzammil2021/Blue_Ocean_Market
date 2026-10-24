@@ -1,3 +1,5 @@
+> Current release: **V30.69.46**. Read `START_HERE_V30_69_46.md` for the fixes and current verification. Earlier version-specific content below is historical.
+
 # Blue Ocean Market — V30.69.45
 
 Simple receiving and linked investigation/task workflow on the protected V44 financial and stock foundations. Start with [START_HERE_V30_69_45.md](START_HERE_V30_69_45.md).

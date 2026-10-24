@@ -1,0 +1,4 @@
+PASS Financially active import requested by Admin stays unchanged until independent CEO approval following the Finance-initiated request, then executes its linked void automatically
+PASS Changed import invalidates the approved void snapshot and leaves linked financial records untouched
+(node:2689) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

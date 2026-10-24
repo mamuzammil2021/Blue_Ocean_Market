@@ -1,3 +1,5 @@
+> Current release: **V30.69.46**. Read `START_HERE_V30_69_46.md` for the fixes and current verification. Earlier version-specific content below is historical.
+
 # V30.69.45 — simple receiving
 
 Ordinary receiving now shows purchased categories, actual quantity/condition, date and location. Only differences reveal later/investigation/split choices. Disputed missing quantities are held while received goods save normally, and one linked task gathers supplier, purchase, invoice prices and missing details.

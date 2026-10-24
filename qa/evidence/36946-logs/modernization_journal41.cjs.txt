@@ -1,0 +1,5 @@
+PASS Manual journal requires balanced eligible lines and evidence, retains Review & Confirm, and creates one unposted proposal
+PASS New and edit manual journal routes refresh with original fields, lines and retained evidence at three widths in EN/KR
+PASS Manual proposal correction preserves journal identity and evidence and returns to Posting Control
+(node:4449) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

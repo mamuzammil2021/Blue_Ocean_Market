@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Ordinary receiving shows differences only when needed, saves real goods, creates one issue/task and hides receiving when the missing balance is held",
+    "The issue page and conditional 85/15 responsibility calculator work in EN/KR at 1440, 820 and 390 without overflow",
+    "The investigation task action opens its exact issue with purchase, supplier and invoice valuation context",
+    "Missing evidence is explained on the active form before confirmation or CEO authorization",
+    "A real credit decision completes the task, removes receiving actions on the purchase, and leaves receiving history available",
+    "The correction decision clearly reviews and authorizes reversing the original receipt, resolves the task, and allows correct re-entry",
+    "Real browser decision supplier / Invoice Reduction saves once through authorization and displays Resolved",
+    "Real browser decision supplier / Cash Refund saves once through authorization and displays Awaiting supplier settlement",
+    "Real browser decision supplier / Replacement saves once through authorization and displays Pending delivery",
+    "Real browser decision company / Company Loss saves once through authorization and displays Resolved",
+    "Real browser decision shared / Purchase Credit saves once through authorization and displays Resolved",
+    "Real browser decision carrier / Cash Refund saves once through authorization and displays Awaiting supplier settlement",
+    "Real browser decision later / Later Delivery saves once through authorization and displays Pending delivery",
+    "No uncaught JavaScript errors in receiving, issue, task or resolution navigation"
+  ],
+  "errors": [],
+  "synthetic_data_only": true
+}

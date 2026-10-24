@@ -1,0 +1,16 @@
+PASS Ordinary receiving shows differences only when needed, saves real goods, creates one issue/task and hides receiving when the missing balance is held
+PASS The issue page and conditional 85/15 responsibility calculator work in EN/KR at 1440, 820 and 390 without overflow
+PASS The investigation task action opens its exact issue with purchase, supplier and invoice valuation context
+PASS Missing evidence is explained on the active form before confirmation or CEO authorization
+PASS A real credit decision completes the task, removes receiving actions on the purchase, and leaves receiving history available
+PASS The correction decision clearly reviews and authorizes reversing the original receipt, resolves the task, and allows correct re-entry
+PASS Real browser decision supplier / Invoice Reduction saves once through authorization and displays Resolved
+PASS Real browser decision supplier / Cash Refund saves once through authorization and displays Awaiting supplier settlement
+PASS Real browser decision supplier / Replacement saves once through authorization and displays Pending delivery
+PASS Real browser decision company / Company Loss saves once through authorization and displays Resolved
+PASS Real browser decision shared / Purchase Credit saves once through authorization and displays Resolved
+PASS Real browser decision carrier / Cash Refund saves once through authorization and displays Awaiting supplier settlement
+PASS Real browser decision later / Later Delivery saves once through authorization and displays Pending delivery
+PASS No uncaught JavaScript errors in receiving, issue, task or resolution navigation
+(node:3480) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
