@@ -1,0 +1,20 @@
+PASS CEO applies approved workbook mappings through the real Settings review and authorization flow before any decisions
+PASS Payments remains actionable on a partially received import under investigation
+PASS Ordinary receiving shows differences only when needed, saves real goods, creates one issue/task and hides receiving when the missing balance is held
+PASS The issue page and conditional 85/15 responsibility calculator work in EN/KR at 1440, 820 and 390 without overflow
+PASS The investigation task action opens its exact issue with purchase, supplier and invoice valuation context
+PASS Missing evidence is explained on the active form before confirmation or CEO authorization
+(node:3698) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert((await p.locator('[data-receiving47-supplier]').innerText()).includes('Available after posting'))
+
+    at /workspace/scratch/41c43e0f528e/work47/qa/modernization/receiving47-issues.cjs:11:1918 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

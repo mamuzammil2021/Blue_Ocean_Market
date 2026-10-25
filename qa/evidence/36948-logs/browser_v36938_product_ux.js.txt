@@ -1,0 +1,19 @@
+PASS Product Master actions are visible without hover and stay in a sticky right column
+PASS English/Korean/Both toggles only language fields, retains content and keeps shared SKU/weight fields
+PASS Real browser saves Korean-only product and preferred commerce language through shared Review & Confirm
+PASS Product Families opens directly as a populated full-screen page; refresh and background synchronization preserve it
+PASS Family add/save/edit/cancel uses short dialogs over the retained populated page
+PASS Family search is a direct read action without a confirmation dialog and persists in the URL
+PASS Editing a linked variant returns to its family detail without replacing it with Product Master
+PASS Family detail deep link, refresh and explicit parent Back work without unrelated screens
+PASS Lots list/detail/edit/save/cancel and refresh retain the correct page and immutable quantities
+PASS New Production has its own URL; Cancel, full-screen Back and refresh return to Production
+PASS Browser Back and page Back protect unsaved Production inputs and discard returns to the correct parent
+PASS Invalid Production submission retains the form and entered values without creating a batch
+PASS Actual Production completion saves once and returns to Production list, preserving existing stock/lot service
+PASS Production details restore directly and browser Back/Forward respects record/list routes
+PASS Mobile390px Product Master actions wrap visibly; Korean full-screen families have no document overflow
+PASS Packaging sidebar uses shared icon/label styling and far-right arrow with functional expand/collapse
+PASS No uncaught JavaScript errors across tested workflows
+(node:4531) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -1,0 +1,27 @@
+PASS Material master creates bilingual variants, unit conversions and supplier mappings; duplicate code/specification rejected
+PASS Identical duplicate submissions replay one durable result
+PASS One eligible supplier and multiple materials; exact discount/tax/expense totals; purchase creates no stock
+PASS Confirmed purchase follows Imports commitment policy; no cash or physical stock is created
+PASS Partial and full receipts are durable, reject over-receipt and keep damaged goods outside usable stock
+PASS Receipt failures roll back all lines and stock atomically
+PASS Rejected-item return clears quarantine without reducing usable stock or creating inventory value
+PASS Supplier return links the original receipt, reopens replacement balance and creates no cash movement
+PASS Historical line snapshots survive edits; used units/deletion locked; archive and unused deletion work
+PASS Packaging invoice context uses the shared FX engine and original carrying basis
+PASS USD→USD payment debits USD 10 on the exact bank account, values KRW 14000 and settles KRW 13000 without changing stock
+PASS Advance-only settlement uses the central supplier advance ledger and creates no bank or stock movement
+PASS Combined advance and PKR→USD bank payment retain separate non-cash allocation and actual PKR debit
+PASS Central supplier profile, payment history, allocations and statement reconcile exactly to the supplier net balance
+PASS Existing account/reference duplicate guard applies to packaging purchase payments
+PASS Packaging BOM reuses existing product recipes, supports proportional cartons and preserves revisions
+PASS Additive migration is retry-safe; stock quantity, movement count, Finance count and foreign keys reconcile
+PASS Backend KPI counts and paginated material reads use actual records
+PASS Final foreign settlement clears the six-KRW residual through disclosed FX, then passes approval, Finance verification, balanced Accounting posting and supplier reconciliation
+PASS Fully prepaid cash purchase receives independently; cash has no supplier bank requirement and payment never changes stock
+PASS Partially paid purchase receives all ordered units without forcing the remaining balance to be paid
+PASS Safe header edits, stale edit rejection, return-to-draft amendment and unused cancellation preserve Accounting reversal history
+PASS Archived or reclassified suppliers cannot be selected for new purchases but historical purchase, payment and supplier profile links remain valid
+PASS Backend rejects wrong-unit and unauthenticated Packaging access
+PASS Configured L4 purchase approval creates a complete actionable task, blocks premature receiving and executes once after independent approval
+(node:2750) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -1,0 +1,8 @@
+PASS Two real advance allocations settle KRW55000 with zero new Finance rows and KRW45000 outstanding
+PASS Central supplier account retains both allocation dates/amounts, target links and zero remaining credit
+PASS Import timeline includes creation, both allocations, shared FX detail links and Accounting proposals with server paging
+PASS Timeline rejects unauthenticated and wrong-business-unit reads
+PASS Legacy Finance repair endpoint is detection-only and cannot silently void records
+PASS Foreign keys remain valid after real allocations and read-only history projection
+(node:2816) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

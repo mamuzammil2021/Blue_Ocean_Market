@@ -1,0 +1,16 @@
+PASS width=1440 language=en eight QA surfaces
+PASS width=1440 language=ko eight QA surfaces
+PASS width=820 language=en eight QA surfaces
+PASS width=820 language=ko eight QA surfaces
+PASS width=390 language=en eight QA surfaces
+PASS width=390 language=ko eight QA surfaces
+PASS Supplier category validation, readable placeholders, slim modals, simplified material forms, Settings, receipt locations, PDF actions and import wheel scrolling pass six width/language combinations
+PASS Real material edit saves while retaining existing purchase-unit conversions and supplier mappings
+PASS Settings creates a real BU-scoped location; receiving refresh discovers it while retaining entered receipt values
+PASS PDF outage preserves the saved purchase and exposes a retry without creating duplicate purchases
+PASS Actual purchase cart saves once, automatically prepares its invoice and downloads a valid PDF from Purchase Detail
+PASS Delayed route uses a visual loader and visually hidden accessible status label
+PASS Non-CEO manager cannot see received-import Edit/Void actions on mobile
+PASS No uncaught browser errors or foreign-key violations
+(node:4189) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

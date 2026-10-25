@@ -1,0 +1,14 @@
+(node:5) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS KRW credit-only allocation reconciles covered/outstanding, supplier obligations and posting state without cash duplication
+PASS USD credit-only allocation reconciles covered/outstanding, supplier obligations and posting state without cash duplication
+PASS PKR credit-only allocation reconciles covered/outstanding, supplier obligations and posting state without cash duplication
+PASS Invoice reduction changes the invoice obligation separately from cash or claim-credit application
+PASS Unposted claim credits and refund receivables stay separately identified from available credit
+PASS Import cards and Supplier Payments show credit sources, invoice currency, non-cash identity and posting state
+PASS EN/KR supplier summaries remain above tabs; import buttons have equal heights and both screens fit 1440/820/390 widths
+PASS Resolved receiving issues collapse into compact history with their recorded decision
+PASS Focus refresh updates credit reversal, totals and history without page reload; subsequent refresh has no duplicate entries
+PASS Targeted Supplier Profile refresh updates claim cards and existing payables together
+PASS Supplier Advances & Payments shows separate non-cash credit applications and reversal history after targeted refresh
+PASS No uncaught browser errors or foreign-key violations

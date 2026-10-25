@@ -1,0 +1,6 @@
+PASS Real Import submit survives a lost success response; retry replays the saved operation without duplicate stock
+PASS Refresh after server commit recovers the durable operation and displays saved receiving history
+PASS Real Packaging full-page submit converts cartons, posts usable stock once and returns to purchase detail
+PASS Browser Back/Forward restores receiving and packaging purchase deep routes
+(node:3609) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

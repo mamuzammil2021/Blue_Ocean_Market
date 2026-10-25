@@ -1,0 +1,966 @@
+PASS Original frontend script order and public interfaces remain intact
+PASS Pinned Tabler subset rebuild is byte-for-byte reproducible
+PASS Every generated Tabler selector is scoped to the application namespace
+PASS Vendored source checksums and retained third-party licenses are valid
+PASS Legacy head styles have one owner with 31 documented superseded exact duplicates removed
+PASS Completed-dialog timer requires the original form identity
+PASS Release frontend integrity manifest matches all shipped frontend assets
+PASS Domain CSS is scoped and obsolete Accounting style owner removed
+PASS Earlier accessibility and Payroll locale entries survive the full catalog load
+/workspace/scratch/41c43e0f528e/inspection/DEVELOPMENT_CHECKPOINT/node_modules/postcss/lib/container.js:317
+        throw child.addToError(e)
+        ^
+
+AssertionError [ERR_ASSERTION]: .rc-supplier-overview
+    at <input css ONTg9Y>:31:1
+    at /workspace/scratch/41c43e0f528e/work47/qa/qa_v36944_ui_contract.js:15:240
+    at /workspace/scratch/41c43e0f528e/inspection/DEVELOPMENT_CHECKPOINT/node_modules/postcss/lib/container.js:387:18
+    at /workspace/scratch/41c43e0f528e/inspection/DEVELOPMENT_CHECKPOINT/node_modules/postcss/lib/container.js:315:18
+    at Root.each (/workspace/scratch/41c43e0f528e/inspection/DEVELOPMENT_CHECKPOINT/node_modules/postcss/lib/container.js:63:16)
+    at Root.walk (/workspace/scratch/41c43e0f528e/inspection/DEVELOPMENT_CHECKPOINT/node_modules/postcss/lib/container.js:312:17)
+    at Root.walkRules (/workspace/scratch/41c43e0f528e/inspection/DEVELOPMENT_CHECKPOINT/node_modules/postcss/lib/container.js:385:19)
+    at Object.<anonymous> (/workspace/scratch/41c43e0f528e/work47/qa/qa_v36944_ui_contract.js:15:227)
+    at Module._compile (node:internal/modules/cjs/loader:1706:14)
+    at Object..js (node:internal/modules/cjs/loader:1839:10)
+    at Module.load (node:internal/modules/cjs/loader:1441:32) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple',
+  postcssNode: <ref *1> Rule {
+    raws: { before: '\n', between: '', semicolon: false, after: '' },
+    type: 'rule',
+    nodes: [
+      Declaration {
+        raws: { before: '', between: ':' },
+        type: 'decl',
+        parent: [Circular *1],
+        source: {
+          input: Input {
+            css: '/* Shared Tabler components: no separate modal or routing framework. */\n' +
+              'html.bom-ui .receiving44{display:grid;gap:16px;min-width:0}\n' +
+              'html.bom-ui .receiving44 .rc-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}\n' +
+              'html.bom-ui .receiving44 .rc-summary .card{padding:14px;min-width:0}\n' +
+              'html.bom-ui .receiving44 .rc-summary strong{display:block;font-size:21px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}\n' +
+              'html.bom-ui .receiving44 .rc-quantities{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}\n' +
+              'html.bom-ui .receiving44 label{min-width:0}\n' +
+              'html.bom-ui .receiving44 .rc-line{display:grid;gap:12px}\n' +
+              'html.bom-ui .receiving44 .rc-line.is-discrepant{border-left:3px solid var(--tblr-warning,#f59f00)}\n' +
+              'html.bom-ui .receiving44 .rc-discrepancy,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:end;margin:12px 0}\n' +
+              'html.bom-ui .receiving44 .rc-footer{position:sticky;bottom:0;z-index:12;background:var(--panel);padding:12px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}\n' +
+              'html.bom-ui .receiving44 .rc-error{color:var(--tblr-danger,#b42318);overflow-wrap:anywhere}\n' +
+              'html.bom-ui .receiving44 .rc-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--tblr-border-color,#e5eaf1);margin:16px 0}\n' +
+              'html.bom-ui .receiving44 .rc-bar>span{height:100%;min-width:0}\n' +
+              'html.bom-ui .receiving44 input[type=range]{width:100%;accent-color:var(--brand)}\n' +
+              'html.bom-ui .receiving44 details>summary{cursor:pointer;padding:8px 0}\n' +
+              'html.bom-ui .receiving44 .card h3{margin-top:0}\n' +
+              'html.bom-ui .receiving44 .rc-evidence{display:flex;gap:8px;flex-wrap:wrap}\n' +
+              '@media(max-width:900px){html.bom-ui .receiving44 .rc-quantities,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{grid-template-columns:repeat(2,minmax(0,1fr))}}\n' +
+              '@media(max-width:550px){html.bom-ui .receiving44 .rc-discrepancy{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-summary{grid-template-columns:repeat(2,minmax(0,1fr))}html.bom-ui .receiving44 .rc-footer .btn{flex:1;min-height:44px}}\n' +
+              '/* V45: ordinary receipts expose only the current employee decision. */\n' +
+              'html.bom-ui .receiving44 .rc-line-facts{display:flex;flex-wrap:wrap;gap:10px 20px;color:var(--muted,#53637a);font-size:13px}\n' +
+              'html.bom-ui .receiving44 .rc-difference{padding:14px;border-radius:8px;background:var(--tblr-warning-lt,#fff5df);display:grid;gap:10px}\n' +
+              'html.bom-ui .receiving44 .rc-difference[hidden],html.bom-ui .receiving44 [data-rc-quality][hidden],html.bom-ui .receiving44 [data-rc-split][hidden],html.bom-ui .receiving44 [data-decision-money][hidden],html.bom-ui .receiving44 [data-decision-shared][hidden],html.bom-ui .receiving44 [data-decision-override][hidden],html.bom-ui .receiving44 [data-decision-carrier][hidden],html.bom-ui .receiving44 [data-decision-method][hidden]{display:none}\n' +
+              'html.bom-ui .receiving44 .rc-issue-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line,#e5eaf1);flex-wrap:wrap}\n' +
+              'html.bom-ui .rc-issue-tag{margin:4px 4px 0 0;color:#8b5200;border-color:#f4c56e;background:#fff8e8;white-space:normal}\n' +
+              'html.bom-ui .receiving44 .rc-simple-line>.pack-check{margin:0}\n' +
+              'html.bom-ui .receiving44 form{display:grid;gap:14px}\n' +
+              '@media(max-width:550px){html.bom-ui .receiving44 .grid.g2{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-line-facts{display:grid;gap:6px}html.bom-ui .receiving44 .rc-issue-row>.btn{width:100%}}\n' +
+              '/* V48: compact summaries and uniform responsive action controls. */\n' +
+              '.rc-supplier-overview{margin:12px 0}.rc-supplier-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.rc-summary-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}.rc-supplier-cards .ps-detail-box{min-width:0}.rc-supplier-cards b{font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.rc-issues-compact.card{padding:14px 18px;margin:12px 0}.rc-issues-compact h3{margin:0 0 8px}.rc-issue-info{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;min-width:0}.rc-issue-info small{flex-basis:100%;color:var(--muted)}.rc-issues-compact .rc-issue-row{padding:10px 0;gap:12px;align-items:center}.rc-issues-compact summary{cursor:pointer;font-weight:600}.rc-issues-compact details .rc-issue-row:last-child{border-bottom:0}.ps315-kpis [data-net-basis]{display:block;font-size:11px;line-height:1.45;margin-top:7px}.bom-claim-pending{grid-column:1/-1;margin:0;font-size:12px}\n' +
+              '[data-bom-import-id] [data-import-part=actions]{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px;align-items:stretch!important}[data-bom-import-id] [data-receiving47-action]{display:contents!important}[data-bom-import-id] [data-import-part=actions] .btn{width:100%;min-height:44px;height:100%!important;box-sizing:border-box;padding:9px 12px!important;font-size:14px!important;line-height:1.4!important;white-space:normal;display:inline-flex;align-items:center;justify-content:center;gap:6px;margin:0!important;align-self:stretch!important}[data-bom-import-id] .v305-payment-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}[data-bom-import-id] .v305-payment-breakdown>div{min-width:0}[data-bom-import-id] .v305-payment-breakdown small{display:block}\n' +
+              '@media(max-width:520px){.rc-summary-footer{align-items:stretch;flex-direction:column}.rc-supplier-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.rc-issues-compact .rc-issue-row{align-items:flex-start}.rc-issues-compact .btn{flex-shrink:0;padding:8px}.rc-supplier-cards .ps-detail-box{padding:12px}[data-bom-import-id] [data-import-part=actions]{grid-template-columns:repeat(2,minmax(0,1fr))}}\n',
+            hasBOM: false,
+            document: '/* Shared Tabler components: no separate modal or routing framework. */\n' +
+              'html.bom-ui .receiving44{display:grid;gap:16px;min-width:0}\n' +
+              'html.bom-ui .receiving44 .rc-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}\n' +
+              'html.bom-ui .receiving44 .rc-summary .card{padding:14px;min-width:0}\n' +
+              'html.bom-ui .receiving44 .rc-summary strong{display:block;font-size:21px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}\n' +
+              'html.bom-ui .receiving44 .rc-quantities{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}\n' +
+              'html.bom-ui .receiving44 label{min-width:0}\n' +
+              'html.bom-ui .receiving44 .rc-line{display:grid;gap:12px}\n' +
+              'html.bom-ui .receiving44 .rc-line.is-discrepant{border-left:3px solid var(--tblr-warning,#f59f00)}\n' +
+              'html.bom-ui .receiving44 .rc-discrepancy,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:end;margin:12px 0}\n' +
+              'html.bom-ui .receiving44 .rc-footer{position:sticky;bottom:0;z-index:12;background:var(--panel);padding:12px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}\n' +
+              'html.bom-ui .receiving44 .rc-error{color:var(--tblr-danger,#b42318);overflow-wrap:anywhere}\n' +
+              'html.bom-ui .receiving44 .rc-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--tblr-border-color,#e5eaf1);margin:16px 0}\n' +
+              'html.bom-ui .receiving44 .rc-bar>span{height:100%;min-width:0}\n' +
+              'html.bom-ui .receiving44 input[type=range]{width:100%;accent-color:var(--brand)}\n' +
+              'html.bom-ui .receiving44 details>summary{cursor:pointer;padding:8px 0}\n' +
+              'html.bom-ui .receiving44 .card h3{margin-top:0}\n' +
+              'html.bom-ui .receiving44 .rc-evidence{display:flex;gap:8px;flex-wrap:wrap}\n' +
+              '@media(max-width:900px){html.bom-ui .receiving44 .rc-quantities,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{grid-template-columns:repeat(2,minmax(0,1fr))}}\n' +
+              '@media(max-width:550px){html.bom-ui .receiving44 .rc-discrepancy{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-summary{grid-template-columns:repeat(2,minmax(0,1fr))}html.bom-ui .receiving44 .rc-footer .btn{flex:1;min-height:44px}}\n' +
+              '/* V45: ordinary receipts expose only the current employee decision. */\n' +
+              'html.bom-ui .receiving44 .rc-line-facts{display:flex;flex-wrap:wrap;gap:10px 20px;color:var(--muted,#53637a);font-size:13px}\n' +
+              'html.bom-ui .receiving44 .rc-difference{padding:14px;border-radius:8px;background:var(--tblr-warning-lt,#fff5df);display:grid;gap:10px}\n' +
+              'html.bom-ui .receiving44 .rc-difference[hidden],html.bom-ui .receiving44 [data-rc-quality][hidden],html.bom-ui .receiving44 [data-rc-split][hidden],html.bom-ui .receiving44 [data-decision-money][hidden],html.bom-ui .receiving44 [data-decision-shared][hidden],html.bom-ui .receiving44 [data-decision-override][hidden],html.bom-ui .receiving44 [data-decision-carrier][hidden],html.bom-ui .receiving44 [data-decision-method][hidden]{display:none}\n' +
+              'html.bom-ui .receiving44 .rc-issue-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line,#e5eaf1);flex-wrap:wrap}\n' +
+              'html.bom-ui .rc-issue-tag{margin:4px 4px 0 0;color:#8b5200;border-color:#f4c56e;background:#fff8e8;white-space:normal}\n' +
+              'html.bom-ui .receiving44 .rc-simple-line>.pack-check{margin:0}\n' +
+              'html.bom-ui .receiving44 form{display:grid;gap:14px}\n' +
+              '@media(max-width:550px){html.bom-ui .receiving44 .grid.g2{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-line-facts{display:grid;gap:6px}html.bom-ui .receiving44 .rc-issue-row>.btn{width:100%}}\n' +
+              '/* V48: compact summaries and uniform responsive action controls. */\n' +
+              '.rc-supplier-overview{margin:12px 0}.rc-supplier-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.rc-summary-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}.rc-supplier-cards .ps-detail-box{min-width:0}.rc-supplier-cards b{font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.rc-issues-compact.card{padding:14px 18px;margin:12px 0}.rc-issues-compact h3{margin:0 0 8px}.rc-issue-info{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;min-width:0}.rc-issue-info small{flex-basis:100%;color:var(--muted)}.rc-issues-compact .rc-issue-row{padding:10px 0;gap:12px;align-items:center}.rc-issues-compact summary{cursor:pointer;font-weight:600}.rc-issues-compact details .rc-issue-row:last-child{border-bottom:0}.ps315-kpis [data-net-basis]{display:block;font-size:11px;line-height:1.45;margin-top:7px}.bom-claim-pending{grid-column:1/-1;margin:0;font-size:12px}\n' +
+              '[data-bom-import-id] [data-import-part=actions]{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px;align-items:stretch!important}[data-bom-import-id] [data-receiving47-action]{display:contents!important}[data-bom-import-id] [data-import-part=actions] .btn{width:100%;min-height:44px;height:100%!important;box-sizing:border-box;padding:9px 12px!important;font-size:14px!important;line-height:1.4!important;white-space:normal;display:inline-flex;align-items:center;justify-content:center;gap:6px;margin:0!important;align-self:stretch!important}[data-bom-import-id] .v305-payment-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}[data-bom-import-id] .v305-payment-breakdown>div{min-width:0}[data-bom-import-id] .v305-payment-breakdown small{display:block}\n' +
+              '@media(max-width:520px){.rc-summary-footer{align-items:stretch;flex-direction:column}.rc-supplier-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.rc-issues-compact .rc-issue-row{align-items:flex-start}.rc-issues-compact .btn{flex-shrink:0;padding:8px}.rc-supplier-cards .ps-detail-box{padding:12px}[data-bom-import-id] [data-import-part=actions]{grid-template-columns:repeat(2,minmax(0,1fr))}}\n',
+            id: '<input css ONTg9Y>',
+            [Symbol(lineToIndexCache)]: [Array]
+          },
+          start: { column: 23, line: 31, offset: 3684 },
+          end: { column: 35, line: 31, offset: 3697 }
+        },
+        prop: 'margin',
+        value: '12px 0',
+        [Symbol(isClean)]: false,
+        [Symbol(my)]: true
+      }
+    ],
+    parent: <ref *2> Root {
+      raws: { semicolon: false, after: '\n' },
+      type: 'root',
+      nodes: [
+        Comment {
+          raws: { before: '', left: ' ', right: ' ' },
+          type: 'comment',
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          text: 'Shared Tabler components: no separate modal or routing framework.',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-summary',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-summary .card',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-summary strong',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-quantities',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 label',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-line',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-line.is-discrepant',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-discrepancy,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-footer',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-error',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-bar',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-bar>span',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 input[type=range]',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 details>summary',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .card h3',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-evidence',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        AtRule {
+          raws: {
+            before: '\n',
+            between: '',
+            afterName: '',
+            semicolon: false,
+            after: ''
+          },
+          type: 'atrule',
+          name: 'media',
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          params: '(max-width:900px)',
+          nodes: [ [Rule] ],
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        AtRule {
+          raws: {
+            before: '\n',
+            between: '',
+            afterName: '',
+            semicolon: false,
+            after: ''
+          },
+          type: 'atrule',
+          name: 'media',
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          params: '(max-width:550px)',
+          nodes: [ [Rule], [Rule], [Rule] ],
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Comment {
+          raws: { before: '\n', left: ' ', right: ' ' },
+          type: 'comment',
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          text: 'V45: ordinary receipts expose only the current employee decision.',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-line-facts',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-difference',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-difference[hidden],html.bom-ui .receiving44 [data-rc-quality][hidden],html.bom-ui .receiving44 [data-rc-split][hidden],html.bom-ui .receiving44 [data-decision-money][hidden],html.bom-ui .receiving44 [data-decision-shared][hidden],html.bom-ui .receiving44 [data-decision-override][hidden],html.bom-ui .receiving44 [data-decision-carrier][hidden],html.bom-ui .receiving44 [data-decision-method][hidden]',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-issue-row',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .rc-issue-tag',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 .rc-simple-line>.pack-check',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: 'html.bom-ui .receiving44 form',
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        AtRule {
+          raws: {
+            before: '\n',
+            between: '',
+            afterName: '',
+            semicolon: false,
+            after: ''
+          },
+          type: 'atrule',
+          name: 'media',
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          params: '(max-width:550px)',
+          nodes: [ [Rule], [Rule], [Rule] ],
+          lastEach: 1,
+          indexes: {},
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Comment {
+          raws: { before: '\n', left: ' ', right: ' ' },
+          type: 'comment',
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          text: 'V48: compact summaries and uniform responsive action controls.',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        [Circular *1],
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.rc-supplier-cards',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.rc-summary-footer',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.rc-supplier-cards .ps-detail-box',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.rc-supplier-cards b',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.rc-issues-compact.card',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.rc-issues-compact h3',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.rc-issue-info',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.rc-issue-info small',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.rc-issues-compact .rc-issue-row',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.rc-issues-compact summary',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.rc-issues-compact details .rc-issue-row:last-child',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.ps315-kpis [data-net-basis]',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '.bom-claim-pending',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '\n', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration],
+            [Declaration],
+            [Declaration],
+            [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '[data-bom-import-id] [data-import-part=actions]',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '[data-bom-import-id] [data-receiving47-action]',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [
+            [Declaration], [Declaration],
+            [Declaration], [Declaration],
+            [Declaration], [Declaration],
+            [Declaration], [Declaration],
+            [Declaration], [Declaration],
+            [Declaration], [Declaration],
+            [Declaration], [Declaration]
+          ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '[data-bom-import-id] [data-import-part=actions] .btn',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration], [Declaration], [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '[data-bom-import-id] .v305-payment-breakdown',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '[data-bom-import-id] .v305-payment-breakdown>div',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        Rule {
+          raws: { before: '', between: '', semicolon: false, after: '' },
+          type: 'rule',
+          nodes: [ [Declaration] ],
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          selector: '[data-bom-import-id] .v305-payment-breakdown small',
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        },
+        AtRule {
+          raws: {
+            before: '\n',
+            between: '',
+            afterName: '',
+            semicolon: false,
+            after: ''
+          },
+          type: 'atrule',
+          name: 'media',
+          parent: [Circular *2],
+          source: { input: [Input], start: [Object], end: [Object] },
+          params: '(max-width:520px)',
+          nodes: [ [Rule], [Rule], [Rule], [Rule], [Rule], [Rule] ],
+          [Symbol(isClean)]: false,
+          [Symbol(my)]: true
+        }
+      ],
+      source: {
+        input: Input {
+          css: '/* Shared Tabler components: no separate modal or routing framework. */\n' +
+            'html.bom-ui .receiving44{display:grid;gap:16px;min-width:0}\n' +
+            'html.bom-ui .receiving44 .rc-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}\n' +
+            'html.bom-ui .receiving44 .rc-summary .card{padding:14px;min-width:0}\n' +
+            'html.bom-ui .receiving44 .rc-summary strong{display:block;font-size:21px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}\n' +
+            'html.bom-ui .receiving44 .rc-quantities{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}\n' +
+            'html.bom-ui .receiving44 label{min-width:0}\n' +
+            'html.bom-ui .receiving44 .rc-line{display:grid;gap:12px}\n' +
+            'html.bom-ui .receiving44 .rc-line.is-discrepant{border-left:3px solid var(--tblr-warning,#f59f00)}\n' +
+            'html.bom-ui .receiving44 .rc-discrepancy,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:end;margin:12px 0}\n' +
+            'html.bom-ui .receiving44 .rc-footer{position:sticky;bottom:0;z-index:12;background:var(--panel);padding:12px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}\n' +
+            'html.bom-ui .receiving44 .rc-error{color:var(--tblr-danger,#b42318);overflow-wrap:anywhere}\n' +
+            'html.bom-ui .receiving44 .rc-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--tblr-border-color,#e5eaf1);margin:16px 0}\n' +
+            'html.bom-ui .receiving44 .rc-bar>span{height:100%;min-width:0}\n' +
+            'html.bom-ui .receiving44 input[type=range]{width:100%;accent-color:var(--brand)}\n' +
+            'html.bom-ui .receiving44 details>summary{cursor:pointer;padding:8px 0}\n' +
+            'html.bom-ui .receiving44 .card h3{margin-top:0}\n' +
+            'html.bom-ui .receiving44 .rc-evidence{display:flex;gap:8px;flex-wrap:wrap}\n' +
+            '@media(max-width:900px){html.bom-ui .receiving44 .rc-quantities,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{grid-template-columns:repeat(2,minmax(0,1fr))}}\n' +
+            '@media(max-width:550px){html.bom-ui .receiving44 .rc-discrepancy{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-summary{grid-template-columns:repeat(2,minmax(0,1fr))}html.bom-ui .receiving44 .rc-footer .btn{flex:1;min-height:44px}}\n' +
+            '/* V45: ordinary receipts expose only the current employee decision. */\n' +
+            'html.bom-ui .receiving44 .rc-line-facts{display:flex;flex-wrap:wrap;gap:10px 20px;color:var(--muted,#53637a);font-size:13px}\n' +
+            'html.bom-ui .receiving44 .rc-difference{padding:14px;border-radius:8px;background:var(--tblr-warning-lt,#fff5df);display:grid;gap:10px}\n' +
+            'html.bom-ui .receiving44 .rc-difference[hidden],html.bom-ui .receiving44 [data-rc-quality][hidden],html.bom-ui .receiving44 [data-rc-split][hidden],html.bom-ui .receiving44 [data-decision-money][hidden],html.bom-ui .receiving44 [data-decision-shared][hidden],html.bom-ui .receiving44 [data-decision-override][hidden],html.bom-ui .receiving44 [data-decision-carrier][hidden],html.bom-ui .receiving44 [data-decision-method][hidden]{display:none}\n' +
+            'html.bom-ui .receiving44 .rc-issue-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line,#e5eaf1);flex-wrap:wrap}\n' +
+            'html.bom-ui .rc-issue-tag{margin:4px 4px 0 0;color:#8b5200;border-color:#f4c56e;background:#fff8e8;white-space:normal}\n' +
+            'html.bom-ui .receiving44 .rc-simple-line>.pack-check{margin:0}\n' +
+            'html.bom-ui .receiving44 form{display:grid;gap:14px}\n' +
+            '@media(max-width:550px){html.bom-ui .receiving44 .grid.g2{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-line-facts{display:grid;gap:6px}html.bom-ui .receiving44 .rc-issue-row>.btn{width:100%}}\n' +
+            '/* V48: compact summaries and uniform responsive action controls. */\n' +
+            '.rc-supplier-overview{margin:12px 0}.rc-supplier-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.rc-summary-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}.rc-supplier-cards .ps-detail-box{min-width:0}.rc-supplier-cards b{font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.rc-issues-compact.card{padding:14px 18px;margin:12px 0}.rc-issues-compact h3{margin:0 0 8px}.rc-issue-info{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;min-width:0}.rc-issue-info small{flex-basis:100%;color:var(--muted)}.rc-issues-compact .rc-issue-row{padding:10px 0;gap:12px;align-items:center}.rc-issues-compact summary{cursor:pointer;font-weight:600}.rc-issues-compact details .rc-issue-row:last-child{border-bottom:0}.ps315-kpis [data-net-basis]{display:block;font-size:11px;line-height:1.45;margin-top:7px}.bom-claim-pending{grid-column:1/-1;margin:0;font-size:12px}\n' +
+            '[data-bom-import-id] [data-import-part=actions]{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px;align-items:stretch!important}[data-bom-import-id] [data-receiving47-action]{display:contents!important}[data-bom-import-id] [data-import-part=actions] .btn{width:100%;min-height:44px;height:100%!important;box-sizing:border-box;padding:9px 12px!important;font-size:14px!important;line-height:1.4!important;white-space:normal;display:inline-flex;align-items:center;justify-content:center;gap:6px;margin:0!important;align-self:stretch!important}[data-bom-import-id] .v305-payment-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}[data-bom-import-id] .v305-payment-breakdown>div{min-width:0}[data-bom-import-id] .v305-payment-breakdown small{display:block}\n' +
+            '@media(max-width:520px){.rc-summary-footer{align-items:stretch;flex-direction:column}.rc-supplier-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.rc-issues-compact .rc-issue-row{align-items:flex-start}.rc-issues-compact .btn{flex-shrink:0;padding:8px}.rc-supplier-cards .ps-detail-box{padding:12px}[data-bom-import-id] [data-import-part=actions]{grid-template-columns:repeat(2,minmax(0,1fr))}}\n',
+          hasBOM: false,
+          document: '/* Shared Tabler components: no separate modal or routing framework. */\n' +
+            'html.bom-ui .receiving44{display:grid;gap:16px;min-width:0}\n' +
+            'html.bom-ui .receiving44 .rc-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}\n' +
+            'html.bom-ui .receiving44 .rc-summary .card{padding:14px;min-width:0}\n' +
+            'html.bom-ui .receiving44 .rc-summary strong{display:block;font-size:21px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}\n' +
+            'html.bom-ui .receiving44 .rc-quantities{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}\n' +
+            'html.bom-ui .receiving44 label{min-width:0}\n' +
+            'html.bom-ui .receiving44 .rc-line{display:grid;gap:12px}\n' +
+            'html.bom-ui .receiving44 .rc-line.is-discrepant{border-left:3px solid var(--tblr-warning,#f59f00)}\n' +
+            'html.bom-ui .receiving44 .rc-discrepancy,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:end;margin:12px 0}\n' +
+            'html.bom-ui .receiving44 .rc-footer{position:sticky;bottom:0;z-index:12;background:var(--panel);padding:12px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}\n' +
+            'html.bom-ui .receiving44 .rc-error{color:var(--tblr-danger,#b42318);overflow-wrap:anywhere}\n' +
+            'html.bom-ui .receiving44 .rc-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--tblr-border-color,#e5eaf1);margin:16px 0}\n' +
+            'html.bom-ui .receiving44 .rc-bar>span{height:100%;min-width:0}\n' +
+            'html.bom-ui .receiving44 input[type=range]{width:100%;accent-color:var(--brand)}\n' +
+            'html.bom-ui .receiving44 details>summary{cursor:pointer;padding:8px 0}\n' +
+            'html.bom-ui .receiving44 .card h3{margin-top:0}\n' +
+            'html.bom-ui .receiving44 .rc-evidence{display:flex;gap:8px;flex-wrap:wrap}\n' +
+            '@media(max-width:900px){html.bom-ui .receiving44 .rc-quantities,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{grid-template-columns:repeat(2,minmax(0,1fr))}}\n' +
+            '@media(max-width:550px){html.bom-ui .receiving44 .rc-discrepancy{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-summary{grid-template-columns:repeat(2,minmax(0,1fr))}html.bom-ui .receiving44 .rc-footer .btn{flex:1;min-height:44px}}\n' +
+            '/* V45: ordinary receipts expose only the current employee decision. */\n' +
+            'html.bom-ui .receiving44 .rc-line-facts{display:flex;flex-wrap:wrap;gap:10px 20px;color:var(--muted,#53637a);font-size:13px}\n' +
+            'html.bom-ui .receiving44 .rc-difference{padding:14px;border-radius:8px;background:var(--tblr-warning-lt,#fff5df);display:grid;gap:10px}\n' +
+            'html.bom-ui .receiving44 .rc-difference[hidden],html.bom-ui .receiving44 [data-rc-quality][hidden],html.bom-ui .receiving44 [data-rc-split][hidden],html.bom-ui .receiving44 [data-decision-money][hidden],html.bom-ui .receiving44 [data-decision-shared][hidden],html.bom-ui .receiving44 [data-decision-override][hidden],html.bom-ui .receiving44 [data-decision-carrier][hidden],html.bom-ui .receiving44 [data-decision-method][hidden]{display:none}\n' +
+            'html.bom-ui .receiving44 .rc-issue-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line,#e5eaf1);flex-wrap:wrap}\n' +
+            'html.bom-ui .rc-issue-tag{margin:4px 4px 0 0;color:#8b5200;border-color:#f4c56e;background:#fff8e8;white-space:normal}\n' +
+            'html.bom-ui .receiving44 .rc-simple-line>.pack-check{margin:0}\n' +
+            'html.bom-ui .receiving44 form{display:grid;gap:14px}\n' +
+            '@media(max-width:550px){html.bom-ui .receiving44 .grid.g2{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-line-facts{display:grid;gap:6px}html.bom-ui .receiving44 .rc-issue-row>.btn{width:100%}}\n' +
+            '/* V48: compact summaries and uniform responsive action controls. */\n' +
+            '.rc-supplier-overview{margin:12px 0}.rc-supplier-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.rc-summary-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}.rc-supplier-cards .ps-detail-box{min-width:0}.rc-supplier-cards b{font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.rc-issues-compact.card{padding:14px 18px;margin:12px 0}.rc-issues-compact h3{margin:0 0 8px}.rc-issue-info{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;min-width:0}.rc-issue-info small{flex-basis:100%;color:var(--muted)}.rc-issues-compact .rc-issue-row{padding:10px 0;gap:12px;align-items:center}.rc-issues-compact summary{cursor:pointer;font-weight:600}.rc-issues-compact details .rc-issue-row:last-child{border-bottom:0}.ps315-kpis [data-net-basis]{display:block;font-size:11px;line-height:1.45;margin-top:7px}.bom-claim-pending{grid-column:1/-1;margin:0;font-size:12px}\n' +
+            '[data-bom-import-id] [data-import-part=actions]{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px;align-items:stretch!important}[data-bom-import-id] [data-receiving47-action]{display:contents!important}[data-bom-import-id] [data-import-part=actions] .btn{width:100%;min-height:44px;height:100%!important;box-sizing:border-box;padding:9px 12px!important;font-size:14px!important;line-height:1.4!important;white-space:normal;display:inline-flex;align-items:center;justify-content:center;gap:6px;margin:0!important;align-self:stretch!important}[data-bom-import-id] .v305-payment-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}[data-bom-import-id] .v305-payment-breakdown>div{min-width:0}[data-bom-import-id] .v305-payment-breakdown small{display:block}\n' +
+            '@media(max-width:520px){.rc-summary-footer{align-items:stretch;flex-direction:column}.rc-supplier-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.rc-issues-compact .rc-issue-row{align-items:flex-start}.rc-issues-compact .btn{flex-shrink:0;padding:8px}.rc-supplier-cards .ps-detail-box{padding:12px}[data-bom-import-id] [data-import-part=actions]{grid-template-columns:repeat(2,minmax(0,1fr))}}\n',
+          id: '<input css ONTg9Y>',
+          [Symbol(lineToIndexCache)]: [
+               0,   72,  132,  249,  318,  449,
+             558,  602,  659,  758,  967, 1172,
+            1264, 1415, 1478, 1559, 1630, 1678,
+            1753, 1934, 2184, 2256, 2381, 2517,
+            2961, 3146, 3265, 3328, 3381, 3593,
+            3662, 4614, 5444, 5843
+          ]
+        },
+        start: { column: 1, line: 1, offset: 0 },
+        end: { column: 1, line: 34, offset: 5843 }
+      },
+      lastEach: 1,
+      indexes: { '1': 30 },
+      [Symbol(isClean)]: false,
+      [Symbol(my)]: true
+    },
+    source: {
+      input: Input {
+        css: '/* Shared Tabler components: no separate modal or routing framework. */\n' +
+          'html.bom-ui .receiving44{display:grid;gap:16px;min-width:0}\n' +
+          'html.bom-ui .receiving44 .rc-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}\n' +
+          'html.bom-ui .receiving44 .rc-summary .card{padding:14px;min-width:0}\n' +
+          'html.bom-ui .receiving44 .rc-summary strong{display:block;font-size:21px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}\n' +
+          'html.bom-ui .receiving44 .rc-quantities{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}\n' +
+          'html.bom-ui .receiving44 label{min-width:0}\n' +
+          'html.bom-ui .receiving44 .rc-line{display:grid;gap:12px}\n' +
+          'html.bom-ui .receiving44 .rc-line.is-discrepant{border-left:3px solid var(--tblr-warning,#f59f00)}\n' +
+          'html.bom-ui .receiving44 .rc-discrepancy,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:end;margin:12px 0}\n' +
+          'html.bom-ui .receiving44 .rc-footer{position:sticky;bottom:0;z-index:12;background:var(--panel);padding:12px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}\n' +
+          'html.bom-ui .receiving44 .rc-error{color:var(--tblr-danger,#b42318);overflow-wrap:anywhere}\n' +
+          'html.bom-ui .receiving44 .rc-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--tblr-border-color,#e5eaf1);margin:16px 0}\n' +
+          'html.bom-ui .receiving44 .rc-bar>span{height:100%;min-width:0}\n' +
+          'html.bom-ui .receiving44 input[type=range]{width:100%;accent-color:var(--brand)}\n' +
+          'html.bom-ui .receiving44 details>summary{cursor:pointer;padding:8px 0}\n' +
+          'html.bom-ui .receiving44 .card h3{margin-top:0}\n' +
+          'html.bom-ui .receiving44 .rc-evidence{display:flex;gap:8px;flex-wrap:wrap}\n' +
+          '@media(max-width:900px){html.bom-ui .receiving44 .rc-quantities,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{grid-template-columns:repeat(2,minmax(0,1fr))}}\n' +
+          '@media(max-width:550px){html.bom-ui .receiving44 .rc-discrepancy{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-summary{grid-template-columns:repeat(2,minmax(0,1fr))}html.bom-ui .receiving44 .rc-footer .btn{flex:1;min-height:44px}}\n' +
+          '/* V45: ordinary receipts expose only the current employee decision. */\n' +
+          'html.bom-ui .receiving44 .rc-line-facts{display:flex;flex-wrap:wrap;gap:10px 20px;color:var(--muted,#53637a);font-size:13px}\n' +
+          'html.bom-ui .receiving44 .rc-difference{padding:14px;border-radius:8px;background:var(--tblr-warning-lt,#fff5df);display:grid;gap:10px}\n' +
+          'html.bom-ui .receiving44 .rc-difference[hidden],html.bom-ui .receiving44 [data-rc-quality][hidden],html.bom-ui .receiving44 [data-rc-split][hidden],html.bom-ui .receiving44 [data-decision-money][hidden],html.bom-ui .receiving44 [data-decision-shared][hidden],html.bom-ui .receiving44 [data-decision-override][hidden],html.bom-ui .receiving44 [data-decision-carrier][hidden],html.bom-ui .receiving44 [data-decision-method][hidden]{display:none}\n' +
+          'html.bom-ui .receiving44 .rc-issue-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line,#e5eaf1);flex-wrap:wrap}\n' +
+          'html.bom-ui .rc-issue-tag{margin:4px 4px 0 0;color:#8b5200;border-color:#f4c56e;background:#fff8e8;white-space:normal}\n' +
+          'html.bom-ui .receiving44 .rc-simple-line>.pack-check{margin:0}\n' +
+          'html.bom-ui .receiving44 form{display:grid;gap:14px}\n' +
+          '@media(max-width:550px){html.bom-ui .receiving44 .grid.g2{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-line-facts{display:grid;gap:6px}html.bom-ui .receiving44 .rc-issue-row>.btn{width:100%}}\n' +
+          '/* V48: compact summaries and uniform responsive action controls. */\n' +
+          '.rc-supplier-overview{margin:12px 0}.rc-supplier-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.rc-summary-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}.rc-supplier-cards .ps-detail-box{min-width:0}.rc-supplier-cards b{font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.rc-issues-compact.card{padding:14px 18px;margin:12px 0}.rc-issues-compact h3{margin:0 0 8px}.rc-issue-info{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;min-width:0}.rc-issue-info small{flex-basis:100%;color:var(--muted)}.rc-issues-compact .rc-issue-row{padding:10px 0;gap:12px;align-items:center}.rc-issues-compact summary{cursor:pointer;font-weight:600}.rc-issues-compact details .rc-issue-row:last-child{border-bottom:0}.ps315-kpis [data-net-basis]{display:block;font-size:11px;line-height:1.45;margin-top:7px}.bom-claim-pending{grid-column:1/-1;margin:0;font-size:12px}\n' +
+          '[data-bom-import-id] [data-import-part=actions]{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px;align-items:stretch!important}[data-bom-import-id] [data-receiving47-action]{display:contents!important}[data-bom-import-id] [data-import-part=actions] .btn{width:100%;min-height:44px;height:100%!important;box-sizing:border-box;padding:9px 12px!important;font-size:14px!important;line-height:1.4!important;white-space:normal;display:inline-flex;align-items:center;justify-content:center;gap:6px;margin:0!important;align-self:stretch!important}[data-bom-import-id] .v305-payment-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}[data-bom-import-id] .v305-payment-breakdown>div{min-width:0}[data-bom-import-id] .v305-payment-breakdown small{display:block}\n' +
+          '@media(max-width:520px){.rc-summary-footer{align-items:stretch;flex-direction:column}.rc-supplier-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.rc-issues-compact .rc-issue-row{align-items:flex-start}.rc-issues-compact .btn{flex-shrink:0;padding:8px}.rc-supplier-cards .ps-detail-box{padding:12px}[data-bom-import-id] [data-import-part=actions]{grid-template-columns:repeat(2,minmax(0,1fr))}}\n',
+        hasBOM: false,
+        document: '/* Shared Tabler components: no separate modal or routing framework. */\n' +
+          'html.bom-ui .receiving44{display:grid;gap:16px;min-width:0}\n' +
+          'html.bom-ui .receiving44 .rc-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}\n' +
+          'html.bom-ui .receiving44 .rc-summary .card{padding:14px;min-width:0}\n' +
+          'html.bom-ui .receiving44 .rc-summary strong{display:block;font-size:21px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}\n' +
+          'html.bom-ui .receiving44 .rc-quantities{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}\n' +
+          'html.bom-ui .receiving44 label{min-width:0}\n' +
+          'html.bom-ui .receiving44 .rc-line{display:grid;gap:12px}\n' +
+          'html.bom-ui .receiving44 .rc-line.is-discrepant{border-left:3px solid var(--tblr-warning,#f59f00)}\n' +
+          'html.bom-ui .receiving44 .rc-discrepancy,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:end;margin:12px 0}\n' +
+          'html.bom-ui .receiving44 .rc-footer{position:sticky;bottom:0;z-index:12;background:var(--panel);padding:12px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}\n' +
+          'html.bom-ui .receiving44 .rc-error{color:var(--tblr-danger,#b42318);overflow-wrap:anywhere}\n' +
+          'html.bom-ui .receiving44 .rc-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--tblr-border-color,#e5eaf1);margin:16px 0}\n' +
+          'html.bom-ui .receiving44 .rc-bar>span{height:100%;min-width:0}\n' +
+          'html.bom-ui .receiving44 input[type=range]{width:100%;accent-color:var(--brand)}\n' +
+          'html.bom-ui .receiving44 details>summary{cursor:pointer;padding:8px 0}\n' +
+          'html.bom-ui .receiving44 .card h3{margin-top:0}\n' +
+          'html.bom-ui .receiving44 .rc-evidence{display:flex;gap:8px;flex-wrap:wrap}\n' +
+          '@media(max-width:900px){html.bom-ui .receiving44 .rc-quantities,html.bom-ui .receiving44 .rc-party,html.bom-ui .receiving44 .rc-plan{grid-template-columns:repeat(2,minmax(0,1fr))}}\n' +
+          '@media(max-width:550px){html.bom-ui .receiving44 .rc-discrepancy{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-summary{grid-template-columns:repeat(2,minmax(0,1fr))}html.bom-ui .receiving44 .rc-footer .btn{flex:1;min-height:44px}}\n' +
+          '/* V45: ordinary receipts expose only the current employee decision. */\n' +
+          'html.bom-ui .receiving44 .rc-line-facts{display:flex;flex-wrap:wrap;gap:10px 20px;color:var(--muted,#53637a);font-size:13px}\n' +
+          'html.bom-ui .receiving44 .rc-difference{padding:14px;border-radius:8px;background:var(--tblr-warning-lt,#fff5df);display:grid;gap:10px}\n' +
+          'html.bom-ui .receiving44 .rc-difference[hidden],html.bom-ui .receiving44 [data-rc-quality][hidden],html.bom-ui .receiving44 [data-rc-split][hidden],html.bom-ui .receiving44 [data-decision-money][hidden],html.bom-ui .receiving44 [data-decision-shared][hidden],html.bom-ui .receiving44 [data-decision-override][hidden],html.bom-ui .receiving44 [data-decision-carrier][hidden],html.bom-ui .receiving44 [data-decision-method][hidden]{display:none}\n' +
+          'html.bom-ui .receiving44 .rc-issue-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line,#e5eaf1);flex-wrap:wrap}\n' +
+          'html.bom-ui .rc-issue-tag{margin:4px 4px 0 0;color:#8b5200;border-color:#f4c56e;background:#fff8e8;white-space:normal}\n' +
+          'html.bom-ui .receiving44 .rc-simple-line>.pack-check{margin:0}\n' +
+          'html.bom-ui .receiving44 form{display:grid;gap:14px}\n' +
+          '@media(max-width:550px){html.bom-ui .receiving44 .grid.g2{grid-template-columns:minmax(0,1fr)}html.bom-ui .receiving44 .rc-line-facts{display:grid;gap:6px}html.bom-ui .receiving44 .rc-issue-row>.btn{width:100%}}\n' +
+          '/* V48: compact summaries and uniform responsive action controls. */\n' +
+          '.rc-supplier-overview{margin:12px 0}.rc-supplier-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.rc-summary-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}.rc-supplier-cards .ps-detail-box{min-width:0}.rc-supplier-cards b{font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.rc-issues-compact.card{padding:14px 18px;margin:12px 0}.rc-issues-compact h3{margin:0 0 8px}.rc-issue-info{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;min-width:0}.rc-issue-info small{flex-basis:100%;color:var(--muted)}.rc-issues-compact .rc-issue-row{padding:10px 0;gap:12px;align-items:center}.rc-issues-compact summary{cursor:pointer;font-weight:600}.rc-issues-compact details .rc-issue-row:last-child{border-bottom:0}.ps315-kpis [data-net-basis]{display:block;font-size:11px;line-height:1.45;margin-top:7px}.bom-claim-pending{grid-column:1/-1;margin:0;font-size:12px}\n' +
+          '[data-bom-import-id] [data-import-part=actions]{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px;align-items:stretch!important}[data-bom-import-id] [data-receiving47-action]{display:contents!important}[data-bom-import-id] [data-import-part=actions] .btn{width:100%;min-height:44px;height:100%!important;box-sizing:border-box;padding:9px 12px!important;font-size:14px!important;line-height:1.4!important;white-space:normal;display:inline-flex;align-items:center;justify-content:center;gap:6px;margin:0!important;align-self:stretch!important}[data-bom-import-id] .v305-payment-breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}[data-bom-import-id] .v305-payment-breakdown>div{min-width:0}[data-bom-import-id] .v305-payment-breakdown small{display:block}\n' +
+          '@media(max-width:520px){.rc-summary-footer{align-items:stretch;flex-direction:column}.rc-supplier-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.rc-issues-compact .rc-issue-row{align-items:flex-start}.rc-issues-compact .btn{flex-shrink:0;padding:8px}.rc-supplier-cards .ps-detail-box{padding:12px}[data-bom-import-id] [data-import-part=actions]{grid-template-columns:repeat(2,minmax(0,1fr))}}\n',
+        id: '<input css ONTg9Y>',
+        [Symbol(lineToIndexCache)]: [
+             0,   72,  132,  249,  318,  449,
+           558,  602,  659,  758,  967, 1172,
+          1264, 1415, 1478, 1559, 1630, 1678,
+          1753, 1934, 2184, 2256, 2381, 2517,
+          2961, 3146, 3265, 3328, 3381, 3593,
+          3662, 4614, 5444, 5843
+        ]
+      },
+      start: { column: 1, line: 31, offset: 3662 },
+      end: { column: 36, line: 31, offset: 3698 }
+    },
+    selector: '.rc-supplier-overview',
+    [Symbol(isClean)]: false,
+    [Symbol(my)]: true
+  }
+}
+
+Node.js v22.21.0

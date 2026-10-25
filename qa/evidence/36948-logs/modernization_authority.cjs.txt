@@ -1,0 +1,7 @@
+PASS L0–L5 catalogue retains protected dual-approval L5
+PASS L0–L4 authority assignments persist independently of five standard feature-access profiles
+PASS Existing API caps ordinary user authority at L4 when L5 is requested; protected L5 is never assigned
+PASS Five role/authority profiles × three views × three widths × EN/KR preserve route authorization and containment
+PASS No uncaught role-matrix browser errors
+(node:4946) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

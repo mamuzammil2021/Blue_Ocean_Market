@@ -1,0 +1,130 @@
+PASS KRW credit-only allocation reconciles covered/outstanding, supplier obligations and posting state without cash duplication
+PASS USD credit-only allocation reconciles covered/outstanding, supplier obligations and posting state without cash duplication
+PASS PKR credit-only allocation reconciles covered/outstanding, supplier obligations and posting state without cash duplication
+PASS Invoice reduction changes the invoice obligation separately from cash or claim-credit application
+PASS Unposted claim credits and refund receivables stay separately identified from available credit
+PASS Import cards and Supplier Payments show credit sources, invoice currency, non-cash identity and posting state
+PASS EN/KR supplier summaries remain above tabs; import buttons have equal heights and both screens fit 1440/820/390 widths
+PASS Resolved receiving issues collapse into compact history with their recorded decision
+PASS Focus refresh updates credit reversal, totals and history without page reload; subsequent refresh has no duplicate entries
+PASS Targeted Supplier Profile refresh updates claim cards and existing payables together
+(node:3342) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert((await p.locator('[data-supplier-credit-applications]').innerText()).includes('Reversed'))
+
+    at /workspace/scratch/41c43e0f528e/work47/qa/modernization/settlement48.cjs:15:760 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+본문으로 건너뛰기
+블루 오션
+마켓
+핑크 소금
+대시보드
+구매
+공급업체
+수입 / 구매
+5
+재고 및 생산
+원소금 재고
+포장재
+⌄
+재포장 / 생산
+상품
+폐기 / 손실
+판매
+판매 / 주문
+고객 / 매장
+커머스
+커머스 / 판매 채널
+관리
+재무
+회계
+9
+문서
+알림
+6
+기타 시스템 모듈
+승인
+업무
+2
+인사 및 성과
+직원 및 급여
+업무 보고서
+회의
+사용자
+시스템 설정
+내 계정
+감사 기록
+Synthetic QA CEO · CEO / 대표
+전체 사업부 — 통합
+굴착기
+MIMI 레스토랑
+망고 / 계절 사업
+핑크 소금
+한국어
+영어
+6
+S
+← 뒤로
+QA FX Supplier · 공급업체 프로필
+전체 화면 작업
+QA FX Supplier · 공급업체 프로필
+공급업체 거래명세서
+미결제액 지급
++ 공급업체 선급금 기록
+공급업체 정산 대기 · 2
+총 미지급금
+₩ 5,187,200
+사용 가능한 현금 선급금
+₩ 0
+지급 / 선급금
+₩ 0
+순 계정 상태
+미지급금 · ₩ 4,795,080
+미지급금에서 현금 선급금 및 미회수 공급업체 클레임 자산을 차감합니다. 미전기 클레임과 환불 예정액을 포함하며 지급 지시 금액이 아닙니다.
+사용 가능한 클레임 크레딧
+PKR 200
+공급업체 환불 예정액
+PKR 200
+사용 가능한 클레임 크레딧
+USD 100
+전기 대기 / 보류
+USD 200
+사용 가능한 클레임 크레딧
+KRW 200
+클레임 크레딧은 현금 선급금과 별도로 관리됩니다.
+크레딧 및 클레임 보기
+개요
+계정 / 미지급금
+선급금 / 지급
+수입 / 원소금
+클레임 및 조정
+문서 / 증빙
+감사 / 이력
+계좌
+지급 / 선급금
+—
+배정
+—
+클레임 크레딧 적용 — 비현금
+QA-IMP-9e26948cbaCLM-C46A07A2-8E2E-4389 · 2026-10-24 · 취소됨
+KRW 100KRW 100
+수입 열기
+QA-IMP-178bcb35aeCLM-A67E0382-068A-4D3F · 2026-10-24 · 전기 완료
+USD 100KRW 130,000
+수입 열기
+QA-IMP-95bdc07704CLM-98773E41-1374-495B · 2026-10-24 · 취소됨
+PKR 100KRW 480
+수입 열기
+닫기
+통화 정산 이력
+운영 비용
+날짜 / 참조	실제 회사 자금 이동	송장 배정 (KRW)	상태	작업
+통화 거래가 아직 없습니다.

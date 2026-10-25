@@ -7,133 +7,133 @@
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 17,
-      "duration_ms": 4087
+      "duration_ms": 4098
     },
     {
       "suite": "qa_v36932_server.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 16,
-      "duration_ms": 5084
+      "duration_ms": 5235
     },
     {
       "suite": "qa_v36932_legacy_advances.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 5,
-      "duration_ms": 3381
+      "duration_ms": 2949
     },
     {
       "suite": "qa_v36931_reference.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 24,
-      "duration_ms": 6819
+      "duration_ms": 5462
     },
     {
       "suite": "qa_v36930_shared_rate.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 11,
-      "duration_ms": 3556
+      "duration_ms": 3029
     },
     {
       "suite": "qa_v36929_qa15.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 20,
-      "duration_ms": 4117
+      "duration_ms": 3501
     },
     {
       "suite": "qa_v36927_supplier_accounts.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 7,
-      "duration_ms": 3588
+      "duration_ms": 3375
     },
     {
       "suite": "qa_v36926_recipient.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 10,
-      "duration_ms": 3634
+      "duration_ms": 3149
     },
     {
       "suite": "qa_v36925_server.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 23,
-      "duration_ms": 3946
+      "duration_ms": 3931
     },
     {
       "suite": "qa_v36925_extended.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 12,
-      "duration_ms": 4046
+      "duration_ms": 4967
     },
     {
       "suite": "qa_v36925_statement_integrity.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 8,
-      "duration_ms": 4391
+      "duration_ms": 3773
     },
     {
       "suite": "qa_v36924_calculation.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 7,
-      "duration_ms": 5286
+      "duration_ms": 3728
     },
     {
       "suite": "qa_v36923_static_assets.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 12,
-      "duration_ms": 216
+      "duration_ms": 232
     },
     {
       "suite": "runtime_smoke.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 22,
-      "duration_ms": 5301
+      "duration_ms": 3728
     },
     {
       "suite": "qa_v36920_fx_e2e.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 19,
-      "duration_ms": 3591
+      "duration_ms": 3731
     },
     {
       "suite": "qa_v36920_workflows.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 25,
-      "duration_ms": 3958
+      "duration_ms": 4155
     },
     {
       "suite": "qa_v36920_permissions.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 7,
-      "duration_ms": 5621
+      "duration_ms": 4168
     },
     {
       "suite": "qa_v36920_excavator.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 13,
-      "duration_ms": 5248
+      "duration_ms": 4670
     },
     {
       "suite": "qa_v36921_controls.js",
       "status": "PASS",
       "exit_code": 0,
       "passed_log_lines": 24,
-      "duration_ms": 3807
+      "duration_ms": 3411
     }
   ],
   "production_data_used": false

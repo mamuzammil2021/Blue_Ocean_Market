@@ -1,0 +1,6 @@
+PASS Required approval leaves receiving holds and the original investigation task intact, with no premature credit
+PASS Independent approval executes the decision once, closes the compensated quantity and completes the same investigation task
+PASS Posted-only credit remains pending until Posting Control, then updates the linked task and removes the pending indicator automatically
+PASS Business-unit and system-task guards prevent unauthorized access or manual workflow completion
+(node:1826) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

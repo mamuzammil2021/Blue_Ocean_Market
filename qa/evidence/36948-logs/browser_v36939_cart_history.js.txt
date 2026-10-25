@@ -1,0 +1,9 @@
+PASS Full-page single-supplier cart contains two materials and decimal-safe discount/tax totals
+PASS Compact cart row editing and deep refresh preserve supplier, reference and material amounts
+PASS 390px cart stacks summary below items and displays localized Korean controls
+PASS Advance-only import displays both allocations, KRW55000 settled and KRW45000 outstanding in Supplier Payments
+PASS Import History is a persistent full page with creation/allocations/accounting events and correct return to its import
+PASS Exhausted supplier advance hides Allocate Credit while preserving allocation dates, amounts and remaining balance
+PASS No uncaught browser errors in cart, import history and central supplier workflows
+(node:4441) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -167,7 +167,7 @@
       "status": "PASS",
       "duration_ms": 61237,
       "passed_log_lines": 14,
-      "error": "(node:3886) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.\n(Use `node --trace-warnings ...` to show where the warning was created)\nError: Startup timeout: Disposable QA credentials redacted
+      "error": "Disposable QA fixture startup timed out before product assertions. QA credentials redacted.",
       "rerun_log": "36947-logs/oct22-rerun.txt",
       "rerun_reason": "Initial fixture startup timeout; isolated full browser suite passed."
     },
@@ -236,7 +236,7 @@
       "status": "PASS",
       "duration_ms": 61237,
       "passed_log_lines": 14,
-      "error": "(node:3886) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.\n(Use `node --trace-warnings ...` to show where the warning was created)\nError: Startup timeout: Disposable QA credentials redacted
+      "error": "Disposable QA fixture startup timed out before product assertions. QA credentials redacted.",
       "rerun_log": "36947-logs/oct22-rerun.txt",
       "rerun_reason": "Initial fixture startup timeout; isolated full browser suite passed."
     }

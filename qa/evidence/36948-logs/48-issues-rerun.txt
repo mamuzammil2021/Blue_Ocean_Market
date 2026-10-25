@@ -1,0 +1,24 @@
+(node:5) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS CEO applies approved workbook mappings through the real Settings review and authorization flow before any decisions
+PASS Payments remains actionable on a partially received import under investigation
+PASS Ordinary receiving shows differences only when needed, saves real goods, creates one issue/task and hides receiving when the missing balance is held
+PASS The issue page and conditional 85/15 responsibility calculator work in EN/KR at 1440, 820 and 390 without overflow
+PASS The investigation task action opens its exact issue with purchase, supplier and invoice valuation context
+PASS Missing evidence is explained on the active form before confirmation or CEO authorization
+PASS Supplier Profile exposes posted credit, applies it without cash duplication, and controlled reversal restores the available balance
+PASS A real credit decision completes the task, removes receiving actions on the purchase, and leaves receiving history available
+PASS The correction decision clearly reviews and authorizes reversing the original receipt, resolves the task, and allows correct re-entry
+PASS Real browser decision supplier / Invoice Reduction saves once through authorization and displays Resolved
+PASS Real browser decision supplier / Cash Refund saves once through authorization and displays Awaiting supplier settlement
+PASS Browser supplier refund records actual money once, verifies Finance, posts Accounting and reverses with a reopened recovery obligation
+PASS Real browser decision supplier / Replacement saves once through authorization and displays Pending delivery
+PASS Import Details receives authorized Replacement delivery and removes exhausted receiving actions
+PASS Real browser decision company / Company Loss saves once through authorization and displays Resolved
+PASS Real browser decision shared / Purchase Credit saves once through authorization and displays Resolved
+PASS Native Payments applies posted supplier credit to an import still under investigation, leaves receiving held and creates no cash duplicate
+PASS Real browser decision carrier / Cash Refund saves once through authorization and displays Awaiting supplier settlement
+PASS Browser carrier refund records actual money once, verifies Finance, posts Accounting and reverses with a reopened recovery obligation
+PASS Real browser decision later / Later Delivery saves once through authorization and displays Pending delivery
+PASS Import Details receives authorized Later Delivery delivery and removes exhausted receiving actions
+PASS No uncaught JavaScript errors in receiving, issue, task or resolution navigation

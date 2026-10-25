@@ -1,0 +1,17 @@
+PASS Sales list renders existing orders and pagination instead of a caught ReferenceError
+PASS Journal and posting review use full routed pages at three widths in EN/KR, including direct refresh
+PASS Posting page Back returns to the posting-control parent
+PASS Back and Forward preserve the import/sales route and BU
+PASS Delayed route exposes a semantic live loading status
+PASS 503 failure preserves destination and Retry restores the same record
+PASS Missing record exposes the translated not-found route state
+PASS Unsupported route exposes an explicit invalid destination state
+PASS Native validation retains the unsaved short form and backing page
+PASS 200% zoom-equivalent reflow remains contained on four representative modules
+PASS Accessibility tree exposes main landmark and named actions; keyboard dialog returns focus
+PASS Ten repeated keyboard-only dialog cycles restore focus without incidental DOM additions
+PASS Audited legacy Payroll/Accounting/production headings render in Korean
+PASS Read/navigation/invalid-form coverage creates no cash, ledger, FX or finished-stock rows
+PASS No uncaught browser errors
+(node:4710) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
