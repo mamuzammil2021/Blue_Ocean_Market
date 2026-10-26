@@ -1,3 +1,7 @@
+# V30.69.49
+
+October 26 QA corrections: stable tabs, unverified payment identity, import receiving eligibility/measurement verification, packaging purchase UX/locks, invoice preview/download/progress, Posting Control URLs, and searchable recipes. See V30_69_49_QA_REPORT.md.
+
 # V30.69.45 — 24 October 2026
 
 Simplified receiving with conditional missing-balance questions, linked investigation tasks, disputed-quantity holds, immutable invoice estimates, clear purchase/supplier indicators, controlled correction and outcome-driven receiving eligibility. Existing financial and stock engines remain authoritative. See current V45 implementation and QA reports.

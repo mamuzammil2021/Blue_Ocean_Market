@@ -7,7 +7,7 @@ function receiveEligibility(db,id){
  function verified(table,p){
   const tx=db.prepare("SELECT 1 FROM sqlite_master WHERE name='pink_fx_transactions'").get()?db.prepare('SELECT finance_entry_id FROM pink_fx_transactions WHERE projection_table=? AND projection_id=? AND status NOT IN (\'Reversed\',\'Voided\')').get(table,p.id):null;
   const f=tx?db.prepare('SELECT * FROM finance_entries WHERE id=?').get(tx.finance_entry_id):db.prepare("SELECT * FROM finance_entries WHERE source_type=? AND source_id=? AND status!='Voided' ORDER BY id DESC LIMIT 1").get(table==='pink_salt_import_payments'?'Pink Salt Import Payment':'Pink Salt Supplier Advance',p.id);
-  return !!f&&f.status!=='Voided'&&f.verification_status==='Verified / Correct';
+  return !!f&&f.status!=='Voided'&&['Verified','Verified / Correct'].includes(f.verification_status);
  }
  let cash=0,advance=0,recorded=0;
  for(const p of db.prepare("SELECT * FROM pink_salt_import_payments WHERE import_id=? AND COALESCE(status,'Active')!='Voided'").all(id)){recorded+=Number(p.krw_amount);if(verified('pink_salt_import_payments',p))cash+=Number(p.krw_amount)}

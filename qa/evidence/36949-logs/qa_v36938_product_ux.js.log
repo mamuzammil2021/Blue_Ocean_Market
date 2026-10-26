@@ -1,0 +1,13 @@
+PASS Korean-only product creates through existing atomic API without English content
+PASS Commerce preferred English falls back per field to actual Korean content
+PASS Both/English preferences retain inactive-language content
+PASS Required selected language and preference values enforced on backend with no partial product
+PASS Family linkage saves atomically, used deletion blocked, archive preserves relationships
+PASS Unused family deletion and audit work through guarded existing family service
+PASS Family default25 server pagination, search, archived records and legacy array API coexist
+PASS Lots server filters/paging, location validation and metadata edits preserve quantities and omitted fields
+PASS Invalid family causes atomic product rollback
+PASS View-only users cannot create/edit/delete family or lot records and wrong-unit access is rejected
+PASS Foreign-key integrity after product/family/lot operations
+(node:2104) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Unverified advance edits retain transaction, operational and Finance IDs; no voided duplicates; before snapshot retained",
+    "Finance-verified advance rejects ordinary edit server-side",
+    "Separate fee amendments retain the fee Finance identity and verified fee locks the linked advance",
+    "Unpaid and unverified imports cannot receive; cleared import stores 8 bags and measured 199 kg independently across stock APIs; partial follow-up remains available",
+    "Partially received purchase blocks header and full editing; detail supplies consistent receipt and action state",
+    "Purchase tabs preserve summary DOM, show a single invoice action and locked edit, and refresh restores selected tab",
+    "Invoice generates a real PDF in an in-page preview with download and no popup tab",
+    "List removes Close, locks received purchase Edit, and material creation returns directly to updated list",
+    "Supplier profile tab switches preserve the profile shell",
+    "Receiving browser form preserves measured 24.5 kg for one bag instead of substituting 25 kg",
+    "Recipe selector searches materials, adds only selected rows, edits quantities and removes in one click",
+    "Posting detail/queue refresh preserves the correct URL; queue tabs retain summary DOM",
+    "Desktop/mobile EN/KR purchase screens fit viewport; no browser exceptions or broken foreign keys"
+  ],
+  "synthetic_data_only": true
+}

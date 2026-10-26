@@ -1,0 +1,15 @@
+PASS Unverified advance edits retain transaction, operational and Finance IDs; no voided duplicates; before snapshot retained
+PASS Finance-verified advance rejects ordinary edit server-side
+PASS Separate fee amendments retain the fee Finance identity and verified fee locks the linked advance
+PASS Unpaid and unverified imports cannot receive; cleared import stores 8 bags and measured 199 kg independently across stock APIs; partial follow-up remains available
+PASS Partially received purchase blocks header and full editing; detail supplies consistent receipt and action state
+PASS Purchase tabs preserve summary DOM, show a single invoice action and locked edit, and refresh restores selected tab
+PASS Invoice generates a real PDF in an in-page preview with download and no popup tab
+PASS List removes Close, locks received purchase Edit, and material creation returns directly to updated list
+PASS Supplier profile tab switches preserve the profile shell
+PASS Receiving browser form preserves measured 24.5 kg for one bag instead of substituting 25 kg
+PASS Recipe selector searches materials, adds only selected rows, edits quantities and removes in one click
+PASS Posting detail/queue refresh preserves the correct URL; queue tabs retain summary DOM
+PASS Desktop/mobile EN/KR purchase screens fit viewport; no browser exceptions or broken foreign keys
+(node:2152) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

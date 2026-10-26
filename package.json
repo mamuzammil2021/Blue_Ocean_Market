@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.69.48",
+  "version": "30.69.49",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -12,7 +12,7 @@
     "dev": "node --env-file-if-exists=.env --watch scripts/start-server.js",
     "start:local": "node --env-file-if-exists=.env scripts/start-server.js",
     "dev:local": "node --env-file-if-exists=.env --watch scripts/start-server.js",
-    "qa:current": "node qa/qa_v36948_release.js",
+    "qa:current": "node qa/qa_v36949_release.js",
     "qa:runtime": "node qa/runtime_smoke.js",
     "render:storage-check": "node scripts/render-storage-check.js",
     "render:migrate-storage": "node scripts/migrate-render-storage.js",
@@ -42,7 +42,7 @@
     "qa:v344": "node qa/qa_v344_cash_accounts.js",
     "qa:v345": "node qa/qa_v345_feedback.js",
     "qa:v346": "node qa/qa_v346_performance.js",
-    "qa:release": "node qa/qa_v36948_release.js",
+    "qa:release": "node qa/qa_v36949_release.js",
     "qa:v346:browser": "python3 qa/browser_v346_static.py",
     "qa:v347": "node qa/qa_v347_performance.js",
     "qa:v347:browser": "python3 qa/browser_v347_paged_lazy.py",
@@ -133,7 +133,8 @@
     "qa:oct22:browser": "node qa/modernization/oct22-v45.cjs",
     "qa:oct22:approval": "node qa/qa_v36943_approval.js",
     "qa:receiving": "node qa/qa_v36948_release.js",
-    "qa:receiving:browser": "node qa/modernization/receiving45.cjs && node qa/modernization/receiving45-submit.cjs && node qa/modernization/receiving45-issues.cjs"
+    "qa:receiving:browser": "node qa/modernization/receiving45.cjs && node qa/modernization/receiving45-submit.cjs && node qa/modernization/receiving45-issues.cjs",
+    "qa:oct26": "node qa/qa_v36949_oct26.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
