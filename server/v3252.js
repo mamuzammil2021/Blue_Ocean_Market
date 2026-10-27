@@ -51,9 +51,12 @@ function install({app,db,auth,audit,access,uploads}){
     'users','business_units','user_business_units','user_access_overrides','user_access_limits','access_role_templates','access_change_history',
     'approval_rules','accounting_accounts','accounting_payment_accounts','system_bank_account_history','performance_kpi_rules','work_report_rules',
     'system_settings','system_settings_history','system_secrets','system_backup_log','numbering_reference_definitions','numbering_reference_overrides','numbering_reference_history',
-    'schema_migrations','system_test_reset_log'
+    'schema_migrations','system_migrations','system_test_reset_log',
+    'user_access_profiles','access_permission_groups','user_permission_groups','user_approval_authority',
+    'access_policy_sets','access_approval_levels','access_permission_catalog_v342','access_permission_default_assignments_v342',
+    'platform_modules','platform_entities','platform_entity_capabilities'
   ]);
-  function quickReset(req,reason){const tables=db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name").all().map(x=>x.name),targets=tables.filter(t=>!QUICK_PRESERVE.has(t));db.pragma('foreign_keys=OFF');try{db.transaction(()=>{for(const t of targets){db.exec(`DELETE FROM \"${t.replace(/\"/g,'\"\"')}\"`);try{db.prepare('DELETE FROM sqlite_sequence WHERE name=?').run(t)}catch(_){}}})()}finally{db.pragma('foreign_keys=ON')}clearDir(uploads);try{db.pragma('wal_checkpoint(TRUNCATE)')}catch(_){}return targets}
+  function quickReset(req,reason){const tables=db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name").all().map(x=>x.name),targets=tables.filter(t=>!QUICK_PRESERVE.has(t));require('./test-reset-tables').clearTestTables(db,targets);clearDir(uploads);try{db.pragma('wal_checkpoint(TRUNCATE)')}catch(_){}return targets}
   function operationalRows(){const names=['finance_entries','sales','purchases','excavator_assets','excavator_transactions','excavator_buyer_payments','pink_salt_imports','pink_salt_orders','pink_salt_customer_payments','restaurant_orders','documents','tasks','employees'];let total=0,by_table={};for(const t of names){if(!tableExists(t))continue;try{const c=Number(db.prepare(`SELECT COUNT(*) c FROM \"${t}\"`).get().c||0);by_table[t]=c;total+=c}catch(_){}}return{total,by_table}}
 
   // Complete a reset/restore audit entry after the next process starts.

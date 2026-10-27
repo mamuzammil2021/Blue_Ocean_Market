@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Injected reset failure rolls back deleted rows and restores all trigger definitions and foreign-key enforcement",
+    "Successful reset suspends target-table triggers only within the transaction and immediately restores ordinary update/delete protection",
+    "Ordinary users and unauthenticated requests cannot enter the reset path",
+    "Password, exact typed confirmation and reason guards reject without clearing records or uploads",
+    "Real Quick Reset clears current receiving/transaction tables and uploads while retaining users, access, financial configuration and module registries",
+    "Automatic pre-reset backup preserves original receiving rows, immutable triggers and upload bytes; completed reset is audited",
+    "Reset can be repeated, keeping the same authenticated user, valid foreign keys and every trigger",
+    "Production environment still rejects Quick Reset even when the allow flag and CEO password are present"
+  ],
+  "synthetic_data_only": true
+}

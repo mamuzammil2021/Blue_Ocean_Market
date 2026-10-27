@@ -1,3 +1,5 @@
+Current release: **V30.69.50** — [Quick Test Reset hotfix](V30_69_50_QUICK_RESET_HOTFIX.md).
+
 Current release: **V30.69.49**. See [Start Here](START_HERE_V30_69_49.md) and [QA report](V30_69_49_QA_REPORT.md).
 
 Current release: **V30.69.48**. See [Start Here](START_HERE_V30_69_48.md), [QA report](V30_69_48_QA_REPORT.md), and [deployment](V30_69_48_DEPLOYMENT.md). Content below records earlier releases.

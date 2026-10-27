@@ -1,3 +1,7 @@
+# V30.69.50
+
+Fix Quick Test Reset blocked by receiving immutability triggers. Restore all target-table triggers transactionally, preserve modern access/configuration tables, retain the existing reset guards and backup behavior, and add dedicated reset regressions.
+
 # V30.69.49
 
 October 26 QA corrections: stable tabs, unverified payment identity, import receiving eligibility/measurement verification, packaging purchase UX/locks, invoice preview/download/progress, Posting Control URLs, and searchable recipes. See V30_69_49_QA_REPORT.md.

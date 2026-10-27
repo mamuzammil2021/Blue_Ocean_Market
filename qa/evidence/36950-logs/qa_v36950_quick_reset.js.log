@@ -1,0 +1,10 @@
+PASS Injected reset failure rolls back deleted rows and restores all trigger definitions and foreign-key enforcement
+PASS Successful reset suspends target-table triggers only within the transaction and immediately restores ordinary update/delete protection
+PASS Ordinary users and unauthenticated requests cannot enter the reset path
+PASS Password, exact typed confirmation and reason guards reject without clearing records or uploads
+PASS Real Quick Reset clears current receiving/transaction tables and uploads while retaining users, access, financial configuration and module registries
+PASS Automatic pre-reset backup preserves original receiving rows, immutable triggers and upload bytes; completed reset is audited
+PASS Reset can be repeated, keeping the same authenticated user, valid foreign keys and every trigger
+PASS Production environment still rejects Quick Reset even when the allow flag and CEO password are present
+(node:1950) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

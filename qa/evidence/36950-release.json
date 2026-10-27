@@ -1,0 +1,45 @@
+{
+  "version": "30.69.50",
+  "status": "PASS",
+  "tested_at": "2026-10-27T06:44:18.538862+00:00",
+  "browser_requested": false,
+  "checks": [
+    {
+      "suite": "Node 22, release version, frontend integrity, recursive JavaScript syntax",
+      "status": "PASS",
+      "files": 241
+    },
+    {
+      "suite": "qa_v36950_quick_reset.js",
+      "status": "PASS",
+      "checks": 8
+    },
+    {
+      "suite": "qa_v36932_server.js",
+      "status": "PASS",
+      "checks": 16,
+      "rerun_note": "Passed after configuring the test Chromium executable for PDF generation."
+    },
+    {
+      "suite": "qa_v36936_packaging.js",
+      "status": "PASS",
+      "checks": 25
+    },
+    {
+      "suite": "qa_v36939_financial_guards.js",
+      "status": "PASS",
+      "checks": 5
+    },
+    {
+      "suite": "qa_v36938_product_ux.js",
+      "status": "PASS",
+      "checks": 11
+    },
+    {
+      "suite": "qa_v36943_approval.js",
+      "status": "PASS",
+      "checks": 2
+    }
+  ],
+  "synthetic_data_only": true
+}
