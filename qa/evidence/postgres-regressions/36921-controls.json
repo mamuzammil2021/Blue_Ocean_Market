@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Unpaid import direct API receive is blocked",
+    "Recorded but unverified full payment does not unlock receiving",
+    "Full Finance-verified settlement unlocks shipment",
+    "Eligible receive creates actual raw inventory and keeps payment linkage",
+    "Payment reversal preserves already completed historical receipt",
+    "Verified partial payment remains locked",
+    "Production records actual raw consumption, waste and finished output",
+    "Finalized metadata edit preserves stock and traceability",
+    "Direct stock-changing metadata edit is rejected",
+    "Completed production recognition is balanced and final-postable under Posting Control",
+    "Controlled batch void restores stock exactly and retains original outputs/audit",
+    "Posted production void creates a balanced controlled reversal proposal",
+    "Repeated batch void cannot duplicate inventory reversal",
+    "Corrected replacement is linked and unique; GL waits for original reversal final posting",
+    "Consumed production output blocks destructive void",
+    "Customer archive keeps historical orders, filters active selection and blocks new orders",
+    "Customer restore and historical account remain functional",
+    "Server rejects negative prices/fees and over-discounts without creating orders",
+    "Idempotent order replay creates stock and invoice once; different payload rejected",
+    "Sale summary reconciles invoice, delivery, discount, COGS and separate expense fee",
+    "Late order line failure rolls back invoice and inventory together",
+    "Cancelled sale restores stock once and releases finished-lot allocation",
+    "Legacy draft metadata/date correction preserves draft and stock",
+    "Unauthorized production void and cross-BU customer mutation are rejected"
+  ],
+  "production_data_used": false
+}

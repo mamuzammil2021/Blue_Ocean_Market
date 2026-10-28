@@ -1,0 +1,15 @@
+(node:2496) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Buy Machine token payment with exact account and receiver
+PASS Excavator supplier balance payment
+PASS Buyer advance receipt
+PASS Buyer advance refund
+PASS Machine sale combined advance plus new payment
+PASS Sale recognizes one 500 KRW new receipt; 9000 KRW allocation is non-cash
+PASS Excavator Finance verification and Accounting posting
+PASS Machine sale using only new buyer payment
+PASS Machine sale using only advance allocation
+PASS Excavator correction request preserves original Finance and source snapshots
+PASS Excavator original-user Correct & Resubmit retains the single bank receipt and active allocation
+PASS Corrected Excavator receipt returns through Finance verification
+PASS Excavator controlled buyer-refund reversal remains functional

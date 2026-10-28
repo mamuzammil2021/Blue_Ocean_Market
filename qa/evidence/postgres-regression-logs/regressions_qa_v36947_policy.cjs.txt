@@ -1,0 +1,5 @@
+(node:3578) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Fresh runtime gets approved mappings only through CEO authorization; existing codes/IDs remain intact and setup creates no journals
+PASS Repeated authorized setup reuses the Other Receivables account and records the real CEO and policy audit
+PASS Credit stays unavailable until Accounting posting, becomes available immediately afterward, and completes the linked issue/task

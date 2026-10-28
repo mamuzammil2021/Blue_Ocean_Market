@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Fresh runtime gets approved mappings only through CEO authorization; existing codes/IDs remain intact and setup creates no journals",
+    "Repeated authorized setup reuses the Other Receivables account and records the real CEO and policy audit",
+    "Credit stays unavailable until Accounting posting, becomes available immediately afterward, and completes the linked issue/task"
+  ],
+  "synthetic_data_only": true
+}

@@ -64,3 +64,26 @@ test('overlapping nested siblings fail before a sibling savepoint can interfere'
     release();await first;
   });
 });
+
+test('notifications run outside transaction context after commit; rollback discards them',async()=>{
+ const {db,events}=poolFixture(),sent=[];
+ await db.transaction(async()=>{
+  db.afterCommit(async()=>{assert.equal(db.inTransaction(),false);assert(events.some(e=>e.released));sent.push('outer')});
+  await db.transaction(async()=>db.afterCommit(()=>sent.push('nested')));
+  await assert.rejects(db.transaction(async()=>{db.afterCommit(()=>sent.push('rolled-back-child'));throw Error('rollback child')}));
+  assert.deepEqual(sent,[]);
+ });
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.deepEqual(sent,['outer','nested']);
+ await assert.rejects(db.transaction(async()=>{db.afterCommit(()=>sent.push('rolled-back-root'));throw Error('rollback root')}));
+ await new Promise(resolve=>setImmediate(resolve));assert.deepEqual(sent,['outer','nested']);
+});
+
+test('business writer lock precedes the serializable snapshot and is always released',async()=>{
+ const {db,events}=poolFixture();
+ await db.transaction(()=>db.query('WRITE'),{isolation:'SERIALIZABLE',serializeWrites:true});
+ assert.match(events[0].sql,/pg_advisory_lock/);assert.match(events[1].sql,/BEGIN ISOLATION LEVEL SERIALIZABLE/);
+ assert.match(events.at(-2).sql,/pg_advisory_unlock/);assert(events.at(-1).released);
+ await assert.rejects(db.transaction(()=>db.query('FAIL'),{serializeWrites:true}));
+ assert.match(events.at(-2).sql,/pg_advisory_unlock/);assert(events.at(-1).released);
+});

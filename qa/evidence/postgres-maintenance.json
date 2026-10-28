@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Password, exact confirmation and reason are enforced",
+    "Failure after upload swap rolls back database and restores upload bytes",
+    "Quick Reset clears operations and uploads while keeping users, access and current session",
+    "Restore reconciles data and upload bytes and invalidates previous sessions",
+    "Corrupted backup is refused before any restore mutation",
+    "Full Reset restarts into configured administrator and clean valid PostgreSQL configuration"
+  ]
+}

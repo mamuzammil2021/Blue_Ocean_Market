@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Valid KRW cash payment with optional reference and exact account",
+    "USD invoice paid from USD bank with correct native debit",
+    "KRW invoice paid from supported PKR bank conversion",
+    "Actual supplier advance bank payment persists as reusable credit",
+    "Advance-only import settlement creates no Finance movement",
+    "Combined advance and new payment creates exactly one bank movement",
+    "Supplier advance refund is a real bank inflow and reduces available credit",
+    "Customer advance receipt is a real bank inflow",
+    "Customer refund reserves credit against legacy allocation paths",
+    "Customer advance-only order settlement is non-cash",
+    "Combined order advance and new receipt uses one Finance inflow",
+    "Correction atomically reverses original and records linked replacement",
+    "Packaging payable payment uses native durable currency engine",
+    "Import operating cost produces one authoritative bank movement",
+    "Account from another business unit is rejected",
+    "Unsupported intermediary conversion blocked explicitly",
+    "Separate real bank charge has its own linked debit, not a duplicate supplier payment",
+    "Reversal includes the separate bank fee movement",
+    "Intermediary charge deducted from transfer reconciles debit and actual recipient amount",
+    "Foreign-currency customer bank credit reconciles to KRW receivable and FX difference",
+    "Explicit bank and recipient reconciliation advances status with retained evidence",
+    "Different actual bank debit requires controlled correction, never an in-place balance rewrite",
+    "Standalone supplier operational expense uses the same atomic bank/FX engine",
+    "A late separate-fee duplicate rolls back advance allocation, invoice payment, Finance and both journal effects",
+    "Full settlement has zero outstanding and blocks additional allocation"
+  ]
+}

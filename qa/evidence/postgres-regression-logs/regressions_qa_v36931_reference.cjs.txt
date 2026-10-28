@@ -1,0 +1,26 @@
+(node:3048) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Application starts, safe reference migration runs and valid Customs cost records exactly
+PASS Case/trim duplicate returns friendly field error and rolls back every linked table
+PASS FX validation reuses existing Finance punctuation/spacing normalization within the selected account
+PASS Runtime validation detects duplicate without exposing another record or SQL details
+PASS Missing required bank reference is rejected explicitly
+PASS Repeated empty, spaces, tabs/newlines and Unicode whitespace cash references save as optional blanks without conflict
+PASS Same reference on another eligible company account remains allowed; no new global restriction
+PASS Concurrent same-key retries return one payment and exactly one Finance movement
+PASS Concurrent different-key submissions with the same reference produce one movement and one clear duplicate rejection
+PASS Original-user runtime correction accepts the unchanged original reference
+PASS Correction using a different payment reference is rejected before reversal with no partial mutations
+PASS Unchanged-reference correction excludes linked representations, retains their audited reversal and has one active authoritative movement
+PASS Changed unique reference corrects successfully with full original/replacement audit chain
+PASS Atomic import snapshot supplies authoritative cost locks, resubmitted status, Finance reason/requester/date and permitted actions
+PASS Reference validation responds in Korean
+PASS Direct payment correction without an assigned Finance request is blocked even for the original creator
+PASS Separate bank-charge duplicate points to its own reference field and rolls back all writes
+PASS Legacy costs retain account details, an original-user correction action and a prominent Finance reason without exposing raw Finance internals
+PASS Historical Finance rows with an empty normalized lookup are still checked without rewriting their original references
+PASS Injected late cost-write failure rolls back payment, Finance, request, legs and journals; subsequent retry succeeds
+PASS Legacy late Finance failure rolls back cost, attachments, audit/landed allocation and idempotency; concurrent keyed retry records one cost and Finance movement
+PASS Legacy key reuse with changed payment details is rejected without another movement
+PASS Legacy money-writing API rejects an unkeyed request instead of guessing whether an optional-reference cash payment is a retry
+PASS Every recorded proposal balances and each payment version has one linked Finance row; reversed versions remain history

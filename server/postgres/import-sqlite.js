@@ -90,7 +90,7 @@ async function importSnapshot(source,db,{batchRows=100,failAfterTable}={}){
     return await db.transaction(async()=>{
       await db.query('SELECT pg_advisory_xact_lock(1112493391, 2)');
       const existing=await db.all("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname='bom' ORDER BY tablename");
-      const allowed=new Set([...catalog.tables.map(t=>t.name),'_pg_migrations','_pg_imports']);
+      const allowed=new Set([...catalog.tables.map(t=>t.name),'_pg_migrations','_pg_imports','_pg_maintenance','_pg_auth_epoch']);
       if(existing.some(t=>!allowed.has(t.tablename)))throw new Error('Unrecognized PostgreSQL application tables; import refused');
       await db.query(`LOCK TABLE ${catalog.tables.map(t=>table(t.name)).join(',')} IN ACCESS EXCLUSIVE MODE`);
       for(const t of catalog.tables){
@@ -137,8 +137,8 @@ async function importSnapshot(source,db,{batchRows=100,failAfterTable}={}){
         }
         if(failAfterTable===t.name)throw new Error('Injected import rollback test failure');
       }
-      for(const [t,tr] of triggers)await db.query(`ALTER TABLE ${table(t)} ENABLE TRIGGER ${q(tr)}`);
       await db.query('SET CONSTRAINTS ALL IMMEDIATE');
+      for(const [t,tr] of triggers)await db.query(`ALTER TABLE ${table(t)} ENABLE TRIGGER ${q(tr)}`);
       const tables=await compare(source,db);
       if(tables.some(t=>!t.match))throw new Error('PostgreSQL data reconciliation failed; the import was rolled back');
       const report={baselineVersion:catalog.baselineVersion,schemaSha256:catalog.schemaSha256,tables,tableCount:tables.length,rowCount:tables.reduce((n,t)=>n+t.sourceRows,0),matched:true};

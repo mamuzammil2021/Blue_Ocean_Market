@@ -28,8 +28,7 @@ async function engine(){
 }
 
 function syntheticSnapshot(file){
-  const script=`(async()=>{const f=await require('./qa/fx_fixture').fixture();try{f.db.prepare('UPDATE users SET name=? WHERE email=?').run("한글 · O'Hara",'qa@blueocean.local');await f.db.backup(process.argv[1]);}finally{f.close()}})().catch(e=>{console.error(e.message);process.exitCode=1})`;
-  const result=cp.spawnSync(process.execPath,['-e',script,file],{cwd:root,env:{...process.env,DATABASE_URL:'',DATABASE_PROVIDER:'sqlite'},encoding:'utf8',timeout:120000,maxBuffer:1024*1024});
+  const result=cp.spawnSync(process.execPath,['qa/postgres/make-sqlite-source.cjs',file],{cwd:root,env:{...process.env,DATABASE_URL:''},encoding:'utf8',timeout:120000,maxBuffer:1024*1024});
   if(result.status!==0)throw new Error('Could not create disposable baseline fixture: '+String(result.stderr||result.error));
 }
 
@@ -50,10 +49,10 @@ test('full schema and synthetic import reconcile, rollback, constraints and ledg
     syntheticSnapshot(snapshot);
     instance=await engine();const {db}=instance;
     await check('all 271 application tables migrate; reruns do not change the schema',async()=>{
-      const first=await migrate(db);assert.equal(first.installed.length,2);
+      const first=await migrate(db);assert(first.installed.length>=5);
       assert.equal((await migrate(db)).installed.length,0);
       await assertMigrationsCurrent(db);
-      const tables=await db.all("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname='bom' AND tablename<>'_pg_migrations'");
+      const tables=await db.all("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname='bom' AND left(tablename,1)<>'_'");
       assert.equal(tables.length,catalog.tables.length);
       const ready=await db.readiness();assert.equal(ready.ready,true);assert.equal(ready.schema,'bom');
     });

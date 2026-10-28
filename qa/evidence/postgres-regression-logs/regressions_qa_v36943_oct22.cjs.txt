@@ -1,0 +1,13 @@
+(node:3395) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS State/owner/manager/admin/CEO policy matrix enforces stricter CEO-only received-import Edit/Void
+PASS Existing location master supports scoped create/edit/archive, duplicate/required validation, denied non-admin/cross-BU access and active-only receiving options
+PASS Real manager API caps hide received Edit/Void and direct HTTP attempts are denied without mutation
+PASS Received posted FX cost does not advertise an unavailable Correct Posted Cost action
+PASS Closed-period failure rolls back FX, fee, Finance, allocation, journal and stock changes atomically
+PASS Consumed/adjusted import stock blocks void without any partial reversal
+PASS CEO void reverses real FX/payment/cost/fee/allocation and per-location stock, preserves supplier advance and creates a balanced posted-journal reversal proposal
+PASS Durable duplicate void returns one result; altered payload cannot reuse its operation key
+PASS Voided import remains visible with reason; supplier available advance is restored exactly without a fake cash refund
+PASS Real EN/KR purchase invoice PDFs include saved multi-unit totals/FX/expenses and deny unauthenticated or wrong-BU access
+PASS All QA mutations retain foreign-key integrity; no receiving redesign, supplier claim or adjustment-credit model was introduced

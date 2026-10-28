@@ -1,4 +1,4 @@
-name: PostgreSQL migration foundation
+name: PostgreSQL application acceptance
 on:
   push:
     branches: ['migration/**']
@@ -29,7 +29,7 @@ jobs:
           --health-timeout 5s
           --health-retries 10
     env:
-      TEST_DATABASE_URL: postgres://bom_test:disposable_ci_password@localhost:5432/bom_disposable_test
+      PG_TEST_SERVER_URL: postgres://bom_test:disposable_ci_password@localhost:5432/bom_disposable_test
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -37,4 +37,8 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npm run qa:postgres
+      - run: npx playwright install --with-deps chromium
+      - run: >-
+          node -e "process.env.CHROME_PATH=require('playwright').chromium.executablePath();
+          const r=require('child_process').spawnSync(process.execPath,['qa/postgres/release.cjs'],{env:process.env,stdio:'inherit'});
+          process.exit(r.status??1)"

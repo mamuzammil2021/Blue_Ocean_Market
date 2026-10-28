@@ -1,0 +1,22 @@
+(node:3000) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS KRW source pays USD invoice without quote metadata, retaining exact debit, fee, FX difference and one Finance record
+PASS Existing and optional historical quotation metadata are preserved
+PASS Rate, exact source reconciliation, rate direction, confirmed recipient and overpayment safeguards still reject atomically
+PASS Bank reference and payment evidence remain mandatory without quotation fields
+PASS USD-to-USD retains a separately entered KRW accounting rate
+PASS Advance Only requires no accounts, quote or new receipt and creates no Finance money movement
+PASS Both allocates existing advance plus exactly one actual new debit
+PASS Unverified cost returns cost-specific data and Edit Cost, with no unsolicited Correct & Resubmit
+PASS Pre-verification amendment updates one operational record and preserves the original payment in audit history
+PASS Repeated amendment submission creates no duplicate debit and uses the routine Finance verification notification
+PASS Authoritative Finance verification immediately locks FX cost in detail and existing cost-list endpoint
+PASS Verified edit, invented correction and legacy direct API attempts leave all immutable financial fields unchanged
+PASS Existing missing projection links resolve through the stored transaction linkage without data rewrites
+PASS Only an actual open assigned Finance correction enables Correct & Resubmit
+PASS Another CEO cannot correct/resubmit a record created by the original user
+PASS Authorized correction succeeds once, preserves task chain and waits for Finance acceptance
+PASS Original authorized CEO retains Correct Posted Cost and creates a controlled reversal proposal, never silent reposting
+PASS All generated Accounting proposals remain balanced
+PASS Legacy unverified cost retains its permitted ordinary editing path
+PASS Existing legacy Finance-verified cost is visibly locked and direct edit/ordinary void are rejected

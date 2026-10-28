@@ -1,14 +1,18 @@
-**Migration work branch — application conversion is incomplete.** The target is one PostgreSQL database for every module and business unit. Schema/import tooling and its tests are implemented; the web application is still the V30.69.50 SQLite baseline. This branch is not a PostgreSQL application release and must not replace the live Render service. See [migration status and commands](POSTGRES_MIGRATION_STATUS.md).
+# Blue Ocean Market V30.70.0
 
-Last completed application release: **V30.69.50** — [Quick Test Reset hotfix](V30_69_50_QUICK_RESET_HOTFIX.md).
+One PostgreSQL database for all modules and business units. Read [migration, setup, validation and Render instructions](POSTGRES_MIGRATION_STATUS.md). Use Node 22, `npm ci`, a private DATABASE_URL and `npm start`. Current validation: `npm run qa:current`.
 
-Current release: **V30.69.49**. See [Start Here](START_HERE_V30_69_49.md) and [QA report](V30_69_49_QA_REPORT.md).
+This is a local migration build. Git and Render have not been changed. The version-specific material below documents earlier SQLite releases.
 
-Current release: **V30.69.48**. See [Start Here](START_HERE_V30_69_48.md), [QA report](V30_69_48_QA_REPORT.md), and [deployment](V30_69_48_DEPLOYMENT.md). Content below records earlier releases.
+Previous SQLite application release: **V30.69.50** — [Quick Test Reset hotfix](V30_69_50_QUICK_RESET_HOTFIX.md).
 
-Current release: **V30.69.47**. See [Start Here](START_HERE_V30_69_47.md), [QA report](V30_69_47_QA_REPORT.md), and [deployment instructions](V30_69_47_DEPLOYMENT_AND_GIT.md). Content below records earlier releases.
+Historical release: **V30.69.49**. See [Start Here](START_HERE_V30_69_49.md) and [QA report](V30_69_49_QA_REPORT.md).
 
-> Current release: **V30.69.46**. Read `START_HERE_V30_69_46.md` for the fixes and current verification. Earlier version-specific content below is historical.
+Historical release: **V30.69.48**. See [Start Here](START_HERE_V30_69_48.md), [QA report](V30_69_48_QA_REPORT.md), and [deployment](V30_69_48_DEPLOYMENT.md). Content below records earlier releases.
+
+Historical release: **V30.69.47**. See [Start Here](START_HERE_V30_69_47.md), [QA report](V30_69_47_QA_REPORT.md), and [deployment instructions](V30_69_47_DEPLOYMENT_AND_GIT.md). Content below records earlier releases.
+
+> Historical release: **V30.69.46**. Read `START_HERE_V30_69_46.md` for the fixes and current verification. Earlier version-specific content below is historical.
 
 # Blue Ocean Market — V30.69.45
 

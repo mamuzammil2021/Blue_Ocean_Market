@@ -1,0 +1,26 @@
+(node:2588) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Unpaid import direct API receive is blocked
+PASS Recorded but unverified full payment does not unlock receiving
+PASS Full Finance-verified settlement unlocks shipment
+PASS Eligible receive creates actual raw inventory and keeps payment linkage
+PASS Payment reversal preserves already completed historical receipt
+PASS Verified partial payment remains locked
+PASS Production records actual raw consumption, waste and finished output
+PASS Finalized metadata edit preserves stock and traceability
+PASS Direct stock-changing metadata edit is rejected
+PASS Completed production recognition is balanced and final-postable under Posting Control
+PASS Controlled batch void restores stock exactly and retains original outputs/audit
+PASS Posted production void creates a balanced controlled reversal proposal
+PASS Repeated batch void cannot duplicate inventory reversal
+PASS Corrected replacement is linked and unique; GL waits for original reversal final posting
+PASS Consumed production output blocks destructive void
+PASS Customer archive keeps historical orders, filters active selection and blocks new orders
+PASS Customer restore and historical account remain functional
+PASS Server rejects negative prices/fees and over-discounts without creating orders
+PASS Idempotent order replay creates stock and invoice once; different payload rejected
+PASS Sale summary reconciles invoice, delivery, discount, COGS and separate expense fee
+PASS Late order line failure rolls back invoice and inventory together
+PASS Cancelled sale restores stock once and releases finished-lot allocation
+PASS Legacy draft metadata/date correction preserves draft and stock
+PASS Unauthorized production void and cross-BU customer mutation are rejected

@@ -1,0 +1,9 @@
+(node:2544) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Staff cannot record procurement payment
+PASS User assigned only to another BU cannot access Pink Salt
+PASS Configured approval gate defers all money and settlement writes
+PASS Final independent approval executes exact stored request atomically
+PASS Repeated approval execution is idempotent
+PASS CEO cannot silently correct another original user’s payment
+PASS Original-user correction respects configured approval gate

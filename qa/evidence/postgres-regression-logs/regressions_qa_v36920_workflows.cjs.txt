@@ -1,0 +1,27 @@
+(node:2564) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Valid KRW cash payment with optional reference and exact account
+PASS USD invoice paid from USD bank with correct native debit
+PASS KRW invoice paid from supported PKR bank conversion
+PASS Actual supplier advance bank payment persists as reusable credit
+PASS Advance-only import settlement creates no Finance movement
+PASS Combined advance and new payment creates exactly one bank movement
+PASS Supplier advance refund is a real bank inflow and reduces available credit
+PASS Customer advance receipt is a real bank inflow
+PASS Customer refund reserves credit against legacy allocation paths
+PASS Customer advance-only order settlement is non-cash
+PASS Combined order advance and new receipt uses one Finance inflow
+PASS Correction atomically reverses original and records linked replacement
+PASS Packaging payable payment uses native durable currency engine
+PASS Import operating cost produces one authoritative bank movement
+PASS Account from another business unit is rejected
+PASS Unsupported intermediary conversion blocked explicitly
+PASS Separate real bank charge has its own linked debit, not a duplicate supplier payment
+PASS Reversal includes the separate bank fee movement
+PASS Intermediary charge deducted from transfer reconciles debit and actual recipient amount
+PASS Foreign-currency customer bank credit reconciles to KRW receivable and FX difference
+PASS Explicit bank and recipient reconciliation advances status with retained evidence
+PASS Different actual bank debit requires controlled correction, never an in-place balance rewrite
+PASS Standalone supplier operational expense uses the same atomic bank/FX engine
+PASS A late separate-fee duplicate rolls back advance allocation, invoice payment, Finance and both journal effects
+PASS Full settlement has zero outstanding and blocks additional allocation

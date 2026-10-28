@@ -1,0 +1,7 @@
+(node:3303) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Upgrade startup neither consolidates duplicates nor cancels/reverses legacy journals
+PASS User diagnostic request reports duplicate groups without bulk financial mutation
+PASS Repeated startup preserves duplicates, legacy void and both journal statuses
+PASS User diagnostic request reports duplicate groups without bulk financial mutation
+PASS Legacy review fixtures retain valid foreign keys

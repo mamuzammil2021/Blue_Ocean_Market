@@ -1,0 +1,21 @@
+(node:2520) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Real application startup and additive schema migration
+PASS KRW→USD live server preview
+PASS Atomic durable bank debit and invoice carrying settlement
+PASS One authoritative Finance outflow in source account currency
+PASS Balanced Accounting proposal, fee and realized FX legs
+PASS Idempotent duplicate submit returns same transaction
+PASS Same key with different payload rejected
+PASS Missing exact source account rejected
+PASS Inactive account rejected
+PASS Invalid bank FX rate rejected
+PASS Estimated recipient credit cannot settle invoice
+PASS Overpayment prevented
+PASS Actual SQL failure rolls back request, transaction and Finance
+PASS Finance verification gates posting
+PASS Unapproved FX/fee treatment gates Finance verification before posting
+PASS Unapproved FX/fee accounting policy gates posting
+PASS Finance-verified policy-approved journal posts once
+PASS Controlled reversal preserves history and reopens invoice
+PASS Posted journal reversal is a controlled pending proposal

@@ -1,0 +1,12 @@
+(node:2952) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Inline USD cost from KRW bank stores exact source debit, recipient settlement, fees and FX
+PASS One payment creates one Finance movement and no reusable payee or receiver account
+PASS Finance recipient snapshot is masked and accounting proposal balances
+PASS Same-key repeat is idempotent and changed recipient details cannot reuse the key
+PASS Missing/invalid recipient data and unsupported recipient currency reject atomically with Korean errors
+PASS Operational write failure rolls back request, transaction and financial movement
+PASS Controlled recipient correction preserves original snapshot and resolves only after Finance accepts replacement
+PASS Cash costs require recipient name but exclude stale bank details from durable snapshots
+PASS Registered historical records remain readable and changed master numbers never replace their immutable snapshot
+PASS Authorized reversal voids the exact inline payment while retaining recipient and correction history

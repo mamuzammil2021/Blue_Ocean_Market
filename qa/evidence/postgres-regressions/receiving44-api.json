@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Partial receipt keeps physical, accepted, quarantine and rejected quantities separate; only accepted enters usable stock",
+    "Identical retries replay safely; changed operation keys cannot reuse a stale receiving balance",
+    "Controlled quarantine release, rejection and supplier return preserve the original receipt facts and usable stock",
+    "Concurrent second deliveries cannot consume the same remaining quantity twice",
+    "Controlled receipt reversal restores open quantity and stock through compensating events without deleting facts",
+    "Packaging carton conversion uses saved 1000-piece mapping and excludes quarantined pouches from production stock",
+    "85/15 responsibility produces reconciled mixed non-cash obligations and no fictitious bank receipt",
+    "Credit allocation reduces purchase payable once and prevents reuse",
+    "Actual partial USD refund creates exactly one positively signed Finance cash receipt across an evidence-backed retry",
+    "Cross-currency actual refunds and controlled refund/allocation reversals reconcile available balances and preserve originals",
+    "A purchase atomically combines 500 advance + 300 adjustment credit + 200 new cash; only 200 creates a Finance cash event",
+    "Mixed payment replay creates no duplicates and reversal restores original credit and cash-advance balances together"
+  ],
+  "synthetic_data_only": true
+}

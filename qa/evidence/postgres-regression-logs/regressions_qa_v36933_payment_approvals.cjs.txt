@@ -1,0 +1,19 @@
+(node:3183) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Even CEO cannot Finance-verify a payment before its required FX/fee accounting approval
+PASS Bulk verification cannot bypass the same pre-verification approval boundary
+PASS Approval request creates one assigned actionable task, full bank/invoice/advance/fee snapshot and reviewer notification
+PASS Opening the responsible approval marks only its related notification read while unrelated reminders remain unread
+PASS Retries, changed request notes and another reviewer reuse one approval/task without another cash movement
+PASS Approval → Finance verification → posting debits payable/FX loss and credits the exact USD bank ledger, without approving unrelated payments
+PASS USD native debit and running movement reconcile separately from KRW without inventing a foreign opening balance
+PASS A real customer receipt credits the exact USD account and reconciles its native inflow against prior native debits
+PASS Known native money direction is preserved even when a historical KRW valuation is zero; no rate or KRW amount is invented
+PASS Supplier advance application changes settlement without another Finance or native bank movement
+PASS The shared Finance verification boundary enforces relevant pending approvals outside Pink Salt
+PASS Dual authorization routes one task Finance → CEO, refuses skipped stages and creates exactly one actual payment only after final approval
+PASS The approved payment retains its exact authorization link; the maker cannot self-verify and an authorized independent Finance checker can
+PASS Changes-required resubmission retains the review task and authoritative native values, ignoring forged client payment amounts
+PASS Opening approval from the principal or separate fee reuses one complete review and authorizes both real debits without duplicate movements
+PASS Important/urgent approval email promotion deduplicates delivery and includes the exact authorized deep link; routine successes remain in-app
+PASS A new approval revision receives its own important email while retries of the same revision stay deduplicated

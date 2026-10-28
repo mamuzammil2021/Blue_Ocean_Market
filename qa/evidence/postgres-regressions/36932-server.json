@@ -1,0 +1,96 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Cost correction retains one operational row, original URL/reference, exact revision values and one active Finance version",
+    "Cost detail provides current payment, source/recipient, evidence, rates, user and full financial revision history",
+    "Unverified supplier advance edits through shared review engine without changing its operational identity",
+    "Finance verification locks advances in UI metadata and both shared/legacy direct edit APIs",
+    "Allocated advance cannot be edited or reversed even when another advance could cover the supplier pool",
+    "Only an uncommitted, dependency-free owned draft can be deleted; recorded advance history remains protected",
+    "All six configured same-currency combinations (USD, PKR, KRW, EUR, JPY, CNY) with combined settlements keep native debit, KRW value and one real Finance movement consistent and eligible after verification",
+    "Missing foreign valuation, mistaken transfer identity rate and arbitrary KRW valuation are rejected without inventing FX gain/loss",
+    "Existing suspect mapping remains unchanged, explicitly blocked with a specific valuation reason while Finance verification is displayed separately",
+    "Original-user unposted valuation repair preserves the incorrect historical snapshot, rebuilds correct linked Finance/proposal values and requires re-verification",
+    "Import edits commit once with durable result lookup; concurrent retry and lost-response recovery do not duplicate audit/work",
+    "Sensitive import authorization preserves edit/CEO reasons, saves atomically once and completes the approval handshake",
+    "Ordinary non-CEO sensitive import approval executes its exact stored snapshot once, with current permissions and stale-record checks",
+    "Receiving failure rolls back stock/status/Accounting/audit; concurrent keyed retries create one stock receipt and one receipt journal",
+    "Supplier statement uses current valid settlements, explicit KRW basis and non-cash allocations without duplicate cash",
+    "Every offered statement format actually downloads with correct headers and reconciled CSV/current PDF generation"
+  ],
+  "timings": [
+    {
+      "operation": "import_metadata_save_and_same_key_concurrent_retry",
+      "ms": 59.92294799999945
+    },
+    {
+      "operation": "sensitive_import_challenge_and_authorized_save",
+      "ms": 92.02620299999944
+    },
+    {
+      "operation": "receive_and_concurrent_same_key_retry_without_pdf",
+      "ms": 91.45521499999995
+    },
+    {
+      "operation": "supplier_statement_csv",
+      "ms": 28.792046000000482,
+      "bytes": 3337
+    },
+    {
+      "operation": "supplier_statement_pdf",
+      "ms": 283.366125999999,
+      "bytes": 122334
+    }
+  ],
+  "financial": [
+    {
+      "currency": "USD",
+      "rate": 1000,
+      "company_amount": 10,
+      "bank_krw": 10000,
+      "finance_entry_id": 4,
+      "advance_krw": 50
+    },
+    {
+      "currency": "PKR",
+      "rate": 5,
+      "company_amount": 10,
+      "bank_krw": 50,
+      "finance_entry_id": 5,
+      "advance_krw": 50
+    },
+    {
+      "currency": "KRW",
+      "rate": 1,
+      "company_amount": 10,
+      "bank_krw": 10,
+      "finance_entry_id": 6,
+      "advance_krw": 50
+    },
+    {
+      "currency": "EUR",
+      "rate": 1500,
+      "company_amount": 10,
+      "bank_krw": 15000,
+      "finance_entry_id": 7,
+      "advance_krw": 50
+    },
+    {
+      "currency": "JPY",
+      "rate": 9,
+      "company_amount": 10,
+      "bank_krw": 90,
+      "finance_entry_id": 8,
+      "advance_krw": 50
+    },
+    {
+      "currency": "CNY",
+      "rate": 190,
+      "company_amount": 10,
+      "bank_krw": 1900,
+      "finance_entry_id": 9,
+      "advance_krw": 50
+    }
+  ],
+  "production_data_used": false
+}

@@ -1,0 +1,9 @@
+(node:2976) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Context returns saved supplier accounts with normalized currency while excluding other suppliers and archived records
+PASS Historical Bank Transfer label and spaced lowercase currency record the exact KRW-to-USD bank payment
+PASS Repeated bank submission retains one actual Finance movement
+PASS Bank rejects missing, foreign-supplier, archived and unsupported recipient-currency accounts atomically
+PASS Cash ignores a stale receiver ID, requires only the company Cash account and stores no supplier bank snapshot
+PASS Cash import supplier settlement succeeds with no recipient account and optional reference
+PASS Cash still rejects a missing company source account without partial financial writes

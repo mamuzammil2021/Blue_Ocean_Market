@@ -1,0 +1,138 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Inline USD cost from KRW bank stores exact source debit, recipient settlement, fees and FX",
+    "One payment creates one Finance movement and no reusable payee or receiver account",
+    "Finance recipient snapshot is masked and accounting proposal balances",
+    "Same-key repeat is idempotent and changed recipient details cannot reuse the key",
+    "Missing/invalid recipient data and unsupported recipient currency reject atomically with Korean errors",
+    "Operational write failure rolls back request, transaction and financial movement",
+    "Controlled recipient correction preserves original snapshot and resolves only after Finance accepts replacement",
+    "Cash costs require recipient name but exclude stale bank details from durable snapshots",
+    "Registered historical records remain readable and changed master numbers never replace their immutable snapshot",
+    "Authorized reversal voids the exact inline payment while retaining recipient and correction history"
+  ],
+  "production_data_used": false,
+  "financial_reconciliation": {
+    "transactions": [
+      {
+        "id": 1,
+        "workflow": "import_cost",
+        "counterparty_type": "other",
+        "counterparty_id": 0,
+        "company_account_id": 4,
+        "company_currency": "KRW",
+        "company_amount": 141000,
+        "invoice_currency": "USD",
+        "invoice_amount": 100,
+        "allocation_krw": 130000,
+        "fee_krw": 1000,
+        "fx_difference_krw": 10000,
+        "finance_entry_id": 1,
+        "correction_of_id": null,
+        "status": "Reversed"
+      },
+      {
+        "id": 3,
+        "workflow": "import_cost",
+        "counterparty_type": "other",
+        "counterparty_id": 0,
+        "company_account_id": 4,
+        "company_currency": "KRW",
+        "company_amount": 141000,
+        "invoice_currency": "USD",
+        "invoice_amount": 100,
+        "allocation_krw": 130000,
+        "fee_krw": 1000,
+        "fx_difference_krw": 10000,
+        "finance_entry_id": 2,
+        "correction_of_id": 1,
+        "status": "Reversed"
+      },
+      {
+        "id": 4,
+        "workflow": "import_cost",
+        "counterparty_type": "other",
+        "counterparty_id": 0,
+        "company_account_id": 7,
+        "company_currency": "KRW",
+        "company_amount": 500,
+        "invoice_currency": "KRW",
+        "invoice_amount": 500,
+        "allocation_krw": 500,
+        "fee_krw": 0,
+        "fx_difference_krw": 0,
+        "finance_entry_id": 3,
+        "correction_of_id": null,
+        "status": "Active"
+      },
+      {
+        "id": 5,
+        "workflow": "import_cost",
+        "counterparty_type": "pink_salt_cost_payee",
+        "counterparty_id": 1,
+        "company_account_id": 4,
+        "company_currency": "KRW",
+        "company_amount": 141000,
+        "invoice_currency": "USD",
+        "invoice_amount": 100,
+        "allocation_krw": 130000,
+        "fee_krw": 1000,
+        "fx_difference_krw": 10000,
+        "finance_entry_id": 4,
+        "correction_of_id": null,
+        "status": "Active"
+      }
+    ],
+    "finance": [
+      {
+        "id": 1,
+        "source_id": 1,
+        "payment_account_id": 4,
+        "original_currency": "KRW",
+        "original_amount": 141000,
+        "amount": 141000,
+        "receiver_name_snapshot": "Synthetic One-Time Freight",
+        "receiver_account_number_masked_snapshot": "****0056",
+        "status": "Voided",
+        "verification_status": "Correction Required"
+      },
+      {
+        "id": 2,
+        "source_id": 3,
+        "payment_account_id": 4,
+        "original_currency": "KRW",
+        "original_amount": 141000,
+        "amount": 141000,
+        "receiver_name_snapshot": "Corrected Freight Recipient",
+        "receiver_account_number_masked_snapshot": "****6655",
+        "status": "Voided",
+        "verification_status": "Verified / Correct"
+      },
+      {
+        "id": 3,
+        "source_id": 4,
+        "payment_account_id": 7,
+        "original_currency": "KRW",
+        "original_amount": 500,
+        "amount": 500,
+        "receiver_name_snapshot": "Synthetic Cash Loader",
+        "receiver_account_number_masked_snapshot": "",
+        "status": "Recorded",
+        "verification_status": "Pending Verification"
+      },
+      {
+        "id": 4,
+        "source_id": 5,
+        "payment_account_id": 4,
+        "original_currency": "KRW",
+        "original_amount": 141000,
+        "amount": 141000,
+        "receiver_name_snapshot": "Historical Registered Recipient",
+        "receiver_account_number_masked_snapshot": "****7890",
+        "status": "Recorded",
+        "verification_status": "Pending Verification"
+      }
+    ]
+  }
+}

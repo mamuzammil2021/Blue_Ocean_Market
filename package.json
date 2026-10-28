@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.69.50",
+  "version": "30.70.0",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -12,7 +12,7 @@
     "dev": "node --env-file-if-exists=.env --watch scripts/start-server.js",
     "start:local": "node --env-file-if-exists=.env scripts/start-server.js",
     "dev:local": "node --env-file-if-exists=.env --watch scripts/start-server.js",
-    "qa:current": "node qa/qa_v36950_release.js",
+    "qa:current": "node qa/postgres/release.cjs",
     "qa:runtime": "node qa/runtime_smoke.js",
     "render:storage-check": "node scripts/render-storage-check.js",
     "render:migrate-storage": "node scripts/migrate-render-storage.js",
@@ -42,7 +42,7 @@
     "qa:v344": "node qa/qa_v344_cash_accounts.js",
     "qa:v345": "node qa/qa_v345_feedback.js",
     "qa:v346": "node qa/qa_v346_performance.js",
-    "qa:release": "node qa/qa_v36950_release.js",
+    "qa:release": "node qa/postgres/release.cjs",
     "qa:v346:browser": "python3 qa/browser_v346_static.py",
     "qa:v347": "node qa/qa_v347_performance.js",
     "qa:v347:browser": "python3 qa/browser_v347_paged_lazy.py",
@@ -141,7 +141,8 @@
     "postgres:inspect": "node scripts/postgres/import.js inspect",
     "postgres:import": "node --env-file-if-exists=.env scripts/postgres/import.js import",
     "postgres:audit": "node scripts/postgres/audit-source.js qa/evidence/postgres-runtime-conversion.json",
-    "qa:postgres": "node --test qa/postgres/*.test.js"
+    "qa:postgres": "node --test qa/postgres/*.test.js",
+    "qa:postgres:runtime": "node qa/postgres/run-suite.cjs"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

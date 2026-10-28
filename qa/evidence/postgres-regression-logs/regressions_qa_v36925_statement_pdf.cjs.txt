@@ -1,0 +1,6 @@
+(node:2720) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Actual English PDF contains exact KRW closing and original invoice-currency context
+PASS Actual Korean PDF retains readable Korean labels and identical financial figures
+PASS Identical authorized statement reuses the same financially keyed PDF snapshot
+PASS A real payment invalidates the PDF snapshot and updates exact closing and transaction contents

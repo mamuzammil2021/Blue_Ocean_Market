@@ -1,0 +1,25 @@
+(node:2676) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Application starts with additive QA14 schema
+PASS Import Cost has no fake invoice obligation or numeric sentinel
+PASS General third-party payee supports the shared receiver-account manager
+PASS Third-party Import Cost preserves exact payee, source debit and one Finance movement
+PASS Cost changes landed value without settling supplier invoice
+PASS Import Cost Accounting proposal is balanced
+PASS Repeated submit creates no duplicate movement or payment notification
+PASS Payment notification deep-links to the exact Finance action
+PASS Opening Finance acknowledges only the acting user’s related notification
+PASS Finance correction creates one original-user task and chain
+PASS Exact import cost exposes Correction Required state
+PASS Authorized resubmission atomically replaces the movement and preserves immutable original
+PASS Resubmission retains one task and waits for replacement verification
+PASS Correction indicator remains while Finance acceptance is pending
+PASS Correction review follows current replacement and preserves original snapshot
+PASS Only accepted Finance verification resolves task and removes correction flag
+PASS Invalid correction rolls back without reversing a valid movement
+PASS Posted correction preserves original journal and creates controlled reversal proposal
+PASS Replacement posting remains gated by linked pending reversal
+PASS Supplier statement includes direct payments and has finite reconciled closing balance
+PASS Ordinary import editor cannot alter Actual Arrival history
+PASS Explicit logout invalidates the current server token
+PASS Ordinary relogin issues a distinct valid session

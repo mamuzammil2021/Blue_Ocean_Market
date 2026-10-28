@@ -1,0 +1,14 @@
+(node:2652) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Payment notifications reach assigned Finance verifier and exclude foreign BU / unprivileged staff
+PASS Separate real bank fee has exactly linked verification notification
+PASS Separate fee correction links parent settlement, task and operational record flag
+PASS Fee correction atomically replaces two real debits without duplicating active cash
+PASS Fee correction resolves only when replacement fee passes Finance verification
+PASS Third-party USD Import Cost paid from KRW bank reconciles quote, source debit and realized FX basis
+PASS Shared payee Add/Edit/Default/History preserves immutable historical Finance snapshot
+PASS Shared provider-account Archive preserves existing transactions and audit
+PASS Extreme amounts beyond supported financial precision are rejected
+PASS Historical legacy import costs also expose exact correction flags
+PASS Authorized cost reversal restores unreceived landed valuation and reverses its linked cash movement
+PASS Repeating identical correction request retains one task and notification event

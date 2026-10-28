@@ -1,0 +1,10 @@
+(node:2700) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Statement closes exactly against original KRW invoice obligations, advance, direct payment and refund
+PASS Advance allocation appears in statement without a second cash debit
+PASS Statement running balances follow transaction dates including backdated records
+PASS Statement date range carries accurate opening and closing balances
+PASS Statement reversal restores balance while transaction audit history remains durable
+PASS Korean CSV retains exact reconciled figures and localized balance labels
+PASS Evidence digest rejects changed idempotent replay and cleans only unused uploaded duplicates
+PASS Failed payment leaves no orphan evidence, Finance record or partial settlement

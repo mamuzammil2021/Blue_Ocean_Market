@@ -1,0 +1,13 @@
+(node:3024) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS New USD cost from KRW account needs one entered bank rate and no quote metadata or duplicate payment accounting rate
+PASS New supplier advance derives its KRW accounting equivalent from the same evidenced payment rate
+PASS Existing USD invoice keeps original KRW carrying basis and realized FX difference despite consolidated payment input
+PASS Inverse KRW/foreign bank pair reuses one rate for the corresponding company KRW equivalent
+PASS Same-currency foreign cost uses a single KRW reporting rate without a bank conversion field
+PASS Two genuinely distinct currency pairs need two entered rates and derive the third equivalent consistently
+PASS A third-currency KRW rate is never invented when no conversion to KRW is known
+PASS Contradictory derived accounting values are rejected atomically in shared-rate mode
+PASS Historical independent rates, quote metadata and original bank snapshots survive controlled corrections
+PASS Supplier advance refund records from one rate without hidden quote requirements
+PASS All exercised rates retain balanced proposals and one linked Finance row per real movement
