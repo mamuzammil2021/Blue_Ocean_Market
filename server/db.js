@@ -1,3 +1,9 @@
+// Migration branches must never silently start the SQLite application when a
+// PostgreSQL destination has been configured. Offline PostgreSQL tools have a
+// separate entry point until every runtime module has been converted.
+if(process.env.DATABASE_URL||['postgres','postgresql'].includes(String(process.env.DATABASE_PROVIDER||'').toLowerCase())){
+  throw new Error('PostgreSQL runtime migration is incomplete on this branch. Use the postgres:migrate/import tools for an empty test database; the application runtime must be converted before deployment.');
+}
 const Database=require('better-sqlite3');
 const bcrypt=require('bcryptjs');
 const fs=require('fs'),path=require('path');

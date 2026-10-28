@@ -1,4 +1,6 @@
-Current release: **V30.69.50** — [Quick Test Reset hotfix](V30_69_50_QUICK_RESET_HOTFIX.md).
+**Migration work branch — application conversion is incomplete.** The target is one PostgreSQL database for every module and business unit. Schema/import tooling and its tests are implemented; the web application is still the V30.69.50 SQLite baseline. This branch is not a PostgreSQL application release and must not replace the live Render service. See [migration status and commands](POSTGRES_MIGRATION_STATUS.md).
+
+Last completed application release: **V30.69.50** — [Quick Test Reset hotfix](V30_69_50_QUICK_RESET_HOTFIX.md).
 
 Current release: **V30.69.49**. See [Start Here](START_HERE_V30_69_49.md) and [QA report](V30_69_49_QA_REPORT.md).
 

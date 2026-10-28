@@ -135,16 +135,26 @@
     "qa:receiving": "node qa/qa_v36948_release.js",
     "qa:receiving:browser": "node qa/modernization/receiving45.cjs && node qa/modernization/receiving45-submit.cjs && node qa/modernization/receiving45-issues.cjs",
     "qa:oct26": "node qa/qa_v36949_oct26.js",
-    "qa:quick-reset": "node qa/qa_v36950_quick_reset.js"
+    "qa:quick-reset": "node qa/qa_v36950_quick_reset.js",
+    "postgres:build-schema": "node scripts/postgres/build-schema.js",
+    "postgres:migrate": "node --env-file-if-exists=.env scripts/postgres/migrate.js",
+    "postgres:inspect": "node scripts/postgres/import.js inspect",
+    "postgres:import": "node --env-file-if-exists=.env scripts/postgres/import.js import",
+    "postgres:audit": "node scripts/postgres/audit-source.js qa/evidence/postgres-runtime-conversion.json",
+    "qa:postgres": "node --test qa/postgres/*.test.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "better-sqlite3": "^13.0.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "pg": "8.23.1"
   },
   "devDependencies": {
+    "@babel/parser": "8.0.8",
+    "@babel/traverse": "8.0.7",
+    "@electric-sql/pglite": "0.5.12",
     "playwright": "1.56.1",
     "postcss": "8.5.6",
     "sass": "1.103.1"

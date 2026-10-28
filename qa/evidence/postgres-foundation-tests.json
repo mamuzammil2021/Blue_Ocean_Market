@@ -1,0 +1,18 @@
+{
+  "scope": "PostgreSQL schema/import foundation; not full application acceptance",
+  "engine": "pglite-postgresql-sql-engine",
+  "tables": 271,
+  "columns": 3453,
+  "passed": [
+    "all 271 application tables migrate; reruns do not change the schema",
+    "a mid-import failure rolls back every row and restores triggers",
+    "every imported row and all 3453 columns match, including Korean and exact numerics",
+    "import refuses a nonempty destination",
+    "foreign keys and imported identity sequences are enforced",
+    "receiving facts stay immutable in PostgreSQL",
+    "finance inserts and updates queue synchronization natively",
+    "reconciliation detects a changed historical amount",
+    "an incompatible source schema is rejected before destination changes",
+    "changed migration files cannot be silently reapplied"
+  ]
+}
