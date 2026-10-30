@@ -1283,15 +1283,15 @@ const __async = require("./postgres/collections");module.exports = (async () => 
       }
       if (f.source_type === 'Pink Salt Sale') {
         const o = await db.prepare("SELECT id,order_no FROM pink_salt_orders WHERE id=?").get(f.source_id);if (!o) return [];
-        const docs = (await db.prepare("SELECT id,title,original_name,file_path FROM pink_salt_attachments WHERE entity_type='Order' AND entity_id=? ORDER BY id DESC").all(o.id)).map((r) => ({ ...r, evidence_type: 'Pink Salt Order', evidence_label: r.title || `Order ${o.order_no}` }));
+        const docs = (await db.prepare("SELECT id,title,original_name,file_path FROM pink_salt_attachments WHERE archived_at IS NULL AND entity_type='Order' AND entity_id=? ORDER BY id DESC").all(o.id)).map((r) => ({ ...r, evidence_type: 'Pink Salt Order', evidence_label: r.title || `Order ${o.order_no}` }));
         const payments = (await db.prepare("SELECT id payment_id,reference,payment_date,payment_method method,original_currency currency,original_amount,krw_amount,receipt_file FROM pink_salt_customer_payments WHERE order_id=? AND status='Active' ORDER BY payment_date,id").all(o.id)).map((r) => ({ ...r, evidence_type: 'Customer Payment', evidence_label: `Customer Payment #${r.payment_id}${r.reference ? ' · ' + r.reference : ''}`, file_path: r.receipt_file ? '/uploads/' + String(r.receipt_file).replace(/^\/+/, '') : '' }));
         return [...docs, ...payments];
       }
       if (f.source_type === 'Pink Salt Import Purchase') {
-        return (await db.prepare("SELECT id,title,original_name,file_path FROM pink_salt_attachments WHERE entity_type='Import' AND entity_id=? ORDER BY id DESC").all(f.source_id)).map((r) => ({ ...r, evidence_type: 'Import Document', evidence_label: r.title || 'Import supporting document' }));
+        return (await db.prepare("SELECT id,title,original_name,file_path FROM pink_salt_attachments WHERE archived_at IS NULL AND entity_type='Import' AND entity_id=? ORDER BY id DESC").all(f.source_id)).map((r) => ({ ...r, evidence_type: 'Import Document', evidence_label: r.title || 'Import supporting document' }));
       }
       if (f.source_type === 'Pink Salt Platform Fee') {
-        return (await db.prepare("SELECT id,title,original_name,file_path FROM pink_salt_attachments WHERE entity_type='Order' AND entity_id=? ORDER BY id DESC").all(f.source_id)).map((r) => ({ ...r, evidence_type: 'Order / Settlement', evidence_label: r.title || 'Order evidence' }));
+        return (await db.prepare("SELECT id,title,original_name,file_path FROM pink_salt_attachments WHERE archived_at IS NULL AND entity_type='Order' AND entity_id=? ORDER BY id DESC").all(f.source_id)).map((r) => ({ ...r, evidence_type: 'Order / Settlement', evidence_label: r.title || 'Order evidence' }));
       }
     } catch (_) {return [];}
     return [];
@@ -1864,6 +1864,7 @@ const __async = require("./postgres/collections");module.exports = (async () => 
   pinkFxEngine = await require('./pink-fx-engine').install({ app, db, auth, allow, currentUnit, enforceUnit, audit, upload, financeSync, configuredPaymentAccount, payeeAccount: v330.payeeAccount, accounting: accountingV29, maybeCreateApproval, stopForApproval, markApprovalExecuted, access: accessV316, notify, normalizePaymentReference, financeLogicalPaymentIds });
   await require('./packaging-materials').install({ app, db, auth, allow, currentUnit, enforceUnit, audit, upload, accounting: accountingV29, access: accessV316, maybeCreateApproval, markApprovalExecuted });
   await require('./qa43').install({ app, db, auth, allow, currentUnit, enforceUnit, audit, access: accessV316 });
+  await require('./oct28-workflows').install({ app, db, auth, allow, currentUnit, enforceUnit, audit, access: accessV316, upload, accounting: accountingV29 });
   await require('./receiving').install({ app, db, auth, allow, currentUnit, enforceUnit, audit, notify, access: accessV316, upload, accounting: accountingV29, financeSync, configuredPaymentAccount, maybeCreateApproval, markApprovalExecuted, normalizePaymentReference, financeLogicalPaymentIds });
   app.locals.bomSyncReceiving45 = async (req, bu = currentUnit(req)) => {const pink = (await db.prepare("SELECT id FROM business_units WHERE name='Pink Salt'").get())?.id;if (req.user && Number(bu) === pink) await db.atomic(async () => await app.locals.bomReceiving44.syncTasks({ ...req, selected_business_unit_id: pink })).immediate();};
   await require('./pink-qa21').install({ app, db, auth, allow, currentUnit, enforceUnit, audit, accounting: accountingV29 });

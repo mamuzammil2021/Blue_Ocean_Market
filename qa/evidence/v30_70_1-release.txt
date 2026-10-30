@@ -1,0 +1,202 @@
+(node:6) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2422) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+TAP version 13
+# (node:2429) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: one required database URL, bounded pool, no global precision coercion
+ok 1 - one required database URL, bounded pool, no global precision coercion
+  ---
+  duration_ms: 1.529276
+  type: 'test'
+  ...
+# Subtest: transaction and nested savepoints keep one client and rollback locally
+ok 2 - transaction and nested savepoints keep one client and rollback locally
+  ---
+  duration_ms: 1.589195
+  type: 'test'
+  ...
+# Subtest: separate concurrent requests never share transaction context
+ok 3 - separate concurrent requests never share transaction context
+  ---
+  duration_ms: 0.499678
+  type: 'test'
+  ...
+# Subtest: failed transactions roll back and release; detached work is rejected
+ok 4 - failed transactions roll back and release; detached work is rejected
+  ---
+  duration_ms: 6.323591
+  type: 'test'
+  ...
+# Subtest: overlapping nested siblings fail before a sibling savepoint can interfere
+ok 5 - overlapping nested siblings fail before a sibling savepoint can interfere
+  ---
+  duration_ms: 0.770357
+  type: 'test'
+  ...
+# Subtest: notifications run outside transaction context after commit; rollback discards them
+ok 6 - notifications run outside transaction context after commit; rollback discards them
+  ---
+  duration_ms: 3.400247
+  type: 'test'
+  ...
+# Subtest: business writer lock precedes the serializable snapshot and is always released
+ok 7 - business writer lock precedes the serializable snapshot and is always released
+  ---
+  duration_ms: 0.678711
+  type: 'test'
+  ...
+# (node:2430) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: schema generation is reproducible and CHECK lexer ignores literal text
+ok 8 - schema generation is reproducible and CHECK lexer ignores literal text
+  ---
+  duration_ms: 20.93522
+  type: 'test'
+  ...
+# Subtest: full schema and synthetic import reconcile, rollback, constraints and ledgers
+    # Subtest: baseline and native extension tables migrate; reruns do not change the schema
+    ok 1 - baseline and native extension tables migrate; reruns do not change the schema
+      ---
+      duration_ms: 1091.858463
+      type: 'test'
+      ...
+    # Subtest: a mid-import failure rolls back every row and restores triggers
+    ok 2 - a mid-import failure rolls back every row and restores triggers
+      ---
+      duration_ms: 284.472093
+      type: 'test'
+      ...
+    # Subtest: every imported row and all 3453 columns match, including Korean and exact numerics
+    ok 3 - every imported row and all 3453 columns match, including Korean and exact numerics
+      ---
+      duration_ms: 561.150916
+      type: 'test'
+      ...
+    # Subtest: import refuses a nonempty destination
+    ok 4 - import refuses a nonempty destination
+      ---
+      duration_ms: 54.926245
+      type: 'test'
+      ...
+    # Subtest: foreign keys and imported identity sequences are enforced
+    ok 5 - foreign keys and imported identity sequences are enforced
+      ---
+      duration_ms: 13.532057
+      type: 'test'
+      ...
+    # Subtest: receiving facts stay immutable in PostgreSQL
+    ok 6 - receiving facts stay immutable in PostgreSQL
+      ---
+      duration_ms: 8.639678
+      type: 'test'
+      ...
+    # Subtest: finance inserts and updates queue synchronization natively
+    ok 7 - finance inserts and updates queue synchronization natively
+      ---
+      duration_ms: 6.836377
+      type: 'test'
+      ...
+    # Subtest: reconciliation detects a changed historical amount
+    ok 8 - reconciliation detects a changed historical amount
+      ---
+      duration_ms: 166.899503
+      type: 'test'
+      ...
+    # Subtest: an incompatible source schema is rejected before destination changes
+    ok 9 - an incompatible source schema is rejected before destination changes
+      ---
+      duration_ms: 29.14244
+      type: 'test'
+      ...
+    # Subtest: changed migration files cannot be silently reapplied
+    ok 10 - changed migration files cannot be silently reapplied
+      ---
+      duration_ms: 5.125813
+      type: 'test'
+      ...
+    1..10
+ok 9 - full schema and synthetic import reconcile, rollback, constraints and ledgers
+  ---
+  duration_ms: 4666.417051
+  type: 'test'
+  ...
+1..9
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4825.452555
+(node:2457) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"checked":2569,"failed":0,"examples":[]}
+(node:2469) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"file":"routes.cjs","code":0,"signal":null,"checks":1,"ms":9295}
+{"file":"maintenance.cjs","code":0,"signal":null,"checks":6,"ms":20575}
+{"file":"regressions/qa_v36920_excavator.cjs","code":0,"signal":null,"checks":13,"ms":8885}
+{"file":"regressions/qa_v36920_fx_e2e.cjs","code":0,"signal":null,"checks":19,"ms":8008}
+{"file":"regressions/qa_v36920_permissions.cjs","code":0,"signal":null,"checks":7,"ms":8099}
+{"file":"regressions/qa_v36920_workflows.cjs","code":0,"signal":null,"checks":25,"ms":8593}
+{"file":"regressions/qa_v36921_controls.cjs","code":0,"signal":null,"checks":24,"ms":8203}
+{"file":"regressions/qa_v36922_read_routes.cjs","code":0,"signal":null,"checks":6,"ms":7688}
+{"file":"regressions/qa_v36924_calculation.cjs","code":0,"signal":null,"checks":7,"ms":7097}
+{"file":"regressions/qa_v36925_extended.cjs","code":0,"signal":null,"checks":12,"ms":8350}
+{"file":"regressions/qa_v36925_server.cjs","code":0,"signal":null,"checks":23,"ms":8591}
+{"file":"regressions/qa_v36925_statement_integrity.cjs","code":0,"signal":null,"checks":8,"ms":7463}
+{"file":"regressions/qa_v36925_statement_pdf.cjs","code":0,"signal":null,"checks":4,"ms":7599}
+{"file":"regressions/qa_v36926_recipient.cjs","code":0,"signal":null,"checks":10,"ms":8042}
+{"file":"regressions/qa_v36927_supplier_accounts.cjs","code":0,"signal":null,"checks":7,"ms":7782}
+{"file":"regressions/qa_v36929_qa15.cjs","code":0,"signal":null,"checks":20,"ms":10271}
+{"file":"regressions/qa_v36930_shared_rate.cjs","code":0,"signal":null,"checks":11,"ms":8632}
+{"file":"regressions/qa_v36931_reference.cjs","code":0,"signal":null,"checks":24,"ms":10602}
+{"file":"regressions/qa_v36932_legacy_advances.cjs","code":0,"signal":null,"checks":5,"ms":7361}
+{"file":"regressions/qa_v36932_server.cjs","code":0,"signal":null,"checks":16,"ms":12030}
+{"file":"regressions/qa_v36933_payment_approvals.cjs","code":0,"signal":null,"checks":17,"ms":9336}
+{"file":"regressions/qa_v36936_packaging.cjs","code":0,"signal":null,"checks":25,"ms":15573}
+{"file":"regressions/qa_v36937_refinement.cjs","code":0,"signal":null,"checks":8,"ms":7715}
+{"file":"regressions/qa_v36938_product_ux.cjs","code":0,"signal":null,"checks":11,"ms":7352}
+{"file":"regressions/qa_v36939_financial_guards.cjs","code":0,"signal":null,"checks":5,"ms":13867}
+{"file":"regressions/qa_v36939_history.cjs","code":0,"signal":null,"checks":6,"ms":7546}
+{"file":"regressions/qa_v36943_approval.cjs","code":0,"signal":null,"checks":2,"ms":9217}
+{"file":"regressions/qa_v36943_oct22.cjs","code":0,"signal":null,"checks":11,"ms":9153}
+{"file":"regressions/qa_v36944_receiving.cjs","code":0,"signal":null,"checks":12,"ms":9361}
+{"file":"regressions/qa_v36947_policy.cjs","code":0,"signal":null,"checks":3,"ms":8018}
+{"file":"regressions/qa_v36949_oct26.cjs","code":0,"signal":null,"checks":13,"ms":16241}
+(node:3812) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Raw stock transfers are atomic, preserve totals, reject overdraw and replay once
+PASS Warehouse listing filters inventory to the chosen location
+PASS Ordinary document archive removes it from active reads and preserves audit
+PASS Evidence linked to an advance cannot be archived through ordinary document actions
+PASS Supplier advance refund credits the company account once and reduces available advance
+PASS Supplier refund cannot exceed the unused advance pool
+PASS Finished-stock consumption after transfer preserves total stock and nonnegative warehouse balances
+PASS BU document branding overrides company defaults
+PASS Uploaded BU logo embeds directly into the invoice with inherited company footer
+PASS Customer edit endpoint loads complete saved profile
+PASS Sales invoice renders as a real PDF from saved data
+PASS Pending purchase line live preview updates and is not double counted after Add to Cart
+PASS Successful purchase creation returns directly to purchase list
+WARN Notification count: signal is aborted without reason
+WARN Action counters: signal is aborted without reason
+PASS Packaging child destinations are native browser links and warehouse filter is visible
+PASS Sales cart adds products with pricing context, updates summary and passes existing order validation
+PASS Sales cart fits desktop and mobile widths without page overflow
+PASS Sale saves once, stays unpaid until receipt confirmation, and opens optional partial-payment flow
+PASS Optional sale receipt creates one incoming Finance movement and updates outstanding
+PASS Saved-sale invoices generate in English and Korean after partial payment
+PASS Partial receipt shows ordered, received and pending quantities and opens Receiving tab
+PASS Full receipt confirms completion and returns to purchase list
+PASS Customer edit preserves the saved name
+PASS Import section switching preserves the record shell without reloading its API data
+PASS Supplier profile X returns to supplier list and refund action is discoverable
+PASS Company-wide warehouse entry prompts for a BU and opens that unit without an access error
+PASS Dedicated warehouse page directly hydrates
+PASS Company document settings expose six asset and reference upload slots
+PASS No uncaught browser errors in tested workflows
+{"status":"PASS","version":"30.70.1","node":"v22.23.4","engine":"pglite","syntax_files":301,"suites":31,"workflow_checks":389,"tested_at":"2026-10-29T20:00:09.464Z","render_deployed":false,"git_pushed":false}

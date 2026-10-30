@@ -3,7 +3,7 @@
 const registry=window.BOMRoutes;
 const userEvent=()=>window.event?.isTrusted===true;
 let epoch=0,active=null,queue=Promise.resolve(),phase='idle',loaded=null,loadedUnit='',shellOnly=false,failure=null,started=false,lastEventHash='',ready=Promise.resolve();
-const originals=new Map(),bound=new WeakSet(),safeState=['search','page','pageSize','status','type','activity','payment','channel','sort','direction','mode','from','to','evidence','special','filter','scope','replacement','advanced'];
+const originals=new Map(),bound=new WeakSet(),safeState=['location_id','search','page','pageSize','status','type','activity','payment','channel','sort','direction','mode','from','to','evidence','special','filter','scope','replacement','advanced'];
 const T=(en,ko)=>currentLanguage==='ko'?ko:en;
 const trace=[];function note(stage,r){if(window.BOM_ROUTE_DEBUG===true){trace.push({stage,route:url(r),epoch,time:Math.round(performance.now())});if(trace.length>256)trace.shift();}}
 function loading(){const host=document.getElementById('content')||root;if(!host||host.querySelector('[data-bom-route-loading]'))return;host.innerHTML=`<div data-bom-route-loading role="status" aria-live="polite">${window.BOMProgressive?.sectionHtml?.({label:T('Loading destination…','목적지를 불러오는 중…'),rows:5,minHeight:180})||`<span class="bom43-loader" role="status" aria-live="polite"><span class="bom-loading-ring" aria-hidden="true"></span><span class="bom-loading-label">Loading…</span></span>`}</div>`;host.removeAttribute('data-bom-route');}

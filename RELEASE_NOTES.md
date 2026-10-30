@@ -1,17 +1,21 @@
-Current release: **V30.69.50** — [Quick Test Reset hotfix](V30_69_50_QUICK_RESET_HOTFIX.md).
+# V30.70.1 October 28 QA fixes
 
-Current release: **V30.69.49**. See [Start Here](START_HERE_V30_69_49.md) and [QA report](V30_69_49_QA_REPORT.md).
+Built directly on the supplied V30.70.0 PostgreSQL tested source. All 16 requested
+QA points are addressed; see QA_OCT28_CHECKLIST.md for the implementation and
+verification of each point.
 
-Current release: **V30.69.48**. See [Start Here](START_HERE_V30_69_48.md), [QA report](V30_69_48_QA_REPORT.md), and [deployment](V30_69_48_DEPLOYMENT.md). Content below records earlier releases.
+The release adds a BU-scoped warehouse workspace, reusable document archiving,
+company document/branding settings, matching purchase/sales invoices, and a
+cart-based sales form. It exposes supplier advance refunds through the shared
+incoming payment engine and corrects purchase/receiving destinations, live cart
+totals, customer editing and import section navigation.
 
-Current release: **V30.69.47**. See [Start Here](START_HERE_V30_69_47.md), [QA report](V30_69_47_QA_REPORT.md), and [deployment instructions](V30_69_47_DEPLOYMENT_AND_GIT.md). Content below records earlier releases.
+The existing payment, Finance, Accounting, approval, receiving and stock ledgers
+remain authoritative. A warehouse transfer does not create a bank movement.
+Payment evidence cannot be removed with ordinary document controls.
 
-> Current release: **V30.69.46**. Read `START_HERE_V30_69_46.md` for the fixes and current verification. Earlier version-specific content below is historical.
+New PostgreSQL migrations 008 and 009 are additive. The application still uses
+one PostgreSQL database. The original SQLite migration catalog and historical
+migration checksums are retained.
 
-# V30.69.45 — simple receiving
-
-Ordinary receiving now shows purchased categories, actual quantity/condition, date and location. Only differences reveal later/investigation/split choices. Disputed missing quantities are held while received goods save normally, and one linked task gathers supplier, purchase, invoice prices and missing details.
-
-Responsibility and settlement move to a separate issue page with automatic invoice estimates, conditional shared calculator, approvals, credit/refund/replacement fulfillment and clear pending indicators. Receiving buttons disappear when no eligible quantity remains; history and authorized corrections stay available.
-
-Preserves V44 financial/currency, stock, production and audit foundations. Adds two issue tables through a repeatable migration. See `START_HERE_V30_69_45.md` and current QA/migration reports. No remote/main change or deployment performed.
+No Git push, pull, merge or Render deployment was performed.

@@ -1,21 +1,11 @@
-Current release: **V30.69.50** — [Quick Test Reset hotfix](V30_69_50_QUICK_RESET_HOTFIX.md).
+# V30.70.1 release manifest
 
-Current release: **V30.69.49**. See [Start Here](START_HERE_V30_69_49.md) and [QA report](V30_69_49_QA_REPORT.md).
-
-Current release: **V30.69.48**. See [Start Here](START_HERE_V30_69_48.md), [QA report](V30_69_48_QA_REPORT.md), and [deployment](V30_69_48_DEPLOYMENT.md). Content below records earlier releases.
-
-Current release: **V30.69.47**. See [Start Here](START_HERE_V30_69_47.md), [QA report](V30_69_47_QA_REPORT.md), and [deployment instructions](V30_69_47_DEPLOYMENT_AND_GIT.md). Content below records earlier releases.
-
-> Current release: **V30.69.46**. Read `START_HERE_V30_69_46.md` for the fixes and current verification. Earlier version-specific content below is historical.
-
-# V30.69.45 release manifest
-
-- Protected V44 ZIP SHA-256: `1b407a4d889c58e2c9e59a06fba3f5f67e3254d8616fd063d52608806b06c9d7`.
-- Work branch: `feature/v30.69.45-simple-receiving`; suggested push branch: `v30.69.45-simple-receiving`.
-- Source root in delivery: `Blue_Ocean_Market_V30_69_45/`.
-- Package/lock/frontend version: `30.69.45`. Frontend manifest owns the same 124 assets; no additional startup entry was introduced.
-- Additive schema: two receiving-issue tables, indexes, immutable-estimate trigger and V45 migration-ledger entry.
-- Current acceptance: `V30_69_45_QA_REPORT.md` and `qa/evidence/36945-release.json`.
-- `SOURCE_SHA256SUMS.txt` verifies exported file bytes. Final ZIP checksum is produced during packaging.
-- No repository history, credentials, installed dependencies, real databases/uploads, screenshots or generated report samples in the export.
-- No remote push, main modification or deployment performed.
+- Baseline: Blue_Ocean_Market_V30_70_0_POSTGRESQL_TESTED.zip.
+- Baseline SHA-256: 9cb190f37bf996ee34693a741a78c2141d6a4a888424ca196a9db21cda5c0e38.
+- Export root: Blue_Ocean_Market_V30_70_1/.
+- Package, lockfile and frontend manifest version: 30.70.1.
+- PostgreSQL migrations 001 through 007 retain their original bytes. Additive migrations 008 and 009 are included.
+- Acceptance: QA_OCT28_CHECKLIST.md and qa/evidence/postgres-release.json.
+- Source checksums: SOURCE_SHA256SUMS.txt.
+- No installed dependencies, credentials, real databases/uploads, Git history, browser screenshots or generated PDF samples are included.
+- No Git push, pull, merge or Render deployment was performed.

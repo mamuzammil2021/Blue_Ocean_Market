@@ -1,5 +1,5 @@
 {
-  "total": 218,
+  "total": 221,
   "errors": [],
   "results": [
     {
@@ -796,6 +796,18 @@
     },
     {
       "path": "/api/warehouses-v43",
+      "status": 200
+    },
+    {
+      "path": "/api/pink-salt/attachments-v701",
+      "status": 404
+    },
+    {
+      "path": "/api/document-branding-v701",
+      "status": 200
+    },
+    {
+      "path": "/api/warehouses-v701",
       "status": 200
     },
     {

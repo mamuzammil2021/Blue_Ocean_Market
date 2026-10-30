@@ -396,7 +396,7 @@ async function install(deps) {
       if (access && !(await access.canAction(requester.id, 'finance', 'create', a.business_unit_id)) && !(await access.canAction(requester.id, 'purchases', 'create', a.business_unit_id)) && !(await access.canAction(requester.id, 'sales', 'create', a.business_unit_id))) await fail('Original requester no longer has payment permission.', 403);
       const tx = await record(request, req, a);await markApprovalExecuted(a, user, { transaction_id: tx.id });return { executed: true, transaction_id: tx.id };
     })();}
-  app.locals.bomPinkFX = { async reverseImportTransactions(req, id, reason) {
+  app.locals.bomPinkFX = { context, async reverseImportTransactions(req, id, reason) {
       const bu = await guard(req),imp = await db.prepare("SELECT * FROM pink_salt_imports WHERE id=? AND business_unit_id=?").get(id, bu);if (!imp) await fail('Import not found.', 404);
       if ((imp.status === 'Received' || imp.received_at) && req.user.role !== 'CEO / Owner') await fail('Received imports require CEO / Owner.', 403);
       for (const tx of await db.prepare("SELECT id FROM pink_fx_transactions WHERE business_unit_id=? AND record_id=? AND workflow IN ('import','import_cost') AND status='Active' ORDER BY id DESC").all(bu, id)) await reverse(req, tx.id, 'Import void: ' + reason, false, true);

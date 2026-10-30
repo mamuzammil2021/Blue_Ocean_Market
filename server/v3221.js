@@ -66,7 +66,7 @@ async function install({ app, db, auth, enforceUnit, audit, uploads, access, att
       ['excavator_documents', "SELECT original_name,mime_type,file_path FROM excavator_documents WHERE file_path=? OR file_path ILIKE ? LIMIT 1"],
       ['excavator_buyer_documents', "SELECT original_name,mime_type,file_path FROM excavator_buyer_documents WHERE file_path=? OR file_path ILIKE ? LIMIT 1"],
       ['finance_attachments', "SELECT original_name,mime_type,file_path FROM finance_attachments WHERE file_path=? OR file_path ILIKE ? LIMIT 1"],
-      ['pink_salt_attachments', "SELECT original_name,mime_type,file_path FROM pink_salt_attachments WHERE file_path=? OR file_path ILIKE ? LIMIT 1"],
+      ['pink_salt_attachments', "SELECT original_name,mime_type,file_path FROM pink_salt_attachments WHERE archived_at IS NULL AND (file_path=? OR file_path ILIKE ?) LIMIT 1"],
       ['payroll_documents', "SELECT original_name,mime_type,file_path FROM payroll_documents WHERE file_path=? OR file_path ILIKE ? LIMIT 1"],
       ['accounting_journal_documents', "SELECT original_name,mime_type,file_path FROM accounting_journal_documents WHERE file_path=? OR file_path ILIKE ? LIMIT 1"]];
 

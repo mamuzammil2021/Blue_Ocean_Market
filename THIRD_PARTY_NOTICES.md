@@ -7,3 +7,11 @@
 No Tabler demo pages, chart libraries, Popper, Bootstrap JavaScript, calendar plugins, maps, marketing images, third-party font files or CDN resources are added to the application. Consequently their unused licenses/dependencies do not enter the new browser distribution. Existing application dependencies and notices remain as in V30.69.39.
 
 For QA only, Chromium 141 was run through Playwright. Noto Sans KR Regular/Semibold (SIL Open Font License, from the pinned `@expo-google-fonts/noto-sans-kr` 0.4.1 package) was installed in the test host to verify Hangul glyph rendering; no font files are in the source ZIP. The application uses platform/system CJK fallback fonts. Korean-capable system fonts are required on kiosk and PDF hosts.
+
+## Noto Sans KR
+
+PDFs embed the required Unicode subsets of Noto Sans KR Variable from
+@fontsource-variable/noto-sans-kr 5.3.1. The bundled copyright notice identifies Google Inc.
+Licensed under the SIL Open Font License 1.1. The full license is included in
+server/fonts/noto-sans-kr/LICENSE. Font files are bundled for offline rendering;
+no external font request is made when generating a document.

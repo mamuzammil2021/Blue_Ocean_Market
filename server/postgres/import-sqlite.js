@@ -4,6 +4,7 @@
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),crypto=require('node:crypto');
 const Database=require('better-sqlite3');
 const catalog=require('./catalog-v306950.json');
+const {nativeTables}=require('./extensions');
 const {identifier:q}=require('./connection');
 const {assertMigrationsCurrent}=require('./migrate');
 const table=n=>`bom.${q(n)}`;
@@ -90,10 +91,10 @@ async function importSnapshot(source,db,{batchRows=100,failAfterTable}={}){
     return await db.transaction(async()=>{
       await db.query('SELECT pg_advisory_xact_lock(1112493391, 2)');
       const existing=await db.all("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname='bom' ORDER BY tablename");
-      const allowed=new Set([...catalog.tables.map(t=>t.name),'_pg_migrations','_pg_imports','_pg_maintenance','_pg_auth_epoch']);
+      const allowed=new Set([...catalog.tables.map(t=>t.name),...nativeTables,'_pg_migrations','_pg_imports','_pg_maintenance','_pg_auth_epoch']);
       if(existing.some(t=>!allowed.has(t.tablename)))throw new Error('Unrecognized PostgreSQL application tables; import refused');
-      await db.query(`LOCK TABLE ${catalog.tables.map(t=>table(t.name)).join(',')} IN ACCESS EXCLUSIVE MODE`);
-      for(const t of catalog.tables){
+      await db.query(`LOCK TABLE ${[...catalog.tables.map(t=>t.name),...nativeTables].map(table).join(',')} IN ACCESS EXCLUSIVE MODE`);
+      for(const t of [...catalog.tables,...nativeTables.map(name=>({name}))]){
         if((await db.one(`SELECT COUNT(*)::text AS n FROM ${table(t.name)}`)).n!=='0')throw new Error(`PostgreSQL destination is not empty (${t.name}); import refused`);
       }
       await db.query(`CREATE TABLE IF NOT EXISTS bom._pg_imports (
@@ -104,7 +105,7 @@ async function importSnapshot(source,db,{batchRows=100,failAfterTable}={}){
       // Avoid generating new business events or altering NULL historical entry
       // times. These three specific triggers are restored in this transaction;
       // immutable ledgers and all constraints remain enforced.
-      const triggers=[['finance_entries','trg_v290_finance_insert'],['finance_entries','trg_v290_finance_update'],['excavator_buyer_payment_allocations','set_excavator_allocation_entry_time_v352']];
+      const triggers=[['finance_entries','trg_v290_finance_insert'],['finance_entries','trg_v290_finance_update'],['excavator_buyer_payment_allocations','set_excavator_allocation_entry_time_v352'],['pink_salt_raw_stock_movements','raw_movement_location'],['pink_salt_finished_stock_movements','finished_movement_location']];
       for(const [t,tr] of triggers)await db.query(`ALTER TABLE ${table(t)} DISABLE TRIGGER ${q(tr)}`);
       const sequences=[];
       for(const t of catalog.tables){

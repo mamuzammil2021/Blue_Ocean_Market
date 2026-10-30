@@ -1,8 +1,10 @@
-# Blue Ocean Market V30.70.0
+# Blue Ocean Market V30.70.1
 
 One PostgreSQL database for all modules and business units. Read [migration, setup, validation and Render instructions](POSTGRES_MIGRATION_STATUS.md). Use Node 22, `npm ci`, a private DATABASE_URL and `npm start`. Current validation: `npm run qa:current`.
 
-This is a local migration build. Git and Render have not been changed. The version-specific material below documents earlier SQLite releases.
+This release completes the October 28 QA points. See [QA completion checklist](QA_OCT28_CHECKLIST.md) and [release notes](RELEASE_NOTES.md). Run `npm run qa:oct28` for the targeted checks.
+
+This is a local development build. Git and Render have not been changed. The version-specific material below documents earlier SQLite releases.
 
 Previous SQLite application release: **V30.69.50** — [Quick Test Reset hotfix](V30_69_50_QUICK_RESET_HOTFIX.md).
 

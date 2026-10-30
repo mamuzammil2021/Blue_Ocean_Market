@@ -1193,7 +1193,7 @@ function financeCanCreateManual(){return !!me&&['CEO / Owner','Operations Manage
 // Do not shadow allowed() with legacy role mappings here.
 function navButton(x){
   const count=Number(actionCounts[x[0]]||0),badge=count>0?`<span class="nav-action-badge" data-nav-badge>${count>99?'99+':count}</span>`:'';
-  return `<button data-nav-key="${esc(x[0])}" class="${view===x[0]?'active':''}" title="${esc(t(x[1]))}" aria-current="${view===x[0]?'page':'false'}" onclick="closeMobileSidebar();go('${x[0]}')"><span class="nav-icon">${x[2]||'•'}</span><span class="nav-label">${esc(t(x[1]))}</span>${badge}</button>`;
+  return `<a href="#${encodeURIComponent(x[0])}?unit=${encodeURIComponent(selectedUnitId||'all')}" data-nav-key="${esc(x[0])}" class="${view===x[0]?'active':''}" title="${esc(t(x[1]))}" aria-current="${view===x[0]?'page':'false'}" onclick="if(event.button===0&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();closeMobileSidebar();go('${x[0]}')}"><span class="nav-icon">${x[2]||'•'}</span><span class="nav-label">${esc(t(x[1]))}</span>${badge}</a>`;
 }
 async function refreshActionCounts(){
   if(!me)return;
@@ -1205,7 +1205,7 @@ async function refreshActionCounts(){
     });
   }catch(e){console.warn('Action counters:',e.message)}
 }
-function ensureActiveNavVisible(){setTimeout(()=>document.querySelector('.nav button.active')?.scrollIntoView({block:'nearest',inline:'nearest'}),20)}
+function ensureActiveNavVisible(){setTimeout(()=>document.querySelector('.nav [data-nav-key].active')?.scrollIntoView({block:'nearest',inline:'nearest'}),20)}
 function captureViewState(){
   const c=document.getElementById('content');if(!c)return;const fields={};
   c.querySelectorAll('input[id],select[id],textarea[id],input[name],select[name],textarea[name]').forEach(el=>{const k=el.id||el.name;if(!k||el.type==='file'||el.type==='password')return;fields[k]=el.type==='checkbox'?el.checked:el.value});

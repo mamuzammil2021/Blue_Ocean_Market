@@ -1,3 +1,7 @@
+# V30.70.1 — October 30, 2026
+
+Completed the October 28 QA brief on the PostgreSQL baseline. See RELEASE_NOTES.md and QA_OCT28_CHECKLIST.md for the complete changes and validation.
+
 # V30.69.50
 
 Fix Quick Test Reset blocked by receiving immutability triggers. Restore all target-table triggers transactionally, preserve modern access/configuration tables, retain the existing reset guards and backup behavior, and add dedicated reset regressions.

@@ -1,3 +1,3 @@
-# V30.70.0 local PostgreSQL build
+# V30.70.1 local PostgreSQL build
 
-Read POSTGRES_MIGRATION_STATUS.md for migration and acceptance instructions. No Git push, pull or merge was performed. Do not deploy this build over an existing live installation before the documented snapshot import, reconciliation and staging acceptance. The current user instruction is to keep work local until explicitly asked to push.
+See RELEASE_NOTES.md and QA_OCT28_CHECKLIST.md. Node 22 and the existing PostgreSQL DATABASE_URL are required. The normal startup applies additive migrations 008 and 009. Preserve the existing environment and persistent uploads configuration. No Git or Render action was performed.

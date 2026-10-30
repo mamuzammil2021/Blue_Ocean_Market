@@ -1,3 +1,7 @@
+## V30.70.1 update
+
+The October 28 QA release retains the PostgreSQL-only runtime. Additive migrations 008 and 009 introduce document archive metadata, warehouse transfer audit records and warehouse attribution for stock movements. The original frozen SQLite catalog remains unchanged; the importer recognizes the new native-only table, requires it to be empty, and disables the new movement triggers during exact historical import. See QA_OCT28_CHECKLIST.md. No live database was migrated or deployed during this work.
+
 # V30.70.0 — one PostgreSQL database
 
 All application modules and business units now use the same PostgreSQL database, configured by one `DATABASE_URL`. The server requires PostgreSQL and has no SQLite runtime fallback. SQLite support is retained only in the offline snapshot importer and historical test fixtures. Uploads and backup files remain on the persistent filesystem.

@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "version": "30.70.0",
+  "version": "30.70.1",
   "checks": [
     "Real application startup and additive schema migration",
     "KRW→USD live server preview",

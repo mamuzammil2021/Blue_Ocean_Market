@@ -48,12 +48,12 @@ test('full schema and synthetic import reconcile, rollback, constraints and ledg
   try{
     syntheticSnapshot(snapshot);
     instance=await engine();const {db}=instance;
-    await check('all 271 application tables migrate; reruns do not change the schema',async()=>{
+    await check('baseline and native extension tables migrate; reruns do not change the schema',async()=>{
       const first=await migrate(db);assert(first.installed.length>=5);
       assert.equal((await migrate(db)).installed.length,0);
       await assertMigrationsCurrent(db);
       const tables=await db.all("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname='bom' AND left(tablename,1)<>'_'");
-      assert.equal(tables.length,catalog.tables.length);
+      assert.equal(tables.length,catalog.tables.length+require('../../server/postgres/extensions').nativeTables.length);assert(tables.some(t=>t.tablename==='warehouse_transfers'));assert.equal((await db.one('SELECT COUNT(*)::text n FROM bom.warehouse_transfers')).n,'0');
       const ready=await db.readiness();assert.equal(ready.ready,true);assert.equal(ready.schema,'bom');
     });
     await check('a mid-import failure rolls back every row and restores triggers',async()=>{
