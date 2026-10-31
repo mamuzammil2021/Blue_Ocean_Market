@@ -32,6 +32,6 @@ async function fixture() {
     if(!verified.ok)throw Error('QA prerequisite verification failed: '+JSON.stringify(verified));
   };
 
-  return { clearImport, product, pink, excavator, supplier, customer, accounts, receivers, imports, order, ins, api, payment, fd, makeImport, root, temp, env, child, base, login, db, get routes(){return launched.routes}, logs: launched.logs, password, close: launched.close, restart: launched.restart };
+  return { salesEvent:launched.salesEvent,clearImport, product, pink, excavator, supplier, customer, accounts, receivers, imports, order, ins, api, payment, fd, makeImport, root, temp, env, child, base, login, db, get routes(){return launched.routes}, logs: launched.logs, password, close: launched.close, restart: launched.restart };
 }
 module.exports = { fixture };

@@ -1865,6 +1865,7 @@ const __async = require("./postgres/collections");module.exports = (async () => 
   await require('./packaging-materials').install({ app, db, auth, allow, currentUnit, enforceUnit, audit, upload, accounting: accountingV29, access: accessV316, maybeCreateApproval, markApprovalExecuted });
   await require('./qa43').install({ app, db, auth, allow, currentUnit, enforceUnit, audit, access: accessV316 });
   await require('./oct28-workflows').install({ app, db, auth, allow, currentUnit, enforceUnit, audit, access: accessV316, upload, accounting: accountingV29 });
+  await require('./customer-sales').install({ app, db, auth, allow, currentUnit, enforceUnit, audit, access: accessV316, accounting: accountingV29 });
   await require('./receiving').install({ app, db, auth, allow, currentUnit, enforceUnit, audit, notify, access: accessV316, upload, accounting: accountingV29, financeSync, configuredPaymentAccount, maybeCreateApproval, markApprovalExecuted, normalizePaymentReference, financeLogicalPaymentIds });
   app.locals.bomSyncReceiving45 = async (req, bu = currentUnit(req)) => {const pink = (await db.prepare("SELECT id FROM business_units WHERE name='Pink Salt'").get())?.id;if (req.user && Number(bu) === pink) await db.atomic(async () => await app.locals.bomReceiving44.syncTasks({ ...req, selected_business_unit_id: pink })).immediate();};
   await require('./pink-qa21').install({ app, db, auth, allow, currentUnit, enforceUnit, audit, accounting: accountingV29 });

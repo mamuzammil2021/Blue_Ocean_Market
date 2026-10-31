@@ -106,6 +106,7 @@ async function install({ app, db, auth, currentUnit, enforceUnit, audit, notify,
     } catch (e) {return { ...base, ready: false, source_status: 'Validation Error', warnings: [`Operational source validation failed: ${e.message}`] };}
   }
   async function financeReadiness(j) {
+    if(j.source_type==='Pink Salt Grouped Receipt Allocation')return require('./customer-sales').allocationReadiness(db,j);
     if (!j.finance_entry_id) return { linked: false, ready: true, warnings: [] };
     const f = await db.prepare(`SELECT f.*,b.name business_unit,u.name created_by_name,v.name verified_by_name,
       (SELECT COUNT(*) FROM finance_attachments a WHERE a.finance_entry_id=f.id) attachment_count,
@@ -262,7 +263,7 @@ async function install({ app, db, auth, currentUnit, enforceUnit, audit, notify,
     if (j.source_type === 'Accounting Reversal' && j.reversal_of_id) {const original = await db.prepare("SELECT * FROM accounting_journal_entries WHERE id=?").get(j.reversal_of_id);if (!original || original.status !== 'Posted') return await res.status(409).json({ error: 'The original journal is no longer Posted. Refresh Posting Control before finalizing this reversal.' });}
     const note = text(req.body.note);if (!note) return await res.status(400).json({ error: 'A final-post review note is required.' });
     const tx = db.atomic(async () => {
-      const live = await db.prepare("SELECT * FROM accounting_journal_entries WHERE id=?").get(j.id);if (!live || !['Pending Review', 'Correction Required'].includes(live.status)) throw new Error('This accounting proposal has already changed. Refresh Posting Control.');
+      const live = await db.prepare("SELECT * FROM accounting_journal_entries WHERE id=?").get(j.id);if (!live || !['Pending Review', 'Correction Required'].includes(live.status)) throw new Error('This accounting proposal has already changed. Refresh Posting Control.');if(live.source_type==='Pink Salt Grouped Receipt Allocation'&&!(await require('./customer-sales').allocationReadiness(db,live)).ready)throw new Error('The parent receipt or order changed. Refresh Posting Control before posting this allocation.');
       await db.prepare("UPDATE accounting_journal_entries SET status='Posted',reviewed_by=?,reviewed_at=bom.utc_now(),review_note=?,correction_reason='',posted_at=bom.utc_now(),updated_at=bom.utc_now() WHERE id=?").run(req.user.id, note, j.id);
       if (j.source_type === 'Accounting Reversal' && j.reversal_of_id) {
         const original = await db.prepare("SELECT * FROM accounting_journal_entries WHERE id=?").get(j.reversal_of_id);if (!original || original.status !== 'Posted') throw new Error('The original journal changed before the reversal was posted. Refresh Posting Control.');

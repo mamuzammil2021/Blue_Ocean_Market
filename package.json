@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.70.1",
+  "version": "30.70.2",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -143,7 +143,8 @@
     "postgres:audit": "node scripts/postgres/audit-source.js qa/evidence/postgres-runtime-conversion.json",
     "qa:postgres": "node --test qa/postgres/*.test.js",
     "qa:postgres:runtime": "node qa/postgres/run-suite.cjs",
-    "qa:oct28": "node qa/postgres/oct28.cjs"
+    "qa:oct28": "node qa/postgres/oct28.cjs",
+    "qa:customer-sales": "node qa/postgres/customer-sales.cjs"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -1,0 +1,131 @@
+(node:195) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+TAP version 13
+# (node:202) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: one required database URL, bounded pool, no global precision coercion
+ok 1 - one required database URL, bounded pool, no global precision coercion
+  ---
+  duration_ms: 1.177444
+  type: 'test'
+  ...
+# Subtest: transaction and nested savepoints keep one client and rollback locally
+ok 2 - transaction and nested savepoints keep one client and rollback locally
+  ---
+  duration_ms: 1.156744
+  type: 'test'
+  ...
+# Subtest: separate concurrent requests never share transaction context
+ok 3 - separate concurrent requests never share transaction context
+  ---
+  duration_ms: 0.359832
+  type: 'test'
+  ...
+# Subtest: failed transactions roll back and release; detached work is rejected
+ok 4 - failed transactions roll back and release; detached work is rejected
+  ---
+  duration_ms: 5.478006
+  type: 'test'
+  ...
+# Subtest: overlapping nested siblings fail before a sibling savepoint can interfere
+ok 5 - overlapping nested siblings fail before a sibling savepoint can interfere
+  ---
+  duration_ms: 0.487495
+  type: 'test'
+  ...
+# Subtest: notifications run outside transaction context after commit; rollback discards them
+ok 6 - notifications run outside transaction context after commit; rollback discards them
+  ---
+  duration_ms: 1.97752
+  type: 'test'
+  ...
+# Subtest: business writer lock precedes the serializable snapshot and is always released
+ok 7 - business writer lock precedes the serializable snapshot and is always released
+  ---
+  duration_ms: 0.468596
+  type: 'test'
+  ...
+# (node:203) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: schema generation is reproducible and CHECK lexer ignores literal text
+ok 8 - schema generation is reproducible and CHECK lexer ignores literal text
+  ---
+  duration_ms: 20.457148
+  type: 'test'
+  ...
+# Subtest: full schema and synthetic import reconcile, rollback, constraints and ledgers
+    # Subtest: baseline and native extension tables migrate; reruns do not change the schema
+    ok 1 - baseline and native extension tables migrate; reruns do not change the schema
+      ---
+      duration_ms: 1250.47519
+      type: 'test'
+      ...
+    # Subtest: a mid-import failure rolls back every row and restores triggers
+    ok 2 - a mid-import failure rolls back every row and restores triggers
+      ---
+      duration_ms: 298.971667
+      type: 'test'
+      ...
+    # Subtest: every imported row and all 3453 columns match, including Korean and exact numerics
+    ok 3 - every imported row and all 3453 columns match, including Korean and exact numerics
+      ---
+      duration_ms: 577.794774
+      type: 'test'
+      ...
+    # Subtest: import refuses a nonempty destination
+    ok 4 - import refuses a nonempty destination
+      ---
+      duration_ms: 61.147834
+      type: 'test'
+      ...
+    # Subtest: foreign keys and imported identity sequences are enforced
+    ok 5 - foreign keys and imported identity sequences are enforced
+      ---
+      duration_ms: 14.360582
+      type: 'test'
+      ...
+    # Subtest: receiving facts stay immutable in PostgreSQL
+    ok 6 - receiving facts stay immutable in PostgreSQL
+      ---
+      duration_ms: 11.879612
+      type: 'test'
+      ...
+    # Subtest: finance inserts and updates queue synchronization natively
+    ok 7 - finance inserts and updates queue synchronization natively
+      ---
+      duration_ms: 7.15998
+      type: 'test'
+      ...
+    # Subtest: reconciliation detects a changed historical amount
+    ok 8 - reconciliation detects a changed historical amount
+      ---
+      duration_ms: 162.601809
+      type: 'test'
+      ...
+    # Subtest: an incompatible source schema is rejected before destination changes
+    ok 9 - an incompatible source schema is rejected before destination changes
+      ---
+      duration_ms: 31.591918
+      type: 'test'
+      ...
+    # Subtest: changed migration files cannot be silently reapplied
+    ok 10 - changed migration files cannot be silently reapplied
+      ---
+      duration_ms: 4.577268
+      type: 'test'
+      ...
+    1..10
+ok 9 - full schema and synthetic import reconcile, rollback, constraints and ledgers
+  ---
+  duration_ms: 4812.922696
+  type: 'test'
+  ...
+1..9
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4967.399399

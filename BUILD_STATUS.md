@@ -1,7 +1,7 @@
-# V30.70.1 verified October 28 QA release
+# V30.70.2 — Customer / Sales / Settlement release
 
-All 16 QA points are implemented. Validation passed with 389 workflow checks across the 31 existing regression suites and the new 28-check October 28 suite, 19 database/connection/schema/import tests, 2,569 PostgreSQL SQL plans and 301 JavaScript syntax checks.
+Implements the approved Pink Salt customer/sales redesign, payment-at-sale choices, grouped receipts, provider payouts and integration foundation. Existing commerce and financial engines are reused. See RELEASE_NOTES.md and QA_CUSTOMER_SALES_702.md.
 
-Validation uses Node v22.23.4 and the PGlite PostgreSQL engine, plus real Chromium PDF and desktop/mobile browser checks. English and Korean invoices were visually inspected; licensed Korean fonts are embedded for offline rendering.
+Final results are recorded in qa/evidence/v30_70_2-release.json. Validation uses Node 22, disposable PGlite PostgreSQL-engine data and real Chromium. No hosted acceptance, production concurrency certification or external platform connection is claimed.
 
-Read QA_OCT28_CHECKLIST.md, RELEASE_NOTES.md and qa/evidence/postgres-release.json. Git and Render were not changed. No hosted acceptance or production deployment is claimed.
+Git and Render were not changed for this build.

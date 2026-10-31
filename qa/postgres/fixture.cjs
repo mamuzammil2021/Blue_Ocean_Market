@@ -48,6 +48,7 @@ async function launch({directory,overrides={}}={}){
  }
  async function close(){closed=true;await stop();if(admin){await admin.query('DROP DATABASE IF EXISTS "'+nativeName+'" WITH (FORCE)');await admin.end();admin=null}fs.writeFileSync(path.join(temp,'application.log'),logs);if(process.env.PG_TEST_DEBUG_LOG==='true')console.error(logs.slice(-20000))}
  async function restart(){await stop();closed=false;await start();return child}
- return {root,temp,env,password:env.ADMIN_PASSWORD,base,login,db,maintenance,get child(){return child},get routes(){return routes},logs:()=>logs,close,restart};
+ const salesEvent=(...args)=>new Promise((resolve,reject)=>{const id=++sequence,timeout=setTimeout(()=>{pending.delete(id);reject(Error('Sales event test timeout'))},120000);pending.set(id,{resolve,reject,timeout});child.send({type:'sales-event',id,args})});
+ return {salesEvent,root,temp,env,password:env.ADMIN_PASSWORD,base,login,db,maintenance,get child(){return child},get routes(){return routes},logs:()=>logs,close,restart};
 }
 module.exports={launch};

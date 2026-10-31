@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "node": "v22.23.4",
+  "checks": [
+    "Channels reuse existing commerce masters and allow independent seller accounts",
+    "Direct sale retains existing pricing and stock workflow",
+    "Platform buyer payment is recorded independently of company receipt",
+    "Duplicate external orders are rejected before stock or Finance writes",
+    "One receipt settles multiple orders, creates one Finance movement, and retains unused credit",
+    "Individual and bulk allocation posting wait for parent receipt Finance verification and approval",
+    "Credit application is strict, durable and idempotent without another bank movement",
+    "Marketplace payout reconciles gross, platform fee and net bank receipt with balanced posting proposal",
+    "Marketplace buyer and company settlement states reconcile independently",
+    "Unconfirmed buyer payments and cross-channel payout allocation roll back the entire receipt",
+    "Buyer payment report changes no bank movement and enables later settlement",
+    "Duplicate platform payout references cannot create another receipt",
+    "Unused-credit refunds appear in statements and are separate from order allocations",
+    "External product options map to the existing SKU and commerce mapping records",
+    "External event retries deduplicate and changed payloads flag conflict without rewriting orders",
+    "Customer workspace enforces business-unit boundaries",
+    "Website provider payouts can settle another buyer account while both statements reconcile",
+    "Repeated allocation correction preserves reversed history and creates no extra bank movement",
+    "Posted allocation correction holds operational credit until the controlled reversal is posted",
+    "Refund/adjustment payout offsets consume traceable held platform credit without fake bank refunds or inflated fees",
+    "Credit-only and credit-plus-new-payment reuse the shared engine and count only actual money movement",
+    "Direct sale cancellation retains a clear refund due and the shared refund clears it once",
+    "A grouped-settlement order cannot cancel underneath active receipt allocations",
+    "Invalid allocations roll back money writes and seller-account aliases cannot duplicate one external store",
+    "New sales identities and settlement states survive restart"
+  ],
+  "tested_at": "2026-10-31T06:46:01.655Z"
+}

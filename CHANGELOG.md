@@ -1,3 +1,7 @@
+# V30.70.2 — 31 October 2026
+
+Customer/sales workspace redesign, payment-at-sale choices, grouped receipts, channel-aware platform/provider payouts, held-credit offsets, cross-buyer settlement statements, protected allocation corrections and external identity foundation. See RELEASE_NOTES.md.
+
 # V30.70.1 — October 30, 2026
 
 Completed the October 28 QA brief on the PostgreSQL baseline. See RELEASE_NOTES.md and QA_OCT28_CHECKLIST.md for the complete changes and validation.

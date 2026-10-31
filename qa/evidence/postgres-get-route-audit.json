@@ -1,5 +1,5 @@
 {
-  "total": 221,
+  "total": 222,
   "errors": [],
   "results": [
     {
@@ -808,6 +808,10 @@
     },
     {
       "path": "/api/warehouses-v701",
+      "status": 200
+    },
+    {
+      "path": "/api/pink-salt/sales-channels",
       "status": 200
     },
     {

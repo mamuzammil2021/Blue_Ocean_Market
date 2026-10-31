@@ -1,3 +1,7 @@
+# Blue Ocean Market V30.70.2
+
+Latest release: Pink Salt Customers / Stores, Sales / Orders and Settlement. Read [RELEASE_NOTES.md](RELEASE_NOTES.md) and [QA_CUSTOMER_SALES_702.md](QA_CUSTOMER_SALES_702.md). Existing deployment configuration remains applicable.
+
 # Blue Ocean Market V30.70.1
 
 One PostgreSQL database for all modules and business units. Read [migration, setup, validation and Render instructions](POSTGRES_MIGRATION_STATUS.md). Use Node 22, `npm ci`, a private DATABASE_URL and `npm start`. Current validation: `npm run qa:current`.

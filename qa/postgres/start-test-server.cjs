@@ -24,9 +24,9 @@
  const server=await require('../../server/server');
  if(process.send){
   process.on('message',async message=>{
-   if(!['query','maintenance'].includes(message?.type))return;
+   if(!['query','maintenance','sales-event'].includes(message?.type))return;
    try{
-    const value=message.type==='maintenance'?await require('../../server/postgres/maintenance').perform(server.db,require('../../server/runtime-storage'),message.options):message.raw?await server.db.query(message.sql,message.args||[]):await server.db.prepare(message.sql)[message.mode](...(message.args||[]));
+    const value=message.type==='sales-event'?await require('../../server/customer-sales').receiveEvent(server.db,...message.args):message.type==='maintenance'?await require('../../server/postgres/maintenance').perform(server.db,require('../../server/runtime-storage'),message.options):message.raw?await server.db.query(message.sql,message.args||[]):await server.db.prepare(message.sql)[message.mode](...(message.args||[]));
     process.send({type:'query-result',id:message.id,value:message.raw?{rows:value.rows,rowCount:value.rowCount}:value});
    }catch(e){process.send({type:'query-result',id:message.id,error:{message:e.message,code:e.code,status:e.status}})}
   });

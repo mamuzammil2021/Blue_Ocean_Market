@@ -15,7 +15,9 @@ const fs=require('node:fs'),cp=require('node:child_process'),assert=require('nod
  await run(['scripts/postgres/check-runtime-sql.cjs']);
  await run(['qa/postgres/run-suite.cjs']);
  await run(['qa/postgres/oct28.cjs']);
+ await run(['qa/postgres/customer-sales.cjs']);
+ await run(['qa/postgres/customer-sales-browser.cjs']);
  const suites=JSON.parse(fs.readFileSync('qa/evidence/postgres-regression-run.json'));
- const result={status:'PASS',version:p.version,node:process.version,engine:suites.engine,syntax_files:files,suites:suites.results.length,workflow_checks:suites.results.reduce((n,s)=>n+s.checks,0)+JSON.parse(fs.readFileSync('qa/evidence/oct28.json')).checks.length,tested_at:new Date().toISOString(),render_deployed:false,git_pushed:false};
+ const result={status:'PASS',version:p.version,node:process.version,engine:suites.engine,syntax_files:files,suites:suites.results.length,workflow_checks:suites.results.reduce((n,s)=>n+s.checks,0)+JSON.parse(fs.readFileSync('qa/evidence/oct28.json')).checks.length+JSON.parse(fs.readFileSync('qa/evidence/customer-sales-702.json')).checks.length+JSON.parse(fs.readFileSync('qa/evidence/customer-sales-702-browser.json')).checks.length,tested_at:new Date().toISOString(),render_deployed:false,git_pushed:false};
  fs.writeFileSync('qa/evidence/postgres-release.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));
 })().catch(error=>{console.error(error);process.exitCode=1});

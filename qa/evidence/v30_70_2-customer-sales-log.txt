@@ -1,0 +1,27 @@
+(node:14) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Channels reuse existing commerce masters and allow independent seller accounts
+PASS Direct sale retains existing pricing and stock workflow
+PASS Platform buyer payment is recorded independently of company receipt
+PASS Duplicate external orders are rejected before stock or Finance writes
+PASS One receipt settles multiple orders, creates one Finance movement, and retains unused credit
+PASS Individual and bulk allocation posting wait for parent receipt Finance verification and approval
+PASS Credit application is strict, durable and idempotent without another bank movement
+PASS Marketplace payout reconciles gross, platform fee and net bank receipt with balanced posting proposal
+PASS Marketplace buyer and company settlement states reconcile independently
+PASS Unconfirmed buyer payments and cross-channel payout allocation roll back the entire receipt
+PASS Buyer payment report changes no bank movement and enables later settlement
+PASS Duplicate platform payout references cannot create another receipt
+PASS Unused-credit refunds appear in statements and are separate from order allocations
+PASS External product options map to the existing SKU and commerce mapping records
+PASS External event retries deduplicate and changed payloads flag conflict without rewriting orders
+PASS Customer workspace enforces business-unit boundaries
+PASS Website provider payouts can settle another buyer account while both statements reconcile
+PASS Repeated allocation correction preserves reversed history and creates no extra bank movement
+PASS Posted allocation correction holds operational credit until the controlled reversal is posted
+PASS Refund/adjustment payout offsets consume traceable held platform credit without fake bank refunds or inflated fees
+PASS Credit-only and credit-plus-new-payment reuse the shared engine and count only actual money movement
+PASS Direct sale cancellation retains a clear refund due and the shared refund clears it once
+PASS A grouped-settlement order cannot cancel underneath active receipt allocations
+PASS Invalid allocations roll back money writes and seller-account aliases cannot duplicate one external store
+PASS New sales identities and settlement states survive restart

@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Customer list is compact with six columns and three clear financial cards",
+    "Customer sections load independently and restore directly on refresh",
+    "Customer section back navigation restores the previous section",
+    "New sale from customer profile preselects the customer",
+    "Sale saves once and opens payment review while remaining unpaid until receipt confirmation",
+    "Payment at sale supports a partial receipt through the shared money engine",
+    "Combined customer payment history reflects the order payment without duplicate receipt rows",
+    "Marketplace sale retains external identity and buyer payment while payout remains pending",
+    "Order payment section restores on refresh",
+    "Platform settlement carries order allocations and payout identity into the shared receipt review",
+    "Platform payout UI records gross allocation, net company receipt and fee correctly",
+    "Channel and external SKU mapping forms save into the existing commerce foundation",
+    "Credit at sale opens the existing-credit choice and settles without another bank movement",
+    "Customer profile fits mobile width",
+    "Korean customer workspace renders localized headings and balances",
+    "No uncaught browser errors across tested workflows"
+  ],
+  "errors": [],
+  "tested_at": "2026-10-31T06:44:11.057Z"
+}

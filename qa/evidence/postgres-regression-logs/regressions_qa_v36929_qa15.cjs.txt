@@ -1,4 +1,4 @@
-(node:3043) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(node:484) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
 (Use `node --trace-warnings ...` to show where the warning was created)
 PASS KRW source pays USD invoice without quote metadata, retaining exact debit, fee, FX difference and one Finance record
 PASS Existing and optional historical quotation metadata are preserved

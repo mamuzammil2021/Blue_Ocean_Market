@@ -1,0 +1,18 @@
+(node:5) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Customer list is compact with six columns and three clear financial cards
+PASS Customer sections load independently and restore directly on refresh
+PASS Customer section back navigation restores the previous section
+PASS New sale from customer profile preselects the customer
+PASS Sale saves once and opens payment review while remaining unpaid until receipt confirmation
+PASS Payment at sale supports a partial receipt through the shared money engine
+PASS Combined customer payment history reflects the order payment without duplicate receipt rows
+PASS Marketplace sale retains external identity and buyer payment while payout remains pending
+PASS Order payment section restores on refresh
+PASS Platform settlement carries order allocations and payout identity into the shared receipt review
+PASS Platform payout UI records gross allocation, net company receipt and fee correctly
+PASS Channel and external SKU mapping forms save into the existing commerce foundation
+PASS Credit at sale opens the existing-credit choice and settles without another bank movement
+PASS Customer profile fits mobile width
+PASS Korean customer workspace renders localized headings and balances
+PASS No uncaught browser errors across tested workflows
