@@ -17,7 +17,7 @@
     "Only an actual open assigned Finance correction enables Correct & Resubmit",
     "Another CEO cannot correct/resubmit a record created by the original user",
     "Authorized correction succeeds once, preserves task chain and waits for Finance acceptance",
-    "Original authorized CEO retains Correct Posted Cost and creates a controlled reversal proposal, never silent reposting",
+    "Posted cost exposes no direct edit action and rejects direct amendment",
     "All generated Accounting proposals remain balanced",
     "Legacy unverified cost retains its permitted ordinary editing path",
     "Existing legacy Finance-verified cost is visibly locked and direct edit/ordinary void are rejected"
@@ -119,45 +119,15 @@
       "workflow": "import_cost",
       "company_account_id": 7,
       "company_currency": "KRW",
-      "company_amount": 1700,
-      "invoice_currency": "KRW",
-      "invoice_amount": 1700,
-      "advance_krw": 0,
-      "fee_krw": 0,
-      "fx_difference_krw": 0,
-      "finance_entry_id": 6,
-      "correction_of_id": null,
-      "status": "Reversed"
-    },
-    {
-      "id": 9,
-      "workflow": "import_cost",
-      "company_account_id": 7,
-      "company_currency": "KRW",
-      "company_amount": 1850,
-      "invoice_currency": "KRW",
-      "invoice_amount": 1850,
-      "advance_krw": 0,
-      "fee_krw": 0,
-      "fx_difference_krw": 0,
-      "finance_entry_id": 8,
-      "correction_of_id": 8,
-      "status": "Active"
-    },
-    {
-      "id": 8,
-      "workflow": "import_cost",
-      "company_account_id": 7,
-      "company_currency": "KRW",
       "company_amount": 1800,
       "invoice_currency": "KRW",
       "invoice_amount": 1800,
       "advance_krw": 0,
       "fee_krw": 0,
       "fx_difference_krw": 0,
-      "finance_entry_id": 7,
-      "correction_of_id": 7,
-      "status": "Reversed"
+      "finance_entry_id": 6,
+      "correction_of_id": null,
+      "status": "Active"
     }
   ]
 }

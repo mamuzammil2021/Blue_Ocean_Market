@@ -1,3 +1,7 @@
+# V30.70.3 November 2 QA
+
+Fix supplier/import refresh triggers, stable cost/Finance revisions, verified cost editing, warehouse management placement, packaging navigation/search/return routing, tab readability and accounting-stage clarity. Add migration 011 preserving revision history. See QA_NOV2_703.md.
+
 # V30.70.2 — 31 October 2026
 
 Customer/sales workspace redesign, payment-at-sale choices, grouped receipts, channel-aware platform/provider payouts, held-credit offsets, cross-buyer settlement statements, protected allocation corrections and external identity foundation. See RELEASE_NOTES.md.

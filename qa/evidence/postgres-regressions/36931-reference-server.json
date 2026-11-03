@@ -29,17 +29,6 @@
   "production_data_used": false,
   "stored_transactions": [
     {
-      "id": 1,
-      "workflow": "import_cost",
-      "reference": "QA-31-Ref",
-      "reference_normalized": "qa31ref",
-      "company_account_id": 4,
-      "company_amount": 10,
-      "finance_entry_id": 1,
-      "correction_of_id": null,
-      "status": "Reversed"
-    },
-    {
       "id": 2,
       "workflow": "import_cost",
       "reference": "",
@@ -117,46 +106,35 @@
       "status": "Active"
     },
     {
-      "id": 10,
+      "id": 1,
       "workflow": "import_cost",
       "reference": "QA31-CHANGED-VALID",
       "reference_normalized": "qa31changedvalid",
       "company_account_id": 4,
       "company_amount": 10,
-      "finance_entry_id": 11,
-      "correction_of_id": 9,
-      "status": "Active"
-    },
-    {
-      "id": 9,
-      "workflow": "import_cost",
-      "reference": "QA-31-Ref",
-      "reference_normalized": "qa31ref",
-      "company_account_id": 4,
-      "company_amount": 10,
-      "finance_entry_id": 10,
-      "correction_of_id": 1,
-      "status": "Reversed"
-    },
-    {
-      "id": 11,
-      "workflow": "import",
-      "reference": "QA31-AUTH-ORIGINAL",
-      "reference_normalized": "qa31authoriginal",
-      "company_account_id": 4,
-      "company_amount": 10,
-      "finance_entry_id": 12,
+      "finance_entry_id": 1,
       "correction_of_id": null,
       "status": "Active"
     },
     {
-      "id": 13,
+      "id": 11,
       "workflow": "import_cost",
       "reference": "QA31-ROLLBACK",
       "reference_normalized": "qa31rollback",
       "company_account_id": 4,
       "company_amount": 10,
-      "finance_entry_id": 15,
+      "finance_entry_id": 13,
+      "correction_of_id": null,
+      "status": "Active"
+    },
+    {
+      "id": 9,
+      "workflow": "import",
+      "reference": "QA31-AUTH-ORIGINAL",
+      "reference_normalized": "qa31authoriginal",
+      "company_account_id": 4,
+      "company_amount": 10,
+      "finance_entry_id": 10,
       "correction_of_id": null,
       "status": "Active"
     }

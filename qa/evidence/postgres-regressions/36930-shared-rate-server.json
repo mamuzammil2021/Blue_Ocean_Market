@@ -118,25 +118,10 @@
       "fee_krw": 1000,
       "fx_difference_krw": 10000,
       "finance_entry_id": 7,
-      "status": "Reversed"
-    },
-    {
-      "id": 8,
-      "workflow": "import_cost",
-      "company_currency": "KRW",
-      "company_amount": 141000,
-      "bank_rate": 1400,
-      "invoice_currency": "USD",
-      "invoice_carrying_rate": 1300,
-      "company_rate_to_krw": 1,
-      "allocation_krw": 130000,
-      "fee_krw": 1000,
-      "fx_difference_krw": 10000,
-      "finance_entry_id": 8,
       "status": "Active"
     },
     {
-      "id": 9,
+      "id": 8,
       "workflow": "supplier_refund",
       "company_currency": "KRW",
       "company_amount": 14000,
@@ -147,7 +132,7 @@
       "allocation_krw": 14000,
       "fee_krw": 0,
       "fx_difference_krw": 0,
-      "finance_entry_id": 9,
+      "finance_entry_id": 8,
       "status": "Active"
     }
   ]

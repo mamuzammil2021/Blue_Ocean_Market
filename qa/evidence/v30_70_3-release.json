@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "version": "30.70.3",
+  "node": "v22.23.0",
+  "browser": "Chromium 138.0.7204.0",
+  "database_engine": "PGlite PostgreSQL SQL engine",
+  "regression_suites": 31,
+  "regression_checks": 360,
+  "additional_checks": {
+    "oct28": 28,
+    "customer-sales-702": 25,
+    "customer-sales-702-browser": 16,
+    "nov2": 27
+  },
+  "workflow_checks": 456,
+  "database_tests": 19,
+  "upgrade_tests": 1,
+  "sql_plans": 2613,
+  "syntax_files": 307,
+  "frontend_assets": 127,
+  "test_data": "disposable synthetic fixtures",
+  "pdf_harness": "real Chromium through a test-only Playwright adapter; production Chrome CLI not certified",
+  "native_postgres_multisession_tested": false,
+  "render_deployed": false,
+  "git_pushed": false,
+  "git_pulled": false,
+  "git_merged": false,
+  "tested_at": "2026-11-03T05:43:09.431862+00:00"
+}

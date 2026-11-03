@@ -21,25 +21,25 @@
   "timings": [
     {
       "operation": "import_metadata_save_and_same_key_concurrent_retry",
-      "ms": 48.479779999999664
+      "ms": 70.26144299999942
     },
     {
       "operation": "sensitive_import_challenge_and_authorized_save",
-      "ms": 70.67104499999914
+      "ms": 91.57619899999918
     },
     {
       "operation": "receive_and_concurrent_same_key_retry_without_pdf",
-      "ms": 64.99337899999955
+      "ms": 84.88636399999996
     },
     {
       "operation": "supplier_statement_csv",
-      "ms": 23.46678299999985,
-      "bytes": 3337
+      "ms": 32.71984899999916,
+      "bytes": 3336
     },
     {
       "operation": "supplier_statement_pdf",
-      "ms": 208.8461559999996,
-      "bytes": 223230
+      "ms": 951.6404129999992,
+      "bytes": 164147
     }
   ],
   "financial": [
@@ -48,7 +48,7 @@
       "rate": 1000,
       "company_amount": 10,
       "bank_krw": 10000,
-      "finance_entry_id": 4,
+      "finance_entry_id": 3,
       "advance_krw": 50
     },
     {
@@ -56,7 +56,7 @@
       "rate": 5,
       "company_amount": 10,
       "bank_krw": 50,
-      "finance_entry_id": 5,
+      "finance_entry_id": 4,
       "advance_krw": 50
     },
     {
@@ -64,7 +64,7 @@
       "rate": 1,
       "company_amount": 10,
       "bank_krw": 10,
-      "finance_entry_id": 6,
+      "finance_entry_id": 5,
       "advance_krw": 50
     },
     {
@@ -72,7 +72,7 @@
       "rate": 1500,
       "company_amount": 10,
       "bank_krw": 15000,
-      "finance_entry_id": 7,
+      "finance_entry_id": 6,
       "advance_krw": 50
     },
     {
@@ -80,7 +80,7 @@
       "rate": 9,
       "company_amount": 10,
       "bank_krw": 90,
-      "finance_entry_id": 8,
+      "finance_entry_id": 7,
       "advance_krw": 50
     },
     {
@@ -88,7 +88,7 @@
       "rate": 190,
       "company_amount": 10,
       "bank_krw": 1900,
-      "finance_entry_id": 9,
+      "finance_entry_id": 8,
       "advance_krw": 50
     }
   ],

@@ -10,14 +10,15 @@ const fs=require('node:fs'),cp=require('node:child_process'),assert=require('nod
  let admin,name,env={...process.env};
  try{
   if(env.PG_TEST_SERVER_URL){admin=new(require('pg').Pool)({connectionString:env.PG_TEST_SERVER_URL,max:1});name='bom_foundation_'+crypto.randomBytes(10).toString('hex');await admin.query('CREATE DATABASE "'+name+'"');const url=new URL(env.PG_TEST_SERVER_URL);url.pathname='/'+name;env.TEST_DATABASE_URL=url.toString()}
-  await run(['--test','qa/postgres/connection.test.js','qa/postgres/database.test.js'],env);
+  await run(['--test','qa/postgres/connection.test.js','qa/postgres/database.test.js','qa/postgres/nov2-upgrade.test.js'],env);
  }finally{if(admin){if(name)await admin.query('DROP DATABASE IF EXISTS "'+name+'" WITH (FORCE)');await admin.end()}}
  await run(['scripts/postgres/check-runtime-sql.cjs']);
  await run(['qa/postgres/run-suite.cjs']);
  await run(['qa/postgres/oct28.cjs']);
  await run(['qa/postgres/customer-sales.cjs']);
  await run(['qa/postgres/customer-sales-browser.cjs']);
+ await run(['qa/postgres/nov2.cjs']);
  const suites=JSON.parse(fs.readFileSync('qa/evidence/postgres-regression-run.json'));
- const result={status:'PASS',version:p.version,node:process.version,engine:suites.engine,syntax_files:files,suites:suites.results.length,workflow_checks:suites.results.reduce((n,s)=>n+s.checks,0)+JSON.parse(fs.readFileSync('qa/evidence/oct28.json')).checks.length+JSON.parse(fs.readFileSync('qa/evidence/customer-sales-702.json')).checks.length+JSON.parse(fs.readFileSync('qa/evidence/customer-sales-702-browser.json')).checks.length,tested_at:new Date().toISOString(),render_deployed:false,git_pushed:false};
+ const result={status:'PASS',version:p.version,node:process.version,engine:suites.engine,syntax_files:files,suites:suites.results.length,workflow_checks:suites.results.reduce((n,s)=>n+s.checks,0)+JSON.parse(fs.readFileSync('qa/evidence/oct28.json')).checks.length+JSON.parse(fs.readFileSync('qa/evidence/customer-sales-702.json')).checks.length+JSON.parse(fs.readFileSync('qa/evidence/customer-sales-702-browser.json')).checks.length+JSON.parse(fs.readFileSync('qa/evidence/nov2.json')).checks.length,tested_at:new Date().toISOString(),render_deployed:false,git_pushed:false};
  fs.writeFileSync('qa/evidence/postgres-release.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result));
 })().catch(error=>{console.error(error);process.exitCode=1});

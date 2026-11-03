@@ -37,23 +37,6 @@
         "workflow": "import_cost",
         "counterparty_type": "other",
         "counterparty_id": 0,
-        "company_account_id": 4,
-        "company_currency": "KRW",
-        "company_amount": 141000,
-        "invoice_currency": "USD",
-        "invoice_amount": 100,
-        "allocation_krw": 130000,
-        "fee_krw": 1000,
-        "fx_difference_krw": 10000,
-        "finance_entry_id": 2,
-        "correction_of_id": 1,
-        "status": "Reversed"
-      },
-      {
-        "id": 4,
-        "workflow": "import_cost",
-        "counterparty_type": "other",
-        "counterparty_id": 0,
         "company_account_id": 7,
         "company_currency": "KRW",
         "company_amount": 500,
@@ -62,12 +45,12 @@
         "allocation_krw": 500,
         "fee_krw": 0,
         "fx_difference_krw": 0,
-        "finance_entry_id": 3,
+        "finance_entry_id": 2,
         "correction_of_id": null,
         "status": "Active"
       },
       {
-        "id": 5,
+        "id": 4,
         "workflow": "import_cost",
         "counterparty_type": "pink_salt_cost_payee",
         "counterparty_id": 1,
@@ -79,7 +62,7 @@
         "allocation_krw": 130000,
         "fee_krw": 1000,
         "fx_difference_krw": 10000,
-        "finance_entry_id": 4,
+        "finance_entry_id": 3,
         "correction_of_id": null,
         "status": "Active"
       }
@@ -92,26 +75,14 @@
         "original_currency": "KRW",
         "original_amount": 141000,
         "amount": 141000,
-        "receiver_name_snapshot": "Synthetic One-Time Freight",
-        "receiver_account_number_masked_snapshot": "****0056",
-        "status": "Voided",
-        "verification_status": "Correction Required"
-      },
-      {
-        "id": 2,
-        "source_id": 3,
-        "payment_account_id": 4,
-        "original_currency": "KRW",
-        "original_amount": 141000,
-        "amount": 141000,
         "receiver_name_snapshot": "Corrected Freight Recipient",
         "receiver_account_number_masked_snapshot": "****6655",
         "status": "Voided",
         "verification_status": "Verified / Correct"
       },
       {
-        "id": 3,
-        "source_id": 4,
+        "id": 2,
+        "source_id": 3,
         "payment_account_id": 7,
         "original_currency": "KRW",
         "original_amount": 500,
@@ -122,8 +93,8 @@
         "verification_status": "Pending Verification"
       },
       {
-        "id": 4,
-        "source_id": 5,
+        "id": 3,
+        "source_id": 4,
         "payment_account_id": 4,
         "original_currency": "KRW",
         "original_amount": 141000,

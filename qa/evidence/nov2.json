@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Unverified cost edit retains one active Finance, transaction and operational identity",
+    "Retrying a saved amendment does not duplicate money or history",
+    "Finance-requested pending cost correction updates the same Finance record and task chain",
+    "Before/after history and Updated indicator survive multiple edits",
+    "Finance-verified cost is locked by server and UI action policy",
+    "Posted cost has no direct Correct Posted Cost action and cannot bypass lock",
+    "Formal posted-cost correction preserves Finance identity and requires a reviewed journal reversal",
+    "Corrected cost posts only after reviewed reversal with one Finance record throughout",
+    "Materials search matches case-insensitively on PostgreSQL",
+    "Purchase and receipt retries create one journal per stage, one payable and one inventory value",
+    "Warehouse filter returns the actual material stock location",
+    "Material status and search filters combine and preserve the destination",
+    "Editing from material list returns to the same filtered list",
+    "Editing from material details returns to material details",
+    "All three Packaging Materials sidebar destinations work and highlight correctly",
+    "Warehouse creation stays inside Warehouses and updates the warehouse selector",
+    "Warehouse edit and archive update the same workspace",
+    "Supplier close button is last and focus triggers no reload",
+    "Idle supplier profile does not poll or refresh after 30 seconds",
+    "Opening and cancelling supplier advance leaves the supplier profile unchanged",
+    "Import tabs and focus preserve mounted record and verified-cost lock",
+    "Payment review and locked Receive Goods action do not refresh import details",
+    "Receiving history opens its own destination and browser Back restores import details",
+    "Import tabs fit mobile and remain readable",
+    "Posting queue explicitly distinguishes purchase recognition and stock receipt",
+    "Accounting stages display in the selected Korean language",
+    "No uncaught browser errors in November QA workflows"
+  ],
+  "errors": []
+}

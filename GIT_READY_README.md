@@ -1,7 +1,7 @@
-# V30.70.2 source handoff
+# V30.70.3 Git ready source
 
-Complete source release built on V30.70.1. No Git or Render changes were made. The existing repository and previous branches remain unchanged.
+This package is based directly on V30.70.2 and contains the November 2 QA fixes. See RELEASE_NOTES.md and QA_NOV2_703.md.
 
-Use a new branch when this build is approved for pushing. Do not copy node_modules, runtime data, uploads, credentials or a local Git directory into the release. Check SOURCE_SHA256SUMS.txt before use.
+Install dependencies with npm ci under Node 22. Reuse the existing PostgreSQL environment. Startup applies migration 011 automatically; no additional environment variables are required. Keep a database backup before any hosted upgrade. Migrations 001–010 remain unchanged.
 
-See RELEASE_NOTES.md for behavior, QA_CUSTOMER_SALES_702.md for acceptance, and the existing Render/PostgreSQL setup instructions for deployment. No new environment variables are required.
+The release has not been pushed to Git or deployed. When pushing is authorized, use a new branch; do not pull or merge unless separately instructed.

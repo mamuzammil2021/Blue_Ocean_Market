@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "node": "v22.23.4",
+  "node": "v22.23.0",
   "checks": [
     "Channels reuse existing commerce masters and allow independent seller accounts",
     "Direct sale retains existing pricing and stock workflow",
@@ -28,5 +28,5 @@
     "Invalid allocations roll back money writes and seller-account aliases cannot duplicate one external store",
     "New sales identities and settlement states survive restart"
   ],
-  "tested_at": "2026-10-31T06:46:01.655Z"
+  "tested_at": "2026-11-03T05:33:47.998Z"
 }

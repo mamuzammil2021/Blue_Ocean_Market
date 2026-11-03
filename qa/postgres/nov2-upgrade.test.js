@@ -1,0 +1,10 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),{PGlite}=require('@electric-sql/pglite'),{createDatabase}=require('../../server/postgres/connection'),{migrate,assertMigrationsCurrent}=require('../../server/postgres/migrate');
+test('V30.70.2 upgrade preserves revision history and allows repeated stable amendments',async()=>{
+ const engine=new PGlite();await engine.waitReady;await engine.exec('SET search_path TO bom,pg_catalog');const query=async(s,a=[])=>a.length?engine.query(s,a):((await engine.exec(s)).at(-1)||{rows:[]});const db=createDatabase({pool:{query,connect:async()=>({query,release(){}})}}),directory=fs.mkdtempSync(path.join(os.tmpdir(),'bom-702-upgrade-'));
+ try{const source=path.resolve(__dirname,'../../server/postgres/migrations');for(const f of fs.readdirSync(source))if(/^00|^010-/.test(f))fs.copyFileSync(path.join(source,f),path.join(directory,f));assert.equal((await migrate(db,{directory})).total,10);
+ await db.query("INSERT INTO bom.pink_operational_revisions(operational_table,operational_id,previous_transaction_id,current_transaction_id,user_id,reason,before_json,after_json) VALUES('pink_salt_import_costs',1,1,1,1,'Original amendment','{\"amount\":100}','{\"amount\":200}')");
+ const before=await db.all('SELECT * FROM bom.pink_operational_revisions');const result=await migrate(db);assert.deepEqual(result.installed,['011-cost-amendment-history.sql']);assert.deepEqual(await db.all('SELECT * FROM bom.pink_operational_revisions'),before);
+ await db.query("INSERT INTO bom.pink_operational_revisions(operational_table,operational_id,previous_transaction_id,current_transaction_id,user_id,reason,before_json,after_json) VALUES('pink_salt_import_costs',1,1,1,1,'Second amendment','{\"amount\":200}','{\"amount\":250}')");assert.equal((await db.all('SELECT * FROM bom.pink_operational_revisions')).length,2);assert.deepEqual((await migrate(db)).installed,[]);await assertMigrationsCurrent(db);
+ }finally{await engine.close();fs.rmSync(directory,{recursive:true,force:true})}
+});
