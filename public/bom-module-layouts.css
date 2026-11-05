@@ -112,3 +112,10 @@ html.bom-ui .pack-sidebar .pack-nav-arrow::after {content:'';width:6px;height:6p
 #packSidebar a[data-pack-nav].active{background:#23486c;color:#fff!important;border-left-color:#60a5fa;font-weight:600}
 #packSidebar a[data-pack-nav]:focus-visible,[data-import-tabs] .btn:focus-visible{outline:2px solid #60a5fa;outline-offset:2px}
 @media(max-width:600px){[data-import-tabs] .btn{flex:1 1 calc(50% - 6px);min-width:0}}
+/* Searchable recipe control keeps one visible material field. */
+.recipe-picker49{display:grid;grid-template-columns:minmax(0,1fr) 150px auto;gap:12px;align-items:end}
+.recipe-combo704{position:relative}.recipe-combo704 [role=listbox]{position:absolute;top:100%;left:0;right:0;max-height:240px;overflow:auto;z-index:20;background:#fff;border:1px solid #cbd5e1;border-radius:6px;box-shadow:0 8px 20px #0002}
+.recipe-combo704 [role=option]{display:block;width:100%;padding:10px;text-align:left;background:#fff;color:#1e293b;border:0;cursor:pointer;font:inherit}
+.recipe-combo704 [role=option]:hover,.recipe-combo704 [role=option]:focus{background:#e8f2ff;outline:2px solid #66a9ed;outline-offset:-2px}
+@media(max-width:600px){.recipe-picker49{grid-template-columns:minmax(0,1fr)}.recipe-combo704 [role=listbox]{max-height:200px}}
+[data-import-part][hidden]{display:none!important}

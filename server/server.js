@@ -8,6 +8,7 @@ const __async = require("./postgres/collections");module.exports = (async () => 
   const numbering = require('./numbering-service');await numbering.ensure();
   const SECRET = String(process.env.JWT_SECRET || '');if (SECRET.length < 32) throw new Error('JWT_SECRET must be configured with at least 32 characters.');
   const app = express(),PORT = process.env.PORT || 3000;await require('./postgres/request-boundaries').install(app, db);
+  require('./document-rows').install(app);
   app.use(require('./financial-action-context').middleware);
   await require('./financial-action-context').install(app);
   const root = path.join(__dirname, '..'),uploads = storage.uploadDir;fs.mkdirSync(uploads, { recursive: true });

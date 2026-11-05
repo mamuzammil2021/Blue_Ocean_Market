@@ -255,7 +255,8 @@ async function submit(ev){ev.preventDefault();const s=state,f=form();if(!s||s.bu
   window.dispatchEvent(new CustomEvent('bom-sales-payment-saved',{detail:{workflow:s.workflow,id:s.id}}));
   closeModalAfterSave();state=null;
   toast(result.approval_required?T('Payment submitted for approval.','지급 승인 요청이 제출되었습니다.'):T('Currency settlement recorded.','통화 정산이 기록되었습니다.'));
-  const origin=window.BOMRouter?.parse(s.origin);await Promise.allSettled([window.refreshActionCounts?.(),window.refreshNotifCount?.()]);if(origin?.view==='psSuppliers'&&origin.kind==='supplier')await psRefreshSupplier315(origin.id);else if(origin?.kind)await BOMRouter.refreshRecord();else if(s.workflow==='packaging_purchase')await psPackPurchase(s.id,'payments');else if(s.workflow==='import'||s.workflow==='import_cost')await psImportDetail(s.id);else if(s.workflow.startsWith('supplier_'))await psRefreshSupplier315(s.id);else if(s.workflow.startsWith('order'))await (window.psOrderDetail313||window.psOrderDetail)(s.id);else if(s.workflow.startsWith('customer_'))await psCustomerAccount313(s.id);
+  const origin=window.BOMRouter?.parse(s.origin);await Promise.allSettled([window.refreshActionCounts?.(),window.refreshNotifCount?.()]);if(origin){if(location.hash!==s.origin)await BOMRouter.navigate(origin.view,origin.kind,origin.id,origin.section,{params:Object.fromEntries(origin.params),mutationCommitted:true});else if(origin.view==='psSuppliers'&&origin.kind==='supplier')await psRefreshSupplier315(origin.id);else if(origin.kind)await BOMRouter.refreshRecord();else await BOMRouter.navigate(origin.view,'',0,origin.section,{params:Object.fromEntries(origin.params),mutationCommitted:true});}
+
  }catch(e){blockError(e)}finally{saving=false;if(state===s){s.busy=false;submitButton.disabled=false}}
 }
 async function history(kind,id,host){
