@@ -1,6 +1,6 @@
-# Blue Ocean Market V30.70.4
+# Blue Ocean Market V30.70.5
 
-Current release: all 15 November 4 QA points. See RELEASE_NOTES.md and QA_NOV4_704.md.
+Current release: all four November 8 QA points. See RELEASE_NOTES.md and QA_NOV8_705.md.
 
 Latest release: Pink Salt Customers / Stores, Sales / Orders and Settlement. Read [RELEASE_NOTES.md](RELEASE_NOTES.md) and [QA_CUSTOMER_SALES_702.md](QA_CUSTOMER_SALES_702.md). Existing deployment configuration remains applicable.
 

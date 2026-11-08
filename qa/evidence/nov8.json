@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "checks": [
+    "One server search finds supplier, specification and location across all pages, case-insensitively",
+    "Stock sorting and pagination apply to the complete filtered result",
+    "Repeated failed repacking returns the real shortage and clears the processing claim after rollback",
+    "Retry succeeds after correcting stock; replay produces one batch, raw/packaging deduction, finished output and waste",
+    "Concurrent identical submissions cannot create duplicate production or stock movements",
+    "Raw Stock has one live search; query, refresh, focus, clear and full-result sort work together",
+    "Confirmed purchase editing opens directly as a page, survives refresh and saves back to the purchase",
+    "Purchase edit cancellation returns directly to the original record without a stray modal",
+    "Import cart supports add, edit and remove with accurate weight, FX, currency and purchase totals",
+    "Import cart saves the reviewed lines through the existing import API with unchanged money semantics",
+    "Unchanged empty repacking submissions show a real validation error and release the form lock",
+    "Actual input and difference update live in both the batch row and total requirements",
+    "Adding/removing output rows recalculates requirements while preserving manually entered input and batch selection",
+    "Repacking shows the actual API error and permits an unchanged retry without a stale processing lock",
+    "Corrected repacking completes once, reuses its operation key, updates inventory and returns to the batch list",
+    "Invalid import cart entries show a specific error without adding an invalid line",
+    "Import cart fits mobile width and renders Korean controls",
+    "No uncaught browser errors across the November 8 workflows"
+  ],
+  "errors": [],
+  "tested_at": "2026-11-08T07:48:05.331Z"
+}

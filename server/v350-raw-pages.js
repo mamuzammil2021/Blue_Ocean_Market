@@ -9,17 +9,19 @@ const STOCK_SUMMARY_SQL = `WITH balances AS (SELECT x.id,x.salt_grade,COALESCE(S
  COALESCE(SUM(CASE WHEN lower(salt_grade) ILIKE '%mesh%' THEN available_kg ELSE 0 END),0) mesh_kg,
  COALESCE(SUM(CASE WHEN STRPOS(salt_grade,'2-3')>0 OR STRPOS(salt_grade,'2–3')>0 THEN available_kg ELSE 0 END),0) mm_2_3_kg,
  COALESCE(SUM(CASE WHEN STRPOS(salt_grade,'3-5')>0 OR STRPOS(salt_grade,'3–5')>0 THEN available_kg ELSE 0 END),0) mm_3_5_kg FROM balances`;
-const STOCK_PAGE_SQL = `WITH chosen AS MATERIALIZED (SELECT x.id,x.salt_grade,x.specification,x.bag_size_kg,x.bag_count,x.total_weight_kg,x.received_weight_kg,x.storage_location,x.landed_cost_krw,x.receiving_unit_cost_krw,
- i.id import_id,i.import_no,i.container_no,i.actual_arrival,i.invoice_currency,s.name supplier FROM pink_salt_import_items x
- JOIN pink_salt_imports i ON i.id=x.import_id LEFT JOIN pink_salt_suppliers s ON s.id=i.supplier_id AND s.business_unit_id=i.business_unit_id
- WHERE %WHERE% ORDER BY i.id DESC,x.id LIMIT ? OFFSET ?)
- SELECT c.*,COALESCE((SELECT SUM(m.quantity_kg) FROM pink_salt_raw_stock_movements m WHERE m.import_item_id=c.id),0) available_kg,
- COALESCE(c.receiving_unit_cost_krw,CASE WHEN c.received_weight_kg>0 THEN c.landed_cost_krw/c.received_weight_kg ELSE 0 END) landed_cost_per_kg
- FROM chosen c ORDER BY c.import_id DESC,c.id`;
-async function stockPage(db, bu, query = {}) {const search = String(query.search || '').trim().slice(0, 100),where = ["i.business_unit_id=?", "i.status='Received'"],a = [bu];
-  if (search) {where.push('(x.salt_grade LIKE ? OR x.specification LIKE ? OR x.storage_location LIKE ? OR i.import_no LIKE ? OR i.container_no LIKE ?)');a.push(...Array(5).fill('%' + search + '%'));}
-  const w = where.join(' AND '),total = (await db.prepare(`SELECT COUNT(*) n FROM pink_salt_import_items x JOIN pink_salt_imports i ON i.id=x.import_id WHERE ${w}`).get(...a)).n,pagination = paging(query, total);
-  return { rows: await db.prepare(STOCK_PAGE_SQL.replace("%WHERE%", w)).all(...a, pagination.pageSize, (pagination.page - 1) * pagination.pageSize), pagination, summary: await db.prepare(STOCK_SUMMARY_SQL).get(bu) };
+const STOCK_PAGE_SQL = `SELECT x.id,x.salt_grade,x.specification,x.bag_size_kg,x.bag_count,x.total_weight_kg,x.received_weight_kg,x.storage_location,x.landed_cost_krw,x.receiving_unit_cost_krw,
+ i.id import_id,i.import_no,i.container_no,i.actual_arrival,i.invoice_currency,s.name supplier,
+ COALESCE((SELECT SUM(m.quantity_kg) FROM pink_salt_raw_stock_movements m WHERE m.import_item_id=x.id),0) available_kg,
+ COALESCE(x.receiving_unit_cost_krw,CASE WHEN x.received_weight_kg>0 THEN x.landed_cost_krw/x.received_weight_kg ELSE 0 END) landed_cost_per_kg
+ FROM pink_salt_import_items x JOIN pink_salt_imports i ON i.id=x.import_id
+ LEFT JOIN pink_salt_suppliers s ON s.id=i.supplier_id AND s.business_unit_id=i.business_unit_id
+ WHERE %WHERE% ORDER BY %ORDER% LIMIT ? OFFSET ?`;
+async function stockPage(db, bu, query = {}) {
+ const search=String(query.search||'').trim().slice(0,100),where=["i.business_unit_id=?","i.status='Received'"],a=[bu];
+ if(search){where.push('(x.salt_grade ILIKE ? OR x.specification ILIKE ? OR x.storage_location ILIKE ? OR i.import_no ILIKE ? OR i.container_no ILIKE ? OR i.supplier_invoice_no ILIKE ? OR s.name ILIKE ?)');a.push(...Array(7).fill('%'+search+'%'))}
+ const w=where.join(' AND '),total=(await db.prepare(`SELECT COUNT(*) n FROM pink_salt_import_items x JOIN pink_salt_imports i ON i.id=x.import_id LEFT JOIN pink_salt_suppliers s ON s.id=i.supplier_id AND s.business_unit_id=i.business_unit_id WHERE ${w}`).get(...a)).n,pagination=paging(query,total);
+ const columns={import_no:'i.import_no',salt_grade:'x.salt_grade',supplier:'s.name',available_kg:'available_kg',landed_cost:'landed_cost_per_kg',storage_location:'x.storage_location'},sort=columns[query.sort]||'i.import_no',direction=query.direction==='asc'?'ASC':'DESC';
+ return {rows:await db.prepare(STOCK_PAGE_SQL.replace('%WHERE%',w).replace('%ORDER%',sort+' '+direction+' NULLS LAST,i.id DESC,x.id')).all(...a,pagination.pageSize,(pagination.page-1)*pagination.pageSize),pagination,summary:await db.prepare(STOCK_SUMMARY_SQL).get(bu)};
 }
 async function install({ app, db, auth, allow, currentUnit, enforceUnit }) {
   const getUnit = async (req, res) => {const pink = (await db.prepare("SELECT id FROM business_units WHERE lower(name) ILIKE '%pink%salt%' AND status!='Archived' ORDER BY id LIMIT 1").get())?.id;

@@ -74,6 +74,7 @@ function transactional(db,handler){
    return original.end.call(res,Buffer.concat(chunks),endArguments?.[0]);
   }catch(error){
    restore();
+   try{await req.bomIdempotencyRollback?.()}catch(cleanupError){console.error('Idempotency rollback cleanup:',cleanupError.message)}
    if(res.destroyed)return;
    if(rejectedReply)return original.end.call(res,Buffer.concat(chunks),endArguments?.[0]);
    res.removeHeader('Content-Encoding');res.removeHeader('Content-Length');res.removeHeader('Content-Disposition');res.type('application/json');

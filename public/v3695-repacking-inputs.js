@@ -57,23 +57,26 @@
     translateElement(summary);
   }
 
+  function updateInputMeta(){
+    document.querySelectorAll('#psProdInputs .v3695-input-meta').forEach((meta,i)=>{
+      const x=window.psProdInputs[i],b=meta.querySelectorAll('span b');if(!x||b.length<3)return;
+      const required=n(psProdRequirements().get(x.salt_grade)),actual=n(x.input_weight_kg),difference=actual-required;
+      b[0].textContent=qty(required,3)+' kg';b[1].textContent=actual>0?qty(actual,3)+' kg':'—';
+      b[2].textContent=actual>0?(difference>=0?'+':'')+qty(difference,3)+' kg':'—';
+    });
+  }
   window.psRebuildProdInputs=function(){
     const req=window.psProdRequirements(),keep=[];
-    for(const [grade] of req){
-      const existing=(window.psProdInputs||[]).filter(x=>x.salt_grade===grade);
-      if(existing.length)keep.push(...existing);
-      else keep.push({salt_grade:grade,import_item_id:'',input_weight_kg:''}); // actual input is manual by design
-    }
+    for(const [grade] of req){const existing=(window.psProdInputs||[]).filter(x=>x.salt_grade===grade);if(existing.length)keep.push(...existing);else keep.push({salt_grade:grade,import_item_id:'',input_weight_kg:''})}
     window.psProdInputs=keep;
-    renderRequirementSummary();
-    window.psDrawProdInputs();
+    const rows=[...document.querySelectorAll('#psProdInputs .ps-raw-input')];
+    // Quantity input/change may fire as focus moves into raw salt. Preserve the
+    // existing controls when categories have not changed, instead of detaching
+    // the very input the operator is about to use.
+    if(rows.length!==keep.length||rows.some((r,i)=>r.querySelector('input[readonly]')?.value!==keep[i].salt_grade)||(!rows.length&&!document.querySelector('#psProdInputs .empty')))window.psDrawProdInputs();
+    else{renderRequirementSummary();updateInputMeta()}
   };
-
-  window.psProdInputChanged=function(index,value){
-    if(!window.psProdInputs?.[index])return;
-    window.psProdInputs[index].input_weight_kg=value;
-    renderRequirementSummary();
-  };
+  window.psProdInputChanged=function(index,value){if(!window.psProdInputs?.[index])return;window.psProdInputs[index].input_weight_kg=value;renderRequirementSummary();updateInputMeta()};
 
   window.psDrawProdInputs=function(){
     const el=document.getElementById('psProdInputs');if(!el)return;

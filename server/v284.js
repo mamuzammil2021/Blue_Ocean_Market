@@ -97,6 +97,9 @@ async function install({ app, db, auth, allow, currentUnit, enforceUnit, isFinan
         return await res.status(409).json({ error: 'This action is already being processed. Please wait.', duplicate_prevented: true });
       }
       const rowId = Number(inserted.lastInsertRowid);
+      // The request boundary rolls rejected business writes back. Release this
+      // pre-handler claim afterwards, outside that rolled-back transaction.
+      req.bomIdempotencyRollback = async () => {await db.prepare("DELETE FROM request_idempotency WHERE id=? AND status='processing'").run(rowId);};
       const originalJson = res.json.bind(res);
       res.json = async (body) => {
         try {

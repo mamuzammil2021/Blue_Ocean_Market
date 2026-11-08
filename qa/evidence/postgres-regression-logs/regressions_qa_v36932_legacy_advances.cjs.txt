@@ -1,4 +1,4 @@
-(node:590) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(node:596) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
 (Use `node --trace-warnings ...` to show where the warning was created)
 PASS Legacy unverified owned advance updates its existing Finance and operational records atomically
 PASS Legacy amendment retries replay once and changed evidence cannot reuse a committed operation key
