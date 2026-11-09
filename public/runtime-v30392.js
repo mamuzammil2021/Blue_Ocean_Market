@@ -2510,7 +2510,7 @@ document.addEventListener('click',e=>{const a=e.target.closest?.('a');if(!isStor
 window.previewAttachmentV319=function(url,name='Attachment',mime=''){return openStoredAttachmentV321(url,name||'Attachment')};
 
 function formNeedsBusinessValidationV321(form){if(form.dataset.bomfx==='true')return false;return !!token&&!!me&&!isPublicAuthForm(form)&&!!form?.querySelector('input[name*="phone" i],input[name*="mobile" i],input[name*="email" i],select[name="payment_method"],select[name="method"],select[name="mode_of_payment"],select[name$="payment_method"]')}
-async function validateFormV321(form){if(!formNeedsBusinessValidationV321(form))return true;form.querySelectorAll('input[name*="phone" i],input[name*="mobile" i]').forEach(enhanceInternationalPhone);form.querySelectorAll('input[name*="email" i]').forEach(enhanceEmail);enhancePaymentDirections(form);for(const r of form.querySelectorAll('input[name="payment_reference"]'))r.setCustomValidity('');let ok=form.checkValidity();const contact=[...form.querySelectorAll('input[data-v321-phone="1"],input[data-v321-email="1"]')];for(const i of contact)if(!(await remoteContactCheck(i)))ok=false;for(const m of paymentMethods(form)){const ref=referenceFor(m),sel=accountFor(m);if(ref&&sel&&!sel.disabled&&!(await validateReference(ref,m,sel)))ok=false}if(!ok)form.reportValidity();return ok}
+async function validateFormV321(form){if(!formNeedsBusinessValidationV321(form))return true;form.querySelectorAll('input[name*="phone" i],input[name*="mobile" i]').forEach(enhanceInternationalPhone);form.querySelectorAll('input[name*="email" i]').forEach(enhanceEmail);enhancePaymentDirections(form);for(const r of form.querySelectorAll('input[name="payment_reference"]'))r.setCustomValidity('');let ok=form.checkValidity();const contact=[...form.querySelectorAll('input[data-v321-phone="1"],input[data-v321-email="1"]')];for(const i of contact)if(!(await remoteContactCheck(i)))ok=false;for(const m of paymentMethods(form)){const ref=referenceFor(m),sel=accountFor(m);if(ref&&sel&&!m.matches(':disabled')&&!ref.matches(':disabled')&&!sel.matches(':disabled')&&!(await validateReference(ref,m,sel)))ok=false}if(!ok)form.reportValidity();return ok}
 window.validateBusinessFormV321=validateFormV321;window.formNeedsBusinessValidationV321=formNeedsBusinessValidationV321;window.isPublicAuthFormV321=isPublicAuthForm;
 
 function enhanceStoredLinks(root=document){root.querySelectorAll?.('a[href*="/uploads/"]').forEach(viewLabel)}
@@ -3604,7 +3604,7 @@ const newMachineBefore332=window.excavatorNewMachine;if(typeof newMachineBefore3
 const chooseSupplierBefore332=window.chooseBuySupplier;if(typeof chooseSupplierBefore332==='function')window.chooseBuySupplier=async function(){const r=await chooseSupplierBefore332.apply(this,arguments);try{await v332RefreshTokenAccounts()}catch(_){}return r};
 const selectSupplierBefore332=window.selectBuySupplier;if(typeof selectSupplierBefore332==='function')window.selectBuySupplier=async function(){const r=await selectSupplierBefore332.apply(this,arguments);try{await v332RefreshTokenAccounts()}catch(_){}return r};
 // Existing base function used JSON even though token evidence is a file. Use multipart so payment evidence and new account fields reach the server together.
-window.saveSimpleExcavatorMachine=async function(e){e.preventDefault();const form=e.target,btn=form.querySelector('button[type="submit"]');if(!form.reportValidity())return;try{if(btn){btn.disabled=true;btn.textContent=typeof tr==='function'?tr('common.saving'):'Saving…'}const fd=new FormData(form),result=await multipartApi('/api/excavator/assets',fd);if(result.approval_required){if(btn){btn.disabled=false;btn.textContent=t('Save Machine')}toast(result.message||'Machine purchase submitted for approval');return}if(document.getElementById('v324WorkflowSurface')&&typeof closeWorkflowPageV324==='function')closeWorkflowPageV324();else closeModal(true);if(result.new_supplier)toast('Machine saved · New supplier added to the supplier list for future use');else if(result.requirement_matches)toast(`Machine saved · ${result.requirement_matches} supplier requirement match(es) found`);else toast('Machine saved successfully');loadView().catch(err=>console.error('Excavator refresh:',err))}catch(x){if(btn){btn.disabled=false;btn.textContent=t('Save Machine')}toast(x.message||'Machine could not be saved')}};
+window.saveSimpleExcavatorMachine=async function(e){e.preventDefault();const form=e.target,btn=form.querySelector('button[type="submit"]');if(!form.reportValidity())return;try{if(btn){btn.disabled=true;btn.textContent=typeof tr==='function'?tr('common.saving'):'Saving…'}const fd=new FormData(form),result=await multipartApi('/api/excavator/assets',fd);if(result.approval_required){if(btn){btn.disabled=false;btn.textContent=t('Save Machine')}toast(result.message||'Machine purchase submitted for approval');return}markFormSaved();closeModal(true);if(result.new_supplier)toast('Machine saved · New supplier added to the supplier list for future use');else if(result.requirement_matches)toast(`Machine saved · ${result.requirement_matches} supplier requirement match(es) found`);else toast('Machine saved successfully');await BOMRouter.navigate('excavator','','','',{replace:true,mutationCommitted:true})}catch(x){if(btn){btn.disabled=false;btn.textContent=t('Save Machine')}toast(x.message||'Machine could not be saved')}};
 
 /* Supplier payment buttons use the shared manager; closing it refreshes the restored parent selector. */
 const paymentFormBefore332=window.excavatorPaymentForm;if(typeof paymentFormBefore332==='function')window.excavatorPaymentForm=async function(){const r=await paymentFormBefore332.apply(this,arguments);const f=document.querySelector('#modalRoot form[onsubmit*="saveExcavatorPayment"]');const b=f?.querySelector('[data-v330-receiver] button');if(b)b.textContent=t('Add / Manage Accounts');return r};
@@ -4508,8 +4508,18 @@ function wireSaleValidation381(){const form=saleForm381();if(!form||form.dataset
   refreshSaleVisuals381(form);
 }
 let saleCleanupQueued381=false;
-const saleObserver381=new MutationObserver(()=>{if(saleCleanupQueued381)return;saleCleanupQueued381=true;requestAnimationFrame(()=>{saleCleanupQueued381=false;wireSaleValidation381();refreshSaleVisuals381()})});
-saleObserver381.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','required','style']});
+const saleObserver381=new MutationObserver(records=>{
+  const form=saleForm381();
+  if(!form||saleCleanupQueued381)return;
+  const relevant=records.some(record=>{
+    if(form.contains(record.target))return true;
+    return record.type==='childList'&&[...record.addedNodes].some(node=>node===form||node.contains?.(form));
+  });
+  if(!relevant)return;
+  saleCleanupQueued381=true;
+  requestAnimationFrame(()=>{saleCleanupQueued381=false;wireSaleValidation381();refreshSaleVisuals381()});
+});
+saleObserver381.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['required','style']});
 
 /* --------------------------------------------------------------------------
    Buy Machine token account selectors — one fast cached/parallel path.

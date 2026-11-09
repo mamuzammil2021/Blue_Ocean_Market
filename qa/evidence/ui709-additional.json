@@ -1,0 +1,40 @@
+{
+  "results": [
+    {
+      "suite": "oct28",
+      "code": 0,
+      "ms": 12701,
+      "checks": 28
+    },
+    {
+      "suite": "customer-sales",
+      "code": 0,
+      "ms": 10745,
+      "checks": 25
+    },
+    {
+      "suite": "customer-sales-browser",
+      "code": 0,
+      "ms": 12900,
+      "checks": 16
+    },
+    {
+      "suite": "nov2",
+      "code": 0,
+      "ms": 45537,
+      "checks": 27
+    },
+    {
+      "suite": "nov4",
+      "code": 0,
+      "verification": "passed on targeted rerun",
+      "checks": 26
+    },
+    {
+      "suite": "nov8",
+      "code": 0,
+      "ms": 11333,
+      "checks": 18
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+(node:5) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS Editing a draft can atomically save and confirm the purchase
+PASS Purchase receipt agrees across material details, stock list and warehouse totals
+PASS Production consumes BOM packaging and measured raw input and creates finished stock exactly once
+PASS General packaging wastage deducts actual warehouse stock without a hidden unassigned negative
+PASS Packaging transfers preserve total stock and update both warehouse balances
+PASS Location wastage updates stock and insufficient production rolls back every stock write
+PASS Raw-salt wastage agrees between the operational ledger and warehouses
+PASS Quick customer and sale save together; retries create one customer, sale and stock dispatch
+PASS Failed sale leaves no orphan quick customer
+PASS Sales, cancellation and finished-product wastage retain reconciled warehouse totals
+PASS Purchase/sales HTML omit zero optional monetary rows and columns while retaining nonzero negative adjustments
+PASS Real English and Korean purchase/sales PDFs render without optional zero monetary headings
+PASS Image API rejects PDFs and forged image MIME data and accepts a real PNG
+PASS Customer addresses validate input and keep the default invoice address synchronized
+PASS Import payment immediately updates outstanding cards and preserves the import route
+PASS Documents hides payment and cost panels; Payments reveals them
+PASS Draft UI hides irrelevant actions, prechecks Save as draft and supports confirmation from Edit
+PASS Purchase list offers Confirm Purchase only for draft rows
+PASS Warehouse search filters while typing and retains focus and query
+PASS Addresses supports add, edit, default and remove in the profile
+PASS New customer can be added within sale and successful sale returns to Sales list
+PASS Cancelling optional payment review preserves the unpaid sale and Sales list
+PASS Customer receipt updates profile credit without redirecting to Sales details
+PASS Recipe uses one searchable material dropdown and adds the selected material
+PASS Product image picker advertises only image formats and flags invalid selections
+PASS No uncaught browser errors in November 4 workflows

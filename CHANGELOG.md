@@ -1,3 +1,7 @@
+# V30.70.9 — November 9 QA
+
+Make Excavator Make and Model optional at purchase, route completed purchases to the Machine List, and repair Sale Type responsiveness. Review and unwind linked token payments during purchase deletion. Compact standard row actions in shared record tables. See [release notes](RELEASE_NOTES.md).
+
 # V30.70.3 November 2 QA
 
 Fix supplier/import refresh triggers, stable cost/Finance revisions, verified cost editing, warehouse management placement, packaging navigation/search/return routing, tab readability and accounting-stage clarity. Add migration 011 preserving revision history. See QA_NOV2_703.md.

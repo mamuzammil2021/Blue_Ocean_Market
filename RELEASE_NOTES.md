@@ -1,13 +1,8 @@
-# Blue Ocean Market V30.70.8
+# Blue Ocean Market V30.70.9
 
-This build applies the approved list layout to the cleaned V30.70.7 source.
+- Excavator Buy Machine accepts an empty Make or Model. Saving from another screen returns to the Excavator Machine List. Purchases with a zero token skip token payment validation.
+- The purchase deletion review identifies linked token payments and explains how each will be handled. Unverified Finance entries are voided, verified proposals are cancelled before posting, and posted payments receive a pending reversal in Accounting Posting Control. The original Finance and journal records and the purchase deletion audit remain available.
+- The Sell Machine form responds to repeated changes between Export Sale and Local Sale. Export destination fields are active for export sales.
+- Shared record tables use compact icon controls for standard row actions including Open and Delete. The Actions column sizes to its controls. Icons have localized hover and focus labels and retain their permissions and confirmations. The development standard in [AGENTS.md](AGENTS.md) applies to future screens.
 
-- Existing KPI groups use equal-height, lightly tinted cards above their record controls. Desktop groups and filter toolbars stay in a single row. Narrow screens use a compact grid or wrap the controls, and wide tables scroll inside their own surface.
-- In-app tables use the bundled Bootstrap and Tabler classes, with consistent headers, numeric alignment, responsive wrappers and footer styling. Existing tables and mobile record layouts retain their domain behavior.
-- Short row actions use icons with localized hover and focus text. Text stays visible on phones and touch screens. Transaction and review actions keep their descriptive labels.
-- Pink Salt Imports adds a count across all filtered records and page totals for active shipments. The optional sort direction is under More filters. The existing server-side search, pagination and sort state drive the list.
-- The project’s development rules in `AGENTS.md` define the layout and checks for future screens.
-
-Current browser evidence is written to `qa/evidence/ui708-browser.json` and `qa/evidence/ui708-matrix.json`. The release gate writes its result to `qa/evidence/postgres-release.json`.
-
-Validation passed on Node 22 with PGlite and Chromium. The build passed 500 workflow checks, 20 database and upgrade tests, 294 screen cases and 18 focused UI and navigation checks. A Packaging tab-retention failure was corrected and the affected suite passed on rerun. PDF checks used the local Chromium PDF API adapter.
+Run `npm run qa:nov9` for the targeted PostgreSQL-compatible and Chromium tests. The screen matrix covers 294 desktop, tablet and phone cases in English and Korean.

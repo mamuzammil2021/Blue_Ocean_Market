@@ -93,16 +93,19 @@ html.bom-ui .bom-record-tooltip {
   }
   html.bom-ui :is(#content,#modalRoot) .bom-record-filters > :is(.field,label,input,select) {min-width:86px}
 }
-@media (min-width:701px) and (hover:hover) and (pointer:fine) {
-  html.bom-ui .bom-record-action {position:relative;min-width:36px;padding-inline:8px}
-  html.bom-ui .bom-record-action-label {
-    position:absolute;
-    width:1px;
-    height:1px;
-    overflow:hidden;
-    clip-path:inset(50%);
-    white-space:nowrap;
-  }
+html.bom-ui .bom-record-action {position:relative;min-width:var(--bom-control);padding-inline:7px}
+html.bom-ui .bom-record-action-label {
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip-path:inset(50%);
+  white-space:nowrap;
+}
+html.bom-ui .bom-record-action:is(.danger,[data-bom-action=delete],[data-bom-action=void],[data-bom-action=remove]) {
+  background:#fff2f3;
+  border-color:#f1cdd4;
+  color:#a91c33;
 }
 @media (max-width:600px) {
   html.bom-ui :is(#content,#modalRoot) .bom-record-summary {grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -140,10 +143,19 @@ html.bom-ui :is(.v285-section-actions,.v318-posting-head > .actions).bom-record-
   margin:0;
   flex:0 1 auto;
 }
-@media (min-width:1000px) and (hover:hover) and (pointer:fine) {
-  html.bom-ui .bom-record-table td.bom-actions-cell:has(.bom-record-action):not(:has(:is(button,a.btn):not(.bom-record-action))) {
-    min-width:64px;
-    width:1%;
-    white-space:nowrap;
-  }
+html.bom-ui .bom-record-table .bom-record-action-column {
+  width:1% !important;
+  min-width:0 !important;
+  max-width:none !important;
+  white-space:nowrap;
+  padding-inline:8px;
+}
+html.bom-ui .bom-record-table .bom-record-action-column .btn {margin:2px}
+html.bom-ui .bom-record-table th.bom-record-action-column {
+  background:#e9f0fa;
+  color:#243953;
+}
+@media (max-width:600px) {
+  html.bom-ui .bom-mobile-records td.bom-record-action-column {width:auto !important;white-space:normal}
+  html.bom-ui .bom-record-action {min-width:44px}
 }

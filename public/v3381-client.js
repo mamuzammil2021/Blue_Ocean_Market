@@ -77,8 +77,18 @@ function wireSaleValidation381(){const form=saleForm381();if(!form||form.dataset
   refreshSaleVisuals381(form);
 }
 let saleCleanupQueued381=false;
-const saleObserver381=new MutationObserver(()=>{if(saleCleanupQueued381)return;saleCleanupQueued381=true;requestAnimationFrame(()=>{saleCleanupQueued381=false;wireSaleValidation381();refreshSaleVisuals381()})});
-saleObserver381.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','required','style']});
+const saleObserver381=new MutationObserver(records=>{
+  const form=saleForm381();
+  if(!form||saleCleanupQueued381)return;
+  const relevant=records.some(record=>{
+    if(form.contains(record.target))return true;
+    return record.type==='childList'&&[...record.addedNodes].some(node=>node===form||node.contains?.(form));
+  });
+  if(!relevant)return;
+  saleCleanupQueued381=true;
+  requestAnimationFrame(()=>{saleCleanupQueued381=false;wireSaleValidation381();refreshSaleVisuals381()});
+});
+saleObserver381.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['required','style']});
 
 /* --------------------------------------------------------------------------
    Buy Machine token account selectors — one fast cached/parallel path.

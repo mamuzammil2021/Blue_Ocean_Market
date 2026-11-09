@@ -1,0 +1,20 @@
+PASS One server search finds supplier, specification and location across all pages, case-insensitively
+PASS Stock sorting and pagination apply to the complete filtered result
+PASS Repeated failed repacking returns the real shortage and clears the processing claim after rollback
+PASS Retry succeeds after correcting stock; replay produces one batch, raw/packaging deduction, finished output and waste
+PASS Concurrent identical submissions cannot create duplicate production or stock movements
+PASS Raw Stock has one live search; query, refresh, focus, clear and full-result sort work together
+PASS Confirmed purchase editing opens directly as a page, survives refresh and saves back to the purchase
+PASS Purchase edit cancellation returns directly to the original record without a stray modal
+PASS Import cart supports add, edit and remove with accurate weight, FX, currency and purchase totals
+PASS Import cart saves the reviewed lines through the existing import API with unchanged money semantics
+PASS Unchanged empty repacking submissions show a real validation error and release the form lock
+PASS Actual input and difference update live in both the batch row and total requirements
+PASS Adding/removing output rows recalculates requirements while preserving manually entered input and batch selection
+PASS Repacking shows the actual API error and permits an unchanged retry without a stale processing lock
+PASS Corrected repacking completes once, reuses its operation key, updates inventory and returns to the batch list
+PASS Invalid import cart entries show a specific error without adding an invalid line
+PASS Import cart fits mobile width and renders Korean controls
+PASS No uncaught browser errors across the November 8 workflows
+(node:945) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(Use `node --trace-warnings ...` to show where the warning was created)

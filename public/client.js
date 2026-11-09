@@ -711,8 +711,8 @@ async function excavatorNewMachine(){
           <div class="field"><label>Machine Name</label><input name="machine_name" placeholder="e.g. Hyundai R215LC-9S" required></div>
           <div class="field"><label>Machine Type</label><select name="type"><option>Excavator</option><option>Loader</option><option>Backhoe</option><option>Dozer</option><option>Other Equipment</option></select></div>
           <div class="field"><label>Condition</label><select name="condition_status"><option>Used</option><option>Refurbished</option><option>Damaged</option></select></div>
-          <div class="field"><label>Make</label><input name="make" required></div>
-          <div class="field"><label>Model</label><input name="model" required></div>
+          <div class="field"><label>Make</label><input name="make"></div>
+          <div class="field"><label>Model</label><input name="model"></div>
           <div class="field"><label>Year</label><input name="year" type="number"></div>
           <div class="field"><label>Serial / Chassis No.</label><input name="serial_no"></div>
           <div class="field"><label>Purchase Date</label><input name="purchase_date" type="date" required></div>
@@ -721,7 +721,7 @@ async function excavatorNewMachine(){
       </div>
 
       <div class="field"><label>Purchase Token (KRW)</label><input name="purchase_token" type="number" min="0" step="1" value="0" oninput="togglePurchaseTokenFields(this.form)"><small class="muted">Leave this as 0 when no payment is being recorded during purchase.</small></div>
-      <div id="purchaseTokenFields" class="card token-payment-fields" style="display:none;margin:12px 0">
+      <fieldset id="purchaseTokenFields" class="card token-payment-fields" style="display:none;margin:12px 0;min-width:0" disabled>
         <div class="section-title"><div><h3 style="margin:0">Token Payment Details</h3><div class="muted">Reference and receipt/evidence are mandatory only when the token amount is greater than zero.</div></div></div>
         <div class="grid g3">
           <div class="field"><label>Token Payment Method *</label><select name="token_payment_method" onchange="togglePurchaseTokenFields(this.form)"><option>Bank</option><option>Cash</option><option>Card</option><option>Other</option></select></div>
@@ -729,7 +729,7 @@ async function excavatorNewMachine(){
           <div class="field"><label id="tokenPaymentReferenceLabel">Token Payment Reference *</label><input name="token_payment_reference" autocomplete="off" placeholder="Bank transfer, receipt or payment reference"></div>
         </div>
         <div class="field"><label>Purchase Token Receipt / Evidence *</label><input name="payment_evidence" type="file" accept="application/pdf,image/*" multiple><small class="muted">The token payment cannot be saved without supporting evidence.</small></div>
-      </div>
+      </fieldset>
       <div class="field"><label>Notes</label><textarea name="notes"></textarea></div>
       <div class="actions"><button type="button" class="btn" onclick="closeModal()">Cancel</button><button class="btn primary">Save Machine</button></div>
     </form>`);
@@ -737,7 +737,7 @@ async function excavatorNewMachine(){
   window._buySupplierMachines=[];
   togglePurchaseTokenFields(document.querySelector('#purchaseTokenFields')?.closest('form'));
 }
-function togglePurchaseTokenFields(form){const amount=Number(form?.querySelector('[name="purchase_token"]')?.value||0),box=form?.querySelector('#purchaseTokenFields'),reference=form?.querySelector('[name="token_payment_reference"]'),date=form?.querySelector('[name="token_paid_date"]'),evidence=form?.querySelector('[name="payment_evidence"]'),method=form?.querySelector('[name="token_payment_method"]'),cash=String(method?.value||'').trim().toLowerCase()==='cash',label=form?.querySelector('#tokenPaymentReferenceLabel');if(box)box.style.display=amount>0?'block':'none';if(date)date.required=amount>0;if(evidence)evidence.required=amount>0;if(reference){reference.required=amount>0&&!cash;reference.placeholder=cash?'Optional for cash':'Required for non-cash payment';if(cash)reference.setCustomValidity('')}if(label)label.textContent=cash?'Token Payment Reference':'Token Payment Reference *'}
+function togglePurchaseTokenFields(form){const amount=Number(form?.querySelector('[name="purchase_token"]')?.value||0),box=form?.querySelector('#purchaseTokenFields'),reference=form?.querySelector('[name="token_payment_reference"]'),date=form?.querySelector('[name="token_paid_date"]'),evidence=form?.querySelector('[name="payment_evidence"]'),method=form?.querySelector('[name="token_payment_method"]'),cash=String(method?.value||'').trim().toLowerCase()==='cash',label=form?.querySelector('#tokenPaymentReferenceLabel');if(box){box.style.display=amount>0?'block':'none';box.disabled=!(amount>0)}if(date)date.required=amount>0;if(evidence)evidence.required=amount>0;if(reference){reference.required=amount>0&&!cash;reference.placeholder=cash?'Optional for cash':'Required for non-cash payment';if(cash)reference.setCustomValidity('')}if(label)label.textContent=cash?'Token Payment Reference':'Token Payment Reference *'}
 function hideBuySupplierResults(){const results=document.getElementById('buySupplierResults');if(results){results.style.display='none';results.innerHTML='';results.setAttribute('aria-hidden','true')}}
 function positionBuySupplierResults(){const search=document.getElementById('buySupplierSearch'),results=document.getElementById('buySupplierResults'),field=document.getElementById('buySupplierSearchField');if(!search||!results||!field)return;results.style.top=(search.offsetTop+search.offsetHeight+5)+'px'}
 function filterBuySupplierResults(value){
@@ -934,8 +934,30 @@ async function fillExcavatorBuyer(id,opts={}){
     refreshExcavatorPaymentSourceSummary();
   }catch(e){toast(e.message)}
 }
-function toggleExcavatorExportFields(value){const wrap=document.getElementById('exExportFields'),country=document.querySelector('[name="destination_country"]'),other=document.querySelector('[name="other_destination_country"]');if(wrap)wrap.style.display=value==='Export Sale'?'block':'none';if(country)country.required=value==='Export Sale';if(value!=='Export Sale'&&other){other.value='';other.required=false;}}
-function toggleOtherDestination(value){const w=document.getElementById('exOtherCountryWrap'),other=document.querySelector('[name="other_destination_country"]');if(w)w.style.display=value==='__OTHER__'?'block':'none';if(other)other.required=value==='__OTHER__';}
+function toggleExcavatorExportFields(value){
+  const form=document.getElementById('excavatorSaleForm');
+  const country=form?.elements.destination_country;
+  const wrap=form?.querySelector('#exExportFields');
+  const isExport=value==='Export Sale';
+  if(wrap)wrap.style.display=isExport?'block':'none';
+  if(country){
+    country.required=isExport;
+    country.disabled=!isExport;
+    if(!isExport)country.setCustomValidity('');
+    toggleOtherDestination(country.value);
+  }
+}
+function toggleOtherDestination(value){
+  const form=document.getElementById('excavatorSaleForm');
+  const wrap=form?.querySelector('#exOtherCountryWrap'),other=form?.elements.other_destination_country;
+  const active=form?.elements.sale_type?.value==='Export Sale'&&value==='__OTHER__';
+  if(wrap)wrap.style.display=active?'block':'none';
+  if(other){
+    other.required=active;
+    other.disabled=!active;
+    if(!active)other.setCustomValidity('');
+  }
+}
 function toggleExcavatorPaymentSource(value){
   const form=document.getElementById('excavatorSaleForm'),select=document.getElementById('exPaymentSource'),advance=document.getElementById('exAdvancePaymentInfo'),fresh=document.getElementById('exNewPaymentFields');
   if(!form||!select)return;
@@ -971,7 +993,30 @@ async function excavatorPaymentForm(id){modal(`<h2>Add Payment</h2><form onsubmi
 
 async function excavatorDocuments(id){const docs=await api('/api/excavator/assets/'+id+'/documents');modal(`<h2>Documents</h2><p class="muted">Attach multiple files now or later. Previous documents are never replaced.</p><form onsubmit="uploadExcavatorDocuments(event,${id})" enctype="multipart/form-data"><div class="grid g2"><div class="field"><label>Stage</label><select name="stage">${['Purchase','Costs','Repair','Parts','Local Sale','Export Preparation','Export/Shipping','Payment','General'].map(x=>`<option>${x}</option>`).join('')}</select></div><div class="field"><label>Files</label><input name="files" type="file" multiple required></div></div><div class="actions"><button class="btn primary">Upload Documents</button></div></form><div class="table-wrap" style="margin-top:12px"><table class="table"><tr><th>Stage</th><th>File</th><th>Date</th><th>Open</th></tr>${docs.map(d=>`<tr><td>${esc(d.stage)}</td><td>${esc(d.original_name)}</td><td>${esc(d.created_at)}</td><td><a class="btn small" href="${esc(d.file_path)}" target="_blank">Open</a></td></tr>`).join('')||'<tr><td colspan="4">No documents yet.</td></tr>'}</table></div>`)}
 
-async function deleteExcavatorAsset(id){const ok=await confirmAction({title:'Delete Machine / Deal',message:'This is a high-impact action. The backend will block deletion when protected history must be retained.',confirmLabel:'Delete Machine',tone:'danger',details:[{label:'Machine / Deal',value:'#'+id}]});if(!ok)return;try{await api('/api/excavator/assets/'+id,{method:'DELETE'});toast('Machine deleted');loadView()}catch(x){toast(x.message)}}
+async function deleteExcavatorAsset(id){
+  const url='/api/excavator/assets/'+id;
+  try{
+    const review=await api(url+'/deletion-preview');
+    const actionLabels={
+      'void-unverified':'Void unverified Finance token',
+      'cancel-verified':'Void token and cancel any unposted Accounting proposal',
+      'reverse-posted':'Void token and queue Accounting reversal for posting',
+    };
+    const details=[{label:t('Machine / Deal'),value:review.asset_no}];
+    for(const row of review.finance){
+      details.push({label:t(actionLabels[row.action]),value:'#'+row.id+' · KRW '+money(row.amount)});
+    }
+    const confirmed=await confirmAction({
+      title:t('Delete Machine / Deal'),
+      message:t(review.finance.length?'Delete this purchase and apply the linked token actions shown below.':'Delete this purchase record. There is no active linked Finance token.'),
+      confirmLabel:t('Delete Machine'),tone:'danger',details,
+    });
+    if(!confirmed)return;
+    const result=await api(url,{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({fingerprint:review.fingerprint})});
+    toast(t(result.reversal_pending?'Machine deleted. Post the token reversal in Accounting Posting Control.':'Machine deleted'));
+    await BOMRouter.navigate('excavator','','','',{replace:true,mutationCommitted:true});
+  }catch(error){toast(error.message)}
+}
 
 
 
@@ -1098,7 +1143,7 @@ function enhanceMandatoryEvidenceFields(){
 }
 function enhanceBuyerRequirementActions(){(document.getElementById('v324WorkflowSurface')||document.getElementById('modalRoot')).querySelectorAll('button[onclick^="deleteExcavatorBuyerRequirement("]').forEach(btn=>{if(btn.dataset.enhanced)return;const m=(btn.getAttribute('onclick')||'').match(/\((\d+),(\d+)\)/);if(!m)return;btn.dataset.enhanced='1';btn.insertAdjacentHTML('beforebegin',`<button class="btn small" onclick="excavatorBuyerRequirementView(${m[1]},${m[2]})">${esc(t('View'))}</button> <button class="btn small" onclick="excavatorBuyerRequirementForm(${m[1]},${m[2]})">${esc(t('Edit'))}</button> <button class="btn small primary" onclick="excavatorBuyerRequirementMatches(${m[1]},${m[2]})">${esc(t('Matches'))}</button> `)})}
 
-async function saveSimpleExcavatorMachine(e){e.preventDefault();const form=e.target,btn=form.querySelector('button[type="submit"]');if(!form.reportValidity())return;try{const fd=new FormData(form),tokenAmount=Number(fd.get('purchase_token')||0);if(!fd.get('asset_no')||!fd.get('machine_name')||!fd.get('make')||!fd.get('model')||!fd.get('purchase_date')||Number(fd.get('purchase_price'))<=0)throw new Error('Please complete Deal No., Machine Name, Make, Model, Purchase Date and Purchase Price.');if(tokenAmount>0&&!form.querySelector('[name="payment_evidence"]')?.files.length)throw new Error('Receipt / evidence is mandatory for the purchase token payment.');if(tokenAmount>0&&String(fd.get('token_payment_method')||'').trim().toLowerCase()!=='cash'&&!String(fd.get('token_payment_reference')||'').trim())throw new Error('Token payment reference is required for non-cash payments.');if(btn){btn.disabled=true;btn.textContent=tr('common.saving')}const result=await multipartApi('/api/excavator/assets',fd);if(result.approval_required){if(btn){btn.disabled=false;btn.textContent=t('Save Machine')}return toast(result.message||'Machine purchase submitted for approval')}closeModalAfterSave();toast(result.new_supplier?'Machine saved · New supplier added':result.requirement_matches?`Machine saved · ${result.requirement_matches} supplier requirement match(es) found`:'Machine saved successfully');loadView()}catch(x){if(btn){btn.disabled=false;btn.textContent=t('Save Machine')}toast(x.message)}}
+async function saveSimpleExcavatorMachine(e){e.preventDefault();const form=e.target,btn=form.querySelector('button[type="submit"]');if(!form.reportValidity())return;try{const fd=new FormData(form),tokenAmount=Number(fd.get('purchase_token')||0);if(!fd.get('asset_no')||!fd.get('machine_name')||!fd.get('purchase_date')||Number(fd.get('purchase_price'))<=0)throw new Error('Please complete Deal No., Machine Name, Purchase Date and Purchase Price.');if(tokenAmount>0&&!form.querySelector('[name="payment_evidence"]')?.files.length)throw new Error('Receipt / evidence is mandatory for the purchase token payment.');if(tokenAmount>0&&String(fd.get('token_payment_method')||'').trim().toLowerCase()!=='cash'&&!String(fd.get('token_payment_reference')||'').trim())throw new Error('Token payment reference is required for non-cash payments.');if(btn){btn.disabled=true;btn.textContent=tr('common.saving')}const result=await multipartApi('/api/excavator/assets',fd);if(result.approval_required){if(btn){btn.disabled=false;btn.textContent=t('Save Machine')}return toast(result.message||'Machine purchase submitted for approval')}markFormSaved();closeModal(true);toast(result.new_supplier?'Machine saved · New supplier added':result.requirement_matches?`Machine saved · ${result.requirement_matches} supplier requirement match(es) found`:'Machine saved successfully');await BOMRouter.navigate('excavator','','','',{replace:true,mutationCommitted:true})}catch(x){if(btn){btn.disabled=false;btn.textContent=t('Save Machine')}toast(x.message)}}
 async function saveSimpleExcavatorCost(e,id){e.preventDefault();const form=e.target;if(!form.reportValidity())return;try{const fd=new FormData(form);fd.set('stage','Costs');fd.set('currency','KRW');fd.set('status','Open');fd.set('include_in_machine_cost',fd.get('include_cost')==='1'?'1':'0');const r=await multipartApi('/api/excavator/assets/'+id+'/transactions',fd);closeModalAfterSave();toast('Cost added'+(r.document_count?` with ${r.document_count} attachment(s)`:'') );excavatorOpenMachine(id)}catch(x){toast(x.message)}}
 async function completeExcavatorSale(e,id){
   e.preventDefault();

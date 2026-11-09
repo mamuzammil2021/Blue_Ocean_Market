@@ -1,0 +1,16 @@
+{
+  "version": "30.70.9",
+  "status": "PASS",
+  "checks": [
+    "Buy Machine accepts both omitted fields and one omitted field",
+    "Unverified token voids with its purchase, preview is scoped, and retry does not duplicate effects",
+    "Verified unposted token cancels its Accounting proposal and a stale preview cannot delete",
+    "Posted token creates one balanced controlled reversal and Posting Control finalizes it",
+    "Unrelated linked machine activity blocks deletion",
+    "Supplier Open, Edit and Delete are compact icons and Delete still opens confirmation",
+    "Successful browser purchase from Suppliers opens the Excavator Machine List",
+    "Machine deletion confirmation names the deal and shows the token amount and action",
+    "Repeated Sale Type changes keep the form responsive and enable destination fields only for export"
+  ],
+  "tested_at": "2026-11-09T17:52:34.126Z"
+}

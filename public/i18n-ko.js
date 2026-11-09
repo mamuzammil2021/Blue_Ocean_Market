@@ -1,6 +1,17 @@
 // Blue Ocean Market V27.7 — Korean locale additions.
 // System labels/messages belong here; user-entered business data is never translated.
 window.BO_I18N_KO=Object.freeze({
+  "Void unverified Finance token": "미검증 재무 계약금 무효 처리",
+  "Void token and cancel any unposted Accounting proposal": "계약금 무효 처리 및 미전기 회계 분개안이 있으면 취소",
+  "Void token and queue Accounting reversal for posting": "계약금 무효 처리 및 회계 역분개 전기 대기",
+  "Delete this purchase and apply the linked token actions shown below.": "이 구매를 삭제하고 아래의 연결된 계약금 처리를 적용합니다.",
+  "Delete this purchase record. There is no active linked Finance token.": "이 구매 기록을 삭제합니다. 연결된 유효 재무 계약금이 없습니다.",
+  "Machine deleted. Post the token reversal in Accounting Posting Control.": "장비가 삭제되었습니다. 회계 전기 관리에서 계약금 역분개를 전기하세요.",
+  "Only an unsold purchase can be deleted here. Resolve the machine’s later activity first.": "판매되지 않은 구매만 여기에서 삭제할 수 있습니다. 후속 거래를 먼저 처리하세요.",
+  "The machine has linked activity beyond the purchase. Resolve that activity before deleting it.": "구매 이후 연결된 거래가 있습니다. 해당 거래를 먼저 처리하세요.",
+  "The machine has a payment beyond the purchase token. Resolve that payment before deleting it.": "구매 계약금 이외의 지급이 있습니다. 해당 지급을 먼저 처리하세요.",
+  "The purchase or its Finance status changed. Open the deletion review again.": "구매 또는 재무 상태가 변경되었습니다. 삭제 검토를 다시 열어 주세요.",
+
   'Skip to content':'본문으로 건너뛰기','Main navigation':'주 탐색','Scrollable table':'가로로 스크롤할 수 있는 표',
   // V30.68 important-only email notification controls.
   'Critical Email Only':'중요 이메일만 발송','Email High Risk Approvals':'고위험 승인 이메일','Email Finance Corrections':'재무 수정 이메일','Email Payroll Account Changes':'급여 계좌 변경 이메일','Email Security Events':'보안 이벤트 이메일','Email System Critical':'중요 시스템 이메일','Sensitive access changed':'민감 접근 권한 변경','Permission changed':'권한 변경','Approval authority changed':'승인 권한 변경','Employee payment account approved':'직원 지급 계좌 승인','Employee payment account rejected':'직원 지급 계좌 거절','Backup failed':'백업 실패','Approved action needs attention':'승인된 작업 확인 필요',

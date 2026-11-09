@@ -219,7 +219,7 @@ const assert = require("node:assert/strict"),
     await p.setViewportSize({ width: 1440, height: 1000 });
     await open("#systemSettings?unit=all");
     assert(
-      (await p.locator("#v319SettingsPanel").innerText()).includes("V30.70.8"),
+      (await p.locator("#v319SettingsPanel").innerText()).includes("V" + require("../../package.json").version),
     );
     await p.locator('[data-settings-group="1"]').click();
     await p.waitForFunction(

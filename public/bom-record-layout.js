@@ -23,7 +23,20 @@
     Download: '<path d="M12 4v11m-4-4 4 4 4-4M4 16v4h16v-4"/>',
   };
   actionPaths.Open = actionPaths.View;
-  const actionNames = Object.keys(actionPaths);
+  actionPaths.Delete = '<path d="M4 7h16M9 7V4h6v3m3 0-1 13H7L6 7m4 4v5m4-5v5"/>';
+  actionPaths.Remove = actionPaths.Delete;
+  actionPaths.Archive = '<path d="M4 4h16v5H4zm1 5v11h14V9m-9 4h4"/>';
+  actionPaths.Restore = '<path d="M5 8a8 8 0 1 1-1 8M5 3v5h5"/>';
+  actionPaths.Void = '<circle cx="12" cy="12" r="8"/><path d="m6.4 6.4 11.2 11.2"/>';
+  const lockedActionPath = '<rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v2"/>';
+  const actionAliases = {
+    'Open Machine': 'Open', 'Open Source Record': 'Open', 'Open Task': 'Open',
+    'Open / Continue': 'Open', 'Open in New Tab': 'Open', 'View Receipt': 'View',
+    'View Current Receipt': 'View', 'Delete / Archive': 'Delete', 'Delete Table': 'Delete',
+    'Delete Profile': 'Delete', 'Delete Machine': 'Delete', 'Void Payment': 'Void',
+    'Edit Meeting': 'Edit', 'Edit / Minutes': 'Edit',
+  };
+  const actionNames = { ...Object.fromEntries(Object.keys(actionPaths).map(key => [key, key])), ...actionAliases };
   const translate = label => typeof t === 'function' ? t(label) : label;
 
   let tooltip;
@@ -42,7 +55,7 @@
       document.body.append(tooltip);
     }
     tooltipOwner = control;
-    tooltip.textContent = label;
+    if (tooltip.textContent !== label) tooltip.textContent = label;
     tooltip.hidden = false;
     const rect = control.getBoundingClientRect();
     const width = tooltip.offsetWidth;
@@ -72,21 +85,43 @@
   window.addEventListener('resize', hideTooltip);
 
   function decorateAction(control, names) {
-    if (control.childElementCount || control.closest('form') || control.hasAttribute('title')) return;
-    const action = names.get(control.textContent.trim());
+    if (control.dataset.bomAction || control.closest('form') || control.querySelector('button, a, input, select')) return;
+    const originalText = control.textContent.trim();
+    const locked = control.disabled && originalText.startsWith('🔒');
+    const text = originalText.replace(/^[+\s\p{Extended_Pictographic}\uFE0F\u200D]+/u, '');
+    const explicitLabel = control.getAttribute('aria-label') || control.title;
+    const action = names.get(text) || names.get(explicitLabel);
     if (!action) return;
     const label = document.createElement('span');
     label.className = 'bom-record-action-label';
-    label.textContent = control.textContent;
-    control.innerHTML = '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + actionPaths[action] + '</svg>';
+    label.textContent = explicitLabel || (locked ? originalText : text) || translate(action);
+    control.setAttribute('aria-label', locked ? originalText : label.textContent);
+    control.removeAttribute('title');
+    control.innerHTML = '<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + (locked ? lockedActionPath : actionPaths[action]) + '</svg>';
     control.append(label);
     control.classList.add('bom-record-action');
     control.dataset.bomAction = action.toLowerCase();
   }
 
+  function decorateActionColumn(table, names) {
+    const header = table.tHead?.rows[table.tHead.rows.length - 1] || table.rows[0];
+    const actionHeader = header?.cells[header.cells.length - 1];
+    const headings = new Set(['Action', 'Actions', translate('Action'), translate('Actions'), '작업', '조치']);
+    const cells = [...table.rows].map(row => row.cells[row.cells.length - 1])
+      .filter(cell => cell?.matches('td.bom-actions-cell') && cell.colSpan === 1 && cell.closest('table') === table);
+    if (!cells.length && !headings.has(actionHeader?.textContent.trim())) return;
+    if (actionHeader?.tagName === 'TH' && actionHeader.colSpan === 1) {
+      actionHeader.classList.add('bom-record-action-column');
+    }
+    for (const cell of cells) {
+      cell.classList.add('bom-record-action-column');
+      for (const control of cell.querySelectorAll('button, a.btn')) decorateAction(control, names);
+    }
+  }
+
   function decorate(root) {
     if (tooltipOwner && !tooltipOwner.isConnected) hideTooltip();
-    const names = new Map(actionNames.flatMap(name => [[name, name], [translate(name), name]]));
+    const names = new Map(Object.entries(actionNames).flatMap(([name, action]) => [[name, action], [translate(name), action]]));
     for (const group of root.querySelectorAll(summaryGroups)) {
       if (group.children.length) group.classList.add('bom-record-summary');
     }
@@ -100,8 +135,8 @@
         heading.classList.add('bom-record-heading');
       }
     }
-    for (const cell of root.querySelectorAll('td.bom-actions-cell')) {
-      for (const control of cell.querySelectorAll('button, a.btn')) decorateAction(control, names);
+    for (const table of root.querySelectorAll('table.bom-record-table')) {
+      decorateActionColumn(table, names);
     }
     for (const pager of root.querySelectorAll('.bom-server-pager, .v3391-pager, .v335-pagination, [data-bom-pagination]')) {
       pager.classList.add('bom-record-pager');

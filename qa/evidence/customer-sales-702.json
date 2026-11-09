@@ -28,5 +28,5 @@
     "Invalid allocations roll back money writes and seller-account aliases cannot duplicate one external store",
     "New sales identities and settlement states survive restart"
   ],
-  "tested_at": "2026-11-09T12:50:30.264Z"
+  "tested_at": "2026-11-09T17:49:10.073Z"
 }
