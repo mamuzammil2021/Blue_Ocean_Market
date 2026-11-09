@@ -3,7 +3,7 @@
 (function(){'use strict';
 const modules=Object.freeze({
  'pink-lists':{path:'/v349-pink-pages.js?v=30.70.6',ready:()=>!!window.BOMPinkPages349},
- 'pink-imports':{path:'/v350-import-pages.js?v=30.70.6',ready:()=>!!window.BOMPinkImports350},
+ 'pink-imports':{path:'/v350-import-pages.js?v=30.70.8',ready:()=>!!window.BOMPinkImports350},
  'pink-stock':{path:'/v350-raw-pages.js?v=30.70.6',ready:()=>!!window.BOMPinkRaw350}
 });
 const routes=Object.freeze({psCustomers:'pink-lists',psSales:'pink-lists',psImports:'pink-imports',psRawStock:'pink-stock'});

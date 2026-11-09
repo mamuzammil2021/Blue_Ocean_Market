@@ -1,0 +1,149 @@
+/* Shared list surfaces, based on the approved header → metrics → filters → records layout. */
+html.bom-ui :is(#content,#modalRoot) .bom-record-summary {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));
+  gap:10px;
+  align-items:stretch;
+  min-width:0;
+  margin-block:0 14px;
+}
+html.bom-ui :is(#content,#modalRoot) .bom-record-summary > * {
+  min-width:0;
+  min-height:0;
+  padding:12px 14px;
+  border:1px solid #dbe5f3;
+  border-radius:var(--bom-radius-lg);
+  background:#f3f7ff;
+  color:var(--bom-ink);
+  box-shadow:none;
+  overflow-wrap:anywhere;
+  font-variant-numeric:tabular-nums;
+}
+html.bom-ui :is(#content,#modalRoot) .bom-record-summary > :is(.good,.success) {background:#effaf4;border-color:#d0ebd9}
+html.bom-ui :is(#content,#modalRoot) .bom-record-summary > :is(.warn,.warning) {background:#fff8e9;border-color:#f0e2be}
+html.bom-ui :is(#content,#modalRoot) .bom-record-summary > :is(.bad,.danger) {background:#fff2f3;border-color:#f0d9dd}
+html.bom-ui :is(#content,#modalRoot) .bom-record-summary > .pink {background:#fcf2f8;border-color:#efdcea}
+html.bom-ui .bom-record-summary :is(.value,.big-number,b,strong) {color:inherit}
+
+html.bom-ui :is(#content,#modalRoot) .bom-record-filters {
+  display:flex;
+  align-items:end;
+  flex-wrap:wrap;
+  gap:8px;
+  max-width:100%;
+  min-width:0;
+  border:1px solid var(--line);
+  border-radius:var(--bom-radius-lg);
+  background:#f8fafc;
+  padding:10px;
+  margin-block:0 12px;
+}
+html.bom-ui :is(#content,#modalRoot) .bom-record-filters > :is(.field,label) {
+  flex:1 1 120px;
+  min-width:0;
+  margin:0;
+}
+html.bom-ui :is(#content,#modalRoot) .bom-record-filters > .search {flex:2 1 176px}
+html.bom-ui .bom-record-filters > :is(input,select) {width:auto;flex:1 1 104px;min-width:0}
+html.bom-ui .bom-record-filters :is(input,select) {max-width:100%}
+html.bom-ui .bom-record-filters > :is(.btn,button) {flex:0 0 auto}
+html.bom-ui .bom-list-filter > .bom-record-filters {padding:0;border:0;background:none;margin:0}
+
+html.bom-ui .bom-record-table {--tblr-table-hover-bg:#edf5ff}
+html.bom-ui .bom-record-table > :is(thead,tbody) > tr > th {
+  background:#e9f0fa;
+  color:#243953;
+  border-color:#d7e2f0;
+  font-weight:650;
+  white-space:normal;
+}
+html.bom-ui .bom-record-table > tfoot > tr > :is(th,td) {
+  background:#eef4fb;
+  border-top:1px solid #d7e2f0;
+  font-weight:650;
+}
+html.bom-ui .bom-record-table .bom-numeric {text-align:right;font-variant-numeric:tabular-nums}
+html.bom-ui .bom-record-pager {gap:8px 12px}
+html.bom-ui .bom-record-action {gap:6px;color:#245994;background:#f1f6ff;border-color:#d8e5f7}
+html.bom-ui .bom-record-action svg {width:16px;height:16px;flex:none}
+html.bom-ui .bom-record-tooltip {
+  position:fixed;
+  z-index:10000;
+  pointer-events:none;
+  max-width:calc(100vw - 16px);
+  border-radius:6px;
+  background:#243953;
+  color:white;
+  padding:5px 9px;
+  font-size:12px;
+  line-height:1.4;
+}
+@media (min-width:1000px) {
+  html.bom-ui :is(#content,#modalRoot) .bom-record-summary {
+    grid-template-columns:none;
+    grid-auto-flow:column;
+    grid-auto-columns:minmax(126px,1fr);
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+  }
+  html.bom-ui :is(#content,#modalRoot) .bom-record-filters {
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+  }
+  html.bom-ui :is(#content,#modalRoot) .bom-record-filters > :is(.field,label,input,select) {min-width:86px}
+}
+@media (min-width:701px) and (hover:hover) and (pointer:fine) {
+  html.bom-ui .bom-record-action {position:relative;min-width:36px;padding-inline:8px}
+  html.bom-ui .bom-record-action-label {
+    position:absolute;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+    clip-path:inset(50%);
+    white-space:nowrap;
+  }
+}
+@media (max-width:600px) {
+  html.bom-ui :is(#content,#modalRoot) .bom-record-summary {grid-template-columns:repeat(2,minmax(0,1fr))}
+  html.bom-ui :is(#content,#modalRoot) .bom-record-summary > * {padding:10px}
+  html.bom-ui .bom-mobile-records .bom-numeric {text-align:left}
+}
+
+html.bom-ui .bom-record-heading {
+  background:linear-gradient(110deg,#edf4ff,#faf7fc);
+  padding:14px 16px;
+  border:1px solid #dce6f4;
+  border-radius:var(--bom-radius-lg);
+}
+html.bom-ui .bom-record-filter-options {
+  flex:none;
+  min-width:0;
+}
+html.bom-ui .bom-record-filter-options > summary {list-style:none;cursor:pointer}
+html.bom-ui .bom-record-filter-options > summary::-webkit-details-marker {display:none}
+html.bom-ui .bom-record-filter-options > summary::after {content:'▾';font-size:11px}
+html.bom-ui .bom-record-filter-options[open] > summary::after {content:'▴'}
+html.bom-ui .bom-record-filter-options .field {min-width:110px;margin:6px 0 0}
+@media (max-width:600px) {
+  html.bom-ui .bom-record-filter-options > summary {min-height:44px}
+}
+html.bom-ui .bom-record-summary > .ps-kpi > :is(small,b) {display:block}
+html.bom-ui .bom-record-summary > .ps-kpi > small {color:var(--bom-muted);font-weight:600}
+html.bom-ui .bom-record-summary > .ps-kpi > b {font-size:clamp(17px,1.6vw,24px);line-height:1.35;margin:4px 0}
+html.bom-ui .bom-record-summary > .ps-kpi > .muted {font-size:12px}
+html.bom-ui .bom-record-table th.bom-actions-cell {background:#e9f0fa;color:#243953}
+html.bom-ui :is(.v285-section-actions,.v318-posting-head > .actions).bom-record-filters {
+  padding:0;
+  background:none;
+  border:0;
+  margin:0;
+  flex:0 1 auto;
+}
+@media (min-width:1000px) and (hover:hover) and (pointer:fine) {
+  html.bom-ui .bom-record-table td.bom-actions-cell:has(.bom-record-action):not(:has(:is(button,a.btn):not(.bom-record-action))) {
+    min-width:64px;
+    width:1%;
+    white-space:nowrap;
+  }
+}

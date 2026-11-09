@@ -1,0 +1,12 @@
+{
+  "version": "30.70.8",
+  "status": "PASS",
+  "checks": [
+    "Populated long-label mobile Korean direct route and refresh: #psSuppliers/supplier/1?unit=4&section=payments",
+    "Populated long-label mobile Korean direct route and refresh: #psCustomers/customer/1?unit=4&section=orders",
+    "Populated long-label mobile Korean direct route and refresh: #psImports/import/1?unit=4",
+    "Browser Back and Forward restore supplier/import record routes"
+  ],
+  "errors": [],
+  "tested_at": "2026-11-09T12:44:42.391Z"
+}

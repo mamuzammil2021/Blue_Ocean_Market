@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "version": "30.70.8",
+  "engine": "pglite",
+  "node": "v22.23.4",
+  "suites": 31,
+  "workflow_checks": 500,
+  "database_upgrade_tests": 20,
+  "sql_plans": 2617,
+  "responsive_screen_cases": 294,
+  "table_instances": 234,
+  "ui_interaction_checks": 14,
+  "navigation_checks": 4,
+  "test_accommodations": [
+    "Chromium headless shell and local Chromium PDF API adapter",
+    "Packaging tab retention regression passed after renderer fix. Earlier passing suites retained and remaining release cases continued."
+  ],
+  "tested_at": "2026-11-09T12:53:16.512908+00:00",
+  "render_deployed": false,
+  "git_pushed": false
+}

@@ -1,0 +1,223 @@
+{
+  "engine": "pglite",
+  "results": [
+    {
+      "file": "routes.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 1,
+      "ms": 24610
+    },
+    {
+      "file": "maintenance.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 6,
+      "ms": 46236
+    },
+    {
+      "file": "regressions/qa_v36920_excavator.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 13,
+      "ms": 17473
+    },
+    {
+      "file": "regressions/qa_v36920_fx_e2e.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 19,
+      "ms": 16264
+    },
+    {
+      "file": "regressions/qa_v36920_permissions.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 7,
+      "ms": 16254
+    },
+    {
+      "file": "regressions/qa_v36920_workflows.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 25,
+      "ms": 19555
+    },
+    {
+      "file": "regressions/qa_v36921_controls.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 24,
+      "ms": 20170
+    },
+    {
+      "file": "regressions/qa_v36922_read_routes.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 6,
+      "ms": 19375
+    },
+    {
+      "file": "regressions/qa_v36924_calculation.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 7,
+      "ms": 19805
+    },
+    {
+      "file": "regressions/qa_v36925_extended.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 12,
+      "ms": 25277
+    },
+    {
+      "file": "regressions/qa_v36925_server.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 22,
+      "ms": 16789
+    },
+    {
+      "file": "regressions/qa_v36925_statement_integrity.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 8,
+      "ms": 16808
+    },
+    {
+      "file": "regressions/qa_v36925_statement_pdf.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 4,
+      "ms": 29362
+    },
+    {
+      "file": "regressions/qa_v36926_recipient.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 10,
+      "ms": 22865
+    },
+    {
+      "file": "regressions/qa_v36927_supplier_accounts.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 7,
+      "ms": 19628
+    },
+    {
+      "file": "regressions/qa_v36929_qa15.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 20,
+      "ms": 24134
+    },
+    {
+      "file": "regressions/qa_v36930_shared_rate.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 11,
+      "ms": 24520
+    },
+    {
+      "file": "regressions/qa_v36931_reference.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 24,
+      "ms": 25786
+    },
+    {
+      "file": "regressions/qa_v36932_legacy_advances.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 5,
+      "ms": 18073
+    },
+    {
+      "file": "regressions/qa_v36932_server.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 16,
+      "ms": 22458
+    },
+    {
+      "file": "regressions/qa_v36933_payment_approvals.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 17,
+      "ms": 22150
+    },
+    {
+      "file": "regressions/qa_v36936_packaging.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 25,
+      "ms": 57307
+    },
+    {
+      "file": "regressions/qa_v36937_refinement.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 8,
+      "ms": 15538
+    },
+    {
+      "file": "regressions/qa_v36938_product_ux.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 11,
+      "ms": 16232
+    },
+    {
+      "file": "regressions/qa_v36939_financial_guards.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 5,
+      "ms": 26292
+    },
+    {
+      "file": "regressions/qa_v36939_history.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 6,
+      "ms": 16080
+    },
+    {
+      "file": "regressions/qa_v36943_approval.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 2,
+      "ms": 17154
+    },
+    {
+      "file": "regressions/qa_v36943_oct22.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 11,
+      "ms": 18608
+    },
+    {
+      "file": "regressions/qa_v36944_receiving.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 12,
+      "ms": 17191
+    },
+    {
+      "file": "regressions/qa_v36947_policy.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 3,
+      "ms": 13909
+    },
+    {
+      "file": "regressions/qa_v36949_oct26.cjs",
+      "code": 1,
+      "signal": null,
+      "checks": 5,
+      "ms": 17029,
+      "error": "(node:3724) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.\n(Use `node --trace-warnings ...` to show where the warning was created)\nPASS Unverified advance edits retain transaction, operational and Finance IDs; no voided duplicates; before snapshot retained\nPASS Finance-verified advance rejects ordinary edit server-side\nPASS Separate fee amendments retain the fee Finance identity and verified fee locks the linked advance\nPASS Unpaid and unverified imports cannot receive; cleared import stores 8 bags and measured 199 kg independently across stock APIs; partial follow-up remains available\nPASS Partially received purchase blocks header and full editing; detail supplies consistent receipt and action state\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(await page.evaluate(() => qaSummary === document.querySelector('[data-pack-part=summary]')))\n\n    at /workspace/scratch/df7c43b13674/list708/Blue_Ocean_Market_V30_70_8/qa/postgres/regressions/qa_v36949_oct26.cjs:12:1353 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n"
+    }
+  ]
+}

@@ -8,6 +8,10 @@ document.addEventListener('click',event=>{if(!document.querySelector('#modalRoot
 // Keyboard users can open and close a dialog before the next decoration frame.
 document.addEventListener('focusin',event=>{if(event.target.closest?.('#modalRoot .modal'))hadModal=true;});
 const pick=(root,selector)=>[...(root.matches?.(selector)?[root]:[]),...root.querySelectorAll(selector)];
+function numericHeading(label){
+ return /amount|price|cost|balance|payable|receivable|revenue|profit|total|outstanding|purchase value|weight|quantity|debit|credit|금액|가격|원가|잔액|미지급|미수|매출|이익|합계|충당액|중량|수량|차변|대변/i.test(label)
+  && !/status|method|account|reference|상태|방식|계좌|계정|참조/i.test(label);
+}
 function decorate(root=document){
  for(const input of pick(root,'#content input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=button]):not([type=submit]),#content textarea,#content select,#modalRoot input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=button]):not([type=submit]),#modalRoot textarea,#modalRoot select')){
   input.classList.add(input.tagName==='SELECT'?'form-select':'form-control');
@@ -15,11 +19,12 @@ function decorate(root=document){
   const label=input.closest('.field')?.querySelector('label');
   if(label&&!label.htmlFor&&!label.querySelector('input,select,textarea')){if(!input.id)input.id='bom-field-'+(++nextId);label.htmlFor=input.id;}
  }
- for(const table of pick(root,'table.table')){
-  for(const th of table.querySelectorAll('th'))if(!th.hasAttribute('scope'))th.scope='col';
+ for(const table of pick(root,'#content table, #modalRoot table')){
+  table.classList.add('table','table-hover','bom-record-table');
+  for(const th of table.querySelectorAll('th'))if(!th.hasAttribute('scope'))th.scope=th.closest('thead')||[...th.parentElement.cells].every(cell=>cell.tagName==='TH')?(th.colSpan>1?'colgroup':'col'):'row';
   // Preserve table descendants and delegated events. Only uncontained tables need a scroll surface.
   if(!table.closest('.table-wrap,.bom-table-scroll')){const wrap=document.createElement('div');wrap.className='bom-table-scroll';table.before(wrap);wrap.appendChild(table);}
-  const wrap=table.closest('.table-wrap,.bom-table-scroll');if(wrap){wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',t('Scrollable table'));}
+  const wrap=table.closest('.table-wrap,.bom-table-scroll');if(wrap){wrap.classList.add('table-responsive');wrap.tabIndex=0;wrap.setAttribute('role','region');wrap.setAttribute('aria-label',t('Scrollable table'));}
   for(const row of table.rows){const cell=row.cells[row.cells.length-1];if(cell?.querySelector('button,.btn'))cell.classList.add('bom-actions-cell');}
  }
  for(const nav of pick(root,'.side .nav')){nav.setAttribute('aria-label',t('Main navigation'));}
@@ -38,16 +43,17 @@ function decorate(root=document){
   content.dataset.bomView=route?.view||'';
   // Operational lists become labeled mobile records; financial journals retain table semantics.
   for(const table of content.querySelectorAll('table.table')){
-   const heads=[...table.querySelectorAll('tr:first-child th')].map(n=>n.textContent.trim());
-   if(!heads.length)continue;
+   const header=table.tHead?.rows[table.tHead.rows.length-1]||table.rows[0];
+   const heads=[...(header?.cells||[])].map(n=>n.tagName==='TH'?n.textContent.trim():'');
+   if(!heads.some(Boolean))continue;
    const cards=list&&['psImports','psSales','psCustomers','psSuppliers','excavator','excavatorSuppliers','excavatorBuyers','sales','purchases','inventory','documents','tasks','approvals'].includes(route?.view)&&!table.closest('form');
    table.classList.toggle('bom-mobile-records',cards);
    for(const row of table.rows){if(!row.querySelector('td')||row.cells.length!==heads.length)continue;[...row.cells].forEach((cell,i)=>{
     if(cell.dataset.label!==heads[i])cell.dataset.label=heads[i];
-    const monetary=/amount|price|cost|balance|payable|receivable|revenue|profit|total|금액|가격|원가|잔액|미지급|미수|매출|이익|합계/i.test(heads[i]);
+    const monetary=numericHeading(heads[i]);
     cell.classList.toggle('bom-numeric',monetary&&!cell.querySelector('button,input,select'));
    });}
-   heads.forEach((label,i)=>table.querySelector('tr:first-child')?.cells[i]?.classList.toggle('bom-numeric',/amount|price|cost|balance|금액|가격|원가|잔액/i.test(label)));
+   heads.forEach((label,i)=>header.cells[i].classList.toggle('bom-numeric',numericHeading(label)));
   }
   // Give first-line dashboard indicators stronger weight; secondary numbers stay visible.
   if(route?.view==='dashboard'){
@@ -57,6 +63,7 @@ function decorate(root=document){
   }
  }
 
+ window.BOMRecordLayout?.decorate(root);
  const skip=document.getElementById('bomSkipLink');if(skip&&skip.textContent!==t('Skip to content'))skip.textContent=t('Skip to content');
  const hasModal=!!document.querySelector('#modalRoot .modal');if(hadModal&&!hasModal)restoreFocus=true;hadModal=hasModal;
  if(restoreFocus&&!hasModal&&!window.BOMDialogProcessingV363?.isActive()){const active=document.activeElement;if(active===document.body||active===content||!active?.isConnected)(opener?.isConnected?opener:content)?.focus({preventScroll:true});restoreFocus=false;opener=null;}
@@ -65,5 +72,5 @@ const iconNames={dashboard:'layout-dashboard',businesses:'building',sales:'shopp
 const observer=new MutationObserver(records=>{if(records.some(r=>r.addedNodes.length||r.removedNodes.length)&&!pending){pending=true;requestAnimationFrame(()=>{pending=false;decorate();});}});
 const skip=document.createElement('a');skip.id='bomSkipLink';skip.className='bom-skip-link';skip.href='#content';skip.textContent=t('Skip to content');skip.addEventListener('click',e=>{e.preventDefault();if(window.BOMDialogProcessingV363?.isActive())return;document.getElementById('content')?.focus({preventScroll:false});});document.body.prepend(skip);
 observer.observe(document.body,{childList:true,subtree:true});
-decorate();window.BOMUI=Object.freeze({version:'30.70.7',decorate});
+decorate();window.BOMUI=Object.freeze({version:'30.70.8',decorate});
 })();

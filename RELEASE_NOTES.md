@@ -1,29 +1,13 @@
-# Blue Ocean Market V30.70.7
+# Blue Ocean Market V30.70.8
 
-- Fixed a CSS specificity defect that kept the shared responsive control token at its desktop size. Tablet controls now use 40px and phone controls use 44px as designed.
-- Standardized mobile action targets in content and dialogs, including Finance, Posting Control, Restaurant and Packaging toolbars.
-- Preserved horizontal scrolling for dense financial tables, with a visible keyboard focus outline and contained horizontal overscroll.
-- Expanded the current UI matrix to every listed destination at 1440/820/390px in English and Korean, with explicit mobile button-size assertions.
-- Added populated long-name Korean supplier/customer/import refresh and browser Back/Forward checks.
-- Updated current README/release labels. Existing domain controllers, permissions, financial calculations, routing and database schema remain unchanged.
+This build applies the approved list layout to the cleaned V30.70.7 source.
 
-See UI_COMPLETION_V30_70_7.md for actual results, host-specific test accommodations and acceptance limits. No Git push or deployment was performed.
+- Existing KPI groups use equal-height, lightly tinted cards above their record controls. Desktop groups and filter toolbars stay in a single row. Narrow screens use a compact grid or wrap the controls, and wide tables scroll inside their own surface.
+- In-app tables use the bundled Bootstrap and Tabler classes, with consistent headers, numeric alignment, responsive wrappers and footer styling. Existing tables and mobile record layouts retain their domain behavior.
+- Short row actions use icons with localized hover and focus text. Text stays visible on phones and touch screens. Transaction and review actions keep their descriptive labels.
+- Pink Salt Imports adds a count across all filtered records and page totals for active shipments. The optional sort direction is under More filters. The existing server-side search, pagination and sort state drive the list.
+- The project’s development rules in `AGENTS.md` define the layout and checks for future screens.
 
----
+Current browser evidence is written to `qa/evidence/ui708-browser.json` and `qa/evidence/ui708-matrix.json`. The release gate writes its result to `qa/evidence/postgres-release.json`.
 
-Historical notes follow.
-
-# Blue Ocean Market V30.70.5
-
-All four November 8 QA points are addressed on top of V30.70.4. See QA_NOV8_705.md for the requirement mapping and root causes.
-
-- New Import uses a category cart with edit/remove, live weight and currency totals, and light section separation.
-- Raw Salt Stock has one generic server search with full-result sorting, pagination and saved query state.
-- Packaging purchase editing opens directly as a page, with draft/confirmed/received controls preserved.
-- Repacking failures release their processing claim after rollback. Retry and successful replay remain protected. Inline errors, stable operation keys, accurate live weight summaries and focus preservation complete the flow.
-
-The shared rollback fix preserves existing approval, financial and stock controls. There is no new business workflow, marketplace connector or database migration.
-
-Use Node 22 and the existing PostgreSQL environment. No new dependencies or configuration. Run npm run qa:current for release checks or npm run qa:nov8 for the focused suite.
-
-Validation uses synthetic PGlite databases and Chromium. Production Chrome CLI, native multi-session PostgreSQL and hosted deployment still require environment validation. No Git push/pull/merge or deployment was performed.
+Validation passed on Node 22 with PGlite and Chromium. The build passed 500 workflow checks, 20 database and upgrade tests, 294 screen cases and 18 focused UI and navigation checks. A Packaging tab-retention failure was corrected and the affected suite passed on rerun. PDF checks used the local Chromium PDF API adapter.

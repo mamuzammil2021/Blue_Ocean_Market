@@ -1,4 +1,4 @@
-(node:3061) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(node:3260) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
 (Use `node --trace-warnings ...` to show where the warning was created)
 PASS Cost correction retains one operational row, original URL/reference, exact revision values and one active Finance version
 PASS Cost detail provides current payment, source/recipient, evidence, rates, user and full financial revision history
@@ -15,13 +15,4 @@ PASS Sensitive import authorization preserves edit/CEO reasons, saves atomically
 PASS Ordinary non-CEO sensitive import approval executes its exact stored snapshot once, with current permissions and stale-record checks
 PASS Receiving failure rolls back stock/status/Accounting/audit; concurrent keyed retries create one stock receipt and one receipt journal
 PASS Supplier statement uses current valid settlements, explicit KRW basis and non-cash allocations without duplicate cash
-AssertionError [ERR_ASSERTION]: {"error":"PDF generation failed. Please retry or download CSV."}
-    at /workspace/scratch/df7c43b13674/inspection/project/Blue_Ocean_Market_V30_70_7/qa/postgres/regressions/qa_v36932_server.cjs:20:252
-    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {
-  generatedMessage: false,
-  code: 'ERR_ASSERTION',
-  actual: false,
-  expected: true,
-  operator: '==',
-  diff: 'simple'
-}
+PASS Every offered statement format actually downloads with correct headers and reconciled CSV/current PDF generation

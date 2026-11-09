@@ -1,33 +1,7 @@
-# Blue Ocean Market V30.70.7
+# Blue Ocean Market V30.70.8
 
-Responsive UI completion and acceptance release, built directly from V30.70.6. Read [release notes](RELEASE_NOTES.md) and [UI completion and QA](UI_COMPLETION_V30_70_7.md).
+Blue Ocean Market’s shared record layout brings the same summary, filter, table and action patterns to the app’s record screens. Read the [release notes](RELEASE_NOTES.md) and follow [the UI standard](AGENTS.md) when building or editing a screen.
 
-Use Node 22, `npm ci`, the existing PostgreSQL/environment configuration and `npm start`. No new production dependency or database migration. `npm run qa:ui707` runs focused interaction checks; `npm run qa:ui707:matrix` runs the desktop/tablet/mobile English/Korean matrix. `npm run qa:release` runs the existing workflow and upgrade gate.
+Use Node 22, `npm ci`, the existing PostgreSQL configuration and `npm start`. See [PostgreSQL setup and migration](POSTGRES_MIGRATION_STATUS.md) and [Render staging configuration](POSTGRES_MIGRATION_STATUS.md#render-staging).
 
-The following version-specific material is historical.
-
-# Blue Ocean Market V30.70.1
-
-One PostgreSQL database for all modules and business units. Read [migration, setup, validation and Render instructions](POSTGRES_MIGRATION_STATUS.md). Use Node 22, `npm ci`, a private DATABASE_URL and `npm start`. Current validation: `npm run qa:current`.
-
-This release completes the October 28 QA points. See [QA completion checklist](QA_OCT28_CHECKLIST.md) and [release notes](RELEASE_NOTES.md). Run `npm run qa:oct28` for the targeted checks.
-
-This is a local development build. Git and Render have not been changed. The version-specific material below documents earlier SQLite releases.
-
-Previous SQLite application release: **V30.69.50** — [Quick Test Reset hotfix](V30_69_50_QUICK_RESET_HOTFIX.md).
-
-Historical release: **V30.69.49**. See [Start Here](START_HERE_V30_69_49.md) and [QA report](V30_69_49_QA_REPORT.md).
-
-Historical release: **V30.69.48**. See [Start Here](START_HERE_V30_69_48.md), [QA report](V30_69_48_QA_REPORT.md), and [deployment](V30_69_48_DEPLOYMENT.md). Content below records earlier releases.
-
-Historical release: **V30.69.47**. See [Start Here](START_HERE_V30_69_47.md), [QA report](V30_69_47_QA_REPORT.md), and [deployment instructions](V30_69_47_DEPLOYMENT_AND_GIT.md). Content below records earlier releases.
-
-> Historical release: **V30.69.46**. Read `START_HERE_V30_69_46.md` for the fixes and current verification. Earlier version-specific content below is historical.
-
-# Blue Ocean Market — V30.69.45
-
-Simple receiving and linked investigation/task workflow on the protected V44 financial and stock foundations. Start with [START_HERE_V30_69_45.md](START_HERE_V30_69_45.md).
-
-Runtime: Node 22.x. Install with `npm ci`; start with `npm start` and the existing environment/storage configuration. Validate with `npm run qa:current`; full browser/upgrade gate: `npm run qa:current -- --browser --upgrade`.
-
-Read the current implementation, bilingual user guide, QA report and migration/deployment/Git instructions. Existing version-specific documents are retained as history. Source delivery excludes dependencies, credentials and real runtime data. Main, remote Git and production were not changed.
+Run `npm run qa:ui708` for focused record interactions, `npm run qa:ui708:matrix` for the English and Korean screen matrix, and `npm run qa:release` for workflow and upgrade checks. Set `BOM_CHROMIUM` for the local browser binary if needed.

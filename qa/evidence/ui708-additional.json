@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "suite": "oct28",
+      "code": 0,
+      "ms": 30354
+    },
+    {
+      "suite": "customer-sales",
+      "code": 0,
+      "ms": 23763
+    },
+    {
+      "suite": "customer-sales-browser",
+      "code": 0,
+      "ms": 25938
+    },
+    {
+      "suite": "nov2",
+      "code": 0,
+      "ms": 58544
+    },
+    {
+      "suite": "nov4",
+      "code": 0,
+      "ms": 29133
+    },
+    {
+      "suite": "nov8",
+      "code": 0,
+      "ms": 25402
+    }
+  ]
+}
