@@ -518,3 +518,5 @@ window.BO_I18N_KO=Object.freeze({...window.BO_I18N_KO,
 "Configure multiple bank accounts, cash accounts and company cards. Payment forms show only accounts compatible with the selected payment method.":"여러 은행 계좌, 현금 계좌 및 법인 카드를 설정하세요. 결제 양식에는 선택한 결제 수단과 호환되는 계좌만 표시됩니다.","Accounting integration:":"회계 연동:","every active account must map to the correct GL. Closed/archived accounts remain in historical Finance and Accounting records but cannot be used for new transactions.":"모든 활성 계좌는 올바른 총계정원장 계정에 연결되어야 합니다. 폐쇄되거나 보관된 계좌는 기존 재무 및 회계 기록에 유지되지만 새 거래에는 사용할 수 없습니다.","+ Add Financial Account":"+ 금융 계좌 추가","History References":"관련 이력","No financial accounts in this filter.":"이 필터에 해당하는 금융 계좌가 없습니다.","No account changes recorded yet.":"기록된 계좌 변경 이력이 없습니다.","Company / assigned scope":"회사 / 배정 범위","Company-wide":"회사 전체","Accounting integration":"회계 연동",
   'Optional for cash':'현금은 선택 사항','Required for non-cash':'비현금 결제는 필수',
 });
+
+window.BO_I18N_KO=Object.freeze({...window.BO_I18N_KO,"Review & action":"검토 및 조치","Financial figures: KRW":"재무 수치: KRW","Newest":"최신순","Full-screen workflow":"전체 화면 작업"});

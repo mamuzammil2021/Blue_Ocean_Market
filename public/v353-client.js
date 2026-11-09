@@ -62,10 +62,9 @@
       if(!positive.test(text)||negative.test(text))return baseToast.apply(this,arguments);
       const now=Date.now(),prior=last.get(text)||0;if(now-prior<2500)return;last.set(text,now);
       if(last.size>30)for(const [k,v]of last)if(now-v>6000)last.delete(k);
-      const root=document.getElementById('toastRoot');if(!root)return baseToast.apply(this,arguments);
-      const el=document.createElement('div');el.className='toast bom353-success';el.setAttribute('role','status');el.setAttribute('aria-live','polite');
-      el.innerHTML=`<span class="bom353-success-icon" aria-hidden="true">✓</span><span class="bom353-success-text">${escape(text)}</span>`;
-      root.appendChild(el);setTimeout(()=>el.remove(),4700);return el;
+      const el=baseToast.apply(this,arguments);if(!el)return;
+      el.classList.add('bom353-success');el.setAttribute('role','status');el.setAttribute('aria-live','polite');
+      el.innerHTML=`<span class="bom353-success-icon" aria-hidden="true">✓</span><span class="bom353-success-text">${escape(text)}</span>`;return el;
     };window.toast=nextToast;try{toast=nextToast}catch(_){}
   }
 

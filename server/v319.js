@@ -10,7 +10,7 @@ const zlib = require('zlib');
 const { createIntegrityUpload } = require('./upload-integrity');
 const numbering = require('./numbering-service');
 
-const VERSION = '30.19.0';
+const VERSION = require('../package.json').version;
 
 async function install({ app, db, auth, currentUnit, enforceUnit, audit, notify, access, uploads, secret, accounting }) {
   const text = (v) => String(v ?? '').trim();

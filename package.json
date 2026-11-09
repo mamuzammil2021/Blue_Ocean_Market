@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.70.5",
+  "version": "30.70.7",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -147,7 +147,12 @@
     "qa:customer-sales": "node qa/postgres/customer-sales.cjs",
     "qa:nov2": "node --test qa/postgres/nov2-upgrade.test.js && node qa/postgres/nov2.cjs",
     "qa:nov4": "node qa/postgres/nov4.cjs",
-    "qa:nov8": "node qa/postgres/nov8.cjs"
+    "qa:nov8": "node qa/postgres/nov8.cjs",
+    "qa:ui706": "node qa/postgres/ui706-browser.cjs",
+    "qa:ui706:matrix": "node qa/modernization/ui706-matrix.cjs",
+    "qa:ui707": "node qa/postgres/ui707-browser.cjs",
+    "qa:ui707:matrix": "node qa/modernization/ui707-matrix.cjs",
+    "qa:ui707:navigation": "node qa/postgres/ui707-navigation.cjs"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

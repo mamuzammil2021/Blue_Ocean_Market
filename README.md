@@ -1,8 +1,10 @@
-# Blue Ocean Market V30.70.5
+# Blue Ocean Market V30.70.7
 
-Current release: all four November 8 QA points. See RELEASE_NOTES.md and QA_NOV8_705.md.
+Responsive UI completion and acceptance release, built directly from V30.70.6. Read [release notes](RELEASE_NOTES.md) and [UI completion and QA](UI_COMPLETION_V30_70_7.md).
 
-Latest release: Pink Salt Customers / Stores, Sales / Orders and Settlement. Read [RELEASE_NOTES.md](RELEASE_NOTES.md) and [QA_CUSTOMER_SALES_702.md](QA_CUSTOMER_SALES_702.md). Existing deployment configuration remains applicable.
+Use Node 22, `npm ci`, the existing PostgreSQL/environment configuration and `npm start`. No new production dependency or database migration. `npm run qa:ui707` runs focused interaction checks; `npm run qa:ui707:matrix` runs the desktop/tablet/mobile English/Korean matrix. `npm run qa:release` runs the existing workflow and upgrade gate.
+
+The following version-specific material is historical.
 
 # Blue Ocean Market V30.70.1
 

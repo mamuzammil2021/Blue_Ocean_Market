@@ -11,7 +11,7 @@
     root.querySelectorAll('form').forEach(form=>{
       const method=form.querySelector('[name="payment_method"],[name="method"],select[name*="method"]');
       const ref=form.querySelector('[name="reference"],[name="payment_reference"]');
-      if(!method||!ref||ref.dataset.v325CashRule)return;
+      if(form.dataset.bomfx==='true'||!method||!ref||ref.dataset.v325CashRule)return;
       ref.dataset.v325CashRule='1';
       const label=ref.closest('.field')?.querySelector('label');if(label&&!label.dataset.v325ReferenceLabel)label.dataset.v325ReferenceLabel=label.textContent||'Reference';const sync=()=>{const cash=String(method.value||'').trim().toLowerCase()==='cash';ref.required=!cash;if(cash)ref.setCustomValidity('');ref.placeholder=cash?'Optional for cash':'Required for non-cash';if(label){const original=label.dataset.v325ReferenceLabel||label.textContent||'Reference';label.textContent=cash?original.replace(/\s*\*\s*$/,'').trim():original;}};
       method.addEventListener('change',sync);ref.addEventListener('input',sync);sync();

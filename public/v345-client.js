@@ -73,7 +73,7 @@
     ticket.slowTimer=setTimeout(()=>{if(!active.has(ticket.id))return;ticket.slow=true;if(scope==='button')updateButtonLabel(ticket.button,'Still working…');else updateHost(host)},3500);
     return ticket;
   }
-  function end(ticket){if(!ticket||ticket.done)return;ticket.done=true;clearTimeout(ticket.slowTimer);active.delete(ticket.id);if(!ticket.read)lastFinished={id:ticket.id,at:Date.now(),success:false};
+  function end(ticket){if(!ticket||ticket.done)return;ticket.done=true;clearTimeout(ticket.slowTimer);active.delete(ticket.id);if(!ticket.read)lastFinished={id:ticket.id,at:Date.now(),success:!!ticket.successShown};
     if(ticket.scope==='button'){setButton(ticket.button,false)}else{if(ticket.button?.isConnected){if(ticket.suspendedButton&&buttons.has(ticket.button))ticket.button.classList.add('bom345-button-busy');if(!([...active.values()].some(x=>x.button===ticket.button)))ticket.button.disabled=ticket.buttonWasDisabled}updateHost(ticket.host)}
   }
   // Single success channel: keep actionable failures, remove duplicated progress and identical/second success notices.
@@ -85,6 +85,7 @@
       const prior=recentToasts.get(text);if(prior&&now-prior<2300)return;
       const error=/(?:error|failed|cannot|invalid|required|denied|unable|not allowed|실패|오류|필수|권한 없음)/i.test(text);
       const success=/(?:saved|completed|updated|created|recorded|verified|approved|successful|success|sent|posted|allocated|requested|archived|restored|deleted|cancelled|transferred|저장됨|완료|기록됨|승인됨)/i.test(text);
+      if(success&&!error){const writes=[...active.values()].filter(x=>!x.read);if(writes.some(x=>x.successShown))return;writes.forEach(x=>x.successShown=true)}
       if(success&&!error&&lastFinished&&now-lastFinished.at<1100){if(lastFinished.success)return;lastFinished.success=true}
       recentToasts.set(text,now);if(recentToasts.size>45)for(const [key,at]of recentToasts)if(now-at>2300)recentToasts.delete(key);
       return baseToast.call(this,message);

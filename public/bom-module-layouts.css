@@ -121,3 +121,107 @@ html.bom-ui .pack-sidebar .pack-nav-arrow::after {content:'';width:6px;height:6p
 [data-import-part][hidden]{display:none!important}
 /* November 8: compact import cart and gentle section separation. */
 .nov8-import-form>.grid,.nov8-import-form>.field,.nov8-import-form>#psImportNewSupplier{padding:16px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-bottom:14px;min-width:0}.nov8-import-form>.grid:first-child{background:#f4f8fc}.nov8-import-form .nov8-cart-entry{padding:14px;border:1px solid #dce7ef;border-radius:10px;background:#f5f9fc}.nov8-import-form .nov8-cart-entry h3{margin-top:0}.nov8-import-form .actions{gap:8px;flex-wrap:wrap}.nov8-import-form [data-import-cart-items]{margin-top:12px}.nov8-import-form #psImportPurchaseSummary{background:#eef6f4;border:1px solid #d5e7e0;border-radius:12px;padding:14px;margin:14px 0}.nov8-import-form>.field .field{padding:0;border:0}.nov8-import-form th,.nov8-import-form td{white-space:nowrap}@media(max-width:700px){.nov8-import-form .grid{grid-template-columns:minmax(0,1fr)!important}.nov8-import-form>.grid,.nov8-import-form>.field{padding:12px}}
+
+/* V30.70.6: shared work surfaces. Existing domain handlers and visibility own behavior. */
+html.bom-ui .bom-workflow-reference {position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+html.bom-ui .v324-workflow-heading small {display:block;font-size:13px;line-height:1.4}
+html.bom-ui #content .v324-workflow-surface {padding-top:0!important}
+html.bom-ui :is(.titlebar,.section-title) {align-items:center;gap:12px;flex-wrap:wrap}
+html.bom-ui :is(.titlebar,.section-title)>:first-child {min-width:0}
+html.bom-ui :is(.titlebar,.section-title) h2 {margin:0;overflow-wrap:anywhere}
+html.bom-ui :is(.ps313-filter,.v343-statement-controls,[data-v349-journal]) {display:flex;flex-wrap:wrap;align-items:end;gap:12px;padding:14px;background:#f8fafc;border:1px solid var(--line);border-radius:var(--bom-radius-lg);margin:12px 0}
+html.bom-ui .ps313-filter .field {flex:0 1 180px;min-width:140px;margin:0}
+html.bom-ui .ps313-filter .field.search {flex:1 1 260px;max-width:460px}
+html.bom-ui .ps313-filter .btn {flex:0 0 auto;width:auto;align-self:flex-end}
+html.bom-ui .bom-danger-actions {border:1px solid #ecd8d8;border-radius:var(--bom-radius-lg);background:#fffafa;padding:16px;margin-top:24px}
+html.bom-ui .bom-danger-actions h3 {font-size:13px;margin:0 0 10px;color:#8b3540}
+html.bom-ui .bom-danger-actions .btn.danger {background:#fff;color:#b42318;border-color:#dfb8b4}
+html.bom-ui [data-import-part=actions] {display:flex;gap:8px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid var(--line)}
+html.bom-ui [data-import-part=actions] .btn {min-height:var(--bom-control);font-weight:500}
+html.bom-ui :is(.ps-detail-grid,.ps313-account-head,.v343-account-kpis,.v305-ledger-kpis) {gap:12px}
+html.bom-ui :is(.ps-detail-box,.ps313-account-head>div) {border:1px solid var(--line);border-radius:var(--bom-radius-lg);padding:16px;background:#fff;min-width:0}
+html.bom-ui :is(.ps-detail-box,.ps313-account-head>div) b {font-size:22px;line-height:1.35;font-weight:600;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+html.bom-ui :is(.ps-detail-box,.ps313-account-head>div) small {display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+html.bom-ui :is(.ps313-tabs,.v3592-tabs,.v3591-nav,.finance-tabs,.v305-account-tabs) {display:flex;gap:6px;padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:16px}
+html.bom-ui :is(.ps313-tabs,.v3592-tabs,.v3591-nav,.finance-tabs,.v305-account-tabs) .btn {min-height:var(--bom-control);border-radius:6px;line-height:1.4}
+html.bom-ui .bom-payment-section {padding:16px;border:1px solid var(--line);border-radius:var(--bom-radius-lg);background:#fff;margin:12px 0}
+html.bom-ui .bom-payment-section h3 {font-size:14px;margin:0 0 14px;font-weight:600}
+html.bom-ui .bom-payment-section .bomfx-grid {margin:0;gap:14px}
+html.bom-ui .bomfx-choice {display:flex;gap:6px;flex-wrap:wrap;padding:6px;background:#f1f5f9;border-radius:var(--bom-radius-lg)}
+html.bom-ui .bomfx-choice .btn {flex:1 1 140px;white-space:normal}
+html.bom-ui .bomfx-summary {font-variant-numeric:tabular-nums}
+html.bom-ui .bom-numeric {text-align:right;font-variant-numeric:tabular-nums}
+html.bom-ui :is(.table th,.table td) {vertical-align:top}
+html.bom-ui .table .bom-actions-cell {white-space:normal;min-width:150px}
+html.bom-ui .table .bom-actions-cell .btn {margin:2px;min-height:var(--bom-control);font-size:12px}
+html.bom-ui #content .bom-secondary-metrics {gap:10px}
+html.bom-ui #content .bom-secondary-metrics :is(.stat,.ps-kpi) {padding:12px;background:#f8fafc;box-shadow:none}
+html.bom-ui #content .bom-secondary-metrics :is(.value,.big-number) {font-size:20px;font-weight:600}
+html.bom-ui #content .v319-settings-nav {display:block;padding:12px}
+html.bom-ui .bom-settings-groups {display:flex;gap:6px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid var(--line)}
+html.bom-ui .bom-settings-sections {display:flex;flex-wrap:wrap;gap:6px;padding-top:12px}
+html.bom-ui #content .v319-settings-nav .bom-settings-sections .btn {font-size:13px;background:transparent;border-color:transparent}
+html.bom-ui #content .v319-settings-nav .bom-settings-sections .btn.active {background:#eaf3fd;border-color:#cfe2f8}
+html.bom-ui .bom-pos {grid-template-columns:minmax(0,1fr) minmax(340px,420px);gap:20px;align-items:start}
+html.bom-ui .bom-pos-basket {position:sticky;top:12px}
+html.bom-ui .bom-pos .menu-grid {grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+html.bom-ui .bom-pos .menu-item {min-height:96px;padding:16px;text-align:left;font-family:inherit}
+html.bom-ui .bom-pos .menu-item b {display:block;margin-bottom:8px}
+html.bom-ui .bom-pos .cart-row {display:grid;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}
+html.bom-ui .bom-pos .cart-row>span:last-child {display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+html.bom-ui .bom-pos-total {display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;margin-bottom:12px;border-bottom:1px solid var(--line);font-size:18px;font-variant-numeric:tabular-nums}
+html.bom-ui .bom-pos-basket>.actions {display:flex;flex-wrap:wrap;gap:8px}
+html.bom-ui .bom-pos-basket>.actions .primary {flex:1}
+@media(max-width:1000px){html.bom-ui .bom-pos {grid-template-columns:minmax(0,1fr)}html.bom-ui .bom-pos-basket {position:static}}
+@media(max-width:600px){
+ html.bom-ui :is(.ps313-tabs,.v3592-tabs,.v3591-nav,.finance-tabs,.v305-account-tabs) {flex-wrap:nowrap!important;overflow-x:auto;max-width:100%;padding-bottom:10px}
+ html.bom-ui #content :is(.ps313-tabs,.v3592-tabs,.v3591-nav,.finance-tabs,.v305-account-tabs) :is(.btn,button) {min-height:44px;flex:0 0 auto;white-space:nowrap}
+ html.bom-ui .ps313-filter .field,html.bom-ui .ps313-filter .field.search {flex:1 1 140px;max-width:none;min-width:0}
+ html.bom-ui .ps313-filter .btn {min-height:44px}
+ html.bom-ui .bom-payment-section {padding:12px}
+ html.bom-ui .bom-settings-groups .btn {flex:1 1 calc(50% - 6px);min-height:44px}
+ html.bom-ui .bom-settings-sections .btn {min-height:44px;flex:1 1 100%}
+ html.bom-ui .bom-mobile-records {display:block;width:100%;min-width:0!important}
+ html.bom-ui .bom-mobile-records :is(thead,tr:has(>th)) {display:none}
+ html.bom-ui .bom-mobile-records tbody {display:block}
+ html.bom-ui .bom-mobile-records tr:has(>td) {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border:1px solid var(--line);border-radius:8px;margin:10px 0;padding:6px;background:#fff}
+ html.bom-ui .bom-mobile-records td {display:block;position:static!important;border:0;white-space:normal;overflow-wrap:anywhere;min-width:0;max-width:none;padding:8px;text-align:left;box-shadow:none}
+ html.bom-ui .bom-mobile-records td::before {content:attr(data-label);display:block;font-size:11px;font-weight:500;color:var(--muted);margin-bottom:4px}
+ html.bom-ui .bom-mobile-records td.bom-actions-cell,html.bom-ui .bom-mobile-records td[colspan] {grid-column:1/-1}
+ html.bom-ui .bom-mobile-records .bom-actions-cell .btn {min-height:44px}
+ html.bom-ui .bom-pos .grid.g3 {grid-template-columns:minmax(0,1fr)}
+}
+html.bom-ui .bom-list-filter>.grid {display:flex;flex-wrap:wrap;align-items:end;gap:12px}
+html.bom-ui .bom-list-filter label {flex:1 1 180px;max-width:360px;display:grid;gap:6px;font-size:12px;font-weight:600}
+html.bom-ui .bom-list-filter .btn {flex:0 0 auto;min-height:var(--bom-control);align-self:end}
+html.bom-ui .bom-admin-section>summary {cursor:pointer;font-weight:600;padding:4px;min-height:36px}
+html.bom-ui .bom-admin-section[open]>summary {border-bottom:1px solid var(--line);margin-bottom:16px;padding-bottom:12px}
+html.bom-ui #content.v357-accounting .v291-kpis {gap:12px}
+html.bom-ui #content.v357-accounting .v291-kpi {padding:12px;box-shadow:none;min-height:0}
+html.bom-ui #content.v357-accounting .v291-kpi :is(b,.value) {font-size:22px}
+html.bom-ui :is(.v291-guide,.v291-health-card) {background:#f8fafc;box-shadow:none}
+@media(max-width:600px){html.bom-ui .bom-list-filter label{max-width:none}html.bom-ui .bom-admin-section>summary {min-height:44px}}
+html.bom-ui :is(.bom-server-pager,.v3391-pager) {display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px 12px;padding-top:14px;margin-top:10px;border-top:1px solid var(--line);font-size:12px}
+html.bom-ui :is(.bom-server-pager,.v3391-pager)>span:first-child {margin-right:auto;color:var(--muted)}
+html.bom-ui :is(.bom-server-pager,.v3391-pager) label {display:flex;align-items:center;gap:8px;margin:0;white-space:nowrap}
+html.bom-ui :is(.bom-server-pager,.v3391-pager) select {width:auto;min-width:70px;max-width:100px}
+html.bom-ui #content .bom-finance-navigation {display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px;border-bottom:0;overflow:visible}
+html.bom-ui .bom-finance-group {min-width:0;border:1px solid var(--line);border-radius:8px;background:#fff;padding:12px}
+html.bom-ui .bom-nav-label {display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px}
+html.bom-ui .bom-finance-group>div {display:flex;gap:6px;flex-wrap:wrap}
+html.bom-ui .bom-currency-note {font-size:12px;color:var(--muted);margin:-4px 0 14px}
+@media(max-width:900px){html.bom-ui #content .bom-finance-navigation {grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){html.bom-ui #content .bom-finance-navigation .bom-finance-group>div {flex-wrap:nowrap;overflow:auto;padding-bottom:6px}html.bom-ui :is(.bom-server-pager,.v3391-pager) .btn {min-height:44px}}
+@media(max-width:600px){
+ html.bom-ui .bomfx-shell>.bomfx-summary {grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:12px}
+ html.bom-ui .bomfx-shell>.bomfx-summary small {font-size:11px;line-height:1.4;display:block;overflow-wrap:anywhere}
+ html.bom-ui .bomfx-shell>.bomfx-summary b {font-size:15px;overflow-wrap:anywhere}
+}
+
+/* Mobile actions share the same touch target, including dense review toolbars. */
+@media(max-width:600px){
+ html.bom-ui #content :is(button,.btn,input[type=button],input[type=submit]),
+ html.bom-ui #modalRoot :is(button,.btn,input[type=button],input[type=submit]) {min-height:44px}
+ html.bom-ui #content :is(.bom-table-scroll,.table-wrap) {max-width:100%;overscroll-behavior-x:contain}
+ html.bom-ui #content :is(.bom-table-scroll,.table-wrap):focus-visible {outline:2px solid var(--bom-blue);outline-offset:2px}
+}

@@ -1,7 +1,7 @@
 'use strict';
 // Read-side only. Import purchase/payment/advance mutation and single-import financial context stay in v300/v305.
 const { paging } = require('./v349-pink-pages');
-function clean(query = {}) {return { search: String(query.search || '').trim().slice(0, 100), status: String(query.status || '').trim().slice(0, 40) };}
+function clean(query = {}) {return { search: String(query.search || '').trim().slice(0, 100), status: String(query.status || '').trim().slice(0, 40), sort: ['id','import_no','supplier','status'].includes(query.sort)?query.sort:'id', direction: query.direction==='asc'?'ASC':'DESC' };}
 function pageSQL(q = {}) {
   const a = [],where = ['i.business_unit_id=?'];
   if (q.search) {where.push('(i.import_no LIKE ? OR i.supplier_invoice_no LIKE ? OR i.container_no LIKE ? OR COALESCE(s.name,i.supplier_name) LIKE ?)');a.push(...Array(4).fill('%' + q.search + '%'));}
@@ -11,7 +11,7 @@ function pageSQL(q = {}) {
 const IMPORT_PAGE_SQL = `WITH chosen AS MATERIALIZED (
  SELECT i.*,COALESCE(s.name,i.supplier_name) supplier FROM pink_salt_imports i
  LEFT JOIN pink_salt_suppliers s ON s.id=i.supplier_id AND s.business_unit_id=i.business_unit_id
- WHERE %WHERE% ORDER BY i.id DESC LIMIT ? OFFSET ?
+ WHERE %WHERE% ORDER BY %ORDER_IN% LIMIT ? OFFSET ?
 ), items AS (SELECT x.import_id,COUNT(*) item_count,COALESCE(SUM(x.total_weight_kg),0) total_weight_kg,
  COALESCE(SUM(x.line_amount_original),0) purchase_original,COALESCE(SUM(x.line_amount_krw),0) purchase_krw
  FROM pink_salt_import_items x JOIN chosen c ON c.id=x.import_id GROUP BY x.import_id),
@@ -26,12 +26,12 @@ const IMPORT_PAGE_SQL = `WITH chosen AS MATERIALIZED (
  COALESCE(co.import_costs_krw,0) import_costs_krw,COALESCE(ca.cash_paid_krw,0) cash_paid_krw,
  COALESCE(ad.advance_allocated_krw,0) advance_allocated_krw
  FROM chosen c LEFT JOIN items it ON it.import_id=c.id LEFT JOIN costs co ON co.import_id=c.id
- LEFT JOIN cash ca ON ca.import_id=c.id LEFT JOIN advances ad ON ad.import_id=c.id ORDER BY c.id DESC`;
+ LEFT JOIN cash ca ON ca.import_id=c.id LEFT JOIN advances ad ON ad.import_id=c.id ORDER BY %ORDER_OUT%`;
 async function importPage(db, bu, query = {}) {
   const q = clean(query),filter = pageSQL(q),args = [bu, ...filter.args];
   const from = "FROM pink_salt_imports i LEFT JOIN pink_salt_suppliers s ON s.id=i.supplier_id AND s.business_unit_id=i.business_unit_id";
   const total = (await db.prepare(`SELECT COUNT(*) n ${from} WHERE ${filter.where}`).get(...args)).n;
-  const pagination = paging(query, total),rows = await db.prepare(IMPORT_PAGE_SQL.replace("%WHERE%", filter.where)).all(...args, pagination.pageSize, (pagination.page - 1) * pagination.pageSize);
+  const pagination = paging(query, total),rows = await db.prepare(IMPORT_PAGE_SQL.replace("%WHERE%", filter.where).replace('%ORDER_IN%',(q.sort==='supplier'?'COALESCE(s.name,i.supplier_name)':`i.${q.sort}`)+' '+q.direction+', i.id '+q.direction).replace('%ORDER_OUT%',`c.${q.sort} ${q.direction}, c.id ${q.direction}`)).all(...args, pagination.pageSize, (pagination.page - 1) * pagination.pageSize);
   const credits = await require('./receiving/summary').pageCredits(db, rows.map((x) => x.id)),effects = await require('./receiving/ledger').pageEffects(db, rows.map((x) => x.id)),progress = await require('./receiving/reads').summaries(db, 'import', rows.map((x) => x.id));
   const receivingFlags = await require('./receiving/indicators').sourceFlags(db, 'import', rows.map((x) => x.id));for (const x of rows) {x.receiving_flags = await receivingFlags.get(x.id);if (await progress.has(x.id)) Object.assign(x, await progress.get(x.id));x.receiving_flags.pending_delivery += x.open_q > 0 && x.physical_q > 0 ? 1 : 0;x.adjustment_credit_krw = (await effects.get(x.id)) || 0;x.paid_krw = Number(x.cash_paid_krw || 0) + Number(x.advance_allocated_krw || 0);x.claim_credit_applied_krw = (await credits.get(x.id)) || 0;x.total_covered_krw = x.paid_krw + x.claim_credit_applied_krw;x.invoice_adjustment_krw = x.claim_credit_applied_krw - x.adjustment_credit_krw;x.outstanding_krw = Math.max(0, Number(x.purchase_krw || 0) - x.paid_krw - x.adjustment_credit_krw);x.payment_status = x.status === 'Received' && x.outstanding_krw <= .01 ? 'Fully Paid' : x.paid_krw + Math.max(0, x.adjustment_credit_krw) <= 0 ? 'Unpaid' : x.outstanding_krw <= .01 ? 'Fully Paid / Ready to Receive' : 'Partially Paid';x.ready_to_receive = x.status !== 'Received' && x.outstanding_krw <= .01 && Number(x.purchase_krw || 0) > 0;}
   return { rows, pagination };

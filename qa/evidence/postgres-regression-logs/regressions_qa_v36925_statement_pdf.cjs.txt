@@ -1,6 +1,16 @@
-(node:299) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
+(node:2892) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
 (Use `node --trace-warnings ...` to show where the warning was created)
-PASS Actual English PDF contains exact KRW closing and original invoice-currency context
-PASS Actual Korean PDF retains readable Korean labels and identical financial figures
-PASS Identical authorized statement reuses the same financially keyed PDF snapshot
-PASS A real payment invalidates the PDF snapshot and updates exact closing and transaction contents
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(r.ok)
+
+    at pdf (/workspace/scratch/df7c43b13674/inspection/project/Blue_Ocean_Market_V30_70_7/qa/postgres/regressions/qa_v36925_statement_pdf.cjs:5:268)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async /workspace/scratch/df7c43b13674/inspection/project/Blue_Ocean_Market_V30_70_7/qa/postgres/regressions/qa_v36925_statement_pdf.cjs:6:16 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

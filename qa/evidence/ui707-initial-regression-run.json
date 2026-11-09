@@ -1,0 +1,226 @@
+{
+  "engine": "pglite",
+  "results": [
+    {
+      "file": "routes.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 1,
+      "ms": 7787
+    },
+    {
+      "file": "maintenance.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 6,
+      "ms": 18515
+    },
+    {
+      "file": "regressions/qa_v36920_excavator.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 13,
+      "ms": 8143
+    },
+    {
+      "file": "regressions/qa_v36920_fx_e2e.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 19,
+      "ms": 7302
+    },
+    {
+      "file": "regressions/qa_v36920_permissions.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 7,
+      "ms": 7328
+    },
+    {
+      "file": "regressions/qa_v36920_workflows.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 25,
+      "ms": 8269
+    },
+    {
+      "file": "regressions/qa_v36921_controls.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 24,
+      "ms": 7462
+    },
+    {
+      "file": "regressions/qa_v36922_read_routes.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 6,
+      "ms": 6948
+    },
+    {
+      "file": "regressions/qa_v36924_calculation.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 7,
+      "ms": 6660
+    },
+    {
+      "file": "regressions/qa_v36925_extended.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 12,
+      "ms": 7435
+    },
+    {
+      "file": "regressions/qa_v36925_server.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 22,
+      "ms": 7331
+    },
+    {
+      "file": "regressions/qa_v36925_statement_integrity.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 8,
+      "ms": 7165
+    },
+    {
+      "file": "regressions/qa_v36925_statement_pdf.cjs",
+      "code": 1,
+      "signal": null,
+      "checks": 0,
+      "ms": 11402,
+      "error": "(node:2892) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.\n(Use `node --trace-warnings ...` to show where the warning was created)\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(r.ok)\n\n    at pdf (/workspace/scratch/df7c43b13674/inspection/project/Blue_Ocean_Market_V30_70_7/qa/postgres/regressions/qa_v36925_statement_pdf.cjs:5:268)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async /workspace/scratch/df7c43b13674/inspection/project/Blue_Ocean_Market_V30_70_7/qa/postgres/regressions/qa_v36925_statement_pdf.cjs:6:16 {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n"
+    },
+    {
+      "file": "regressions/qa_v36926_recipient.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 10,
+      "ms": 7227
+    },
+    {
+      "file": "regressions/qa_v36927_supplier_accounts.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 7,
+      "ms": 6765
+    },
+    {
+      "file": "regressions/qa_v36929_qa15.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 20,
+      "ms": 7853
+    },
+    {
+      "file": "regressions/qa_v36930_shared_rate.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 11,
+      "ms": 6849
+    },
+    {
+      "file": "regressions/qa_v36931_reference.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 24,
+      "ms": 9722
+    },
+    {
+      "file": "regressions/qa_v36932_legacy_advances.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 5,
+      "ms": 6247
+    },
+    {
+      "file": "regressions/qa_v36932_server.cjs",
+      "code": 1,
+      "signal": null,
+      "checks": 15,
+      "ms": 14205,
+      "error": "(node:3061) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.\n(Use `node --trace-warnings ...` to show where the warning was created)\nPASS Cost correction retains one operational row, original URL/reference, exact revision values and one active Finance version\nPASS Cost detail provides current payment, source/recipient, evidence, rates, user and full financial revision history\nPASS Unverified supplier advance edits through shared review engine without changing its operational identity\nPASS Finance verification locks advances in UI metadata and both shared/legacy direct edit APIs\nPASS Allocated advance cannot be edited or reversed even when another advance could cover the supplier pool\nPASS Only an uncommitted, dependency-free owned draft can be deleted; recorded advance history remains protected\nPASS All six configured same-currency combinations (USD, PKR, KRW, EUR, JPY, CNY) with combined settlements keep native debit, KRW value and one real Finance movement consistent and eligible after verification\nPASS Missing foreign valuation, mistaken transfer identity rate and arbitrary KRW valuation are rejected without inventing FX gain/loss\nPASS Existing suspect mapping remains unchanged, explicitly blocked with a specific valuation reason while Finance verification is displayed separately\nPASS Original-user unposted valuation repair preserves the incorrect historical snapshot, rebuilds correct linked Finance/proposal values and requires re-verification\nPASS Import edits commit once with durable result lookup; concurrent retry and lost-response recovery do not duplicate audit/work\nPASS Sensitive import authorization preserves edit/CEO reasons, saves atomically once and completes the approval handshake\nPASS Ordinary non-CEO sensitive import approval executes its exact stored snapshot once, with current permissions and stale-record checks\nPASS Receiving failure rolls back stock/status/Accounting/audit; concurrent keyed retries create one stock receipt and one receipt journal\nPASS Supplier statement uses current valid settlements, explicit KRW basis and non-cash allocations without duplicate cash\nAssertionError [ERR_ASSERTION]: {\"error\":\"PDF generation failed. Please retry or download CSV.\"}\n    at /workspace/scratch/df7c43b13674/inspection/project/Blue_Ocean_Market_V30_70_7/qa/postgres/regressions/qa_v36932_server.cjs:20:252\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n"
+    },
+    {
+      "file": "regressions/qa_v36933_payment_approvals.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 17,
+      "ms": 8595
+    },
+    {
+      "file": "regressions/qa_v36936_packaging.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 25,
+      "ms": 14405
+    },
+    {
+      "file": "regressions/qa_v36937_refinement.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 8,
+      "ms": 7379
+    },
+    {
+      "file": "regressions/qa_v36938_product_ux.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 11,
+      "ms": 7075
+    },
+    {
+      "file": "regressions/qa_v36939_financial_guards.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 5,
+      "ms": 12763
+    },
+    {
+      "file": "regressions/qa_v36939_history.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 6,
+      "ms": 6830
+    },
+    {
+      "file": "regressions/qa_v36943_approval.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 2,
+      "ms": 8103
+    },
+    {
+      "file": "regressions/qa_v36943_oct22.cjs",
+      "code": 1,
+      "signal": null,
+      "checks": 9,
+      "ms": 13283,
+      "error": "(node:3306) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.\n(Use `node --trace-warnings ...` to show where the warning was created)\nPASS State/owner/manager/admin/CEO policy matrix enforces stricter CEO-only received-import Edit/Void\nPASS Existing location master supports scoped create/edit/archive, duplicate/required validation, denied non-admin/cross-BU access and active-only receiving options\nPASS Real manager API caps hide received Edit/Void and direct HTTP attempts are denied without mutation\nPASS Received posted FX cost does not advertise an unavailable Correct Posted Cost action\nPASS Closed-period failure rolls back FX, fee, Finance, allocation, journal and stock changes atomically\nPASS Consumed/adjusted import stock blocks void without any partial reversal\nPASS CEO void reverses real FX/payment/cost/fee/allocation and per-location stock, preserves supplier advance and creates a balanced posted-journal reversal proposal\nPASS Durable duplicate void returns one result; altered payload cannot reuse its operation key\nPASS Voided import remains visible with reason; supplier available advance is restored exactly without a fake cash refund\nAssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(r.ok)\n\n    at /workspace/scratch/df7c43b13674/inspection/project/Blue_Ocean_Market_V30_70_7/qa/postgres/regressions/qa_v36943_oct22.cjs:29:226\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n"
+    },
+    {
+      "file": "regressions/qa_v36944_receiving.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 12,
+      "ms": 8407
+    },
+    {
+      "file": "regressions/qa_v36947_policy.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 3,
+      "ms": 7242
+    },
+    {
+      "file": "regressions/qa_v36949_oct26.cjs",
+      "code": 1,
+      "signal": null,
+      "checks": 5,
+      "ms": 13019,
+      "error": "mpat-layer-relaunch --enable-automation --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --no-sandbox --disable-dev-shm-usage --single-process --no-zygote --user-data-dir=/tmp/playwright_chromiumdev_profile-2fLYqc --remote-debugging-pipe --no-startup-window\n<launched> pid=3411\n[pid=3411][err] [3411:3411:1109/010951.972784:FATAL:chrome/browser/process_singleton_posix.cc:292] Check failed: . socket() failed: Operation not permitted (1)\n[pid=3411][err] [1109/010951.974123:ERROR:third_party/crashpad/crashpad/util/linux/scoped_ptrace_attach.cc:27] ptrace: Operation not permitted (1)\n[pid=3411][err] [1109/010951.974222:ERROR:third_party/crashpad/crashpad/util/file/directory_reader_posix.cc:43] opendir /proc/3411/task: No such file or directory (2)\nCall log:\n\u001b[2m  - <launching> /root/.cache/ms-playwright/chromium-1194/chrome-linux/chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AcceptCHFrame,AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --no-sandbox --disable-dev-shm-usage --single-process --no-zygote --user-data-dir=/tmp/playwright_chromiumdev_profile-2fLYqc --remote-debugging-pipe --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=3411\u001b[22m\n\u001b[2m  - [pid=3411][err] [3411:3411:1109/010951.972784:FATAL:chrome/browser/process_singleton_posix.cc:292] Check failed: . socket() failed: Operation not permitted (1)\u001b[22m\n\u001b[2m  - [pid=3411][err] [1109/010951.974123:ERROR:third_party/crashpad/crashpad/util/linux/scoped_ptrace_attach.cc:27] ptrace: Operation not permitted (1)\u001b[22m\n\u001b[2m  - [pid=3411][err] [1109/010951.974222:ERROR:third_party/crashpad/crashpad/util/file/directory_reader_posix.cc:43] opendir /proc/3411/task: No such file or directory (2)\u001b[22m\n\u001b[2m  - [pid=3411] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=3411] <kill>\u001b[22m\n\u001b[2m  - [pid=3411] <will force kill>\u001b[22m\n\u001b[2m  - [pid=3411] <process did exit: exitCode=null, signal=SIGABRT>\u001b[22m\n\u001b[2m  - [pid=3411] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=3411] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=3411] <gracefully close end>\u001b[22m\n\n    at /workspace/scratch/df7c43b13674/inspection/project/Blue_Ocean_Market_V30_70_7/qa/postgres/regressions/qa_v36949_oct26.cjs:12:30\n"
+    }
+  ]
+}

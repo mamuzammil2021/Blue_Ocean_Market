@@ -1,3 +1,7 @@
+# V30.70.6 UI refinement
+
+See `UI_REFINEMENT_V30_70_6.md` for the current scoped changes and validation. The ownership contracts below still apply. `BOMUI` now also adds presentation-only mobile labels, numeric alignment and dashboard hierarchy. Settings grouping, import action grouping and payment sections belong to their domain renderers.
+
 # V30.69.41 ownership changes
 
 `public/bom-module-layouts.css` owns the Accounting top navigation, Settings full-width workspace, standalone control variants and named legacy domain panel adapters. It loads after the shared design system and uses the same density, border, radius and color tokens. Every selector is scoped to html.bom-ui. The obsolete Accounting injected stylesheet is removed. Original non-presentation controllers remain in place.

@@ -33,7 +33,30 @@ function decorate(root=document){
  for(const button of pick(root,'.notif-btn'))if(window.BOMUIIcons&&!button.querySelector('svg')){for(const n of [...button.childNodes])if(n.nodeType===3&&n.nodeValue.includes('🔔'))n.nodeValue=n.nodeValue.replace('🔔','');const icon=document.createElement('span');icon.innerHTML=window.BOMUIIcons.bell;icon.setAttribute('aria-hidden','true');button.prepend(icon);button.setAttribute('aria-label',t('Notifications'));}
  // Icon-only legacy close controls need an accessible name in both languages.
  for(const button of pick(root,'button'))if(/^[×✕✖]$/.test(button.textContent.trim())&&!button.getAttribute('aria-label'))button.setAttribute('aria-label',t('Close'));
- const content=document.getElementById('content');if(content){content.tabIndex=-1;}
+ const content=document.getElementById('content');if(content){content.tabIndex=-1;
+  const route=window.BOMRouter?.parse?.(),list=!route?.kind;
+  content.dataset.bomView=route?.view||'';
+  // Operational lists become labeled mobile records; financial journals retain table semantics.
+  for(const table of content.querySelectorAll('table.table')){
+   const heads=[...table.querySelectorAll('tr:first-child th')].map(n=>n.textContent.trim());
+   if(!heads.length)continue;
+   const cards=list&&['psImports','psSales','psCustomers','psSuppliers','excavator','excavatorSuppliers','excavatorBuyers','sales','purchases','inventory','documents','tasks','approvals'].includes(route?.view)&&!table.closest('form');
+   table.classList.toggle('bom-mobile-records',cards);
+   for(const row of table.rows){if(!row.querySelector('td')||row.cells.length!==heads.length)continue;[...row.cells].forEach((cell,i)=>{
+    if(cell.dataset.label!==heads[i])cell.dataset.label=heads[i];
+    const monetary=/amount|price|cost|balance|payable|receivable|revenue|profit|total|금액|가격|원가|잔액|미지급|미수|매출|이익|합계/i.test(heads[i]);
+    cell.classList.toggle('bom-numeric',monetary&&!cell.querySelector('button,input,select'));
+   });}
+   heads.forEach((label,i)=>table.querySelector('tr:first-child')?.cells[i]?.classList.toggle('bom-numeric',/amount|price|cost|balance|금액|가격|원가|잔액/i.test(label)));
+  }
+  // Give first-line dashboard indicators stronger weight; secondary numbers stay visible.
+  if(route?.view==='dashboard'){
+   if(!content.querySelector('[data-bom-currency-note]')){const note=document.createElement('p');note.dataset.bomCurrencyNote='1';note.className='bom-currency-note';note.textContent=t('Financial figures: KRW');content.querySelector('.titlebar')?.after(note);}
+   const grids=[...content.querySelectorAll('.grid,.ps-kpis')].filter(n=>n.querySelector(':scope > .stat,:scope > .ps-kpi'));
+   grids.forEach((n,i)=>n.classList.toggle('bom-secondary-metrics',i>0));
+  }
+ }
+
  const skip=document.getElementById('bomSkipLink');if(skip&&skip.textContent!==t('Skip to content'))skip.textContent=t('Skip to content');
  const hasModal=!!document.querySelector('#modalRoot .modal');if(hadModal&&!hasModal)restoreFocus=true;hadModal=hasModal;
  if(restoreFocus&&!hasModal&&!window.BOMDialogProcessingV363?.isActive()){const active=document.activeElement;if(active===document.body||active===content||!active?.isConnected)(opener?.isConnected?opener:content)?.focus({preventScroll:true});restoreFocus=false;opener=null;}
@@ -42,5 +65,5 @@ const iconNames={dashboard:'layout-dashboard',businesses:'building',sales:'shopp
 const observer=new MutationObserver(records=>{if(records.some(r=>r.addedNodes.length||r.removedNodes.length)&&!pending){pending=true;requestAnimationFrame(()=>{pending=false;decorate();});}});
 const skip=document.createElement('a');skip.id='bomSkipLink';skip.className='bom-skip-link';skip.href='#content';skip.textContent=t('Skip to content');skip.addEventListener('click',e=>{e.preventDefault();if(window.BOMDialogProcessingV363?.isActive())return;document.getElementById('content')?.focus({preventScroll:false});});document.body.prepend(skip);
 observer.observe(document.body,{childList:true,subtree:true});
-decorate();window.BOMUI=Object.freeze({version:'30.69.42',decorate});
+decorate();window.BOMUI=Object.freeze({version:'30.70.7',decorate});
 })();

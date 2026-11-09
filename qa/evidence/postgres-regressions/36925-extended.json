@@ -163,14 +163,6 @@
         "source_id": 5,
         "debit_krw": 14000,
         "credit_krw": 14000
-      },
-      {
-        "id": 6,
-        "status": "Pending Review",
-        "source_type": "Finance Entry",
-        "source_id": 6,
-        "debit_krw": 50,
-        "credit_krw": 50
       }
     ]
   }

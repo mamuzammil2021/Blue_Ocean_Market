@@ -118,7 +118,7 @@ html.bom-ui {
  .bom-ui .top {padding:10px 16px;}
 }
 @media (max-width:900px) {
- .bom-ui {--bom-control:40px;}
+ html.bom-ui {--bom-control:40px;}
  .bom-ui .shell {display:block;}
  .bom-ui .side {width:min(292px,88vw);}
  .bom-ui .side .nav-label {display:inline;}
@@ -134,7 +134,7 @@ html.bom-ui {
  .bom-ui .bom-actions-cell {max-width:210px;}
 }
 @media (max-width:560px) {
- .bom-ui {--bom-control:44px;}
+ html.bom-ui {--bom-control:44px;}
  .bom-ui .top {gap:8px;padding:10px 12px;align-items:flex-start;}
  .bom-ui .top-right {max-width:68%;gap:6px;}
  .bom-ui .top-user b {max-width:24vw;font-size:12px;}

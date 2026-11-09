@@ -1,0 +1,21 @@
+{
+  "version": "30.70.6",
+  "status": "PASS",
+  "checks": [
+    "Imports has one server-owned toolbar and sort survives refresh",
+    "Import search and Clear Filters operate on complete server results",
+    "Import sorting uses safe server ordering and rejects unrecognized SQL keys",
+    "Import operational and destructive actions are separate; workflow title contract is retained",
+    "Payment groups retain bank/cash conditional requirements with one required marker",
+    "Mobile payment evidence remains reachable without page overflow",
+    "Mobile import records show labeled values and visible actions without horizontal scrolling",
+    "Settings groups switch sections and deep refresh retains the active section; build label is current",
+    "Settings category labels follow Korean language selection",
+    "Employee mobile tabs have 44px touch targets",
+    "POS basket totals track adding, quantity changes and removal",
+    "A mutation shows one success notice while actionable errors remain visible",
+    "No uncaught browser errors during UI interactions"
+  ],
+  "errors": [],
+  "tested_at": "2026-11-08T16:20:57.263Z"
+}
