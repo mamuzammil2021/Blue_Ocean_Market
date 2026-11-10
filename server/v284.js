@@ -57,6 +57,8 @@ async function install({ app, db, auth, allow, currentUnit, enforceUnit, isFinan
   async function mutationIdempotency(req, res, next) {
     const method = String(req.method || 'GET').toUpperCase();
     if (!['POST', 'PUT', 'PATCH', "DELETE"].includes(method) || String(req.originalUrl || '').startsWith('/api/auth/')) return next();
+    // Machine cost handlers hash the parsed fields and uploaded evidence before replaying.
+    if (method === 'POST' && /^\/api\/excavator\/assets\/\d+\/(?:parts|repairs|logistics|transactions)\/?$/.test(String(req.originalUrl || '').split('?')[0])) return next();
     // These payment controllers own payload/evidence-aware durable idempotency after multipart parsing.
     if (method === 'PUT' && /^\/api\/pink-salt\/suppliers\/\d+\/advances\/\d+\/edit-v307$/.test(String(req.originalUrl || '').split('?')[0])) return next();
     if (/^(POST|PUT)$/.test(method) && /^\/api\/pink-salt\/imports\/\d+\/(?:receive|manage-v310)$/.test(String(req.originalUrl || '').split('?')[0])) return next();

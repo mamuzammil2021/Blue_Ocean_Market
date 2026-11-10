@@ -1,5 +1,3 @@
-(node:2933) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
-(Use `node --trace-warnings ...` to show where the warning was created)
 PASS Approval history resolves registered Finance source without the legacy missing-helper failure
 PASS Approval history redacts credentials and performs no Finance, FX or journal writes
 PASS Approval source projection refuses a linked record from another business unit

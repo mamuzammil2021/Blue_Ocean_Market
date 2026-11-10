@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Cancellation remains consistent and explicit reopening records a reason and restores Available",
+    "Verified canonical cost is shown as verified on its mirror and cannot be edited or voided through it",
+    "A permitted repair edit reconciles both cost records and preserves the Finance identity after restart",
+    "Machine Detail and Operations share the legacy purchase-price fallback and unit scope",
+    "Posted freight stays locked and a pending parts edit preserves its Finance identity and per-unit cost",
+    "The unpaid Machine Detail offers Payments and omits all Sell Machine actions",
+    "Populated Packaging Purchases renders readable phone cards and a desktop table with accessible secondary actions",
+    "The unpaid import explains the receiving lock, keeps Supplier Payment visible and groups document and history actions"
+  ]
+}

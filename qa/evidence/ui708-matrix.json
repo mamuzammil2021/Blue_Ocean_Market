@@ -1,5 +1,5 @@
 {
-  "version": "30.70.10",
+  "version": "30.70.14",
   "results": [
     {
       "key": "dashboard-all",
@@ -1813,14 +1813,9 @@
           "primary": false
         },
         {
-          "text": "Sell",
-          "h": 36,
-          "primary": false
-        },
-        {
           "text": "Payments",
           "h": 36,
-          "primary": false
+          "primary": true
         },
         {
           "text": "Documents",
@@ -2613,25 +2608,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-11",
+          "name": "bom-field-15",
           "h": 38,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-12",
+          "name": "bom-field-16",
           "h": 38,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-13",
+          "name": "bom-field-17",
           "h": 38,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-14",
+          "name": "bom-field-18",
           "h": 38,
           "label": true
         }
@@ -2698,7 +2693,7 @@
         },
         {
           "text": "🖼 Images 0",
-          "h": 36,
+          "h": 50,
           "primary": false
         },
         {
@@ -2720,25 +2715,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-19",
+          "name": "bom-field-23",
           "h": 38,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-20",
+          "name": "bom-field-24",
           "h": 38,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-21",
+          "name": "bom-field-25",
           "h": 38,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-22",
+          "name": "bom-field-26",
           "h": 38,
           "label": true
         }
@@ -2812,25 +2807,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-27",
+          "name": "bom-field-31",
           "h": 36,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-28",
+          "name": "bom-field-32",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-29",
+          "name": "bom-field-33",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-30",
+          "name": "bom-field-34",
           "h": 36,
           "label": true
         },
@@ -2910,25 +2905,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-35",
+          "name": "bom-field-39",
           "h": 36,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-36",
+          "name": "bom-field-40",
           "h": 36,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-37",
+          "name": "bom-field-41",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-38",
+          "name": "bom-field-42",
           "h": 36,
           "label": true
         },
@@ -2988,25 +2983,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-39",
+          "name": "bom-field-43",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-40",
+          "name": "bom-field-44",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-41",
+          "name": "bom-field-45",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-42",
+          "name": "bom-field-46",
           "h": 36,
           "label": true
         }
@@ -3110,7 +3105,7 @@
       "url": "#psImports/import/2?unit=4",
       "phase": "ready",
       "headings": [
-        "Import Detail · QA-IMP-9f43e2c1ef",
+        "Import Detail · QA-IMP-98ca599bf7",
         "Salt Categories",
         "Supplier Payments",
         "Import Cost",
@@ -3547,14 +3542,9 @@
           "primary": true
         },
         {
-          "text": "Sell Machine",
-          "h": 36,
-          "primary": true
-        },
-        {
           "text": "Payments",
           "h": 36,
-          "primary": false
+          "primary": true
         },
         {
           "text": "Documents (0)",
@@ -3577,9 +3567,9 @@
           "primary": false
         },
         {
-          "text": "Sell Machine",
+          "text": "Payments",
           "h": 30,
-          "primary": true
+          "primary": false
         }
       ],
       "controls": [],
@@ -3997,13 +3987,13 @@
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-78",
+          "name": "bom-field-82",
           "h": 36,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-79",
+          "name": "bom-field-83",
           "h": 36,
           "label": true
         },
@@ -4935,8 +4925,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 45,
-          "scroll": 858,
-          "client": 858
+          "scroll": 790,
+          "client": 790
         }
       ],
       "cards": 6,
@@ -5017,8 +5007,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 988,
-          "client": 988
+          "scroll": 925,
+          "client": 925
         }
       ],
       "cards": 5,
@@ -5227,8 +5217,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 61,
-          "scroll": 809,
-          "client": 809
+          "scroll": 758,
+          "client": 758
         }
       ],
       "cards": 11,
@@ -5378,8 +5368,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 1117,
-          "client": 1117
+          "scroll": 1039,
+          "client": 1039
         }
       ],
       "cards": 1,
@@ -5544,8 +5534,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 1002,
-          "client": 1002
+          "scroll": 930,
+          "client": 930
         }
       ],
       "cards": 1,
@@ -5788,7 +5778,7 @@
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-84",
+          "name": "bom-field-88",
           "h": 40,
           "label": true
         }
@@ -5994,14 +5984,9 @@
           "primary": false
         },
         {
-          "text": "Sell",
-          "h": 40,
-          "primary": false
-        },
-        {
           "text": "Payments",
           "h": 40,
-          "primary": false
+          "primary": true
         },
         {
           "text": "Documents",
@@ -6211,8 +6196,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 884,
-          "client": 884
+          "scroll": 836,
+          "client": 836
         }
       ],
       "cards": 5,
@@ -6429,8 +6414,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 864,
-          "client": 864
+          "scroll": 784,
+          "client": 784
         }
       ],
       "cards": 1,
@@ -6481,25 +6466,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-89",
+          "name": "bom-field-93",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-90",
+          "name": "bom-field-94",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-91",
+          "name": "bom-field-95",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-92",
+          "name": "bom-field-96",
           "h": 40,
           "label": true
         },
@@ -6527,8 +6512,8 @@
           "bootstrap": true,
           "cols": 10,
           "rows": 3,
-          "scroll": 995,
-          "client": 995
+          "scroll": 899,
+          "client": 899
         }
       ],
       "cards": 5,
@@ -6879,7 +6864,7 @@
         },
         {
           "text": "🖼 Images 0",
-          "h": 40,
+          "h": 50,
           "primary": false
         },
         {
@@ -6901,25 +6886,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-101",
+          "name": "bom-field-105",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-102",
+          "name": "bom-field-106",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-103",
+          "name": "bom-field-107",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-104",
+          "name": "bom-field-108",
           "h": 40,
           "label": true
         }
@@ -6941,8 +6926,8 @@
           "bootstrap": true,
           "cols": 11,
           "rows": 2,
-          "scroll": 947,
-          "client": 947
+          "scroll": 883,
+          "client": 883
         }
       ],
       "cards": 5,
@@ -6993,25 +6978,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-109",
+          "name": "bom-field-113",
           "h": 40,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-110",
+          "name": "bom-field-114",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-111",
+          "name": "bom-field-115",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-112",
+          "name": "bom-field-116",
           "h": 40,
           "label": true
         },
@@ -7091,25 +7076,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-117",
+          "name": "bom-field-121",
           "h": 40,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-118",
+          "name": "bom-field-122",
           "h": 40,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-119",
+          "name": "bom-field-123",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-120",
+          "name": "bom-field-124",
           "h": 40,
           "label": true
         },
@@ -7169,25 +7154,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-125",
+          "name": "bom-field-129",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-126",
+          "name": "bom-field-130",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-127",
+          "name": "bom-field-131",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-128",
+          "name": "bom-field-132",
           "h": 40,
           "label": true
         }
@@ -7291,7 +7276,7 @@
       "url": "#psImports/import/2?unit=4",
       "phase": "ready",
       "headings": [
-        "Import Detail · QA-IMP-9f43e2c1ef",
+        "Import Detail · QA-IMP-98ca599bf7",
         "Salt Categories",
         "Supplier Payments",
         "Import Cost",
@@ -7459,7 +7444,7 @@
         },
         {
           "text": "Documents / Evidence",
-          "h": 40,
+          "h": 36,
           "primary": false
         },
         {
@@ -7506,8 +7491,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 3,
-          "scroll": 879,
-          "client": 879
+          "scroll": 788,
+          "client": 788
         },
         {
           "bootstrap": true,
@@ -7728,14 +7713,9 @@
           "primary": true
         },
         {
-          "text": "Sell Machine",
-          "h": 40,
-          "primary": true
-        },
-        {
           "text": "Payments",
           "h": 40,
-          "primary": false
+          "primary": true
         },
         {
           "text": "Documents (0)",
@@ -7758,9 +7738,9 @@
           "primary": false
         },
         {
-          "text": "Sell Machine",
+          "text": "Payments",
           "h": 36,
-          "primary": true
+          "primary": false
         }
       ],
       "controls": [],
@@ -7945,8 +7925,8 @@
           "bootstrap": true,
           "cols": 9,
           "rows": 2,
-          "scroll": 770,
-          "client": 770
+          "scroll": 754,
+          "client": 754
         }
       ],
       "cards": 6,
@@ -8178,13 +8158,13 @@
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-164",
+          "name": "bom-field-168",
           "h": 40,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-165",
+          "name": "bom-field-169",
           "h": 40,
           "label": true
         },
@@ -8507,8 +8487,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 2,
-          "scroll": 706,
-          "client": 706
+          "scroll": 646,
+          "client": 646
         }
       ],
       "cards": 16,
@@ -8783,8 +8763,8 @@
           "bootstrap": true,
           "cols": 10,
           "rows": 2,
-          "scroll": 731,
-          "client": 731
+          "scroll": 683,
+          "client": 683
         },
         {
           "bootstrap": true,
@@ -8867,7 +8847,7 @@
         },
         {
           "text": "Open Finance",
-          "h": 50,
+          "h": 44,
           "primary": false
         },
         {
@@ -8877,7 +8857,7 @@
         },
         {
           "text": "Open",
-          "h": 61,
+          "h": 44,
           "primary": false
         }
       ],
@@ -9408,8 +9388,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 61,
-          "scroll": 813,
-          "client": 813
+          "scroll": 762,
+          "client": 762
         }
       ],
       "cards": 11,
@@ -9725,8 +9705,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 1002,
-          "client": 1002
+          "scroll": 930,
+          "client": 930
         }
       ],
       "cards": 1,
@@ -9969,7 +9949,7 @@
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-170",
+          "name": "bom-field-174",
           "h": 44,
           "label": true
         }
@@ -10175,14 +10155,9 @@
           "primary": false
         },
         {
-          "text": "Sell",
-          "h": 44,
-          "primary": false
-        },
-        {
           "text": "Payments",
           "h": 44,
-          "primary": false
+          "primary": true
         },
         {
           "text": "Documents",
@@ -10234,7 +10209,7 @@
       "summaries": [
         {
           "items": 4,
-          "rows": 4
+          "rows": 2
         }
       ],
       "filters": [
@@ -10662,25 +10637,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-175",
+          "name": "bom-field-179",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-176",
+          "name": "bom-field-180",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-177",
+          "name": "bom-field-181",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-178",
+          "name": "bom-field-182",
           "h": 44,
           "label": true
         },
@@ -10861,8 +10836,8 @@
           "bootstrap": true,
           "cols": 5,
           "rows": 2,
-          "scroll": 661,
-          "client": 661
+          "scroll": 640,
+          "client": 640
         }
       ],
       "cards": 2,
@@ -10975,25 +10950,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-183",
+          "name": "bom-field-187",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-184",
+          "name": "bom-field-188",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-185",
+          "name": "bom-field-189",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-186",
+          "name": "bom-field-190",
           "h": 44,
           "label": true
         }
@@ -11082,25 +11057,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-191",
+          "name": "bom-field-195",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-192",
+          "name": "bom-field-196",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-193",
+          "name": "bom-field-197",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-194",
+          "name": "bom-field-198",
           "h": 44,
           "label": true
         }
@@ -11174,25 +11149,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-199",
+          "name": "bom-field-203",
           "h": 44,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-200",
+          "name": "bom-field-204",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-201",
+          "name": "bom-field-205",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-202",
+          "name": "bom-field-206",
           "h": 44,
           "label": true
         },
@@ -11272,25 +11247,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-207",
+          "name": "bom-field-211",
           "h": 44,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-208",
+          "name": "bom-field-212",
           "h": 44,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-209",
+          "name": "bom-field-213",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-210",
+          "name": "bom-field-214",
           "h": 44,
           "label": true
         },
@@ -11350,25 +11325,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-215",
+          "name": "bom-field-219",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-216",
+          "name": "bom-field-220",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-217",
+          "name": "bom-field-221",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-218",
+          "name": "bom-field-222",
           "h": 44,
           "label": true
         }
@@ -11458,8 +11433,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 2,
-          "scroll": 662,
-          "client": 662
+          "scroll": 640,
+          "client": 640
         }
       ],
       "cards": 8,
@@ -11472,7 +11447,7 @@
       "url": "#psImports/import/2?unit=4",
       "phase": "ready",
       "headings": [
-        "Import Detail · QA-IMP-9f43e2c1ef",
+        "Import Detail · QA-IMP-98ca599bf7",
         "Salt Categories",
         "Supplier Payments",
         "Import Cost",
@@ -11488,42 +11463,42 @@
         },
         {
           "text": "🔒 Receive Goods",
-          "h": 59,
+          "h": 83,
           "primary": false
         },
         {
           "text": "View Receiving History",
-          "h": 59,
+          "h": 83,
           "primary": false
         },
         {
           "text": "+ Supplier Payment",
-          "h": 59,
+          "h": 83,
           "primary": true
         },
         {
           "text": "+ Import Cost",
-          "h": 59,
+          "h": 44,
           "primary": false
         },
         {
           "text": "+ Add Document",
-          "h": 59,
+          "h": 44,
           "primary": false
         },
         {
           "text": "View in Finance",
-          "h": 59,
+          "h": 44,
           "primary": false
         },
         {
           "text": "Edit Import",
-          "h": 59,
+          "h": 44,
           "primary": false
         },
         {
           "text": "View History",
-          "h": 59,
+          "h": 44,
           "primary": false
         },
         {
@@ -11555,8 +11530,8 @@
           "bootstrap": true,
           "cols": 9,
           "rows": 2,
-          "scroll": 715,
-          "client": 715
+          "scroll": 656,
+          "client": 656
         },
         {
           "bootstrap": true,
@@ -11687,8 +11662,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 3,
-          "scroll": 883,
-          "client": 883
+          "scroll": 792,
+          "client": 792
         },
         {
           "bootstrap": true,
@@ -11789,8 +11764,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 2,
-          "scroll": 725,
-          "client": 725
+          "scroll": 671,
+          "client": 671
         }
       ],
       "cards": 4,
@@ -11909,14 +11884,9 @@
           "primary": true
         },
         {
-          "text": "Sell Machine",
-          "h": 44,
-          "primary": true
-        },
-        {
           "text": "Payments",
           "h": 44,
-          "primary": false
+          "primary": true
         },
         {
           "text": "Documents (0)",
@@ -11939,9 +11909,9 @@
           "primary": false
         },
         {
-          "text": "Sell Machine",
+          "text": "Payments",
           "h": 44,
-          "primary": true
+          "primary": false
         }
       ],
       "controls": [],
@@ -12047,7 +12017,7 @@
       "buttons": [
         {
           "text": "← Back to Accounting",
-          "h": 56,
+          "h": 44,
           "primary": false
         },
         {
@@ -12126,8 +12096,8 @@
           "bootstrap": true,
           "cols": 9,
           "rows": 2,
-          "scroll": 770,
-          "client": 770
+          "scroll": 726,
+          "client": 726
         }
       ],
       "cards": 6,
@@ -12359,13 +12329,13 @@
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-254",
+          "name": "bom-field-258",
           "h": 44,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-255",
+          "name": "bom-field-259",
           "h": 44,
           "label": true
         },
@@ -14150,7 +14120,7 @@
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-260",
+          "name": "bom-field-264",
           "h": 36,
           "label": true
         }
@@ -14356,14 +14326,9 @@
           "primary": false
         },
         {
-          "text": "판매",
-          "h": 36,
-          "primary": false
-        },
-        {
           "text": "결제",
           "h": 36,
-          "primary": false
+          "primary": true
         },
         {
           "text": "문서",
@@ -14843,25 +14808,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-265",
+          "name": "bom-field-269",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-266",
+          "name": "bom-field-270",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-267",
+          "name": "bom-field-271",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-268",
+          "name": "bom-field-272",
           "h": 36,
           "label": true
         },
@@ -15263,25 +15228,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-277",
+          "name": "bom-field-281",
           "h": 38,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-278",
+          "name": "bom-field-282",
           "h": 38,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-279",
+          "name": "bom-field-283",
           "h": 38,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-280",
+          "name": "bom-field-284",
           "h": 38,
           "label": true
         }
@@ -15355,25 +15320,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-285",
+          "name": "bom-field-289",
           "h": 36,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-286",
+          "name": "bom-field-290",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-287",
+          "name": "bom-field-291",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-288",
+          "name": "bom-field-292",
           "h": 36,
           "label": true
         },
@@ -15453,25 +15418,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-293",
+          "name": "bom-field-297",
           "h": 36,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-294",
+          "name": "bom-field-298",
           "h": 36,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-295",
+          "name": "bom-field-299",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-296",
+          "name": "bom-field-300",
           "h": 36,
           "label": true
         },
@@ -15531,25 +15496,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-301",
+          "name": "bom-field-305",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-302",
+          "name": "bom-field-306",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-303",
+          "name": "bom-field-307",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-304",
+          "name": "bom-field-308",
           "h": 36,
           "label": true
         }
@@ -15653,7 +15618,7 @@
       "url": "#psImports/import/2?unit=4",
       "phase": "ready",
       "headings": [
-        "수입 상세 · QA-IMP-9f43e2c1ef",
+        "수입 상세 · QA-IMP-98ca599bf7",
         "소금 품목",
         "공급업체 결제",
         "수입 비용",
@@ -16090,14 +16055,9 @@
           "primary": true
         },
         {
-          "text": "장비 판매",
-          "h": 36,
-          "primary": true
-        },
-        {
           "text": "결제",
           "h": 36,
-          "primary": false
+          "primary": true
         },
         {
           "text": "문서 (0)",
@@ -16120,9 +16080,9 @@
           "primary": false
         },
         {
-          "text": "장비 판매",
+          "text": "결제",
           "h": 30,
-          "primary": true
+          "primary": false
         }
       ],
       "controls": [],
@@ -16540,13 +16500,13 @@
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-340",
+          "name": "bom-field-344",
           "h": 36,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-341",
+          "name": "bom-field-345",
           "h": 36,
           "label": true
         },
@@ -17560,8 +17520,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 881,
-          "client": 881
+          "scroll": 885,
+          "client": 885
         }
       ],
       "cards": 5,
@@ -17921,8 +17881,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 962,
-          "client": 962
+          "scroll": 944,
+          "client": 944
         }
       ],
       "cards": 1,
@@ -18087,8 +18047,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 769,
-          "client": 769
+          "scroll": 785,
+          "client": 785
         }
       ],
       "cards": 1,
@@ -18347,7 +18307,7 @@
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-346",
+          "name": "bom-field-350",
           "h": 40,
           "label": true
         }
@@ -18553,14 +18513,9 @@
           "primary": false
         },
         {
-          "text": "판매",
-          "h": 40,
-          "primary": false
-        },
-        {
           "text": "결제",
           "h": 40,
-          "primary": false
+          "primary": true
         },
         {
           "text": "문서",
@@ -19040,25 +18995,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-351",
+          "name": "bom-field-355",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-352",
+          "name": "bom-field-356",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-353",
+          "name": "bom-field-357",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-354",
+          "name": "bom-field-358",
           "h": 40,
           "label": true
         },
@@ -19086,8 +19041,8 @@
           "bootstrap": true,
           "cols": 10,
           "rows": 3,
-          "scroll": 876,
-          "client": 876
+          "scroll": 835,
+          "client": 835
         }
       ],
       "cards": 5,
@@ -19353,25 +19308,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-355",
+          "name": "bom-field-359",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-356",
+          "name": "bom-field-360",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-357",
+          "name": "bom-field-361",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-358",
+          "name": "bom-field-362",
           "h": 40,
           "label": true
         }
@@ -19500,8 +19455,8 @@
           "bootstrap": true,
           "cols": 11,
           "rows": 2,
-          "scroll": 764,
-          "client": 764
+          "scroll": 759,
+          "client": 759
         }
       ],
       "cards": 5,
@@ -19850,7 +19805,7 @@
       "url": "#psImports/import/2?unit=4",
       "phase": "ready",
       "headings": [
-        "수입 상세 · QA-IMP-9f43e2c1ef",
+        "수입 상세 · QA-IMP-98ca599bf7",
         "소금 품목",
         "공급업체 결제",
         "수입 비용",
@@ -20065,8 +20020,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 3,
-          "scroll": 787,
-          "client": 787
+          "scroll": 812,
+          "client": 812
         },
         {
           "bootstrap": true,
@@ -20287,14 +20242,9 @@
           "primary": true
         },
         {
-          "text": "장비 판매",
-          "h": 40,
-          "primary": true
-        },
-        {
           "text": "결제",
           "h": 40,
-          "primary": false
+          "primary": true
         },
         {
           "text": "문서 (0)",
@@ -20317,9 +20267,9 @@
           "primary": false
         },
         {
-          "text": "장비 판매",
+          "text": "결제",
           "h": 36,
-          "primary": true
+          "primary": false
         }
       ],
       "controls": [],
@@ -22284,8 +22234,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 769,
-          "client": 769
+          "scroll": 785,
+          "client": 785
         }
       ],
       "cards": 1,
@@ -22750,14 +22700,9 @@
           "primary": false
         },
         {
-          "text": "판매",
-          "h": 44,
-          "primary": false
-        },
-        {
           "text": "결제",
           "h": 44,
-          "primary": false
+          "primary": true
         },
         {
           "text": "문서",
@@ -22809,7 +22754,7 @@
       "summaries": [
         {
           "items": 4,
-          "rows": 4
+          "rows": 2
         }
       ],
       "filters": [
@@ -23630,12 +23575,12 @@
         },
         {
           "text": "추적성",
-          "h": 50,
+          "h": 70,
           "primary": false
         },
         {
           "text": "🖼 이미지 0개",
-          "h": 90,
+          "h": 110,
           "primary": false
         },
         {
@@ -24047,7 +23992,7 @@
       "url": "#psImports/import/2?unit=4",
       "phase": "ready",
       "headings": [
-        "수입 상세 · QA-IMP-9f43e2c1ef",
+        "수입 상세 · QA-IMP-98ca599bf7",
         "소금 품목",
         "공급업체 결제",
         "수입 비용",
@@ -24063,17 +24008,17 @@
         },
         {
           "text": "🔒 물품 입고",
-          "h": 44,
+          "h": 63,
           "primary": false
         },
         {
           "text": "입고 이력 보기",
-          "h": 44,
+          "h": 63,
           "primary": false
         },
         {
           "text": "+ 공급업체 지급",
-          "h": 44,
+          "h": 63,
           "primary": true
         },
         {
@@ -24262,8 +24207,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 3,
-          "scroll": 791,
-          "client": 791
+          "scroll": 816,
+          "client": 816
         },
         {
           "bootstrap": true,
@@ -24484,14 +24429,9 @@
           "primary": true
         },
         {
-          "text": "장비 판매",
-          "h": 44,
-          "primary": true
-        },
-        {
           "text": "결제",
           "h": 44,
-          "primary": false
+          "primary": true
         },
         {
           "text": "문서 (0)",
@@ -24514,9 +24454,9 @@
           "primary": false
         },
         {
-          "text": "장비 판매",
+          "text": "결제",
           "h": 44,
-          "primary": true
+          "primary": false
         }
       ],
       "controls": [],
@@ -25121,5 +25061,5 @@
     }
   ],
   "errors": [],
-  "tested_at": "2026-11-09T20:04:02.365Z"
+  "tested_at": "2026-11-10T11:27:06.465Z"
 }

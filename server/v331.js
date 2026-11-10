@@ -151,11 +151,14 @@ async function install(ctx = {}) {
     if (sourceEntity === 'finance_entry') f = await db.prepare("SELECT * FROM finance_entries WHERE id=?").get(Number(sourceId));else
     {const inverse = { excavator_payment: 'Excavator Payment', excavator_transaction: 'Excavator Cost Transaction', excavator_buyer_payment: 'Excavator Buyer Payment', buyer_advance_refund: 'Excavator Buyer Refund', pink_salt_import_payment: 'Pink Salt Import Payment', pink_salt_import_cost: 'Pink Salt Import Cost', pink_salt_packaging_purchase: 'Pink Salt Packaging Purchase', pink_salt_customer_payment: 'Pink Salt Customer Payment', pink_salt_customer_refund: 'Pink Salt Customer Refund', sale: 'Sale', purchase: 'Purchase' };if (inverse[sourceEntity]) f = await db.prepare("SELECT * FROM finance_entries WHERE source_type=? AND source_id=? ORDER BY id DESC LIMIT 1").get(inverse[sourceEntity], Number(sourceId));}
     if (!f) return { allowed: true };
+    const part = await require('./excavator-cost-backfill').partReversal(db, f);
+    if (part?.error) return { allowed: false, reason: part.error };
+    if (part && sourceEntity !== 'finance_entry') return { allowed: false, reason: 'Request reversal from the linked Finance entry.' };
     const j = await latestJournal(f);if (text(f.status) === 'Voided') return { allowed: false, reason: 'This Finance/source transaction is already voided or reversed.' };
     if (j?.status === 'Posted' && (await periodClosed(j))) return { allowed: false, reason: `This posted transaction belongs to a closed accounting period (${text(j.transaction_date).slice(0, 7)}). Reopen the period or use an authorized adjustment before executing the reversal.` };
     const costBlock = await costDownstreamBlocker(f);if (costBlock) return { allowed: false, reason: costBlock };
     const payBlock = await paymentDownstreamBlocker(f);if (payBlock) return { allowed: false, reason: payBlock };
-    return { allowed: true, finance: f, journal: j, impacts: await impactForFinance(f) };
+    return { allowed: true, finance: f, journal: j, impacts: await impactForFinance(f), part: part?.part };
   }
   async function protectedVerifiedStage(f) {
     if (!f) return false;const j = await latestJournal(f);return ['Verified / Correct', 'Verified'].includes(text(f.verification_status)) || j?.status === 'Posted' || text(f.accounting_status) === 'Posted' || Number(f.accounting_journal_id || 0) > 0;
@@ -165,7 +168,9 @@ async function install(ctx = {}) {
     const j = await latestJournal(f),stage = financeStage(f, j),impacts = await impactForFinance(f),sourceMessage = sourceManagedMessage(text(f.source_type));
     if (text(f.status) === 'Voided') return { can_request: false, action_label: '', stage, reason: 'This Finance record is already voided/reversed. Use History to review the audit chain.', impacts, journal: j };
     if (sourceMessage) return { can_request: false, action_label: '', stage, reason: sourceMessage, impacts, journal: j, source_managed: true };
-    if (!mapSourceEntity(f.source_type) && f.source_type !== 'Manual' && f.source_type !== '') return { can_request: false, action_label: '', stage, reason: `${f.source_type} is not safely reversible from Finance. Use its linked source workflow.`, impacts, journal: j, source_managed: true };
+    const part = await require('./excavator-cost-backfill').partReversal(db, f);
+    if (part?.error) return { can_request: false, action_label: '', stage, reason: part.error, impacts, journal: j };
+    if (!part && !mapSourceEntity(f.source_type) && f.source_type !== 'Manual' && f.source_type !== '') return { can_request: false, action_label: '', stage, reason: `${f.source_type} is not safely reversible from Finance. Use its linked source workflow.`, impacts, journal: j, source_managed: true };
     const open = await activeVoidApprovalForFinance(f);if (open) return { can_request: false, action_label: '', stage, reason: `A controlled void/reversal request (#${open.id}) is already ${open.status}.`, impacts, journal: j, open_request: open };
     if (j?.status === 'Posted' && (await periodClosed(j))) return { can_request: false, action_label: '', stage, reason: `This posted transaction belongs to a closed accounting period (${text(j.transaction_date).slice(0, 7)}). Reopen the period or use an authorized adjustment/reversal workflow.`, impacts, journal: j };
     const costBlock = await costDownstreamBlocker(f);if (costBlock) return { can_request: false, action_label: '', stage, reason: costBlock, impacts, journal: j };

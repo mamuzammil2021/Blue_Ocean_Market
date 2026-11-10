@@ -1,5 +1,3 @@
-(node:3540) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
-(Use `node --trace-warnings ...` to show where the warning was created)
 PASS Korean-only product creates through existing atomic API without English content
 PASS Commerce preferred English falls back per field to actual Korean content
 PASS Both/English preferences retain inactive-language content

@@ -5,169 +5,187 @@
       "file": "routes.cjs",
       "code": 0,
       "signal": null,
-      "checks": 1,
-      "ms": 17496
+      "checks": 1
     },
     {
       "file": "maintenance.cjs",
       "code": 0,
       "signal": null,
-      "checks": 6,
-      "ms": 38704
+      "checks": 6
     },
     {
       "file": "regressions/qa_v36920_excavator.cjs",
       "code": 0,
       "signal": null,
-      "checks": 13,
-      "ms": 14612
+      "checks": 13
     },
     {
       "file": "regressions/qa_v36920_fx_e2e.cjs",
       "code": 0,
       "signal": null,
-      "checks": 19,
-      "ms": 14153
+      "checks": 19
     },
     {
       "file": "regressions/qa_v36920_permissions.cjs",
       "code": 0,
       "signal": null,
-      "checks": 7,
-      "ms": 16873
+      "checks": 7
     },
     {
       "file": "regressions/qa_v36920_workflows.cjs",
       "code": 0,
       "signal": null,
-      "checks": 25,
-      "ms": 17244
+      "checks": 25
     },
     {
       "file": "regressions/qa_v36921_controls.cjs",
       "code": 0,
       "signal": null,
-      "checks": 24,
-      "ms": 19813
+      "checks": 24
     },
     {
       "file": "regressions/qa_v36922_read_routes.cjs",
       "code": 0,
       "signal": null,
-      "checks": 6,
-      "ms": 14015
+      "checks": 6
     },
     {
       "file": "regressions/qa_v36924_calculation.cjs",
       "code": 0,
       "signal": null,
-      "checks": 7,
-      "ms": 13527
+      "checks": 7
     },
     {
       "file": "regressions/qa_v36925_extended.cjs",
       "code": 0,
       "signal": null,
-      "checks": 12,
-      "ms": 23335
+      "checks": 12
     },
     {
       "file": "regressions/qa_v36925_server.cjs",
       "code": 0,
       "signal": null,
-      "checks": 22,
-      "ms": 18412
+      "checks": 22
     },
     {
       "file": "regressions/qa_v36925_statement_integrity.cjs",
       "code": 0,
       "signal": null,
-      "checks": 8,
-      "ms": 15225
+      "checks": 8
     },
     {
       "file": "regressions/qa_v36925_statement_pdf.cjs",
       "code": 0,
       "signal": null,
-      "checks": 4,
-      "ms": 18453
+      "checks": 4
     },
     {
       "file": "regressions/qa_v36926_recipient.cjs",
       "code": 0,
       "signal": null,
-      "checks": 10,
-      "ms": 16394
+      "checks": 10
     },
     {
       "file": "regressions/qa_v36927_supplier_accounts.cjs",
       "code": 0,
       "signal": null,
-      "checks": 7,
-      "ms": 13165
+      "checks": 7
     },
     {
       "file": "regressions/qa_v36929_qa15.cjs",
       "code": 0,
       "signal": null,
-      "checks": 20,
-      "ms": 15759
+      "checks": 20
     },
     {
       "file": "regressions/qa_v36930_shared_rate.cjs",
       "code": 0,
       "signal": null,
-      "checks": 11,
-      "ms": 14977
+      "checks": 11
     },
     {
       "file": "regressions/qa_v36931_reference.cjs",
       "code": 0,
       "signal": null,
-      "checks": 24,
-      "ms": 18586
+      "checks": 24
     },
     {
       "file": "regressions/qa_v36932_legacy_advances.cjs",
       "code": 0,
       "signal": null,
-      "checks": 5,
-      "ms": 15101
+      "checks": 5
     },
     {
       "file": "regressions/qa_v36932_server.cjs",
       "code": 0,
       "signal": null,
-      "checks": 16,
-      "ms": 20490
+      "checks": 16
     },
     {
       "file": "regressions/qa_v36933_payment_approvals.cjs",
       "code": 0,
       "signal": null,
-      "checks": 17,
-      "ms": 15236
+      "checks": 17
     },
     {
       "file": "regressions/qa_v36936_packaging.cjs",
       "code": 0,
       "signal": null,
-      "checks": 25,
-      "ms": 34872
+      "checks": 25
     },
     {
       "file": "regressions/qa_v36937_refinement.cjs",
       "code": 0,
       "signal": null,
-      "checks": 8,
-      "ms": 15050
+      "checks": 8
     },
     {
       "file": "regressions/qa_v36938_product_ux.cjs",
       "code": 0,
       "signal": null,
-      "checks": 11,
-      "ms": 13628
+      "checks": 11
+    },
+    {
+      "file": "regressions/qa_v36939_financial_guards.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 5
+    },
+    {
+      "file": "regressions/qa_v36939_history.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 6
+    },
+    {
+      "file": "regressions/qa_v36943_approval.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 2
+    },
+    {
+      "file": "regressions/qa_v36943_oct22.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 11
+    },
+    {
+      "file": "regressions/qa_v36944_receiving.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 12
+    },
+    {
+      "file": "regressions/qa_v36947_policy.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 3
+    },
+    {
+      "file": "regressions/qa_v36949_oct26.cjs",
+      "code": 0,
+      "signal": null,
+      "checks": 13
     }
   ]
 }

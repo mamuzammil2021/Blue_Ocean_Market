@@ -1,5 +1,3 @@
-(node:2845) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
-(Use `node --trace-warnings ...` to show where the warning was created)
 PASS Real application startup and additive schema migration
 PASS KRW→USD live server preview
 PASS Atomic durable bank debit and invoice carrying settlement

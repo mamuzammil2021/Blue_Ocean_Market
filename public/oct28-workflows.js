@@ -11,7 +11,60 @@ async function invoice(id,download=true){
  const result=await PDFs.get(key);if(download){const url=URL.createObjectURL(result.blob),a=document.createElement('a');a.href=url;a.download=result.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000)}return result;
 }
 function saleSaved(id){const host=document.getElementById('content');if(!host)return;let box=host.querySelector('[data-sale-invoice]');if(!box){box=document.createElement('div');box.className='card qa701-invoice';box.dataset.saleInvoice=id;host.prepend(box)}box.innerHTML=`<span data-pdf-status>${E(T('Sale saved. Preparing invoice…','매출이 저장되었습니다. 송장 준비 중…'))}</span><button type="button" class="btn" disabled onclick="BOMOct28.downloadInvoice(${id},this)">${E(T('Download Invoice PDF','송장 PDF 다운로드'))}</button>`;invoice(id,false).then(()=>{if(box.isConnected){box.querySelector('[data-pdf-status]').textContent=T('Sale saved. Invoice ready.','매출이 저장되었습니다. 송장이 준비되었습니다.');box.querySelector('button').disabled=false}}).catch(e=>{if(box.isConnected){box.querySelector('[data-pdf-status]').textContent=e.message;box.querySelector('button').disabled=false}})}
-async function received(id){const d=await api('/api/pink-salt/packaging-v36/purchases/'+id);formDirty=false;closeModalAfterSave();if(['Fully Received','Receiving Complete'].includes(d.receiving_status)&&!d.unified_receiving?.held_q){await psPackNavigate('purchases');toast(d.receiving_status==='Fully Received'?T('All purchased stock has been received.','구매한 재고가 모두 입고되었습니다.'):T('Receiving is complete. All quantities have been received or resolved.','입고가 완료되었습니다. 모든 수량이 입고되거나 해결되었습니다.'))}else{await psPackNavigate('purchase',id,'receiving');const units=new Map();for(const l of d.lines){const u=l.snapshot.unit,v=units.get(u)||{total:0,received:0,pending:0},unified=d.unified_receiving?.lines?.[l.id];v.total+=l.base_quantity-Number(l.cancelled_quantity||0);v.received+=unified?Number(unified.physical||0)/10000:Number(l.accepted||0);v.pending+=unified?Number(unified.remaining??unified.open??0)/10000:Math.max(0,l.base_quantity-Number(l.cancelled_quantity||0)-Number(l.accepted||0));units.set(u,v)}toast(T('Partial receipt saved. ','부분 입고가 저장되었습니다. ')+[...units].map(([u,v])=>`${T('Ordered','주문')} ${N(v.total)} · ${T('Received','입고')} ${N(v.received)} · ${T('Pending','미납')} ${N(v.pending)} ${u}`).join(' | '))}}
+async function received(id,receiptId,issueId){
+ const d=await api('/api/pink-salt/packaging-v36/purchases/'+id);
+ const feedback={operationScope:'packaging-receipt:'+id+':'+(receiptId||'')};
+ formDirty=false;
+ closeModalAfterSave();
+ const complete=['Fully Received','Receiving Complete'].includes(d.receiving_status);
+ const issues=issueId?[issueId]:d.receiving_flags?.issue_ids||[];
+ const needsFollowUp=issues.length>0||Number(d.unified_receiving?.quarantine_q)>0||Number(d.unified_receiving?.rejected_q)>0||Number(d.unified_receiving?.held_q)>0
+   ||d.lines.some(line=>Number(line.rejected)>0);
+ if(complete&&!needsFollowUp){
+  await psPackNavigate('purchases');
+  toast(d.receiving_status==='Fully Received'?T('All purchased stock has been received.','구매한 재고가 모두 입고되었습니다.'):T('Receiving is complete. All quantities have been received or resolved.','입고가 완료되었습니다. 모든 수량이 입고되거나 해결되었습니다.'),feedback);
+  return;
+ }
+ await psPackNavigate('purchase',id,'receiving');
+ const quantities=[
+  ['ordered','Ordered','주문'],['physical','Physically received','실물 입고'],['accepted','Accepted','합격 입고'],
+  ['quarantine','Quarantined','격리'],['rejected','Rejected','거부'],['held','Held for investigation','조사 보류'],
+  ['open','Open to receive','입고 가능 잔량'],
+ ];
+ const units=new Map();
+ for(const line of d.lines){
+  const unit=line.snapshot.unit,ordered=line.base_quantity-Number(line.cancelled_quantity||0);
+  const legacy={ordered,physical:Number(line.accepted||0)+Number(line.rejected||0),accepted:Number(line.accepted||0),rejected:Number(line.rejected||0)};
+  legacy.open=Math.max(0,ordered-legacy.physical);
+  const unified=d.unified_receiving?.lines?.[line.id];
+  const totals=units.get(unit)||{};
+  for(const [key] of quantities)totals[key]=(totals[key]||0)+(unified?Number(unified[key]||0)/10000:Number(legacy[key]||0));
+  units.set(unit,totals);
+ }
+ const message=(complete?T('Receipt saved. Review the stock disposition. ','입고가 저장되었습니다. 재고 처리 내역을 확인하세요. '):T('Partial receipt saved. ','부분 입고가 저장되었습니다. '))+[...units].map(([unit,totals])=>
+  quantities.map(([key,en,ko])=>`${T(en,ko)} ${N(totals[key])}`).join(' · ')+` ${unit}`).join(' | ');
+ const purchase=document.querySelector(`[data-pack-purchase="${id}"]`);
+ const summary=purchase?.querySelector('.receiving44');
+ if(summary){
+  purchase.querySelector('[data-pack-receipt-feedback]')?.remove();
+  const status=document.createElement('p');
+  status.className='alert '+(needsFollowUp?'alert-warning':'alert-success');
+  status.dataset.packReceiptFeedback='';
+  status.setAttribute('role','status');
+  status.textContent=message;
+  for(const issue of issues){
+   const issueNumber=Number(issue);
+   if(!Number.isSafeInteger(issueNumber)||issueNumber<1)continue;
+   const link=document.createElement('a');
+   link.className='btn btn-sm';
+   link.href='#psSuppliers/issue/'+issueNumber+'?unit='+encodeURIComponent(selectedUnitId);
+   link.textContent=T('Open receiving issue','입고 문제 열기')+' #'+issueNumber;
+   status.append(' ',link);
+  }
+  summary.before(status);
+ }
+ toast(message,feedback);
+}
 function supplierActions(){const d=window.__ps315SupplierAccount,root=document.getElementById('ps315SupplierPanel')?.parentElement;if(!d||!root)return;const tools=root.querySelector('.section-title .ps-actions');if(!tools||tools.querySelector('[data-advance-refund]'))return;const b=document.createElement('button');b.type='button';b.className='btn';b.dataset.advanceRefund='1';b.textContent=T('Receive Advance Refund','선급금 환불 수령');b.disabled=Number(d.available_credit_krw)<=.005;b.title=T('Receive unused supplier advance into a company account. Allocated advance is excluded.','미사용 공급업체 선급금을 회사 계좌로 수령합니다. 사용한 선급금은 제외됩니다.');b.onclick=()=>BOMPinkFX.open('supplier_refund',d.supplier.id);const close=[...tools.querySelectorAll('button')].find(x=>/^[✕×]$/.test(x.textContent.trim()));if(close)tools.insertBefore(b,close);else tools.append(b)}
 const supplierOpen=window.psSupplierAccount315;window.psSupplierAccount315=async function(...args){await supplierOpen.apply(this,args);supplierActions()};
 const supplierRefresh=window.psRefreshSupplier315;window.psRefreshSupplier315=async function(...args){await supplierRefresh.apply(this,args);document.querySelector('[data-advance-refund]')?.remove();supplierActions()};

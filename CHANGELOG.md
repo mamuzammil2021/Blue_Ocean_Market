@@ -1,3 +1,19 @@
+# V30.70.14 — Historical cost corrections and receipt follow-up
+
+Keep Excavator original costs and Finance corrections in sync, protect recorded parts usage and archived costs, and show Pink Salt packaging dispositions after a full receipt.
+
+# V30.70.13 — Excavator write protections and packaging receiving quantities
+
+Reserve purchase, sale, and payment writes for their dedicated workflows. Protect machine cost source links and part dispositions. Show held quantities separately from quantities open to receive in Pink Salt packaging.
+
+# V30.70.12 — Excavator cost consistency and Pink Salt receiving feedback
+
+Reconcile machine totals and dashboard aggregates, protect original Finance costs from zero-value parts edits, and persist machine cost operation receipts. Enforce stage and status pairs, preserve saved names in Korean, and show partial packaging receipt quantities in the receiving tab.
+
+# V30.70.11 — Excavator and Pink Salt re-audit fixes
+
+Enforce the original Finance lock on mirrored machine costs, preserve Finance identity on allowed edits, and make machine cancellation and reopening consistent. Align machine detail costs and sale eligibility. Show packaging purchase cards and receiving blockers on phones.
+
 # V30.70.10 — Excavator and Pink Salt audit fixes
 
 Keep repair and freight Finance records stable across restarts. Detect existing cost mirrors in the read-only integrity report. Protect Excavator lifecycle and deletion actions, correct case-insensitive import search, and improve record actions and production and settlement displays.

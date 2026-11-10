@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Archived machines retain readable cost history and reject all new cost writes and generic changes",
+    "Generic edits preserve recorded usage and clearing it requires an assigned Finance correction with a reason",
+    "Historical Finance correction updates original repair and mirror in place and refuses missing or conflicting sources",
+    "Full damaged or quarantined receipts retain quantities and a working issue link while a clean receipt returns to Purchases"
+  ]
+}

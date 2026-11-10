@@ -21,7 +21,9 @@
     if(!mutation)return realFetch(input,init);
     const bodySig=bodySignature(init.body),ceo=headerValue(init.headers,'X-CEO-Confirmed'),user=typeof me!=='undefined'&&me?.id?me.id:0;
     const unit=headerValue(init.headers,'X-Business-Unit-ID');
-    const signature=`${user}|${unit}|${method}|${url}|${ceo}|${bodySig}`,fingerprint=`v284-${tinyHash(signature)}`;
+    const costKey=method==='POST'&&/^\/api\/excavator\/assets\/\d+\/(?:parts|repairs|logistics|transactions)$/.test(url)
+      ?headerValue(init.headers,'X-Idempotency-Key'):'';
+    const signature=`${user}|${unit}|${method}|${url}|${ceo}|${bodySig}${costKey?'|'+costKey:''}`,fingerprint=`v284-${tinyHash(signature)}`;
     if(pending.has(signature)){
       const response=await pending.get(signature);return response.clone();
     }

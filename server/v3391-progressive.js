@@ -13,11 +13,11 @@ async function install({ app, db, auth, allow, excavatorGuard, purchaseDeletionB
   const purchaseTx = `COALESCE((SELECT SUM(t.amount) FROM excavator_transactions t WHERE t.asset_id=a.id AND t.type='Purchase' AND ${txActive} AND ${included}),0)`;
   const purchase = `CASE WHEN (${purchaseTx})>0 THEN (${purchaseTx}) ELSE COALESCE(a.purchase_price,0) END`;
   const logisticsTx = `COALESCE((SELECT SUM(t.amount) FROM excavator_transactions t WHERE t.asset_id=a.id AND t.type='Logistics' AND ${txActive} AND ${included}),0)`;
-  const legacyLogistics = `COALESCE((SELECT SUM(l.amount) FROM excavator_logistics l WHERE l.asset_id=a.id AND NOT EXISTS (SELECT 1 FROM excavator_transactions tr WHERE tr.asset_id=a.id AND tr.type='Logistics' AND tr.metadata LIKE '%"logistics_id":'||l.id||'%')),0)`;
+  const legacyLogistics = `COALESCE((SELECT SUM(l.amount) FROM excavator_logistics l WHERE l.asset_id=a.id AND NOT EXISTS (SELECT 1 FROM excavator_transactions tr WHERE tr.asset_id=a.id AND tr.type='Logistics' AND bom.json_text(tr.metadata,'$.logistics_id')=CAST(l.id AS TEXT))),0)`;
   const repairTx = `COALESCE((SELECT SUM(t.amount) FROM excavator_transactions t WHERE t.asset_id=a.id AND t.type='Repair' AND ${txActive} AND ${included}),0)`;
-  const legacyRepair = `COALESCE((SELECT SUM(r.amount) FROM excavator_repairs r WHERE r.asset_id=a.id AND NOT EXISTS (SELECT 1 FROM excavator_transactions tr WHERE tr.asset_id=a.id AND tr.type='Repair' AND tr.metadata LIKE '%"repair_id":'||r.id||'%')),0)`;
+  const legacyRepair = `COALESCE((SELECT SUM(r.amount) FROM excavator_repairs r WHERE r.asset_id=a.id AND NOT EXISTS (SELECT 1 FROM excavator_transactions tr WHERE tr.asset_id=a.id AND tr.type='Repair' AND bom.json_text(tr.metadata,'$.repair_id')=CAST(r.id AS TEXT))),0)`;
   const partTx = `COALESCE((SELECT SUM(t.amount) FROM excavator_transactions t WHERE t.asset_id=a.id AND t.type='Part Purchase' AND ${txActive} AND ${included}),0)`;
-  const legacyParts = `COALESCE((SELECT SUM(p.cost*p.quantity) FROM excavator_parts p WHERE p.asset_id=a.id AND p.status NOT IN ('Sold','Exported') AND NOT EXISTS (SELECT 1 FROM excavator_transactions tr WHERE tr.asset_id=a.id AND tr.type='Part Purchase' AND tr.metadata LIKE '%"part_id":'||p.id||'%')),0)`;
+  const legacyParts = `COALESCE((SELECT SUM(p.cost*p.quantity) FROM excavator_parts p WHERE p.asset_id=a.id AND p.status NOT IN ('Sold','Exported','Voided') AND NOT EXISTS (SELECT 1 FROM excavator_transactions tr WHERE tr.asset_id=a.id AND tr.type='Part Purchase' AND bom.json_text(tr.metadata,'$.part_id')=CAST(p.id AS TEXT))),0)`;
   const other = `COALESCE((SELECT SUM(t.amount) FROM excavator_transactions t WHERE t.asset_id=a.id AND t.type IN ('Customs Duty','Tax / VAT','Shipping / Freight','Commission','Documentation / Clearance','Other Cost') AND ${txActive} AND ${included}),0)`;
   const sale = `COALESCE((SELECT SUM(t.amount) FROM excavator_transactions t WHERE t.asset_id=a.id AND t.type IN ('Local Sale','Export Sale') AND t.status NOT IN ('Cancelled','Voided')),0)`;
   const purchasePaid = `COALESCE((SELECT SUM(p.amount) FROM excavator_payments p WHERE p.asset_id=a.id AND p.payment_type='Purchase' AND p.status='Paid'),0)`;
@@ -26,7 +26,7 @@ async function install({ app, db, auth, allow, excavatorGuard, purchaseDeletionB
 
   function assetCte(whereSql = '1=1') {
     return `WITH costed AS (
-      SELECT a.*,s.name supplier_name,s.location supplier_location,
+      SELECT a.*,s.name supplier_name,s.location supplier_location,s.phone supplier_phone,c.company customer_name,
         COALESCE(NULLIF(a.machine_name,''),TRIM(COALESCE(a.make,'')||' '||COALESCE(a.model,''))) machine_display_name,
         ${purchase} purchase_cost,
         (${logisticsTx}+${legacyLogistics}) logistics_cost,
@@ -39,6 +39,7 @@ async function install({ app, db, auth, allow, excavatorGuard, purchaseDeletionB
         COALESCE((SELECT COUNT(*) FROM excavator_documents d WHERE d.asset_id=a.id),0) document_count
       FROM excavator_assets a
       LEFT JOIN excavator_suppliers s ON s.id=a.supplier_id
+      LEFT JOIN customers c ON c.id=a.customer_id
       WHERE a.business_unit_id=? AND ${whereSql}
     ), snapshots AS (
       SELECT costed.*,
@@ -47,8 +48,8 @@ async function install({ app, db, auth, allow, excavatorGuard, purchaseDeletionB
         CASE WHEN sale_amount<=0 THEN 'Not Sold' WHEN sale_amount-(purchase_cost+logistics_cost+repair_cost+parts_cost+other_cost)>=0 THEN 'Profit' ELSE 'Loss' END profit_loss_status,
         CASE WHEN sale_amount<=0 THEN 'Not Sold' WHEN sale_paid>=sale_amount THEN 'Paid' WHEN sale_paid>0 THEN 'Partially Paid' ELSE 'Pending' END sale_payment_status,
         GREATEST(0,sale_amount-sale_paid) sale_outstanding,
-        CASE WHEN purchase_cost<=0 THEN 'Unknown' WHEN purchase_paid>=purchase_cost THEN 'Paid' WHEN purchase_paid>0 THEN 'Token/Partial Paid' ELSE 'Pending' END purchase_status,
-        GREATEST(0,purchase_cost-purchase_paid) purchase_outstanding
+        CASE WHEN purchase_price<=0 THEN 'Unknown' WHEN purchase_paid>=purchase_price THEN 'Paid' WHEN purchase_paid>0 THEN 'Token/Partial Paid' ELSE 'Pending' END purchase_status,
+        GREATEST(0,purchase_price-purchase_paid) purchase_outstanding
       FROM costed
     )`;
   }
@@ -91,7 +92,7 @@ async function install({ app, db, auth, allow, excavatorGuard, purchaseDeletionB
       const agg = (await db.prepare(`${assetCte('COALESCE(a.archived,0)=0')} SELECT
         COUNT(*) machines,
         SUM(CASE WHEN lifecycle_stage NOT IN ('Sold / Completed','Cancelled') THEN 1 ELSE 0 END) open,
-        SUM(CASE WHEN lifecycle_stage='In Yard' THEN 1 ELSE 0 END) inYard,
+        SUM(CASE WHEN lifecycle_stage='In Yard' THEN 1 ELSE 0 END) in_yard,
         SUM(CASE WHEN lifecycle_stage='Under Repair' THEN 1 ELSE 0 END) repairing,
         SUM(CASE WHEN lifecycle_stage='Ready for Sale' THEN 1 ELSE 0 END) ready,
         SUM(CASE WHEN lifecycle_stage IN ('Export Preparation','Shipped') THEN 1 ELSE 0 END) exporting,
@@ -99,17 +100,26 @@ async function install({ app, db, auth, allow, excavatorGuard, purchaseDeletionB
         COALESCE(SUM(purchase_cost),0) purchase,
         COALESCE(SUM(logistics_cost),0) logistics,
         COALESCE(SUM(repair_cost),0) repair,
-        COALESCE(SUM(parts_cost),0) partCost,
+        COALESCE(SUM(parts_cost),0) part_cost,
         COALESCE(SUM(other_cost),0) other,
-        COALESCE(SUM(total_cost),0) totalCost,
+        COALESCE(SUM(total_cost),0) total_cost,
         COALESCE(SUM(sale_amount),0) sales,
-        COALESCE(SUM(sale_paid),0) salePaid,
-        COALESCE(SUM(purchase_paid),0) purchasePaid
+        COALESCE(SUM(sale_paid),0) sale_paid,
+        COALESCE(SUM(purchase_paid),0) purchase_paid
         FROM snapshots`).get(b)) || {};
-      const summary = { machines: numeric(agg.machines), open: numeric(agg.open), inYard: numeric(agg.inYard), repairing: numeric(agg.repairing), ready: numeric(agg.ready), exporting: numeric(agg.exporting), sold: numeric(agg.sold), purchase: numeric(agg.purchase), logistics: numeric(agg.logistics), repair: numeric(agg.repair), partCost: numeric(agg.partCost), other: numeric(agg.other), totalCost: numeric(agg.totalCost), sales: numeric(agg.sales), margin: numeric(agg.sales) - numeric(agg.totalCost), receivable: Math.max(0, numeric(agg.sales) - numeric(agg.salePaid)), payable: Math.max(0, numeric(agg.purchase) - numeric(agg.purchasePaid)), buyers: Number((await db.prepare("SELECT COUNT(*) c FROM excavator_buyers WHERE business_unit_id=? AND active=1").get(b))?.c || 0), suppliers: Number((await db.prepare("SELECT COUNT(*) c FROM excavator_suppliers WHERE business_unit_id=? AND active=1").get(b))?.c || 0) };
+      const summary = { machines: numeric(agg.machines), open: numeric(agg.open), inYard: numeric(agg.in_yard), repairing: numeric(agg.repairing), ready: numeric(agg.ready), exporting: numeric(agg.exporting), sold: numeric(agg.sold), purchase: numeric(agg.purchase), logistics: numeric(agg.logistics), repair: numeric(agg.repair), partCost: numeric(agg.part_cost), other: numeric(agg.other), totalCost: numeric(agg.total_cost), sales: numeric(agg.sales), margin: numeric(agg.sales) - numeric(agg.total_cost), receivable: Math.max(0, numeric(agg.sales) - numeric(agg.sale_paid)), payable: Math.max(0, numeric(agg.purchase) - numeric(agg.purchase_paid)), buyers: Number((await db.prepare("SELECT COUNT(*) c FROM excavator_buyers WHERE business_unit_id=? AND active=1").get(b))?.c || 0), suppliers: Number((await db.prepare("SELECT COUNT(*) c FROM excavator_suppliers WHERE business_unit_id=? AND active=1").get(b))?.c || 0) };
       const assets = includeAssets ? await loadAssetSnapshots(b, { where: 'COALESCE(a.archived,0)=0' }) : [];
       await res.json({ currency: 'KRW', summary, assets });
     } catch (e) {console.error('V30.39.1 optimized Excavator overview:', e);await res.status(500).json({ error: 'Excavator dashboard could not be loaded: ' + e.message });}
+  });
+
+  await app.get('/api/excavator/assets/:id/summary', auth, allow('dashboard', 'sales', 'purchases', 'inventory', 'finance', 'documents'), async (req, res) => {
+    const unit = await excavatorGuard(req, res);if (!unit) return;
+    const id = Number(req.params.id);
+    if (!Number.isSafeInteger(id) || id <= 0) return res.status(404).json({ error: 'Machine not found' });
+    const [asset] = await loadAssetSnapshots(unit, { where: 'a.id=?', args: [id] });
+    if (!asset) return res.status(404).json({ error: 'Machine not found' });
+    await res.json(asset);
   });
 
   // True server-side machine paging. Legacy callers remain unchanged unless paged=1.

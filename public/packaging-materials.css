@@ -33,3 +33,30 @@
 }
 .pack-dialog .pack-receiving-lines input[type=number]{box-sizing:border-box;border:1px solid var(--line);border-radius:8px;background:#fff;font:inherit;font-size:14px}
 @media(min-width:701px){.modal:has(.pack-dialog){width:min(1040px,96vw)!important;max-width:1040px!important}}
+
+.ps-packaging .pack-purchase-secondary { display: contents; }
+.ps-packaging .pack-purchase-more { display: none; }
+@media (max-width: 600px) {
+  html.bom-ui .ps-packaging .pack-purchase-list .table-wrap { overflow: visible; }
+  html.bom-ui .ps-packaging .pack-purchase-list .table { display: block; width: 100%; min-width: 0; }
+  .ps-packaging .pack-purchase-list thead { display: none; }
+  .ps-packaging .pack-purchase-list tbody { display: grid; gap: 10px; }
+  html.bom-ui .ps-packaging .pack-purchase-list tr[data-purchase-row] {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--card, #fff);
+  }
+  html.bom-ui .ps-packaging .pack-purchase-list tr[data-purchase-row] > td {
+    position: static !important; width: auto !important; min-width: 0 !important;
+    border: 0; padding: 6px; white-space: normal; box-shadow: none;
+  }
+  .ps-packaging .pack-purchase-list td:is(:first-child, :last-child) { grid-column: 1 / -1; }
+  .ps-packaging .pack-purchase-list td[data-pack-label]::before {
+    content: attr(data-pack-label); display: block; color: var(--muted); font-size: .8rem;
+  }
+  html.bom-ui .ps-packaging .pack-purchase-list .pack-row-actions { min-width: 0; max-width: none; }
+  .ps-packaging .pack-purchase-list .pack-purchase-secondary { display: none; }
+  .ps-packaging .pack-purchase-list .pack-purchase-more { display: block; }
+  .ps-packaging .pack-purchase-more[open] { flex-basis: 100%; }
+  .ps-packaging .pack-purchase-more summary { min-height: 44px; }
+  .ps-packaging .pack-purchase-menu { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 6px; }
+}

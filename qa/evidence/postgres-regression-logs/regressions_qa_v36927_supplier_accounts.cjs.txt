@@ -1,5 +1,3 @@
-(node:3251) [UNDICI-EHPA] Warning: EnvHttpProxyAgent is experimental, expect them to change at any time.
-(Use `node --trace-warnings ...` to show where the warning was created)
 PASS Context returns saved supplier accounts with normalized currency while excluding other suppliers and archived records
 PASS Historical Bank Transfer label and spaced lowercase currency record the exact KRW-to-USD bank payment
 PASS Repeated bank submission retains one actual Finance movement

@@ -641,7 +641,7 @@ async function install({ app, db, auth, allow, currentUnit, enforceUnit, isFinan
     const purchaseTx = sum(tx.filter((t) => t.type === 'Purchase' && included(t))),purchase = purchaseTx || Number(a.purchase_price || 0);
     const logistics = sum(tx.filter((t) => t.type === 'Logistics' && included(t))) + (await db.prepare("SELECT * FROM excavator_logistics WHERE asset_id=?").all(assetId)).filter((x) => !linked('Logistics', 'logistics_id', x.id)).reduce((n, x) => n + Number(x.amount || 0), 0);
     const repair = sum(tx.filter((t) => t.type === 'Repair' && included(t))) + (await db.prepare("SELECT * FROM excavator_repairs WHERE asset_id=?").all(assetId)).filter((x) => !linked('Repair', 'repair_id', x.id)).reduce((n, x) => n + Number(x.amount || 0), 0);
-    const partCost = sum(tx.filter((t) => t.type === 'Part Purchase' && included(t))) + (await db.prepare("SELECT * FROM excavator_parts WHERE asset_id=?").all(assetId)).filter((x) => !['Sold', 'Exported'].includes(x.status) && !linked('Part Purchase', 'part_id', x.id)).reduce((n, x) => n + Number(x.cost || 0) * Number(x.quantity || 1), 0);
+    const partCost = sum(tx.filter((t) => t.type === 'Part Purchase' && included(t))) + (await db.prepare("SELECT * FROM excavator_parts WHERE asset_id=?").all(assetId)).filter((x) => !['Sold', 'Exported', 'Voided'].includes(x.status) && !linked('Part Purchase', 'part_id', x.id)).reduce((n, x) => n + Number(x.cost || 0) * Number(x.quantity || 1), 0);
     const other = sum(tx.filter((t) => ['Customs Duty', 'Tax / VAT', 'Shipping / Freight', 'Commission', 'Documentation / Clearance', 'Other Cost'].includes(t.type) && included(t)));
     return { purchase, logistics, repair, partCost, other, total: purchase + logistics + repair + partCost + other };
   }

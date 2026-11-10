@@ -79,15 +79,16 @@
   // Single success channel: keep actionable failures, remove duplicated progress and identical/second success notices.
   const baseToast=window.toast;
   if(typeof baseToast==='function'){
-    const coordinatedToast=function(message){const text=String(message??'').trim(),now=Date.now();if(!text)return;
+    const coordinatedToast=function(message,{operationScope}={}){const text=String(message??'').trim(),now=Date.now();if(!text)return;
       const progress=/^(?:processing|saving|working|still working|recording payment|처리 중|저장 중|계속 처리 중|결제 기록 중)/i.test(text);
       if(progress&&(active.size>0||lastFinished&&now-lastFinished.at<600))return;
-      const prior=recentToasts.get(text);if(prior&&now-prior<2300)return;
+      const key=operationScope?operationScope+'|'+text:text;
+      const prior=recentToasts.get(key);if(prior&&now-prior<2300)return;
       const error=/(?:error|failed|cannot|invalid|required|denied|unable|not allowed|실패|오류|필수|권한 없음)/i.test(text);
       const success=/(?:saved|completed|updated|created|recorded|verified|approved|successful|success|sent|posted|allocated|requested|archived|restored|deleted|cancelled|transferred|저장됨|완료|기록됨|승인됨)/i.test(text);
-      if(success&&!error){const writes=[...active.values()].filter(x=>!x.read);if(writes.some(x=>x.successShown))return;writes.forEach(x=>x.successShown=true)}
-      if(success&&!error&&lastFinished&&now-lastFinished.at<1100){if(lastFinished.success)return;lastFinished.success=true}
-      recentToasts.set(text,now);if(recentToasts.size>45)for(const [key,at]of recentToasts)if(now-at>2300)recentToasts.delete(key);
+      if(!operationScope&&success&&!error){const writes=[...active.values()].filter(x=>!x.read);if(writes.some(x=>x.successShown))return;writes.forEach(x=>x.successShown=true)}
+      if(!operationScope&&success&&!error&&lastFinished&&now-lastFinished.at<1100){if(lastFinished.success)return;lastFinished.success=true}
+      recentToasts.set(key,now);if(recentToasts.size>45)for(const [key,at]of recentToasts)if(now-at>2300)recentToasts.delete(key);
       return baseToast.call(this,message);
     };window.toast=coordinatedToast;try{toast=coordinatedToast}catch(_){ }
   }

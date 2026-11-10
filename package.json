@@ -1,6 +1,6 @@
 {
   "name": "blue-ocean-market-os",
-  "version": "30.70.10",
+  "version": "30.70.14",
   "private": true,
   "description": "Blue Ocean Market full-stack management operating system",
   "main": "server/server.js",
@@ -155,6 +155,10 @@
     "qa:ui707:navigation": "node qa/postgres/ui707-navigation.cjs",
     "qa:ui708": "node qa/postgres/ui708-browser.cjs",
     "qa:ui708:matrix": "node qa/modernization/ui708-matrix.cjs",
+    "qa:reaudit7011": "node qa/postgres/reaudit7011.cjs",
+    "qa:reaudit7012": "node qa/postgres/reaudit7012.cjs",
+    "qa:reaudit7013": "node qa/postgres/reaudit7013.cjs",
+    "qa:reaudit7014": "node qa/postgres/reaudit7014.cjs",
     "qa:audit7010": "node qa/postgres/audit7010.cjs",
     "qa:nov9": "node qa/postgres/nov9-excavator.cjs"
   },

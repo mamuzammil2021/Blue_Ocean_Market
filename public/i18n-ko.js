@@ -1,6 +1,13 @@
 // Blue Ocean Market V27.7 — Korean locale additions.
 // System labels/messages belong here; user-entered business data is never translated.
 window.BO_I18N_KO=Object.freeze({
+  "Reopen Machine": "장비 다시 열기",
+  "Record the remaining purchase payment before selling.": "판매 전에 남은 구매 대금을 지급하세요.",
+  "Use Reopen Machine and provide a reason before changing a cancelled machine.": "취소된 장비를 변경하려면 장비 다시 열기를 사용하고 사유를 입력하세요.",
+  "Cancelled stage and status must match.": "취소 단계와 상태가 일치해야 합니다.",
+  "This cost has duplicate Finance entries. Review them in System Integrity before editing.": "이 비용에 중복 재무 항목이 있습니다. 편집하기 전에 시스템 무결성에서 확인하세요.",
+  "This row mirrors an original machine cost. Review the original Finance entry before requesting a correction or reversal.": "이 행은 원본 장비 비용의 연결 기록입니다. 수정 또는 취소를 요청하기 전에 원본 재무 항목을 확인하세요.",
+
   "Only an unsold purchase can be deleted here. Resolve the machine’s later activity first.": "미판매 구매 건만 삭제할 수 있습니다. 이후 장비 활동을 먼저 처리하세요.",
   "The machine has other linked Finance activity. Resolve it before deleting the purchase.": "연결된 기타 재무 내역을 먼저 처리하세요.",
   "Restore the archived machine before deleting its purchase.": "구매를 삭제하기 전에 보관된 장비를 복원하세요.",

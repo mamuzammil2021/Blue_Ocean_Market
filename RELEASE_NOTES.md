@@ -1,9 +1,10 @@
-# Blue Ocean Market V30.70.10
+# Blue Ocean Market V30.70.14
 
-- Excavator startup matches repair, logistics and part mirrors to their cost records and preserves the original Finance identity. System integrity flags existing duplicate mirrors for review.
-- Excavator blocks unsupported lifecycle transitions in both machine update endpoints. Use the sale workflow for completion. Operations shows why Delete is unavailable on protected purchases.
-- Operations places Buy Machine in the title and uses two mobile KPI columns. Sale review separates advance, new receipt and balance.
-- Pink Salt import search matches references in either case. The detail shows the payment breakdown in an expandable section below the actions. Repacking previews required and available packaging. Order Detail distinguishes fulfillment, buyer payment and company settlement.
-- Shared action icons cover more record links and Korean Edit. Supplier filters, fulfillment and journal selection have accessible labels.
+- Excavator historical cost corrections update the original record, its mirror, and the existing Finance entry atomically. Missing sources and conflicting active Finance entries require System Integrity review.
+- Clear recorded parts usage through Finance Correct & Resubmit with a reason. The reversal checks the linked part and machine activity again before writing.
+- Archived machine cost history stays readable. Restore the machine for ordinary cost writes. Existing Finance entries can use controlled correction.
+- Full packaging receipts with rejected or quarantined stock remain on Receiving. The confirmation shows physical and accepted quantities, stock dispositions, and the linked receiving issue. Clean completed receipts return to Purchases.
 
-Use `npm run qa:audit7010` for the focused regression suite. Existing duplicate Finance entries require controlled review. The integrity check reports them without changing their records.
+Run `npm run qa:reaudit7014` for the targeted fixes and `npm run qa:release` for the release gate.
+
+The local release regression suites passed. The separate November purchase-deletion check hit a previously observed Finance-state timing issue in both attempts.

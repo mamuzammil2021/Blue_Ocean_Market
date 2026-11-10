@@ -1,18 +1,25 @@
 {
   "status": "PASS",
-  "version": "30.70.10",
+  "version": "30.70.14",
   "engine": "pglite",
   "database_and_upgrade_checks": 20,
-  "sql_plans": 2621,
+  "sql_plans": 2631,
   "regression_suites": 37,
   "regression_workflow_checks": 500,
-  "audit7010_checks": 9,
-  "targeted_nov9_checks": 9,
+  "targeted_checks": {
+    "audit7010": 9,
+    "reaudit7011": 8,
+    "reaudit7012": 7,
+    "reaudit7013": 5,
+    "reaudit7014": 4
+  },
   "shared_record_interaction_checks": 14,
   "responsive_screen_cases": 294,
   "verification": [
-    "Release checks completed in batches using local PGlite and Chromium."
+    "Release checks ran in batches with local PGlite and Chromium.",
+    "Supplemental November purchase-deletion check observed the previously reproduced Finance-state timing issue in both attempts. It expected void-unverified after the token had moved to cancel-verified."
   ],
+  "tested_at": "2026-11-10T11:27:11.911488+00:00",
   "render_deployed": false,
   "git_pushed": false
 }

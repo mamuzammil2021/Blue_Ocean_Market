@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Generic purchase, sale, and payment writes are rejected and an unpaid machine stays unsold",
+    "Forged repair, freight, and parts source links are rejected while a valid correction keeps the original Finance identity",
+    "Generic parts writes cannot change financial disposition and descriptive updates preserve cost",
+    "A paid machine sells through the dedicated workflow and generic edit or delete cannot alter its sale",
+    "Packaging confirmation and Receiving table distinguish physical, accepted, rejected, held and open quantities in English and Korean"
+  ]
+}

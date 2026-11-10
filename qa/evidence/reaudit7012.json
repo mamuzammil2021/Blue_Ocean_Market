@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Operations and Machine Detail retain exact legacy costs and Dashboard reconciles costs, margin, balances and counts",
+    "A direct parts edit cannot zero out an active Finance cost, while unpriced parts stay editable",
+    "Controlled Finance void removes an unused part from active costs and blocks a sold-machine reversal",
+    "Concurrent, restarted, and freight retries replay one result, reject changed details and clean duplicate evidence",
+    "Both lifecycle entry points reject conflicting pairs and derive the expected statuses",
+    "Korean Operations and Machine Detail preserve the saved machine name verbatim",
+    "The browser reuses a lost-response key and allows a separate save with identical details"
+  ]
+}
