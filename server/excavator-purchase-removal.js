@@ -23,6 +23,7 @@ function install({ app, db, auth, excavatorGuard, accounting, voidFinanceBySourc
 
   async function plan(asset) {
     const { id, business_unit_id: unit } = asset;
+    if (Number(asset.archived)) return { blocked: 'Restore the archived machine before deleting its purchase.' };
     if (asset.lifecycle_stage !== 'Purchased' || Number(asset.selling_price) > 0 || asset.buyer_id || asset.customer_id) {
       return { blocked: 'Only an unsold purchase can be deleted here. Resolve the machine’s later activity first.' };
     }
@@ -30,17 +31,14 @@ function install({ app, db, auth, excavatorGuard, accounting, voidFinanceBySourc
       'excavator_repairs', 'excavator_logistics', 'excavator_parts',
       'excavator_buyer_payments', 'excavator_buyer_payment_allocations', 'excavator_buyer_resale_shares',
     ];
-    for (const table of dependentTables) {
-      if (await db.prepare('SELECT id FROM ' + table + ' WHERE asset_id=? LIMIT 1').get(id)) {
-        return { blocked: 'The machine has linked activity beyond the purchase. Resolve that activity before deleting it.' };
-      }
-    }
-    if (await db.prepare("SELECT id FROM excavator_transactions WHERE asset_id=? AND type!='Purchase' LIMIT 1").get(id)
-      || await db.prepare(`SELECT id FROM excavator_exchange_proposals WHERE business_unit_id=? AND
-        ((requested_machine_source='Company Asset' AND requested_machine_id=?) OR
-         (offered_machine_source='Company Asset' AND offered_machine_id=?)) LIMIT 1`).get(unit, id, id)) {
-      return { blocked: 'The machine has linked activity beyond the purchase. Resolve that activity before deleting it.' };
-    }
+    const activityQueries = dependentTables.map(table => `SELECT id FROM ${table} WHERE asset_id=?`);
+    activityQueries.push("SELECT id FROM excavator_transactions WHERE asset_id=? AND type!='Purchase'");
+    activityQueries.push(`SELECT id FROM excavator_exchange_proposals WHERE business_unit_id=? AND
+      ((requested_machine_source='Company Asset' AND requested_machine_id=?) OR
+       (offered_machine_source='Company Asset' AND offered_machine_id=?))`);
+    const activity = await db.prepare(activityQueries.join(' UNION ALL ') + ' LIMIT 1')
+      .get(...Array(dependentTables.length + 1).fill(id), unit, id, id);
+    if (activity) return { blocked: 'The machine has linked activity beyond the purchase. Resolve that activity before deleting it.' };
     const payments = await db.prepare('SELECT * FROM excavator_payments WHERE asset_id=? ORDER BY id').all(id);
     const finance = [];
     for (const payment of payments) {
@@ -116,6 +114,7 @@ function install({ app, db, auth, excavatorGuard, accounting, voidFinanceBySourc
     }));
     await res.json({ ok: true, finance: results, reversal_pending: results.some(row => row.reversal_pending) });
   });
+  return { plan };
 }
 
 module.exports = { install };

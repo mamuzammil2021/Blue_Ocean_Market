@@ -1,18 +1,17 @@
 {
   "status": "PASS",
-  "version": "30.70.9",
+  "version": "30.70.10",
   "engine": "pglite",
   "database_and_upgrade_checks": 20,
-  "sql_plans": 2625,
+  "sql_plans": 2621,
   "regression_suites": 37,
   "regression_workflow_checks": 500,
+  "audit7010_checks": 9,
   "targeted_nov9_checks": 9,
   "shared_record_interaction_checks": 14,
   "responsive_screen_cases": 294,
   "verification": [
-    "The release run and targeted reruns together cover all release stages.",
-    "The October 26 suite passed after preserving the locked Edit indicator. The November 4 suite passed on retry.",
-    "Browser and PDF checks used local Chromium."
+    "Release checks completed in batches using local PGlite and Chromium."
   ],
   "render_deployed": false,
   "git_pushed": false

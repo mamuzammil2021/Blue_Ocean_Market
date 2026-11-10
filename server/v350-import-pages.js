@@ -4,7 +4,7 @@ const { paging } = require('./v349-pink-pages');
 function clean(query = {}) {return { search: String(query.search || '').trim().slice(0, 100), status: String(query.status || '').trim().slice(0, 40), sort: ['id','import_no','supplier','status'].includes(query.sort)?query.sort:'id', direction: query.direction==='asc'?'ASC':'DESC' };}
 function pageSQL(q = {}) {
   const a = [],where = ['i.business_unit_id=?'];
-  if (q.search) {where.push('(i.import_no LIKE ? OR i.supplier_invoice_no LIKE ? OR i.container_no LIKE ? OR COALESCE(s.name,i.supplier_name) LIKE ?)');a.push(...Array(4).fill('%' + q.search + '%'));}
+  if (q.search) {where.push('(i.import_no ILIKE ? OR i.supplier_invoice_no ILIKE ? OR i.container_no ILIKE ? OR COALESCE(s.name,i.supplier_name) ILIKE ?)');a.push(...Array(4).fill('%' + q.search + '%'));}
   if (q.status) {where.push('i.status=?');a.push(q.status);}
   return { where: where.join(' AND '), args: a };
 }

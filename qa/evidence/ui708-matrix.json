@@ -1,5 +1,5 @@
 {
-  "version": "30.70.8",
+  "version": "30.70.10",
   "results": [
     {
       "key": "dashboard-all",
@@ -1338,7 +1338,7 @@
         },
         {
           "text": "Open Access",
-          "h": 36,
+          "h": 50,
           "primary": true
         }
       ],
@@ -2221,19 +2221,19 @@
           "tag": "SELECT",
           "name": "ps315SupplierType",
           "h": 36,
-          "label": false
+          "label": true
         },
         {
           "tag": "SELECT",
           "name": "ps315SupplierPosition",
           "h": 36,
-          "label": false
+          "label": true
         },
         {
           "tag": "SELECT",
           "name": "ps315SupplierSort",
           "h": 36,
-          "label": false
+          "label": true
         }
       ],
       "summaries": [],
@@ -2613,25 +2613,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-15",
+          "name": "bom-field-11",
           "h": 38,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-16",
+          "name": "bom-field-12",
           "h": 38,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-17",
+          "name": "bom-field-13",
           "h": 38,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-18",
+          "name": "bom-field-14",
           "h": 38,
           "label": true
         }
@@ -2707,12 +2707,12 @@
           "primary": false
         },
         {
-          "text": "Archive",
+          "text": "Stock must be zero before archiving",
           "h": 36,
           "primary": false
         },
         {
-          "text": "Delete",
+          "text": "Stock must be zero before deleting",
           "h": 36,
           "primary": false
         }
@@ -2790,7 +2790,7 @@
         },
         {
           "text": "Receive Payment",
-          "h": 36,
+          "h": 56,
           "primary": true
         },
         {
@@ -2988,25 +2988,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-43",
+          "name": "bom-field-39",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-44",
+          "name": "bom-field-40",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-45",
+          "name": "bom-field-41",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-46",
+          "name": "bom-field-42",
           "h": 36,
           "label": true
         }
@@ -3062,7 +3062,7 @@
         },
         {
           "text": "Manage Channels",
-          "h": 36,
+          "h": 50,
           "primary": true
         },
         {
@@ -3110,7 +3110,7 @@
       "url": "#psImports/import/2?unit=4",
       "phase": "ready",
       "headings": [
-        "Import Detail · QA-IMP-b3769d5528",
+        "Import Detail · QA-IMP-9f43e2c1ef",
         "Salt Categories",
         "Supplier Payments",
         "Import Cost",
@@ -3204,7 +3204,7 @@
           "client": 0
         }
       ],
-      "cards": 5,
+      "cards": 6,
       "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
     },
     {
@@ -3398,7 +3398,7 @@
         },
         {
           "text": "Receive Payment",
-          "h": 36,
+          "h": 56,
           "primary": true
         },
         {
@@ -3491,12 +3491,12 @@
           "tag": "SELECT",
           "name": "",
           "h": 36,
-          "label": false
+          "label": true
         }
       ],
       "summaries": [
         {
-          "items": 3,
+          "items": 4,
           "rows": 1
         }
       ],
@@ -3517,7 +3517,7 @@
           "client": 0
         }
       ],
-      "cards": 7,
+      "cards": 8,
       "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
     },
     {
@@ -3997,13 +3997,13 @@
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-82",
+          "name": "bom-field-78",
           "h": 36,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-83",
+          "name": "bom-field-79",
           "h": 36,
           "label": true
         },
@@ -4326,8 +4326,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 2,
-          "scroll": 792,
-          "client": 792
+          "scroll": 754,
+          "client": 754
         }
       ],
       "cards": 16,
@@ -5017,8 +5017,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 1030,
-          "client": 1030
+          "scroll": 988,
+          "client": 988
         }
       ],
       "cards": 5,
@@ -5227,8 +5227,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 61,
-          "scroll": 899,
-          "client": 899
+          "scroll": 809,
+          "client": 809
         }
       ],
       "cards": 11,
@@ -5378,8 +5378,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 969,
-          "client": 969
+          "scroll": 1117,
+          "client": 1117
         }
       ],
       "cards": 1,
@@ -5519,7 +5519,7 @@
         },
         {
           "text": "Open Access",
-          "h": 40,
+          "h": 50,
           "primary": true
         }
       ],
@@ -5544,8 +5544,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 1071,
-          "client": 1071
+          "scroll": 1002,
+          "client": 1002
         }
       ],
       "cards": 1,
@@ -5696,7 +5696,7 @@
         {
           "bootstrap": true,
           "cols": 5,
-          "rows": 13,
+          "rows": 12,
           "scroll": 754,
           "client": 754
         }
@@ -5788,7 +5788,7 @@
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-88",
+          "name": "bom-field-84",
           "h": 40,
           "label": true
         }
@@ -6211,8 +6211,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 886,
-          "client": 886
+          "scroll": 884,
+          "client": 884
         }
       ],
       "cards": 5,
@@ -6402,19 +6402,19 @@
           "tag": "SELECT",
           "name": "ps315SupplierType",
           "h": 40,
-          "label": false
+          "label": true
         },
         {
           "tag": "SELECT",
           "name": "ps315SupplierPosition",
           "h": 40,
-          "label": false
+          "label": true
         },
         {
           "tag": "SELECT",
           "name": "ps315SupplierSort",
           "h": 40,
-          "label": false
+          "label": true
         }
       ],
       "summaries": [],
@@ -6429,8 +6429,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 858,
-          "client": 858
+          "scroll": 864,
+          "client": 864
         }
       ],
       "cards": 1,
@@ -6481,25 +6481,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-93",
+          "name": "bom-field-89",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-94",
+          "name": "bom-field-90",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-95",
+          "name": "bom-field-91",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-96",
+          "name": "bom-field-92",
           "h": 40,
           "label": true
         },
@@ -6527,8 +6527,8 @@
           "bootstrap": true,
           "cols": 10,
           "rows": 3,
-          "scroll": 1082,
-          "client": 1082
+          "scroll": 995,
+          "client": 995
         }
       ],
       "cards": 5,
@@ -6794,25 +6794,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-101",
+          "name": "bom-field-97",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-102",
+          "name": "bom-field-98",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-103",
+          "name": "bom-field-99",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-104",
+          "name": "bom-field-100",
           "h": 40,
           "label": true
         }
@@ -6888,12 +6888,12 @@
           "primary": false
         },
         {
-          "text": "Archive",
+          "text": "Stock must be zero before archiving",
           "h": 40,
           "primary": false
         },
         {
-          "text": "Delete",
+          "text": "Stock must be zero before deleting",
           "h": 40,
           "primary": false
         }
@@ -6901,25 +6901,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-105",
+          "name": "bom-field-101",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-106",
+          "name": "bom-field-102",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-107",
+          "name": "bom-field-103",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-108",
+          "name": "bom-field-104",
           "h": 40,
           "label": true
         }
@@ -6941,8 +6941,8 @@
           "bootstrap": true,
           "cols": 11,
           "rows": 2,
-          "scroll": 1020,
-          "client": 1020
+          "scroll": 947,
+          "client": 947
         }
       ],
       "cards": 5,
@@ -6993,25 +6993,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-113",
+          "name": "bom-field-109",
           "h": 40,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-114",
+          "name": "bom-field-110",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-115",
+          "name": "bom-field-111",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-116",
+          "name": "bom-field-112",
           "h": 40,
           "label": true
         },
@@ -7039,8 +7039,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 2,
-          "scroll": 777,
-          "client": 777
+          "scroll": 754,
+          "client": 754
         }
       ],
       "cards": 4,
@@ -7091,25 +7091,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-121",
+          "name": "bom-field-117",
           "h": 40,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-122",
+          "name": "bom-field-118",
           "h": 40,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-123",
+          "name": "bom-field-119",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-124",
+          "name": "bom-field-120",
           "h": 40,
           "label": true
         },
@@ -7169,25 +7169,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-129",
+          "name": "bom-field-125",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-130",
+          "name": "bom-field-126",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-131",
+          "name": "bom-field-127",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-132",
+          "name": "bom-field-128",
           "h": 40,
           "label": true
         }
@@ -7291,7 +7291,7 @@
       "url": "#psImports/import/2?unit=4",
       "phase": "ready",
       "headings": [
-        "Import Detail · QA-IMP-b3769d5528",
+        "Import Detail · QA-IMP-9f43e2c1ef",
         "Salt Categories",
         "Supplier Payments",
         "Import Cost",
@@ -7385,7 +7385,7 @@
           "client": 0
         }
       ],
-      "cards": 5,
+      "cards": 6,
       "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
     },
     {
@@ -7506,8 +7506,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 3,
-          "scroll": 785,
-          "client": 785
+          "scroll": 879,
+          "client": 879
         },
         {
           "bootstrap": true,
@@ -7608,8 +7608,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 2,
-          "scroll": 777,
-          "client": 777
+          "scroll": 754,
+          "client": 754
         }
       ],
       "cards": 4,
@@ -7672,12 +7672,12 @@
           "tag": "SELECT",
           "name": "",
           "h": 40,
-          "label": false
+          "label": true
         }
       ],
       "summaries": [
         {
-          "items": 3,
+          "items": 4,
           "rows": 1
         }
       ],
@@ -7698,7 +7698,7 @@
           "client": 0
         }
       ],
-      "cards": 7,
+      "cards": 8,
       "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
     },
     {
@@ -7945,8 +7945,8 @@
           "bootstrap": true,
           "cols": 9,
           "rows": 2,
-          "scroll": 778,
-          "client": 778
+          "scroll": 770,
+          "client": 770
         }
       ],
       "cards": 6,
@@ -8178,13 +8178,13 @@
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-168",
+          "name": "bom-field-164",
           "h": 40,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-169",
+          "name": "bom-field-165",
           "h": 40,
           "label": true
         },
@@ -8507,8 +8507,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 2,
-          "scroll": 792,
-          "client": 792
+          "scroll": 706,
+          "client": 706
         }
       ],
       "cards": 16,
@@ -8783,8 +8783,8 @@
           "bootstrap": true,
           "cols": 10,
           "rows": 2,
-          "scroll": 739,
-          "client": 739
+          "scroll": 731,
+          "client": 731
         },
         {
           "bootstrap": true,
@@ -9408,8 +9408,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 61,
-          "scroll": 899,
-          "client": 899
+          "scroll": 813,
+          "client": 813
         }
       ],
       "cards": 11,
@@ -9700,7 +9700,7 @@
         },
         {
           "text": "Open Access",
-          "h": 44,
+          "h": 50,
           "primary": true
         }
       ],
@@ -9725,8 +9725,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 1071,
-          "client": 1071
+          "scroll": 1002,
+          "client": 1002
         }
       ],
       "cards": 1,
@@ -9877,7 +9877,7 @@
         {
           "bootstrap": true,
           "cols": 5,
-          "rows": 18,
+          "rows": 17,
           "scroll": 640,
           "client": 640
         }
@@ -9969,7 +9969,7 @@
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-174",
+          "name": "bom-field-170",
           "h": 44,
           "label": true
         }
@@ -10583,19 +10583,19 @@
           "tag": "SELECT",
           "name": "ps315SupplierType",
           "h": 44,
-          "label": false
+          "label": true
         },
         {
           "tag": "SELECT",
           "name": "ps315SupplierPosition",
           "h": 44,
-          "label": false
+          "label": true
         },
         {
           "tag": "SELECT",
           "name": "ps315SupplierSort",
           "h": 44,
-          "label": false
+          "label": true
         }
       ],
       "summaries": [],
@@ -10662,25 +10662,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-179",
+          "name": "bom-field-175",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-180",
+          "name": "bom-field-176",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-181",
+          "name": "bom-field-177",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-182",
+          "name": "bom-field-178",
           "h": 44,
           "label": true
         },
@@ -10861,8 +10861,8 @@
           "bootstrap": true,
           "cols": 5,
           "rows": 2,
-          "scroll": 724,
-          "client": 724
+          "scroll": 661,
+          "client": 661
         }
       ],
       "cards": 2,
@@ -10975,25 +10975,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-187",
+          "name": "bom-field-183",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-188",
+          "name": "bom-field-184",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-189",
+          "name": "bom-field-185",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-190",
+          "name": "bom-field-186",
           "h": 44,
           "label": true
         }
@@ -11055,12 +11055,12 @@
         },
         {
           "text": "Traceability",
-          "h": 44,
+          "h": 90,
           "primary": false
         },
         {
           "text": "🖼 Images 0",
-          "h": 44,
+          "h": 110,
           "primary": false
         },
         {
@@ -11069,12 +11069,12 @@
           "primary": false
         },
         {
-          "text": "Archive",
+          "text": "Stock must be zero before archiving",
           "h": 44,
           "primary": false
         },
         {
-          "text": "Delete",
+          "text": "Stock must be zero before deleting",
           "h": 44,
           "primary": false
         }
@@ -11451,15 +11451,15 @@
           "bootstrap": true,
           "cols": 6,
           "rows": 2,
-          "scroll": 682,
-          "client": 682
+          "scroll": 640,
+          "client": 640
         },
         {
           "bootstrap": true,
           "cols": 7,
           "rows": 2,
-          "scroll": 717,
-          "client": 717
+          "scroll": 662,
+          "client": 662
         }
       ],
       "cards": 8,
@@ -11472,7 +11472,7 @@
       "url": "#psImports/import/2?unit=4",
       "phase": "ready",
       "headings": [
-        "Import Detail · QA-IMP-b3769d5528",
+        "Import Detail · QA-IMP-9f43e2c1ef",
         "Salt Categories",
         "Supplier Payments",
         "Import Cost",
@@ -11566,7 +11566,7 @@
           "client": 0
         }
       ],
-      "cards": 5,
+      "cards": 6,
       "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
     },
     {
@@ -11687,8 +11687,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 3,
-          "scroll": 785,
-          "client": 785
+          "scroll": 883,
+          "client": 883
         },
         {
           "bootstrap": true,
@@ -11789,8 +11789,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 2,
-          "scroll": 777,
-          "client": 777
+          "scroll": 725,
+          "client": 725
         }
       ],
       "cards": 4,
@@ -11853,12 +11853,12 @@
           "tag": "SELECT",
           "name": "",
           "h": 44,
-          "label": false
+          "label": true
         }
       ],
       "summaries": [
         {
-          "items": 3,
+          "items": 4,
           "rows": 2
         }
       ],
@@ -11879,7 +11879,7 @@
           "client": 0
         }
       ],
-      "cards": 7,
+      "cards": 8,
       "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
     },
     {
@@ -12126,8 +12126,8 @@
           "bootstrap": true,
           "cols": 9,
           "rows": 2,
-          "scroll": 778,
-          "client": 778
+          "scroll": 770,
+          "client": 770
         }
       ],
       "cards": 6,
@@ -13058,7 +13058,7 @@
         },
         {
           "text": "열기",
-          "h": 41,
+          "h": 30,
           "primary": false
         }
       ],
@@ -13881,7 +13881,7 @@
         },
         {
           "text": "접근 권한 열기",
-          "h": 36,
+          "h": 70,
           "primary": true
         }
       ],
@@ -14019,16 +14019,6 @@
           "text": "다음",
           "h": 30,
           "primary": false
-        },
-        {
-          "text": "이전",
-          "h": 30,
-          "primary": false
-        },
-        {
-          "text": "다음",
-          "h": 30,
-          "primary": false
         }
       ],
       "controls": [
@@ -14055,12 +14045,6 @@
           "name": "",
           "h": 36,
           "label": true
-        },
-        {
-          "tag": "SELECT",
-          "name": "",
-          "h": 36,
-          "label": true
         }
       ],
       "summaries": [],
@@ -14074,7 +14058,7 @@
         {
           "bootstrap": true,
           "cols": 5,
-          "rows": 26,
+          "rows": 24,
           "scroll": 1110,
           "client": 1110
         }
@@ -14458,7 +14442,7 @@
       "buttons": [
         {
           "text": "+ 공급업체 추가",
-          "h": 76,
+          "h": 56,
           "primary": true
         },
         {
@@ -14780,19 +14764,19 @@
           "tag": "SELECT",
           "name": "ps315SupplierType",
           "h": 36,
-          "label": false
+          "label": true
         },
         {
           "tag": "SELECT",
           "name": "ps315SupplierPosition",
           "h": 36,
-          "label": false
+          "label": true
         },
         {
           "tag": "SELECT",
           "name": "ps315SupplierSort",
           "h": 36,
-          "label": false
+          "label": true
         }
       ],
       "summaries": [],
@@ -15257,7 +15241,7 @@
         },
         {
           "text": "🖼 이미지 0개",
-          "h": 36,
+          "h": 70,
           "primary": false
         },
         {
@@ -15266,12 +15250,12 @@
           "primary": false
         },
         {
-          "text": "보관",
+          "text": "Stock must be zero before archiving",
           "h": 36,
           "primary": false
         },
         {
-          "text": "삭제",
+          "text": "Stock must be zero before deleting",
           "h": 36,
           "primary": false
         }
@@ -15349,7 +15333,7 @@
         },
         {
           "text": "수금 기록",
-          "h": 36,
+          "h": 56,
           "primary": true
         },
         {
@@ -15547,25 +15531,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-297",
+          "name": "bom-field-301",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-298",
+          "name": "bom-field-302",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-299",
+          "name": "bom-field-303",
           "h": 36,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-300",
+          "name": "bom-field-304",
           "h": 36,
           "label": true
         }
@@ -15621,7 +15605,7 @@
         },
         {
           "text": "채널 관리",
-          "h": 36,
+          "h": 50,
           "primary": true
         },
         {
@@ -15669,7 +15653,7 @@
       "url": "#psImports/import/2?unit=4",
       "phase": "ready",
       "headings": [
-        "수입 상세 · QA-IMP-b3769d5528",
+        "수입 상세 · QA-IMP-9f43e2c1ef",
         "소금 품목",
         "공급업체 결제",
         "수입 비용",
@@ -15763,7 +15747,7 @@
           "client": 0
         }
       ],
-      "cards": 5,
+      "cards": 6,
       "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
     },
     {
@@ -15957,7 +15941,7 @@
         },
         {
           "text": "수금 기록",
-          "h": 36,
+          "h": 56,
           "primary": true
         },
         {
@@ -16050,12 +16034,12 @@
           "tag": "SELECT",
           "name": "",
           "h": 36,
-          "label": false
+          "label": true
         }
       ],
       "summaries": [
         {
-          "items": 3,
+          "items": 4,
           "rows": 1
         }
       ],
@@ -16076,7 +16060,7 @@
           "client": 0
         }
       ],
-      "cards": 7,
+      "cards": 8,
       "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
     },
     {
@@ -16556,13 +16540,13 @@
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-336",
+          "name": "bom-field-340",
           "h": 36,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-337",
+          "name": "bom-field-341",
           "h": 36,
           "label": true
         },
@@ -16885,8 +16869,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 2,
-          "scroll": 760,
-          "client": 760
+          "scroll": 754,
+          "client": 754
         }
       ],
       "cards": 16,
@@ -17576,8 +17560,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 975,
-          "client": 975
+          "scroll": 881,
+          "client": 881
         }
       ],
       "cards": 5,
@@ -17937,8 +17921,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 891,
-          "client": 891
+          "scroll": 962,
+          "client": 962
         }
       ],
       "cards": 1,
@@ -18078,7 +18062,7 @@
         },
         {
           "text": "접근 권한 열기",
-          "h": 40,
+          "h": 70,
           "primary": true
         }
       ],
@@ -18103,8 +18087,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 908,
-          "client": 908
+          "scroll": 769,
+          "client": 769
         }
       ],
       "cards": 1,
@@ -18363,7 +18347,7 @@
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-342",
+          "name": "bom-field-346",
           "h": 40,
           "label": true
         }
@@ -18655,7 +18639,7 @@
       "buttons": [
         {
           "text": "+ 공급업체 추가",
-          "h": 76,
+          "h": 56,
           "primary": true
         },
         {
@@ -18977,19 +18961,19 @@
           "tag": "SELECT",
           "name": "ps315SupplierType",
           "h": 40,
-          "label": false
+          "label": true
         },
         {
           "tag": "SELECT",
           "name": "ps315SupplierPosition",
           "h": 40,
-          "label": false
+          "label": true
         },
         {
           "tag": "SELECT",
           "name": "ps315SupplierSort",
           "h": 40,
-          "label": false
+          "label": true
         }
       ],
       "summaries": [],
@@ -19056,25 +19040,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-347",
+          "name": "bom-field-351",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-348",
+          "name": "bom-field-352",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-349",
+          "name": "bom-field-353",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-350",
+          "name": "bom-field-354",
           "h": 40,
           "label": true
         },
@@ -19102,8 +19086,8 @@
           "bootstrap": true,
           "cols": 10,
           "rows": 3,
-          "scroll": 1005,
-          "client": 1005
+          "scroll": 876,
+          "client": 876
         }
       ],
       "cards": 5,
@@ -19369,25 +19353,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-351",
+          "name": "bom-field-355",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-352",
+          "name": "bom-field-356",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-353",
+          "name": "bom-field-357",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-354",
+          "name": "bom-field-358",
           "h": 40,
           "label": true
         }
@@ -19454,7 +19438,7 @@
         },
         {
           "text": "🖼 이미지 0개",
-          "h": 40,
+          "h": 70,
           "primary": false
         },
         {
@@ -19463,12 +19447,12 @@
           "primary": false
         },
         {
-          "text": "보관",
+          "text": "Stock must be zero before archiving",
           "h": 40,
           "primary": false
         },
         {
-          "text": "삭제",
+          "text": "Stock must be zero before deleting",
           "h": 40,
           "primary": false
         }
@@ -19476,25 +19460,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-355",
+          "name": "bom-field-363",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-356",
+          "name": "bom-field-364",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-357",
+          "name": "bom-field-365",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-358",
+          "name": "bom-field-366",
           "h": 40,
           "label": true
         }
@@ -19516,8 +19500,8 @@
           "bootstrap": true,
           "cols": 11,
           "rows": 2,
-          "scroll": 910,
-          "client": 910
+          "scroll": 764,
+          "client": 764
         }
       ],
       "cards": 5,
@@ -19546,109 +19530,11 @@
         },
         {
           "text": "수금 기록",
-          "h": 40,
+          "h": 56,
           "primary": true
         },
         {
           "text": "송장",
-          "h": 40,
-          "primary": false
-        },
-        {
-          "text": "이전",
-          "h": 36,
-          "primary": false
-        },
-        {
-          "text": "다음",
-          "h": 36,
-          "primary": false
-        }
-      ],
-      "controls": [
-        {
-          "tag": "INPUT",
-          "name": "bom-field-363",
-          "h": 40,
-          "label": true
-        },
-        {
-          "tag": "INPUT",
-          "name": "bom-field-364",
-          "h": 40,
-          "label": true
-        },
-        {
-          "tag": "SELECT",
-          "name": "bom-field-365",
-          "h": 40,
-          "label": true
-        },
-        {
-          "tag": "SELECT",
-          "name": "bom-field-366",
-          "h": 40,
-          "label": true
-        },
-        {
-          "tag": "SELECT",
-          "name": "",
-          "h": 40,
-          "label": true
-        }
-      ],
-      "summaries": [
-        {
-          "items": 3,
-          "rows": 1
-        }
-      ],
-      "filters": [
-        {
-          "count": 4,
-          "wrap": "wrap"
-        }
-      ],
-      "tables": [
-        {
-          "bootstrap": true,
-          "cols": 7,
-          "rows": 2,
-          "scroll": 754,
-          "client": 754
-        }
-      ],
-      "cards": 4,
-      "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
-    },
-    {
-      "key": "psCustomers",
-      "width": 820,
-      "lang": "ko",
-      "url": "#psCustomers?unit=4",
-      "phase": "ready",
-      "headings": [
-        "고객 / 매장"
-      ],
-      "overflow": false,
-      "buttons": [
-        {
-          "text": "가격 등급",
-          "h": 40,
-          "primary": false
-        },
-        {
-          "text": "신규 고객 / 매장",
-          "h": 40,
-          "primary": true
-        },
-        {
-          "text": "편집",
-          "h": 40,
-          "primary": false
-        },
-        {
-          "text": "보관",
           "h": 40,
           "primary": false
         },
@@ -19677,7 +19563,7 @@
           "label": true
         },
         {
-          "tag": "INPUT",
+          "tag": "SELECT",
           "name": "bom-field-373",
           "h": 40,
           "label": true
@@ -19710,6 +19596,104 @@
       "tables": [
         {
           "bootstrap": true,
+          "cols": 7,
+          "rows": 2,
+          "scroll": 754,
+          "client": 754
+        }
+      ],
+      "cards": 4,
+      "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
+    },
+    {
+      "key": "psCustomers",
+      "width": 820,
+      "lang": "ko",
+      "url": "#psCustomers?unit=4",
+      "phase": "ready",
+      "headings": [
+        "고객 / 매장"
+      ],
+      "overflow": false,
+      "buttons": [
+        {
+          "text": "가격 등급",
+          "h": 40,
+          "primary": false
+        },
+        {
+          "text": "신규 고객 / 매장",
+          "h": 40,
+          "primary": true
+        },
+        {
+          "text": "편집",
+          "h": 40,
+          "primary": false
+        },
+        {
+          "text": "보관",
+          "h": 40,
+          "primary": false
+        },
+        {
+          "text": "이전",
+          "h": 36,
+          "primary": false
+        },
+        {
+          "text": "다음",
+          "h": 36,
+          "primary": false
+        }
+      ],
+      "controls": [
+        {
+          "tag": "INPUT",
+          "name": "bom-field-379",
+          "h": 40,
+          "label": true
+        },
+        {
+          "tag": "INPUT",
+          "name": "bom-field-380",
+          "h": 40,
+          "label": true
+        },
+        {
+          "tag": "INPUT",
+          "name": "bom-field-381",
+          "h": 40,
+          "label": true
+        },
+        {
+          "tag": "SELECT",
+          "name": "bom-field-382",
+          "h": 40,
+          "label": true
+        },
+        {
+          "tag": "SELECT",
+          "name": "",
+          "h": 40,
+          "label": true
+        }
+      ],
+      "summaries": [
+        {
+          "items": 3,
+          "rows": 1
+        }
+      ],
+      "filters": [
+        {
+          "count": 4,
+          "wrap": "wrap"
+        }
+      ],
+      "tables": [
+        {
+          "bootstrap": true,
           "cols": 6,
           "rows": 2,
           "scroll": 754,
@@ -19744,25 +19728,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-375",
+          "name": "bom-field-387",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-376",
+          "name": "bom-field-388",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-377",
+          "name": "bom-field-389",
           "h": 40,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-378",
+          "name": "bom-field-390",
           "h": 40,
           "label": true
         }
@@ -19818,7 +19802,7 @@
         },
         {
           "text": "채널 관리",
-          "h": 40,
+          "h": 50,
           "primary": true
         },
         {
@@ -19866,7 +19850,7 @@
       "url": "#psImports/import/2?unit=4",
       "phase": "ready",
       "headings": [
-        "수입 상세 · QA-IMP-b3769d5528",
+        "수입 상세 · QA-IMP-9f43e2c1ef",
         "소금 품목",
         "공급업체 결제",
         "수입 비용",
@@ -19960,7 +19944,7 @@
           "client": 0
         }
       ],
-      "cards": 5,
+      "cards": 6,
       "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
     },
     {
@@ -20081,8 +20065,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 3,
-          "scroll": 754,
-          "client": 754
+          "scroll": 787,
+          "client": 787
         },
         {
           "bootstrap": true,
@@ -20154,7 +20138,7 @@
         },
         {
           "text": "수금 기록",
-          "h": 40,
+          "h": 56,
           "primary": true
         },
         {
@@ -20247,12 +20231,12 @@
           "tag": "SELECT",
           "name": "",
           "h": 40,
-          "label": false
+          "label": true
         }
       ],
       "summaries": [
         {
-          "items": 3,
+          "items": 4,
           "rows": 1
         }
       ],
@@ -20273,7 +20257,7 @@
           "client": 0
         }
       ],
-      "cards": 7,
+      "cards": 8,
       "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
     },
     {
@@ -20753,13 +20737,13 @@
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-414",
+          "name": "bom-field-426",
           "h": 40,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-415",
+          "name": "bom-field-427",
           "h": 40,
           "label": true
         },
@@ -21082,8 +21066,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 2,
-          "scroll": 760,
-          "client": 760
+          "scroll": 640,
+          "client": 640
         }
       ],
       "cards": 16,
@@ -21983,8 +21967,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 61,
-          "scroll": 668,
-          "client": 668
+          "scroll": 640,
+          "client": 640
         }
       ],
       "cards": 11,
@@ -22275,7 +22259,7 @@
         },
         {
           "text": "접근 권한 열기",
-          "h": 44,
+          "h": 70,
           "primary": true
         }
       ],
@@ -22300,8 +22284,8 @@
           "bootstrap": true,
           "cols": 8,
           "rows": 2,
-          "scroll": 908,
-          "client": 908
+          "scroll": 769,
+          "client": 769
         }
       ],
       "cards": 1,
@@ -22560,7 +22544,7 @@
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-420",
+          "name": "bom-field-432",
           "h": 44,
           "label": true
         }
@@ -22852,7 +22836,7 @@
       "buttons": [
         {
           "text": "+ 공급업체 추가",
-          "h": 76,
+          "h": 56,
           "primary": true
         },
         {
@@ -23174,19 +23158,19 @@
           "tag": "SELECT",
           "name": "ps315SupplierType",
           "h": 44,
-          "label": false
+          "label": true
         },
         {
           "tag": "SELECT",
           "name": "ps315SupplierPosition",
           "h": 44,
-          "label": false
+          "label": true
         },
         {
           "tag": "SELECT",
           "name": "ps315SupplierSort",
           "h": 44,
-          "label": false
+          "label": true
         }
       ],
       "summaries": [],
@@ -23253,25 +23237,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-425",
+          "name": "bom-field-437",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-426",
+          "name": "bom-field-438",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-427",
+          "name": "bom-field-439",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-428",
+          "name": "bom-field-440",
           "h": 44,
           "label": true
         },
@@ -23566,25 +23550,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-433",
+          "name": "bom-field-445",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-434",
+          "name": "bom-field-446",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-435",
+          "name": "bom-field-447",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-436",
+          "name": "bom-field-448",
           "h": 44,
           "label": true
         }
@@ -23646,12 +23630,12 @@
         },
         {
           "text": "추적성",
-          "h": 44,
+          "h": 50,
           "primary": false
         },
         {
           "text": "🖼 이미지 0개",
-          "h": 44,
+          "h": 90,
           "primary": false
         },
         {
@@ -23660,12 +23644,12 @@
           "primary": false
         },
         {
-          "text": "보관",
+          "text": "Stock must be zero before archiving",
           "h": 44,
           "primary": false
         },
         {
-          "text": "삭제",
+          "text": "Stock must be zero before deleting",
           "h": 44,
           "primary": false
         }
@@ -23673,25 +23657,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-437",
+          "name": "bom-field-449",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-438",
+          "name": "bom-field-450",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-439",
+          "name": "bom-field-451",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-440",
+          "name": "bom-field-452",
           "h": 44,
           "label": true
         }
@@ -23765,25 +23749,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-445",
+          "name": "bom-field-457",
           "h": 44,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-446",
+          "name": "bom-field-458",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-447",
+          "name": "bom-field-459",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-448",
+          "name": "bom-field-460",
           "h": 44,
           "label": true
         },
@@ -23863,25 +23847,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-453",
+          "name": "bom-field-465",
           "h": 44,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-454",
+          "name": "bom-field-466",
           "h": 44,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-455",
+          "name": "bom-field-467",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-456",
+          "name": "bom-field-468",
           "h": 44,
           "label": true
         },
@@ -23941,25 +23925,25 @@
       "controls": [
         {
           "tag": "INPUT",
-          "name": "bom-field-461",
+          "name": "bom-field-473",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-462",
+          "name": "bom-field-474",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-463",
+          "name": "bom-field-475",
           "h": 44,
           "label": true
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-464",
+          "name": "bom-field-476",
           "h": 44,
           "label": true
         }
@@ -24015,7 +23999,7 @@
         },
         {
           "text": "채널 관리",
-          "h": 44,
+          "h": 50,
           "primary": true
         },
         {
@@ -24063,7 +24047,7 @@
       "url": "#psImports/import/2?unit=4",
       "phase": "ready",
       "headings": [
-        "수입 상세 · QA-IMP-b3769d5528",
+        "수입 상세 · QA-IMP-9f43e2c1ef",
         "소금 품목",
         "공급업체 결제",
         "수입 비용",
@@ -24157,7 +24141,7 @@
           "client": 0
         }
       ],
-      "cards": 5,
+      "cards": 6,
       "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
     },
     {
@@ -24278,8 +24262,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 3,
-          "scroll": 750,
-          "client": 750
+          "scroll": 791,
+          "client": 791
         },
         {
           "bootstrap": true,
@@ -24351,7 +24335,7 @@
         },
         {
           "text": "수금 기록",
-          "h": 44,
+          "h": 56,
           "primary": true
         },
         {
@@ -24380,8 +24364,8 @@
           "bootstrap": true,
           "cols": 7,
           "rows": 2,
-          "scroll": 696,
-          "client": 696
+          "scroll": 640,
+          "client": 640
         }
       ],
       "cards": 4,
@@ -24444,12 +24428,12 @@
           "tag": "SELECT",
           "name": "",
           "h": 44,
-          "label": false
+          "label": true
         }
       ],
       "summaries": [
         {
-          "items": 3,
+          "items": 4,
           "rows": 2
         }
       ],
@@ -24470,7 +24454,7 @@
           "client": 0
         }
       ],
-      "cards": 7,
+      "cards": 8,
       "font": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", \"Noto Sans CJK KR\", sans-serif"
     },
     {
@@ -24950,13 +24934,13 @@
         },
         {
           "tag": "SELECT",
-          "name": "bom-field-500",
+          "name": "bom-field-512",
           "h": 44,
           "label": true
         },
         {
           "tag": "INPUT",
-          "name": "bom-field-501",
+          "name": "bom-field-513",
           "h": 44,
           "label": true
         },
@@ -25137,5 +25121,5 @@
     }
   ],
   "errors": [],
-  "tested_at": "2026-11-09T12:43:51.998Z"
+  "tested_at": "2026-11-09T20:04:02.365Z"
 }

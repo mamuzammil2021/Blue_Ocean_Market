@@ -47,6 +47,29 @@
   function inputActualByGrade(grade){
     return (window.psProdInputs||[]).filter(x=>x.salt_grade===grade).reduce((sum,x)=>sum+n(x.input_weight_kg),0);
   }
+  function packagingSummary(){
+    const demand=new Map();
+    for(const output of window.psProdOutputs||[]){
+      const product=(window.psProdProducts||[]).find(p=>String(p.id)===String(output.product_id));
+      for(const line of product?.bom||[]){
+        const amount=n(output.quantity_units)*n(line.quantity_per_unit);
+        if(amount<=0)continue;
+        const id=Number(line.packaging_item_id);
+        const row=demand.get(id)||{name:line.packaging_name,unit:line.packaging_unit,amount:0};
+        row.amount+=amount;
+        demand.set(id,row);
+      }
+    }
+    if(!demand.size)return '';
+    const stock=window.psProdPackaging;
+    const label=currentLanguage==='ko'?'포장재 가용 재고':'Packaging availability';
+    return `<h4>${esc(label)}</h4><div class="v3695-requirement-list">${[...demand].map(([id,row])=>{
+      const material=stock?.find(x=>Number(x.id)===id&&Number(x.active)===1);
+      const available=stock?n(material?.available_quantity):null;
+      return `<div class="v3695-requirement-row"><b>${esc(row.name||'#'+id)}</b><span>${esc(t('Required'))}: ${qty(row.amount,3)} ${esc(row.unit||'')}</span><span>${esc(t('Available'))}: ${available===null?'—':qty(available,3)+' '+esc(row.unit||'')}</span>${available!==null&&available+1e-6<row.amount?`<span class="pill warn">${esc(currentLanguage==='ko'?'재고 부족':'Insufficient stock')}</span>`:''}</div>`;
+    }).join('')}</div>`;
+  }
+
   function renderRequirementSummary(){
     const req=window.psProdRequirements(),summary=document.getElementById('psProdRequirements');
     if(!summary)return;
@@ -54,6 +77,7 @@
     summary.innerHTML=`<b>${esc(t('Salt required by selected outputs'))}</b><div class="v3695-requirement-list">${[...req].map(([g,kg])=>{
       const actual=inputActualByGrade(g),diff=actual-kg,remaining=Math.max(0,kg-actual);
       return `<div class="v3695-requirement-row"><span><b>${esc(g)}</b></span><span>${esc(t('Required Salt Weight'))}: <b>${qty(kg,3)} kg</b></span><span>${esc(t('Actual Entered'))}: <b>${actual>0?qty(actual,3)+' kg':'—'}</b></span><span>${esc(t('Difference'))}: <b>${actual>0?(diff>=0?'+':'')+qty(diff,3)+' kg':'—'}</b></span>${remaining>0&&actual>0?`<span>${esc(t('Remaining to Allocate'))}: <b>${qty(remaining,3)} kg</b></span>`:''}</div>`}).join('')}</div>`;
+    summary.insertAdjacentHTML('beforeend', packagingSummary());
     translateElement(summary);
   }
 

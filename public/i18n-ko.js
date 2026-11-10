@@ -1,6 +1,22 @@
 // Blue Ocean Market V27.7 — Korean locale additions.
 // System labels/messages belong here; user-entered business data is never translated.
 window.BO_I18N_KO=Object.freeze({
+  "Only an unsold purchase can be deleted here. Resolve the machine’s later activity first.": "미판매 구매 건만 삭제할 수 있습니다. 이후 장비 활동을 먼저 처리하세요.",
+  "The machine has other linked Finance activity. Resolve it before deleting the purchase.": "연결된 기타 재무 내역을 먼저 처리하세요.",
+  "Restore the archived machine before deleting its purchase.": "구매를 삭제하기 전에 보관된 장비를 복원하세요.",
+  "Open Supplier": "공급업체 열기",
+  "Open Import": "수입 열기",
+  "Open Verification": "검증 열기",
+  "Account Position": "계정 잔액 유형",
+  "Select journal": "분개 선택",
+  "Advance Applied": "적용 선급금",
+  "Cash Received": "수령액",
+  "Balance Due": "남은 잔액",
+  "Use the controlled workflow to change a sold or archived machine.": "판매 또는 보관된 장비는 승인된 업무 절차에서 변경하세요.",
+  "Use the machine sale or shipment workflow to record this stage.": "판매 또는 선적 절차에서 이 단계를 기록하세요.",
+  "Select a valid Excavator stage and status.": "유효한 장비 단계와 상태를 선택하세요.",
+  "Duplicate Excavator cost mirrors in Finance": "재무에 중복된 장비 비용 기록",
+
   "Void unverified Finance token": "미검증 재무 계약금 무효 처리",
   "Void token and cancel any unposted Accounting proposal": "계약금 무효 처리 및 미전기 회계 분개안이 있으면 취소",
   "Void token and queue Accounting reversal for posting": "계약금 무효 처리 및 회계 역분개 전기 대기",

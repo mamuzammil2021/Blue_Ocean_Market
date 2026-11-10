@@ -30,7 +30,7 @@
   actionPaths.Void = '<circle cx="12" cy="12" r="8"/><path d="m6.4 6.4 11.2 11.2"/>';
   const lockedActionPath = '<rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v2"/>';
   const actionAliases = {
-    'Open Machine': 'Open', 'Open Source Record': 'Open', 'Open Task': 'Open',
+    'Open Machine': 'Open', 'Open Supplier': 'Open', 'Open Import': 'Open', 'Open Verification': 'Open', 'Open Source Record': 'Open', 'Open Task': 'Open',
     'Open / Continue': 'Open', 'Open in New Tab': 'Open', 'View Receipt': 'View',
     'View Current Receipt': 'View', 'Delete / Archive': 'Delete', 'Delete Table': 'Delete',
     'Delete Profile': 'Delete', 'Delete Machine': 'Delete', 'Void Payment': 'Void',
@@ -122,6 +122,9 @@
   function decorate(root) {
     if (tooltipOwner && !tooltipOwner.isConnected) hideTooltip();
     const names = new Map(Object.entries(actionNames).flatMap(([name, action]) => [[name, action], [translate(name), action]]));
+    names.set('편집', 'Edit');
+    names.set('공급업체 열기', 'Open');
+    names.set('수입 열기', 'Open');
     for (const group of root.querySelectorAll(summaryGroups)) {
       if (group.children.length) group.classList.add('bom-record-summary');
     }
@@ -138,6 +141,7 @@
     for (const table of root.querySelectorAll('table.bom-record-table')) {
       decorateActionColumn(table, names);
     }
+    for (const control of root.querySelectorAll('[data-bom-card-actions] button')) decorateAction(control, names);
     for (const pager of root.querySelectorAll('.bom-server-pager, .v3391-pager, .v335-pagination, [data-bom-pagination]')) {
       pager.classList.add('bom-record-pager');
     }

@@ -1,5 +1,5 @@
 {
-  "version": "30.70.9",
+  "version": "30.70.10",
   "status": "PASS",
   "checks": [
     "Buy Machine accepts both omitted fields and one omitted field",
@@ -12,5 +12,5 @@
     "Machine deletion confirmation names the deal and shows the token amount and action",
     "Repeated Sale Type changes keep the form responsive and enable destination fields only for export"
   ],
-  "tested_at": "2026-11-09T17:52:34.126Z"
+  "tested_at": "2026-11-09T20:01:27.453Z"
 }

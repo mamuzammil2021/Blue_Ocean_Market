@@ -1,5 +1,5 @@
 {
-  "version": "30.70.8",
+  "version": "30.70.10",
   "status": "PASS",
   "checks": [
     "Import summary precedes one filter row, more filters opens, and icon tooltip works on hover and focus",
@@ -18,5 +18,5 @@
     "No uncaught browser errors during UI interactions"
   ],
   "errors": [],
-  "tested_at": "2026-11-09T12:44:20.240Z"
+  "tested_at": "2026-11-09T20:01:27.785Z"
 }

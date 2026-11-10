@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Both machine update endpoints reject invalid and direct sale stages while recording legitimate operational transitions",
+    "Repair and freight preserve their original Finance IDs and amounts across two restarts",
+    "Existing duplicate Finance history is preserved and identified by the read-only integrity check",
+    "Machine list and deletion preview agree on protected machines",
+    "Pink Salt import search matches shipment references in either case",
+    "Operations exposes Buy Machine in the heading, two mobile KPI columns and an explained disabled Delete",
+    "Repacking displays required packaging and shortages before confirmation",
+    "Packaging material Edit remains a compact icon in Korean",
+    "Supplier filters and order fulfillment are labeled and the import payment breakdown is expandable"
+  ]
+}

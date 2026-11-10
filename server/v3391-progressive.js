@@ -7,7 +7,7 @@ function text(v) {return String(v ?? '').trim();}
 function numeric(v) {return Number(v || 0);}
 function sqlLike(v) {return `%${text(v).toLowerCase()}%`;}
 
-async function install({ app, db, auth, allow, excavatorGuard }) {
+async function install({ app, db, auth, allow, excavatorGuard, purchaseDeletionBlock }) {
   const included = `(t.metadata IS NULL OR t.metadata='' OR bom.json_text(t.metadata,'$.include_in_machine_cost') IS DISTINCT FROM '0')`;
   const txActive = `t.status NOT IN ('Cancelled','Voided')`;
   const purchaseTx = `COALESCE((SELECT SUM(t.amount) FROM excavator_transactions t WHERE t.asset_id=a.id AND t.type='Purchase' AND ${txActive} AND ${included}),0)`;
@@ -122,6 +122,9 @@ async function install({ app, db, auth, allow, excavatorGuard }) {
       let total = rows.length ? Number(rows[0].__total || 0) : 0;
       if (!rows.length && paging.page > 1) total = await countAssetSnapshots(b, f);
       rows = rows.map(({ __total, ...row }) => row);
+      if (req.user.role === 'CEO / Owner' && purchaseDeletionBlock) {
+        await Promise.all(rows.map(async row => { row.purchase_deletion_block = await purchaseDeletionBlock(row); }));
+      }
       await sendPaged(res, rows, total, paging);
     } catch (e) {console.error('V30.39.1 paged Excavator assets:', e);await res.status(500).json({ error: e.message });}
   });

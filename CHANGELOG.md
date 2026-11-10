@@ -1,3 +1,7 @@
+# V30.70.10 — Excavator and Pink Salt audit fixes
+
+Keep repair and freight Finance records stable across restarts. Detect existing cost mirrors in the read-only integrity report. Protect Excavator lifecycle and deletion actions, correct case-insensitive import search, and improve record actions and production and settlement displays.
+
 # V30.70.9 — November 9 QA
 
 Make Excavator Make and Model optional at purchase, route completed purchases to the Machine List, and repair Sale Type responsiveness. Review and unwind linked token payments during purchase deletion. Compact standard row actions in shared record tables. See [release notes](RELEASE_NOTES.md).
