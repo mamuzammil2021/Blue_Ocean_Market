@@ -1138,3 +1138,7 @@ Must preserve actual Finance verification/posting cost locks; mutation-authorita
 - Pink Salt food traceability must preserve production batch/lot and best-before data and maintain a path back to raw import inputs and packaging consumption.
 - Pink Salt storage uses a reusable Warehouse → Zone → Rack/Bin foundation. Historic stock records must remain valid when structured locations are introduced incrementally.
 - Pink Salt and all future BU interfaces follow the established Excavator/shared Blue Ocean design language; domain-specific workflows may differ but page shells, section headers, cards, tables, actions, status chips, forms/modals, processing, targeted refresh and responsive behavior should remain system-consistent.
+
+## Shared page and dashboard layout
+
+Record collections use one page title, with page search and the primary action in the same desktop header when applicable. Relevant summary cards come next, followed by compact filters, navigation and records. Remove repeated section copy and retain useful status, currency and workflow guidance. Keep controls consistent in size, visible on mobile and available in English and Korean. Each business-unit dashboard combines date-scoped KPIs and charts with separately identified workspace figures.

@@ -816,6 +816,45 @@ const __async = require("./postgres/collections");module.exports = (async () => 
   });
   await app.get('/api/dashboard/timeseries', auth, allow('dashboard'), async (req, res) => {const sc = unitScope(req, 'business_unit_id');const rows = await db.prepare(`SELECT bom.utc_date(created_at) d,COALESCE(SUM(total),0)sales,COALESCE(SUM(gross_profit),0)profit FROM sales WHERE status='Completed' AND bom.utc_date(created_at)>=bom.utc_date('now','-29 days')${sc.sql} GROUP BY bom.utc_date(created_at) ORDER BY d`).all(...sc.args);await res.json(rows);});
 
+  await app.get('/api/dashboard/activity', auth, allow('dashboard'), async (req, res) => {
+    const { from, to } = req.query;
+    const day = (value) => {
+      if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return NaN;
+      const date = new Date(value + 'T00:00:00Z');
+      return Number.isFinite(+date) && date.toISOString().slice(0, 10) === value ? +date : NaN;
+    };
+    const days = (day(to) - day(from)) / 86400000;
+    if (!Number.isFinite(days) || days < 0 || days > 365) {
+      return res.status(400).json({ error: req.headers['x-language'] === 'ko'
+        ? '최대 366일의 유효한 날짜 범위를 선택하세요.'
+        : 'Choose a valid date range of up to 366 days.' });
+    }
+
+    const scope = unitScope(req, 'business_unit_id');
+    const activeUnit = scope.args[0];
+    const unit = activeUnit ? await db.prepare('SELECT name FROM business_units WHERE id=?').get(activeUnit) : null;
+    const financeDate = "SUBSTR(COALESCE(NULLIF(transaction_date,''),created_at),1,10)";
+    const unitMeasures = {
+      Excavator: { key: 'machines', table: 'excavator_assets',
+        date: "SUBSTR(COALESCE(NULLIF(purchase_date,''),created_at),1,10)",
+        condition: "COALESCE(archived,0)=0 AND COALESCE(lifecycle_stage,'')!='Cancelled'" },
+      'Pink Salt': { key: 'orders', table: 'pink_salt_orders', date: 'SUBSTR(order_date,1,10)', condition: "status='Completed'" },
+      'MIMI Resturant': { key: 'pos', table: 'sales', date: 'SUBSTR(created_at,1,10)', condition: "status='Completed'" },
+      'Mango / Seasonal': { key: 'sales', table: 'sales', date: 'SUBSTR(created_at,1,10)', condition: "status='Completed'" }
+    };
+    const measure = Object.hasOwn(unitMeasures, unit?.name) ? unitMeasures[unit.name] : null;
+    const [rows, operation] = await Promise.all([
+      db.prepare(`SELECT ${financeDate} AS day,
+        SUM(CASE WHEN cash_effect>0 THEN COALESCE(krw_amount,amount) ELSE 0 END) AS cash_in,
+        SUM(CASE WHEN cash_effect<0 THEN COALESCE(krw_amount,amount) ELSE 0 END) AS cash_out
+        FROM finance_entries WHERE status!='Voided' AND cash_effect<>0
+        AND ${financeDate} BETWEEN ? AND ?${scope.sql} GROUP BY 1 ORDER BY 1`).all(from, to, ...scope.args),
+      measure ? db.prepare(`SELECT COUNT(*) AS count FROM ${measure.table}
+        WHERE ${measure.condition} AND ${measure.date} BETWEEN ? AND ?${scope.sql}`).get(from, to, ...scope.args) : null
+    ]);
+    return res.json({ rows, operation: measure ? { key: measure.key, count: Number(operation.count) } : null });
+  });
+
   await app.get('/api/business-units', auth, async (req, res) => {if (req.user.role === 'CEO / Owner' && !req.selected_business_unit_id) return await res.json(await db.prepare(`SELECT b.*,u.name manager_name FROM business_units b LEFT JOIN users u ON u.id=b.manager_id WHERE b.status!='Archived' ORDER BY b.name`).all());if (accessV316 && req.user.role !== 'CEO / Owner') {const ids = (await accessV316.assignedUnits(req.user.id)).map((x) => x.id);if (!ids.length) return await res.json([]);const placeholders = ids.map(() => '?').join(',');return await res.json(await db.prepare(`SELECT b.*,u.name manager_name FROM business_units b LEFT JOIN users u ON u.id=b.manager_id WHERE b.status!='Archived' AND b.id IN (${placeholders}) ORDER BY b.name`).all(...ids));}let q = `SELECT b.*,u.name manager_name FROM business_units b LEFT JOIN users u ON u.id=b.manager_id WHERE b.status!='Archived'`;const sc = unitScope(req, 'b.id');q += sc.sql;await res.json(await db.prepare(q + ' ORDER BY b.name').all(...sc.args));});
   await app.post('/api/business-units', auth, async (req, res, next) => req.user.role === 'CEO / Owner' ? next() : await res.status(403).json({ error: 'Only CEO can manage business units' }), async (req, res) => {if (!req.body.name) return await res.status(400).json({ error: 'Business name is required' });try {const r = await db.prepare("INSERT INTO business_units(name,manager_id,status,notes) VALUES(?,?,?,?)").run(req.body.name, req.body.manager_id || null, req.body.status || 'Active', req.body.notes || '');await audit(req.user, 'business_unit', r.lastInsertRowid, 'create', req.body.name);await res.json({ id: r.lastInsertRowid });} catch (e) {await res.status(400).json({ error: 'Business unit already exists' });}});
   app.put('/api/business-units/:id', auth, async (req, res, next) => req.user.role === 'CEO / Owner' ? next() : await res.status(403).json({ error: 'Only CEO can manage business units' }), async (req, res) => {await db.prepare("UPDATE business_units SET name=COALESCE(?,name),manager_id=?,status=COALESCE(?,status),notes=COALESCE(?,notes) WHERE id=?").run(req.body.name || null, req.body.manager_id || null, req.body.status || null, req.body.notes || null, req.params.id);await audit(req.user, 'business_unit', req.params.id, "update", JSON.stringify(req.body));await res.json({ ok: true });});

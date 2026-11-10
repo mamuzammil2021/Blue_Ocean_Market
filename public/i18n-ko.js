@@ -554,3 +554,5 @@ window.BO_I18N_KO=Object.freeze({...window.BO_I18N_KO,
 });
 
 window.BO_I18N_KO=Object.freeze({...window.BO_I18N_KO,"Review & action":"검토 및 조치","Financial figures: KRW":"재무 수치: KRW","Newest":"최신순","Full-screen workflow":"전체 화면 작업"});
+
+window.BO_I18N_KO=Object.freeze({...window.BO_I18N_KO,"Search buyers":"구매자 검색","Search suppliers":"공급업체 검색","Search Machines / Deals":"장비 및 거래 검색","Search source, reference, machine, buyer/supplier…":"원천, 참조, 장비, 거래처 검색","Search journal, source, business unit, reference…":"분개, 원천, 사업부, 참조 검색","Recorded Sales":"기록된 매출","Mango / Seasonal":"망고 / 계절 상품"});

@@ -1,3 +1,7 @@
+# V30.70.15 — Dashboards and record page layout
+
+Add date-filtered dashboard activity across workspaces and compact Excavator, Finance and Accounting screens.
+
 # V30.70.14 — Historical cost corrections and receipt follow-up
 
 Keep Excavator original costs and Finance corrections in sync, protect recorded parts usage and archived costs, and show Pink Salt packaging dispositions after a full receipt.

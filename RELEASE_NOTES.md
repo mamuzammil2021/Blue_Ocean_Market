@@ -1,3 +1,12 @@
+# Blue Ocean Market V30.70.15
+
+- All business-unit dashboards show date presets, a custom range, recorded cash KPIs in KRW and a cash trend chart. Each supported business unit also shows a period count from its own operations.
+- Excavator Operations, Suppliers and Buyers use a shared header with page search and their primary action. Machine cards are more compact. The Excavator sidebar omits Warehouses.
+- Finance uses a compact tab strip and puts search in the header. Accounting removes repeated Overview copy and Posting Control displays its five indicators in one desktop row.
+- The development standard documents the shared record page and dashboard layout.
+
+Run `npm run qa:ui7015` with `BOM_CHROMIUM` set to the browser executable when needed.
+
 # Blue Ocean Market V30.70.14
 
 - Excavator historical cost corrections update the original record, its mirror, and the existing Finance entry atomically. Missing sources and conflicting active Finance entries require System Integrity review.
