@@ -870,6 +870,21 @@ const __async = require("./postgres/collections");module.exports = (async () => 
       ]);
       details = { sales, production, imports: Number(imports.count) };
     }
+    if (!activeUnit && req.user.role === 'CEO / Owner') {
+      const units = await db.prepare(`SELECT b.id,b.name,
+        SUM(CASE WHEN f.cash_effect>0 THEN COALESCE(f.krw_amount,f.amount) ELSE 0 END) AS cash_in,
+        SUM(CASE WHEN f.cash_effect<0 THEN COALESCE(f.krw_amount,f.amount) ELSE 0 END) AS cash_out
+        FROM finance_entries f LEFT JOIN business_units b ON b.id=f.business_unit_id
+        WHERE f.status!='Voided' AND f.cash_effect<>0 AND SUBSTR(COALESCE(NULLIF(f.transaction_date,''),f.created_at),1,10) BETWEEN ? AND ?
+        GROUP BY f.business_unit_id,b.id,b.name ORDER BY b.name`).all(from,to);
+      details = { units };
+    } else if (activeUnit && !details) {
+      const sales = await db.prepare(`SELECT SUBSTR(created_at,1,10) AS day, COUNT(*) AS orders,
+        SUM(total) AS sales, SUM(gross_profit) AS profit
+        FROM sales WHERE business_unit_id=? AND status='Completed'
+        AND SUBSTR(created_at,1,10) BETWEEN ? AND ? GROUP BY 1 ORDER BY 1`).all(activeUnit,from,to);
+      details = { sales };
+    }
     return res.json({ rows, details, operation: measure ? { key: measure.key, count: Number(operation.count) } : null });
   });
 

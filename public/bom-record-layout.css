@@ -301,3 +301,8 @@ html.bom-ui #content .bom-dashboard-toolbar .bom-dashboard-presets button {min-h
 @media(min-width:701px) {
   html.bom-ui #content .bom-dashboard-range .bom-dashboard-presets {display:none}
 }
+
+html.bom-ui #content .bom-dashboard-hero.bom-dashboard-mimi {background:linear-gradient(110deg,#352e36,#744839)}
+html.bom-ui #content .bom-dashboard-hero.bom-dashboard-mango {background:linear-gradient(110deg,#233a36,#3d5f42)}
+html.bom-ui #content .bom-dashboard-mimi .bom-period-kpis .card:first-child {border-top-color:#a96b24}
+html.bom-ui #content .bom-dashboard-mango .bom-period-kpis .card:first-child {border-top-color:#47824d}

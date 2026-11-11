@@ -1,3 +1,8 @@
+# Blue Ocean Market V30.70.17
+
+- CEO Consolidated, MIMI Restaurant and Mango / Seasonal now use the shared dashboard header, date range, period KPIs, trends and Current Position layout.
+- CEO Consolidated shows recorded cash movement and a period breakdown by business unit. MIMI Restaurant and Mango / Seasonal show completed sales, gross profit, average sale and cash movement.
+
 # Blue Ocean Market V30.70.16
 
 - Excavator and Pink Salt dashboards place date controls in the header, show period KPIs and trends, and keep current operational and balance figures visible below.

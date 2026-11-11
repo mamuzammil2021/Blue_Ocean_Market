@@ -9,6 +9,14 @@ const { fixture } = require('./fx_fixture.cjs');
   let browser;
   try {
     const units = await f.db.prepare('SELECT id,name FROM business_units').all();
+    const mimi=units.find(unit=>unit.name==='MIMI Resturant').id;
+    const mango=units.find(unit=>unit.name==='Mango / Seasonal').id;
+    for(const [unit,total,gross] of [[mimi,14000,4500],[mango,8000,2500]]) {
+      await f.ins('sales',{business_unit_id:unit,invoice_no:'QA-DASH-'+unit,total,gross_profit:gross,
+        status:'Completed',created_at:'2026-01-10 12:00:00'});
+      await f.ins('sales',{business_unit_id:unit,invoice_no:'QA-VOID-'+unit,total:90000,gross_profit:60000,
+        status:'Voided',created_at:'2026-01-10 12:00:00'});
+    }
     const supplier = await f.ins('excavator_suppliers', { business_unit_id: f.excavator, name: 'QA Excavator Supplier' });
     await f.ins('excavator_buyers', { business_unit_id: f.excavator, name: 'QA Excavator Buyer' });
     const asset = await f.ins('excavator_assets', {
@@ -43,6 +51,12 @@ const { fixture } = require('./fx_fixture.cjs');
     for (const query of ['from=2026-02-30&to=2026-03-01', 'from=2026-01-02&to=2026-01-01', 'from=2025-01-01&to=2026-01-02']) {
       assert.equal((await activity(f.excavator, query)).status, 400);
     }
+    assert.equal(Number((await activity(mimi)).j.details.sales[0].sales),14000);
+    assert.equal(Number((await activity(mango)).j.details.sales[0].sales),8000);
+    const all=await f.api('GET','/api/dashboard/activity?'+range,undefined,{'x-business-unit-id':''});
+    assert.equal(all.status,200,JSON.stringify(all.j));
+    assert.equal(Number(all.j.rows[0].cash_in),28000);
+    assert.equal(all.j.details.units.length,2);
     console.log('PASS Dashboard range, KRW amounts, BU scope, non-cash, voids and invalid dates');
 
     browser = await chromium.launch({ executablePath: process.env.BOM_CHROMIUM || chromium.executablePath(),
@@ -60,6 +74,19 @@ const { fixture } = require('./fx_fixture.cjs');
     for (const unit of [...units.map(x => x.id), 'all']) {
       await open('dashboard', unit, '&' + range);
       await page.locator('[data-activity-results] .bom-dashboard-kpis').waitFor();
+      await page.locator('.bom-dashboard-hero .bom-dashboard-range').waitFor();
+      await page.locator('.bom-current-position').waitFor();
+      if(String(unit)===String(mimi)||String(unit)===String(mango)){
+        assert.match(await page.locator('.bom-period-kpis').innerText(),String(unit)===String(mimi)?/14,000/:/8,000/);
+        await page.locator('[data-chart=cash]').click();
+        await page.locator('[data-dashboard-chart] .empty').waitFor();
+      }
+      if(unit==='all'){
+        assert.match(await page.locator('.bom-period-kpis').innerText(),/28,000/);
+        await page.locator('[data-activity-results] a[href*="#dashboard?unit="]').filter({hasText:/Excavator|굴착기/}).waitFor();
+      }
+      await viewport(390);
+      await viewport(1440);
       assert.equal(await page.locator('.bom-dashboard-dates [name=from]').inputValue(), '2026-01-10');
       if (String(unit) === String(f.excavator)) {
         await page.locator('.bom-dashboard-chart svg').waitFor();

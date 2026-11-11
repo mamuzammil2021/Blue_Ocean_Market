@@ -88,8 +88,8 @@
   function linkedCard(en, ko, value, route, filter, tone='') {
     const label=localized(en,ko);
     const content=`<span class="label">${esc(label)}</span><span class="value">${esc(value)}</span>`;
-    if (!allowed(route)) return card(label,value,tone);
-    const url='#'+route+'?'+new URLSearchParams({unit:String(selectedUnitId),...(filter?{filter}:{})});
+    if (!route || !allowed(route)) return card(label,value,tone);
+    const url='#'+route+'?'+new URLSearchParams({unit:String(selectedUnitId||'all'),...(filter?{filter}:{})});
     return `<a class="card stat bom-dashboard-link ${tone}" href="${esc(url)}">${content}<span aria-hidden="true">↗</span></a>`;
   }
 
@@ -103,28 +103,46 @@
 
   function unitActivity(body, kind, details, operation, cash, from, to, selected) {
     const excavator=kind==='excavator';
-    const profit=sum(details.sales,'profit');
+    const profit=sum(details.sales||[],'profit');
     const cards=excavator?[
       linkedCard('Machines purchased','구매 장비',count(operation.count),'excavator'),
       linkedCard('Machines sold','판매 장비',count(sum(details.sales,'sold')),'excavator','Sold / Completed','good'),
       card(localized('Sales','매출'),amount(sum(details.sales,'sales'))),
       card(localized(...profitColumn.slice(1)),amount(profit),profit<0?'bad':'good')
-    ]:[
+    ]:kind==='pink'?[
       linkedCard('Imports received','입고 완료 수입',count(details.imports),'psImports'),
       linkedCard('Finished units produced','생산 완제품 수량',count(sum(details.production,'units')),'psProduction',null,'good'),
       linkedCard('Completed orders','완료 주문',count(sum(details.sales,'orders')),'psSales'),
       card(localized('Sales','매출'),amount(sum(details.sales,'sales')),'good')
+    ]:kind==='ceo'?[
+      card(localized('Cash in','자금 유입'),amount(sum(cash,'cash_in')),'good'),
+      card(localized('Cash out','자금 유출'),amount(sum(cash,'cash_out')),'warn'),
+      card(localized('Net cash movement','순자금 이동'),amount(sum(cash,'cash_in')-sum(cash,'cash_out')),
+        sum(cash,'cash_in')>=sum(cash,'cash_out')?'good':'bad')
+    ]:[
+      linkedCard(kind==='mimi'?'Completed POS sales':'Completed sales',kind==='mimi'?'완료 POS 매출 건수':'완료 매출 건수',
+        count(sum(details.sales,'orders')),kind==='mimi'?'restaurant':'sales'),
+      card(localized('Sales','매출'),amount(sum(details.sales,'sales'))),
+      card(localized('Gross profit','매출총이익'),amount(profit),profit<0?'bad':'good'),
+      card(localized('Average sale','평균 매출액'),amount(sum(details.sales,'sales')/(sum(details.sales,'orders')||1)))
     ];
     const views = {
-      sales:[['Sales trend','매출 추이'],details.sales,excavator?[salesColumn,profitColumn]:[salesColumn],true],
-      ...(excavator?{}:{ production:[['Production trend','생산 추이'],details.production,[productionColumn],false] }),
+      ...(kind==='ceo'?{}:{sales:[['Sales trend','매출 추이'],details.sales,kind==='pink'?[salesColumn]:
+        [salesColumn,excavator?profitColumn:['profit','Gross profit','매출총이익']],true]}),
+      ...(kind==='pink'?{ production:[['Production trend','생산 추이'],details.production,[productionColumn],false] }:{}),
       cash:[['Cash movement','자금 이동'],cash,series,true]
     };
     body.innerHTML=`<div class="bom-dashboard-kpis bom-record-summary bom-period-kpis" data-bom-summary>${cards.join('')}</div>
       <section class="card bom-trend-panel"><div class="bom-dashboard-head"><h2>${localized('Trends','추이')}</h2>
       <div class="bom-dashboard-presets" role="group" aria-label="${localized('Chart view','차트 보기')}">
       ${Object.entries(views).map(([key,[label]])=>`<button type="button" class="btn small" data-chart="${key}">${localized(...label)}</button>`).join('')}</div></div>
-      <div data-dashboard-chart></div></section>`;
+      <div data-dashboard-chart></div></section>
+      ${kind==='ceo'&&details.units.length?`<section class="card bom-trend-panel" style="margin-top:12px"><h2>${localized('Cash movement by business unit','사업부별 자금 이동')}</h2>
+      <div class="table-wrap"><table class="table"><thead><tr><th>${localized('Business unit','사업부')}</th>
+      ${series.map(([,en,ko])=>`<th>${localized(en,ko)}</th>`).join('')}</tr></thead><tbody>
+      ${details.units.map(unit=>`<tr><td>${unit.id?`<a href="#dashboard?unit=${encodeURIComponent(unit.id)}&amp;from=${from}&amp;to=${to}">${esc(t(unit.name))}</a>`:esc(localized('Company / Shared','회사 / 공통'))}</td>
+      <td>${esc(amount(Number(unit.cash_in)))}</td><td>${esc(amount(Number(unit.cash_out)))}</td>
+      <td>${esc(amount(Number(unit.cash_in)-Number(unit.cash_out)))}</td></tr>`).join('')}</tbody></table></div></section>`:''}`;
     function show(key) {
       selected(key);
       const [label,rows,columns,currency]=views[key];
@@ -159,7 +177,7 @@
       </form></div><div data-activity-results aria-live="polite"></div>`;
     heading.after(host);
     const form=host.querySelector('form'), body=host.querySelector('[data-activity-results]');
-    let request, selectedChart='sales';
+    let request, selectedChart=kind==='ceo'?'cash':'sales';
     if(kind){
       heading.classList.add('bom-dashboard-hero','bom-dashboard-'+kind);
       const rangeControl=document.createElement('details');

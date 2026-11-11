@@ -257,21 +257,38 @@ async function dashboard(c){
   else if(selected.name==='MIMI Resturant') await mimiDashboard(c,current);
   else if(selected.name==='Excavator') await excavatorDashboard(c,current);
   else await unitDashboard(c,selected,current);
-  if(current())window.BOMDashboardActivity.mount(c,selected?.name==='Excavator'?'excavator':null);
+  const kind=!selected?(me.role==='CEO / Owner'?'ceo':'sales'):
+    ({Excavator:'excavator','MIMI Resturant':'mimi','Mango / Seasonal':'mango'})[selected.name]||'sales';
+  if(current())window.BOMDashboardActivity.mount(c,kind);
 }
 async function ceoDashboard(c,current){
   try{const [d,integrity]=await Promise.all([api('/api/dashboard'),api('/api/system/integrity')]);
   if(!current())return;
-  c.innerHTML=title('CEO — Consolidated Dashboard','All Business Units · consolidated management view')+`<div class="grid g4"><div class="card stat"><div class="label">Revenue</div><div class="value">${money(d.revenue)}</div></div><div class="card stat"><div class="label">Expenses</div><div class="value">${money(d.expenses)}</div></div><div class="card stat"><div class="label">Net</div><div class="value">${money(d.net)}</div></div><div class="card stat"><div class="label">Gross Profit</div><div class="value">${money(d.gross_profit)}</div></div></div><div class="grid g4" style="margin-top:16px"><div class="card"><h3>Approvals</h3><div class="big-number">${d.pending}</div></div><div class="card"><h3>Overdue Tasks</h3><div class="big-number">${d.overdue}</div></div><div class="card"><h3>Low Stock</h3><div class="big-number">${d.low}</div></div><div class="card"><h3>Data Integrity</h3><div class="big-number ${integrity.critical?'bad':'good'}">${integrity.critical||0}</div><p class="muted">Critical exceptions · ${integrity.warnings||0} warnings</p><button class="btn small" onclick="showIntegrity()">Open checks</button></div></div><div class="card" style="margin-top:16px"><div class="section-title"><h3>Business Unit Performance</h3></div><div class="table-wrap"><table class="table"><tr><th>Business Unit</th><th>Sales</th><th>Gross Profit</th><th>Expenses</th><th>Inventory</th></tr>${d.units.map(u=>`<tr><td><b>${esc(u.name)}</b></td><td>${money(u.sales)}</td><td>${money(u.gross_profit)}</td><td>${money(u.expenses)}</td><td>${money(u.inventory_value)}</td></tr>`).join('')}</table></div></div>`;
+  c.innerHTML=recordPageHeader('CEO — Consolidated Dashboard',
+    allowed('finance')?`<button class="btn" onclick="go('finance')">${esc(t('Finance'))}</button>`:'')+
+    window.BOMDashboardActivity.position([
+      ['Pending approvals','대기 중인 승인',d.pending,'approvals'],
+      ['Overdue tasks','기한이 지난 작업',d.overdue,'tasks'],
+      ['Low-stock items','재고 부족 품목',d.low],
+      ['Critical exceptions','심각한 예외',integrity.critical],
+      ['Warnings','경고',integrity.warnings]
+    ])+`<button class="btn" onclick="showIntegrity()">${esc(t('Open checks'))}</button>`;
   }catch(e){if(current())dashboardError(c,e)}
 }
 async function showIntegrity(){if(window.BOMWorkflowPages42&&!BOMRouter.restoring)return BOMWorkflowPages42.navigate('system-integrity',[]);try{const d=await api('/api/system/integrity');BOMWorkflowPages42.render('system-integrity',`<div class="section-title"><div><h2>Cross-module Data Integrity</h2><div class="muted">Read-only reconciliation · ${esc(d.scope==='all'?'All Business Units':'Selected Business Unit')}</div></div><button class="btn" onclick="closeModal()">✕</button></div><div class="grid g2"><div class="card stat"><div class="label">Critical Exceptions</div><div class="value ${d.critical?'bad':'good'}">${d.critical}</div></div><div class="card stat"><div class="label">Warnings</div><div class="value">${d.warnings}</div></div></div><div class="card" style="margin-top:16px"><div class="table-wrap"><table class="table"><tr><th>Check</th><th>Severity</th><th>Count</th><th>Rule</th></tr>${d.checks.map(x=>`<tr><td><b>${esc(x.label)}</b></td><td><span class="pill ${x.severity==='critical'?'bad':'warn'}">${esc(x.severity)}</span></td><td>${x.count}</td><td>${esc(x.detail)}</td></tr>`).join('')}</table></div></div><div class="actions"><button class="btn" onclick="closeModal()">Close</button><button class="btn primary" onclick="closeModal();showIntegrity()">Run Again</button></div>`)}catch(e){toast(e.message)}}
 async function mimiDashboard(c,current){
-  try{const [tables,menu,buffets,orders,sales]=await Promise.all([api('/api/restaurant/tables'),api('/api/restaurant/menu'),api('/api/restaurant/buffets'),api('/api/restaurant/orders'),api('/api/sales')]);
+  try{const [tables,menu,buffets,orders]=await Promise.all([api('/api/restaurant/tables'),api('/api/restaurant/menu'),api('/api/restaurant/buffets'),api('/api/restaurant/orders')]);
     if(!current())return;
     const open=orders.filter(x=>x.status==='Open').length, available=tables.filter(x=>x.status==='Available').length, busy=tables.filter(x=>x.status==='Busy').length, published=buffets.filter(x=>x.status==='Published').length;
-    const revenue=sales.reduce((a,x)=>a+Number(x.total||0),0), profit=sales.reduce((a,x)=>a+Number(x.gross_profit||0),0);
-    c.innerHTML=title('MIMI Resturant — Dashboard','Restaurant workspace · only MIMI data is shown',`<button class="btn primary" onclick="go('restaurant')">Open POS</button>`)+`<div class="grid g4"><div class="card stat"><div class="label">Recorded Sales</div><div class="value">₩ ${money(revenue)}</div></div><div class="card stat"><div class="label">Gross Profit</div><div class="value">₩ ${money(profit)}</div></div><div class="card stat"><div class="label">Open Orders</div><div class="value">${open}</div></div><div class="card stat"><div class="label">Available Tables</div><div class="value">${available}</div><div class="hint">${busy} occupied</div></div></div><div class="grid g3" style="margin-top:16px"><div class="card"><h3>Menu</h3><div class="big-number">${menu.filter(x=>x.active).length}</div><p class="muted">Active menu items</p><button class="btn" onclick="go('restaurant')">Menu / POS</button></div><div class="card"><h3>Published Buffets</h3><div class="big-number">${published}</div><p class="muted">Visible in POS</p><button class="btn" onclick="go('restaurant')">Open POS</button></div><div class="card"><h3>Restaurant Tables</h3><div class="big-number">${tables.length}</div><p class="muted">${available} available · ${busy} occupied</p><button class="btn" onclick="go('restaurantTables')">Manage Tables</button></div></div><div class="card" style="margin-top:16px"><div class="section-title"><h3>Open Orders</h3><button class="btn small" onclick="go('restaurant')">Open POS</button></div>${orders.filter(x=>x.status==='Open').slice(0,8).map(o=>`<div class="order-row"><span><b>${esc(o.order_no)}</b> · ${esc(o.order_type)} ${o.table_name?'· '+esc(o.table_name):''}</span><span>${esc(o.created_at)}</span></div>`).join('')||'<div class="empty">No open orders.</div>'}</div>`;
+    c.innerHTML=recordPageHeader('MIMI Resturant — Dashboard',
+      allowed('restaurant')?`<button class="btn primary" onclick="go('restaurant')">${esc(t('Open POS'))}</button>`:'')+
+      window.BOMDashboardActivity.position([
+        ['Open orders','미완료 주문',open,'restaurant'],
+        ['Available tables','이용 가능 테이블',available,'restaurantTables'],
+        ['Occupied tables','사용 중인 테이블',busy,'restaurantTables'],
+        ['Active menu items','활성 메뉴 품목',menu.filter(x=>x.active).length,'restaurant'],
+        ['Published buffets','공개 뷔페',published,'restaurant']
+      ])+`<div class="card" style="margin-top:16px"><div class="section-title"><h3>Open Orders</h3><button class="btn small" onclick="go('restaurant')">Open POS</button></div>${orders.filter(x=>x.status==='Open').slice(0,8).map(o=>`<div class="order-row"><span><b>${esc(o.order_no)}</b> · ${esc(o.order_type)} ${o.table_name?'· '+esc(o.table_name):''}</span><span>${esc(o.created_at)}</span></div>`).join('')||'<div class="empty">No open orders.</div>'}</div>`;
   }catch(e){if(current())dashboardError(c,e)}
 }
 async function excavatorDashboard(c,current){
@@ -298,7 +315,13 @@ async function unitDashboard(c,selected,current){
    :[['sales','Sales'],['inventory','Inventory']];
  const controls=actions.filter(([key])=>allowed(key)).map(([key,label])=>`<button class="btn" onclick="go('${key}')">${esc(t(label))}</button>`).join('');
  const heading=currentLanguage==='ko'?`${t(selected.name)} 대시보드`:`${selected.name} — Dashboard`;
- c.innerHTML=recordPageHeader(heading,controls)+`<div class="grid g4"><div class="card stat"><div class="label">Revenue</div><div class="value">${money(d.revenue)}</div></div><div class="card stat"><div class="label">Expenses</div><div class="value">${money(d.expenses)}</div></div><div class="card stat"><div class="label">Net</div><div class="value">${money(d.net)}</div></div><div class="card stat"><div class="label">Gross Profit</div><div class="value">${money(d.gross_profit)}</div></div></div>`;}catch(e){if(current())dashboardError(c,e)}
+ const inventory=d.units.find(unit=>String(unit.id)===String(selected.id))?.inventory_value;
+ c.innerHTML=recordPageHeader(heading,controls)+window.BOMDashboardActivity.position([
+   ['Inventory value','재고 가치',inventory,'inventory',null,true],
+   ['Low-stock items','재고 부족 품목',d.low,'inventory'],
+   ['Pending approvals','대기 중인 승인',d.pending,'approvals'],
+   ['Overdue tasks','기한이 지난 작업',d.overdue,'tasks']
+ ]);}catch(e){if(current())dashboardError(c,e)}
 }
 function dashboardError(c,e){c.innerHTML=title('Dashboard','Unable to load the selected workspace dashboard')+`<div class="card"><b>Dashboard could not be loaded.</b><p class="muted">${esc(e.message)}</p><button class="btn primary" onclick="loadView()">Retry</button></div>`}
 async function businesses(c){const [b,p]=await Promise.all([api('/api/business-units'),api('/api/pnl')]);c.innerHTML=title('Business Units','Each unit is an independent workspace; CEO can switch the active unit from the top bar',allowed('businesses')?'<button class="btn primary" onclick="businessForm()">+ Add business</button>':'')+`<div class="grid g3">${b.map(x=>{const z=p.find(y=>y.id===x.id)||{};return `<div class="card"><div class="section-title"><h3>${esc(x.name)}</h3><span class="pill ${x.status==='Active'?'good':'warn'}">${x.status}</span></div><div class="muted">Manager: ${esc(x.manager_name||'Unassigned')}</div><div class="grid g2" style="margin-top:14px"><div><small>Sales</small><b>${money(z.sales)}</b></div><div><small>Net profit</small><b>${money(z.net_profit)}</b></div><div><small>Gross profit</small><b>${money(z.gross_profit)}</b></div><div><small>Expenses</small><b>${money(z.operating_expense)}</b></div></div><div class="actions" style="margin-top:14px"><button class="btn small" onclick="editBusiness(${x.id})">Edit</button> <button class="btn small danger" onclick="deleteBusiness(${x.id})">Delete</button></div></div>`}).join('')}</div>`}

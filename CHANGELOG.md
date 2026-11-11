@@ -1,3 +1,7 @@
+# V30.70.17 — Remaining dashboards
+
+Extend the shared dashboard layout to CEO Consolidated, MIMI Restaurant and Mango / Seasonal.
+
 # V30.70.16 — Excavator and Pink Salt dashboards
 
 Move date controls into the dashboard header, add unit-specific period KPIs and chart views, and group live balances and stock under Current Position.
