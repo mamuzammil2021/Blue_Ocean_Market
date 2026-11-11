@@ -57,7 +57,6 @@ function decorate(root=document){
   }
   // Give first-line dashboard indicators stronger weight; secondary numbers stay visible.
   if(route?.view==='dashboard'){
-   if(!content.querySelector('[data-bom-currency-note]')){const note=document.createElement('p');note.dataset.bomCurrencyNote='1';note.className='bom-currency-note';note.textContent=t('Financial figures: KRW');content.querySelector('.titlebar')?.after(note);}
    const grids=[...content.querySelectorAll('.grid,.ps-kpis')].filter(n=>n.querySelector(':scope > .stat,:scope > .ps-kpi'));
    grids.forEach((n,i)=>n.classList.toggle('bom-secondary-metrics',i>0));
   }

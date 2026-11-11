@@ -1,4 +1,4 @@
-# Blue Ocean Market V30.70.17
+# Blue Ocean Market V30.70.18
 
 Blue Ocean Market’s shared record layout brings the same summary, filter, table and action patterns to the app’s record screens. Read the [release notes](RELEASE_NOTES.md) and follow [the UI standard](AGENTS.md) when building or editing a screen.
 

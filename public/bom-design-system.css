@@ -193,3 +193,64 @@ html.bom-ui .bom43-loader {display:flex;justify-content:center;align-items:cente
 input::placeholder,textarea::placeholder{color:#8a96a6!important;opacity:1!important;font-weight:400!important;}
 select:has(>option[value=""]:checked){color:#8a96a6!important;}
 select option{color:#1e293b;}
+
+/* Shared native calendar controls retain keyboard input and ISO form values. */
+html.bom-ui :is(input[type=date],input[type=datetime-local],input[type=month],input[type=week]) {
+  min-inline-size:0;max-inline-size:100%;min-block-size:var(--bom-control);
+  border:1px solid var(--bom-border);border-radius:var(--bom-radius);
+  background:var(--bom-surface);color:var(--bom-ink);font:inherit;font-variant-numeric:tabular-nums;
+  padding:5px 8px;box-sizing:border-box
+}
+html.bom-ui :is(input[type=date],input[type=datetime-local],input[type=month],input[type=week]):focus-visible {
+  outline:2px solid var(--brand);outline-offset:2px
+}
+html.bom-ui :is(input[type=date],input[type=datetime-local],input[type=month],input[type=week])::-webkit-calendar-picker-indicator {
+  cursor:pointer;opacity:.74;padding:4px
+}
+html.bom-ui :is(input[type=date],input[type=datetime-local],input[type=month],input[type=week]):disabled {opacity:.65}
+@media(max-width:700px) {
+  html.bom-ui :is(input[type=date],input[type=datetime-local],input[type=month],input[type=week]) {min-block-size:var(--bom-touch)}
+}
+html.bom-ui .side .sidebar-toggle {display:grid;place-items:center;text-align:center}
+html.bom-ui .side .sidebar-toggle svg {margin:0}
+html.bom-ui .side .sidebar-toggle::after {content:none}
+html.bom-ui .side .nav [data-nav-key] {position:relative;min-width:0}
+html.bom-ui .side .nav [data-nav-key]:focus-visible,.bom-ui .side .sidebar-toggle:focus-visible {
+  outline:2px solid #8bbff4;outline-offset:-2px
+}
+@media(min-width:901px) {
+  html.bom-ui body.sidebar-collapsed .side .mobile-side-head {display:flex;justify-content:center}
+  html.bom-ui body.sidebar-collapsed .side .brand {padding-inline:0;text-align:center}
+  html.bom-ui body.sidebar-collapsed .side .nav [data-nav-key] {justify-content:center;min-height:42px;padding-inline:5px}
+  html.bom-ui body.sidebar-collapsed .side .nav [data-nav-badge] {
+    position:absolute;inset:2px 2px auto auto;min-width:15px;height:15px;margin:0;padding:0 3px;font-size:9px
+  }
+  html.bom-ui body.sidebar-collapsed .side .nav-section-title {height:0;overflow:hidden;padding:0}
+}
+@media(max-width:900px) {
+  html.bom-ui .side .sidebar-toggle {display:none}
+  html.bom-ui .side .nav [data-nav-badge] {position:static;margin-inline-start:auto}
+}
+
+html.bom-ui dialog.bom-calendar {
+  position:fixed;inset:auto;margin:0;width:min(320px,calc(100vw - 24px));padding:12px;
+  border:1px solid var(--bom-border);border-radius:var(--bom-radius-lg);
+  color:var(--bom-ink);background:var(--bom-surface);box-shadow:0 12px 35px #1a2b4640
+}
+html.bom-ui dialog.bom-calendar::backdrop {background:#182b3f26}
+html.bom-ui .bom-calendar-header {display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+html.bom-ui .bom-calendar-header h2 {margin:0;font-size:16px;text-align:center}
+html.bom-ui .bom-calendar-grid {display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+html.bom-ui .bom-calendar-grid button {padding:3px;min-height:32px}
+html.bom-ui .bom-calendar-grid .outside {color:var(--bom-muted)}
+html.bom-ui .bom-calendar-grid [aria-pressed=true] {color:#fff;background:var(--brand);border-color:var(--brand)}
+html.bom-ui .bom-calendar-weekday {text-align:center;font-size:12px;color:var(--bom-muted)}
+html.bom-ui .bom-calendar-footer {display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
+@media(min-width:901px) and (max-width:1100px) {
+  html.bom-ui .side .sidebar-toggle {display:none}
+  html.bom-ui .side .mobile-side-head {display:flex;justify-content:center}
+  html.bom-ui .side .nav [data-nav-key] {justify-content:center;padding-inline:5px}
+  html.bom-ui .side .nav [data-nav-badge] {
+    position:absolute;inset:2px 2px auto auto;min-width:15px;height:15px;margin:0;padding:0 3px;font-size:9px
+  }
+}

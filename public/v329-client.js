@@ -72,7 +72,7 @@ window.v329SupplierOpen=async function(id,active='overview'){
     else if(active==='machines')body=supplierMachineCards(id,md);
     else if(active==='requirements')body=supplierRequirementsHtml(id,requirements);
     else body=supplierPaymentsHtml(statement);
-    openWorkflowHtmlV324(`<div class="section-title"><div><h2>${esc(s.name||'Supplier')}</h2><div class="muted">Supplier profile · machines · requirements · payments/account</div></div><div class="actions" style="margin-top:0"><button class="btn" data-v284-supplier-statement onclick="v284SupplierStatement(${id})">Supplier Statement</button></div></div>${supplierTabs(id,active)}${body}<div class="actions"><button class="btn" onclick="closeWorkflowPageV324()">Back</button></div>`);
+    openWorkflowHtmlV324(`<div class="section-title"><div><h2>${esc(s.name||'Supplier')}</h2></div><div class="actions" style="margin-top:0"><button class="btn" data-v284-supplier-statement onclick="v284SupplierStatement(${id})">Supplier Statement</button></div></div>${supplierTabs(id,active)}${body}<div class="actions"><button class="btn" onclick="closeWorkflowPageV324()">Back</button></div>`);
     try{translateElement(workflow())}catch(_){ }
   }catch(e){toast('Unable to open supplier: '+(e.message||'Unknown error'))}
 };

@@ -34,7 +34,7 @@
     return `<div class="card stat ${tone}"><div class="label">${esc(label)}</div><div class="value">${esc(value)}</div></div>`;
   }
 
-  function chart(rows, from, to, columns=series, heading=['Recorded cash movement','기록된 자금 이동'], currency=true) {
+  function chart(rows, from, to, columns=series, heading=['Recorded cash movement','기록된 자금 이동'], currency=true, style='line') {
     const format = currency ? amount : value=>Number(value).toLocaleString(currentLanguage==='ko'?'ko-KR':'en-KR');
     const start = Date.parse(from), end = Date.parse(to);
     const days = (end-start)/dayMs+1;
@@ -51,20 +51,25 @@
     const lower = Math.min(0,...values), upper = Math.max(0,...values);
     const tick = new Intl.NumberFormat(currentLanguage==='ko'?'ko-KR':'en-KR',{notation:'compact',maximumFractionDigits:1});
     const ticks = [...new Set([upper,0,lower])];
-    const x = i => points.length === 1 ? 360 : 16 + i * 688 / (points.length - 1);
+    const x = i => style==='bars' ? (i+.5)*720/points.length : points.length===1 ? 360 : 16+i*688/(points.length-1);
     const y = value => 142 - (value-lower)*126/((upper-lower)||1);
     const lines = columns.map(([key,en,ko],index) => {
       const coords = points.map((point,i) => `${x(i)},${y(point[key])}`).join(' ');
       const last = points[points.length-1];
-      if (points.length===1) {
-        const barX=(index+1)*180;
-        return `<line class="bom-chart-bar bom-series-${key}" x1="${barX}" x2="${barX}" y1="${y(0)}" y2="${y(last[key])}"><title>${esc(localized(en,ko))} ${esc(format(last[key]))}</title></line>`;
+      if(style==='bars'||points.length===1){
+        const width=Math.min(52,600/points.length/columns.length);
+        return points.map((point,i)=>{
+          const left=x(i)+(index-columns.length/2)*width+1;
+          const baseline=y(0), value=y(point[key]);
+          return `<rect class="bom-chart-column bom-series-${key}" x="${left}" y="${Math.min(baseline,value)}" width="${Math.max(1,width-2)}" height="${Math.abs(value-baseline)}" rx="2"><title>${point.day} · ${esc(localized(en,ko))} ${esc(format(point[key]))}</title></rect>`;
+        }).join('');
       }
-      return `<g class="bom-series-${key}"><polyline points="${coords}"/><circle cx="${x(points.length-1)}" cy="${y(last[key])}" r="3"><title>${esc(localized(en,ko))} ${esc(format(last[key]))}</title></circle></g>`;
+      const fill=style==='area'?`<polygon class="bom-chart-area" points="${x(0)},${y(0)} ${coords} ${x(points.length-1)},${y(0)}"/>`:'';
+      return `<g class="bom-series-${key}">${fill}<polyline points="${coords}"/><circle cx="${x(points.length-1)}" cy="${y(last[key])}" r="3"><title>${esc(localized(en,ko))} ${esc(format(last[key]))}</title></circle></g>`;
     }).join('');
     const label = localized(...heading);
     return `<figure class="bom-dashboard-chart">
-      <figcaption>${esc(label)} <small>${currency?'KRW':localized('Units','개')}</small></figcaption>
+      <figcaption>${esc(label)} <small>${currency?'KRW':localized('Count','건수')} ${interval===7?' · '+localized('7-day intervals','7일 간격'):''}</small></figcaption>
       <div class="bom-dashboard-legend">${columns.map(([key,en,ko])=>`<span class="bom-series-${key}">${esc(localized(en,ko))}</span>`).join('')}</div>
       <div class="bom-dashboard-plot">
         <div class="bom-dashboard-scale" aria-hidden="true">${ticks.map(value=>`<span style="top:${y(value)/154*100}%">${esc(tick.format(value))}</span>`).join('')}</div>
@@ -101,7 +106,17 @@
       </div></section>`;
   }
 
-  function unitActivity(body, kind, details, operation, cash, from, to, selected) {
+  function comparison(title, items, format=count) {
+    const max=Math.max(1,...items.map(([,value])=>Math.abs(value)));
+    return `<figure class="bom-dashboard-chart"><figcaption>${esc(title)}</figcaption>
+      ${items.length?`<ul class="bom-dashboard-comparison">${items.map(([label,value])=>`<li>
+        <span>${esc(label)}</span><strong>${esc(format(value))}</strong>
+        <span class="bom-comparison-track" aria-hidden="true"><span style="width:${Math.abs(value)/max*100}%"></span></span></li>`).join('')}</ul>`:
+        `<p class="empty">${localized('No records in this date range.','이 날짜 범위에 기록이 없습니다.')}</p>`}
+      </figure>`;
+  }
+
+  function unitActivity(body, kind, details, operation, cash, from, to) {
     const excavator=kind==='excavator';
     const profit=sum(details.sales||[],'profit');
     const cards=excavator?[
@@ -126,33 +141,40 @@
       card(localized('Gross profit','매출총이익'),amount(profit),profit<0?'bad':'good'),
       card(localized('Average sale','평균 매출액'),amount(sum(details.sales,'sales')/(sum(details.sales,'orders')||1)))
     ];
-    const views = {
-      ...(kind==='ceo'?{}:{sales:[['Sales trend','매출 추이'],details.sales,kind==='pink'?[salesColumn]:
-        [salesColumn,excavator?profitColumn:['profit','Gross profit','매출총이익']],true]}),
-      ...(kind==='pink'?{ production:[['Production trend','생산 추이'],details.production,[productionColumn],false] }:{}),
-      cash:[['Cash movement','자금 이동'],cash,series,true]
+    const cashTitle=['Cash movement','자금 이동'];
+    const salesRows=details.sales||[];
+    const orders=kind==='pink'||kind==='mimi'||kind==='mango'||kind==='sales';
+    const chartCards=[];
+    const empty=label=>`<figure class="bom-dashboard-chart"><figcaption>${esc(localized(...label))}</figcaption>
+      <p class="empty">${localized('No records in this date range.','이 날짜 범위에 기록이 없습니다.')}</p></figure>`;
+    const addChart=(key,label,data,columns,currency,style)=>{
+      chartCards.push(`<section class="card bom-trend-panel" data-chart="${key}">${data.length?
+        chart(data,from,to,columns,label,currency,style):empty(label)}</section>`);
     };
+    if(kind==='ceo'){
+      addChart('net',['Net cash movement','순자금 이동'],cash,[series[2]],true,'area');
+      addChart('cash',cashTitle,cash,series.slice(0,2),true,'bars');
+      const byUnit=details.units.map(unit=>[unit.name?t(unit.name):localized('Company / Shared','회사 / 공통'),
+        Math.abs(Number(unit.cash_in))+Math.abs(Number(unit.cash_out))]).sort((a,b)=>b[1]-a[1]);
+      chartCards.push(`<section class="card bom-trend-panel">${comparison(localized('Cash activity by business unit','사업부별 자금 활동'),byUnit.slice(0,8),amount)}</section>`);
+    } else {
+      addChart('sales',['Sales trend','매출 추이'],salesRows,kind==='pink'?[salesColumn]:
+        [salesColumn,excavator?profitColumn:['profit','Gross profit','매출총이익']],true,'line');
+      addChart('cash',cashTitle,cash,series.slice(0,2),true,'bars');
+      if(kind==='pink')addChart('production',['Production trend','생산 추이'],details.production,[productionColumn],false,'area');
+      if(orders)addChart('orders',['Completed sales volume','완료 판매 건수'],salesRows,[['orders','Completed','완료']],false,'area');
+      if(excavator)chartCards.push(`<section class="card bom-trend-panel">${comparison(localized('Machine activity','장비 거래 건수'),[
+        [localized('Purchased','구매'),Number(operation.count)],[localized('Sold','판매'),sum(salesRows,'sold')]
+      ])}</section>`);
+    }
     body.innerHTML=`<div class="bom-dashboard-kpis bom-record-summary bom-period-kpis" data-bom-summary>${cards.join('')}</div>
-      <section class="card bom-trend-panel"><div class="bom-dashboard-head"><h2>${localized('Trends','추이')}</h2>
-      <div class="bom-dashboard-presets" role="group" aria-label="${localized('Chart view','차트 보기')}">
-      ${Object.entries(views).map(([key,[label]])=>`<button type="button" class="btn small" data-chart="${key}">${localized(...label)}</button>`).join('')}</div></div>
-      <div data-dashboard-chart></div></section>
+      <div class="bom-dashboard-charts" data-dashboard-chart>${chartCards.join('')}</div>
       ${kind==='ceo'&&details.units.length?`<section class="card bom-trend-panel" style="margin-top:12px"><h2>${localized('Cash movement by business unit','사업부별 자금 이동')}</h2>
       <div class="table-wrap"><table class="table"><thead><tr><th>${localized('Business unit','사업부')}</th>
       ${series.map(([,en,ko])=>`<th>${localized(en,ko)}</th>`).join('')}</tr></thead><tbody>
       ${details.units.map(unit=>`<tr><td>${unit.id?`<a href="#dashboard?unit=${encodeURIComponent(unit.id)}&amp;from=${from}&amp;to=${to}">${esc(t(unit.name))}</a>`:esc(localized('Company / Shared','회사 / 공통'))}</td>
       <td>${esc(amount(Number(unit.cash_in)))}</td><td>${esc(amount(Number(unit.cash_out)))}</td>
       <td>${esc(amount(Number(unit.cash_in)-Number(unit.cash_out)))}</td></tr>`).join('')}</tbody></table></div></section>`:''}`;
-    function show(key) {
-      selected(key);
-      const [label,rows,columns,currency]=views[key];
-      const panel=body.querySelector('[data-dashboard-chart]');
-      panel.innerHTML=rows.length?chart(rows,from,to,columns,label,currency):
-        `<p class="empty">${localized('No records in this date range.','이 날짜 범위에 기록이 없습니다.')}</p>`;
-      body.querySelectorAll('[data-chart]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.chart===key)));
-    }
-    body.querySelectorAll('[data-chart]').forEach(button=>button.onclick=()=>show(button.dataset.chart));
-    return show;
   }
 
   function mount(content, kind=null) {
@@ -177,7 +199,7 @@
       </form></div><div data-activity-results aria-live="polite"></div>`;
     heading.after(host);
     const form=host.querySelector('form'), body=host.querySelector('[data-activity-results]');
-    let request, selectedChart=kind==='ceo'?'cash':'sales';
+    let request;
     if(kind){
       heading.classList.add('bom-dashboard-hero','bom-dashboard-'+kind);
       const rangeControl=document.createElement('details');
@@ -217,7 +239,7 @@
         const { rows, operation, details }=await api('/api/dashboard/activity?'+new URLSearchParams({from,to}),{signal:controller.signal});
         if (controller.signal.aborted || !host.isConnected) return;
         if(kind&&details){
-          unitActivity(body,kind,details,operation,rows,from,to,key=>{selectedChart=key})(selectedChart);
+          unitActivity(body,kind,details,operation,rows,from,to);
           return;
         }
         const cashIn=rows.reduce((sum,row)=>sum+Number(row.cash_in),0);

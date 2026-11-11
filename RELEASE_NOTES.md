@@ -1,3 +1,9 @@
+# Blue Ocean Market V30.70.18
+
+- Show three or four dashboard charts using line, area, column, and comparison charts suited to the data. Remove redundant Excavator dashboard and supplier profile notes.
+- Refine expanded and collapsed navigation, move Excavator machine filters into the header, align Finance date fields, and place status and bulk controls together in Accounting Posting Control.
+- Use a shared English and Korean calendar for date-only fields while preserving ISO date values and native text entry.
+
 # Blue Ocean Market V30.70.17
 
 - CEO Consolidated, MIMI Restaurant and Mango / Seasonal now use the shared dashboard header, date range, period KPIs, trends and Current Position layout.

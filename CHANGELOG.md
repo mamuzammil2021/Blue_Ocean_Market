@@ -1,3 +1,7 @@
+# V30.70.18 — Dashboard charts and QA controls
+
+Refine dashboard charts, sidebar navigation, date entry and the Excavator, Finance and Posting Control toolbars.
+
 # V30.70.17 — Remaining dashboards
 
 Extend the shared dashboard layout to CEO Consolidated, MIMI Restaurant and Mango / Seasonal.

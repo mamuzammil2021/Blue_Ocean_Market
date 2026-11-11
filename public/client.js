@@ -230,7 +230,7 @@ function render(){
   const unitSelect=me.role==='CEO / Owner'
     ? '<select class="unit-switch" onchange="switchUnit(this.value)"><option value="">All Business Units — Consolidated</option>'+unitOptions.map(x=>`<option value="${x.id}" ${String(selectedUnitId)===String(x.id)?'selected':''}>${esc(t(x.name))}</option>`).join('')+'</select>'
     : unitOptions.length>1?'<select class="unit-switch" onchange="switchUnit(this.value)">'+unitOptions.map(x=>`<option value="${x.id}" ${String(selectedUnitId)===String(x.id)?'selected':''}>${esc(t(x.name))}</option>`).join('')+'</select>':`<span class="scope-badge">${esc(t(selected?.name||'Assigned Business Unit'))}</span>`;
-  const shellHtml='<div class="shell"><button class="sidebar-overlay" aria-label="Close menu" onclick="closeMobileSidebar()"></button><aside class="side"><div class="mobile-side-head"><div class="brand">BLUE OCEAN <span>MARKET</span></div><button class="btn mobile-side-close" onclick="closeMobileSidebar()" aria-label="Close menu">✕</button></div><button class="sidebar-toggle btn" onclick="toggleSidebar()" title="Collapse / expand menu">☰</button><nav class="nav">'+navHtml+'</nav></aside><main class="main"><header class="top"><div class="top-user"><button class="btn mobile-menu" onclick="toggleMobileSidebar()" aria-label="Open menu">☰</button><div><b data-user-content>'+esc(me.name)+'</b><span class="muted role"> · '+esc(systemText(me.role))+'</span></div></div><div class="top-right">'+unitSelect+'<select class="language-switch" onchange="setLanguage(this.value)" title="Preferred Language"><option value="ko" '+(currentLanguage==='ko'?'selected':'')+'>한국어</option><option value="en" '+(currentLanguage==='en'?'selected':'')+'>English</option></select><button class="notif-btn" onclick="toggleNotifs()" title="Notifications">🔔<span id="notifBadge" class="notif-badge" style="display:none">0</span></button><div class="avatar">'+esc(me.name.slice(0,1).toUpperCase())+'</div><button class="btn" onclick="logout()">'+esc(t('Logout'))+'</button></div></header><div id="crumbHost">'+breadcrumbHtml()+'</div><section class="content" id="content"></section></main></div>';
+  const shellHtml='<div class="shell"><button class="sidebar-overlay" aria-label="Close menu" onclick="closeMobileSidebar()"></button><aside class="side"><div class="mobile-side-head"><div class="brand">BLUE OCEAN <span>MARKET</span></div><button class="btn mobile-side-close" onclick="closeMobileSidebar()" aria-label="Close menu">✕</button></div><button class="sidebar-toggle btn" onclick="toggleSidebar()" aria-expanded="'+String(!document.body.classList.contains('sidebar-collapsed'))+'" title="Collapse / expand menu">☰</button><nav class="nav">'+navHtml+'</nav></aside><main class="main"><header class="top"><div class="top-user"><button class="btn mobile-menu" onclick="toggleMobileSidebar()" aria-label="Open menu">☰</button><div><b data-user-content>'+esc(me.name)+'</b><span class="muted role"> · '+esc(systemText(me.role))+'</span></div></div><div class="top-right">'+unitSelect+'<select class="language-switch" onchange="setLanguage(this.value)" title="Preferred Language"><option value="ko" '+(currentLanguage==='ko'?'selected':'')+'>한국어</option><option value="en" '+(currentLanguage==='en'?'selected':'')+'>English</option></select><button class="notif-btn" onclick="toggleNotifs()" title="Notifications">🔔<span id="notifBadge" class="notif-badge" style="display:none">0</span></button><div class="avatar">'+esc(me.name.slice(0,1).toUpperCase())+'</div><button class="btn" onclick="logout()">'+esc(t('Logout'))+'</button></div></header><div id="crumbHost">'+breadcrumbHtml()+'</div><section class="content" id="content"></section></main></div>';
   if(window.BOMRouter?.shellOnly&&root.querySelector('.shell')){
     const template=document.createElement('template');template.innerHTML=shellHtml;
     const pairs=[['.side .nav','.side .nav'],['.top-right','.top-right'],['#crumbHost','#crumbHost']];
@@ -296,7 +296,7 @@ async function excavatorDashboard(c,current){
     const d=await api('/api/excavator/overview'),s=d.summary||{},assets=d.assets||[];
     if(!current())return;
     const recent=assets.slice(0,8);
-    c.innerHTML=title('Excavator — Dashboard','Live Excavator data · purchase → costs → sale → payment · base currency KRW',`<button class="btn primary" onclick="go('excavator')">Open Excavator Operations</button>`)+
+    c.innerHTML=recordPageHeader('Excavator — Dashboard',`<button class="btn primary" onclick="go('excavator')">Open Excavator Operations</button>`)+
       
       window.BOMDashboardActivity.position([
         ['In Yard','야드 보관',s.inYard,'excavator','In Yard'],
@@ -1346,7 +1346,11 @@ async function refreshCurrentView({preserve=true}={}){
 function scheduleDataSync(delay=120){
   clearTimeout(dataSyncTimer);dataSyncTimer=setTimeout(async()=>{if(!me)return;await Promise.allSettled([refreshActionCounts(),refreshNotifCount()]);if(!formDirty&&document.getElementById('content'))refreshCurrentView({preserve:true}).catch(e=>console.warn('View refresh:',e.message))},Math.max(0,Number(delay)||0));
 }
-function toggleSidebar(){document.body.classList.toggle('sidebar-collapsed');localStorage.setItem('bo_sidebar_collapsed',document.body.classList.contains('sidebar-collapsed')?'1':'0')}
+function toggleSidebar(){
+  const collapsed=document.body.classList.toggle('sidebar-collapsed');
+  localStorage.setItem('bo_sidebar_collapsed',collapsed?'1':'0');
+  document.querySelector('.sidebar-toggle')?.setAttribute('aria-expanded',String(!collapsed));
+}
 function toggleMobileSidebar(){document.body.classList.toggle('mobile-nav-open')}
 function closeMobileSidebar(){document.body.classList.remove('mobile-nav-open')}
 window.addEventListener('resize',()=>{if(window.innerWidth>900)closeMobileSidebar()});

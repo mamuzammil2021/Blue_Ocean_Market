@@ -76,10 +76,11 @@ const { fixture } = require('./fx_fixture.cjs');
       await page.locator('[data-activity-results] .bom-dashboard-kpis').waitFor();
       await page.locator('.bom-dashboard-hero .bom-dashboard-range').waitFor();
       await page.locator('.bom-current-position').waitFor();
+      assert.equal(await page.locator('.bom-dashboard-charts > section').count(),String(unit)===String(f.pink)?4:3);
+      assert.equal(await page.locator('[data-bom-currency-note]').count(),0);
       if(String(unit)===String(mimi)||String(unit)===String(mango)){
         assert.match(await page.locator('.bom-period-kpis').innerText(),String(unit)===String(mimi)?/14,000/:/8,000/);
-        await page.locator('[data-chart=cash]').click();
-        await page.locator('[data-dashboard-chart] .empty').waitFor();
+        await page.locator('[data-chart=cash] .empty').waitFor();
       }
       if(unit==='all'){
         assert.match(await page.locator('.bom-period-kpis').innerText(),/28,000/);
@@ -89,31 +90,40 @@ const { fixture } = require('./fx_fixture.cjs');
       await viewport(1440);
       assert.equal(await page.locator('.bom-dashboard-dates [name=from]').inputValue(), '2026-01-10');
       if (String(unit) === String(f.excavator)) {
-        await page.locator('.bom-dashboard-chart svg').waitFor();
+        await page.locator('[data-chart=sales] svg').waitFor();
         assert.match(await page.locator('.bom-period-kpis').innerText(), /17,000/);
-        await page.locator('[data-chart=cash]').click();
-        assert.match(await page.locator('[data-dashboard-chart] svg').textContent(), /19,000/);
+        assert.match(await page.locator('[data-chart=cash] svg').textContent(), /19,000/);
         await page.locator('.bom-dashboard-toolbar > .bom-dashboard-presets [data-period=week]').click();
         await page.waitForFunction(() => !location.hash.includes('2026-01-10') && document.querySelector('.bom-dashboard-kpis'));
         await page.locator('.bom-dashboard-range summary').click();
-        await page.locator('[name=from]').fill('2026-01-10');
+        const start=page.locator('.bom-dashboard-dates [name=from]');
+        await start.fill('2026-01-09');
+        await start.press('Alt+ArrowDown');
+        await page.locator('.bom-calendar [data-date="2026-01-09"]').press('ArrowRight');
+        await page.locator('.bom-calendar [data-date="2026-01-10"]').press('Enter');
+        assert.equal(await start.inputValue(),'2026-01-10');
         await page.locator('[name=to]').fill('2026-01-10');
         await page.locator('.bom-dashboard-dates button[type=submit]').click();
-        await page.locator('.bom-dashboard-chart svg').waitFor();
+        await page.locator('[data-chart=sales] svg').waitFor();
         await page.reload();
-        await page.locator('.bom-dashboard-chart svg').waitFor();
+        await page.locator('[data-chart=sales] svg').waitFor();
         assert.equal(await page.locator('[data-warehouses-nav]').count(), 0);
         await page.locator('.bom-current-position a[href*="Under+Repair"]').click();
+        await page.locator('.bom-machine-controls summary').click();
         await page.locator('#excavatorMachineFilter').waitFor();
+        const sidebar=page.locator('.sidebar-toggle');
+        await sidebar.click();
+        assert.equal(await sidebar.getAttribute('aria-expanded'),'false');
+        assert.equal(await page.locator('.nav [data-nav-key=excavator]').getAttribute('aria-current'),'page');
+        await sidebar.click();
+        assert.equal(await sidebar.getAttribute('aria-expanded'),'true');
         assert.equal(await page.locator('#excavatorMachineFilter').inputValue(),'Under Repair');
       }
       if (String(unit) === String(f.pink)) {
         await page.locator('[data-warehouses-nav]').waitFor({ state: 'attached' });
         await page.locator('.bom-current-position').waitFor();
-        await page.locator('[data-chart=production]').click();
-        await page.locator('[data-dashboard-chart] .empty').waitFor();
-        await page.locator('[data-chart=cash]').click();
-        await page.locator('[data-dashboard-chart] svg').waitFor();
+        await page.locator('[data-chart=production] .empty').waitFor();
+        await page.locator('[data-chart=cash] svg').waitFor();
         await viewport(390);
         await page.locator('.bom-dashboard-range summary').click();
         await page.locator('.bom-dashboard-range [data-period=month]').waitFor();
@@ -142,7 +152,24 @@ const { fixture } = require('./fx_fixture.cjs');
       await input.waitFor();
       assert.equal(await input.inputValue(), value, view + ' search after reload');
       if (view === 'excavator') await page.locator('.bom-compact-machine').waitFor();
+      if(view==='finance'){
+        const dates=await page.locator('.finance-filterbar input[type=date]').evaluateAll(fields=>fields.map(x=>Math.round(x.getBoundingClientRect().top)));
+        assert.equal(dates.length,2);
+        assert.equal(dates[0],dates[1]);
+        const input=page.locator('.finance-filterbar input[type=date]').first();
+        await input.fill('2026-01-10');
+        const bounds=await input.boundingBox();
+        await input.click({position:{x:bounds.width-14,y:bounds.height/2}});
+        await page.locator('.bom-calendar [data-date="2026-01-11"]').click();
+        assert.equal(await input.inputValue(),'2026-01-11');
+      }
       if (view === 'accounting/control') {
+        const toolbar=await page.locator('.bom-posting-toolbar').evaluate(node=>{
+          const tabs=node.querySelector('.v318-control-tabs').getBoundingClientRect();
+          const actions=node.querySelector('.bom-posting-actions').getBoundingClientRect();
+          return {same:Math.abs(tabs.top-actions.top)<4, ordered:tabs.left<actions.left};
+        });
+        assert.deepEqual(toolbar,{same:true,ordered:true});
         const rows = await page.locator('.bom-posting-kpis > *').evaluateAll(cards => cards.map(card => Math.round(card.getBoundingClientRect().top)));
         assert.equal(rows.length, 5);
         assert.equal(new Set(rows).size, 1);
@@ -164,12 +191,18 @@ const { fixture } = require('./fx_fixture.cjs');
     await page.locator('#accounting-panel-1').waitFor({state:'hidden'});
     await viewport(390);
     await open('dashboard', f.excavator, '&'+range);
-    await page.locator('.bom-dashboard-chart svg').waitFor();
+    await page.locator('[data-chart=sales] svg').waitFor();
     await page.evaluate(() => setLanguage('ko'));
     await page.getByText('현재 현황', {exact: true}).waitFor();
-    await page.locator('.bom-dashboard-chart svg').waitFor();
+    await page.locator('[data-chart=sales] svg').waitFor();
     await viewport(390);
     assert.deepEqual(errors, []);
+    await page.locator('.bom-dashboard-range summary').click();
+    const koreanDate=page.locator('.bom-dashboard-dates [name=from]');
+    await koreanDate.press('Alt+ArrowDown');
+    await page.getByRole('button',{name:'다음 달'}).waitFor();
+    await page.keyboard.press('Escape');
+    await page.locator('.bom-calendar').waitFor({state:'detached'});
     console.log('PASS Shared headers, persistent search, responsive layouts, posting KPIs, Accounting navigation and Korean dashboard');
   } finally {
     await browser?.close();
