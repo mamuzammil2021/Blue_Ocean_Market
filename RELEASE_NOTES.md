@@ -1,3 +1,9 @@
+# Blue Ocean Market V30.70.16
+
+- Excavator and Pink Salt dashboards place date controls in the header, show period KPIs and trends, and keep current operational and balance figures visible below.
+- Both dashboards offer cash activity alongside sales trends. Pink Salt also shows production trends.
+- Shared color tokens give status badges and actions consistent green, amber and red treatments.
+
 # Blue Ocean Market V30.70.15
 
 - All business-unit dashboards show date presets, a custom range, recorded cash KPIs in KRW and a cash trend chart. Each supported business unit also shows a period count from its own operations.

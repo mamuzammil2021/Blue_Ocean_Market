@@ -11,10 +11,13 @@ const { fixture } = require('./fx_fixture.cjs');
     const units = await f.db.prepare('SELECT id,name FROM business_units').all();
     const supplier = await f.ins('excavator_suppliers', { business_unit_id: f.excavator, name: 'QA Excavator Supplier' });
     await f.ins('excavator_buyers', { business_unit_id: f.excavator, name: 'QA Excavator Buyer' });
-    await f.ins('excavator_assets', {
+    const asset = await f.ins('excavator_assets', {
       business_unit_id: f.excavator, asset_no: 'QA-LAYOUT-001', machine_name: 'QA Machine', supplier_id: supplier,
       purchase_price: 10000, purchase_date: '2026-01-10'
     });
+    await f.ins('excavator_transactions', { asset_id: asset, stage: 'Sale', type: 'Local Sale', amount: 17000,
+      transaction_date: '2026-01-10', status: 'Completed' });
+    await f.db.prepare("UPDATE pink_salt_orders SET order_date='2026-01-10' WHERE id=?").run(f.order);
     const financeRow = (business_unit_id, amount, cash_effect, transaction_date, status = 'Recorded') =>
       f.ins('finance_entries', { business_unit_id, amount, cash_effect, transaction_date, status,
         type: cash_effect < 0 ? 'Expense' : 'Revenue', category: 'QA Layout', source_type: 'Manual' });
@@ -32,7 +35,11 @@ const { fixture } = require('./fx_fixture.cjs');
     assert.equal(result.status, 200, JSON.stringify(result.j));
     assert.deepEqual(result.j.rows.map(x => [x.day, Number(x.cash_in), Number(x.cash_out)]), [['2026-01-10', 19000, 7000]]);
     assert.deepEqual(result.j.operation, { key: 'machines', count: 1 });
-    assert.equal(Number((await activity(f.pink)).j.rows[0].cash_in), 9000);
+    assert.equal(Number(result.j.details.sales[0].sales), 17000);
+    assert.equal(Number(result.j.details.sales[0].profit), 7000);
+    const pinkActivity=await activity(f.pink);
+    assert.equal(Number(pinkActivity.j.rows[0].cash_in), 9000);
+    assert.equal(Number(pinkActivity.j.details.sales[0].orders),1);
     for (const query of ['from=2026-02-30&to=2026-03-01', 'from=2026-01-02&to=2026-01-01', 'from=2025-01-01&to=2026-01-02']) {
       assert.equal((await activity(f.excavator, query)).status, 400);
     }
@@ -56,9 +63,12 @@ const { fixture } = require('./fx_fixture.cjs');
       assert.equal(await page.locator('.bom-dashboard-dates [name=from]').inputValue(), '2026-01-10');
       if (String(unit) === String(f.excavator)) {
         await page.locator('.bom-dashboard-chart svg').waitFor();
-        assert.match(await page.locator('.bom-dashboard-kpis').innerText(), /19,000/);
-        await page.locator('[data-period=week]').click();
+        assert.match(await page.locator('.bom-period-kpis').innerText(), /17,000/);
+        await page.locator('[data-chart=cash]').click();
+        assert.match(await page.locator('[data-dashboard-chart] svg').textContent(), /19,000/);
+        await page.locator('.bom-dashboard-toolbar > .bom-dashboard-presets [data-period=week]').click();
         await page.waitForFunction(() => !location.hash.includes('2026-01-10') && document.querySelector('.bom-dashboard-kpis'));
+        await page.locator('.bom-dashboard-range summary').click();
         await page.locator('[name=from]').fill('2026-01-10');
         await page.locator('[name=to]').fill('2026-01-10');
         await page.locator('.bom-dashboard-dates button[type=submit]').click();
@@ -66,8 +76,25 @@ const { fixture } = require('./fx_fixture.cjs');
         await page.reload();
         await page.locator('.bom-dashboard-chart svg').waitFor();
         assert.equal(await page.locator('[data-warehouses-nav]').count(), 0);
+        await page.locator('.bom-current-position a[href*="Under+Repair"]').click();
+        await page.locator('#excavatorMachineFilter').waitFor();
+        assert.equal(await page.locator('#excavatorMachineFilter').inputValue(),'Under Repair');
       }
-      if (String(unit) === String(f.pink)) await page.locator('[data-warehouses-nav]').waitFor({ state: 'attached' });
+      if (String(unit) === String(f.pink)) {
+        await page.locator('[data-warehouses-nav]').waitFor({ state: 'attached' });
+        await page.locator('.bom-current-position').waitFor();
+        await page.locator('[data-chart=production]').click();
+        await page.locator('[data-dashboard-chart] .empty').waitFor();
+        await page.locator('[data-chart=cash]').click();
+        await page.locator('[data-dashboard-chart] svg').waitFor();
+        await viewport(390);
+        await page.locator('.bom-dashboard-range summary').click();
+        await page.locator('.bom-dashboard-range [data-period=month]').waitFor();
+        await viewport(390);
+        await viewport(1440);
+        await page.locator('.bom-current-position a[href^="#psFinished"]').click();
+        await page.waitForFunction(() => location.hash.startsWith('#psFinished?')&&window.BOMRouter.diagnostics().phase==='ready');
+      }
     }
     console.log('PASS All workspace dashboards, presets, custom range, refresh and Excavator-only navigation');
 
@@ -112,7 +139,7 @@ const { fixture } = require('./fx_fixture.cjs');
     await open('dashboard', f.excavator, '&'+range);
     await page.locator('.bom-dashboard-chart svg').waitFor();
     await page.evaluate(() => setLanguage('ko'));
-    await page.getByText('기간별 활동', {exact: true}).waitFor();
+    await page.getByText('현재 현황', {exact: true}).waitFor();
     await page.locator('.bom-dashboard-chart svg').waitFor();
     await viewport(390);
     assert.deepEqual(errors, []);

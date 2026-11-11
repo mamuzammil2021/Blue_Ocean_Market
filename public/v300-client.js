@@ -105,8 +105,15 @@
     if(view!=='dashboard'||unit!==selectedUnitId||!c.isConnected)return;
     const controls=[['psImports','Imports / Purchases'],['finance','Finance']].filter(([key])=>allowed(key))
       .map(([key,label])=>`<button class="btn" onclick="go('${key}')">${esc(t(label))}</button>`).join('');
-    c.innerHTML=recordPageHeader('Pink Salt Dashboard',controls)+`<div class="ps-kpis"><div class="ps-kpi pink"><div class="label">${esc(t('Raw Salt Available'))}</div><div class="value">${qty(d.raw_kg)} kg</div></div><div class="ps-kpi"><div class="label">${esc(t('Finished Stock'))}</div><div class="value">${qty(d.finished_units,0)}</div></div><div class="ps-kpi"><div class="label">${esc(t('Finished Stock Value'))}</div><div class="value">${fmt(d.finished_value_krw)}</div></div><div class="ps-kpi warn"><div class="label">${esc(t('Supplier Outstanding'))}</div><div class="value">${fmt(d.supplier_payable_krw)}</div></div><div class="ps-kpi warn"><div class="label">${esc(t('Customer Receivables'))}</div><div class="value">${fmt(d.customer_receivables_krw)}</div></div></div><div class="ps-kpis" style="margin-top:12px"><div class="ps-kpi"><div class="label">${esc(t('Pending Imports'))}</div><div class="value">${d.pending_imports||0}</div></div><div class="ps-kpi"><div class="label">${esc(t('Open Orders'))}</div><div class="value">${d.open_orders||0}</div></div><div class="ps-kpi good"><div class="label">${esc(t('Month Sales'))}</div><div class="value">${fmt(d.month_revenue_krw)}</div></div><div class="ps-kpi good"><div class="label">${esc(t('Customer Payments Received'))}</div><div class="value">${fmt(d.month_customer_receipts_krw)}</div></div><div class="ps-kpi good"><div class="label">${esc(t('Month Gross Profit'))}</div><div class="value">${fmt(d.month_gross_profit_krw)}</div></div></div><div class="ps-two" style="margin-top:14px"><div class="card"><div class="section-title"><h3>${esc(t('Top Products'))}</h3><button class="btn small" onclick="go('psFinished')">${esc(t('View All'))}</button></div>${(d.top_products||[]).map(x=>`<div class="ps-mini"><span><b>${esc(x.sku)}</b><small>${esc(x.name)}</small></span><span><b>${qty(x.units,0)}</b><small>${fmt(x.revenue)}</small></span></div>`).join('')||`<div class="empty">${esc(t('No Pink Salt activity yet.'))}</div>`}</div><div class="card"><h3>${esc(t('Finance Working'))}</h3><div class="ps-trace"><div class="ps-trace-step">${esc(t('Operations create Finance records automatically'))}</div><div class="ps-trace-step">${esc(t('Supplier payments and customer receipts keep balances updated'))}</div><div class="ps-trace-step">${esc(t('Repacking moves inventory value without duplicate cash entries'))}</div><div class="ps-trace-step">${esc(t('Open Finance / Accounting for verification and reports'))}</div></div></div></div>`;
-    window.BOMDashboardActivity.mount(c);
+    c.innerHTML=recordPageHeader('Pink Salt Dashboard',controls)+window.BOMDashboardActivity.position([
+      ['Pending imports','진행 중 수입',d.pending_imports,'psImports'],
+      ['Raw salt available (kg)','가용 원소금 (kg)',d.raw_kg,'psRawStock'],
+      ['Finished stock','완제품 재고',d.finished_units,'psFinished'],
+      ['Low packaging stock','포장재 부족',d.packaging_low,'psPackaging'],
+      ['Customer receivables','고객 미수금',d.customer_receivables_krw,'psCustomers',null,true],
+      ['Supplier payables','공급업체 미지급금',d.supplier_payable_krw,'psSuppliers',null,true]
+    ]);
+    window.BOMDashboardActivity.mount(c,'pink');
     translateElement(c);
   }
 

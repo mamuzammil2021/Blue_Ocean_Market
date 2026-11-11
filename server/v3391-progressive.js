@@ -24,8 +24,8 @@ async function install({ app, db, auth, allow, excavatorGuard, purchaseDeletionB
   const legacySalePaid = `COALESCE((SELECT SUM(p.amount) FROM excavator_payments p WHERE p.asset_id=a.id AND p.payment_type='Sale' AND p.status='Paid'),0)`;
   const allocatedSalePaid = `COALESCE((SELECT SUM(al.amount_krw) FROM excavator_buyer_payment_allocations al JOIN excavator_buyer_payments bp ON bp.id=al.payment_id WHERE al.asset_id=a.id AND COALESCE(al.status,'Active')='Active' AND COALESCE(bp.status,'Active')!='Voided'),0)`;
 
-  function assetCte(whereSql = '1=1') {
-    return `WITH costed AS (
+  function assetCte(whereSql = '1=1', initialCte = '') {
+    return `WITH ${initialCte}costed AS (
       SELECT a.*,s.name supplier_name,s.location supplier_location,s.phone supplier_phone,c.company customer_name,
         COALESCE(NULLIF(a.machine_name,''),TRIM(COALESCE(a.make,'')||' '||COALESCE(a.model,''))) machine_display_name,
         ${purchase} purchase_cost,
@@ -53,6 +53,16 @@ async function install({ app, db, auth, allow, excavatorGuard, purchaseDeletionB
       FROM costed
     )`;
   }
+
+  app.locals.excavatorDashboardSales = (unit, from, to) => db.prepare(`${assetCte("a.id IN (SELECT asset_id FROM dated_sales WHERE day BETWEEN ? AND ?)", `dated_sales AS (
+    SELECT t.asset_id, MIN(SUBSTR(COALESCE(NULLIF(t.transaction_date,''),t.created_at),1,10)) AS day
+    FROM excavator_transactions t JOIN excavator_assets a ON a.id=t.asset_id
+    WHERE a.business_unit_id=? AND t.type IN ('Local Sale','Export Sale') AND t.status NOT IN ('Cancelled','Voided')
+    GROUP BY t.asset_id
+  ), `)}
+    SELECT day, COUNT(*) AS sold, SUM(sale_amount) AS sales, SUM(profit_loss) AS profit
+    FROM snapshots JOIN dated_sales ON dated_sales.asset_id=snapshots.id
+    GROUP BY day ORDER BY day`).all(unit, unit, from, to);
 
   function assetFilter(req) {
     const conditions = [],args = [];

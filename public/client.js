@@ -257,7 +257,7 @@ async function dashboard(c){
   else if(selected.name==='MIMI Resturant') await mimiDashboard(c,current);
   else if(selected.name==='Excavator') await excavatorDashboard(c,current);
   else await unitDashboard(c,selected,current);
-  if(current())window.BOMDashboardActivity.mount(c);
+  if(current())window.BOMDashboardActivity.mount(c,selected?.name==='Excavator'?'excavator':null);
 }
 async function ceoDashboard(c,current){
   try{const [d,integrity]=await Promise.all([api('/api/dashboard'),api('/api/system/integrity')]);
@@ -278,17 +278,16 @@ async function excavatorDashboard(c,current){
   try{
     const d=await api('/api/excavator/overview'),s=d.summary||{},assets=d.assets||[];
     if(!current())return;
-    const lifecycle=[
-      ['Purchased','Purchased'],['Transport Pending','Transport Pending'],['In Yard','In Yard'],['Under Repair','Under Repair'],['Ready for Sale','Ready for Sale'],
-      ['Reserved','Reserved'],['Export Preparation','Export Preparation'],['Shipped','Shipped'],['Sold / Completed','Sold / Completed'],['On Hold','On Hold'],['Cancelled','Cancelled']
-    ];
     const recent=assets.slice(0,8);
     c.innerHTML=title('Excavator — Dashboard','Live Excavator data · purchase → costs → sale → payment · base currency KRW',`<button class="btn primary" onclick="go('excavator')">Open Excavator Operations</button>`)+
       
-      `<div class="grid g4"><div class="card stat"><div class="label">Total Machines</div><div class="value">${s.machines||0}</div><div class="hint">${s.open||0} open · ${s.sold||0} sold</div></div><div class="card stat"><div class="label">Total Sales</div><div class="value">₩ ${money(s.sales)}</div></div><div class="card stat"><div class="label">Total Machine Cost</div><div class="value">₩ ${money(s.totalCost)}</div></div><div class="card stat"><div class="label">Gross Profit / Loss</div><div class="value ${Number(s.margin||0)>=0?'good':'bad'}">₩ ${money(s.margin)}</div></div></div>`+
-      `<div class="grid g4" style="margin-top:16px"><div class="card stat"><div class="label">Purchase Cost</div><div class="value">₩ ${money(s.purchase)}</div><div class="hint">Payable ₩ ${money(s.payable)}</div></div><div class="card stat"><div class="label">Logistics</div><div class="value">₩ ${money(s.logistics)}</div></div><div class="card stat"><div class="label">Repairs + Parts</div><div class="value">₩ ${money(Number(s.repair||0)+Number(s.partCost||0))}</div><div class="hint">Other ₩ ${money(s.other)}</div></div><div class="card stat"><div class="label">Sale Receivable</div><div class="value">₩ ${money(s.receivable)}</div></div></div>`+
-      `<div class="grid g4" style="margin-top:16px"><div class="card stat"><div class="label">In Yard</div><div class="value">${s.inYard||0}</div></div><div class="card stat"><div class="label">Under Repair</div><div class="value">${s.repairing||0}</div></div><div class="card stat"><div class="label">Ready for Sale</div><div class="value">${s.ready||0}</div></div><div class="card stat"><div class="label">Buyers / Suppliers</div><div class="value">${s.buyers||0} / ${s.suppliers||0}</div></div></div>`+
-      `<div class="grid g3" style="margin-top:16px"><div class="card"><h3>Lifecycle</h3>${lifecycle.map(([key,label])=>`<div class="order-row"><span>${esc(systemText(label))}</span><b>${assets.filter(a=>a.lifecycle_stage===key).length}</b></div>`).join('')}</div><div class="card"><h3>Cost Structure</h3>${[['Purchase',s.purchase],['Logistics',s.logistics],['Repair',s.repair],['Parts',s.partCost],['Other',s.other],['Total Cost',s.totalCost]].map(x=>`<div class="order-row"><span>${esc(systemText(x[0]))}</span><b>₩ ${money(x[1])}</b></div>`).join('')}</div><div class="card"><h3>Current Work</h3><div class="order-row"><span>Open Machines</span><b>${s.open||0}</b></div><div class="order-row"><span>Export Preparation / Shipped</span><b>${s.exporting||0}</b></div><div class="order-row"><span>Purchase Payable</span><b>₩ ${money(s.payable)}</b></div><div class="order-row"><span>Sale Receivable</span><b>₩ ${money(s.receivable)}</b></div><button class="btn" style="margin-top:12px" onclick="go('excavator')">Continue Machines</button></div></div>`+
+      window.BOMDashboardActivity.position([
+        ['In Yard','야드 보관',s.inYard,'excavator','In Yard'],
+        ['Under Repair','수리 중',s.repairing,'excavator','Under Repair'],
+        ['Ready for Sale','판매 준비',s.ready,'excavator','Ready for Sale'],
+        ['Buyer receivables','구매자 미수금',s.receivable,'excavatorBuyers',null,true],
+        ['Supplier payables','공급업체 미지급금',s.payable,'excavatorSuppliers',null,true]
+      ])+
       `<div class="card" style="margin-top:16px"><div class="section-title"><h3>Recent Machines / Deals</h3><button class="btn small" onclick="go('excavator')">View All</button></div><div class="table-wrap"><table class="table"><tr><th>Machine / Deal</th><th>Stage</th><th>Purchase</th><th>Total Cost</th><th>Sale</th><th>P/L</th><th></th></tr>${recent.map(a=>`<tr><td><b data-user-content>${esc(a.asset_no)}</b><div class="muted" data-user-content>${esc(a.machine_name||[a.make,a.model].filter(Boolean).join(' ')||a.type||'')}</div></td><td>${esc(systemText(a.lifecycle_stage||'Purchased'))}</td><td>₩ ${money(a.purchase_cost)}</td><td>₩ ${money(a.total_cost)}</td><td>${Number(a.sale_amount||0)>0?'₩ '+money(a.sale_amount):esc(t('Not Sold'))}</td><td><span class="pill ${a.profit_loss_status==='Profit'?'good':a.profit_loss_status==='Loss'?'bad':'blue'}">${a.profit_loss_status==='Not Sold'?esc(t('Not Sold')):`${esc(systemText(a.profit_loss_status))} · ₩ ${money(Math.abs(Number(a.deal_profit||0)))}`}</span></td><td><button class="btn small" onclick="go('excavator');setTimeout(()=>excavatorOpenMachine(${a.id}),250)">Open</button></td></tr>`).join('')||'<tr><td colspan="7"><div class="empty">No Excavator machines/deals recorded yet.</div></td></tr>'}</table></div></div>`;
   }catch(e){if(current())dashboardError(c,e)}
 }

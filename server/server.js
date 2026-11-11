@@ -852,7 +852,25 @@ const __async = require("./postgres/collections");module.exports = (async () => 
       measure ? db.prepare(`SELECT COUNT(*) AS count FROM ${measure.table}
         WHERE ${measure.condition} AND ${measure.date} BETWEEN ? AND ?${scope.sql}`).get(from, to, ...scope.args) : null
     ]);
-    return res.json({ rows, operation: measure ? { key: measure.key, count: Number(operation.count) } : null });
+    let details = null;
+    if (unit?.name === 'Excavator') {
+      details = { sales: await app.locals.excavatorDashboardSales(activeUnit, from, to) };
+    } else if (unit?.name === 'Pink Salt') {
+      const [sales, production, imports] = await Promise.all([
+        db.prepare(`SELECT SUBSTR(order_date,1,10) AS day, COUNT(*) AS orders, SUM(total_krw) AS sales
+          FROM pink_salt_orders WHERE business_unit_id=? AND status='Completed'
+          AND SUBSTR(order_date,1,10) BETWEEN ? AND ? GROUP BY 1 ORDER BY 1`).all(activeUnit, from, to),
+        db.prepare(`SELECT SUBSTR(b.production_date,1,10) AS day, SUM(o.quantity_units) AS units
+          FROM pink_salt_production_batches b JOIN pink_salt_production_outputs o ON o.production_batch_id=b.id
+          WHERE b.business_unit_id=? AND b.status='Completed'
+          AND SUBSTR(b.production_date,1,10) BETWEEN ? AND ? GROUP BY 1 ORDER BY 1`).all(activeUnit, from, to),
+        db.prepare(`SELECT COUNT(*) AS count FROM pink_salt_imports
+          WHERE business_unit_id=? AND status='Received'
+          AND SUBSTR(received_at,1,10) BETWEEN ? AND ?`).get(activeUnit, from, to)
+      ]);
+      details = { sales, production, imports: Number(imports.count) };
+    }
+    return res.json({ rows, details, operation: measure ? { key: measure.key, count: Number(operation.count) } : null });
   });
 
   await app.get('/api/business-units', auth, async (req, res) => {if (req.user.role === 'CEO / Owner' && !req.selected_business_unit_id) return await res.json(await db.prepare(`SELECT b.*,u.name manager_name FROM business_units b LEFT JOIN users u ON u.id=b.manager_id WHERE b.status!='Archived' ORDER BY b.name`).all());if (accessV316 && req.user.role !== 'CEO / Owner') {const ids = (await accessV316.assignedUnits(req.user.id)).map((x) => x.id);if (!ids.length) return await res.json([]);const placeholders = ids.map(() => '?').join(',');return await res.json(await db.prepare(`SELECT b.*,u.name manager_name FROM business_units b LEFT JOIN users u ON u.id=b.manager_id WHERE b.status!='Archived' AND b.id IN (${placeholders}) ORDER BY b.name`).all(...ids));}let q = `SELECT b.*,u.name manager_name FROM business_units b LEFT JOIN users u ON u.id=b.manager_id WHERE b.status!='Archived'`;const sc = unitScope(req, 'b.id');q += sc.sql;await res.json(await db.prepare(q + ' ORDER BY b.name').all(...sc.args));});

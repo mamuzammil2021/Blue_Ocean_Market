@@ -1,3 +1,7 @@
+# V30.70.16 — Excavator and Pink Salt dashboards
+
+Move date controls into the dashboard header, add unit-specific period KPIs and chart views, and group live balances and stock under Current Position.
+
 # V30.70.15 — Dashboards and record page layout
 
 Add date-filtered dashboard activity across workspaces and compact Excavator, Finance and Accounting screens.

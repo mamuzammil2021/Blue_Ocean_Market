@@ -19,9 +19,9 @@ html.bom-ui :is(#content,#modalRoot) .bom-record-summary > * {
   overflow-wrap:anywhere;
   font-variant-numeric:tabular-nums;
 }
-html.bom-ui :is(#content,#modalRoot) .bom-record-summary > :is(.good,.success) {background:#effaf4;border-color:#d0ebd9}
-html.bom-ui :is(#content,#modalRoot) .bom-record-summary > :is(.warn,.warning) {background:#fff8e9;border-color:#f0e2be}
-html.bom-ui :is(#content,#modalRoot) .bom-record-summary > :is(.bad,.danger) {background:#fff2f3;border-color:#f0d9dd}
+html.bom-ui :is(#content,#modalRoot) .bom-record-summary > :is(.good,.success) {background:var(--bom-good-bg);border-color:#d0ebd9}
+html.bom-ui :is(#content,#modalRoot) .bom-record-summary > :is(.warn,.warning) {background:var(--bom-warn-bg);border-color:#f0e2be}
+html.bom-ui :is(#content,#modalRoot) .bom-record-summary > :is(.bad,.danger) {background:var(--bom-bad-bg);border-color:#f0d9dd}
 html.bom-ui :is(#content,#modalRoot) .bom-record-summary > .pink {background:#fcf2f8;border-color:#efdcea}
 html.bom-ui .bom-record-summary :is(.value,.big-number,b,strong) {color:inherit}
 
@@ -114,7 +114,7 @@ html.bom-ui .bom-record-action:is(.danger,[data-bom-action=delete],[data-bom-act
 }
 
 html.bom-ui .bom-record-heading {
-  background:linear-gradient(110deg,#edf4ff,#faf7fc);
+  background:linear-gradient(110deg,#edf5fd,#f7f9fc);
   padding:14px 16px;
   border:1px solid #dce6f4;
   border-radius:var(--bom-radius-lg);
@@ -253,4 +253,51 @@ html.bom-ui #content .bom-dashboard-chart summary {cursor:pointer}
   html.bom-ui #content .bom-compact-machine {grid-template-columns:minmax(0,1fr)}
   html.bom-ui #content .bom-compact-machine .machine-numbers {grid-template-columns:repeat(3,minmax(0,1fr))}
   html.bom-ui #content .bom-machine-filters .field {flex:1 1 100px}
+}
+
+html.bom-ui #content .bom-dashboard-hero {
+  background:linear-gradient(110deg,#182f49,#214d62);
+  border-color:transparent;color:#fff;gap:12px
+}
+html.bom-ui #content .bom-dashboard-hero.bom-dashboard-pink {background:linear-gradient(110deg,#302942,#613d55)}
+html.bom-ui #content .bom-dashboard-hero h1 {color:#fff}
+html.bom-ui #content .bom-dashboard-hero .muted {color:#e5edf4}
+html.bom-ui #content .bom-dashboard-range {position:relative;margin-inline-start:auto}
+html.bom-ui #content .bom-dashboard-range summary {white-space:normal;cursor:pointer}
+html.bom-ui #content .bom-dashboard-range form {
+  position:absolute;inset-inline-end:0;top:calc(100% + 6px);z-index:5;
+  width:min(470px,calc(100vw - 48px));padding:12px;background:var(--panel);
+  border:1px solid var(--line);border-radius:var(--bom-radius-lg);box-shadow:var(--bom-elevation);color:var(--ink)
+}
+html.bom-ui #content .bom-dashboard-integrated {margin-bottom:16px}
+html.bom-ui #content .bom-current-position h2,
+html.bom-ui #content .bom-trend-panel h2 {font-size:18px;margin:0}
+html.bom-ui #content .bom-current-position h2 {margin-bottom:10px}
+html.bom-ui #content .bom-dashboard-link {display:block;position:relative;text-decoration:none;text-align:start}
+html.bom-ui #content .bom-dashboard-link:hover,
+html.bom-ui #content .bom-dashboard-link:focus-visible {border-color:var(--brand);box-shadow:var(--bom-focus)}
+html.bom-ui #content .bom-dashboard-link .value {display:block}
+html.bom-ui #content .bom-dashboard-link [aria-hidden] {position:absolute;top:8px;right:10px;color:var(--brand)}
+html.bom-ui #content .bom-period-kpis .card {border-top:3px solid #2465a8}
+html.bom-ui #content .bom-dashboard-excavator .bom-period-kpis .card:first-child {border-top-color:#a96b24}
+html.bom-ui #content .bom-dashboard-pink .bom-period-kpis .card:first-child {border-top-color:#a64670}
+html.bom-ui #content .bom-period-kpis .card.good {border-top-color:#16815e}
+html.bom-ui #content .bom-period-kpis .card.bad {border-top-color:#a72a43}
+html.bom-ui #content .bom-series-sales {--series-color:#2167ad}
+html.bom-ui #content .bom-series-profit {--series-color:#16815e}
+html.bom-ui #content .bom-series-units {--series-color:#a64670}
+@media(max-width:700px) {
+  html.bom-ui #content .bom-dashboard-range {margin-inline-start:0;max-width:100%}
+  html.bom-ui #content .bom-dashboard-range form {inset-inline-start:0;inset-inline-end:auto}
+}
+
+html.bom-ui #content .bom-dashboard-toolbar {display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-inline-start:auto}
+html.bom-ui #content .bom-dashboard-toolbar .bom-dashboard-presets button {min-height:var(--bom-control)}
+@media(max-width:700px) {
+  html.bom-ui #content .bom-dashboard-toolbar {width:100%;margin-inline-start:0}
+  html.bom-ui #content .bom-dashboard-toolbar > .bom-dashboard-presets {display:none}
+}
+
+@media(min-width:701px) {
+  html.bom-ui #content .bom-dashboard-range .bom-dashboard-presets {display:none}
 }
