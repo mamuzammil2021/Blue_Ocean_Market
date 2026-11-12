@@ -125,10 +125,8 @@
     (root.querySelectorAll?root.querySelectorAll('button,[role="button"],a.btn'):[]).forEach(el=>{
       if(el.dataset?.accessPermissionControl==='1')return;
       const action=inferControlAction(el);if(!action)return;
-      if(!canDo(module,action)){
-        el.disabled=true;el.setAttribute('aria-disabled','true');el.classList?.add('access-restricted-control');
-        el.title=t('You do not have permission for this action.');
-      }
+      const feature = window.pinkSaltViewPermission?.(view);
+      el.classList.toggle('access-restricted-control', !canDo(module,action) || (!!feature && !canDo(feature,action)));
     });
   }
   const _renderActions317=render;
@@ -145,6 +143,6 @@
   // is driven by effective permissions rather than by role names.
   const _accessKeyForView317=typeof accessKeyForView==='function'?accessKeyForView:null;
   accessKeyForView=function(key){const map={payroll:'payroll',users:'users',audit:'audit',accounting:'accounting',restaurantTables:'restaurant',psSuppliers:'purchases',psImports:'purchases',psRawStock:'inventory',psProduction:'inventory',psFinished:'inventory',psPackaging:'inventory',psSales:'sales',psCustomers:'sales',psWaste:'inventory'};return map[key]||(_accessKeyForView317?_accessKeyForView317(key):key)};
-  function enforceSensitiveVisibleControls(root=document){if(!me||me.role==='CEO / Owner')return;(root.querySelectorAll?root.querySelectorAll('button,[role="button"],a.btn'):[]).forEach(el=>{const raw=((el.getAttribute?.('onclick')||'')+' '+(el.textContent||'')).toLowerCase();if(/approvalruleform/.test(raw)&&!hasSensitive('sensitive.approval_rules')){el.disabled=true;el.setAttribute('aria-disabled','true');el.title=t('You do not have permission for this action.')}if(view==='accounting'&&/(create|add|save|resync|close period|match|unmatch|budget|transfer|journal)/.test(raw)&&!hasSensitive('sensitive.accounting_adjustments')){el.disabled=true;el.setAttribute('aria-disabled','true');el.title=t('You do not have permission for this action.')}})}
+  function enforceSensitiveVisibleControls(root=document){if(!me||me.role==='CEO / Owner')return;(root.querySelectorAll?root.querySelectorAll('button,[role="button"],a.btn'):[]).forEach(el=>{const raw=((el.getAttribute?.('onclick')||'')+' '+(el.textContent||'')).toLowerCase();if(/approvalruleform/.test(raw)&&!hasSensitive('sensitive.approval_rules')){el.classList.add('access-restricted-control')}if(view==='accounting'&&/(create|add|save|resync|close period|match|unmatch|budget|transfer|journal)/.test(raw)&&!hasSensitive('sensitive.accounting_adjustments')){el.classList.add('access-restricted-control')}})}
   const sensitiveObserver317=new MutationObserver(muts=>{for(const m of muts)for(const n of m.addedNodes||[])if(n.nodeType===1)enforceSensitiveVisibleControls(n)});sensitiveObserver317.observe(document.body,{childList:true,subtree:true});queueMicrotask(()=>{enforceSensitiveVisibleControls(document);try{render()}catch(_){}});
 })();

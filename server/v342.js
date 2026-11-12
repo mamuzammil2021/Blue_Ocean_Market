@@ -1,6 +1,6 @@
 'use strict';
 
-const VERSION = '30.42.0';
+const VERSION = '30.70.19';
 
 function json(v, fallback = {}) {try {const x = JSON.parse(v || '');return x == null ? fallback : x;} catch (_) {return fallback;}}
 function titleCase(v) {return String(v || '').replace(/^module\./, '').replace(/^sensitive\./, '').replace(/^delegate\./, '').replace(/[._]+/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());}
@@ -55,6 +55,8 @@ function permissionDefinitions(access) {
 }
 
 async function installPermissionCatalog(db, access) {
+  return db.atomic(async () => {
+  await db.query("SELECT pg_advisory_xact_lock(1112493391, 342)");
   void 0;
 
 
@@ -94,8 +96,12 @@ async function installPermissionCatalog(db, access) {
   const seed = db.prepare("INSERT INTO access_permission_default_assignments_v342(target_type,target_key,permission_key,source_version,applied) VALUES(?,?,?,?,?) ON CONFLICT DO NOTHING");
   async function hasTracked(type, key, permission) {return !!(await db.prepare("SELECT 1 FROM access_permission_default_assignments_v342 WHERE target_type=? AND target_key=? AND permission_key=?").get(type, key, permission));}
   async function addPermission(table, keyColumn, key, permission) {
-    const row = await db.prepare(`SELECT permissions_json FROM ${table} WHERE ${keyColumn}=?`).get(key);if (!row) return false;
-    const perms = json(row.permissions_json, {});if (perms[permission] === true) return true;perms[permission] = true;
+    const row = await db.prepare(`SELECT permissions_json FROM ${table} WHERE ${keyColumn}=? AND active=1 FOR UPDATE`).get(key);if (!row) return false;
+    const perms = json(row.permissions_json, {});if (Object.hasOwn(perms, permission)) return perms[permission] === true;
+    const [, feature, action] = permission.split('.');
+    const parent = access.featureParents?.[feature];
+    if (parent && perms[`module.${parent}.${action}`] !== true) return false;
+    perms[permission] = true;
     await db.prepare(`UPDATE ${table} SET permissions_json=?,updated_at=bom.utc_now() WHERE ${keyColumn}=?`).run(JSON.stringify(perms), key);return true;
   }
   // Bootstrap records current defaults without overwriting any administrator customization.
@@ -103,6 +109,7 @@ async function installPermissionCatalog(db, access) {
   for (const p of profileDefaults) {const target = access.roleKey ? access.roleKey(p.role) : String(p.role || '').toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');for (const [permission, enabled] of Object.entries(p.permissions || {})) {if (enabled !== true) continue;const tracked = await hasTracked('profile', target, permission);if (bootstrap) {const row = await db.prepare("SELECT permissions_json FROM access_role_templates WHERE role_key=?").get(target),present = json(row?.permissions_json, {});await seed.run('profile', target, permission, VERSION, present[permission] === true ? 1 : 0);} else if ((await newKeys.has(permission)) && !tracked) {const applied = await addPermission('access_role_templates', 'role_key', target, permission);await seed.run('profile', target, permission, VERSION, applied ? 1 : 0);}}}
   for (const g of groupDefaults) {for (const [permission, enabled] of Object.entries(g.permissions || {})) {if (enabled !== true) continue;const tracked = await hasTracked('group', g.key, permission);if (bootstrap) {const row = await db.prepare("SELECT permissions_json FROM access_permission_groups WHERE group_key=?").get(g.key),present = json(row?.permissions_json, {});await seed.run('group', g.key, permission, VERSION, present[permission] === true ? 1 : 0);} else if ((await newKeys.has(permission)) && !tracked) {const applied = await addPermission('access_permission_groups', 'group_key', g.key, permission);await seed.run('group', g.key, permission, VERSION, applied ? 1 : 0);}}}
   return { bootstrap, new_permissions: [...newKeys] };
+  })();
 }
 
 async function install(ctx) {

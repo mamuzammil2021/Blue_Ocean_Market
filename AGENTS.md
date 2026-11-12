@@ -17,3 +17,13 @@ Validate each affected collection at desktop, tablet and phone widths in English
 ## Dashboards
 
 Use the shared dashboard period controls and card styles in every business unit. Show date-scoped metrics and charts from authorized data, then separately identify current workspace totals. Use meaningful colors with readable labels and units. Provide empty and error states, a responsive layout and English and Korean labels.
+
+## Access control for new features
+
+When a new feature needs access control, register the permission in the shared
+catalog and map it to the appropriate default profiles or permission groups in
+the same release. Include the versioned update for existing deployments and keep
+custom bundles, business-unit assignments and explicit overrides intact. Keep CEO
+access complete. Enforce every protected action on the server and use the
+effective business-unit permissions to render tabs and controls. Verify the
+allowed, denied and cross-unit cases through the normal entry points.

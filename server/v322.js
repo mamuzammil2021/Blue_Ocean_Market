@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs');
 
 const VERSION = '30.22.0';
 
-async function install({ app, db, auth, currentUnit, enforceUnit, audit, uploads, secret, access }) {
+async function install({ app, db, auth, currentUnit, enforceUnit, audit, uploads, secret, access, temporaryPasswordChallenge }) {
   const text = (v) => String(v ?? '').trim();
   const tableExists = async (name) => !!(await db.prepare("SELECT 1 FROM bom._relations WHERE type='table' AND name=?").get(name));
   const columns = async (name) => {try {return (await tableExists(name)) ? (await db.columns(name)).map((x) => x.name) : [];} catch (_) {return [];}};
@@ -86,6 +86,7 @@ async function install({ app, db, auth, currentUnit, enforceUnit, audit, uploads
     const u = email ? await db.prepare("SELECT * FROM users WHERE lower(email)=lower(?) AND active=1").get(email) : null;
     if (!u || !bcrypt.compareSync(password, u.password_hash)) {await logLogin(fp.emailHash, fp.ipHash, false, u?.id || null);try {await audit(u || null, 'auth', u?.id || null, 'login_failed', JSON.stringify({ email_hash: fp.emailHash.slice(0, 16) }));} catch (_) {}return await res.status(401).json({ error: 'Invalid email or password' });}
     await logLogin(fp.emailHash, fp.ipHash, true, u.id);
+    if (u.must_change_password) return res.json(await temporaryPasswordChallenge(u));
     const cfg = await securitySettings(),mins = Math.max(15, Math.min(Number(cfg.session_timeout_minutes || 720), 10080)),payload = { ...publicUser(u), epoch: (await db.one('SELECT epoch::text AS epoch FROM bom._pg_auth_epoch WHERE id=1')).epoch, auth_version: Number(u.auth_version || 1), jti: crypto.randomUUID() },token = jwt.sign(payload, secret, { expiresIn: Math.round(mins * 60) });
     try {await audit(u, 'auth', u.id, 'login');} catch (_) {}
     await res.json({ token, user: publicUser(u), session_timeout_minutes: mins });

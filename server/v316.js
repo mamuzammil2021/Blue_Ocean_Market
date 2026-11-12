@@ -1,7 +1,9 @@
 const __async = require("./postgres/collections");const crypto = require('crypto');
 
+const { parents: FEATURE_PARENTS, inheritPermissions } = require('./access-features');
+
 const ACTIONS = ['view', 'create', 'edit', "delete", 'void', 'approve', 'export', 'print', 'verify', 'correct', 'allocate'];
-const MODULES = ['dashboard', 'businesses', 'sales', 'purchases', 'inventory', 'finance', 'accounting', 'approvals', 'tasks', 'performance', 'reports', 'documents', 'meetings', 'restaurant', 'excavator', 'excavatorSuppliers', 'excavatorBuyers', 'notifications', 'users', 'audit', 'payroll'];
+const MODULES = ['dashboard', 'businesses', 'sales', 'purchases', 'inventory', 'finance', 'accounting', 'approvals', 'tasks', 'performance', 'reports', 'documents', 'meetings', 'restaurant', 'excavator', 'excavatorSuppliers', 'excavatorBuyers', 'notifications', 'users', 'audit', 'payroll', ...Object.keys(FEATURE_PARENTS)];
 const SENSITIVE = ['sensitive.user_management', 'sensitive.approval_rules', 'sensitive.accounting_adjustments', 'sensitive.payroll', 'sensitive.audit_logs', 'sensitive.system_admin', 'sensitive.smtp', 'sensitive.storage', 'sensitive.data_migration', 'sensitive.bank_accounts', 'sensitive.ai_settings', 'sensitive.accounting_configuration'];
 const DELEGATED = ['delegate.users', 'delegate.bu_users', 'delegate.finance_users', 'delegate.access'];
 const LIMITS = ['finance_payment_max', 'finance_expense_max', 'finance_approval_max', 'max_discount_pct', 'manual_price_override_max_pct'];
@@ -22,7 +24,7 @@ function merge(...parts) {return Object.assign({}, ...parts);}
 
 function defaultTemplates() {
   const common = viewOnly(['dashboard', 'tasks', 'performance', 'reports', 'documents', 'meetings', 'notifications']);
-  return [
+  const templates = [
   { role: 'CEO / Owner', name: 'CEO / Owner', permissions: merge(allActions(MODULES), Object.fromEntries(SENSITIVE.map((k) => [k, true])), Object.fromEntries(DELEGATED.map((k) => [k, true]))), limits: {} },
   { role: 'System Administrator', name: 'System Administrator', permissions: merge(viewOnly(['dashboard', 'reports', 'documents', 'notifications']), pickActions(['users'], ['view', 'create', 'edit']), { 'sensitive.system_admin': true, 'sensitive.user_management': true, 'sensitive.smtp': true, 'sensitive.storage': true, 'sensitive.data_migration': true, 'sensitive.ai_settings': true, 'delegate.users': true, 'delegate.bu_users': true, 'delegate.access': true }), limits: { finance_payment_max: 0, finance_expense_max: 0, finance_approval_max: 0, max_discount_pct: 0, manual_price_override_max_pct: 0 } },
   { role: 'Business Unit Manager', name: 'Business Unit Manager', permissions: merge(common, allActions(['sales', 'purchases', 'inventory', 'finance', 'approvals', 'tasks', 'performance', 'reports', 'documents', 'meetings', 'restaurant', 'excavator', 'excavatorSuppliers', 'excavatorBuyers']), pickActions(['users'], ['view', 'create', 'edit']), { 'delegate.users': true, 'delegate.bu_users': true, 'delegate.access': true, 'sensitive.user_management': true, 'sensitive.approval_rules': true }), limits: { finance_payment_max: 100000000, finance_expense_max: 100000000, finance_approval_max: 100000000, max_discount_pct: 25, manual_price_override_max_pct: 25 } },
@@ -33,6 +35,7 @@ function defaultTemplates() {
   { role: 'Sales / Business Development', name: 'Sales / Business Development', permissions: merge(common, allActions(['sales', 'approvals', 'documents', 'excavator', 'excavatorSuppliers', 'excavatorBuyers']), pickActions(['finance'], ['view'])), limits: { finance_payment_max: 0, finance_expense_max: 0, finance_approval_max: 0, max_discount_pct: 15, manual_price_override_max_pct: 15 } },
   { role: 'Staff Member', name: 'Staff Member', permissions: merge(viewOnly(['dashboard', 'tasks', 'performance', 'reports', 'documents', 'inventory', 'notifications']), pickActions(['tasks', 'reports', 'documents', 'inventory'], ['create', 'edit'])), limits: { finance_payment_max: 0, finance_expense_max: 0, finance_approval_max: 0, max_discount_pct: 0, manual_price_override_max_pct: 0 } }];
 
+  return templates.map(template => ({ ...template, permissions: inheritPermissions(template.permissions, ACTIONS) }));
 }
 
 function defaultPermissionGroups() {
@@ -240,18 +243,28 @@ async function install(ctx) {
     } else {
       let profiles = await assignedProfiles(u.id, selected);
       // Compatibility fallback protects legacy databases if profile migration was interrupted.
-      if (!profiles.length && legacy.role_name) profiles = [{ role_key: legacy.role_key, role_name: legacy.role_name, business_unit_id: selected, is_primary: 1, permissions: legacy.permissions, limits: legacy.limits, legacy_fallback: true }];
+      if (!profiles.length && legacy.role_name && !(await db.prepare('SELECT 1 FROM user_access_profiles WHERE user_id=? LIMIT 1').get(u.id))) profiles = [{ role_key: legacy.role_key, role_name: legacy.role_name, business_unit_id: selected, is_primary: 1, permissions: legacy.permissions, limits: legacy.limits, legacy_fallback: true }];
       const groups = await assignedGroups(u.id, selected),permissions = {},sources = {},limits = {};
       const grant = (key, source) => {permissions[key] = true;(sources[key] || (sources[key] = [])).push(source);};
-      for (const p of profiles) {for (const [k, v] of Object.entries(p.permissions || {})) if (v === true) grant(k, { type: 'profile', key: p.role_key, name: p.role_name, business_unit_id: p.business_unit_id });for (const [k, v] of Object.entries(p.limits || {})) {const n = Number(v);if (Number.isFinite(n) && (limits[k] == null || n > Number(limits[k]))) limits[k] = n;}}
-      for (const g of groups) for (const [k, v] of Object.entries(g.permissions || {})) if (v === true) grant(k, { type: 'group', key: g.group_key, name: g.group_name, business_unit_id: g.business_unit_id });
+      for (const p of profiles) {for (const [k, v] of Object.entries(inheritPermissions(p.permissions || {}, ACTIONS))) if (v === true) grant(k, { type: 'profile', key: p.role_key, name: p.role_name, business_unit_id: p.business_unit_id });for (const [k, v] of Object.entries(p.limits || {})) {const n = Number(v);if (Number.isFinite(n) && (limits[k] == null || n > Number(limits[k]))) limits[k] = n;}}
+      for (const g of groups) for (const [k, v] of Object.entries(inheritPermissions(g.permissions || {}, ACTIONS))) if (v === true) grant(k, { type: 'group', key: g.group_key, name: g.group_name, business_unit_id: g.business_unit_id });
       for (const r of await overrides(u.id, selected)) {if (r.effect === 'Allow') {permissions[r.permission_key] = true;sources[r.permission_key] = [{ type: 'override', effect: 'Allow', business_unit_id: r.business_unit_id }];} else if (r.effect === 'Deny') {permissions[r.permission_key] = false;sources[r.permission_key] = [{ type: 'override', effect: 'Deny', business_unit_id: r.business_unit_id }];}}
+      for (const [feature, parent] of Object.entries(FEATURE_PARENTS)) {
+        for (const action of ACTIONS) {
+          const key = permissionKey(feature, action), parentKey = permissionKey(parent, action);
+          if (!Object.hasOwn(permissions, key) && permissions[parentKey] && sources[parentKey]?.some(source => source.type === 'override')) {
+            permissions[key] = true;
+            sources[key] = sources[parentKey];
+          }
+          if (permissions[key] && !permissions[parentKey]) permissions[key] = false;
+        }
+      }
       for (const r of await limitRows(u.id, selected)) limits[r.limit_key] = r.limit_value;
       value = { user: u, business_unit_id: selected, permissions, permissions_plain: permissions, limits, assigned_units: units, template: profiles.find((x) => x.is_primary)?.role_name || profiles[0]?.role_name || legacy.role_name || u.role, profiles: profiles.map(({ permissions, limits, ...x }) => x), groups: groups.map(({ permissions, ...x }) => x), permission_sources: sources };
     }
     effectiveCache.set(cacheKey, { value, expires: Date.now() + ACCESS_CACHE_TTL_MS });return value;
   }
-  async function can(userId, key, bu = null) {const e = await effectiveAccess(userId, bu);if (!e.user || !e.user.active) return false;if (e.user.role === 'CEO / Owner') return true;return e.permissions_plain[key] === true;}
+  async function can(userId, key, bu = null) {const e = await effectiveAccess(userId, bu);if (!e.user || !e.user.active) return false;if (e.user.role === 'CEO / Owner') return true;if (bu != null && !e.assigned_units.some(unit => Number(unit.id) === Number(bu))) return false;const [, module, action] = key.split('.');const parent = FEATURE_PARENTS[module];return e.permissions_plain[key] === true && (!parent || e.permissions_plain[permissionKey(parent, action)] === true);}
   async function canModule(userId, module, bu = null) {return await can(userId, permissionKey(normalizeModule(module), 'view'), bu);}
   async function canAction(userId, module, action, bu = null) {module = normalizeModule(module);return (await can(userId, permissionKey(module, action), bu)) || (await canModule(userId, module, bu)) && action === 'view';}
   async function canAnyModule(userId, mods, bu = null) {return await __async.some(mods || [], async (m) => await canModule(userId, m, bu));}
@@ -259,7 +272,7 @@ async function install(ctx) {
   async function history(target, by, action, details = {}, bu = null) {await db.prepare("INSERT INTO access_change_history(target_user_id,business_unit_id,changed_by,action,details_json) VALUES(?,?,?,?,?)").run(Number(target), bu ? Number(bu) : null, by ? Number(by) : null, action, JSON.stringify(details || {}));if (by) await audit({ id: by }, 'user_access', target, action, JSON.stringify(details || {}));}
   async function actorUnits(req) {if (req.user.role === 'CEO / Owner') return (await db.prepare("SELECT id FROM business_units WHERE status!='Archived'").all()).map((x) => x.id);return (await assignedUnits(req.user.id)).map((x) => x.id);}
   async function scopeTarget(req, target) {if (req.user.role === 'CEO / Owner') return true;const au = new Set(await actorUnits(req));return (await __async.some(await assignedUnits(target.id), async (x) => await au.has(x.id))) || !(await assignedUnits(target.id)).length && target.business_unit_id && (await au.has(Number(target.business_unit_id)));}
-  async function templateSubset(actorId, role, bu) {const actor = await effectiveAccess(actorId, bu),desired = await templateForRole(role);for (const [k, v] of Object.entries(desired.permissions || {})) if (v === true && !actor.permissions_plain[k]) return false;for (const [k, v] of Object.entries(desired.limits || {})) {const requested = Number(v || 0),own = actor.limits?.[k];if (requested > 0 && (own == null || Number(own) < requested)) return false;}return true;}
+  async function templateSubset(actorId, role, bu) {const actor = await effectiveAccess(actorId, bu),desired = await templateForRole(role);for (const [k, v] of Object.entries(inheritPermissions(desired.permissions || {}, ACTIONS))) if (v === true && !actor.permissions_plain[k]) return false;for (const [k, v] of Object.entries(desired.limits || {})) {const requested = Number(v || 0),own = actor.limits?.[k];if (requested > 0 && (own == null || Number(own) < requested)) return false;}return true;}
   function financePermissionKey(k) {return FINANCE_PERMISSION_PREFIXES.some((p) => k === p || k.startsWith(p));}
   function financeOnlyAdmin(req, e, bu) {if (req.user.role === 'Finance Head') return true;const finance = !!e.permissions_plain['delegate.finance_users'],broad = !!(e.permissions_plain['delegate.users'] || e.permissions_plain['delegate.bu_users']);return finance && !broad;}
   function validPermissionKey(key) {if (SENSITIVE.includes(key) || DELEGATED.includes(key)) return true;const m = String(key || '').match(/^module\.([^.]+)\.([^.]+)$/);return !!(m && MODULES.includes(normalizeModule(m[1])) && ACTIONS.includes(m[2]));}
@@ -308,8 +321,29 @@ async function install(ctx) {
   async function accessSnapshot(userId) {const u = await liveUser(userId);if (!u) return null;return { role: u.role, assigned_units: (await assignedUnits(userId)).map((x) => ({ id: x.id, is_primary: !!x.is_primary })), profiles: (await assignedProfiles(userId)).map((x) => ({ role_key: x.role_key, role_name: x.role_name, business_unit_id: x.business_unit_id, is_primary: !!x.is_primary })), groups: (await assignedGroups(userId)).map((x) => ({ group_key: x.group_key, group_name: x.group_name, business_unit_id: x.business_unit_id })), approval_authority: await db.prepare("SELECT business_unit_id,approval_level,payment_limit,expense_limit,approval_limit FROM user_approval_authority WHERE user_id=? ORDER BY business_unit_id").all(userId), overrides: await db.prepare("SELECT business_unit_id,permission_key,effect FROM user_access_overrides WHERE user_id=? ORDER BY business_unit_id,permission_key").all(userId), limits: await db.prepare("SELECT business_unit_id,limit_key,limit_value FROM user_access_limits WHERE user_id=? ORDER BY business_unit_id,limit_key").all(userId) };}
   async function requireAccessDelegation(req, bu) {if (req.user.role === 'CEO / Owner') return true;return await can(req.user.id, 'delegate.access', bu || req.selected_business_unit_id || req.user.business_unit_id);}
 
-  await app.get('/api/access/catalog', auth, async (req, res) => {let permissions = [];try {if (await db.prepare("SELECT 1 FROM bom._relations WHERE type='table' AND name='access_permission_catalog_v342'").get()) permissions = await db.prepare("SELECT permission_key,permission_type,module_key,action_key,label_en,label_ko,description,sensitive,introduced_version FROM access_permission_catalog_v342 WHERE active=1 ORDER BY permission_type,module_key,action_key,permission_key").all();} catch (_) {}await res.json({ modules: MODULES, actions: ACTIONS, sensitive: SENSITIVE, delegated: DELEGATED, limits: LIMITS, finance_modules: [...FINANCE_MODULES], permissions });});
-  await app.get('/api/access/me', auth, async (req, res) => {const e = await effectiveAccess(req.user.id, req.selected_business_unit_id || req.user.business_unit_id);await res.json({ ...e, permissions: e.permissions_plain });});
+  await app.get('/api/access/catalog', auth, async (req, res) => {let permissions = [];try {if (await db.prepare("SELECT 1 FROM bom._relations WHERE type='table' AND name='access_permission_catalog_v342'").get()) permissions = await db.prepare("SELECT permission_key,permission_type,module_key,action_key,label_en,label_ko,description,sensitive,introduced_version FROM access_permission_catalog_v342 WHERE active=1 ORDER BY permission_type,module_key,action_key,permission_key").all();} catch (_) {}await res.json({ modules: MODULES, actions: ACTIONS, sensitive: SENSITIVE, delegated: DELEGATED, limits: LIMITS, finance_modules: [...FINANCE_MODULES], feature_parents: FEATURE_PARENTS, permissions });});
+  app.get('/api/access/me', auth, async (req, res) => {
+    const bu = req.selected_business_unit_id || req.user.business_unit_id;
+    const effective = await effectiveAccess(req.user.id, bu);
+    const permissions = { ...effective.permissions_plain };
+    if (!effective.full_system_access && access.activePolicies) {
+      const policies = await access.activePolicies(bu);
+      const checks = new Map();
+      for (const policy of policies) for (const { module, action } of policy.rules || []) {
+        const key = permissionKey(module, action);
+        if (permissions[key]) checks.set(key, { module, action });
+      }
+      for (const [key, { module, action }] of checks) {
+        permissions[key] = await access.canAction(req.user.id, module, action, bu);
+      }
+      for (const [feature, parent] of Object.entries(FEATURE_PARENTS)) for (const action of ACTIONS) {
+        const key = permissionKey(feature, action);
+        if (permissions[key] && !permissions[permissionKey(parent, action)]) permissions[key] = false;
+      }
+    }
+    return res.json({ ...effective, permissions, permissions_plain: permissions });
+  });
+
   await app.get('/api/access/templates', auth, async (req, res) => {if (!(await canModule(req.user.id, 'users', req.selected_business_unit_id || req.user.business_unit_id))) return await res.status(403).json({ error: 'You do not have access to Users & Access.' });const rows = (await db.prepare("SELECT role_key,role_name,permissions_json,limits_json FROM access_role_templates WHERE active=1 ORDER BY role_name").all()).map((x) => ({ ...x, permissions: json(x.permissions_json, {}), limits: json(x.limits_json, {}) }));await res.json(rows);});
   await app.get('/api/access/users/:id', auth, async (req, res) => {
     const u = await liveUser(req.params.id);if (!u) return await res.status(404).json({ error: 'User not found' });
@@ -394,10 +428,24 @@ async function install(ctx) {
     const e = await effectiveAccess(req.user.id, bu);
     return req.user.role === 'System Administrator' && e.permissions_plain['sensitive.system_admin'] === true && e.permissions_plain['delegate.access'] === true;
   }
-  async function profileSubset(actorId, roleKey, bu) {const actor = await effectiveAccess(actorId, bu),desired = await templateForKey(roleKey);if (!desired.role_name) return false;for (const [k, v] of Object.entries(desired.permissions || {})) if (v === true && !actor.permissions_plain[k]) return false;for (const [k, v] of Object.entries(desired.limits || {})) {const requested = Number(v || 0),own = actor.limits?.[k];if (requested > 0 && (own == null || Number(own) < requested)) return false;}return true;}
+  async function profileSubset(actorId, roleKey, bu) {const actor = await effectiveAccess(actorId, bu),desired = await templateForKey(roleKey);if (!desired.role_name) return false;for (const [k, v] of Object.entries(inheritPermissions(desired.permissions || {}, ACTIONS))) if (v === true && !actor.permissions_plain[k]) return false;for (const [k, v] of Object.entries(desired.limits || {})) {const requested = Number(v || 0),own = actor.limits?.[k];if (requested > 0 && (own == null || Number(own) < requested)) return false;}return true;}
   await app.get('/api/access/profiles', auth, async (req, res) => {
     if (!(await canModule(req.user.id, 'users', req.selected_business_unit_id || req.user.business_unit_id))) return await res.status(403).json({ error: 'You do not have access to Users & Access.' });
     const rows = (await db.prepare(`SELECT t.role_key,t.role_name,t.description,t.permissions_json,t.limits_json,t.active,COUNT(DISTINCT uap.user_id) assigned_users FROM access_role_templates t LEFT JOIN user_access_profiles uap ON uap.role_key=t.role_key WHERE t.active=1 GROUP BY t.id ORDER BY CASE WHEN t.role_name='CEO / Owner' THEN 0 ELSE 1 END,t.role_name`).all()).map((x) => ({ ...x, permissions: json(x.permissions_json, {}), limits: json(x.limits_json, {}) }));await res.json(rows);
+  });
+  app.get('/api/access/profiles/:role_key/impact', auth, async (req, res) => {
+    if (!(await canManageProfileLibrary(req))) return res.sendStatus(403);
+    const rows = await db.prepare(`
+      SELECT b.id, b.name, COUNT(DISTINCT p.user_id) affected_users
+      FROM user_access_profiles p
+      JOIN users u ON u.id=p.user_id AND u.active=1
+      JOIN user_business_units scope ON scope.user_id=p.user_id
+        AND (p.business_unit_id IS NULL OR p.business_unit_id=scope.business_unit_id)
+      JOIN business_units b ON b.id=scope.business_unit_id AND b.status<>'Archived'
+      WHERE p.role_key=?
+      GROUP BY b.id,b.name ORDER BY b.name
+    `).all(req.params.role_key);
+    return res.json(rows);
   });
   await app.get('/api/access/permission-groups', auth, async (req, res) => {
     if (!(await canModule(req.user.id, 'users', req.selected_business_unit_id || req.user.business_unit_id))) return await res.status(403).json({ error: 'You do not have access to Users & Access.' });
@@ -448,6 +496,7 @@ async function install(ctx) {
     if (!(await canManageProfileLibrary(req))) return await res.status(403).json({ error: 'Only CEO / Owner or an authorized System Administrator can manage the shared Access Profile library.' });const src = await templateForKey(req.params.role_key);if (!src.role_name) return await res.status(404).json({ error: 'Access Profile not found' });const name = String(req.body.role_name || `${src.role_name} Copy`).trim();if (!name) return await res.status(400).json({ error: 'Profile name is required.' });let key = roleKey(name),n = 2;while (await db.prepare("SELECT 1 FROM access_role_templates WHERE role_key=? OR role_name=?").get(key, name)) key = roleKey(name + ' ' + n++);await db.prepare("INSERT INTO access_role_templates(role_key,role_name,description,permissions_json,limits_json,active) VALUES(?,?,?,?,?,1)").run(key, name, src.description || '', JSON.stringify(src.permissions || {}), JSON.stringify(src.limits || {}));await audit(req.user, 'access_profile', key, 'duplicate', JSON.stringify({ source: src.role_key, name }));await res.json({ ok: true, role_key: key, role_name: name });
   });
 
-  return { MODULES, ACTIONS, SENSITIVE, DELEGATED, LIMITS, liveUser, assignedUnits, isAssigned, effectiveAccess, can, canModule, canAction, canAnyModule, getLimit, canManageTarget, validateOverrides, validateLimits, replaceAssignments, userSummary, ensureInitialProfile, templateForRole, templateForKey, assignedProfiles, assignedGroups, approvalAuthority, history, scopeTarget, actorUnits, normalizeModule, accessSnapshot, validUnitIds, invalidateAccess, defaultTemplates, defaultPermissionGroups, roleKey, permissionKey, cache_ttl_ms: ACCESS_CACHE_TTL_MS };
+  const access = { MODULES, ACTIONS, SENSITIVE, DELEGATED, LIMITS, liveUser, assignedUnits, isAssigned, effectiveAccess, can, canModule, canAction, canAnyModule, getLimit, canManageTarget, validateOverrides, validateLimits, replaceAssignments, userSummary, ensureInitialProfile, templateForRole, templateForKey, assignedProfiles, assignedGroups, approvalAuthority, history, scopeTarget, actorUnits, normalizeModule, accessSnapshot, validUnitIds, invalidateAccess, defaultTemplates, defaultPermissionGroups, roleKey, permissionKey, featureParents: FEATURE_PARENTS, expandPermissions: permissions => inheritPermissions(permissions, ACTIONS), cache_ttl_ms: ACCESS_CACHE_TTL_MS };
+  return access;
 }
 module.exports = { install, ACTIONS, MODULES, SENSITIVE, DELEGATED, LIMITS, permissionKey, defaultTemplates, defaultPermissionGroups, roleKey };

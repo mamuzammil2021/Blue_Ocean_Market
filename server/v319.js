@@ -12,7 +12,7 @@ const numbering = require('./numbering-service');
 
 const VERSION = require('../package.json').version;
 
-async function install({ app, db, auth, currentUnit, enforceUnit, audit, notify, access, uploads, secret, accounting }) {
+async function install({ app, db, auth, currentUnit, enforceUnit, audit, notify, access, uploads, secret, accounting, passwordPolicy, passwordPolicyError }) {
   const text = (v) => String(v ?? '').trim();
   const num = (v) => Number(v || 0);
   const now = () => new Date().toISOString();
@@ -427,18 +427,24 @@ async function install({ app, db, auth, currentUnit, enforceUnit, audit, notify,
   // Settings and successful resets revoke every previously issued user session.
   await app.post('/api/auth/reset', async (req, res) => {
     try {
-      const rawToken = text(req.body?.token),tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex'),r = await db.prepare("SELECT pr.*,u.email,u.active FROM password_resets pr JOIN users u ON u.id=pr.user_id WHERE pr.token_hash=? AND pr.used=0 AND bom.utc_datetime(pr.expires_at)>bom.utc_datetime('now')").get(tokenHash);
+      const rawToken = text(req.body?.token),tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex'),r = await db.prepare("SELECT pr.*,u.email,u.active,u.business_unit_id FROM password_resets pr JOIN users u ON u.id=pr.user_id WHERE pr.token_hash=? AND pr.used=0 AND bom.utc_datetime(pr.expires_at)>bom.utc_datetime('now')").get(tokenHash);
       if (!r || !r.active) return await res.status(400).json({ error: 'Reset token is invalid or expired' });
-      const password = String(req.body?.password || ''),policy = await effectiveFor('security_access', null, r.user_id),min = Math.max(8, Number(policy.password_min_length || 12)),errors = [];
-      if (password.length < min) errors.push(`at least ${min} characters`);
-      if (policy.password_require_upper && !/[A-Z]/.test(password)) errors.push('an uppercase letter');
-      if (policy.password_require_lower && !/[a-z]/.test(password)) errors.push('a lowercase letter');
-      if (policy.password_require_number && !/[0-9]/.test(password)) errors.push('a number');
-      if (policy.password_require_special && !/[^A-Za-z0-9]/.test(password)) errors.push('a special character');
-      if (errors.length) return await res.status(400).json({ error: 'Password must contain ' + errors.join(', ') + '.' });
+      if (req.body.policy_only === true) return res.json(await passwordPolicy(r.user_id, r.business_unit_id));
+      const password = String(req.body?.password || '');
+      const error = await passwordPolicyError(password, r.user_id, r.business_unit_id);
+      if (error) return res.status(400).json({ error });
       const bcrypt = require('bcryptjs');
-      await db.atomic(async () => {await db.prepare("UPDATE users SET password_hash=?,auth_version=COALESCE(auth_version,1)+1 WHERE id=?").run(bcrypt.hashSync(password, 12), r.user_id);await db.prepare("UPDATE password_resets SET used=1 WHERE user_id=? AND used=0").run(r.user_id);})();
-      await audit(null, 'password_reset', r.user_id, 'completed', JSON.stringify({ policy_min_length: min, sessions_revoked: true, token_storage: 'sha256' }));
+      const hash = await bcrypt.hash(password, 12);
+      const changed = await db.atomic(async () => {
+        await db.prepare("SELECT id FROM users WHERE id=? FOR UPDATE").get(r.user_id);
+        const claimed = await db.prepare("UPDATE password_resets SET used=1 WHERE id=? AND used=0 AND bom.utc_datetime(expires_at)>bom.utc_datetime('now')").run(r.id);
+        if (!claimed.changes) return false;
+        await db.prepare("UPDATE users SET password_hash=?,must_change_password=0,auth_version=COALESCE(auth_version,1)+1 WHERE id=?").run(hash, r.user_id);
+        await db.prepare("UPDATE password_resets SET used=1 WHERE user_id=? AND used=0").run(r.user_id);
+        return true;
+      })();
+      if (!changed) return res.status(400).json({ error: 'Reset token is invalid or expired' });
+      await audit(null, 'password_reset', r.user_id, 'completed', JSON.stringify({ sessions_revoked: true, token_storage: 'sha256' }));
       await res.json({ ok: true, message: 'Password updated. Please sign in again.' });
     } catch (e) {await fail(res, e);}
   });

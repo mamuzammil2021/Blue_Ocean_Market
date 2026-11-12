@@ -178,7 +178,7 @@ function closeModal(force=false){const perform=()=>{formDirty=false;document.get
 document.addEventListener('input',e=>{if(e.isTrusted&&e.target.closest('form:not([data-bom-no-dirty="1"])'))formDirty=true});document.addEventListener('change',e=>{if(e.isTrusted&&e.target.closest('form:not([data-bom-no-dirty="1"])'))formDirty=true});
 window.addEventListener('beforeunload',e=>{if(formDirty){e.preventDefault();e.returnValue=''}});
 
-async function refreshNotifCount(){try{const d=await api('/api/notifications/unread-count');unreadNotifCount=Number(d.count||0);const b=document.getElementById('notifBadge');if(b){b.textContent=unreadNotifCount;b.style.display=unreadNotifCount?'inline-flex':'none'}}catch(e){console.warn('Notification count:',e.message)}}
+async function refreshNotifCount(){if(!hasPermission('module.notifications.view'))return;try{const d=await api('/api/notifications/unread-count');unreadNotifCount=Number(d.count||0);const b=document.getElementById('notifBadge');if(b){b.textContent=unreadNotifCount;b.style.display=unreadNotifCount?'inline-flex':'none'}}catch(e){console.warn('Notification count:',e.message)}}
 function closeNotifDialog(){const e=document.getElementById('notifDialog');if(e)e.remove()}
 function notificationCardHtml(x){return '<div class="card notification-card '+(!x.read_at?'notification-unread':'notification-read')+'" data-notification-id="'+Number(x.id)+'" style="margin-bottom:8px"><div class="notification-card-head"><span class="pill '+(x.level==='critical'?'bad':x.level==='warning'?'warn':'blue')+'">'+esc(t(x.level||'info'))+'</span>'+(!x.read_at?'<span class="pill warn">'+esc(t('Unread'))+'</span>':'')+'</div><b>'+esc(t(x.title||'Notification'))+'</b><div class="muted" style="margin-top:4px">'+esc(t(x.message||''))+'</div><div class="muted" data-no-i18n style="font-size:12px;margin-top:5px">'+esc(x.created_at||'')+'</div>'+(x.action_view?'<button class="btn small primary" style="margin-top:7px;margin-right:6px" onclick="notificationNavigate(\''+esc(x.action_view)+'\','+(x.action_id||0)+','+Number(x.id)+')">'+esc(t('Open related record'))+'</button>':'')+(!x.read_at?'<button class="btn small" style="margin-top:7px" onclick="readNotif('+x.id+')">'+esc(t('Mark read'))+'</button>':'')+'</div>'}
 async function toggleNotifs(){if(document.getElementById('notifDialog')){closeNotifDialog();return}try{const n=await api('/api/notifications'),unreadRows=n.filter(x=>!x.read_at),readRows=n.filter(x=>x.read_at),wrap=document.createElement('div');wrap.id='notifDialog';wrap.className='modal-bg';wrap.innerHTML='<div class="modal" style="max-width:620px"><div class="section-title"><div><h2 style="margin:0">Notifications</h2><div class="muted">'+unreadRows.length+' '+esc(t(unreadRows.length===1?'unread notification':'unread notifications'))+'</div></div><button class="btn" onclick="closeNotifDialog()">✕</button></div><div style="max-height:60vh;overflow:auto;margin-top:12px">'+(unreadRows.length?'<div class="notification-group-title">'+esc(t('Unread Notifications'))+' <span class="pill warn">'+unreadRows.length+'</span></div>'+unreadRows.map(notificationCardHtml).join(''):'')+(readRows.length?'<div class="notification-group-title read-group">'+esc(t('Earlier Notifications'))+'</div>'+readRows.map(notificationCardHtml).join(''):'')+(!n.length?'<div class="empty">'+esc(t('No notifications.'))+'</div>':'')+'</div></div>';document.body.appendChild(wrap);translateElement(wrap);wrap.onclick=e=>{if(e.target===wrap)closeNotifDialog()}}catch(e){toast(e.message)}}
@@ -188,25 +188,114 @@ async function notificationNavigate(target,id){if(target==='receivingIssue45')re
 function accessKeyForView(key){const map={users:'users',audit:'audit',accounting:'accounting',restaurantTables:'restaurant',psSuppliers:'purchases',psImports:'purchases',psRawStock:'inventory',psProduction:'inventory',psFinished:'inventory',psPackaging:'inventory',psSales:'sales',psCustomers:'sales',psWaste:'inventory'};return map[key]||key}
 function hasPermission(key){if(!me)return false;if(me.role==='CEO / Owner')return true;return accessState?.permissions?.[key]===true}
 function allowed(key){return window.BOMRouter?.allowed(key)===true}
-function login(){document.documentElement.lang=currentLanguage==='ko'?'ko':'en';root.innerHTML=`<div class="login"><div class="login-card"><div class="brand">BLUE OCEAN <span>MARKET</span></div><div class="field" style="margin-top:18px"><label>Preferred Language</label><select class="language-switch" onchange="setLanguage(this.value)"><option value="ko" ${currentLanguage==='ko'?'selected':''}>한국어</option><option value="en" ${currentLanguage==='en'?'selected':''}>English</option></select></div><h1>Management OS</h1><p class="sub">Company-wide operations, finance, inventory, sales and restaurant control.</p><form data-bom-public-auth="1" data-bom-no-review="1" onsubmit="doLogin(event)"><div class="field"><label>Email</label><input name="email" type="email" autocomplete="username" required></div><div class="field"><label>Password</label><input name="password" type="password" autocomplete="current-password" required></div><button class="btn primary" style="width:100%;padding:12px">Sign in</button></form><button class="btn" style="width:100%;margin-top:10px" onclick="forgot()">Forgot password?</button></div></div>`;translateElement(root)}
+let temporaryPasswordChallenge = null;
+const passwordText = (en, ko) => currentLanguage === 'ko' ? ko : en;
+
+function toggleLoginPassword(button) {
+  const input = button.previousElementSibling;
+  const reveal = input.type === 'password';
+  input.type = reveal ? 'text' : 'password';
+  button.setAttribute('aria-pressed', String(reveal));
+  button.title = reveal ? passwordText('Hide password', '비밀번호 숨기기') : passwordText('Show password', '비밀번호 표시');
+  button.setAttribute('aria-label', button.title);
+}
+
+function renderPasswordRules(input, policy) {
+  let list = input.parentElement.querySelector('.bom-password-rules');
+  if (!list) {
+    list = document.createElement('ul');
+    list.className = 'bom-password-rules';
+    list.id = 'password-rules-' + input.name;
+    input.setAttribute('aria-describedby', list.id);
+    input.after(list);
+  }
+  const value = input.value;
+  const minimum = policy.password_min_length;
+  const rules = [
+    [passwordText(`At least ${minimum} characters`, `최소 ${minimum}자`), value.length >= minimum],
+    [passwordText('At most 72 UTF-8 bytes', 'UTF-8 기준 최대 72바이트'), new TextEncoder().encode(value).length <= 72],
+    ...[
+      ['upper', /[A-Z]/, 'An uppercase letter', '영문 대문자'],
+      ['lower', /[a-z]/, 'A lowercase letter', '영문 소문자'],
+      ['number', /[0-9]/, 'A number', '숫자'],
+      ['special', /[^A-Za-z0-9]/, 'A special character', '특수 문자']
+    ].filter(([key]) => policy['password_require_' + key])
+      .map(([, pattern, en, ko]) => [passwordText(en, ko), pattern.test(value)])
+  ];
+  list.replaceChildren(...rules.map(([label, valid]) => {
+    const item = document.createElement('li');
+    if (value) item.dataset.valid = valid;
+    item.textContent = value ? (valid ? '✓ ' : '✗ ') + label : label;
+    return item;
+  }));
+  input.setCustomValidity(value && rules.some(([, valid]) => !valid)
+    ? passwordText('Check the password requirements below.', '아래 비밀번호 요구 사항을 확인하세요.') : '');
+}
+
+function bindPasswordRules(form) {
+  const input = form.querySelector('input[type="password"][name="new_password"], input[type="password"][autocomplete="new-password"]:not([name*="confirm"])');
+  if (!input || form.dataset.bomPasswordRules) return;
+  form.dataset.bomPasswordRules = '1';
+  input.removeAttribute('minlength');
+  const confirmation = form.elements.confirm_password || form.elements.confirm_new_password || form.elements.confirm;
+  confirmation?.removeAttribute('minlength');
+  const unitField = form.elements.primary_business_unit_id;
+  let policy;
+  let policyUnit;
+  let request = 0;
+  const refresh = () => {
+    if (policy) renderPasswordRules(input, policy);
+    if (confirmation) confirmation.setCustomValidity(confirmation.value && confirmation.value !== input.value
+      ? passwordText('New passwords do not match', '새 비밀번호가 일치하지 않습니다.') : '');
+  };
+  const load = async () => {
+    const id = ++request;
+    policyUnit = unitField?.value;
+    const reset = resetTokenFromUrl();
+    try {
+      const result = temporaryPasswordChallenge?.policy || (reset
+        ? await api('/api/auth/reset', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:reset,policy_only:true})})
+        : await api('/api/auth/password-policy' + (input.dataset.passwordUser ? '?user_id=' + encodeURIComponent(input.dataset.passwordUser) : unitField?.value ? '?business_unit_id=' + encodeURIComponent(unitField.value) : '')));
+      if (id === request) { policy = result; refresh(); }
+    } catch (_) {
+      if (id === request && input.isConnected) toast(passwordText('Unable to load password requirements.', '비밀번호 요구 사항을 불러올 수 없습니다.'));
+    }
+  };
+  form.addEventListener('input', refresh);
+  if (unitField) form.addEventListener('change', () => {
+    if (unitField.value !== policyUnit) load();
+  });
+  load();
+}
+
+new MutationObserver(records => {
+  for (const record of records) for (const node of record.addedNodes) {
+    if (node.nodeType !== Node.ELEMENT_NODE || node.closest('.bom-password-rules')) continue;
+    if (node.matches('form')) bindPasswordRules(node);
+    node.querySelectorAll('form').forEach(bindPasswordRules);
+  }
+}).observe(document.body, { childList: true, subtree: true });
+
+function login(){temporaryPasswordChallenge=null;document.documentElement.lang=currentLanguage==='ko'?'ko':'en';root.innerHTML=`<div class="login"><div class="login-card"><div class="brand">BLUE OCEAN <span>MARKET</span></div><div class="field" style="margin-top:18px"><label>Preferred Language</label><select class="language-switch" onchange="setLanguage(this.value)"><option value="ko" ${currentLanguage==='ko'?'selected':''}>한국어</option><option value="en" ${currentLanguage==='en'?'selected':''}>English</option></select></div><h1>Management OS</h1><p class="sub">Company-wide operations, finance, inventory, sales and restaurant control.</p><form data-bom-public-auth="1" data-bom-no-review="1" onsubmit="doLogin(event)"><div class="field"><label>Email</label><input name="email" type="email" autocomplete="username" required></div><div class="field"><label>Password</label><div class="bom-login-password"><input name="password" type="password" autocomplete="current-password" required><button type="button" class="btn" aria-pressed="false" aria-label="${passwordText('Show password','비밀번호 표시')}" title="${passwordText('Show password','비밀번호 표시')}" onclick="toggleLoginPassword(this)"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div><button class="btn primary" style="width:100%;padding:12px">Sign in</button></form><button class="btn" style="width:100%;margin-top:10px" onclick="forgot()">Forgot password?</button></div></div>`;translateElement(root)}
 async function hydrateAccess(){try{const a=await api('/api/access/me');accessState={permissions:a.permissions||{},limits:a.limits||{},assigned_units:a.assigned_units||[]};return accessState}catch(_){accessState={permissions:{},limits:{},assigned_units:[]};return accessState}}
 function logout(){return window.BOMRouter?.logout()}
-async function doLogin(e){e.preventDefault();try{const d=await api('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(e.target)))});token=d.token;me=d.user;formDirty=false;selectedUnitId='';localStorage.setItem('bo_token',token);const prelogin=localStorage.getItem('bo_prelogin_language');currentLanguage=prelogin||me.preferred_language||localStorage.getItem('bo_language')||'ko';localStorage.setItem('bo_language',currentLanguage);if(prelogin){me.preferred_language=currentLanguage;await api('/api/me/language',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({preferred_language:currentLanguage})});localStorage.removeItem('bo_prelogin_language')}const [ctx]=await Promise.all([api('/api/context'),hydrateAccess()]);unitOptions=ctx.units||[];const stored=localStorage.getItem('bo_unit')||'';if(me.role==='CEO / Owner')selectedUnitId=stored;else selectedUnitId=unitOptions.some(x=>String(x.id)===String(stored))?stored:String(ctx.selected_business_unit_id||me.business_unit_id||unitOptions[0]?.id||'');await window.BOMRouter.start();}catch(x){toast(x.message)}}
+async function doLogin(e){e.preventDefault();try{const d=await api('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(e.target)))});if(d.password_change_required){temporaryPasswordChallenge=d;return resetPasswordView()}token=d.token;me=d.user;formDirty=false;selectedUnitId='';localStorage.setItem('bo_token',token);const prelogin=localStorage.getItem('bo_prelogin_language');currentLanguage=prelogin||me.preferred_language||localStorage.getItem('bo_language')||'ko';localStorage.setItem('bo_language',currentLanguage);if(prelogin){me.preferred_language=currentLanguage;await api('/api/me/language',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({preferred_language:currentLanguage})});localStorage.removeItem('bo_prelogin_language')}const [ctx]=await Promise.all([api('/api/context'),hydrateAccess()]);unitOptions=ctx.units||[];const stored=localStorage.getItem('bo_unit')||'';if(me.role==='CEO / Owner')selectedUnitId=stored;else selectedUnitId=unitOptions.some(x=>String(x.id)===String(stored))?stored:String(ctx.selected_business_unit_id||me.business_unit_id||unitOptions[0]?.id||'');await window.BOMRouter.start();}catch(x){toast(x.message)}}
 function forgot(){modal(`<h2>${esc(t('Reset password'))}</h2><p class="muted">${esc(t('Enter your account email. If the account exists, password-reset instructions will be sent to that address.'))}</p><form data-bom-public-auth="1" data-bom-no-review="1" onsubmit="doForgot(event)"><div class="field"><label>${esc(t('Email'))}</label><input name="email" type="email" autocomplete="email" required></div><div class="actions"><button type="button" class="btn" onclick="closeModal()">${esc(t('Cancel'))}</button><button class="btn primary">${esc(t('Send reset email'))}</button></div></form>`) }
 async function doForgot(e){e.preventDefault();try{const d=await api('/api/auth/forgot',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(e.target)))});modal(`<h2>${esc(t('Check your email'))}</h2><p class="muted">${esc(t(d.message||'If the account exists, password-reset instructions will be sent shortly.'))}</p><div class="actions"><button class="btn primary" onclick="closeModal()">${esc(t('Done'))}</button></div>`)}catch(x){toast(x.message)}}
 function resetTokenFromUrl(){try{return String(new URLSearchParams(location.search).get('reset')||'').trim()}catch(_){return ''}}
 function resetPasswordView(resetToken){
   token=null;me=null;document.documentElement.lang=currentLanguage==='ko'?'ko':'en';
-  root.innerHTML=`<div class="login"><div class="login-card"><div class="brand">BLUE OCEAN <span>MARKET</span></div><h1>${esc(t('Set new password'))}</h1><p class="sub">${esc(t('Choose a new password that meets the current Blue Ocean security policy.'))}</p><form onsubmit="doResetPassword(event)"><div class="field"><label>${esc(t('New password'))}</label><input name="password" type="password" autocomplete="new-password" minlength="8" required></div><div class="field"><label>${esc(t('Confirm new password'))}</label><input name="confirm_password" type="password" autocomplete="new-password" minlength="8" required></div><button class="btn primary" style="width:100%;padding:12px">${esc(t('Update password'))}</button></form><button class="btn" style="width:100%;margin-top:10px" onclick="cancelResetPassword()">${esc(t('Back to sign in'))}</button></div></div>`;
+  root.innerHTML=`<div class="login"><div class="login-card"><div class="brand">BLUE OCEAN <span>MARKET</span></div><h1>${esc(t('Set new password'))}</h1><p class="sub">${esc(temporaryPasswordChallenge ? passwordText('Replace your temporary password to continue.', '계속하려면 임시 비밀번호를 변경하세요.') : t('Choose a new password that meets the current Blue Ocean security policy.'))}</p><form onsubmit="doResetPassword(event)"><div class="field"><label>${esc(t('New password'))}</label><input name="password" type="password" autocomplete="new-password" minlength="8" required></div><div class="field"><label>${esc(t('Confirm new password'))}</label><input name="confirm_password" type="password" autocomplete="new-password" minlength="8" required></div><button class="btn primary" style="width:100%;padding:12px">${esc(t('Update password'))}</button></form><button class="btn" style="width:100%;margin-top:10px" onclick="cancelResetPassword()">${esc(t('Back to sign in'))}</button></div></div>`;
   translateElement(root);
 }
 function cancelResetPassword(){history.replaceState({},'',location.pathname+location.hash);login()}
 async function doResetPassword(e){
   e.preventDefault();const f=e.target,d=Object.fromEntries(new FormData(f)),resetToken=resetTokenFromUrl();
-  if(!resetToken)return toast('Reset token is invalid or expired');
+  if(!resetToken&&!temporaryPasswordChallenge)return toast('Reset token is invalid or expired');
   if(d.password!==d.confirm_password)return toast('New passwords do not match');
   try{
-    const r=await api('/api/auth/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:resetToken,password:d.password})});
+    const challenge=temporaryPasswordChallenge?.challenge;
+    const r=await api(challenge?'/api/auth/temporary-password':'/api/auth/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:resetToken,challenge,password:d.password,confirm_password:d.confirm_password})});
     localStorage.removeItem('bo_token');token=null;me=null;formDirty=false;history.replaceState({},'',location.pathname+location.hash);login();toast(r.message||'Password updated. Please sign in again.');
   }catch(x){toast(x.message)}
 }
@@ -230,7 +319,7 @@ function render(){
   const unitSelect=me.role==='CEO / Owner'
     ? '<select class="unit-switch" onchange="switchUnit(this.value)"><option value="">All Business Units — Consolidated</option>'+unitOptions.map(x=>`<option value="${x.id}" ${String(selectedUnitId)===String(x.id)?'selected':''}>${esc(t(x.name))}</option>`).join('')+'</select>'
     : unitOptions.length>1?'<select class="unit-switch" onchange="switchUnit(this.value)">'+unitOptions.map(x=>`<option value="${x.id}" ${String(selectedUnitId)===String(x.id)?'selected':''}>${esc(t(x.name))}</option>`).join('')+'</select>':`<span class="scope-badge">${esc(t(selected?.name||'Assigned Business Unit'))}</span>`;
-  const shellHtml='<div class="shell"><button class="sidebar-overlay" aria-label="Close menu" onclick="closeMobileSidebar()"></button><aside class="side"><div class="mobile-side-head"><div class="brand">BLUE OCEAN <span>MARKET</span></div><button class="btn mobile-side-close" onclick="closeMobileSidebar()" aria-label="Close menu">✕</button></div><button class="sidebar-toggle btn" onclick="toggleSidebar()" aria-expanded="'+String(!document.body.classList.contains('sidebar-collapsed'))+'" title="Collapse / expand menu">☰</button><nav class="nav">'+navHtml+'</nav></aside><main class="main"><header class="top"><div class="top-user"><button class="btn mobile-menu" onclick="toggleMobileSidebar()" aria-label="Open menu">☰</button><div><b data-user-content>'+esc(me.name)+'</b><span class="muted role"> · '+esc(systemText(me.role))+'</span></div></div><div class="top-right">'+unitSelect+'<select class="language-switch" onchange="setLanguage(this.value)" title="Preferred Language"><option value="ko" '+(currentLanguage==='ko'?'selected':'')+'>한국어</option><option value="en" '+(currentLanguage==='en'?'selected':'')+'>English</option></select><button class="notif-btn" onclick="toggleNotifs()" title="Notifications">🔔<span id="notifBadge" class="notif-badge" style="display:none">0</span></button><div class="avatar">'+esc(me.name.slice(0,1).toUpperCase())+'</div><button class="btn" onclick="logout()">'+esc(t('Logout'))+'</button></div></header><div id="crumbHost">'+breadcrumbHtml()+'</div><section class="content" id="content"></section></main></div>';
+  const shellHtml='<div class="shell"><button class="sidebar-overlay" aria-label="Close menu" onclick="closeMobileSidebar()"></button><aside class="side"><div class="mobile-side-head"><div class="brand">BLUE OCEAN <span>MARKET</span></div><button class="btn mobile-side-close" onclick="closeMobileSidebar()" aria-label="Close menu">✕</button></div><button class="sidebar-toggle btn" onclick="toggleSidebar()" aria-expanded="'+String(!document.body.classList.contains('sidebar-collapsed'))+'" title="Collapse / expand menu">☰</button><nav class="nav">'+navHtml+'</nav></aside><main class="main"><header class="top"><div class="top-user"><button class="btn mobile-menu" onclick="toggleMobileSidebar()" aria-label="Open menu">☰</button><div><b data-user-content>'+esc(me.name)+'</b><span class="muted role"> · '+esc(systemText(me.role))+'</span></div></div><div class="top-right">'+unitSelect+'<select class="language-switch" onchange="setLanguage(this.value)" title="Preferred Language"><option value="ko" '+(currentLanguage==='ko'?'selected':'')+'>한국어</option><option value="en" '+(currentLanguage==='en'?'selected':'')+'>English</option></select>'+(hasPermission('module.notifications.view')?'<button class="notif-btn" onclick="toggleNotifs()" title="Notifications">🔔<span id="notifBadge" class="notif-badge" style="display:none">0</span></button>':'')+'<div class="avatar">'+esc(me.name.slice(0,1).toUpperCase())+'</div><button class="btn" onclick="logout()">'+esc(t('Logout'))+'</button></div></header><div id="crumbHost">'+breadcrumbHtml()+'</div><section class="content" id="content"></section></main></div>';
   if(window.BOMRouter?.shellOnly&&root.querySelector('.shell')){
     const template=document.createElement('template');template.innerHTML=shellHtml;
     const pairs=[['.side .nav','.side .nav'],['.top-right','.top-right'],['#crumbHost','#crumbHost']];
@@ -1306,7 +1395,7 @@ Object.assign(KO,{
   'Approved buyer refund is missing its linked buyer.':'승인된 구매자 환불에 연결된 구매자가 없습니다.','Approved machine sale completed without a transaction identifier.':'승인된 장비 판매가 거래 식별자 없이 완료되었습니다.','Approved machine sale is missing its linked machine.':'승인된 장비 판매에 연결된 장비가 없습니다.','Buyer advance refund not found':'구매자 선급금 환불을 찾을 수 없습니다.','CEO confirmation is required before this controlled action is executed.':'이 통제 작업을 실행하려면 CEO 확인이 필요합니다.','CEO confirmation is required before this decision is recorded.':'이 결정을 기록하려면 CEO 확인이 필요합니다.','Verified Finance Change':'검증된 재무 변경','Finance correction opened':'재무 수정 요청 생성 완료','Finance correction request opened.':'재무 수정 요청이 생성되었습니다.','Finance correction request could not be opened':'재무 수정 요청을 생성할 수 없습니다.','Linked buyer advance refund not found':'연결된 구매자 선급금 환불을 찾을 수 없습니다.','No independent eligible reviewer is configured for this approval request.':'이 승인 요청을 검토할 독립된 적격 검토자가 설정되어 있지 않습니다.','No independent user is configured for the next approval step. Add an eligible reviewer before resubmitting.':'다음 승인 단계를 담당할 독립된 사용자가 설정되어 있지 않습니다. 재제출 전에 적격 검토자를 추가하세요.','Void approval rule is not configured.':'무효 처리 승인 규칙이 설정되어 있지 않습니다.'
 });
 
-function financeCanCreateManual(){return !!me&&['CEO / Owner','Operations Manager','Finance / Admin','Business Unit Manager'].includes(me.role)}
+function financeCanCreateManual(){return hasPermission('module.finance.create')}
 // V30.69.7: The access registry above is the sole permission authority.
 // Do not shadow allowed() with legacy role mappings here.
 function navButton(x){
