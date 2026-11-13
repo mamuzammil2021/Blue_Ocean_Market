@@ -114,7 +114,13 @@ async function install({app,db,auth,allow,currentUnit,enforceUnit,audit,access,u
   markup=markup.replace(/<footer class="muted">[\s\S]*?<\/footer>/,`<footer class="muted">${E(ko?'기록된 매출에서 생성되었습니다. 결제 상태는 기록된 수령액을 기준으로 합니다.':'Generated from the saved sale. Payment status follows recorded customer receipts.')} · ${E(ko?'상태':'Status')}: ${E(ko?({Completed:'판매 완료',Reserved:'예약됨',Cancelled:'취소됨'}[o.status]||o.status):o.status)} · ${N(p.financial.outstanding_invoice)} KRW ${E(ko?'미결제':'outstanding')}</footer>`);
   markup=brandHtml(markup,await branding(db,bu));
   if(req.query.format==='html')return res.type('html').send(markup);
-  const bytes=await app.locals.bomInvoice43.render(markup);res.type('pdf').set('Cache-Control','private, no-store').set('Content-Disposition',`attachment; filename="${o.order_no.replace(/[^a-z0-9_-]/gi,'_')}_invoice.pdf"`).send(bytes);
+  let bytes;
+  try {bytes=await app.locals.bomInvoice43.render(markup);}
+  catch (error) {
+    console.error('Sales invoice PDF renderer:', error.message);
+    return res.status(503).json({error:ko?'PDF를 생성할 수 없습니다. 인쇄용 송장을 사용하세요.':'PDF is temporarily unavailable. Use the printable invoice.'});
+  }
+  res.type('pdf').set('Cache-Control','private, no-store').set('Content-Disposition',`attachment; filename="${o.order_no.replace(/[^a-z0-9_-]/gi,'_')}_invoice.pdf"`).send(bytes);
  }));
  app.locals.bomDocumentBranding={get:bu=>branding(db,bu),apply:brandHtml};
 }

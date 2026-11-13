@@ -45,7 +45,7 @@ async function install({ app, db, auth, allow, excavatorGuard, purchaseDeletionB
       SELECT costed.*,
         (purchase_cost+logistics_cost+repair_cost+parts_cost+other_cost) total_cost,
         (sale_amount-(purchase_cost+logistics_cost+repair_cost+parts_cost+other_cost)) profit_loss,
-        CASE WHEN sale_amount<=0 THEN 'Not Sold' WHEN sale_amount-(purchase_cost+logistics_cost+repair_cost+parts_cost+other_cost)>=0 THEN 'Profit' ELSE 'Loss' END profit_loss_status,
+        CASE WHEN sale_amount<=0 THEN 'Not Sold' WHEN sale_amount-(purchase_cost+logistics_cost+repair_cost+parts_cost+other_cost)>0 THEN 'Profit' WHEN sale_amount=(purchase_cost+logistics_cost+repair_cost+parts_cost+other_cost) THEN 'Break-even' ELSE 'Loss' END profit_loss_status,
         CASE WHEN sale_amount<=0 THEN 'Not Sold' WHEN sale_paid>=sale_amount THEN 'Paid' WHEN sale_paid>0 THEN 'Partially Paid' ELSE 'Pending' END sale_payment_status,
         GREATEST(0,sale_amount-sale_paid) sale_outstanding,
         CASE WHEN purchase_price<=0 THEN 'Unknown' WHEN purchase_paid>=purchase_price THEN 'Paid' WHEN purchase_paid>0 THEN 'Token/Partial Paid' ELSE 'Pending' END purchase_status,
@@ -114,10 +114,12 @@ async function install({ app, db, auth, allow, excavatorGuard, purchaseDeletionB
         COALESCE(SUM(other_cost),0) other,
         COALESCE(SUM(total_cost),0) total_cost,
         COALESCE(SUM(sale_amount),0) sales,
+        COALESCE(SUM(CASE WHEN sale_amount>0 THEN profit_loss ELSE 0 END),0) realized_margin,
+        COALESCE(SUM(CASE WHEN sale_amount<=0 AND lifecycle_stage<>'Cancelled' THEN total_cost ELSE 0 END),0) unsold_inventory_cost,
         COALESCE(SUM(sale_paid),0) sale_paid,
         COALESCE(SUM(purchase_paid),0) purchase_paid
         FROM snapshots`).get(b)) || {};
-      const summary = { machines: numeric(agg.machines), open: numeric(agg.open), inYard: numeric(agg.in_yard), repairing: numeric(agg.repairing), ready: numeric(agg.ready), exporting: numeric(agg.exporting), sold: numeric(agg.sold), purchase: numeric(agg.purchase), logistics: numeric(agg.logistics), repair: numeric(agg.repair), partCost: numeric(agg.part_cost), other: numeric(agg.other), totalCost: numeric(agg.total_cost), sales: numeric(agg.sales), margin: numeric(agg.sales) - numeric(agg.total_cost), receivable: Math.max(0, numeric(agg.sales) - numeric(agg.sale_paid)), payable: Math.max(0, numeric(agg.purchase) - numeric(agg.purchase_paid)), buyers: Number((await db.prepare("SELECT COUNT(*) c FROM excavator_buyers WHERE business_unit_id=? AND active=1").get(b))?.c || 0), suppliers: Number((await db.prepare("SELECT COUNT(*) c FROM excavator_suppliers WHERE business_unit_id=? AND active=1").get(b))?.c || 0) };
+      const summary = { machines: numeric(agg.machines), open: numeric(agg.open), inYard: numeric(agg.in_yard), repairing: numeric(agg.repairing), ready: numeric(agg.ready), exporting: numeric(agg.exporting), sold: numeric(agg.sold), purchase: numeric(agg.purchase), logistics: numeric(agg.logistics), repair: numeric(agg.repair), partCost: numeric(agg.part_cost), other: numeric(agg.other), totalCost: numeric(agg.total_cost), sales: numeric(agg.sales), margin: numeric(agg.realized_margin), unsoldInventoryCost: numeric(agg.unsold_inventory_cost), receivable: Math.max(0, numeric(agg.sales) - numeric(agg.sale_paid)), payable: Math.max(0, numeric(agg.purchase) - numeric(agg.purchase_paid)), buyers: Number((await db.prepare("SELECT COUNT(*) c FROM excavator_buyers WHERE business_unit_id=? AND active=1").get(b))?.c || 0), suppliers: Number((await db.prepare("SELECT COUNT(*) c FROM excavator_suppliers WHERE business_unit_id=? AND active=1").get(b))?.c || 0) };
       const assets = includeAssets ? await loadAssetSnapshots(b, { where: 'COALESCE(a.archived,0)=0' }) : [];
       await res.json({ currency: 'KRW', summary, assets });
     } catch (e) {console.error('V30.39.1 optimized Excavator overview:', e);await res.status(500).json({ error: 'Excavator dashboard could not be loaded: ' + e.message });}

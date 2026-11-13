@@ -2246,7 +2246,7 @@ const __async = require("./postgres/collections");module.exports = (async () => 
       const purchaseStatus = purchasePrice <= 0 ? 'Unknown' : purchasePaid >= purchasePrice ? 'Paid' : purchasePaid > 0 ? 'Token/Partial Paid' : 'Pending';
       return { ...x, total_cost: cost, sale_amount: sale, sale_paid: paid, sale_outstanding: outstanding,
         sale_payment_status: payment_status, profit_loss: sale - cost,
-        profit_loss_status: sale <= 0 ? 'Not Sold' : sale - cost >= 0 ? 'Profit' : 'Loss',
+        profit_loss_status: sale <= 0 ? 'Not Sold' : sale - cost > 0 ? 'Profit' : sale - cost < 0 ? 'Loss' : 'Break-even',
         purchase_paid: purchasePaid, purchase_outstanding: purchaseOutstanding, purchase_status: purchaseStatus };
     });
     await res.json(rows);
@@ -2767,7 +2767,7 @@ const __async = require("./postgres/collections");module.exports = (async () => 
     ['Purchase Price', report.money(report.asset.purchase_price), 'Original purchase price'],
     ['Total Machine Cost', report.money(report.totalCost), 'Purchase plus included costs'],
     ['Sale Value', report.money(report.saleAmount), 'Final selling price'],
-    ['Profit / Loss', report.money(Math.abs(report.profit)), report.profit >= 0 ? 'Profit' : 'Loss']],
+    ['Profit / Loss', report.money(Math.abs(report.profit)), report.profit > 0 ? 'Profit' : report.profit < 0 ? 'Loss' : 'Break-even']],
     [150, 130, 248]);
     section('3. Purchase & Supplier');
     row('Purchase Date', report.asset.purchase_date);row('Purchase Price', 'KRW ' + report.money(report.asset.purchase_price));
@@ -2798,7 +2798,7 @@ const __async = require("./postgres/collections");module.exports = (async () => 
     if (report.documents.length) table(['Stage', 'Document', 'Date'], report.documents.map((d) => [d.stage || 'General', d.original_name || d.title || 'Document', d.created_at || '—']), [140, 320, 68]);else row('Documents', 'None recorded');
     if (report.history.length) table(['Date', 'Stage', 'User'], report.history.map((h) => [h.created_at || '—', `${h.from_stage || '—'} → ${h.to_stage || '—'}`, h.user_name || '—']), [150, 270, 108]);
     section('12. Final Result');
-    row('Sale Status', report.voided ? 'VOID SALE' : 'Sold / Completed');if (report.voided) row('Void Reason', report.voidReason || '—');row('Profit / Loss', `${report.profit >= 0 ? 'Profit' : 'Loss'} — KRW ${report.money(Math.abs(report.profit))}`);row('Report Generated', new Date().toISOString().slice(0, 19).replace('T', ' '));
+    row('Sale Status', report.voided ? 'VOID SALE' : 'Sold / Completed');if (report.voided) row('Void Reason', report.voidReason || '—');row('Profit / Loss', `${report.profit > 0 ? 'Profit' : report.profit < 0 ? 'Loss' : 'Break-even'} — KRW ${report.money(Math.abs(report.profit))}`);row('Report Generated', new Date().toISOString().slice(0, 19).replace('T', ' '));
     cmds.push('ET');pages.push(cmds.join('\n'));
     const objs = [];const pageIds = [];const contentIds = [];const font1 = 1,font2 = 2;
     // objects are catalog/pages, then fonts, then each page/content pair

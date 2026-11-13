@@ -376,8 +376,25 @@ html.bom-ui #content .bom-dashboard-charts > .card:last-child:nth-child(odd) {gr
 }
 .bom-permission-scroll tbody td:first-child { z-index: 1; background: #fff; }
 .bom-permission-scroll thead th:first-child { z-index: 3; }
-.bom-login-password { display: flex; gap: .5rem; }
-.bom-login-password input { flex: 1; min-width: 0; }
+.bom-password-field { position: relative; display: block; }
+.bom-password-field > input { width: 100%; padding-inline-end: 3rem; }
+.bom-password-toggle {
+  position: absolute;
+  inset-inline-end: .25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted, #526176);
+  cursor: pointer;
+}
+.bom-password-toggle svg { width: 1.25rem; height: 1.25rem; }
+.bom-password-toggle[aria-pressed="false"] .bom-password-slash { display: none; }
 .bom-password-rules { margin: .4rem 0 0; padding-inline-start: 1.3rem; }
 .bom-password-rules [data-valid="true"] { color: #146638; }
 .bom-password-rules [data-valid="false"] { color: #ab2020; }

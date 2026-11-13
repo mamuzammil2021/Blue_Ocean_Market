@@ -10,7 +10,27 @@ async function invoice(id,download=true){
  if(!PDFs.has(key))PDFs.set(key,fetch(`/api/pink-salt/orders/${id}/invoice.pdf?lang=${currentLanguage}`,{headers:apiHeaders()}).then(async r=>{if(!r.ok){let error;try{error=await r.json()}catch{}throw Error(error?.error||T('Unable to prepare invoice.','송장을 준비할 수 없습니다.'))}return {blob:await r.blob(),name:r.headers.get('Content-Disposition')?.match(/filename="([^"]+)"/)?.[1]||'sales_invoice.pdf'}}).catch(e=>{PDFs.delete(key);throw e}));
  const result=await PDFs.get(key);if(download){const url=URL.createObjectURL(result.blob),a=document.createElement('a');a.href=url;a.download=result.name;a.click();setTimeout(()=>URL.revokeObjectURL(url),30000)}return result;
 }
-function saleSaved(id){const host=document.getElementById('content');if(!host)return;let box=host.querySelector('[data-sale-invoice]');if(!box){box=document.createElement('div');box.className='card qa701-invoice';box.dataset.saleInvoice=id;host.prepend(box)}box.innerHTML=`<span data-pdf-status>${E(T('Sale saved. Preparing invoice…','매출이 저장되었습니다. 송장 준비 중…'))}</span><button type="button" class="btn" disabled onclick="BOMOct28.downloadInvoice(${id},this)">${E(T('Download Invoice PDF','송장 PDF 다운로드'))}</button>`;invoice(id,false).then(()=>{if(box.isConnected){box.querySelector('[data-pdf-status]').textContent=T('Sale saved. Invoice ready.','매출이 저장되었습니다. 송장이 준비되었습니다.');box.querySelector('button').disabled=false}}).catch(e=>{if(box.isConnected){box.querySelector('[data-pdf-status]').textContent=e.message;box.querySelector('button').disabled=false}})}
+async function printableInvoice(id){
+ const url=`/api/pink-salt/orders/${id}/invoice.pdf?format=html&lang=${currentLanguage}`;
+ const response=await fetch(url,{headers:apiHeaders()});
+ if(!response.ok)throw Error(T('Unable to load printable invoice.','인쇄용 송장을 불러올 수 없습니다.'));
+ const link=document.createElement('a');
+ link.href=URL.createObjectURL(await response.blob());
+ link.download='sales_invoice.html';
+ link.click();
+ setTimeout(()=>URL.revokeObjectURL(link.href),30000);
+}
+function addPrintableInvoice(host,id){
+ if(host.querySelector('[data-printable-sales-invoice]'))return;
+ const button=document.createElement('button');
+ button.type='button';
+ button.className='btn';
+ button.dataset.printableSalesInvoice='1';
+ button.textContent=T('Download Printable Invoice','인쇄용 송장 다운로드');
+ button.onclick=()=>printableInvoice(id).catch(error=>toast(error.message));
+ host.append(button);
+}
+function saleSaved(id){if(!hasPermission('module.sales.print')||!hasPermission('module.pinkSaltSales.print'))return;const host=document.getElementById('content');if(!host)return;let box=host.querySelector('[data-sale-invoice]');if(!box){box=document.createElement('div');box.className='card qa701-invoice';box.dataset.saleInvoice=id;host.prepend(box)}box.innerHTML=`<span data-pdf-status>${E(T('Sale saved. Preparing invoice…','매출이 저장되었습니다. 송장 준비 중…'))}</span><button type="button" class="btn" disabled onclick="BOMOct28.downloadInvoice(${id},this)">${E(T('Download Invoice PDF','송장 PDF 다운로드'))}</button>`;invoice(id,false).then(()=>{if(box.isConnected){box.querySelector('[data-pdf-status]').textContent=T('Sale saved. Invoice ready.','매출이 저장되었습니다. 송장이 준비되었습니다.');box.querySelector('button').disabled=false}}).catch(e=>{if(box.isConnected){box.querySelector('[data-pdf-status]').textContent=e.message;box.querySelector('button').disabled=false;addPrintableInvoice(box,id)}})}
 async function received(id,receiptId,issueId){
  const d=await api('/api/pink-salt/packaging-v36/purchases/'+id);
  const feedback={operationScope:'packaging-receipt:'+id+':'+(receiptId||'')};
@@ -118,7 +138,7 @@ function decorate(){
  if(r?.view==='systemSettings'&&r.kind!=='document-branding'){const host=document.getElementById('content');if(host&&!host.querySelector('[data-branding-nav]')){const a=document.createElement('a');a.dataset.brandingNav='1';a.className='btn';a.style.marginBottom='12px';a.href='#systemSettings/document-branding?unit='+encodeURIComponent(selectedUnitId||'all');a.textContent=T('Company Documents & Invoice Branding','회사 문서 및 송장 브랜딩');host.prepend(a)}}
  const stock=document.querySelector('[data-pack-section="stock"] .pack-toolbar');if(stock&&!stock.querySelector('[data-warehouse-filter]')){const field=document.createElement('label');field.className='field';field.dataset.warehouseFilter='1';field.innerHTML='<span>'+E(T('Warehouse','창고'))+'</span><select><option value="">'+E(T('All Warehouses','전체 창고'))+'</option></select>';stock.append(field);api('/api/pink-salt/packaging-v36/options').then(d=>{const s=field.querySelector('select');s.replaceChildren(new Option(T('All Warehouses','전체 창고'),''),...d.locations.map(l=>new Option([l.warehouse,l.zone,l.rack_bin].filter(Boolean).join(' · '),l.id)));s.value=BOMRouter.parse().params.get('location_id')||'';s.onchange=()=>{const r=BOMRouter.parse();BOMRouter.navigate('psPackaging','stock',0,'',{params:{search:r.params.get('search')||'',location_id:s.value}})}}).catch(e=>toast(e.message))}
  const sale=document.querySelector('[onclick*="psOrderLotTrace"], [onclick*="psOrderTrace" ]');
- if(r?.view==='psSales'&&r.kind==='order'&&!document.querySelector('[data-sales-pdf]')){const host=document.getElementById('v324WorkflowSurface');if(host){const b=document.createElement('button');b.dataset.salesPdf='1';b.className='btn';b.textContent=T('Download Invoice PDF','송장 PDF 다운로드');b.onclick=()=>BOMOct28.downloadInvoice(r.id,b);host.prepend(b)}}
+ if(r?.view==='psSales'&&r.kind==='order'&&hasPermission('module.sales.print')&&hasPermission('module.pinkSaltSales.print')&&!document.querySelector('[data-sales-pdf]')){const host=document.getElementById('v324WorkflowSurface');if(host){const b=document.createElement('button');b.dataset.salesPdf='1';b.className='btn';b.textContent=T('Download Invoice PDF','송장 PDF 다운로드');b.onclick=()=>BOMOct28.downloadInvoice(r.id,b);host.prepend(b);addPrintableInvoice(host,r.id)}}
 }
 let scheduled=false;const observer=new MutationObserver(()=>{if(scheduled)return;scheduled=true;queueMicrotask(()=>{scheduled=false;decorate()})});observer.observe(document.getElementById('root'),{childList:true,subtree:true});
 window.addEventListener('bom:locations-updated',({detail:d})=>{if(Number(d.business_unit_id)!==Number(selectedUnitId))return;const select=document.querySelector('.qa701-warehouse-filters [name=location_id]');if(!select)return;const value=select.value;select.replaceChildren(new Option(T('All Warehouses','전체 창고'),''),...d.locations.map(l=>new Option([l.warehouse,l.zone,l.rack_bin].filter(Boolean).join(' · ')+(l.active?'':' ('+T('Archived','보관됨')+')'),l.id)));select.value=value;});
